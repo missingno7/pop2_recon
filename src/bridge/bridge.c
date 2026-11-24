@@ -145,7 +145,7 @@ static signed char bridge_images[] = {7, 9, 6, 9, 10, 7, 9, 6, 3, 9};
 static int floor_y_adjustment[] = {6, 20, 20, 20, 20, 20, 26, 36, 51, 87};
 static int floor_x_adjustment[] = {8, 18, 24, 18, 24, 10, 20, 23, 19, 23};
 extern Tile near *BlueS;
-extern ImageTable near *image_table;
+extern ImageTable near *custom_room;
 extern int Rnd(int);
 int abs(int);
 #pragma intrinsic(abs)
@@ -531,7 +531,7 @@ void draw_bridge_floor(TileAnim near *tile)
 
 int far _fastcall offset_bridge_floor_y(unsigned char image, char col)
 {
-    Image near *entry = &image_table->images[image];
+    Image near *entry = &custom_room->images[image];
     int old_y = entry->y;
     int delta = bridge_y[col - 1];
 
@@ -542,7 +542,7 @@ int far _fastcall offset_bridge_floor_y(unsigned char image, char col)
 
 void far _fastcall restore_bridge_floor_y(unsigned char image, int old_y)
 {
-    Image near *entry = &image_table->images[image];
+    Image near *entry = &custom_room->images[image];
     int delta = entry->y - old_y;
 
     entry->y = old_y;
@@ -556,7 +556,7 @@ void redraw_bridge_floor(int phase, char cell)
     signed char col = cell % (signed char)10;
     int old_y = offset_bridge_floor_y(image, col);
 
-    ComputeOffsetCellRect(&rect, image_table->images[image].rect, col, cell / (signed char)10 + 1);
+    ComputeOffsetCellRect(&rect, custom_room->images[image].rect, col, cell / (signed char)10 + 1);
     --rect.top;
     mark_bufs_for_rect(&mark_move, &rect, -1);
     restore_bridge_floor_y(image, old_y);

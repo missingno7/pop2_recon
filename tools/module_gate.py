@@ -154,6 +154,38 @@ def _tables(addends, start):
     return merged
 
 
+def _inline_data(piece, own_targets, tables, start):
+    """[(lo, hi)] of one-byte or one-word CS: variables a claim keeps between its code (`busy DB 0` after a RETF, with a
+    later branch target behind it): the variable starts where decoding from the claim start reaches the end of a
+    return or JMP, a CS:-prefixed operand of the claim addresses it with that width, and the byte after it is the
+    target of a direct branch decoded before it. The bytes are compared as ordinary bytes like any other."""
+    cs, xc = _capstone()
+    engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
+    engine.detail = True
+    found = []
+    for t in sorted({value - start for at, value in own_targets.items() if not any(lo <= at < hi for lo, hi in tables)}):
+        if not 0 < t < len(piece) or any(lo <= t < hi for lo, hi in tables):
+            continue
+        rows, cursor, whole = [], 0, True
+        for lo, hi in sorted([*tables, *found]) + [(t, t)]:
+            if lo > t:
+                break
+            part = list(engine.disasm(piece[cursor:lo], cursor))
+            whole = whole and sum(i.size for i in part) == lo - cursor
+            rows, cursor = rows + part, hi
+        if not whole or not rows or not (set(rows[-1].groups).intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or
+                                         rows[-1].mnemonic == "jmp"):
+            continue
+        widths = {o.size for i in rows for o in i.operands
+                  if o.type == xc.X86_OP_MEM and o.mem.segment == xc.X86_REG_CS and o.mem.base == o.mem.index == 0 and
+                  i.disp_size == 2 and own_targets.get(i.address + i.disp_offset) == t + start}
+        branches = {i.operands[0].imm & 0xFFFF for i in rows
+                    if cs.CS_GRP_JUMP in i.groups and i.operands and i.operands[0].type == xc.X86_OP_IMM}
+        if len(widths) == 1 and (width := widths.pop()) in (1, 2) and t + width in branches:
+            found.append((t, t + width))
+    return found
+
+
 def _decode(piece, tables):
     """Decode every byte outside the jump tables, each code run from its own start."""
     cs, _ = _capstone()
@@ -1206,6 +1238,43 @@ def _archive_public(name, symbol, oracle):
             "segment": seg, "range": (p, p + length)}
 
 
+def _linker_public(name, symbol, oracle):
+    """Ground a DGROUP symbol the linker itself defines (`_end`, `_edata`) by a pinned library member that uses it.
+
+    The member's CODE is located by its ordinary (non-fixup) bytes, at least 64 of them, matching the original at
+    exactly one root position; every fixup of that code to `name` must then read the same linked value."""
+    from pathlib import Path
+    from omf import OmfReader
+    spec = symbol["archive"]
+    require(set(symbol) <= {"kind", "group", "provider", "offset", "context", "archive"} and name in ("_end", "_edata", "_END",
+                                                                                                     "_EDATA") and
+            symbol.get("group") == "DGROUP" and
+            set(spec) == {"library_path", "library_sha256", "archive_offset", "member_extent", "member_sha256", "segment"},
+            "Unsupported linker symbol")
+    library = Path(spec["library_path"]).read_bytes()
+    raw = library[spec["archive_offset"]:spec["archive_offset"] + spec["member_extent"]]
+    require(sha(library) == spec["library_sha256"] and sha(raw) == spec["member_sha256"] and
+            any(o.get("kind") == "PINNED_RUNTIME" and r.get("library_sha256") == spec["library_sha256"]
+                for o, r in _accepted_recipes()), "Linker symbol witness library or member identity changed")
+    module = OmfReader(overwrite_ledata=True, library_records=True).read(raw, "member")
+    code = module.segments[spec["segment"]]
+    fields = [f for f in fixes(module) if f["segment"] == spec["segment"]]
+    masked = {q for f in fields for q in range(f["segment_offset"], f["segment_offset"] + f["field_width"])}
+    ordinary = [i for i in range(len(code)) if i not in masked]
+    pattern = b"".join(b"." if i in masked else re.escape(code[i:i + 1]) for i in range(len(code)))
+    hits = [m.start() for m in re.finditer(b"(?=" + pattern + b")", oracle.spaces["root"].data, re.S)]
+    require(len(ordinary) >= 64 and len(hits) == 1, "Linker symbol witness code is not at one original position")
+    values = set()
+    for f in fields:
+        if f["target"].get("kind") == "external" and f["target"].get("name").upper() == name.upper():
+            require(f["loc_type"] == 1 and not f["self_relative"], "Unsupported linker symbol field")
+            stored = struct.unpack_from("<H", code, f["segment_offset"])[0] + (f["displacement"] or 0)
+            values.add((struct.unpack_from("<H", oracle.spaces["root"].data, hits[0] + f["segment_offset"])[0] - stored) & 0xFFFF)
+    require(values == {symbol["offset"]}, f"{name} is not the value the original startup code uses")
+    return {"kind": PUBLIC_KIND, "offset": symbol["offset"], "span": 0x10000 - symbol["offset"], "provider": "linker",
+            "segment": "", "range": (symbol["offset"], symbol["offset"])}
+
+
 def _provider_public(name, symbol, oracle, group_id, own_names):
     """Ground an external DGROUP symbol by the data public of that name in another accepted
     group (2026-11-22). The linker resolves the EXTDEF by name, so the value is S + A with
@@ -1215,7 +1284,7 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
     import json
     from common import project_path
     if "archive" in symbol:
-        return _archive_public(name, symbol, oracle)
+        return (_linker_public if symbol.get("provider") == "linker" else _archive_public)(name, symbol, oracle)
     require(set(symbol) <= {"kind", "group", "provider", "offset", "context"} and symbol.get("group") == "DGROUP" and
             type(symbol.get("offset")) is int and type(symbol.get("provider")) is str,
             "Unsupported provider data public symbol")
@@ -1563,7 +1632,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                            for f in mine if _own_segment(f, name)}
             tables = _tables(own_targets, start)
             try:
-                rows = _decode(piece, tables) if tables else instructions(piece)
+                inline = _inline_data(piece, own_targets, tables, start)
+                rows = _decode(piece, sorted([*tables, *inline])) if tables or inline else instructions(piece)
             except ValueError:
                 rows = _data_tail(piece, own_targets, tables, start,
                                   [a for at, a in addressed.items() if not start <= at < end]) if mine else None

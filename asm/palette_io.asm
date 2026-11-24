@@ -9,6 +9,7 @@ DGROUP GROUP _DATA
 GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:GAMELIB_TEXT, DS:DGROUP, SS:DGROUP
 PUBLIC READ_DAC_BLOCK, WRITE_DAC_BLOCK, WRITE_DAC_ENTRY, WAIT_DAC_WINDOW
+PUBLIC WRITE_EGA_PALETTE, WRITE_TGA_PALETTE
 
 DAC_PAUSE MACRO
     nop
@@ -143,5 +144,60 @@ wait_reset:
     jne wait_reset
     retf
 WAIT_DAC_WINDOW ENDP
+
+; EGA attribute controller: register [bp+10] gets the value [bp+8].
+WRITE_EGA_PALETTE PROC FAR
+    push bp
+    mov bp, sp
+    push es
+    cmp WORD PTR [bp+6], 0
+    je ega_select
+    push cs
+    call near ptr WAIT_DAC_WINDOW
+ega_select:
+    mov ax, 40h
+    mov es, ax
+    mov dx, es:[63h]            ; BIOS CRT controller port
+    add dl, 6                   ; its status register
+    push dx
+    in al, dx                   ; next write selects the index
+    mov dl, 0c0h
+    mov al, BYTE PTR [bp+10]
+    out dx, al
+    mov al, BYTE PTR [bp+8]
+    out dx, al
+    pop dx
+    in al, dx
+    mov dl, 0c0h
+    mov al, 20h                 ; show the display again
+    out dx, al
+    pop es
+    pop bp
+    retf 6
+WRITE_EGA_PALETTE ENDP
+
+; Tandy video array: palette register [bp+10] gets the value [bp+8].
+WRITE_TGA_PALETTE PROC FAR
+    push bp
+    mov bp, sp
+    cmp WORD PTR [bp+6], 0
+    je tga_select
+    push cs
+    call near ptr WAIT_DAC_WINDOW
+tga_select:
+    mov dx, 3dah
+    in al, dx
+    mov al, BYTE PTR [bp+10]
+    add al, 10h
+    out dx, al
+    mov dx, 3deh
+    mov al, BYTE PTR [bp+8]
+    out dx, al
+    mov dx, 3dah
+    sub al, al
+    out dx, al
+    pop bp
+    retf 6
+WRITE_TGA_PALETTE ENDP
 GAMELIB_TEXT ENDS
 END

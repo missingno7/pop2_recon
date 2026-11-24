@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 48,
+        "length": 50,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -305,6 +305,15 @@
         "type_index": 0
       },
       {
+        "name": "OPPONENT_EFFECT_FRAMES",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 48,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "SNAKE_ATTACK",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -423,7 +432,6 @@
       "YWITHINMIDDLEOFCELL",
       "OPPONENT_SHAPES",
       "SNAKE_SLITHERING_TOWARD_OPP",
-      "OPPONENT_EFFECT_FRAMES",
       "SNAKE_ATTACK",
       "QUERY_SOUND",
       "SNAKE_COME_OUT_OF_HOLE",
@@ -1295,20 +1303,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 73,
-          "name": "OPPONENT_EFFECT_FRAMES",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 73,
-        "name": "OPPONENT_EFFECT_FRAMES",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1460,7 +1463,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 84,
           "name": "GET_SET_IMAGE_SIZE",
           "method": 6,
           "zero_displacement": true
@@ -1468,7 +1471,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 84,
         "name": "GET_SET_IMAGE_SIZE",
         "method": 6,
         "zero_displacement": true
@@ -1595,7 +1598,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 81,
+          "index": 80,
           "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -1603,7 +1606,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 81,
+        "index": 80,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -1619,20 +1622,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 73,
-          "name": "OPPONENT_EFFECT_FRAMES",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 73,
-        "name": "OPPONENT_EFFECT_FRAMES",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1649,7 +1647,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 78,
+          "index": 77,
           "name": "GET_GATE_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -1657,7 +1655,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 78,
+        "index": 77,
         "name": "GET_GATE_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -2054,7 +2052,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 77,
+          "index": 76,
           "name": "DECREMENT_LIFE_POINTS",
           "method": 6,
           "zero_displacement": true
@@ -2062,7 +2060,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 77,
+        "index": 76,
         "name": "DECREMENT_LIFE_POINTS",
         "method": 6,
         "zero_displacement": true
@@ -2567,7 +2565,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -2575,7 +2573,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -3745,7 +3743,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -3753,7 +3751,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -3907,7 +3905,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -3915,7 +3913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -4177,7 +4175,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -4185,7 +4183,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -4285,7 +4283,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 75,
+          "index": 74,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -4293,7 +4291,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 75,
+        "index": 74,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -4312,7 +4310,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -4320,7 +4318,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -4847,7 +4845,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -4855,7 +4853,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -5198,7 +5196,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -5206,7 +5204,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -5306,7 +5304,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -5314,7 +5312,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -5414,7 +5412,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 77,
+          "index": 76,
           "name": "DECREMENT_LIFE_POINTS",
           "method": 6,
           "zero_displacement": true
@@ -5422,7 +5420,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 77,
+        "index": 76,
         "name": "DECREMENT_LIFE_POINTS",
         "method": 6,
         "zero_displacement": true
@@ -5441,7 +5439,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -5449,7 +5447,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -5738,7 +5736,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -5746,7 +5744,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -7196,7 +7194,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -7204,7 +7202,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -7628,7 +7626,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -7636,7 +7634,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -7655,7 +7653,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -7663,7 +7661,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -7763,7 +7761,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -7771,7 +7769,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -8033,7 +8031,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -8041,7 +8039,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -8141,7 +8139,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -8149,7 +8147,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -8492,7 +8490,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -8500,7 +8498,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -8978,7 +8976,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -8986,7 +8984,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -9410,7 +9408,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 75,
           "name": "SNAKE_COME_OUT_OF_HOLE",
           "method": 6,
           "zero_displacement": true
@@ -9418,7 +9416,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 75,
         "name": "SNAKE_COME_OUT_OF_HOLE",
         "method": 6,
         "zero_displacement": true
@@ -9437,7 +9435,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 79,
+          "index": 78,
           "name": "SNAKE_GO_INTO_HOLE",
           "method": 6,
           "zero_displacement": true
@@ -9445,7 +9443,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 79,
+        "index": 78,
         "name": "SNAKE_GO_INTO_HOLE",
         "method": 6,
         "zero_displacement": true
@@ -9464,7 +9462,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 74,
+          "index": 73,
           "name": "SNAKE_ATTACK",
           "method": 6,
           "zero_displacement": true
@@ -9472,7 +9470,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 74,
+        "index": 73,
         "name": "SNAKE_ATTACK",
         "method": 6,
         "zero_displacement": true
@@ -11138,7 +11136,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 82,
+          "index": 81,
           "name": "HEAD_FLEE_PROG",
           "method": 6,
           "zero_displacement": true
@@ -11146,7 +11144,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 82,
+        "index": 81,
         "name": "HEAD_FLEE_PROG",
         "method": 6,
         "zero_displacement": true
@@ -11408,7 +11406,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -11416,7 +11414,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -11975,7 +11973,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -11983,7 +11981,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -12191,7 +12189,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -12199,7 +12197,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -12353,7 +12351,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -12361,7 +12359,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -12407,7 +12405,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -12415,7 +12413,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -12434,7 +12432,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -12442,7 +12440,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -13163,7 +13161,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -13171,7 +13169,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -13217,7 +13215,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -13225,7 +13223,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -13271,7 +13269,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -13279,7 +13277,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -13676,7 +13674,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 82,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -13684,7 +13682,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 82,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -13811,7 +13809,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 79,
           "name": "ADDCHARX",
           "method": 6,
           "zero_displacement": true
@@ -13819,7 +13817,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 79,
         "name": "ADDCHARX",
         "method": 6,
         "zero_displacement": true
@@ -15385,20 +15383,6 @@
       "offset": 150,
       "provider": "group:prince/prince"
     },
-    "OPPONENT_EFFECT_FRAMES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7092,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 44775,
-          "bytes_hex": "833eb41b00",
-          "entry": "root:0a63:01f2"
-        }
-      ]
-    },
     "OPPONENT_SHAPES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -15574,5 +15558,20 @@
     }
   },
   "target_id": "group:autohead/autohead",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a3b41b",
+          "entry": "root:0a63:01f2",
+          "image_offset": 45061,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 48
+    }
+  ]
 }

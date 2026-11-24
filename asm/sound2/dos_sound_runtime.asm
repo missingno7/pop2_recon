@@ -1,14 +1,13 @@
 ; DOS sound driver dispatch, playback state and interrupt callbacks.
 .MODEL MEDIUM
-EXTRN SOUND_DGROUP:BYTE
 
 .DATA
 ; Driver entry points supplied by the startup loader and shared engine state.
 EXTRN midi_driver:DWORD
 EXTRN digital_driver:DWORD
 EXTRN MIDI_MODE:BYTE
-EXTRN DRIVER_CONFIG:DWORD
-EXTRN CALLBACK_STACK_TOP:BYTE
+EXTRN timer_chain_offset:DWORD
+EXTRN _end:BYTE
 
 ; DOS MIDI sequencer state and format markers.
 timer_rate DW 240
@@ -60,6 +59,7 @@ FIRST_SOUND_SEGMENT DW 0
 digital_completion DD 0
 FIRST_SOUND_DRIVER DD 0
 DIGITAL_LOOP_CAPABILITY DW 0
+PUBLIC digital_rate, digital_type
 digital_rate DW 0
 digital_type DW 0
 SECOND_SOUND_STATUS DW 0
@@ -271,7 +271,7 @@ DRIVER_TIMER_INTERRUPT PROC FAR
     push dx
     push ds
     cld
-    mov ax, SEG SOUND_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov cx, driver_rate
     jcxz advance_clock
@@ -318,7 +318,7 @@ finish_sequence:
     cmp ax, di
     je stop_sequence
     mov ss, ax
-    mov sp, OFFSET CALLBACK_STACK_TOP
+    mov sp, OFFSET _end+100h
 stop_sequence:
     push cs
     call NEAR PTR STOP_DRIVER_TIMER
@@ -704,7 +704,7 @@ digital_ok:
 probe_midi:
     mov al, 1
     push ds
-    lds bx, ss:DRIVER_CONFIG
+    lds bx, ss:timer_chain_offset
     mov di, [bx+8]
     pop ds
     xor bx, bx
@@ -949,14 +949,14 @@ DIGITAL_COMPLETION_INTERRUPT PROC FAR
     push si
     push ds
     push es
-    mov ax, SEG SOUND_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov dx, ss
     mov bx, sp
     cmp ax, dx
     je digital_stack_ready
     mov ss, ax
-    mov sp, OFFSET CALLBACK_STACK_TOP
+    mov sp, OFFSET _end+100h
 digital_stack_ready:
     push dx
     push bx
@@ -1027,14 +1027,14 @@ MIDI_COMPLETION_INTERRUPT PROC FAR
     push si
     push ds
     push es
-    mov ax, SEG SOUND_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov dx, ss
     mov bx, sp
     cmp ax, dx
     je midi_stack_ready
     mov ss, ax
-    mov sp, OFFSET CALLBACK_STACK_TOP
+    mov sp, OFFSET _end+100h
 midi_stack_ready:
     push dx
     push bx
@@ -1082,7 +1082,7 @@ CALL_SOUND_COMPLETION PROC NEAR
     push di
     push si
     push ds
-    mov dx, SEG SOUND_DGROUP
+    mov dx, DGROUP
     mov ds, dx
     mov cx, [bx+8]
     or cx, [bx+10]
@@ -1092,7 +1092,7 @@ CALL_SOUND_COMPLETION PROC NEAR
     cmp dx, di
     je invoke_callback
     mov ss, dx
-    mov sp, OFFSET CALLBACK_STACK_TOP
+    mov sp, OFFSET _end+100h
 invoke_callback:
     les dx, DWORD PTR [bx+4]
     push es
@@ -1376,7 +1376,7 @@ SPEAKER_TIMER_INTERRUPT PROC FAR
     push dx
     push ds
     push es
-    mov ax, SEG SOUND_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     dec ticks_to_event
     jz speaker_read_event
@@ -1494,7 +1494,7 @@ stop_playback:
     cmp ax, di
     je release_payload
     mov ss, ax
-    mov sp, OFFSET CALLBACK_STACK_TOP
+    mov sp, OFFSET _end+100h
 release_payload:
     sub ax, ax
     mov es, ax

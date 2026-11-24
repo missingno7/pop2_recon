@@ -97,7 +97,7 @@ extern char near *far pascal find_option(const char far *option);
 extern int far cdecl atoi(const char near *text);
 extern void far pascal check_heaps(const char near *message);
 extern void far pascal check_null_area(const char near *message);
-extern void far pascal show_dialog(const char near *title, const char far *message, int flags);
+extern void far pascal dump_heap(const char near *title, const char far *message, int flags);
 extern char far pascal start_game(char level);
 extern int far pascal play_nis(int sequence);
 extern void far pascal enter_hall_record(int level);
@@ -160,7 +160,7 @@ void far pascal ResetData(void);
                 const char near * const restart_message = "At beginning of ResetGame() loop.";
                 check_heaps(restart_message);
                 check_null_area(restart_message);
-                show_dialog(0, restart_message, 0);
+                dump_heap(0, restart_message, 0);
             }
             if (find_option("NIS") || find_option("TREE"))
                 break;
@@ -533,7 +533,7 @@ void far pascal handle_debug_input(unsigned int key)
         text[0] = 0;
         break;
     case 0x2000:
-        show_dialog(0, debug_messages.debug_cheat_message, 0);
+        dump_heap(0, debug_messages.debug_cheat_message, 0);
         break;
     case 0x3b00:
         pause_on_frame = !pause_on_frame;

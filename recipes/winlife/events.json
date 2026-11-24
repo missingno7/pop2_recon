@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/winlife/events.json",
-  "binding_sha256": "ce7a57040e084b16a423b0e16c9ee01ab97dd22eefbdb03ba363146369391889",
+  "binding_sha256": "162014f89007ec1c6e0a89877818d19678be68928457a5d5ec03ba1ea520b469",
   "claims": [
     {
       "fixup_count": 1,
@@ -101,15 +101,17 @@
       "fixup_count": 0,
       "public": "IGNORE_LEGACY_INTERRUPT",
       "target_id": "root:1129:9cfd"
-    }
-  ],
-  "code_matches": [
+    },
     {
+      "fixup_count": 5,
       "public": "DOS_MOUSE_EVENT",
-      "target_id": "root:1129:9cbb",
-      "unproven": [
-        "HANDLE_MOUSE_CALLBACK"
-      ]
+      "relocation_indices": [
+        1461,
+        1554
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1129:9cbb"
     }
   ],
   "drafts": [
@@ -125,12 +127,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "winlife/events",
-  "object_sha256": "9e5374fef27ed1ae169a00e60fe8e29bc36f14c748722cd19a44f6027f4c4e32",
+  "object_sha256": "61926426e5a50d13dc1773ca646e4b63377549c5ba84de4d53e0e5a4e42d87e7",
   "origin": 109088,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/winlife/events.asm",
-  "source_sha256": "a32d64455698b2a3caa9a66dbc0b1bb8a5eae47a9de0ce8ad75a05a8a88c7da7",
+  "source_sha256": "f0a24c636add94b146c0a81a22117dd85420fea981784a47bac3bfd2f0542704",
   "space": "root"
 }

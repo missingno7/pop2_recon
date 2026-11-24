@@ -169,6 +169,24 @@
       "group": "prince/keyboard",
       "verdict": "asm"
     },
+    "root:0000:164b": {
+      "evidence": [
+        "Direct IN/OUT at 0201h, PUSHF/CLI/POPF envelope and LOOPNE timed polling."
+      ],
+      "verdict": "asm"
+    },
+    "root:0000:16d0": {
+      "evidence": [
+        "Explicit ES save and FC00h selector with two segment-overridden ROM probes."
+      ],
+      "verdict": "asm"
+    },
+    "root:0000:16ee": {
+      "evidence": [
+        "Direct INT 21h/AH=06h with zero-flag branch and packed BX key result."
+      ],
+      "verdict": "asm"
+    },
     "root:1000:9c5e": {
       "evidence": [
         "9a04 jcxz 0x9a15"
@@ -2537,6 +2555,14 @@
       "group": "windisp/windisp",
       "verdict": "asm"
     },
+    "root:1129:9d7c": {
+      "evidence": [
+        "xchg bx,ax after a memory MUL and `les ax,[bx+1]; mov dx,es`: the window library's hand-assembly idiom; MSC 5.10/6.00A emit mov ax/mov dx pairs in every optimization mode tried.",
+        "Directly precedes ITEMDLG's first asm routine at the odd offset 9d95, so both come from one byte-aligned MASM segment."
+      ],
+      "group": "itemdlg/itemdlg",
+      "verdict": "asm"
+    },
     "root:1129:9d95": {
       "evidence": [
         "odd entry",
@@ -3225,6 +3251,12 @@
       "group": "rectangle_text_trailer",
       "verdict": "asm"
     },
+    "root:1129:c14c": {
+      "evidence": [
+        "Fits existing assembly trailer after register-based graphics helper; exact RETF sequence uses AX/BX, and independent assembly callers push CS plus CALL near."
+      ],
+      "verdict": "asm"
+    },
     "root:1129:c15e": {
       "evidence": [
         "c1a1 pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
@@ -3244,58 +3276,6 @@
         "c287 ADD SP,-8, c28f LES AX, and c2ad plain CALL NEAR to the AX:ES register helper 06cc."
       ],
       "group": "rectangle_text_trailer",
-      "verdict": "asm"
-    },
-    "root:1fef:001a": {
-      "evidence": [
-        "The 73-byte MSC 6.00 mlibcr.lib nmalloc.asm member at archive offset 0x6580 declares __nfree at +0 and __nmalloc at +33. Its complete 33-byte __nfree routine agrees with DOS after the independently witnessed __nheap_desc DGROUP offset fixup at +8. The CRT free.asm trampoline independently names __nfree.",
-        "The free routine uses two consecutive DEC BX instructions for the block header and a hand-written register/branch sequence shared with both stock assembly members. The following allocator continues directly at the odd next byte."
-      ],
-      "group": "nmalloc/nmalloc",
-      "verdict": "asm"
-    },
-    "root:1fef:003b": {
-      "evidence": [
-        "Odd linear entry 0x1fe9b, POP DI; POP SI; POP BP; RETF with no MOV SP,BP, TEST AX,AX, and plain near calls with register arguments in BX/CX and carry-based return status show native assembly.",
-        "The MSC 6.00 medium-model nmalloc.asm archive member exports __nmalloc at +33 and calls __searchseg, __growseg, __searchseg through identical fixup placements in its fast path. Its stock allocation-failure path differs from the game callback/retry path. The CRT malloc.asm trampoline independently names __nmalloc.",
-        "FM Towns NMALLOC.C is a later implementation of the same allocator interface. Neither DOS entry has a canonical FM Towns function pair."
-      ],
-      "group": "nmalloc/nmalloc",
-      "verdict": "asm"
-    },
-    "root:2209:0000": {
-      "evidence": [
-        "000c pushf",
-        "000d xor ax, ax (MSC zeroes with sub)",
-        "0010 popf",
-        "0011 pushf",
-        "001f popf"
-      ],
-      "group": "cpu_probe",
-      "verdict": "asm"
-    },
-    "root:0000:164b": {
-      "evidence": [
-        "Direct IN/OUT at 0201h, PUSHF/CLI/POPF envelope and LOOPNE timed polling."
-      ],
-      "verdict": "asm"
-    },
-    "root:0000:16d0": {
-      "evidence": [
-        "Explicit ES save and FC00h selector with two segment-overridden ROM probes."
-      ],
-      "verdict": "asm"
-    },
-    "root:0000:16ee": {
-      "evidence": [
-        "Direct INT 21h/AH=06h with zero-flag branch and packed BX key result."
-      ],
-      "verdict": "asm"
-    },
-    "root:1129:c14c": {
-      "evidence": [
-        "Fits existing assembly trailer after register-based graphics helper; exact RETF sequence uses AX/BX, and independent assembly callers push CS plus CALL near."
-      ],
       "verdict": "asm"
     },
     "root:1fa9:000c": {
@@ -3326,6 +3306,34 @@
       "evidence": [
         "Direct INT 2Fh and indirect XMS far calls, shared STC/CLC epilogue with near RET."
       ],
+      "verdict": "asm"
+    },
+    "root:1fef:001a": {
+      "evidence": [
+        "The 73-byte MSC 6.00 mlibcr.lib nmalloc.asm member at archive offset 0x6580 declares __nfree at +0 and __nmalloc at +33. Its complete 33-byte __nfree routine agrees with DOS after the independently witnessed __nheap_desc DGROUP offset fixup at +8. The CRT free.asm trampoline independently names __nfree.",
+        "The free routine uses two consecutive DEC BX instructions for the block header and a hand-written register/branch sequence shared with both stock assembly members. The following allocator continues directly at the odd next byte."
+      ],
+      "group": "nmalloc/nmalloc",
+      "verdict": "asm"
+    },
+    "root:1fef:003b": {
+      "evidence": [
+        "Odd linear entry 0x1fe9b, POP DI; POP SI; POP BP; RETF with no MOV SP,BP, TEST AX,AX, and plain near calls with register arguments in BX/CX and carry-based return status show native assembly.",
+        "The MSC 6.00 medium-model nmalloc.asm archive member exports __nmalloc at +33 and calls __searchseg, __growseg, __searchseg through identical fixup placements in its fast path. Its stock allocation-failure path differs from the game callback/retry path. The CRT malloc.asm trampoline independently names __nmalloc.",
+        "FM Towns NMALLOC.C is a later implementation of the same allocator interface. Neither DOS entry has a canonical FM Towns function pair."
+      ],
+      "group": "nmalloc/nmalloc",
+      "verdict": "asm"
+    },
+    "root:2209:0000": {
+      "evidence": [
+        "000c pushf",
+        "000d xor ax, ax (MSC zeroes with sub)",
+        "0010 popf",
+        "0011 pushf",
+        "001f popf"
+      ],
+      "group": "cpu_probe",
       "verdict": "asm"
     }
   }

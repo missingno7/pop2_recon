@@ -132,7 +132,7 @@
       "UNLOAD_THRONE_ROOM",
       "PLAY_THRONE_ROOM_NIS",
       "OFFSET_THRONE_RECT",
-      "THRONE_TILES",
+      "CUSTOM_ROOM",
       "KID",
       "THRONE_SONG_ADDED",
       "THRONE_ROOM_NIS_PLAYED",
@@ -1488,7 +1488,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "THRONE_TILES",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -1496,7 +1496,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "THRONE_TILES",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -1967,20 +1967,6 @@
         }
       ]
     },
-    "THRONE_TILES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 428,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 6938,
-          "bytes_hex": "8b1eac01",
-          "entry": "root:0170:03cc"
-        }
-      ]
-    },
     "VIEWED_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -2122,6 +2108,12 @@
           "space": "root"
         }
       ]
+    },
+    "CUSTOM_ROOM": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:custom/custom",
+      "offset": 428
     }
   },
   "target_id": "group:throne/throne",

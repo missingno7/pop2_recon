@@ -82,7 +82,7 @@
     ],
     "externals": [
       "__ncalloc",
-      "_dos_read",
+      "__dos_read",
       "__dos_close",
       "__nfree",
       "LOAD_SOUND_SETTINGS",
@@ -191,7 +191,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "_dos_read",
+          "name": "__dos_read",
           "method": 6,
           "zero_displacement": true
         }
@@ -199,7 +199,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "_dos_read",
+        "name": "__dos_read",
         "method": 6,
         "zero_displacement": true
       },
@@ -526,23 +526,6 @@
         }
       ]
     },
-    "_dos_read": {
-      "entry_sha256": "a822c2510e5f7801517877300c94184bf84b05504f4fee2e1d4d009b62e4ec59",
-      "entry_target_id": "root:1fef:1c3e",
-      "kind": "far-code-entry",
-      "offset": 7230,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 24608,
-          "bytes_hex": "9a3e1cef1f",
-          "file_offset": 32800,
-          "relocation_index": 469
-        }
-      ]
-    },
     "_filelength": {
       "entry_sha256": "25a879b8437ac409c7781b853894f122b47350a30ebdf0cc93d999c955134d0e",
       "entry_target_id": "root:1fef:1768",
@@ -568,6 +551,30 @@
       "segment": 8175,
       "space": "root",
       "witnesses": []
+    },
+    "__dos_read": {
+      "entry_sha256": "a822c2510e5f7801517877300c94184bf84b05504f4fee2e1d4d009b62e4ec59",
+      "entry_target_id": "root:1fef:1c3e",
+      "kind": "far-code-entry",
+      "offset": 7230,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 24855,
+          "bytes_hex": "9a3e1cef1f",
+          "relocation_index": 468,
+          "file_offset": 33047
+        },
+        {
+          "space": "root",
+          "image_offset": 24608,
+          "bytes_hex": "9a3e1cef1f",
+          "relocation_index": 469,
+          "file_offset": 32800
+        }
+      ]
     },
     "__ncalloc": {
       "entry_sha256": "6f87760d9624ff06db8d789dd1433da4207a34b9f772ba34520bacab7ba518c2",

@@ -5,7 +5,7 @@
         "name": "GAMELIB_TEXT",
         "class": "CODE",
         "overlay": "",
-        "length": 219,
+        "length": 310,
         "alignment": 1,
         "combine": 2,
         "big": false,
@@ -67,6 +67,24 @@
         "segment": "GAMELIB_TEXT",
         "segment_index": 1,
         "offset": 142,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "WRITE_EGA_PALETTE",
+        "segment": "GAMELIB_TEXT",
+        "segment_index": 1,
+        "offset": 219,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "WRITE_TGA_PALETTE",
+        "segment": "GAMELIB_TEXT",
+        "segment_index": 1,
+        "offset": 270,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -161,6 +179,48 @@
         "zero_displacement": true
       },
       "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
+      "segment_offset": 231,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 189
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
+      "segment_offset": 281,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 189
     }
   ],
   "frame": {

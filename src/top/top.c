@@ -150,7 +150,7 @@ extern unsigned int escher_room_eight_seen;
 extern int draw_pass;                              /* ds:6a4a */
 extern int input_enabled;                          /* ds:6266 */
 extern int Graf;                           /* ds:25c0 */
-extern int sound_enabled;                          /* ds:0228 */
+extern int custom_room;                          /* ds:0228 */
 extern int special_sequence;                       /* ds:0a16 */
 extern int current_effect;                         /* ds:0902 */
 extern int pending_effect;                             /* ds:08fe */
@@ -546,7 +546,7 @@ void clean_cut(void)
         Graf = room_sound_offset;
         CheckRoomSpecific(); draw_all();
         clear_keyboard();
-        if (sound_enabled)
+        if (custom_room)
             UnloadCustomRoomShapes(0);
         clear_keyboard();
         draw_interlude = input_enabled = 0;

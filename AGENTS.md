@@ -69,6 +69,9 @@ synthetic trailing bytes are acceptable. Canonical ASM lives in `asm/` and is
 freshly assembled by validation. Symbolic FIXUPP inspection supports research;
 only the explicitly implemented binding mode can grant fixup-bearing ownership.
 
+`python tools/whole_link.py --check` links everything accepted with RTLink 6.10 and compares the whole EXE
+(docs/rtlink.md); run it after changing data definitions, names or modules.
+
 Run full validation at tooling/acceptance milestones, not every hypothesis.
 Keep original facts, compiler observations, external hints and source hypotheses
 separate. Report C, ASM, proven runtime, drivers and unresolved payload separately.

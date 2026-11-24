@@ -81,7 +81,7 @@ extern Tile above_tiles[], below_tiles[], left_tiles[], right_tiles[];
 extern Tile CellLeft, CellRight;
 extern TileInfo BlueSpec;
 extern byte drawn_tile_kind;
-extern byte *tile_override;
+extern byte *custom_room;
 extern int force_full_clip;
 extern byte room_tiles[][30];
 extern byte *room_kinds;
@@ -195,7 +195,7 @@ void GetAboveAry(void)
         }
         select_room_arrays(query.side_room);
         GetObject(query.side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
-        if (tile_override && view_row == 0)
+        if (custom_room && view_row == 0)
             above_tiles[0].info.modifier = above_tiles[col].info.modifier | 0xc000;
         select_room_arrays(Room.number);
         Room.below = query.saved_below;
@@ -398,7 +398,7 @@ void SetLocVars(void)
     GetObject(Room.number, view_col, view_row, &drawn_tile_kind, &BlueSpec, missing);
     GetObject(Room.number, view_col - 1, view_row, &CellLeft.tile, &CellLeft.info, missing);
     GetObject(Room.number, view_col + 1, view_row, &CellRight.tile, &CellRight.info, missing);
-    if (view_row == -1 && tile_override) {
+    if (view_row == -1 && custom_room) {
         BlueSpec.modifier |= 0xc000;
         CellLeft.info.modifier |= 0xc000;
         CellRight.info.modifier |= 0xc000;
@@ -418,7 +418,7 @@ void SetSideRoomInfo(void)
     for (row = 0; row < 3; ++row) {
         GetObject(Room.left, 9, row, &left_tiles[row].tile,
                   state.info = &left_tiles[row].info, state.missing);
-        if (tile_override && (tile_override[1] != 31 || row != 2))
+        if (custom_room && (custom_room[1] != 31 || row != 2))
             state.info->modifier |= 0xc000;
         else
             state.info->modifier &= 0x3fff;
@@ -448,13 +448,14 @@ extern ImageTable *second_image_table;
 extern ImageTable *background_shapes;
 extern int background_image_count;
 extern const char OutOfFarMem[];
+unsigned int opponent_frames = 0;
 static const char fatal_memory_message[] = "Insufficient near Memory.";
 
 extern int query_sound(int);
 extern void dispatch_sound(int);
 extern void PrinceMarkImgsPurgeable(ImageTable *, int, int);
 extern void MARK_FIXED(unsigned int *);
-extern void save_cleanup_state(int, const char far *, void *);
+extern void dump_heap(int, const char far *, void *);
 extern void abort_with_message(int, const char far *);
 
 int release_discardable_images(void)
@@ -477,7 +478,7 @@ int release_discardable_images(void)
         PrinceMarkImgsPurgeable(background_shapes, 0, background_shapes->count - 1);
         background_image_count = 1;
     } else {
-        save_cleanup_state(0, OutOfFarMem, (void *)0);
+        dump_heap(0, OutOfFarMem, (void *)0);
         abort_with_message(1, OutOfFarMem);
     }
     return 1;

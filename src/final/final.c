@@ -420,7 +420,7 @@ typedef struct {
     FinalImage images[1];
 } RoomImageTable;
 
-extern RoomImageTable near *room_image_table;
+extern RoomImageTable near *custom_room;
 extern ForegroundImage far fore_queue[];
 extern int foreground_count;
 extern void far cdecl _fmemmove(void far *dst, const void far *src, unsigned int size);
@@ -433,8 +433,8 @@ void far pascal sort_foreground(void)
     index = foreground_count - 1;
     out = index;
     for (; index >= 0; --index) {
-        int shape = room_image_table->images[fore_queue[index].shape - room_image_table->first_shape].shape_delta
-                  + room_image_table->first_shape;
+        int shape = custom_room->images[fore_queue[index].shape - custom_room->first_shape].shape_delta
+                  + custom_room->first_shape;
         if ((shape >= 0x1021 && shape <= 0x1024) || (shape >= 0x1058 && shape <= 0x105c)) {
             if (index != out) {
                 saved = fore_queue[index];
@@ -462,7 +462,7 @@ typedef struct {
 } AnimationFrame;
 
 typedef AnimationFrame AnimationFrameTable[];
-extern AnimationFrameTable far hit_actions;
+extern AnimationFrameTable far frame_table;
 
 void far pascal FinlWatchKid(void)
 {
@@ -477,7 +477,7 @@ void far pascal FinlWatchKid(void)
         room = register_actor_room();
         if ((room == 7 || room == 8) && Level.environment_kind == 6 &&
             Kid.room == 5 && Level.environment_kind == 6 && Kid.column <= 4 &&
-            (hit_actions[(int)Kid.frame].flags & 0x40)) {
+            (frame_table[(int)Kid.frame].flags & 0x40)) {
             copy_kid_to_char();
             decrement_life_points(100);
             JumpSeq(71);
@@ -624,7 +624,7 @@ int far pascal jaffar_has_clear_shot(void)
 
     if (Opp.life_points > 0 && (Opp.room == 7 || Opp.room == 8) &&
         Level.environment_kind == 6 && Opp.sequence != 241 && Char.row == Opp.row &&
-        (hit_actions[(int)Char.frame].flags & 0x40) && Char.frame != 109) {
+        (frame_table[(int)Char.frame].flags & 0x40) && Char.frame != 109) {
         sbyte position = Char.column;
 
         if (Char.room == 8)
@@ -972,7 +972,7 @@ void far pascal run_jaffar_in_crystal(void)
             JumpSeq(240);
         } else if (Char.frame == 15) {
             if (Kid.alive < 0 && Kid.sequence != 44 && Kid.sequence != 6 &&
-                Kid.character_kind == 0 && (hit_actions[(int)Kid.frame].flags & 0x40) &&
+                Kid.character_kind == 0 && (frame_table[(int)Kid.frame].flags & 0x40) &&
                 Kid.action != 3 && Kid.action != 4) {
                 int attack = 0;
                 int range = get_opp_dist();
@@ -1246,7 +1246,7 @@ extern unsigned int (*near BlueS)[2];
 extern void far pascal add_trob(sbyte row, sbyte col, byte value, byte effect);
 extern void far pascal mark_move(sbyte cell, void near *clip);
 
-#define ROOM_RECT(offset) ((Rect near *)((byte near *)room_image_table + (offset)))
+#define ROOM_RECT(offset) ((Rect near *)((byte near *)custom_room + (offset)))
 
 void far pascal animate_jaffar_blink(void)
 {
@@ -1254,7 +1254,7 @@ void far pascal animate_jaffar_blink(void)
 
     ++BlueSpec;
     frame = BlueSpec & 15;
-    if (frame >= 5 && room_image_table->tile == 26) {
+    if (frame >= 5 && custom_room->tile == 26) {
         frame -= 5;
         if (frame < 6) {
             mark_bufs_for_rect(mark_move, ROOM_RECT(89), -1);
@@ -1279,7 +1279,7 @@ void far pascal draw_jaffar_blink(FinalObject near *object)
 
 void far pascal animate_spider(void)
 {
-    if (room_image_table->tile == 25) {
+    if (custom_room->tile == 25) {
         unsigned int state = BlueSpec;
         int ticks = (state & 0x7f8) >> 3;
 
@@ -1342,7 +1342,7 @@ void far pascal setup_crystal_room(void)
 
 void far pascal animate_crystal(void)
 {
-    if (room_image_table->tile == 28) {
+    if (custom_room->tile == 28) {
         unsigned int state = BlueSpec; if (state & 0x800) {
             unsigned int frame = ((state & 0x7f0) >> 4) + 1;
 
@@ -1351,7 +1351,7 @@ void far pascal animate_crystal(void)
                 const ShapeOffset near *shape;
 
                 state &= 0xf80f; state |= frame << 4;
-                shape = &crystal_shapes[state & 15]; OFFSETRECT(&bounds, &room_image_table->images[4].bounds, shape->dx, shape->dy);
+                shape = &crystal_shapes[state & 15]; OFFSETRECT(&bounds, &custom_room->images[4].bounds, shape->dx, shape->dy);
                 mark_bufs_for_rect(mark_move, &bounds, -1);
             } else {
                 state &= 0xf80f; state |= (Rnd(40) + 40) << 4; state &= ~0x800;
@@ -1385,7 +1385,7 @@ void far pascal draw_crystal(FinalObject near *object)
     if (--frame < 0)
         return;
     index = crystal_frame_slot[frame] + 4;
-    image = &room_image_table->images[index];
+    image = &custom_room->images[index];
     bounds = image->bounds;
     shape = object->animation & 15;
     image->shape_offset = crystal_shapes[shape];
@@ -1409,7 +1409,7 @@ void far pascal trigger_crystal(sbyte row, sbyte col)
 
 void far pascal animate_gargoyle(void)
 {
-    if (room_image_table->tile == 29 || room_image_table->tile == 30) {
+    if (custom_room->tile == 29 || custom_room->tile == 30) {
         unsigned int state = BlueSpec;
         byte serial = (byte)(state & 15);
 
@@ -1424,7 +1424,7 @@ void far pascal animate_gargoyle(void)
                     state &= 0xf80f;
                     state |= frame << 4;
                     shape = &gargoyle_shapes[serial];
-                    OFFSETRECT(&bounds, &room_image_table->images[2].bounds, shape->dx, shape->dy);
+                    OFFSETRECT(&bounds, &custom_room->images[2].bounds, shape->dx, shape->dy);
                     mark_bufs_for_rect(mark_foreground, &bounds, -1);
                 } else {
                     state &= 0xf80f;
@@ -1464,7 +1464,7 @@ void far pascal draw_gargoyle(FinalObject near *object)
     if (--frame < 0)
         return;
     index = gargoyle_frame_slot[frame] + 2;
-    image = &room_image_table->images[index];
+    image = &custom_room->images[index];
     bounds = image->bounds;
     shape = object->animation & 15;
     image->shape_offset = gargoyle_shapes[shape];

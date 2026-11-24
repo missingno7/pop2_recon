@@ -100,6 +100,21 @@ EXTRN draw_text_handle_in_rect:NEAR
 EXTRN measure_character:NEAR
 EXTRN draw_axis_segment:NEAR
 
+PUBLIC lookup_packed_far_pointer
+lookup_packed_far_pointer LABEL NEAR
+    ; Far Pascal (record, index): far pointer of a packed 5-byte list that starts at +2Dh of the record.
+    push bp
+    mov bp, sp
+    mov ax, 5
+    mul WORD PTR [bp+6]
+    add ax, 2Dh
+    add ax, WORD PTR [bp+8]
+    xchg bx, ax
+    les ax, DWORD PTR [bx+1]
+    mov dx, es
+    pop bp
+    retf 4
+
 PUBLIC navigate_grid_items
 navigate_grid_items LABEL NEAR
     ; Far Pascal (grid, key). Enter returns the current index; arrows and Tab move selection.

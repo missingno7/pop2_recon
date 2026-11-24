@@ -23,40 +23,44 @@ is frozen at tag `oracle-dos-1565`; the text below this section describes that f
 Evidence carried over from the earlier build was translated by instruction alignment (1,654 of 1,683 reviewed targets
 located) and every binding, owner and runtime pin was proven again from the v1.1 bytes by the unchanged gates.
 
-## Trial link of v1.1 (2026-11-24)
+## Whole link of v1.1 (2026-11-24)
 
-`build/workers/o20_trial` (worktree; `sh trial.sh`) links every accepted object, recompiled under its module basename,
-with pinned RTLink/Plus 6.10 and compares all 17 spaces with the original. It grants no ownership. Result at 3167a93:
-279,829 of 280,476 image bytes equal (99.77%).
+`python tools/whole_link.py` compiles every accepted component under its module basename, adds the data modules of
+`link/` and links everything once with pinned RTLink/Plus 6.10, the unmodified `MLIBCR.LIB` and `LIBH.LIB`, and the script
+described by `layout/link-plan.json`. It compares the result with the original per space and grants no ownership.
+`--check` fails when the result is worse than `evidence/whole-link.json`; the integrating writer updates that record with
+`--record`. A new or renamed component must also be added to the plan (`tests/test_whole_link.py`).
 
-- The MZ header, the 16 descriptors (except the file positions after overlay 11), all link segments, section sizes,
-  relocation counts and relocation sets equal the original. The relocation order differs (symbol ids, o9/o11).
-- Overlays 2-10 and 12-16 and the preloaded section equal byte for byte, and the **compressed payloads** of overlays 2-10
-  and 12-15 are identical: `COMPRESS ON` inside each overlay section (not in the root, not for the preloaded section)
-  reproduces the original, including overlay 16 staying stored because it does not shrink.
-- All remaining differences are the three functions whose C is open: DUMP_HEAP, CONVERT_SOUND_HANDLE, HEAD_VISIBILITY.
+Result: 279,812 of 280,476 image bytes equal. The MZ header, the descriptors (except file positions after overlay 11), all
+link segments, section sizes, relocation counts and relocation sets equal the original, and the compressed payloads of
+overlays 2-10 and 12-15 are identical. All differences lie in three functions whose C is open (DUMP_HEAP,
+CONVERT_SOUND_HANDLE, HEAD_VISIBILITY). The order of the relocation records still differs (symbol ids, o9/o11).
 
 Facts the link settled:
 
-- `220d:0000` (16 bytes) is the C runtime's `EMULATOR_TEXT` (crt0dat.asm, 2 bytes, paragraph aligned); its word is the
-  empty far segment `EMULATOR_DATA`, whose paragraph is 313b.
-- The 16 zero bytes before `_TEXT` are the linker's DOSSEG padding (comment record in crt0.asm).
-- The unpinned part of `_TEXT` is 15 unmodified `mlibcr.lib` members: crt0, crt0dat, chkstk, nmsghdr, fclose, printf,
-  _flsbuf, _getbuf, _open, _sftbuf, fflush, stream, write, stackava, d_rdwr; with the data members _file, _cflush, txtmode,
-  cmiscdat and ctype they link to the original bytes.
-- DGROUP after `_DATA`: XIQC 26a4, DBDATA 26a6, CDATA 26b4, XP 26c2, CONST 26c6, HDR 26de, MSG 26e6, PAD, EPAD, `_BSS`
-  27c0, c_common 2b90, `_end` 6b74, 512 memory-only bytes of class STACK, then STACK 6d80 (1500h bytes).
-- `expand.asm` (7,317 bytes at root 23140) is pulled in by the compressed sections. The shipped 6.10 member differs in two
-  immediates (+1c27, +1c37), and `rtcommon` is 467 bytes instead of 495: the original was linked with another RTLUTILS.LIB
-  revision. Both stay labelled stand-ins.
-- A call goes through an overlay vector only when its external *name* is the vectored one, so a caller's descriptive alias
-  calls the overlay directly. Validation now refuses such aliases (`vector-alias`, and `data-alias` for data publics).
-  Example: PRINCE.C calls `show_init_message` (overlay 2) and TOP.C calls `reset_overlay_state` (overlay 3); both are
+- **Libraries.** RTLink loads the members a library pass needs in library order and searches the libraries in order, then
+  again. `GAMEA, MLIBCR, LIBH, GAMEB` with the members in code order reproduces every address of root, DGROUP and far
+  data: the C runtime data sits between the two game libraries' data, its last members (strlen, strchr, strdup, then
+  `_fstrcmp`) come from the second pass. No order is forced; a few names are only declared by some original module
+  (`link/mode_table.asm`, plan `force`).
+- `COMPRESS ON` inside each overlay section (not in the root, not for the preloaded section) reproduces the compressed
+  payloads, including overlay 16 staying stored because it does not shrink. `STACK 1500` (hexadecimal).
+- A call goes through an overlay vector only when its external *name* is the vectored one (`VECTOROFF`, `ALWAYS`), so a
+  caller's descriptive alias calls the overlay directly. Validation refuses such aliases (`vector-alias`, and `data-alias`
+  for data publics). PRINCE.C calls `show_init_message` (overlay 2), TOP.C `reset_overlay_state` (overlay 3); both are
   251b:0000.
+- `220d:0000` is the C runtime's `EMULATOR_TEXT` (crt0dat.asm); its word is the empty far segment `EMULATOR_DATA` (313b).
+  The 16 zero bytes before `_TEXT` are the DOSSEG padding.
+- DGROUP after `_DATA`: the EMS/XMS workspace `BACKING_DATA` 2696 (COMMON), XIQC 26a4, DBDATA 26a6, CDATA 26b4, XP 26c2,
+  CONST 26c6, HDR 26de, MSG 26e6, PAD, EPAD, `_BSS` 27c0, c_common 2b90, `_end` 6b74, 512 bytes of class STACK (two
+  interrupt stacks), STACK 6d80 (1500h bytes).
+- `expand.asm` (7,317 bytes at root 23140) is pulled in by the compressed sections. The shipped 6.10 member differs in two
+  immediates (+1c27, +1c37) and `rtcommon` is 467 bytes instead of 495: the original used another RTLUTILS.LIB revision.
+  The plan's `rtlutils` patches are labelled stand-ins for those two members.
 
-Still stand-ins (11.4 KB of the initialized image): FAR_BSS communals (5,200 zero bytes), the far table 306e (2,480), the
-built-in resources 3109-31a8 (2.8 KB), 623 bytes of `_DATA`, the two RTLUTILS members, and the DGROUP variable addresses
-(about 600 names that no accepted object defines yet).
+Open: 473 variables no accepted source defines (the generated `VARIABLES` module gives them their accepted addresses), the
+plan's `fills` (statics of five modules and 14 missing bytes of the CONVERT_SOUND_HANDLE draft), the declaring module of
+the interrupt stacks and of the `link/` data, the two RTLUTILS members, and the relocation order.
 
 ## The earlier build (tag oracle-dos-1565)
 

@@ -70,9 +70,9 @@ extern void ZeroBuffers(void);
 extern void select_room_arrays(RoomNumber room);
 extern int IsCustomizedRoom(RoomNumber room);
 extern void SetSideRoomInfo(void);
-extern void prepare_row(void);
+extern void GetAboveAry(void);
 extern void GetBelowAry(void);
-extern void select_draw_cell(void);
+extern void SetLocVars(void);
 extern void GetCustomAboveAry(void);
 extern void redraw_room_sure(void);
 extern void redraw_cell_sure(void);
@@ -130,11 +130,11 @@ void redraw_room_sure(void)
     SetSideRoomInfo();
     draw_row = 3;
     while (draw_row--) {
-        prepare_row();
+        GetAboveAry();
         GetBelowAry();
         draw_column = 0;
         do {
-            select_draw_cell();
+            SetLocVars();
             redraw_cell_sure();
         } while (++draw_column < 10);
     }
@@ -145,12 +145,12 @@ void redraw_room_sure(void)
         Room.below = (RoomNumber)saved_room;
         SetSideRoomInfo();
         draw_row = 2;
-        prepare_row();
+        GetAboveAry();
         GetBelowAry();
         draw_row = -1;
         draw_column = 0;
         do {
-            select_draw_cell();
+            SetLocVars();
             redraw_cell_sure();
         } while (++draw_column < 10);
         Room.number = (RoomNumber)saved_room;
@@ -314,7 +314,7 @@ typedef struct LooseItemDrawer {
     TileDrawer base, item;
 } LooseItemDrawer;
 extern LooseItemDrawer *loose_item_drawer;
-extern RoomImages *room_images;
+extern RoomImages *custom_room;
 extern TileInfo BlueSpec;
 extern signed char drawn_tile_kind;
 extern Tile CellLeft;
@@ -386,7 +386,7 @@ void draw_back_image(unsigned char pass)
             break;
         }
         priority = (draw.args.info.modifier >> 14) & 3;
-        if (!room_images || priority == 0 || pass == priority || (priority == 2 && pass == 5)) {
+        if (!custom_room || priority == 0 || pass == priority || (priority == 2 && pass == 5)) {
             draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[draw.args.kind];
             if (draw.address)
                 ((TileDrawer)draw.address)(&draw.args);
@@ -406,7 +406,7 @@ unsigned char back_image_start_pass(void)
     if (custom_edge)
         pass = 3;
     else if ((force_full_clip && draw_column == 0 && draw_row != 2) ||
-             (room_images && draw_row == 2 && !NeedDrawRoomBelowCustom()))
+             (custom_room && draw_row == 2 && !NeedDrawRoomBelowCustom()))
         pass = 2;
     else
         pass = 0;
@@ -424,20 +424,20 @@ void draw_custom_room_images(char pass)
         draw_images = 1;
         if (Room.number == 1 && ((unsigned char)Level.level_number) == 14)
             load_tower_top();
-    } else if ((pass == 0 && !force_full_clip && room_images &&
-                room_images->background_shape) ||
+    } else if ((pass == 0 && !force_full_clip && custom_room &&
+                custom_room->background_shape) ||
                ((pass == 1 || pass == 2) &&
                 ((draw_column == 9 && draw_row == 0) || !force_full_clip))) {
         draw_images = 1;
     }
     if (draw_images) {
-        if (room_images) {
+        if (custom_room) {
             image = 0;
-            if (room_images->count > 0) {
+            if (custom_room->count > 0) {
                 do {
                     draw_custom_room_image(image, pass);
                     ++image;
-                } while (room_images->count > image);
+                } while (custom_room->count > image);
             }
         }
         if ((force_full_clip && pass == 0) || pass == 1) {
@@ -455,7 +455,7 @@ void far _fastcall draw_custom_room_image(char index, char pass)
     DrawRect clip;
     DrawEntry far *entry;
 
-    image = &room_images->images[index];
+    image = &custom_room->images[index];
     if (image->shape == -1 || image->pass != pass ||
         !SECTRECT(&clip, &image->clip, &clip_rect))
         return;
@@ -523,7 +523,7 @@ void draw_fore_image(void)
             break;
         }
         priority = (draw.args.info.modifier >> 14) & 3;
-        if (!room_images || !priority || priority == 1 || priority == 2) {
+        if (!custom_room || !priority || priority == 1 || priority == 2) {
             draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[draw.args.kind];
             if (draw.address)
                 ((TileDrawer)draw.address)(&draw.args);
@@ -655,7 +655,7 @@ void dump_draw_table(unsigned char pass)
     unsigned char index, count;
     int prepared;
 
-    if (!force_full_clip || !room_images)
+    if (!force_full_clip || !custom_room)
         prepared = 1;
     else
         prepared = 0;
@@ -758,10 +758,10 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
         if (!image)
             return;
     } else {
-        if (!room_images && (entry->shape < 0x6370 || entry->shape > 0x6372))
+        if (!custom_room && (entry->shape < 0x6370 || entry->shape > 0x6372))
             return;
-        if (room_images) {
-            custom = &room_images->images[entry->shape - room_images->first_shape];
+        if (custom_room) {
+            custom = &custom_room->images[entry->shape - custom_room->first_shape];
             if (custom->sheet == 1)
                 AddCustomPiecePeel(custom, &entry->clip);
         }
@@ -772,7 +772,7 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
             save_under_carpet();
             image = get_carpet_shape_info(entry->shape - 0x62d7, &ref);
             ref.palette = entry->attributes;
-        } else if (room_images) {
+        } else if (custom_room) {
             image = GetCustomPieceShape(custom);
             ref.palette = entry->attributes;
         }
@@ -816,7 +816,7 @@ void draw_middle_item(int index)
     if (middle_queue[index].shape >= 0x62d7 && middle_queue[index].shape <= 0x62e2) {
         get_carpet_shape_info(middle_queue[index].shape - 0x62d7, &ref);
     } else if (((unsigned char)Level.level_number) == 5 && Room.number == 10 && type == 4 &&
-               middle_queue[index].shape < room_images->count) {
+               middle_queue[index].shape < custom_room->count) {
         GetCustomPieceShpInfo(middle_queue[index].shape, &ref);
     } else {
         if (type == 2 && middle_queue[index].mode)
@@ -1003,11 +1003,11 @@ void redraw_room_fast(void)
     draw_row = 3;
     goto next_row;
 paint_row:
-    prepare_row();
+    GetAboveAry();
     GetBelowAry();
     draw_column = 0;
 next_cell:
-    select_draw_cell();
+    SetLocVars();
     redraw_cell_fast((signed char)(FirstInRow(draw_row) + draw_column));
     if (++draw_column < 10)
         goto next_cell;
@@ -1020,11 +1020,11 @@ next_row:
         get_rooms();
         SetSideRoomInfo();
         draw_row = 2;
-        prepare_row();
+        GetAboveAry();
         GetBelowAry();
         draw_column = 0;
         do {
-            select_draw_cell();
+            SetLocVars();
             redraw_top_fast(draw_column);
         } while (++draw_column < 10);
         Room.number = saved_room;
@@ -1113,7 +1113,7 @@ void draw_half_cell(void)
         ((TileDrawer)draw.address)(&draw.args);
         mark_foreground((signed char)(FirstInRow(draw_row) + draw_column), &area);
     }
-    if (room_images && room_images->floor_image)
+    if (custom_room && custom_room->floor_image)
         draw_custom_room_images(2);
     clip_rect = draw.old_clip;
 }
@@ -1197,7 +1197,7 @@ void draw_floor_buffer(void)
                 mark_foreground((signed char)(FirstInRow(draw_row) + draw_column), &clip_rect);
             }
         }
-        if (room_images && room_images->floor_image)
+        if (custom_room && custom_room->floor_image)
             draw_custom_room_images(2);
     } else if (floor_edge && IS_SIX_KIND(drawn_tile_kind) && IsWall(CellLeft.kind)) {
         priority = (CellLeft.info.modifier >> 14) & 3;
@@ -1728,7 +1728,7 @@ void draw_flask(TileDrawArgs *args)
     unsigned char bubble, flags;
     TileDrawArgs base;
 
-    if (loose_item_drawer->item && !room_images) {
+    if (loose_item_drawer->item && !custom_room) {
         base = *args;
         base.info.modifier &= 0xff00;
         loose_item_drawer->item(&base);

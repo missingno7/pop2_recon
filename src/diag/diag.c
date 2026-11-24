@@ -117,10 +117,10 @@ extern void dispatch_sound(int);
 extern const char *find_option(const char far *);
 extern void reclaim_heap_blocks(unsigned long);
 extern void COMPACT_HEAP_BLOCKS(unsigned long);
-extern unsigned block_capacity(const heap_block far *);
+extern unsigned banked_pointer_capacity(const heap_block far *);
 extern resource_metadata far *lookup_shape_metadata(resource_metadata far *, int);
-extern heap_block far *next_heap_block(heap_block far *);
-extern unsigned long largest_far_block(void);
+extern heap_block far *normalize_banked_pointer(heap_block far *);
+extern unsigned long expand_memory_limits(void);
 extern int check_heap_chain(void);
 extern void abort_with_message(int, const char far *);
 
@@ -309,7 +309,7 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
         type.end = '\0';
         if ((block->size_and_flags & 0xc000) != 0x4000) {
             do {
-                size = block_capacity(block);
+                size = banked_pointer_capacity(block);
                 flags = block->size_and_flags & 0xc000;
                 if (flags) {
                     used += (unsigned)size;
@@ -346,13 +346,13 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
 
                 if (!size && find_option("SPECIAL"))
                     preview_resource(block->handle);
-                block = next_heap_block(block);
+                block = normalize_banked_pointer(block);
             } while ((block->size_and_flags & 0xc000) != 0x4000);
         }
 
         fprintf(out, "\n%Fs\n", heading);
         fprintf(out, "Total used block size = %lu\n", used);
-        fprintf(out, "Largest contigous block of far memory = %lu\n", largest_far_block());
+        fprintf(out, "Largest contigous block of far memory = %lu\n", expand_memory_limits());
         fprintf(out, "Largest contigous block of near memory = %u\n", _memmax());
         fclose(out);
     }

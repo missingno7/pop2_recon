@@ -31,7 +31,7 @@ typedef struct {
     unsigned char flags;
     unsigned int background, foreground;
 } AboveCell;
-extern CustomRoom *custom_room;
+CustomRoom *custom_room = 0;
 
 typedef struct {
     unsigned char sheet;

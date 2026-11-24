@@ -167,7 +167,7 @@ extern void mark_bufs_for_rect(DrawCallback *, void near *, signed char);
 extern Handle allocate_payload_handle(long);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
 extern void dispose_handle(Handle);
-extern void load_set_shape(Handle, int, ShapeRef far *, int);
+extern void PrinceNewShpItem(Handle, int, ShapeRef far *, int);
 extern void PrinceFreeShp(int);
 extern void MAKESHAPERECT(Rect far *, int, int, void far *);
 extern void SaveFChar(void), RestoreFChar(void);
@@ -408,7 +408,7 @@ void load_altar_room(void)
         piece = &custom_room->pieces[index];
         dispose_handle(piece->shape);
         ref.handle = 0;
-        load_set_shape(handle, piece->type + 1, &ref, 1);
+        PrinceNewShpItem(handle, piece->type + 1, &ref, 1);
         piece->shape = ref.handle;
         PrinceFreeShp(piece->type + custom_room->palette);
         i = index;

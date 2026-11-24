@@ -1,0 +1,1007 @@
+{
+ "tools": {
+  "rtlink": {
+   "path": "C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE",
+   "sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb"
+  },
+  "rtlutils": {
+   "path": "C:/tools/rtlink-plus-6.10/installed/RTLUTILS.LIB",
+   "sha256": "c718bac09b0b1204a259494446acfa8bfffb129144cc7d36799855621f4fdccb"
+  },
+  "lib": {
+   "path": "C:/tools/msc-5.10/LIB.EXE",
+   "sha256": "cb76479346b20fe29cac2b387e8358cda2456779213657d1d60b05104b71efc7"
+  }
+ },
+ "options": [
+  "STACK 1500"
+ ],
+ "vectors": [
+  "INIT_SYSTEM",
+  "DISPATCH_NIS",
+  "TRANSITION",
+  "TREE_CHECK",
+  "DISSOLVE_DO_ALL",
+  "ANIM_NEW",
+  "PLAY_ANIM",
+  "NIS_NOOP",
+  "RESET_OVERLAY_STATE",
+  "RESET_SHADOW_OVERLAY_STATE",
+  "RESET_ACTOR_ALERT",
+  "RESET_BARRIER_STATE",
+  "LOADROOFCODE",
+  "LOADDSRTCODE",
+  "LOAD_CAVE_DRAWING",
+  "CAVE_OVERLAY_ENTRY",
+  "LOADRUINSDRAWCODE",
+  "LOADRUINSMOVECODE",
+  "LOADTEMPLEDRAWCODE",
+  "TEMPLE_FRAME",
+  "LOAD_FINAL_CODE",
+  "UNUSED_HEAD_ENTRY",
+  "UNUSED_GUARD_ENTRY",
+  "LOADCARPETCODE",
+  "TRIGGER_CAVE_BARS",
+  "ANIMATE_CAVE_BARS",
+  "LOAD_BRIDGE_CODE",
+  "ANIMATE_BRIDGE_FLOOR",
+  "BRIDGE_SKELETON_MUST_ADVANCE",
+  "BRIDGE_SKELETON_PROGRESS",
+  "BRIDGE_FRAME",
+  "TRIGGER_BRIDGE_FLOOR",
+  "LOAD_ALTAR_ROOM",
+  "ANIMATE_SACRED_FLAME",
+  "ALTAR_SHADOW_ACTIVE",
+  "PLAY_THRONE_ROOM_NIS",
+  "UNLOAD_THRONE_ROOM",
+  "LOAD_THRONE_ROOM",
+  "OFFSET_THRONE_RECT",
+  "DRAW_THRONE_ROOM_GATE_IN_FORE"
+ ],
+ "root": [
+  "prince/prince",
+  "add/add",
+  "checknis/checknis",
+  "ctrl/ctrl",
+  "custom/custom",
+  "dialog/dialog",
+  "draw/draw",
+  "load/load",
+  "move/move",
+  "recorder/recorder",
+  "sound/sound",
+  "top/top",
+  "english/english",
+  "misc/misc",
+  "movespik/movespik",
+  "tables/tables",
+  "link:frames",
+  "diag/diag",
+  "link:interrupt_stack"
+ ],
+ "areas": [
+  [
+   {
+    "name": "S02_INIT",
+    "files": [
+     "init/init",
+     "nis/nis"
+    ],
+    "modules": [
+     "ANIM.C",
+     "DISSOLVE.C"
+    ]
+   },
+   {
+    "name": "S03_AUTO",
+    "files": [
+     "auto/auto",
+     "autoshad/autoshad",
+     "act/act",
+     "collide/collide"
+    ]
+   }
+  ],
+  [
+   {
+    "name": "S04_ROOFTOPS",
+    "files": [
+     "rooftops/rooftops"
+    ]
+   },
+   {
+    "name": "S05_DESERT",
+    "files": [
+     "desert/desert"
+    ]
+   },
+   {
+    "name": "S06_MOVECAVE",
+    "files": [
+     "movecave/movecave",
+     "drawcave/drawcave"
+    ]
+   },
+   {
+    "name": "S07_MOVESCYT",
+    "files": [
+     "movescyt/movescyt",
+     "drawscyt/drawscyt"
+    ],
+    "areas": [
+     [
+      {
+       "name": "S08_MOVERUIN",
+       "files": [
+        "moveruin/moveruin",
+        "drawruin/drawruin"
+       ]
+      },
+      {
+       "name": "S09_MOVETEMP",
+       "files": [
+        "movetemp/movetemp",
+        "drawtemp/drawtemp"
+       ]
+      }
+     ]
+    ]
+   },
+   {
+    "name": "S10_FINAL",
+    "files": [
+     "final/final"
+    ]
+   }
+  ],
+  [
+   {
+    "name": "S11_AUTOHEAD",
+    "files": [
+     "autohead/autohead"
+    ]
+   },
+   {
+    "name": "S12_AUTOGUAR",
+    "files": [
+     "autoguar/autoguar"
+    ]
+   }
+  ],
+  [
+   {
+    "name": "S13_CUSTCVCA",
+    "files": [
+     "custcvca/custcvca"
+    ]
+   },
+   {
+    "name": "S14_BRIDGE",
+    "files": [
+     "bridge/bridge"
+    ]
+   },
+   {
+    "name": "S15_ALTAR",
+    "files": [
+     "altar/altar"
+    ]
+   },
+   {
+    "name": "S16_THRONE",
+    "files": [
+     "throne/throne"
+    ]
+   }
+  ]
+ ],
+ "libraries": [
+  {
+   "name": "GAMEA",
+   "members": [
+    "link:resources",
+    "link:builtin_mapping",
+    "mcga1/mirrors",
+    "normalize_banked_pointer",
+    "banked_pointer_capacity",
+    "lookup_shape_metadata",
+    "graf/cursor_and_bitmap_frontend",
+    "prince/keyboard",
+    "link:alerts",
+    "paintrle/paintrleshape_asm",
+    "hnewshpi/hnewshpi",
+    "dlghelp/dlghelp",
+    "fade/fade",
+    "anim/anim",
+    "lgraf/lgraf",
+    "gameport/gameport",
+    "shape/shape",
+    "util/util",
+    "gfxerr/gfxerr",
+    "xlatgraf/xlatgraf",
+    "graf/shape_rows",
+    "graf/dithered_copy",
+    "dissolve/dissolve",
+    "intrface/intrface",
+    "ems/ems_driver",
+    "xms/xms_driver",
+    "resolve_handle_to_far_payload",
+    "attach_handle_payload",
+    "detach_handle_payload",
+    "dispose_handle",
+    "save_handle_flags",
+    "locked_handle",
+    "relocate_handle_payload",
+    "handle_flags",
+    "handle_ownership",
+    "payload_header",
+    "allocate_pinned_payload",
+    "resize_dos_heap",
+    "prepare_backing_allocation",
+    "movable_blocks",
+    "find_movable_payload_space",
+    "materialize_handle",
+    "backing_records",
+    "transfer_backing_record",
+    "backing_callbacks",
+    "sound2/load_sound_driver",
+    "get_midi_driver_flag",
+    "find_option",
+    "sound2/dos_sound_runtime",
+    "graf/create_port",
+    "graf/finish_port",
+    "nmalloc/nmalloc",
+    "cpu_probe"
+   ]
+  },
+  {
+   "name": "MLIBCR",
+   "path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+   "sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0"
+  },
+  {
+   "name": "LIBH",
+   "path": "C:/tools/msc-6.00/LIB/libh.lib",
+   "sha256": "a4492e8f63da409d949643fd448f29e65e2cc9a8f2deea977372177bbe0ad818"
+  },
+  {
+   "name": "GAMEB",
+   "members": [
+    "link:cursor",
+    "link:font",
+    "link:item_procs",
+    "link:catalog",
+    "graf/packed_video_modes",
+    "graf/measure_text",
+    "ptool/empty_rect",
+    "ptool/frame_rect",
+    "graf/release_port",
+    "graf/graphics_mode",
+    "link:mode_table",
+    "resc/h_get_font",
+    "graf/h_set_font",
+    "graf/init_port",
+    "ptool/draw_axis_segment",
+    "ptool/move",
+    "graf/paint_four_bit",
+    "resc/set_font",
+    "ptool/set_origin",
+    "graf/banked16_mode",
+    "graf/release_buffer",
+    "graf/vga_mode",
+    "graf/stroke_rectangle",
+    "resc/release_tagged_resource",
+    "resc/load_resource_copy",
+    "resc/catalog_lookup",
+    "ptool/normalize_ptr",
+    "unpack/rle",
+    "map_scanlines",
+    "tgatomcg/tgatomcg",
+    "unpack/lz",
+    "palette_io",
+    "check_dos_drive",
+    "dos_paths",
+    "dos_set_directory",
+    "divide_timer_interval",
+    "multiply_timer_interval",
+    "timer_hooks",
+    "resc/shape_list",
+    "resc/unlink_shape_list",
+    "sound2/h_get_snd",
+    "sound2/sound_conversion",
+    "sound2/sound_controls",
+    "unpack/delta_bits",
+    "sound2/resample_sound",
+    "skip_nul_strings",
+    "lookup_prefixed_string",
+    "convert_text_handle",
+    "xlattxt4/xlattxt4",
+    "windisp/windisp",
+    "winlife/events",
+    "windisp/grid_items",
+    "release_near_buffer",
+    "itemdlg/itemdlg",
+    "winlife/lifecycle",
+    "rectangle_text_trailer",
+    "text_handles"
+   ]
+  }
+ ],
+ "modules": {
+  "prince/prince": {
+   "file": "PRINCE",
+   "basename": "PRINCE"
+  },
+  "add/add": {
+   "file": "ADD",
+   "basename": "ADD"
+  },
+  "checknis/checknis": {
+   "file": "CHECKNIS",
+   "basename": "CHECKNIS"
+  },
+  "ctrl/ctrl": {
+   "file": "CTRL",
+   "basename": "CTRL"
+  },
+  "custom/custom": {
+   "file": "CUSTOM",
+   "basename": "CUSTOM"
+  },
+  "dialog/dialog": {
+   "file": "DIALOG",
+   "basename": "DIALOG"
+  },
+  "draw/draw": {
+   "file": "DRAW",
+   "basename": "DRAW"
+  },
+  "load/load": {
+   "file": "LOAD",
+   "basename": "LOAD"
+  },
+  "move/move": {
+   "file": "MOVE",
+   "basename": "MOVE"
+  },
+  "recorder/recorder": {
+   "file": "RECORDER",
+   "basename": "RECORDER"
+  },
+  "sound/sound": {
+   "file": "SOUND",
+   "basename": "SOUND"
+  },
+  "top/top": {
+   "file": "TOP",
+   "basename": "TOP"
+  },
+  "english/english": {
+   "file": "ENGLISH",
+   "basename": "ENGLISH"
+  },
+  "misc/misc": {
+   "file": "MISC",
+   "basename": "MISC"
+  },
+  "movespik/movespik": {
+   "file": "MOVESPIK",
+   "basename": "MOVESPIK"
+  },
+  "tables/tables": {
+   "file": "TABLES",
+   "basename": "TABLES"
+  },
+  "link:frames": {
+   "file": "FRAMES",
+   "basename": "FRAMES"
+  },
+  "diag/diag": {
+   "file": "DIAG",
+   "basename": "DIAG"
+  },
+  "init/init": {
+   "file": "INIT",
+   "basename": "INIT"
+  },
+  "nis/nis": {
+   "file": "NIS",
+   "basename": "NIS"
+  },
+  "auto/auto": {
+   "file": "AUTO",
+   "basename": "AUTO"
+  },
+  "autoshad/autoshad": {
+   "file": "AUTOSHAD",
+   "basename": "AUTOSHAD"
+  },
+  "act/act": {
+   "file": "ACT",
+   "basename": "ACT"
+  },
+  "collide/collide": {
+   "file": "COLLIDE",
+   "basename": "COLLIDE"
+  },
+  "rooftops/rooftops": {
+   "file": "ROOFTOPS",
+   "basename": "ROOFTOPS"
+  },
+  "desert/desert": {
+   "file": "DESERT",
+   "basename": "DESERT"
+  },
+  "movecave/movecave": {
+   "file": "MOVECAVE",
+   "basename": "MOVECAVE"
+  },
+  "drawcave/drawcave": {
+   "file": "DRAWCAVE",
+   "basename": "DRAWCAVE"
+  },
+  "movescyt/movescyt": {
+   "file": "MOVESCYT",
+   "basename": "MOVESCYT"
+  },
+  "drawscyt/drawscyt": {
+   "file": "DRAWSCYT",
+   "basename": "DRAWSCYT"
+  },
+  "final/final": {
+   "file": "FINAL",
+   "basename": "FINAL"
+  },
+  "autohead/autohead": {
+   "file": "AUTOHEAD",
+   "basename": "AUTOHEAD"
+  },
+  "autoguar/autoguar": {
+   "file": "AUTOGUAR",
+   "basename": "AUTOGUAR"
+  },
+  "custcvca/custcvca": {
+   "file": "CUSTCVCA",
+   "basename": "CUSTCVCA"
+  },
+  "bridge/bridge": {
+   "file": "BRIDGE",
+   "basename": "BRIDGE"
+  },
+  "altar/altar": {
+   "file": "ALTAR",
+   "basename": "ALTAR"
+  },
+  "throne/throne": {
+   "file": "THRONE",
+   "basename": "THRONE"
+  },
+  "moveruin/moveruin": {
+   "file": "MOVERUIN",
+   "basename": "MOVERUIN"
+  },
+  "drawruin/drawruin": {
+   "file": "DRAWRUIN",
+   "basename": "DRAWRUIN"
+  },
+  "movetemp/movetemp": {
+   "file": "MOVETEMP",
+   "basename": "MOVETEMP"
+  },
+  "drawtemp/drawtemp": {
+   "file": "DRAWTEMP",
+   "basename": "DRAWTEMP"
+  },
+  "link:resources": {
+   "file": "RESOURCE",
+   "basename": "RESOURCE"
+  },
+  "link:builtin_mapping": {
+   "file": "BUILTIN_",
+   "basename": "BUILTIN_"
+  },
+  "link:cursor": {
+   "file": "CURSOR",
+   "basename": "CURSOR"
+  },
+  "link:font": {
+   "file": "FONT",
+   "basename": "FONT"
+  },
+  "link:item_procs": {
+   "file": "ITEM_PRO",
+   "basename": "ITEM_PRO"
+  },
+  "link:catalog": {
+   "file": "CATALOG",
+   "basename": "CATALOG"
+  },
+  "mcga1/mirrors": {
+   "file": "MIRRORS",
+   "basename": "MIRRORS"
+  },
+  "normalize_banked_pointer": {
+   "file": "NORMALIZ",
+   "basename": "GAMELIB"
+  },
+  "banked_pointer_capacity": {
+   "file": "BANKED_P",
+   "basename": "GAMELIB"
+  },
+  "lookup_shape_metadata": {
+   "file": "LOOKUP_S",
+   "basename": "GAMELIB"
+  },
+  "graf/cursor_and_bitmap_frontend": {
+   "file": "CURSOR_A",
+   "basename": "GAMELIB"
+  },
+  "prince/keyboard": {
+   "file": "KEYBOARD",
+   "basename": "KEYBOARD"
+  },
+  "link:alerts": {
+   "file": "ALERTS",
+   "basename": "ALERTS"
+  },
+  "anim/anim": {
+   "file": "ANIM",
+   "basename": "ANIM"
+  },
+  "lgraf/lgraf": {
+   "file": "LGRAF",
+   "basename": "LGRAF"
+  },
+  "shape/shape": {
+   "file": "SHAPE",
+   "basename": "SHAPE"
+  },
+  "util/util": {
+   "file": "UTIL",
+   "basename": "UTIL"
+  },
+  "xlatgraf/xlatgraf": {
+   "file": "XLATGRAF",
+   "basename": "GAMELIB"
+  },
+  "graf/shape_rows": {
+   "file": "SHAPE_RO",
+   "basename": "GAMELIB"
+  },
+  "graf/dithered_copy": {
+   "file": "DITHERED",
+   "basename": "GAMELIB"
+  },
+  "dissolve/dissolve": {
+   "file": "DISSOLVE",
+   "basename": "DISSOLVE"
+  },
+  "intrface/intrface": {
+   "file": "INTRFACE",
+   "basename": "INTRFACE"
+  },
+  "resolve_handle_to_far_payload": {
+   "file": "RESOLVE_",
+   "basename": "GAMELIB"
+  },
+  "attach_handle_payload": {
+   "file": "ATTACH_H",
+   "basename": "GAMELIB"
+  },
+  "detach_handle_payload": {
+   "file": "DETACH_H",
+   "basename": "GAMELIB"
+  },
+  "dispose_handle": {
+   "file": "DISPOSE_",
+   "basename": "GAMELIB"
+  },
+  "save_handle_flags": {
+   "file": "SAVE_HAN",
+   "basename": "GAMELIB"
+  },
+  "locked_handle": {
+   "file": "LOCKED_H",
+   "basename": "GAMELIB"
+  },
+  "relocate_handle_payload": {
+   "file": "RELOCATE",
+   "basename": "GAMELIB"
+  },
+  "handle_flags": {
+   "file": "HANDLE_F",
+   "basename": "GAMELIB"
+  },
+  "handle_ownership": {
+   "file": "HANDLE_O",
+   "basename": "GAMELIB"
+  },
+  "payload_header": {
+   "file": "PAYLOAD_",
+   "basename": "GAMELIB"
+  },
+  "allocate_pinned_payload": {
+   "file": "ALLOCATE",
+   "basename": "GAMELIB"
+  },
+  "resize_dos_heap": {
+   "file": "RESIZE_D",
+   "basename": "GAMELIB"
+  },
+  "prepare_backing_allocation": {
+   "file": "PREPARE_",
+   "basename": "GAMELIB"
+  },
+  "movable_blocks": {
+   "file": "MOVABLE_",
+   "basename": "GAMELIB"
+  },
+  "find_movable_payload_space": {
+   "file": "FIND_MOV",
+   "basename": "GAMELIB"
+  },
+  "materialize_handle": {
+   "file": "MATERIAL",
+   "basename": "GAMELIB"
+  },
+  "backing_records": {
+   "file": "BACKING_",
+   "basename": "GAMELIB"
+  },
+  "transfer_backing_record": {
+   "file": "TRANSFER",
+   "basename": "TRANSFER"
+  },
+  "backing_callbacks": {
+   "file": "BACKIN01",
+   "basename": "BACKING_"
+  },
+  "sound2/load_sound_driver": {
+   "file": "LOAD_SOU",
+   "basename": "GAMELIB"
+  },
+  "get_midi_driver_flag": {
+   "file": "GET_MIDI",
+   "basename": "GAMELIB"
+  },
+  "find_option": {
+   "file": "FIND_OPT",
+   "basename": "GAMELIB"
+  },
+  "sound2/dos_sound_runtime": {
+   "file": "DOS_SOUN",
+   "basename": "GAMELIB"
+  },
+  "graf/create_port": {
+   "file": "CREATE_P",
+   "basename": "GAMELIB"
+  },
+  "graf/finish_port": {
+   "file": "FINISH_P",
+   "basename": "GAMELIB"
+  },
+  "paintrle/paintrleshape_asm": {
+   "file": "PAINTRLE",
+   "basename": "PAINTRLE"
+  },
+  "hnewshpi/hnewshpi": {
+   "file": "HNEWSHPI",
+   "basename": "HNEWSHPI"
+  },
+  "dlghelp/dlghelp": {
+   "file": "DLGHELP",
+   "basename": "DLGHELP"
+  },
+  "fade/fade": {
+   "file": "FADE",
+   "basename": "FADE"
+  },
+  "gameport/gameport": {
+   "file": "GAMEPORT",
+   "basename": "GAMEPORT"
+  },
+  "gfxerr/gfxerr": {
+   "file": "GFXERR",
+   "basename": "GFXERR"
+  },
+  "ems/ems_driver": {
+   "file": "EMS_DRIV",
+   "basename": "EMS_DRIV"
+  },
+  "xms/xms_driver": {
+   "file": "XMS_DRIV",
+   "basename": "XMS_DRIV"
+  },
+  "nmalloc/nmalloc": {
+   "file": "NMALLOC",
+   "basename": "NMALLOC"
+  },
+  "graf/packed_video_modes": {
+   "file": "PACKED_V",
+   "basename": "GAMELIB"
+  },
+  "graf/measure_text": {
+   "file": "MEASURE_",
+   "basename": "GAMELIB"
+  },
+  "ptool/empty_rect": {
+   "file": "EMPTY_RE",
+   "basename": "GAMELIB"
+  },
+  "ptool/frame_rect": {
+   "file": "FRAME_RE",
+   "basename": "GAMELIB"
+  },
+  "graf/release_port": {
+   "file": "RELEASE_",
+   "basename": "GAMELIB"
+  },
+  "graf/graphics_mode": {
+   "file": "GRAPHICS",
+   "basename": "GAMELIB"
+  },
+  "link:mode_table": {
+   "file": "MODE_TAB",
+   "basename": "MODE_TAB"
+  },
+  "resc/h_get_font": {
+   "file": "H_GET_FO",
+   "basename": "GAMELIB"
+  },
+  "graf/h_set_font": {
+   "file": "H_SET_FO",
+   "basename": "GAMELIB"
+  },
+  "graf/init_port": {
+   "file": "INIT_POR",
+   "basename": "GAMELIB"
+  },
+  "ptool/draw_axis_segment": {
+   "file": "DRAW_AXI",
+   "basename": "GAMELIB"
+  },
+  "ptool/move": {
+   "file": "MOVE01",
+   "basename": "GAMELIB"
+  },
+  "graf/paint_four_bit": {
+   "file": "PAINT_FO",
+   "basename": "GAMELIB"
+  },
+  "resc/set_font": {
+   "file": "SET_FONT",
+   "basename": "GAMELIB"
+  },
+  "ptool/set_origin": {
+   "file": "SET_ORIG",
+   "basename": "GAMELIB"
+  },
+  "graf/banked16_mode": {
+   "file": "BANKED16",
+   "basename": "GAMELIB"
+  },
+  "graf/release_buffer": {
+   "file": "RELEAS01",
+   "basename": "GAMELIB"
+  },
+  "graf/vga_mode": {
+   "file": "VGA_MODE",
+   "basename": "GAMELIB"
+  },
+  "graf/stroke_rectangle": {
+   "file": "STROKE_R",
+   "basename": "GAMELIB"
+  },
+  "resc/release_tagged_resource": {
+   "file": "RELEAS02",
+   "basename": "GAMELIB"
+  },
+  "resc/load_resource_copy": {
+   "file": "LOAD_RES",
+   "basename": "GAMELIB"
+  },
+  "resc/catalog_lookup": {
+   "file": "CATALOG_",
+   "basename": "GAMELIB"
+  },
+  "ptool/normalize_ptr": {
+   "file": "NORMAL01",
+   "basename": "GAMELIB"
+  },
+  "unpack/rle": {
+   "file": "RLE",
+   "basename": "GAMELIB"
+  },
+  "map_scanlines": {
+   "file": "MAP_SCAN",
+   "basename": "MAP_SCAN"
+  },
+  "tgatomcg/tgatomcg": {
+   "file": "TGATOMCG",
+   "basename": "GAMELIB"
+  },
+  "unpack/lz": {
+   "file": "LZ",
+   "basename": "GAMELIB"
+  },
+  "palette_io": {
+   "file": "PALETTE_",
+   "basename": "PALETTE_"
+  },
+  "check_dos_drive": {
+   "file": "CHECK_DO",
+   "basename": "GAMELIB"
+  },
+  "dos_paths": {
+   "file": "DOS_PATH",
+   "basename": "GAMELIB"
+  },
+  "dos_set_directory": {
+   "file": "DOS_SET_",
+   "basename": "GAMELIB"
+  },
+  "divide_timer_interval": {
+   "file": "DIVIDE_T",
+   "basename": "GAMELIB"
+  },
+  "multiply_timer_interval": {
+   "file": "MULTIPLY",
+   "basename": "GAMELIB"
+  },
+  "timer_hooks": {
+   "file": "TIMER_HO",
+   "basename": "GAMELIB"
+  },
+  "resc/shape_list": {
+   "file": "SHAPE_LI",
+   "basename": "GAMELIB"
+  },
+  "resc/unlink_shape_list": {
+   "file": "UNLINK_S",
+   "basename": "GAMELIB"
+  },
+  "sound2/h_get_snd": {
+   "file": "H_GET_SN",
+   "basename": "GAMELIB"
+  },
+  "sound2/sound_conversion": {
+   "file": "SOUND_CO",
+   "basename": "GAMELIB"
+  },
+  "sound2/sound_controls": {
+   "file": "SOUND_01",
+   "basename": "GAMELIB"
+  },
+  "unpack/delta_bits": {
+   "file": "DELTA_BI",
+   "basename": "GAMELIB"
+  },
+  "sound2/resample_sound": {
+   "file": "RESAMPLE",
+   "basename": "GAMELIB"
+  },
+  "skip_nul_strings": {
+   "file": "SKIP_NUL",
+   "basename": "GAMELIB"
+  },
+  "lookup_prefixed_string": {
+   "file": "LOOKUP_P",
+   "basename": "GAMELIB"
+  },
+  "convert_text_handle": {
+   "file": "CONVERT_",
+   "basename": "GAMELIB"
+  },
+  "xlattxt4/xlattxt4": {
+   "file": "XLATTXT4",
+   "basename": "GAMELIB"
+  },
+  "windisp/windisp": {
+   "file": "WINDISP",
+   "basename": "GAMELIB"
+  },
+  "winlife/events": {
+   "file": "EVENTS",
+   "basename": "GAMELIB"
+  },
+  "windisp/grid_items": {
+   "file": "GRID_ITE",
+   "basename": "GAMELIB"
+  },
+  "release_near_buffer": {
+   "file": "RELEAS03",
+   "basename": "GAMELIB"
+  },
+  "itemdlg/itemdlg": {
+   "file": "ITEMDLG",
+   "basename": "ITEMDLG"
+  },
+  "winlife/lifecycle": {
+   "file": "LIFECYCL",
+   "basename": "GAMELIB"
+  },
+  "rectangle_text_trailer": {
+   "file": "RECTANGL",
+   "basename": "GAMELIB"
+  },
+  "text_handles": {
+   "file": "TEXT_HAN",
+   "basename": "GAMELIB"
+  },
+  "cpu_probe": {
+   "file": "CPU_PROB",
+   "basename": "CPU_PROB"
+  },
+  "link:interrupt_stack": {
+   "file": "INTSTACK",
+   "basename": "INTSTACK"
+  }
+ },
+ "variables": {
+  "common": {
+   "start": 11152,
+   "end": 27508
+  },
+  "far_segment": {
+   "paragraph": 12733,
+   "size": 5200
+  },
+  "names": {
+   "__bufin": 26988
+  }
+ },
+ "rtlutils": [
+  {
+   "at": 383489,
+   "old": "0e000c7274636f6d6d6f6e2e61736d88880c0000a3087274636f6d6d6f6e52962000000e24244f564c4d47525f5554494c530e24244f564c4d47525f5554494c531098070028ef01020301438c170014242452544c434f4d4d4f4e5f4d45535341474553008f90c30000010d242452544c5345544552524f5204000011242452544c5f464154414c5f4552524f521500000e242452544c5f5445524d5f5053501d000013242452544c5f4f52475f5445524d494e4154451900000f242452544c5f5445524d494e41544572000011242452544c5f5348454c4c5f4556454e549e01000d242452544c5f5052454c4f41449401000e242452544c5f5245474953544552bf00000f242452544c5f5445524d5f494e49549a00000f242452544f564558454f46465345540000000e88040000a201d1a20b00010000020000000200004ea01701010400502e873600008cd82e870600008ed858cb0000000000000000000053bb0200b90100b446cd215b1e8cc88ed88b160000b409cd211f8b370bf67412ac0ac074088ad0b402cd21ebf383c302ebe88cc88ed8b40fcd103c0376103c07740c8b160000b409cd21b407cd21b8014ccd215006b001e855012e8e060000fa2ea1000026a30a002ea1000026a30c002ec70600000000fb0758cb502e8c0600002ea100002e0b0600007512fa26a10a002ea3000026a10c002ea30000fb58cb5350bb00002e8b072e0b4702740783c306ebf200002ef7060000ff0075225850a802741c2ec7060000ff00062e8e060000fa26c7060a000000268c0e0c00fb0781fb0000740e2e89172e8c5f02582e8847045bcb0ee84c00949c7700c40450011500c40b50011700cc1150011f00c42e5601c45f52010200c47850011d00c47d50011900c48550011b00c48e5001d200c49a50011d00c49e50011900c4a350011b00c4ae50011900c4b650011b00c4be50011701c4d35001d200c4e25001d200c4ea50011d00c4f25001a201c4fd50015f0128a20b000117012400000002000014a20b00015f0102000000020000eea090000163018cc88ed88b1e00002e891e00008b1e00002e891e00002ec70600000000bb0000b406b00133c92eff2e00000000000000005006b004e833000758cbe82d00cb5006b002e825002e8e060000fa2ea1000026a30a002ea1000026a30c002ec70600000000fb07582eff2e00005352bb00002e8b172e0b570274102e84470474059c2eff1f9d83c306ebe75a5bc3709c4f00c40652010400c40b50018e01c40f52010600c41450019001c41950019201c41e50018e01c42950011500c44950011d00c44e50011900c45650011b00c45f5001d200c46950011900c46e50011701948a02000074",
+   "new": "1200105354414e44494e5f5254434f4d4d4f4e7f888d0000005354414e442d494e3a207374727563747572616c206c696e6b2073636166666f6c64696e67206275696c742066726f6d206f726967696e616c20696d6167652062797465733b2072656c6f636174656420776f72647320617265207265616c206669787570732e204e6f74207265636f6e737472756374696f6e2c206e6576657220636f756e7465642e149611000e24244f564c4d47525f5554494c53003c98070028d301010102618c170014242452544c434f4d4d4f4e5f4d45535341474553008f90c30000010d242452544c5345544552524f5204000011242452544c5f464154414c5f4552524f521500000e242452544c5f5445524d5f5053501d000013242452544c5f4f52475f5445524d494e4154451900000f242452544c5f5445524d494e41544572000011242452544c5f5348454c4c5f4556454e548501000d242452544c5f5052454c4f41447c01000e242452544c5f5245474953544552bf00000f242452544c5f5445524d5f494e49549a00000f242452544f564558454f46465345540000003fa0d70101000000000000502e873655008cd82e870657008ed858cb5f00000000000000000053bb0200b90100b446cd215b1e8cc88ed88b16b51eb409cd211f8b370bf67412ac0ac074088ad0b402cd21ebf383c302ebe88cc88ed8b40fcd103c0376103c07740c8b16b71eb409cd21b407cd21b8014ccd215006b001e839012e8e065d00fa2ea1590026a30a002ea15b0026a30c002ec70612010000fb0758cb502e8c065d002ea159002e0b065b007512fa26a10a002ea3590026a10c002ea35b00fb58cb5350bb57012e8b072e0b4702740783c306ebf200002ef7061201ff0075225850a802741c2ec7061201ff00062e8e065d00fa26c7060a00c601268c0e0c00fb0781fb8701740e2e89172e8c5f02582e8847045bcb0ee83400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008cc88ed88b1eb91e2e891eb6018b1ebb1e2e891eb8012ec706ba010000bbb601b406b00133c92eff2e55000000000000005006b004e82f000758cb5006b002e825002e8e065d00fa2ea1590026a30a002ea15b0026a30c002ec70612010000fb07582eff2e59005352bb57012e8b172e0b570274102e84470474059c2eff1f9d83c306ebe75a5bc3739c0800c81700010100007b8a0200007400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  {
+   "at": 396119,
+   "old": "0289441403c283c00489441203c283c004",
+   "new": "0489441403c283c00489441203c283c002"
+  },
+  {
+   "at": 396174,
+   "old": "e1",
+   "new": "00"
+  }
+ ],
+ "force": [
+  "RES_SND_1",
+  "ALERT_20",
+  "__aFahdiff"
+ ],
+ "fills": [
+  {
+   "before": "draw/draw",
+   "segment": "_BSS",
+   "size": 24
+  },
+  {
+   "after": "draw/draw",
+   "segment": "_BSS",
+   "size": 412
+  },
+  {
+   "after": "diag/diag",
+   "segment": "_BSS",
+   "size": 88
+  },
+  {
+   "after": "final/final",
+   "segment": "_BSS",
+   "size": 4
+  },
+  {
+   "after": "util/util",
+   "segment": "_BSS",
+   "size": 2
+  },
+  {
+   "after": "sound2/sound_conversion",
+   "segment": "GAMELIB_TEXT",
+   "size": 14
+  }
+ ]
+}

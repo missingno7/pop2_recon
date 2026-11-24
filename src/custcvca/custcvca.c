@@ -184,7 +184,7 @@ extern void far *MATERIALIZE_HANDLE(Handle);
 extern void DISPOSE_HANDLE(Handle), mark_purgeable(Handle);
 extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
 extern Shape far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
-extern void create_shape(Handle, int, CarpetImage far *, int);
+extern void PrinceNewShpItem(Handle, int, CarpetImage far *, int);
 extern void PrinceFreeShp(int);
 extern void dispatch_sound(int);
 extern void MAKESHAPERECT(Rect far *, int, int, Shape far *);
@@ -247,7 +247,7 @@ int check_carpet_image(int index)
         *copy = *source;
         copy->flags |= 4;
         copy->colors = 32;
-        create_shape(copy_handle, index + 302, ENTRY, 1);
+        PrinceNewShpItem(copy_handle, index + 302, ENTRY, 1);
         mark_purgeable(ENTRY->handle);
         DISPOSE_HANDLE(copy_handle);
         PrinceFreeShp(CARPET_SHAPE_ID + index);

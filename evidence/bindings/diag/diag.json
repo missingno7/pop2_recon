@@ -315,10 +315,10 @@
       "FIND_OPTION",
       "RECLAIM_HEAP_BLOCKS",
       "COMPACT_HEAP_BLOCKS",
-      "BLOCK_CAPACITY",
+      "BANKED_POINTER_CAPACITY",
       "LOOKUP_SHAPE_METADATA",
-      "NEXT_HEAP_BLOCK",
-      "LARGEST_FAR_BLOCK",
+      "NORMALIZE_BANKED_POINTER",
+      "EXPAND_MEMORY_LIMITS",
       "CHECK_HEAP_CHAIN",
       "CHECK_HEAPS",
       "ABORT_WITH_MESSAGE",
@@ -2980,7 +2980,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "LARGEST_FAR_BLOCK",
+          "name": "EXPAND_MEMORY_LIMITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2988,7 +2988,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "LARGEST_FAR_BLOCK",
+        "name": "EXPAND_MEMORY_LIMITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -3105,7 +3105,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "NEXT_HEAP_BLOCK",
+          "name": "NORMALIZE_BANKED_POINTER",
           "method": 6,
           "zero_displacement": true
         }
@@ -3113,7 +3113,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "NEXT_HEAP_BLOCK",
+        "name": "NORMALIZE_BANKED_POINTER",
         "method": 6,
         "zero_displacement": true
       },
@@ -3624,7 +3624,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "BLOCK_CAPACITY",
+          "name": "BANKED_POINTER_CAPACITY",
           "method": 6,
           "zero_displacement": true
         }
@@ -3632,7 +3632,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "BLOCK_CAPACITY",
+        "name": "BANKED_POINTER_CAPACITY",
         "method": 6,
         "zero_displacement": true
       },

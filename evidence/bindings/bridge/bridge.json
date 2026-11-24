@@ -337,7 +337,7 @@
       "@offset_bridge_floor_y",
       "BLUES",
       "@restore_bridge_floor_y",
-      "IMAGE_TABLE",
+      "CUSTOM_ROOM",
       "BRIDGE_FRAME",
       "RND",
       "ADDSOUND",
@@ -3111,7 +3111,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "IMAGE_TABLE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3119,7 +3119,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "IMAGE_TABLE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -3192,7 +3192,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "IMAGE_TABLE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3200,7 +3200,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "IMAGE_TABLE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -3268,7 +3268,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "IMAGE_TABLE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3276,7 +3276,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "IMAGE_TABLE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -7228,20 +7228,6 @@
         }
       ]
     },
-    "IMAGE_TABLE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 428,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 6938,
-          "bytes_hex": "8b1eac01",
-          "entry": "root:0170:03cc"
-        }
-      ]
-    },
     "INDEXCELL1": {
       "entry_sha256": "6cbcfa381b5de4e1933f6ca2b69be5ff26cb94c9fd3b45771639b5ec9d1d5912",
       "entry_target_id": "root:02dc:026a",
@@ -7866,22 +7852,7 @@
       "offset": 8924,
       "segment": 2898,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 66804,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 1360,
-          "file_offset": 74996
-        },
-        {
-          "space": "root",
-          "image_offset": 66780,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 1361,
-          "file_offset": 74972
-        }
-      ]
+      "witnesses": []
     },
     "MARK_MOVE": {
       "entry_sha256": "ddd684a1accd8dfe0ff7c80b4f632f6e57cc3b91cccf6654d07df72b5e0f23ac",
@@ -7891,6 +7862,12 @@
       "segment": 2898,
       "space": "root",
       "witnesses": []
+    },
+    "CUSTOM_ROOM": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:custom/custom",
+      "offset": 428
     },
     "COL2PIXELX": {
       "kind": "dgroup-public",

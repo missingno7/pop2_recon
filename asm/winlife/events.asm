@@ -1,5 +1,4 @@
 .MODEL MEDIUM
-EXTRN INTERRUPT_DGROUP:BYTE
 .DATA
 ERROR_CANCEL_HANDLER DD 0
 ABORT_REQUESTED DW 0
@@ -553,7 +552,7 @@ NOTIFY_EVENT_HOOK ENDP
 VIDEO_INTERRUPT_FILTER PROC FAR
     push ds
     push ax
-    mov ax, SEG INTERRUPT_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     pop ax
     cmp ah, 0eh
@@ -568,7 +567,7 @@ VIDEO_INTERRUPT_FILTER ENDP
 KEYBOARD_INTERRUPT_FILTER PROC FAR
     push ds
     push ax
-    mov ax, SEG INTERRUPT_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     pop ax
     test ah, ah
@@ -796,7 +795,7 @@ DOS_MOUSE_EVENT PROC FAR
     push cx
     push dx
     cld
-    mov bx, SEG INTERRUPT_DGROUP
+    mov bx, DGROUP
     mov ds, bx
     mov bx, 1
     test al, 2

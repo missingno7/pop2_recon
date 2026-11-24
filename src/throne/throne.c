@@ -7,7 +7,7 @@ typedef struct { Byte bytes[12025]; } RoomState;
 typedef struct { int top, left, bottom, right; } Rect;
 #pragma pack()
 
-extern Byte *throne_tiles;                   /* DS:0228 */
+extern Byte *custom_room;                   /* DS:0228 */
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -80,7 +80,7 @@ extern void store_scene_rect(int, Rect far *);
 
 void draw_throne_room_gate_in_fore(void)
 {
-    GateDraw *gate = (GateDraw *)(throne_tiles + 203);
+    GateDraw *gate = (GateDraw *)(custom_room + 203);
     gate->foreground = 1;
     draw_custom_room_image(7, 1);
     gate->foreground = 0;

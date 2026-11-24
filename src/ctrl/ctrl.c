@@ -232,7 +232,7 @@ typedef struct {
 } FRAMEREC;
 #pragma pack()
 extern FRAMEREC Frame;
-extern FRAMEREC far default_frames[];
+extern FRAMEREC far frame_table[];
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -274,7 +274,7 @@ extern CHARREC RoomOpp[5];
 extern CHARREC Opp;
 extern CHARREC Char;
 
-extern unsigned int frame_resource;
+extern unsigned int opponent_frames;
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 
 
@@ -299,13 +299,13 @@ void far pascal reread_base_cell(void)
 void far pascal get_frame_info(void)
 {
     unsigned int adjust = 0;
-    FRAMEREC far *frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame_resource);
+    FRAMEREC far *frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(opponent_frames);
 
     switch (Char.character_kind) {
     case 0:
     case 1:
     case 6:
-        Frame = default_frames[Char.frame];
+        Frame = frame_table[Char.frame];
         break;
     case 2:
     case 4:
@@ -1381,7 +1381,7 @@ int far pascal FaceDx(int value)
     return value;
 }
 
-extern int special_object_flag;
+extern int custom_room;
 extern void far pascal mark_cell_redraw(void);
 void far pascal RemoveObj(int portion)
 {
@@ -1395,7 +1395,7 @@ void far pascal RemoveObj(int portion)
         modifier = Cell.modifier & 0x0f00;
     else
         modifier = 0;
-    if (special_object_flag)
+    if (custom_room)
         modifier |= 0xc000;
     index = (unsigned char)30 * Cell.room + Cell.index;
     (&Level.cell_kinds[0][0])[index - 30] = 1;

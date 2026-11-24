@@ -5,6 +5,7 @@ PUBLIC SHAPE_METADATA_LIST, RESOURCE_CATALOG_LIST, CATALOG_CALLBACK
 SHAPE_METADATA_LIST DW 0
 RESOURCE_CATALOG_LIST DW 0
 CATALOG_CALLBACK DD 0
+PUBLIC resident_handle_flags
 catalog_open_mode DB 0
 ; The built-in catalog uses the zero offset word as its persistent handle flags.
 resident_handle_flags DW 0

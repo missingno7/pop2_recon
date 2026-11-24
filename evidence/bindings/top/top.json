@@ -492,7 +492,7 @@
       "RESTORE_GAME_PLAY_PALETTE",
       "MARK_HALF",
       "IS_LEAVE_LEVEL_MUSIC_ON",
-      "SOUND_ENABLED",
+      "CUSTOM_ROOM",
       "MARK_FLOOR",
       "QUERY_SOUND",
       "FIRSTINROW",
@@ -7066,7 +7066,7 @@
         "target": {
           "kind": "external",
           "index": 133,
-          "name": "SOUND_ENABLED",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -7074,7 +7074,7 @@
       "target": {
         "kind": "external",
         "index": 133,
-        "name": "SOUND_ENABLED",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -20312,20 +20312,6 @@
         }
       ]
     },
-    "SOUND_ENABLED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 428,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 6938,
-          "bytes_hex": "8b1eac01",
-          "entry": "root:0170:03cc"
-        }
-      ]
-    },
     "STARTING_HEALTH": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -20548,6 +20534,12 @@
       "group": "DGROUP",
       "provider": "group:sound/sound",
       "offset": 2178
+    },
+    "CUSTOM_ROOM": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:custom/custom",
+      "offset": 428
     },
     "SCREENPORTRECT": {
       "kind": "dgroup-public",

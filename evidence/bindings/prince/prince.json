@@ -387,7 +387,7 @@
       "SHOW_ACTOR_POSITION",
       "SHOW_REFERENCE_POSITION",
       "JOYSTICK_STATUS",
-      "SHOW_DIALOG",
+      "DUMP_HEAP",
       "TRIGGER_LAVA",
       "SHOW_RULER",
       "TOGGLE_AMBIENT",
@@ -2542,7 +2542,7 @@
         "target": {
           "kind": "external",
           "index": 73,
-          "name": "SHOW_DIALOG",
+          "name": "DUMP_HEAP",
           "method": 6,
           "zero_displacement": true
         }
@@ -2550,7 +2550,7 @@
       "target": {
         "kind": "external",
         "index": 73,
-        "name": "SHOW_DIALOG",
+        "name": "DUMP_HEAP",
         "method": 6,
         "zero_displacement": true
       },
@@ -7678,7 +7678,7 @@
         "target": {
           "kind": "external",
           "index": 73,
-          "name": "SHOW_DIALOG",
+          "name": "DUMP_HEAP",
           "method": 6,
           "zero_displacement": true
         }
@@ -7686,7 +7686,7 @@
       "target": {
         "kind": "external",
         "index": 73,
-        "name": "SHOW_DIALOG",
+        "name": "DUMP_HEAP",
         "method": 6,
         "zero_displacement": true
       },
@@ -18073,23 +18073,6 @@
       "space": "root",
       "witnesses": []
     },
-    "SHOW_DIALOG": {
-      "entry_sha256": "7afc97b84255886169cfbaf62b3f9e8bd05c7a354f19d59aa7d49f7f7f1dd018",
-      "entry_target_id": "root:10a5:033c",
-      "kind": "far-code-entry",
-      "offset": 828,
-      "segment": 4261,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 66633,
-          "bytes_hex": "9a3c03a510",
-          "file_offset": 74825,
-          "relocation_index": 1329
-        }
-      ]
-    },
     "SHOW_HALL_RECORDS": {
       "entry_sha256": "166049324cf97c8f51be97d7366071662027c9219b39bdfaeee51bd7cfa29e01",
       "entry_target_id": "root:053b:1bea",
@@ -18357,6 +18340,23 @@
           "bytes_hex": "9a0e17ef1f",
           "file_offset": 34853,
           "relocation_index": 673
+        }
+      ]
+    },
+    "DUMP_HEAP": {
+      "entry_sha256": "7afc97b84255886169cfbaf62b3f9e8bd05c7a354f19d59aa7d49f7f7f1dd018",
+      "entry_target_id": "root:10a5:033c",
+      "kind": "far-code-entry",
+      "offset": 828,
+      "segment": 4261,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 66633,
+          "bytes_hex": "9a3c03a510",
+          "relocation_index": 1329,
+          "file_offset": 74825
         }
       ]
     },

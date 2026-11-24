@@ -1,0 +1,105 @@
+[
+ {
+  "name": "frames",
+  "source": "link/frames.c",
+  "language": "c",
+  "profile": "msc600a_bound",
+  "flags": [
+   "/c",
+   "/AM",
+   "/Oe",
+   "/Gs",
+   "/Zl",
+   "/Gc"
+  ],
+  "after": "TABLES",
+  "far": {
+   "FRAMES5_DATA": 12398
+  }
+ },
+ {
+  "name": "resources",
+  "source": "link/resources.asm",
+  "far": {
+   "RESOURCE_DATA": 12553
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "builtin_mapping",
+  "source": "link/builtin_mapping.asm",
+  "far": {
+   "SHAPE_FAR": 12596
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "cursor",
+  "source": "link/cursor.asm",
+  "far": {
+   "CURSOR_FAR": 12603
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "font",
+  "source": "link/font.asm",
+  "far": {
+   "FONT_FAR": 12608
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "item_procs",
+  "source": "link/item_procs.asm",
+  "far": {
+   "PROC0_FAR": 12704,
+   "PROC1_FAR": 12705,
+   "PROC2_FAR": 12706,
+   "PROC3_FAR": 12707,
+   "PROC4_FAR": 12708,
+   "PROC5_FAR": 12709,
+   "PROC6_FAR": 12710,
+   "PROC7_FAR": 12711
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "catalog",
+  "source": "link/catalog.asm",
+  "far": {
+   "CATALOG_FAR": 12712
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "alerts",
+  "source": "link/alerts.asm",
+  "dgroup": {
+   "_DATA": 7540
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "mode_table",
+  "source": "link/mode_table.asm",
+  "dgroup": {
+   "_DATA": 9386
+  },
+  "language": "asm",
+  "profile": "masm510"
+ },
+ {
+  "name": "interrupt_stack",
+  "source": "link/interrupt_stack.asm",
+  "language": "asm",
+  "profile": "masm510"
+ }
+]

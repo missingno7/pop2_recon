@@ -154,13 +154,12 @@
       }
     ],
     "externals": [
+      "DEFAULT_PORT",
       "MEASURE_TEXT",
-      "DEFAULT_PEN_PATTERN",
       "SECTRECT",
       "CHECK_CURSOR_OVERLAP",
       "GRAF",
       "OFFSETRECT",
-      "DEFAULT_PEN_MODE",
       "STROKE_RECTANGLE",
       "GET_BLOCK_PAYLOAD_SIZE",
       "STROKE_PORT_RECT",
@@ -183,7 +182,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 8,
         "name": "GET_BLOCK_PAYLOAD_SIZE",
         "method": 6,
         "zero_displacement": true
@@ -227,7 +226,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "DRAW_COUNTED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -293,7 +292,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "STROKE_RECTANGLE",
         "method": 6,
         "zero_displacement": true
@@ -359,12 +358,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "DEFAULT_PEN_PATTERN",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 38
     },
     {
       "kind": "fixup",
@@ -381,12 +379,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
-        "name": "DEFAULT_PEN_MODE",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 40
     },
     {
       "kind": "fixup",
@@ -489,7 +486,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "MEASURE_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -511,7 +508,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 9,
         "name": "STROKE_PORT_RECT",
         "method": 6,
         "zero_displacement": true
@@ -785,6 +782,12 @@
           "entry": "root:1129:4d8e"
         }
       ]
+    },
+    "DEFAULT_PORT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9342
     }
   },
   "target_id": "group:rectangle_text_trailer",

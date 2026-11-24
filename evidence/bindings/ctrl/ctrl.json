@@ -805,7 +805,7 @@
       "GRAB_ROOF_SHIP",
       "SAVE_KID_WITH_OPPONENT",
       "SETKIDDEATHMETHOD",
-      "DEFAULT_FRAMES",
+      "FRAME_TABLE",
       "INDEXCHAR",
       "INITINPUT",
       "DEATH_TIMER",
@@ -842,7 +842,7 @@
       "COLUMN_REMAINDER",
       "START_FALL",
       "HGETRSRC",
-      "FRAME_RESOURCE",
+      "OPPONENT_FRAMES",
       "RESTOREFCHAR",
       "CLIP_TOP_CACHE",
       "STATE_BYTE_5E32",
@@ -926,7 +926,7 @@
       "INDEX_CELL",
       "FINISH_START_KID",
       "BEHIND_OFFSETS",
-      "SPECIAL_OBJECT_FLAG",
+      "CUSTOM_ROOM",
       "GRAB_ENABLED",
       "ANIMATION_ADVANCE",
       "LEVEL",
@@ -1334,7 +1334,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "DEFAULT_FRAMES",
+          "name": "FRAME_TABLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1342,7 +1342,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "DEFAULT_FRAMES",
+        "name": "FRAME_TABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1361,7 +1361,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "DEFAULT_FRAMES",
+          "name": "FRAME_TABLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1369,7 +1369,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "DEFAULT_FRAMES",
+        "name": "FRAME_TABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1809,7 +1809,7 @@
         "target": {
           "kind": "external",
           "index": 69,
-          "name": "FRAME_RESOURCE",
+          "name": "OPPONENT_FRAMES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1817,7 +1817,7 @@
       "target": {
         "kind": "external",
         "index": 69,
-        "name": "FRAME_RESOURCE",
+        "name": "OPPONENT_FRAMES",
         "method": 6,
         "zero_displacement": true
       },
@@ -16728,7 +16728,7 @@
         "target": {
           "kind": "external",
           "index": 153,
-          "name": "SPECIAL_OBJECT_FLAG",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -16736,7 +16736,7 @@
       "target": {
         "kind": "external",
         "index": 153,
-        "name": "SPECIAL_OBJECT_FLAG",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -25721,19 +25721,6 @@
         }
       ]
     },
-    "DEFAULT_FRAMES": {
-      "kind": "far-data",
-      "offset": 0,
-      "offset_witnesses": [],
-      "segment": 12398,
-      "segment_witnesses": [
-        {
-          "space": "root",
-          "image_offset": 142601,
-          "relocation_index": 1964
-        }
-      ]
-    },
     "DELAYED_DEATH": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26040,20 +26027,6 @@
           "image_offset": 8405,
           "bytes_hex": "833ec65cff",
           "entry": "root:0170:029a"
-        }
-      ]
-    },
-    "FRAME_RESOURCE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3256,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 44753,
-          "bytes_hex": "833eb80c00",
-          "entry": "root:0a63:01f2"
         }
       ]
     },
@@ -26971,20 +26944,6 @@
       "offset": 10198,
       "witnesses": []
     },
-    "SPECIAL_OBJECT_FLAG": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 428,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "overlay-14",
-          "image_offset": 1636,
-          "bytes_hex": "0336ac01",
-          "entry": "overlay-14:2fcd:0588"
-        }
-      ]
-    },
     "SPRITE_TABLES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -27208,6 +27167,20 @@
       "space": "root",
       "witnesses": []
     },
+    "OPPONENT_FRAMES": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 3256,
+      "witnesses": [
+        {
+          "bytes_hex": "833eb80c00",
+          "entry": "root:0a63:01f2",
+          "image_offset": 46051,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "CURRENT_SONG": {
       "kind": "dgroup-public",
       "group": "DGROUP",
@@ -27219,6 +27192,24 @@
       "group": "DGROUP",
       "provider": "group:sound/sound",
       "offset": 2178
+    },
+    "CUSTOM_ROOM": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:custom/custom",
+      "offset": 428
+    },
+    "FRAME_TABLE": {
+      "kind": "far-data",
+      "segment": 12398,
+      "offset": 0,
+      "segment_witnesses": [
+        {
+          "space": "root",
+          "image_offset": 142601,
+          "relocation_index": 1964
+        }
+      ]
     }
   },
   "target_id": "group:ctrl/ctrl",

@@ -30,12 +30,6 @@
     "_DATA": 8122
   },
   "symbols": {
-    "CALLBACK_STACK_TOP": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 27764,
-      "witnesses": []
-    },
     "DIVIDE_TIMER_INTERVAL": {
       "entry_sha256": "e9e0f318ea70559611261d974ca852e86f65b3a3e30aca0e5e5eeaa75b3e95c7",
       "entry_target_id": "root:1129:7c68",
@@ -98,16 +92,19 @@
         }
       ]
     },
-    "SOUND_DGROUP": {
-      "kind": "segment-base",
-      "segment": 13058,
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 5647,
-          "relocation_index": 54
-        }
-      ]
+    "_END": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "linker",
+      "offset": 27508,
+      "archive": {
+        "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+        "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+        "archive_offset": 16,
+        "member_extent": 1208,
+        "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c",
+        "segment": "_TEXT"
+      }
     },
     "MIDI_DRIVER": {
       "kind": "dgroup-public",
@@ -559,7 +556,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -644,7 +641,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "INSTALL_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -750,7 +747,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 8,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -787,15 +784,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -1025,12 +1022,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "CALLBACK_STACK_TOP",
-        "method": 6,
-        "zero_displacement": true
+        "index": 6,
+        "name": "_END",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 256
     },
     {
       "kind": "fixup",
@@ -1278,7 +1274,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -1322,7 +1318,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -1344,7 +1340,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -1555,7 +1551,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 4,
         "name": "MIDI_MODE",
         "method": 6,
         "zero_displacement": true
@@ -1955,7 +1951,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -1977,7 +1973,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "MIDI_DRIVER",
         "method": 2
       },
@@ -1998,7 +1994,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -2020,7 +2016,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -2042,7 +2038,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "DIGITAL_DRIVER",
         "method": 2
       },
@@ -2063,7 +2059,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -2148,7 +2144,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "INSTALL_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -2170,7 +2166,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "INSTALL_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -2192,7 +2188,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 8,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -2214,7 +2210,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 8,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -2236,7 +2232,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -2342,7 +2338,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -2427,8 +2423,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "DRIVER_CONFIG",
+        "index": 1,
+        "name": "TIMER_CHAIN_OFFSET",
         "method": 6,
         "zero_displacement": true
       },
@@ -2449,7 +2445,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -2513,7 +2509,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -3621,15 +3617,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -3649,12 +3645,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "CALLBACK_STACK_TOP",
-        "method": 6,
-        "zero_displacement": true
+        "index": 6,
+        "name": "_END",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 256
     },
     {
       "kind": "fixup",
@@ -3876,15 +3871,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -3904,12 +3899,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "CALLBACK_STACK_TOP",
-        "method": 6,
-        "zero_displacement": true
+        "index": 6,
+        "name": "_END",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 256
     },
     {
       "kind": "fixup",
@@ -4110,15 +4104,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -4138,12 +4132,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "CALLBACK_STACK_TOP",
-        "method": 6,
-        "zero_displacement": true
+        "index": 6,
+        "name": "_END",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 256
     },
     {
       "kind": "fixup",
@@ -4538,7 +4531,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 8,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -5549,7 +5542,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "INSTALL_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -5670,15 +5663,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "SOUND_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -6223,12 +6216,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "CALLBACK_STACK_TOP",
-        "method": 6,
-        "zero_displacement": true
+        "index": 6,
+        "name": "_END",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 256
     },
     {
       "kind": "fixup",
@@ -6394,6 +6386,15 @@
     ],
     "publics": [
       {
+        "name": "DIGITAL_RATE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 224,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "STOP_DRIVER_TIMER",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -6408,6 +6409,15 @@
         "segment_index": 1,
         "offset": 2443,
         "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DIGITAL_TYPE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 226,
+        "group_index": 1,
         "frame": null,
         "type_index": 0
       },
@@ -6620,13 +6630,12 @@
       }
     ],
     "externals": [
-      "CALLBACK_STACK_TOP",
-      "SOUND_DGROUP",
+      "TIMER_CHAIN_OFFSET",
       "INSTALL_TIMER_HOOK",
-      "DRIVER_CONFIG",
       "DIGITAL_DRIVER",
       "MIDI_MODE",
       "DIVIDE_TIMER_INTERVAL",
+      "_END",
       "MIDI_DRIVER",
       "REMOVE_TIMER_HOOK"
     ]

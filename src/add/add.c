@@ -109,7 +109,7 @@ extern LEVELREC Level;
 extern int background_image_limits[];
 extern void DISPOSE_HANDLE(unsigned int handle);
 extern int far *MATERIALIZE_HANDLE(unsigned int handle);
-extern void load_set_shape(unsigned int, int, ShapeItem far *, int);
+extern void PrinceNewShpItem(unsigned int, int, ShapeItem far *, int);
 extern void MARK_PURGEABLE(unsigned int handle);
 extern void PrinceFreeShp(int);
 extern TileImages *pieces;
@@ -911,7 +911,7 @@ void check_background_shape(int index)
     image = index + 1;
     if (index >= background_image_limits[Level.environment_kind])
         image += 200;
-    load_set_shape(background_shapes->resource, image,
+    PrinceNewShpItem(background_shapes->resource, image,
                    &background_shapes->images[index], 1);
     MARK_PURGEABLE(background_shapes->images[index].handle);
     PrinceFreeShp(image + 3500);
@@ -939,7 +939,7 @@ void check_kid_shape(int index)
     if (index >= 222)
         image -= 400;
     if ((index >= 131 && index <= 132) || (index >= 216 && index <= 218))
-        load_set_shape(kid_shapes->resource, image, &kid_shapes->images[index], 1);
+        PrinceNewShpItem(kid_shapes->resource, image, &kid_shapes->images[index], 1);
     else
         kid_shapes->images[index].handle = HGETRSRC(0x53484150UL, image);
     MARK_PURGEABLE(kid_shapes->images[index].handle);
@@ -960,7 +960,7 @@ void check_opponent_shape(int index)
     if (outfit != 5 && outfit != 6 && opponent_overlay_first[outfit] &&
         *opponent_overlay_first[outfit] <= index)
         image += 100;
-    load_set_shape(opponent_shapes->resource, image, &opponent_shapes->images[index], 2);
+    PrinceNewShpItem(opponent_shapes->resource, image, &opponent_shapes->images[index], 2);
     MARK_PURGEABLE(opponent_shapes->images[index].handle);
     PrinceFreeShp(image + 750);
 }

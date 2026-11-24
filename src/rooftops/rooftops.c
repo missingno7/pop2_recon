@@ -182,7 +182,7 @@ static SplashImage splash_images[] = {
 extern PeelSlot custom_peels[];
 extern char quit_prompt[], restart_prompt[];
 
-extern DrawList near *draw_list;
+extern DrawList near *custom_room;
 typedef void (far pascal *RedrawCallback)(void);
 extern void far pascal mark_move(void), mark_foreground(void);
 extern int far pascal SECTRECT(Rect far *, Rect far *, Rect far *);
@@ -246,9 +246,9 @@ void far pascal check_character_water(void)
             trigger_character_water();
     } else if (Char.slot == water_character) {
         if (splash_frame < 7) {
-            if (draw_list->bank != 18 && draw_list->bank != 19)
+            if (custom_room->bank != 18 && custom_room->bank != 19)
                 return;
-            mark_bufs_for_rect(mark_move, &draw_list->pieces[splash_images[splash_frame].index].bounds, -1);
+            mark_bufs_for_rect(mark_move, &custom_room->pieces[splash_images[splash_frame].index].bounds, -1);
         } else if (splash_frame >= 8) {
             splash_frame = 0;
             water_character = -1;
@@ -415,10 +415,10 @@ void far pascal setup_splash(void)
     ubyte image;
 
     if (Char.slot == water_character && splash_frame != 0 && splash_frame < 7 &&
-        (draw_list->bank == 18 || draw_list->bank == 19)) {
+        (custom_room->bank == 18 || custom_room->bank == 19)) {
         clip = clip_rect;
         image = splash_images[splash_frame].index;
-        piece = &draw_list->pieces[image];
+        piece = &custom_room->pieces[image];
         piece->y = piece->bounds.top - piece->bounds.bottom + 176;
         if (Char.action == 9)
             piece->y += 14;
@@ -443,7 +443,7 @@ void far pascal animate_roof_glass(void)
     ++BlueSpec;
     if (BlueSpec == 1)
         AddSound(49);
-    mark_bufs_for_rect(mark_move, &draw_list->pieces[(ubyte)(BlueSpec + 30)].bounds, -1);
+    mark_bufs_for_rect(mark_move, &custom_room->pieces[(ubyte)(BlueSpec + 30)].bounds, -1);
 }
 
 void far pascal draw_roof_glass(RoofAnimation near *animation)
@@ -456,8 +456,8 @@ void far pascal draw_roof_glass(RoofAnimation near *animation)
         clip_rect = GamePlayRect;
         image = (ubyte)(animation->frame + 31);
         draw_custom_room_image(image, 11);
-        if (image + 1 < draw_list->piece_count)
-            mark_bufs_for_rect(mark_foreground, &draw_list->pieces[image + 1].bounds, -1);
+        if (image + 1 < custom_room->piece_count)
+            mark_bufs_for_rect(mark_foreground, &custom_room->pieces[image + 1].bounds, -1);
         clip_rect = clip;
     }
 }
@@ -483,7 +483,7 @@ void far pascal AnimRoofPillar(void)
         BlueSpec &= 0xfff0;
         BlueSpec |= step;
         make_water_test_rect(&water);
-        piece = &draw_list->pieces[25];
+        piece = &custom_room->pieces[25];
         bounds = piece->bounds;
         position = *(long *)&piece->y;
         piece = offset_custom_piece(piece, animation_tile % 10, animation_tile / 10);
@@ -512,7 +512,7 @@ void far pascal draw_roof_pillar(RoofAnimation near *animation)
         animation->kind = 0;
         saved.image = ((animation->frame >> 1) & 7) + 25;
         DrawCustomRoomImgAtInfo(saved.image, (signed char *)animation);
-        piece = &draw_list->pieces[saved.image];
+        piece = &custom_room->pieces[saved.image];
         bounds = piece->bounds;
         saved.position = *(long *)&piece->y;
         piece = offset_custom_piece(piece, animation->column, animation->row);
@@ -561,7 +561,7 @@ void far pascal animate_roof_ship(void)
         return;
     }
     if (Room.number == animation_room) {
-        piece = &draw_list->pieces[19];
+        piece = &custom_room->pieces[19];
         piece->x = -BlueSpec;
         MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         ++bounds.right;
@@ -569,7 +569,7 @@ void far pascal animate_roof_ship(void)
         slot = RestoreKeepCustomPeel(piece->kind);
         update_ship_peel(slot, bounds.right);
 
-        piece = &draw_list->pieces[(sbyte)(((BlueSpec - 1) & 3) + 21)];
+        piece = &custom_room->pieces[(sbyte)(((BlueSpec - 1) & 3) + 21)];
         piece->x = 1 - BlueSpec;
         MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         ++bounds.right;
@@ -589,12 +589,12 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
         clip = clip_rect;
         clip_rect = GamePlayRect;
         position = animation->frame;
-        piece = &draw_list->pieces[19];
+        piece = &custom_room->pieces[19];
         piece->x = -position;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_custom_room_image(19, 11);
 
-        piece = &draw_list->pieces[20];
+        piece = &custom_room->pieces[20];
         ship_x = position;
         piece->x = 45 - ship_x;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
@@ -603,7 +603,7 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
         piece->pass = 11;
 
         image = (position & 3) + 21;
-        piece = &draw_list->pieces[image];
+        piece = &custom_room->pieces[image];
         piece->x = -ship_x;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_custom_room_image(image, 11);

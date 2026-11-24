@@ -1138,3 +1138,5 @@ void far pascal snake_update_opp_info(OpponentRecord near *record)
         }
     }
 }
+
+unsigned int opponent_effect_frames = 0;

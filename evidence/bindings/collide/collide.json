@@ -388,7 +388,7 @@
       "GATE_BLOCKS_PASSAGE",
       "SCYTHE_BLOCKS_PASSAGE",
       "CHECK_GATE_FOR_PLAYER",
-      "GATE_CLOSED",
+      "STEP_IN_PROGRESS",
       "READCELL",
       "IS_SIX_KIND",
       "FCHAR",
@@ -1145,7 +1145,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "GATE_CLOSED",
+          "name": "STEP_IN_PROGRESS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1153,7 +1153,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "GATE_CLOSED",
+        "name": "STEP_IN_PROGRESS",
         "method": 6,
         "zero_displacement": true
       },
@@ -15092,20 +15092,6 @@
         }
       ]
     },
-    "GATE_CLOSED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 372,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "overlay-3",
-          "image_offset": 14775,
-          "bytes_hex": "c70674010100",
-          "entry": "overlay-3:27bc:0f9c"
-        }
-      ]
-    },
     "GETROW": {
       "entry_sha256": "38647a134ad2c843bef87f371260990aafa5a7c43bdc70ec1bd0db48a4ef2bab",
       "entry_target_id": "root:02dc:1050",
@@ -15813,6 +15799,12 @@
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3400
+    },
+    "STEP_IN_PROGRESS": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:checknis/checknis",
+      "offset": 372
     },
     "BARR": {
       "kind": "dgroup-public",

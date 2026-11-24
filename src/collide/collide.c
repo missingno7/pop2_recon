@@ -169,7 +169,7 @@ void BumpSound(void);
 int CreviceBarr(void);
 int gate_blocks_passage(void);
 int scythe_blocks_passage(void);
-extern int gate_closed;
+extern int step_in_progress;
 
 void *memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
@@ -273,7 +273,7 @@ int GetBarrCode(unsigned char cell)
 
     switch (cell) {
     case 2:
-        if (cell_flags < 5 && gate_closed) {
+        if (cell_flags < 5 && step_in_progress) {
             code = 3;
             break;
         }

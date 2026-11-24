@@ -1,5 +1,4 @@
 .MODEL MEDIUM
-EXTRN DOS_DGROUP:BYTE
 .DATA
 ; Unused driver entry points, still the failing stub.
     DD INVALID_DRIVER_STUB, INVALID_DRIVER_STUB
@@ -12,7 +11,10 @@ driver_header DD 0
 EXTRN ALLOCATE_PINNED_PAYLOAD:NEAR
 EXTRN CLEAR_PAYLOAD_HEADER:NEAR
 EXTRN CPU_PROBE:FAR
-PUBLIC INVALID_DRIVER_STUB, _load_sound_driver
+PUBLIC INVALID_DRIVER_HEADER, INVALID_DRIVER_STUB, _load_sound_driver
+
+; Link field of the stub driver: none.
+INVALID_DRIVER_HEADER DD -1
 
 INVALID_DRIVER_STUB PROC FAR
     mov ax, -1
@@ -23,7 +25,7 @@ _load_sound_driver PROC FAR
     push bp
     mov bp, sp
     push ds
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     xor ax, ax
     mov WORD PTR driver_allocation, ax
@@ -128,13 +130,13 @@ store_driver_allocation:
     int 21h
     jnc close_driver_file
 invalid_driver:
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov ax, OFFSET INVALID_DRIVER_STUB
     mov WORD PTR driver_entry, ax
     mov WORD PTR [driver_entry+2], cs
 close_driver_file:
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov bx, driver_file
     or bx, bx
@@ -188,7 +190,7 @@ _read_dos_file_to_buffer PROC FAR
     push bp
     mov bp, sp
     push ds
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     xor ax, ax
     mov WORD PTR driver_entry, ax
@@ -231,7 +233,7 @@ save_file_buffer:
     int 21h
     pop ds
 close_file:
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov ah, 3eh
     mov bx, driver_file

@@ -384,3 +384,5 @@ void draw_dead_kid(int install_palette)
     if (install_palette)
         set_palette(1000, 240, 16, 0);
 }
+
+int step_in_progress = 0;

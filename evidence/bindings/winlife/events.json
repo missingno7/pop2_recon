@@ -109,7 +109,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "WINDOW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -194,7 +194,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "WINDOW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -279,7 +279,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 23,
         "name": "TIMER_TICKS",
         "method": 6,
         "zero_displacement": true
@@ -365,7 +365,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "WINDOW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -387,7 +387,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 23,
         "name": "TIMER_TICKS",
         "method": 6,
         "zero_displacement": true
@@ -493,7 +493,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 21,
         "name": "SET_WINDOW_EVENT_STATE",
         "method": 6,
         "zero_displacement": true
@@ -897,7 +897,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 23,
         "name": "TIMER_TICKS",
         "method": 6,
         "zero_displacement": true
@@ -1215,7 +1215,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "WINDOW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -1294,15 +1294,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 18,
-        "name": "INTERRUPT_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 18,
-        "name": "INTERRUPT_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -1337,15 +1337,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 18,
-        "name": "INTERRUPT_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 18,
-        "name": "INTERRUPT_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -1491,7 +1491,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 19,
         "name": "WINDOW_DRAW_PORT",
         "method": 6,
         "zero_displacement": true
@@ -1775,7 +1775,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "LOOKUP_PREFIXED_STRING",
         "method": 6,
         "zero_displacement": true
@@ -1885,7 +1885,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "WAIT_FOR_WINDOW_RESULT",
         "method": 6,
         "zero_displacement": true
@@ -1907,7 +1907,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 22,
         "name": "RELEASE_BACKGROUND_PORT",
         "method": 6,
         "zero_displacement": true
@@ -1929,7 +1929,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 20,
         "name": "WINDOW_HEAD",
         "method": 6,
         "zero_displacement": true
@@ -2097,15 +2097,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "external",
-        "index": 18,
-        "name": "INTERRUPT_DGROUP"
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 18,
-        "name": "INTERRUPT_DGROUP",
-        "method": 6,
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
         "zero_displacement": true
       },
       "displacement": null
@@ -2125,7 +2125,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 23,
         "name": "TIMER_TICKS",
         "method": 6,
         "zero_displacement": true
@@ -2402,7 +2402,6 @@
       "CREATE_WINDOW_FROM_RESOURCE",
       "SET_ITEM_ENABLED",
       "PLAY_SOUND",
-      "INTERRUPT_DGROUP",
       "LOOKUP_PREFIXED_STRING",
       "WINDOW_DRAW_PORT",
       "WINDOW_HEAD",
@@ -2499,17 +2498,6 @@
         }
       ]
     },
-    "INTERRUPT_DGROUP": {
-      "kind": "segment-base",
-      "segment": 13058,
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 5647,
-          "relocation_index": 54
-        }
-      ]
-    },
     "POLL_DOS_KEY": {
       "entry_sha256": "8ce4ea4b19a01d1512577641f985db053c5cb0aed31f003ce38f1f8af2f61f0e",
       "entry_target_id": "root:0000:16ee",
@@ -2526,8 +2514,7 @@
       "offset": 986,
       "segment": 4393,
       "space": "root",
-      "witnesses": [],
-      "unproven": "No independent original witness; Far address lacks a second equal claimed site: HANDLE_MOUSE_CALLBACK+0"
+      "witnesses": []
     }
   }
 }

@@ -1276,7 +1276,7 @@ typedef struct {
     unsigned char head[6];
     unsigned char flags;
 } hit_action_record;
-extern hit_action_record far hit_actions[];
+extern hit_action_record far frame_table[];
 
 extern signed char hit_actor_motion;
 
@@ -1384,7 +1384,7 @@ void far pascal stab_actor(void)
                 next_action = Opp.direction != Char.direction ? 74 : 94;
                 if (Opp.character_kind == 7 || Opp.character_kind == 8) {
                     if (Char.stance != 1 &&
-                        !(hit_actions[Char.frame].flags & 64))
+                        !(frame_table[Char.frame].flags & 64))
                         next_action = 45;
                     else if (Char.frame >= 246u && Char.frame <= 261u) {
                         if (IsWall(get_behind()))
@@ -1743,3 +1743,5 @@ int far pascal can_continue_run_jump(signed char tile, unsigned int modifier)
     }
     return allowed;
 }
+
+int unused_auto_flag = 0;                            /* never referenced */

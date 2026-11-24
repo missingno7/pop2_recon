@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 26,
+        "length": 28,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -134,6 +134,15 @@
         "type_index": 0
       },
       {
+        "name": "OPPONENT_FRAMES",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "RELEASE_DISCARDABLE_IMAGES",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -224,7 +233,7 @@
       "GETOBJECT",
       "DRAWN_TILE_KIND",
       "GETABOVEARY",
-      "TILE_OVERRIDE",
+      "CUSTOM_ROOM",
       "FORCE_FULL_CLIP",
       "PIECEABOVERIGHTID",
       "ROOM_TILES",
@@ -248,7 +257,7 @@
       "DISPATCH_SOUND",
       "PRINCEMARKIMGSPURGEABLE",
       "MARK_FIXED",
-      "SAVE_CLEANUP_STATE",
+      "DUMP_HEAP",
       "ABORT_WITH_MESSAGE",
       "RELEASE_DISCARDABLE_IMAGES",
       "PIECELEFTID",
@@ -890,7 +899,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "TILE_OVERRIDE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -898,7 +907,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "TILE_OVERRIDE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -3747,7 +3756,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "SAVE_CLEANUP_STATE",
+          "name": "DUMP_HEAP",
           "method": 6,
           "zero_displacement": true
         }
@@ -3755,7 +3764,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "SAVE_CLEANUP_STATE",
+        "name": "DUMP_HEAP",
         "method": 6,
         "zero_displacement": true
       },
@@ -4611,7 +4620,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "TILE_OVERRIDE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -4619,7 +4628,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "TILE_OVERRIDE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4638,7 +4647,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "TILE_OVERRIDE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -4646,7 +4655,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "TILE_OVERRIDE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4935,7 +4944,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "TILE_OVERRIDE",
+          "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -4943,7 +4952,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "TILE_OVERRIDE",
+        "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -5991,7 +6000,7 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_DATA": 3258
+    "_DATA": 3256
   },
   "schema": 1,
   "symbols": {
@@ -6696,23 +6705,6 @@
       "offset": 3390,
       "provider": "group:tables/tables"
     },
-    "SAVE_CLEANUP_STATE": {
-      "entry_sha256": "7afc97b84255886169cfbaf62b3f9e8bd05c7a354f19d59aa7d49f7f7f1dd018",
-      "entry_target_id": "root:10a5:033c",
-      "kind": "far-code-entry",
-      "offset": 828,
-      "segment": 4261,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 240,
-          "bytes_hex": "9a3c03a510",
-          "file_offset": 8432,
-          "relocation_index": 37
-        }
-      ]
-    },
     "SECOND_IMAGE_TABLE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6741,20 +6733,6 @@
           "bytes_hex": "9a66522911",
           "file_offset": 28913,
           "relocation_index": 418
-        }
-      ]
-    },
-    "TILE_OVERRIDE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 428,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 6938,
-          "bytes_hex": "8b1eac01",
-          "entry": "root:0170:03cc"
         }
       ]
     },
@@ -6794,6 +6772,36 @@
       "segment": 1936,
       "space": "root",
       "witnesses": []
+    },
+    "DUMP_HEAP": {
+      "entry_sha256": "7afc97b84255886169cfbaf62b3f9e8bd05c7a354f19d59aa7d49f7f7f1dd018",
+      "entry_target_id": "root:10a5:033c",
+      "kind": "far-code-entry",
+      "offset": 828,
+      "segment": 4261,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 240,
+          "bytes_hex": "9a3c03a510",
+          "relocation_index": 37,
+          "file_offset": 8432
+        },
+        {
+          "space": "root",
+          "image_offset": 2189,
+          "bytes_hex": "9a3c03a510",
+          "relocation_index": 38,
+          "file_offset": 10381
+        }
+      ]
+    },
+    "CUSTOM_ROOM": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:custom/custom",
+      "offset": 428
     },
     "COL2PIXELX": {
       "kind": "dgroup-public",

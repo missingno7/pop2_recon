@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN Graf:WORD, DEFAULT_PEN_PATTERN:WORD, DEFAULT_PEN_MODE:WORD
+EXTRN Graf:WORD, DEFAULT_PORT:WORD
 .CODE
 EXTRN GET_BLOCK_PAYLOAD_SIZE:NEAR, SECTRECT:NEAR, DRAW_COUNTED_TEXT:NEAR
 EXTRN STROKE_RECTANGLE:NEAR, OFFSETRECT:NEAR, MEASURE_TEXT:NEAR
@@ -209,12 +209,11 @@ origin_alignment label byte
     db 0
 
 public apply_default_pen_state
-; Draft: the only original load of DEFAULT_PEN_PATTERN is in this routine.
 apply_default_pen_state proc far
     mov bx, Graf
-    mov ax, default_pen_pattern
+    mov ax, DEFAULT_PORT+26h
     mov [bx+26h], ax
-    mov ax, default_pen_mode
+    mov ax, DEFAULT_PORT+28h
     mov [bx+28h], ax
     retf
 apply_default_pen_state endp

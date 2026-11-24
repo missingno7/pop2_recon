@@ -42,7 +42,7 @@ extern Rect GamePlayRect;
 extern int background_intro_group[], background_intro_number[];
 extern unsigned overlay_output;
 extern Handle sprite_sets[];
-extern int sound_available;
+extern int custom_room;
 extern Rect ScreenPortRect;
 extern char background_overlay_file[];
 extern int extra_kid_overlay;
@@ -848,7 +848,7 @@ void far pascal unload_from(int first)
     clear_peels();
     for (i = first; i < 5; ++i)
         unload_set(i);
-    if (first <= 4 && sound_available)
+    if (first <= 4 && custom_room)
         UnloadCustomRoomData();
 }
 

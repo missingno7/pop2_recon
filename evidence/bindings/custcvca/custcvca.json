@@ -298,7 +298,7 @@
       "MARK_PURGEABLE",
       "ALLOCATE_PAYLOAD_HANDLE",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "CREATE_SHAPE",
+      "PRINCENEWSHPITEM",
       "PRINCEFREESHP",
       "DRAW_CAVE_BARS",
       "DISPATCH_SOUND",
@@ -1052,7 +1052,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "CREATE_SHAPE",
+          "name": "PRINCENEWSHPITEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -1060,7 +1060,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "CREATE_SHAPE",
+        "name": "PRINCENEWSHPITEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -5442,23 +5442,6 @@
         }
       ]
     },
-    "CREATE_SHAPE": {
-      "entry_sha256": "79f224b3249161df9c7e58cd18222af17d0e94055224188c2dc8af71f87f51d9",
-      "entry_target_id": "root:1e99:040a",
-      "kind": "far-code-entry",
-      "offset": 1034,
-      "segment": 7833,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 9546,
-          "bytes_hex": "9a0a04991e",
-          "file_offset": 17738,
-          "relocation_index": 186
-        }
-      ]
-    },
     "CURRENT_CLIP": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6191,6 +6174,30 @@
       "segment": 368,
       "space": "root",
       "witnesses": []
+    },
+    "PRINCENEWSHPITEM": {
+      "entry_sha256": "79f224b3249161df9c7e58cd18222af17d0e94055224188c2dc8af71f87f51d9",
+      "entry_target_id": "root:1e99:040a",
+      "kind": "far-code-entry",
+      "offset": 1034,
+      "segment": 7833,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 9546,
+          "bytes_hex": "9a0a04991e",
+          "relocation_index": 186,
+          "file_offset": 17738
+        },
+        {
+          "space": "root",
+          "image_offset": 9915,
+          "bytes_hex": "9a0a04991e",
+          "relocation_index": 187,
+          "file_offset": 18107
+        }
+      ]
     },
     "SET_PALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",

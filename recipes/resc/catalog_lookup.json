@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/resc/catalog_lookup.json",
-  "binding_sha256": "26ccdeb23364fa4148d2776ed2313f4f8436d8ab46e2d66a8e678bc5d449a340",
+  "binding_sha256": "d327fecba3566e21a6cc14c2b2906d3f55a835e69f1a1c78fab1a4a69bb71804",
   "claims": [
     {
       "fixup_count": 7,
@@ -90,7 +90,15 @@
       "name": "CATALOG_CALLBACK",
       "offset": 4,
       "segment": "_DATA",
-      "span": 9,
+      "span": 5,
+      "unique": true
+    },
+    {
+      "address": 9413,
+      "name": "RESIDENT_HANDLE_FLAGS",
+      "offset": 9,
+      "segment": "_DATA",
+      "span": 4,
       "unique": true
     }
   ],
@@ -102,12 +110,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "resc/catalog_lookup",
-  "object_sha256": "ee531551c0102f909d0f359df7db4af97328cb9a2c7171856738c100b01b665a",
+  "object_sha256": "5090d4dec9fc8e23a55f2946cb35e3ce45709f5714a913ec2b41bba49beb5da0",
   "origin": 98958,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/resc/catalog_lookup.asm",
-  "source_sha256": "1b2a6da8fe4b0ba1a041b88a926151312875aef5f8a8425da716ad01b1f113ba",
+  "source_sha256": "feda9f2e8e7a9160ddb3f457118505ecccb8e001adab3d16a7e3ba7fa86736a1",
   "space": "root"
 }

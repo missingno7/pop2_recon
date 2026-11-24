@@ -1,10 +1,10 @@
 .MODEL MEDIUM
-EXTRN DOS_DGROUP:BYTE
 .DATA
 timer_rate DW 0
 timer_countdowns DW 0, 0, 0, 0
 timer_ticks_low DW 0
 timer_ticks_high DW 0
+PUBLIC timer_chain_offset
 timer_chain_offset DW 0
 timer_chain_segment DW 0
 default_timer_hook LABEL WORD
@@ -15,7 +15,7 @@ timer_ratio_low DW 0
 timer_ratio_high DW 0
 timer_ratio_accumulator DW 0
 pit_frequency DD 1193181
-EXTRN TIMER_STACK_TOP:BYTE
+EXTRN _end:BYTE
 .CODE
 EXTRN DIVIDE_TIMER_INTERVAL:NEAR
 EXTRN MULTIPLY_TIMER_INTERVAL:NEAR
@@ -45,14 +45,14 @@ INSTALL_TIMER_HOOK PROC FAR
     mov bp, sp
     push di
     push ds
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov dx, ss
     mov bx, sp
     cmp ax, dx
     je install_on_stack
     mov ss, ax
-    mov sp, OFFSET TIMER_STACK_TOP
+    mov sp, OFFSET _end
 install_on_stack:
     push dx
     push bx
@@ -148,14 +148,14 @@ REMOVE_TIMER_HOOK PROC FAR
     push di
     push ds
     pushf
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov dx, ss
     mov bx, sp
     cmp ax, dx
     je remove_on_stack
     mov ss, ax
-    mov sp, OFFSET TIMER_STACK_TOP
+    mov sp, OFFSET _end
 remove_on_stack:
     push dx
     push bx
@@ -234,7 +234,7 @@ DEFAULT_TIMER_INTERRUPT PROC FAR
     push ds
     push ax
     push bx
-    mov ax, SEG DOS_DGROUP
+    mov ax, DGROUP
     mov ds, ax
     mov bx, 8
     inc timer_ticks_low

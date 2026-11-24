@@ -369,7 +369,7 @@
       "PRINCEGETNSHAPEITEMSIZE",
       "MATERIALIZE_HANDLE",
       "SETUP_CHAR",
-      "LOAD_SET_SHAPE",
+      "PRINCENEWSHPITEM",
       "SETUP_COMIX",
       "CHECK_KID_SHAPE",
       "SETUP_FIREBALL",
@@ -7612,7 +7612,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "LOAD_SET_SHAPE",
+          "name": "PRINCENEWSHPITEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -7620,7 +7620,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "LOAD_SET_SHAPE",
+        "name": "PRINCENEWSHPITEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -11878,7 +11878,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "LOAD_SET_SHAPE",
+          "name": "PRINCENEWSHPITEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -11886,7 +11886,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "LOAD_SET_SHAPE",
+        "name": "PRINCENEWSHPITEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -12256,7 +12256,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "LOAD_SET_SHAPE",
+          "name": "PRINCENEWSHPITEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -12264,7 +12264,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "LOAD_SET_SHAPE",
+        "name": "PRINCENEWSHPITEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -13261,23 +13261,6 @@
         }
       ]
     },
-    "LOAD_SET_SHAPE": {
-      "entry_sha256": "79f224b3249161df9c7e58cd18222af17d0e94055224188c2dc8af71f87f51d9",
-      "entry_target_id": "root:1e99:040a",
-      "kind": "far-code-entry",
-      "offset": 1034,
-      "segment": 7833,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "overlay-13",
-          "image_offset": 231,
-          "bytes_hex": "9a0a04991e",
-          "file_offset": 232103,
-          "relocation_index": 24
-        }
-      ]
-    },
     "MAKEFCHARCLIPRECT": {
       "entry_sha256": "d31f793828dfb0043e8a8f369c5d822e472c295f73b65a79e797f11405a084bd",
       "entry_target_id": "root:02dc:1846",
@@ -14062,6 +14045,30 @@
       "segment": 732,
       "space": "root",
       "witnesses": []
+    },
+    "PRINCENEWSHPITEM": {
+      "entry_sha256": "79f224b3249161df9c7e58cd18222af17d0e94055224188c2dc8af71f87f51d9",
+      "entry_target_id": "root:1e99:040a",
+      "kind": "far-code-entry",
+      "offset": 1034,
+      "segment": 7833,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "overlay-13",
+          "image_offset": 231,
+          "bytes_hex": "9a0a04991e",
+          "relocation_index": 24,
+          "file_offset": 232103
+        },
+        {
+          "space": "overlay-15",
+          "image_offset": 1443,
+          "bytes_hex": "9a0a04991e",
+          "relocation_index": 19,
+          "file_offset": 237491
+        }
+      ]
     },
     "ITEM_PALETTE": {
       "kind": "dgroup-offset",

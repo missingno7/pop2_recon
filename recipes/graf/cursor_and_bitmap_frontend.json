@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/graf/cursor_and_bitmap_frontend.json",
-  "binding_sha256": "06ebd763d7cc72049b974b5066a2d94191aa39bc42a85af3d44bc6f81b686e39",
+  "binding_sha256": "6cd4a916fddc8e3973f2c0bd25a82fbc43291f530dcd47cab0a46a19ba7f11bb",
   "claims": [
     {
       "fixup_count": 8,
@@ -51,13 +51,19 @@
       "fixup_count": 1,
       "public": "CHECK_CURSOR_OVERLAP_WRAPPER",
       "target_id": "root:1129:0614"
+    },
+    {
+      "fixup_count": 16,
+      "public": "HANDLE_MOUSE_CALLBACK",
+      "relocation_indices": [
+        1543
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1129:03da"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 852,
-      "public": "HANDLE_MOUSE_CALLBACK"
-    },
     {
       "object_offset": 1075,
       "public": "ALIGNMENT_0729"
@@ -70,7 +76,7 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "graf/cursor_and_bitmap_frontend",
-  "object_sha256": "bf38b8db703a05129ca3fb6a5dd71d5facdfd7be8ce629e98baee1035b42f89b",
+  "object_sha256": "d0bc441261cedc74648c3150b6316e21005cde36a869605fae186c6b48a11820",
   "origin": 70422,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
@@ -79,6 +85,6 @@
   ],
   "schema": 1,
   "source": "asm/graf/cursor_and_bitmap_frontend.asm",
-  "source_sha256": "e41c29b1703c1f17acd5f3a93c455033b8eccbe0d7c5a42e3280eb29dd3d1323",
+  "source_sha256": "9bfe5b0af1ec507db442ba26beefe885b103fdde1eb7220e7ba5e1a9d0bb48ba",
   "space": "root"
 }

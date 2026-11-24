@@ -9,7 +9,7 @@ EXTRN PIXELS_PER_BYTE:BYTE
 ; Default-port members are exported by the graphics-mode group.
 EXTRN DEFAULT_PORT:BYTE
 EXTRN MOUSE_MAX_Y:WORD
-EXTRN MOUSE_STACK_TOP:BYTE
+EXTRN _end:BYTE
 EXTRN cursor_plane_mask:WORD
 EXTRN CURSOR_SHOW_COUNT:WORD
 EXTRN CURSOR_Y:WORD
@@ -543,7 +543,7 @@ save_mouse_position:
     cmp ax, di
     je repaint_from_callback
     mov ss, ax
-    mov sp, OFFSET MOUSE_STACK_TOP
+    mov sp, OFFSET _end+200h
 repaint_from_callback:
     cld
     push cs
