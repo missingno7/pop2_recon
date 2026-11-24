@@ -3365,6 +3365,23 @@
       ],
       "group": "cpu_probe",
       "verdict": "asm"
+    },
+    "root:22f2:0040": {
+      "evidence": [
+        "22f60 data before the first routine, xchg on CS variables, push cs; call in one segment",
+        "RTLink/Plus 6.10 ships this module as RTCOMMON.ASM (masm in RTLUTILS.MAK)"
+      ],
+      "group": "rtlutils/rtcommon",
+      "verdict": "asm"
+    },
+    "root:22f2:0220": {
+      "evidence": [
+        "near routines return their status in the carry flag (stc/clc before ret) and pass values in AX, CX, DX, SI and DI",
+        "data word between two far procedures, CS-relative variables",
+        "the 6.10 library member of the same size is named expand.asm"
+      ],
+      "group": "rtlutils/expand",
+      "verdict": "asm"
     }
   }
 }

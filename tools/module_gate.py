@@ -1298,6 +1298,8 @@ def accepted_public_names(recipes):
                      [d["name"] for d in recipe.get("data_publics", [])])
         elif recipe.get("kind") == DATA_GROUP_KIND:
             names = [d["name"] for d in recipe.get("data_publics", [])]
+        elif recipe.get("kind") == "manager_asm":
+            names = [p["name"] for p in recipe["publics"]]
         else:
             names = [recipe["public"]] if "public" in recipe else []
         for n in names:

@@ -28,10 +28,13 @@ def check_manifest(oracle, manifest):
         require((owner["kind"], owner["state"]) in (("MATCHING_C", "CODE_EXACT"),
                                                       ("MATCHING_ASM", "ASM_EXACT"),
                                                       ("MATCHING_ASM_DATA", "ASM_DATA_EXACT"),
+                                                      ("REBUILT_RUNTIME", "ASM_EXACT"),
                                                       ("PINNED_RUNTIME", "PINNED_RUNTIME")),
                 "Unsupported bootstrap ownership kind/state")
         recipe = read_json_shared(project_path(owner["recipe"]))
-        if owner["kind"] in ("MATCHING_C", "MATCHING_ASM"):
+        require((owner["kind"] == "REBUILT_RUNTIME") == (recipe.get("kind") == "manager_asm"),
+                "A rebuilt run-time module has its own owner kind")
+        if owner["kind"] in ("MATCHING_C", "MATCHING_ASM", "REBUILT_RUNTIME"):
             target, space, _ = get_target(owner["target_id"], oracle)
         elif owner["kind"] == "MATCHING_ASM_DATA":
             target, space, _ = get_table(owner["target_id"], oracle)
@@ -82,7 +85,7 @@ def check_manifest(oracle, manifest):
                 "Recipe source language disagrees with ownership")
         source_dir = ROOT / ("asm" if language == "asm" else "src")
         require(source.is_relative_to(source_dir), "Canonical source outside its language directory")
-        if owner["kind"] == "MATCHING_ASM":
+        if owner["kind"] in ("MATCHING_ASM", "REBUILT_RUNTIME"):
             # Only genuine original assembly is matched as MASM (evidence/asm-origin-audit.json).
             from origin import require_genuine_asm
             require_genuine_asm([owner["target_id"]])
@@ -198,6 +201,13 @@ def _validate(run_tests=True):
         if owner["kind"] == "PINNED_RUNTIME":
             from runtime import verify_member
             accepted.append(verify_member(recipe, oracle, manifest))
+            continue
+        if recipe.get("kind") == "manager_asm":
+            from manager_asm import verify_recipe
+            report = verify_recipe(recipe, oracle, manifest)
+            require(owner["fixup_count"] == report["fixups"] and owner["relocation_count"] == report["relocations"] and
+                    owner["relocation_indices"] == report["relocation_indices"], "Manager module owner differs from its proof")
+            accepted.append(report)
             continue
         _, report = compile_and_check(project_path(recipe["source"]), recipe["profile"],
                                       recipe["public"], owner["target_id"],
@@ -390,6 +400,7 @@ def main():
           f"{report['metrics']['matching_asm_bytes']} ASM bytes; "
           f"{report['metrics']['matching_asm_data_bytes']} bytes in {report['metrics']['code_table_count']} code tables; "
           f"{report['metrics']['pinned_runtime_bytes']} pinned runtime bytes; "
+          f"{report['metrics']['rebuilt_runtime_bytes']} rebuilt runtime bytes; "
           f"{report['placement_debt_claims']} claims with placement debt; "
           f"{len(report['code_matches'])} code matches ({sum(c['size'] for c in report['code_matches'])} bytes) "
           f"with unproven bindings, not counted; structural link UNRECOVERED")

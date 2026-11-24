@@ -2,9 +2,9 @@
 
 Every accepted component is compiled under its module basename, the modules of `link/` (data no component owns yet)
 are added, the game libraries are built from `layout/link-plan.json`, the Microsoft libraries are used unmodified, and
-the linker's output is loaded by the same oracle reader as the original. Nothing is patched: the only non-historical
-input is the pair of RTLUTILS members listed in the plan (the original used another RTLUTILS.LIB revision), and the
-generated `VARIABLES` module, which gives the variables no accepted source defines yet their original addresses.
+the linker's output is loaded by the same oracle reader as the original. Nothing is patched: the run-time library is
+the shipped RTLUTILS.LIB 6.10 with the two accepted modules rebuilt for the original's older revision in their members' places
+(`rtlutils` in the plan), and the generated `VARIABLES` module, which gives the variables no accepted source defines yet their original addresses.
 
 The report grants no ownership. It says which bytes of a real link differ, so a wrong name, data order, alignment or
 missing definition shows up as a difference."""
@@ -45,9 +45,9 @@ def dos(argv, cwd, timeout):
     return done.stdout.decode("latin1", "replace")
 
 
-def assemble(source, basename, work):
+def assemble(source, basename, work, profile="masm510"):
     """The pinned assembler under a module basename (MASM puts it in THEADR)."""
-    spec = verify_assembler("masm510")
+    spec = verify_assembler(profile)
     work.mkdir(parents=True, exist_ok=True)
     for old in work.glob("*"):
         old.unlink()
@@ -56,7 +56,8 @@ def assemble(source, basename, work):
     lock = load_lock()["runner"]
     env = {"PATH": spec["directory"], "MSDOS_PATH": spec["directory"], "TEMP": ".", "TMP": ".", "MSDOS_TEMP": ".",
            "SYSTEMROOT": os.environ.get("SYSTEMROOT", r"C:\Windows")}
-    done = subprocess.run([lock["path"], *lock["options"], spec["executable"], f"{basename}.ASM,{basename}.OBJ,NUL,NUL;"],
+    names = [*spec["options"], f"{basename}.ASM"] if spec.get("driver") == "ml" else [f"{basename}.ASM,{basename}.OBJ,NUL,NUL;"]
+    done = subprocess.run([lock["path"], *lock["options"], spec["executable"], *names],
                           cwd=work, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                           timeout=60, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     out = work / f"{basename}.OBJ"
@@ -81,7 +82,7 @@ def build(name, module, out):
         return cached.read_bytes()
     work = out / "compile" / re.sub(r"\W", "_", name)
     if language == "asm":
-        data = assemble(source, module, work)
+        data = assemble(source, module, work, row["profile"])
     else:
         result = compile_c(source.decode("ascii"), row["profile"], flags=row["flags"], basename=module, workdir=work)
         if not result.ok:
@@ -128,13 +129,14 @@ def make_library(stage, name, members):
         (stage / f"{m}.OBJ").unlink()           # only reachable through the library
 
 
-def rtlutils(plan):
-    """The shipped RTLUTILS.LIB with the plan's member changes (labelled stand-ins, see docs/rtlink.md)."""
+def rtlutils(plan, out):
+    """The shipped RTLUTILS.LIB with each accepted rebuilt module (`tools/manager_asm.py`) in its member's place."""
     data = bytearray(pinned(plan["tools"]["rtlutils"]))
-    for patch in plan["rtlutils"]:
-        at, old, new = patch["at"], bytes.fromhex(patch["old"]), bytes.fromhex(patch["new"])
-        require(data[at:at + len(old)] == old and len(old) == len(new), "RTLUTILS patch does not apply")
-        data[at:at + len(new)] = new
+    for row in plan["rtlutils"]:
+        at, length = row["at"], row["length"]
+        new = build(row["module"], row["basename"], out)
+        require(sha(bytes(data[at:at + length])) == row["old_sha256"] and len(new) <= length, "RTLUTILS member does not fit")
+        data[at:at + length] = new.ljust(length, b"\0")
     return bytes(data)
 
 
@@ -204,7 +206,7 @@ def link(out):
         else:
             (stage / f"{library['name']}.LIB").write_bytes(pinned(library))
     (stage / "LINK.ARF").write_bytes(("\r\n".join(lines) + "\r\n").encode("ascii"))
-    (stage / "RTLUTILS.LIB").write_bytes(rtlutils(plan))
+    (stage / "RTLUTILS.LIB").write_bytes(rtlutils(plan, out))
     pinned(plan["tools"]["rtlink"])
     log = dos([plan["tools"]["rtlink"]["path"], "@LINK.ARF"], stage, 900)
     (out / "link.log").write_text(log, encoding="latin1")

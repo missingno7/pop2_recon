@@ -1,0 +1,59 @@
+{
+  "code_providers": {
+    "$$RTLEXPANDSECTION": "rtlutils/expand",
+    "$$RTLGETPROGNAME": "rtl_pathsrch",
+    "$$RTLOVLMGR_MESSAGES": "rtl_ovlmgr_m",
+    "$$RTLOVL_CLOSE_SAVE_FILE": "rtl_ddata",
+    "$$RTLOVL_CONVERT_VAL": "rtl_cnv_val",
+    "$$RTLOVL_INIT_CACHE": "rtl_dcache",
+    "$$RTLOVL_LOAD_FROM_CACHE": "rtl_dcache",
+    "$$RTLOVL_PLACE_INTO_CACHE": "rtl_dcache",
+    "$$RTLPATHSEARCH": "rtl_pathsrch",
+    "$$RTL_FATAL_ERROR": "rtlutils/rtcommon",
+    "$$RTL_PRELOAD": "rtlutils/rtcommon",
+    "$$RTL_REGISTER": "rtlutils/rtcommon",
+    "$$RTL_TERM_INIT": "rtlutils/rtcommon",
+    "$$RTOVEXEOFFSET": "rtlutils/rtcommon"
+  },
+  "mode": "rtlink-manager-v1",
+  "program_start": {
+    "recipe": "crt_crt0_medium",
+    "symbol": "$$MAIN"
+  },
+  "schema": 1,
+  "segment_frames": {
+    "$$OVLMGR": {
+      "segment": 8718,
+      "witnesses": [
+        {
+          "kind": "site_record",
+          "member": "rtl_ovlmgr_m",
+          "relocation_index": 1948
+        }
+      ]
+    },
+    "$$OVLMGR_UTILS": {
+      "segment": 8946,
+      "witnesses": [
+        {
+          "kind": "site_record",
+          "member": "rtl_cnv_val",
+          "relocation_index": 2034
+        }
+      ]
+    },
+    "_TEXT": {
+      "segment": 8175,
+      "witnesses": [
+        {
+          "image_offset": 24528,
+          "kind": "far_call",
+          "provider": "crt_dos_open",
+          "relocation_index": 627,
+          "symbol": "__dos_open"
+        }
+      ]
+    }
+  },
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+}

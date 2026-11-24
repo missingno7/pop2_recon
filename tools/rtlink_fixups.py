@@ -50,16 +50,33 @@ def check_segment(recipe, segment, initialized):
             "RTLink manager member extent is incomplete or trimmed")
 
 
+def check_module_segment(segment, initialized):
+    """The segment shape of a manager module rebuilt from source (tools/manager_asm.py)."""
+    require(segment["class"] in CLASSES and segment["name"] == segment["class"] and segment["combine"] == 2 and
+            segment["alignment"] in _ALIGN and not segment["use32"] and not segment["big"],
+            "Rebuilt manager segment must be a public $$ manager segment with a known alignment")
+    require(initialized and initialized[0][0] == 0, "Rebuilt manager segment is incomplete")
+
+
 def check_alignment(segment, position):
     require(position % _ALIGN[segment["alignment"]] == 0,
             "RTLink manager member position violates its segment alignment")
 
 
 def providers(manifest, oracle, exclude=None):
-    """symbol -> [(recipe name, linear position, output segment name)] over pinned members,
-    and recipe name -> (start, size, output segment name)."""
+    """symbol -> [(recipe name, linear position, output segment name)] over pinned members and rebuilt
+    manager modules, and recipe name -> (start, size, output segment name)."""
     table, members = {}, {}
     for owner in manifest["owners"]:
+        if owner["kind"] == "REBUILT_RUNTIME" and owner["target_id"] != exclude:
+            recipe = read_json_shared(project_path(owner["recipe"]))
+            # Its publics are part of the freshly verified proof (manager_asm.verify_recipe).
+            start = oracle.spaces["root"].position(recipe["segment"], recipe["offset"])
+            members[recipe["name"]] = (start, recipe["size"], recipe["object_segment"])
+            for public in recipe["publics"]:
+                table.setdefault(public["name"], []).append(
+                    (recipe["name"], start+public["offset"], recipe["object_segment"]))
+            continue
         if owner["kind"] != "PINNED_RUNTIME" or owner["target_id"] == exclude:
             continue
         recipe = read_json_shared(project_path(owner["recipe"]))
@@ -124,6 +141,20 @@ def _ground_frames(spec, table, members, space, span, own):
     return frames, receipts
 
 
+def _program_start(spec, manifest, oracle):
+    """`$$MAIN`, the program start the linker takes from the main module: the MODEND start address of a pinned member."""
+    require(set(spec) == {"symbol", "recipe"} and spec["symbol"] == "$$MAIN", "Unsupported program start provider")
+    found = [read_json_shared(project_path(o["recipe"])) for o in manifest["owners"] if o["kind"] == "PINNED_RUNTIME"]
+    found = [r for r in found if r["name"] == spec["recipe"]]
+    require(len(found) == 1, "Program start provider is not a pinned member")
+    module, _ = read_member(found[0])
+    body = bytes.fromhex(module.start_address or "")
+    index = next(i for i, s in enumerate(module.segment_defs, 1) if s["name"] == found[0]["object_segment"])
+    require(len(body) == 5 and body[0] == 0 and body[1] == body[2] == index, "Pinned member is not the main module")
+    start = oracle.spaces["root"].position(found[0]["segment"], found[0]["offset"])
+    return found[0]["name"], start+struct.unpack_from("<H", body, 3)[0], found[0]["object_segment"]
+
+
 def prove(module, overwritten, seg_name, actual, expected, binding, recipe, oracle, manifest):
     """Every FIXUPP field of one manager member, or a refusal."""
     require(binding.get("schema") == 1 and binding.get("mode") == MODE and
@@ -144,9 +175,13 @@ def prove(module, overwritten, seg_name, actual, expected, binding, recipe, orac
     rows = [f for f in fixes(module) if f["segment"] == seg_name]
     externals = sorted({f["target"]["name"] for f in rows if f["target"]["kind"] == "external"})
     bound = binding.get("code_providers", {})
-    missing = [s for s in externals if s not in bound]
-    require(not missing, f"Missing pinned providers for {missing}")
     code = {}
+    if "program_start" in binding:
+        code[binding["program_start"]["symbol"]] = _program_start(binding["program_start"], manifest, oracle)
+    require(not set(code) & set(bound) and not any(table.get(s) for s in code), "Provider is bound twice")
+    missing = [s for s in externals if s not in bound and s not in code]
+    require(not missing, f"Missing pinned providers for {missing}")
+    require(all(row[2] in frames for row in code.values()), "Frame of a provider segment is not grounded")
     for symbol, name in bound.items():
         hits = table.get(symbol, [])
         require(len(hits) == 1 and hits[0][0] == name,

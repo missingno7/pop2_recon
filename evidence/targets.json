@@ -68546,6 +68546,52 @@
       "size": 40,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "RTLink run-time utility module: far services with register arguments, data between them.",
+      "boundary_evidence": [
+        "It starts where the pinned RTLink member cnv_val ends (root+0x22f60) and ends where the pinned member ddata starts (root+0x23133).",
+        "The pinned 6.10 library holds a later revision of this module between the same two members (RTCOMMON.ASM, 495 bytes; the vendor's READ.ME dates its shell-event routine to 6.01)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "RTLink/Plus run-time utility, shipped as assembly source by the vendor."
+      ],
+      "classification_status": "Third-party run-time module.",
+      "entry_kind": "module",
+      "id": "root:22f2:0040",
+      "offset": 64,
+      "segment": 8946,
+      "semantic_name_hypothesis": "rtcommon",
+      "sha256": "324d6dccd8acd99961d7e5e040c6aff31a06f28a4965f363c4483cac03d38e5b",
+      "size": 467,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "RTLink run-time utility module: far $$RTLEXPANDSECTION(destination, handle), RETF 6; near routines with register arguments and carry status.",
+      "boundary_evidence": [
+        "It starts at the word boundary behind the pinned RTLink member ddata (root+0x23140) and ends where the pinned member rtcomm_m starts (root+0x24dd5).",
+        "The pinned 6.10 library holds a member expand.asm of the same 7,317 bytes between the same two members; two of its bytes differ."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "RTLink/Plus run-time utility; the vendor's object names it expand.asm."
+      ],
+      "classification_status": "Third-party run-time module.",
+      "entry_kind": "module",
+      "id": "root:22f2:0220",
+      "offset": 544,
+      "segment": 8946,
+      "semantic_name_hypothesis": "expand",
+      "sha256": "35b7462f16f379b04af40a74410136c3935f7698c02319623c72c9b3eb2bb9bb",
+      "size": 7317,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

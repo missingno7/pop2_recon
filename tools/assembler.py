@@ -44,8 +44,8 @@ def assemble_asm(source, profile, flags=None, *, workdir, timeout=30):
         if path.exists():
             path.unlink()
     lock = load_lock()
-    argv = [lock["runner"]["path"], *lock["runner"]["options"], spec["executable"],
-            *selected, "UNIT.ASM,UNIT.OBJ,NUL,NUL;"]
+    argv = [lock["runner"]["path"], *lock["runner"]["options"], spec["executable"], *selected,
+            *([*spec["options"], "UNIT.ASM"] if spec.get("driver") == "ml" else ["UNIT.ASM,UNIT.OBJ,NUL,NUL;"])]
     env = {"PATH": spec["directory"], "MSDOS_PATH": spec["directory"],
            "TEMP": ".", "TMP": ".", "MSDOS_TEMP": ".",
            "SYSTEMROOT": os.environ.get("SYSTEMROOT", r"C:\Windows")}

@@ -313,14 +313,23 @@ refuse. Original relocations inside the member must be exactly the generated wor
 
 ### Refused
 
-- `ovlmgr.asm` (`2203:0150`, 2,491 bytes, 346 fixups) has no pinned provider for
-  `$$MAIN`, `$$RTL_FATAL_ERROR`, `$$RTL_PRELOAD`, `$$RTL_REGISTER`, `$$RTL_TERM_INIT`,
-  `$$RTOVEXEOFFSET` or `$$RTLEXPANDSECTION`. A research-only run read the first six
-  provider positions back from the original far pointers: `22e5:0037..01b3` in the
-  rtcommon-like range, and `$$MAIN` = `1fe6:0074`. With those positions, every byte and
-  28 MZ relocations agree. The original stores `0000:0000` with no relocation for
-  `$$RTLEXPANDSECTION`, which is linker-defined or absent. Its frame `2203` is groundable
-  from record 1947, and `$$OVLMGR_UTILS` from record 2028 via cnv_val.
-- `rtcommon.asm` (root `0x22e87`-`0x2305a`) differs from the 6.10 member (495 versus 467
-  bytes; 135 non-fixup bytes differ). Linker-generated `0x22b3b`-`0x22e55` (`$$OVLINFO`,
-  descriptor table, filename record and `$$OVLVEC` vectors) stays unowned.
+- Linker-written structures behind the manager: `$$OVLINFO`, the descriptor table, the file name record and the `$$OVLVEC`
+  vectors (v1.1 root `0x22beb`-`0x22f2e`, 835 bytes). RTLink writes them; the whole link reproduces them. Unowned.
+
+### Rebuilt manager modules and the overlay manager (2026-11-24, v1.1)
+
+`ovlmgr.asm` (`220e:0150`, 2,491 bytes, 155 fixups) is pinned. `$$MAIN` is the program start: the MODEND start address of the
+pinned main module crt0 (`program_start`). Its other far targets are pinned members and the two modules below.
+
+Two members are another revision in the original. 6.10's READ.ME dates the shell-out feature to 6.01; the original `rtcommon`
+has no `$$RTL_SHELL_EVENT` and a table for eight routines instead of twelve, so the game was most likely linked with the 6.00 library, of
+which no copy is known here. `expand` differs in two bytes. Both are hand-written assembly (the vendor ships RTCOMMON.ASM;
+the object of the other is named expand.asm), so they are rebuilt from MASM source (`tools/manager_asm.py`, owner kind
+`REBUILT_RUNTIME`, counted apart from the game's code):
+- the reviewed row is one `entry_kind: module` extent between two pinned members;
+- the fresh object holds exactly one segment, a public `$$` manager segment, completely initialized and as long as the extent;
+- every byte and fixup is proven by `rtlink_fixups.prove`; its publics then provide other members.
+
+The assembler is MASM 6.00 (`masm600`, ML /c /Zm /Cx). With it `expand` has 0 differing bytes and the 6 fixups of the vendor's
+object, and `rtcommon` the vendor's 33; MASM 5.10 encodes `add ax,4` as `05 04 00` where the original has `83 c0 04`. The
+vendor's exact assembler revision and source text are not proven.

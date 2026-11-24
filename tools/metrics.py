@@ -23,11 +23,12 @@ def metrics(oracle=None, manifest=None):
         asm = counts["MATCHING_ASM"]
         data = counts["MATCHING_ASM_DATA"]
         runtime = counts["PINNED_RUNTIME"]
+        rebuilt = counts["REBUILT_RUNTIME"]  # third-party run-time modules rebuilt from source; no game functions
         third = counts["EXTERNAL_DRIVER"]
         rows.append({"space": space.name, "payload_bytes": space.size, "matching_c_bytes": c,
                      "matching_asm_bytes": asm, "matching_asm_data_bytes": data, "pinned_runtime_bytes": runtime,
-                     "external_driver_bytes": third,
-                     "unresolved_or_unclassified_payload_bytes": space.size-c-asm-data-runtime-third,
+                     "rebuilt_runtime_bytes": rebuilt, "external_driver_bytes": third,
+                     "unresolved_or_unclassified_payload_bytes": space.size-c-asm-data-runtime-rebuilt-third,
                      "exact_function_count": sum(r["kind"] in ("MATCHING_C", "MATCHING_ASM") for r in owners),
                      "pinned_runtime_component_count": sum(r["kind"] == "PINNED_RUNTIME" for r in owners),
                      "total_relocation_records": len(space.relocations),
@@ -45,6 +46,7 @@ def metrics(oracle=None, manifest=None):
               "matching_asm_data_bytes": sum(r["matching_asm_data_bytes"] for r in rows),
               "code_table_count": sum(r["kind"] == "MATCHING_ASM_DATA" for r in manifest["owners"]),
               "pinned_runtime_bytes": sum(r["pinned_runtime_bytes"] for r in rows),
+              "rebuilt_runtime_bytes": sum(r["rebuilt_runtime_bytes"] for r in rows),
               "pinned_runtime_component_count": sum(r["pinned_runtime_component_count"] for r in rows),
               "identified_game_code_bytes": sum(r["size"] for r in game),
               "unresolved_identified_game_bytes": sum(r["size"] for r in game if r["id"] not in accepted),

@@ -34,8 +34,8 @@ described by `layout/link-plan.json`. It compares the result with the original p
 Result: all 280,476 image bytes equal, with no generated variable and no filler, and the linked file has the original's
 259,583 bytes. The MZ header, every descriptor and every (compressed) payload are identical; the relocation sets are equal
 and only the order of the records differs (8,222 file bytes, all inside the MZ table and the 16 overlay tables; 482 records
-in place; symbol ids, o9/o11). This is image equality, not ownership: two RTLUTILS members
-are patched stand-ins.
+in place; symbol ids, o9/o11). This is image equality, not ownership. Since 2026-11-24 no stand-in is left: the two RTLUTILS
+members that differ from 6.10 (`rtcommon`, `expand`) are accepted modules rebuilt from source.
 
 Facts the link settled:
 
@@ -57,7 +57,8 @@ Facts the link settled:
   interrupt stacks), STACK 6d80 (1500h bytes).
 - `expand.asm` (7,317 bytes at root 23140) is pulled in by the compressed sections. The shipped 6.10 member differs in two
   immediates (+1c27, +1c37) and `rtcommon` is 467 bytes instead of 495: the original used another RTLUTILS.LIB revision.
-  The plan's `rtlutils` patches are labelled stand-ins for those two members.
+  6.10's READ.ME dates the shell-out feature to 6.01, and the original `rtcommon` has no `$$RTL_SHELL_EVENT`: most likely version 6.00.
+  Both members are now rebuilt (docs/runtime-fixups.md "Rebuilt manager modules") and take the members' places in the link.
 
 Every variable is placed by the link itself (2026-11-24): the modules define their statics, communals and initialized data,
 RTLink orders the communals (docs/dgroup-binding.md "Communal definitions"), and all 188 grounded DGROUP addresses come out
@@ -69,7 +70,7 @@ The relocation tables also show the original's symbol numbers (evidence/rtlink-p
 resource module is a root file after DIAG, the THRONE vectors come from VECTORON at their section, and five ALWAYS names
 before the first object are unknown (placeholders in the plan).
 
-Open: the declaring module of the interrupt stacks and of the `link/` data, the two RTLUTILS members, and the relocation order.
+Open: the declaring module of the interrupt stacks and of the `link/` data, and the relocation order.
 
 ## The earlier build (tag oracle-dos-1565)
 
