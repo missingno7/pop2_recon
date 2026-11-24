@@ -72,6 +72,23 @@ class LinkPlanTests(unittest.TestCase):
         report = whole_link.compare(oracle.data, oracle)
         self.assertTrue(report["identical"] and report["mz_header_equal"])
         self.assertEqual(report["bytes_equal"], report["bytes_total"])
+        self.assertEqual((report["file_bytes_different"], report["relocation_tables_same_records"]), (0, True))
+
+    def test_a_changed_record_is_not_taken_for_a_changed_order(self):
+        from oracle import Oracle
+        oracle = Oracle.load()
+        offset, count = whole_link.relocation_tables(oracle.spaces, oracle.data)[0]
+        records = [oracle.data[offset + 4 * i:offset + 4 * i + 4] for i in range(count)]
+
+        def compared(rows):
+            data = oracle.data[:offset] + b"".join(rows) + oracle.data[offset + 4 * count:]
+            return whole_link.file_comparison(data, oracle, oracle)
+        swapped = compared([records[1], records[0]] + records[2:])
+        self.assertTrue(swapped["relocation_tables_same_records"])
+        self.assertEqual(swapped["file_bytes_different_outside_relocations"], 0)
+        self.assertFalse(compared([records[1]] + records[1:])["relocation_tables_same_records"])
+        outside = whole_link.file_comparison(oracle.data[:-1] + bytes([oracle.data[-1] ^ 1]), oracle, oracle)
+        self.assertEqual(outside["file_bytes_different_outside_relocations"], 1)
 
 
 if __name__ == "__main__":

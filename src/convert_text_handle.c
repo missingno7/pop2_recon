@@ -17,23 +17,14 @@ Handle convert_text_handle(Handle handle)
 
     if (!(SAVE_HANDLE_FLAGS(handle) & 0x2000)) {
         expansion = (unsigned)QUERY_HANDLE_SIZE(handle);
-        if (!expansion)
-            goto fail;
-        payload = (char far *)MATERIALIZE_HANDLE(handle);
-        if (!payload)
-            goto fail;
-        original_size = *(unsigned far *)payload;
-        if (Resize_Handle(handle, (unsigned long)(original_size + expansion)))
-            goto fail;
-        payload = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
-        XlatTxt4(payload, MOVE_HUGE_BYTES(payload + original_size, payload, expansion));
-        Resize_Handle(handle, original_size);
-        Mark_Handle_Converted(handle);
+        if (expansion && (payload = (char far *)MATERIALIZE_HANDLE(handle)) != 0 &&
+            !Resize_Handle(handle, (unsigned long)((original_size = *(unsigned far *)payload) + expansion))) {
+            payload = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+            XlatTxt4(payload, MOVE_HUGE_BYTES(payload + original_size, payload, expansion));
+            Resize_Handle(handle, original_size);
+            Mark_Handle_Converted(handle);
+        } else
+            handle = 0;
     }
-    goto done;
-
-fail:
-    handle = 0;
-done:
     return handle;
 }

@@ -151,6 +151,7 @@ extern void far pascal JumpSeq(int sequence);
 extern void far pascal AnimChar(void);
 int far pascal get_opponent_death_sequence(unsigned char kind);
 
+extern void far pascal OFFSETRECT(void far *destination, void far *source, int dx, int dy);
 void far pascal check_multiple_dead_bodies(void)
 {
     int sequence;
@@ -375,16 +376,13 @@ void far pascal alert_opponent(void)
     if (Opp.alive < 0) {
         distance = get_opp_dist();
         if (Opp.row == Char.row && distance < 0 && distance >= -18) {
-            if ((signed char)Char.alert_delay >= 2 && Char.frame == 166) goto engage;
+            if ((signed char)Char.alert_delay >= 2 && Char.frame == 166)
+                auto_en_garde();
         } else if (AlertGuard) {
-            if (distance < 0 && distance < -4) {
+            if (distance < 0 && distance < -4)
                 auto_down();
-                return;
-            }
-        } else if (distance >= 0 && Char.alert_delay != 0) {
-engage:
+        } else if (distance >= 0 && Char.alert_delay != 0)
             auto_en_garde();
-        }
     }
 }
 
@@ -765,8 +763,10 @@ void far pascal maybe_advance(void)
 
     if (Char.row && (unsigned char)Level.level_number == 5 &&
         (Char.room == 10 || Char.room == 7 || Char.room == 12) &&
-        bridge_skeleton_must_advance())
-        goto advance;
+        bridge_skeleton_must_advance()) {
+        auto_forward();
+        return;
+    }
     if ((skill = Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4]) && GuardTimer)
         return;
     if (Char.row && (unsigned char)Level.level_number == 5 &&
@@ -774,10 +774,8 @@ void far pascal maybe_advance(void)
         !bridge_skeleton_can_advance())
         return;
 
-    if (advance_chance[skill] > Rnd(255)) {
-advance:
+    if (advance_chance[skill] > Rnd(255))
         auto_forward();
-    }
 }
 
 void far pascal maybe_block(void)
@@ -791,11 +789,9 @@ void far pascal maybe_block(void)
 
     if (JustBlocked) {
         if (quick_block_chance[skill] > Rnd(255))
-            goto act;
-    } else if (block_chance[skill] > Rnd(255)) {
-act:
+            auto_up();
+    } else if (block_chance[skill] > Rnd(255))
         auto_up();
-    }
 }
 
 void far pascal maybe_strike(void)
@@ -808,11 +804,9 @@ void far pascal maybe_strike(void)
     if (Char.character_kind != 7 && Char.character_kind != 8 &&
         (Char.frame == 161 || Char.frame == 150)) {
         if (quick_strike_chance[skill] > Rnd(255))
-            goto act;
-    } else if (strike_chance[skill] > Rnd(255)) {
-act:
+            set_overlay_state_bytes(254);
+    } else if (strike_chance[skill] > Rnd(255))
         set_overlay_state_bytes(254);
-    }
 }
 
 extern int far pascal IsWall(signed char tile);
@@ -832,31 +826,28 @@ int far pascal opponent_close(signed char slot, signed char column, signed char 
     int clear = 0;
     Opponent near *opponent = GetOppInfoIdx(Room.number, slot);
 
-    if (!opponent || Char.alive < 0 || Char.sequence_group == 5 || Kid.character_kind)
-        goto done;
-    if (opponent->timer && !IsExitChasingSkel(Char.room))
-        goto done;
+    if (opponent && Char.alive >= 0 && Char.sequence_group != 5 && !Kid.character_kind &&
+        (!opponent->timer || IsExitChasingSkel(Char.room))) {
+        if (Char.column > column) {
+            limit = Char.column + 1;
+            step = 1;
+        } else {
+            limit = Char.column - 1;
+            step = -1;
+        }
 
-    if (Char.column > column) {
-        limit = Char.column + 1;
-        step = 1;
-    } else {
-        limit = Char.column - 1;
-        step = -1;
+        if (Char.row == row && column - radius <= Char.column && column + radius >= Char.column) {
+            do {
+                tile = ReadCell(Char.room, column, row);
+                if ((!IsImpassable(tile) || Char.character_kind == 10) &&
+                    !IsWall(tile) && (tile != 4 || !gate_blocks_passage()))
+                    clear = 1;
+                else
+                    clear = 0;
+                column += step;
+            } while (clear && limit != column);
+        }
     }
-
-    if (Char.row == row && column - radius <= Char.column && column + radius >= Char.column) {
-        do {
-            tile = ReadCell(Char.room, column, row);
-            if ((!IsImpassable(tile) || Char.character_kind == 10) &&
-                !IsWall(tile) && (tile != 4 || !gate_blocks_passage()))
-                clear = 1;
-            else
-                clear = 0;
-            column += step;
-        } while (clear && limit != column);
-    }
-done:
     return clear;
 }
 
@@ -1275,7 +1266,6 @@ typedef void (far pascal *SmokeDrawer)(void);
 extern void far pascal mark_bufs_for_rect(SmokeDrawer draw, void near *clip, signed char id);
 #define smoke_table_handle SwordFrames
 
-extern void far pascal OFFSETRECT(void far *destination, void far *source, int dx, int dy);
 
 void far pascal float_flame_sword(void)
 {

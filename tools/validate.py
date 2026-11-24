@@ -341,6 +341,9 @@ def _validate(run_tests=True):
     alias_debt = read_json(ROOT / "evidence/case-alias-debt.json")["aliases"]
     require(aliases == {k: sorted(v) for k, v in alias_debt.items()},
             f"evidence/case-alias-debt.json differs from the accepted sources' case aliases: {aliases}")
+    # Everything accepted, linked as one program and compared with the whole original file (docs/rtlink.md).
+    import whole_link
+    linked = whole_link.verify(ROOT / "build/workers/validation/whole_link", oracle)
     # Live canonical files must still carry their pins after all compilation, so a
     # PASS never certifies files edited while proofs ran on earlier snapshots.
     check_manifest(oracle, manifest)
@@ -353,7 +356,9 @@ def _validate(run_tests=True):
                                 "unproven": c["unproven"]}
                                for g in groups.values() for c in g.get("code_matches", [])],
               "placement_overlap_pairs": len(overlaps),
-              "limits": ["Component code proof only; RTLink structural closure unrecovered",
+              "whole_link": {k: v for k, v in linked.items() if k != "spaces"},
+              "whole_link_summary": whole_link.summary(linked),
+              "limits": ["Ownership is component code proof; the whole link is compared separately and grants none",
                          "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses, exact MZ site coverage and within-symbol order; GROUPED reports retain between-symbol order as structural debt"]}
     return report
 
@@ -405,7 +410,7 @@ def main():
           f"{report['metrics']['rebuilt_runtime_bytes']} rebuilt runtime bytes; "
           f"{report['placement_debt_claims']} claims with placement debt; "
           f"{len(report['code_matches'])} code matches ({sum(c['size'] for c in report['code_matches'])} bytes) "
-          f"with unproven bindings, not counted; structural link UNRECOVERED")
+          f"with unproven bindings, not counted; {report['whole_link_summary']}")
 
 
 if __name__ == "__main__":

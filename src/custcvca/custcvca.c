@@ -241,24 +241,23 @@ int check_carpet_image(int index)
     if (carpet) {
         entry_offset[0] = index * sizeof(CarpetImage);
 #define ENTRY ((CarpetImage *)((char *)carpet + entry_offset[0]))
-        if (ENTRY->handle && MATERIALIZE_HANDLE(ENTRY->handle))
-            goto return_handle;
-        if (ENTRY->handle) {
-            DISPOSE_HANDLE(ENTRY->handle);
-            ENTRY->handle = 0;
+        if (!ENTRY->handle || !MATERIALIZE_HANDLE(ENTRY->handle)) {
+            if (ENTRY->handle) {
+                DISPOSE_HANDLE(ENTRY->handle);
+                ENTRY->handle = 0;
+            }
+            copy_handle = ALLOCATE_PAYLOAD_HANDLE(sizeof(Shape));
+            source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*Pics[2]);
+            copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(copy_handle);
+            *copy = *source;
+            copy->flags |= 4;
+            copy->colors = 32;
+            PrinceNewShpItem(copy_handle, index + 302, ENTRY, 1);
+            mark_purgeable(ENTRY->handle);
+            DISPOSE_HANDLE(copy_handle);
+            PrinceFreeShp(CARPET_SHAPE_ID + index);
         }
-        copy_handle = ALLOCATE_PAYLOAD_HANDLE(sizeof(Shape));
-        source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*Pics[2]);
-        copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(copy_handle);
-        *copy = *source;
-        copy->flags |= 4;
-        copy->colors = 32;
-        PrinceNewShpItem(copy_handle, index + 302, ENTRY, 1);
-        mark_purgeable(ENTRY->handle);
-        DISPOSE_HANDLE(copy_handle);
-        PrinceFreeShp(CARPET_SHAPE_ID + index);
     }
-return_handle:
 #undef ENTRY
     return carpet->images[index].handle;
 }

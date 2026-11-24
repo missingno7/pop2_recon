@@ -212,7 +212,6 @@ extern void far pascal load_shadow_with_opponent(signed char id);
 extern void far pascal save_shadow_with_opponent(void);
 extern void far pascal get_frame_info(void);
 extern void far pascal get_char_edges(void);
-extern signed char far pascal get_cells_ahead(signed char direction);
 extern int far pascal is_open_tile(signed char tile);
 extern signed char far pascal find_wall_column(unsigned char room, signed char column,
                                                 signed char row, signed char direction);
@@ -845,47 +844,44 @@ int far pascal head_set_to_flee_mode(void)
     OpponentRecord near *record;
 
     skill = Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4];
-    if (!is_able_to_flee_in_room(Char.room) || Rnd(skill / 3 + 1) != 0 ||
-        !((Char.direction == 0 && Char.column >= 3) ||
-          (Char.direction == -1 && Char.column + 3 <= 10)))
-        goto cannot_flee;
-    clear = 1;
-    initial_column = *(volatile signed char *)&column = Char.column;
-    edge = Char.direction == 0 ? -1 : 10;
-    if (initial_column != edge)
-        do {
-            if (!clear)
-                break;
-            skill = ReadCell(Char.room, column, Char.row);
-            if (GetBarrCode(skill) && (skill != 4 || gate_blocks_passage()))
-                clear = 0;
-            column += Minus1[Char.direction + 1];
-        } while (column != edge);
-    if (!clear) {
-        column += Plus1[Char.direction + 1] * 2;
-        if (abs(column - Char.column) >= 3)
-            clear = 1;
+    if (is_able_to_flee_in_room(Char.room) && Rnd(skill / 3 + 1) == 0 &&
+        ((Char.direction == 0 && Char.column >= 3) ||
+         (Char.direction == -1 && Char.column + 3 <= 10))) {
+        clear = 1;
+        initial_column = *(volatile signed char *)&column = Char.column;
+        edge = Char.direction == 0 ? -1 : 10;
+        if (initial_column != edge)
+            do {
+                if (!clear)
+                    break;
+                skill = ReadCell(Char.room, column, Char.row);
+                if (GetBarrCode(skill) && (skill != 4 || gate_blocks_passage()))
+                    clear = 0;
+                column += Minus1[Char.direction + 1];
+            } while (column != edge);
+        if (!clear) {
+            column += Plus1[Char.direction + 1] * 2;
+            if (abs(column - Char.column) >= 3)
+                clear = 1;
+        } else
+            column += Plus1[Char.direction + 1];
+        if (clear) {
+            Char.stance = 0;
+            Char.alert_delay = 1;
+            record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
+            record->mode = 2;
+            record->column = column;
+            record->row = Char.row;
+            record->timer = -1;
+            record->sound_played = 0;
+            save_actor_slot();
+            DrawOppMeter(Char.slot, 0, Char.life_initial);
+            load_actor_slot(Char.slot);
+            if (Char.slot == Opp.opponent_index)
+                Opp.opponent_index = -1;
+        }
     } else
-        column += Plus1[Char.direction + 1];
-    if (clear) {
-        Char.stance = 0;
-        Char.alert_delay = 1;
-        record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
-        record->mode = 2;
-        record->column = column;
-        record->row = Char.row;
-        record->timer = -1;
-        record->sound_played = 0;
-        save_actor_slot();
-        DrawOppMeter(Char.slot, 0, Char.life_initial);
-        load_actor_slot(Char.slot);
-        if (Char.slot == Opp.opponent_index)
-            Opp.opponent_index = -1;
-    }
-    goto done;
-cannot_flee:
-    clear = 0;
-done:
+        clear = 0;
     return clear;
 }
 
@@ -914,6 +910,8 @@ int far pascal is_able_to_flee_in_room(unsigned char room)
         available = 0;
     return available;
 }
+
+extern signed char far pascal get_cells_ahead(signed char direction);
 
 int far pascal is_head_locked_on(unsigned char room, int slot)
 {
@@ -1102,17 +1100,9 @@ int far pascal snake_slithering_toward_opp(void)
 {
     int result = 0;
     if (Char.sequence != 171 && Char.alert_delay >= 2) {
-        if (Char.direction == 0) {
-            signed char column = Char.column;
-            if (Opp.column >= column)
-                goto toward;
-        }
-        if (Char.direction == -1) {
-            signed char column = Char.column;
-            if (Opp.column <= column)
-toward:
-                result = 1;
-        }
+        if ((Char.direction == 0 && Char.column <= Opp.column) ||
+            (Char.direction == -1 && Char.column >= Opp.column))
+            result = 1;
     }
     return result;
 }

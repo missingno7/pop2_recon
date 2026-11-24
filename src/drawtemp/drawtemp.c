@@ -246,10 +246,10 @@ void draw_temple_exit_left(TempleCell *cell)
         break;
     case 2:
         add_image = AddBFImgToFTable;
-        goto alternate_layer;
+        layer = 10;
+        break;
     case 5:
         add_image = AddBFImgToBTable;
-    alternate_layer:
         layer = 10;
         break;
     }
@@ -274,10 +274,10 @@ void draw_temple_exit_right(TempleCell *cell)
         break;
     case 2:
         add_image = AddBFImgToFTable;
-        goto alternate_layer;
+        layer = 10;
+        break;
     case 5:
         add_image = AddBFImgToBTable;
-    alternate_layer:
         layer = 10;
         break;
     }
@@ -325,10 +325,11 @@ void draw_temple_floor(TempleCell *cell)
         break;
     case 2:
         add_image = AddBFImgToFTable;
-        goto alternate_layer;
+        layer = 10;
+        detail = cell->modifier & 3;
+        break;
     case 5:
         add_image = AddBFImgToBTable;
-    alternate_layer:
         layer = 10;
         detail = cell->modifier & 3;
         break;
@@ -697,15 +698,13 @@ void draw_temple_trapdoor(TempleCell *cell)
         if (state)
             draw_temple_back_wall(cell);
         else
-            goto floor_only;
+            draw_temple_floor(cell);
         break;
     case 1:
     case 2:
     case 5:
-        if (!state) {
-        floor_only:
+        if (!state)
             draw_temple_floor(cell);
-        }
         break;
     }
 }

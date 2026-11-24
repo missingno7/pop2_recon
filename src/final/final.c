@@ -781,9 +781,10 @@ int far pascal jaffar_go_to_position_0(sbyte near *stance)
         if (Char.frame == 15) {
             if (x == 6)
                 standing_jump();
-            else if (x > 7 && x < rule->room_x - 1) start_running();
+            else if (x > 7 && x < rule->room_x - 1)
+                start_running();
             else
-                goto settle;
+                sequence = settle_jaffar_at_position(stance);
         } else if (Char.frame == 7 || Char.frame == 11) {
             if ((x >= 5 && x <= 6) || (x >= 10 && x <= 11)) run_jump(4);
             else if (x >= rule->room_x - 1) sequence = 13;

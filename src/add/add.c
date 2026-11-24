@@ -705,11 +705,10 @@ void add_opponent(void)
             else if (Char.character_kind == 1)
                 SetupShadowFlame();
             else if (Level.environment_kind == 5)
-                goto temple_kid;
+                setup_splash();
             else if (Level.environment_kind == 6)
                 setup_guard_smoke();
         } else if (Level.environment_kind == 5) {
-temple_kid:
             setup_splash();
         }
     } while (Level.room_objects[Room.number - 1].opponent_count > ++opponent);
@@ -1006,25 +1005,24 @@ int far _fastcall setup_opponent(void)
         save_character_peel(Char.slot, 1);
         save_character_peel(Char.slot, 2);
         added = 0;
-        goto done;
-    }
-    if (Char.character_kind == 7 || Char.character_kind == 8 || Char.character_kind == 10 ||
-        Char.character_kind == 6 || Char.character_kind == 1) {
-        kind = Char.character_kind;
-        if (kind == 10)
-            float_flame_sword();
     } else {
-        kind = 2;
+        if (Char.character_kind == 7 || Char.character_kind == 8 || Char.character_kind == 10 ||
+            Char.character_kind == 6 || Char.character_kind == 1) {
+            kind = Char.character_kind;
+            if (kind == 10)
+                float_flame_sword();
+        } else {
+            kind = 2;
+        }
+        if (Char.action != 9 && !is_char_non_viewable())
+            mark_bufs_for_rect(mark_foreground, (unsigned int)&Char.bounds, Char.slot);
+        add_char_object(kind);
+        Char.previous_x = Char.x;
+        Char.previous_y = Char.y;
+        Char.previous_mode = NewRoom;
+        save_actor_slot();
+        added = 1;
     }
-    if (Char.action != 9 && !is_char_non_viewable())
-        mark_bufs_for_rect(mark_foreground, (unsigned int)&Char.bounds, Char.slot);
-    add_char_object(kind);
-    Char.previous_x = Char.x;
-    Char.previous_y = Char.y;
-    Char.previous_mode = NewRoom;
-    save_actor_slot();
-    added = 1;
-done:
     return added;
 }
 

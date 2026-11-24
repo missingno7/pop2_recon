@@ -29,28 +29,26 @@ Port *create_port(Port *port, const Rect far *rect)
     Init_Port(port, rect);
     rows = rect->bottom - rect->top;
     port->row_offsets = _nmalloc(rows * sizeof(int));
-    if (!port->row_offsets)
-        goto fail;
-    OFFSETRECT(&port->bounds, rect, -rect->left, -rect->top);
-    left_adjustment = (rect->left - Graf->bounds.left) & (PIXELS_PER_BYTE - 1);
-    port->bounds.left -= left_adjustment;
-    port->row_bytes = (PIXELS_PER_BYTE + (rect->right - rect->left) + left_adjustment - 1) / PIXELS_PER_BYTE;
-    port->buffer = Allocate_Buffer((long)port->row_bytes * rows);
-    if (!port->buffer) {
-        _nfree(port->row_offsets);
-        goto fail;
+    if (port->row_offsets) {
+        OFFSETRECT(&port->bounds, rect, -rect->left, -rect->top);
+        left_adjustment = (rect->left - Graf->bounds.left) & (PIXELS_PER_BYTE - 1);
+        port->bounds.left -= left_adjustment;
+        port->row_bytes = (PIXELS_PER_BYTE + (rect->right - rect->left) + left_adjustment - 1) / PIXELS_PER_BYTE;
+        port->buffer = Allocate_Buffer((long)port->row_bytes * rows);
+        if (!port->buffer) {
+            _nfree(port->row_offsets);
+        } else {
+            while (rows-- != 0) {
+                int row_start = port->row_bytes * rows;
+                port->row_offsets[rows] = row_start;
+            }
+            previous = Graf;
+            Graf = port;
+            Set_Origin(rect->left, rect->top);
+            Finish_Port(port);
+            Graf = previous;
+            return port;
+        }
     }
-    while (rows-- != 0) {
-        int row_start = port->row_bytes * rows;
-        port->row_offsets[rows] = row_start;
-    }
-    previous = Graf;
-    Graf = port;
-    Set_Origin(rect->left, rect->top);
-    Finish_Port(port);
-    Graf = previous;
-    return port;
-
-fail:
     return 0;
 }

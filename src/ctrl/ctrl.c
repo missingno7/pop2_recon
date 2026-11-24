@@ -486,11 +486,6 @@ void far pascal AnimChar(void)
         case -11:
             SetKidDeathMethod(GetSeqOp(sequence));
             break;
-        case -10:
-            if (WeightlessTimer)
-                goto change_sequence;
-            GetSeqOp(sequence);
-            break;
         case -9:
             opcode = GetSeqOp(sequence);
             first = GetSeqOp(sequence);
@@ -522,8 +517,13 @@ void far pascal AnimChar(void)
                 char_x = AddCharX(25);
             Char.direction = ~Char.direction;
             break;
+        case -10:
+            if (!WeightlessTimer) {
+                GetSeqOp(sequence);
+                break;
+            }
+            /* fall through */
         case -1:
-        change_sequence:
             opcode = GetSeqOp(sequence);
             if (character_row != 0 && ((unsigned char)Level.level_number) == 5 &&
                 (character_room == 10 || character_room == 7 || character_room == 12) &&

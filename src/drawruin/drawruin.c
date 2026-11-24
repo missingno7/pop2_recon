@@ -451,13 +451,13 @@ void draw_ruin_floor(RuinCell *cell)
         break;
     case 1:
         add_middle_item(1, (cell->modifier & 3) + 26, cell->column, cell->row, 0, 0);
-        goto finish_flaw;
+        draw_ruin_flaw(cell);
+        break;
     case 2:
         AddBFImgToFTable(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
         break;
     case 5:
         AddBFImgToBTable(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
-    finish_flaw:
         draw_ruin_flaw(cell);
         break;
     }
@@ -758,10 +758,10 @@ void draw_ruin_posts(RuinCell *cell)
         break;
     case 2:
         add_image = AddBFImgToFTable;
-        goto offset_back_image;
+        image += 36;
+        break;
     case 5:
         add_image = AddBFImgToBTable;
-    offset_back_image:
         image += 36;
         break;
     }

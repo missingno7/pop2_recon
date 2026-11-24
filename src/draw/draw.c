@@ -338,6 +338,7 @@ extern int draw_pillar_in_back(RoomImage *image);
 extern void draw_horse(unsigned int sheet, unsigned int shape, char pass);
 extern unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *sheet);
 
+extern char PieceAboveRightId(RoomNumber room, unsigned char piece);
 void draw_back_image(unsigned char pass)
 {
     unsigned char layer;
@@ -370,20 +371,19 @@ void draw_back_image(unsigned char pass)
             if (!IsWall(draw.args.kind))
                 break;
             ++layer;
-            goto draw_left;
+            /* fall through */
+        case 2:
+            draw.args.column = ColNo - 1;
+            draw.args.row = RowNo;
+            draw.args.kind = CellLeft.kind;
+            draw.args.info = CellLeft.info;
+            break;
         case 3:
             draw_custom_room_images(pass);
             draw.args.column = ColNo;
             draw.args.row = RowNo;
             draw.args.kind = ObjId;
             draw.args.info = BlueSpec;
-            break;
-        case 2:
-        draw_left:
-            draw.args.column = ColNo - 1;
-            draw.args.row = RowNo;
-            draw.args.kind = CellLeft.kind;
-            draw.args.info = CellLeft.info;
             break;
         }
         priority = (draw.args.info.modifier >> 14) & 3;
@@ -462,11 +462,10 @@ void far _fastcall draw_custom_room_image(char index, char pass)
         return;
     if (pass != 0 && pass != 5 && pass != 11) {
         entry = &ForeTable[Ct[1]++];
-        if (Level.environment_kind != 5)
-            goto queued;
-        if ((Level.environment_kind == 5 && Room.number != 19 && Room.number != 16 &&
-             Room.number != 15 && keep_image_in_back(image)) ||
-            ((Room.number == 19 || Room.number == 16) && draw_pillar_in_back(image))) {
+        if (Level.environment_kind == 5 &&
+            ((Level.environment_kind == 5 && Room.number != 19 && Room.number != 16 &&
+              Room.number != 15 && keep_image_in_back(image)) ||
+             ((Room.number == 19 || Room.number == 16) && draw_pillar_in_back(image)))) {
             entry = &BackTable[Ct[0]++];
             --Ct[1];
         }
@@ -475,7 +474,6 @@ void far _fastcall draw_custom_room_image(char index, char pass)
             return;
         entry = &BackTable[Ct[0]++];
     }
-queued:
     entry->y = image->y;
     entry->x = image->x;
     entry->shape = image->shape;
@@ -1001,19 +999,14 @@ void redraw_room_fast(void)
     SetSideRoomInfo();
     draw_cell_objects(30);
     RowNo = 3;
-    goto next_row;
-paint_row:
-    GetAboveAry();
-    GetBelowAry();
-    ColNo = 0;
-next_cell:
-    SetLocVars();
-    redraw_cell_fast((signed char)(FirstInRow(RowNo) + ColNo));
-    if (++ColNo < 10)
-        goto next_cell;
-next_row:
-    if (RowNo--)
-        goto paint_row;
+    while (RowNo--) {
+        GetAboveAry();
+        GetBelowAry();
+        for (ColNo = 0; ColNo < 10; ++ColNo) {
+            SetLocVars();
+            redraw_cell_fast((signed char)(FirstInRow(RowNo) + ColNo));
+        }
+    }
     if (!Room.custom) {
         saved_room = Room.number;
         Room.number = Room.above;
@@ -1673,20 +1666,16 @@ unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned
         if (room == 2 && ((unsigned char)Level.level_number) == 9) {
             origin = (unsigned int)horse_level9_origin;
             *shape = 0x6371;
-            goto chosen;
         }
     } else if (pass == 1 && !GameState.playing_nis) {
         if (room == 1 && ((unsigned char)Level.level_number) == 14) {
             origin = (unsigned int)horse_level14_origin;
             *shape = 0x6372;
-            goto chosen;
-        }
-        if (room == 22 && ((unsigned char)Level.level_number) == 10) {
+        } else if (room == 22 && ((unsigned char)Level.level_number) == 10) {
             origin = (unsigned int)horse_level10_origin;
             *shape = 0x6370;
         }
     }
-chosen:
     return origin;
 }
 
@@ -2056,7 +2045,6 @@ void set_shape_variant(int variant)
 }
 
 extern char PieceAboveId(RoomNumber room, unsigned char piece);
-extern char PieceAboveRightId(RoomNumber room, unsigned char piece);
 
 int visible_above_piece(RoomNumber room, unsigned char piece)
 {

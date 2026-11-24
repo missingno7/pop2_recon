@@ -29,13 +29,15 @@ located) and every binding, owner and runtime pin was proven again from the v1.1
 `link/` and links everything once with pinned RTLink/Plus 6.10, the unmodified `MLIBCR.LIB` and `LIBH.LIB`, and the script
 described by `layout/link-plan.json`. It compares the result with the original per space and grants no ownership.
 `--check` fails when the result is worse than `evidence/whole-link.json`; the integrating writer updates that record with
-`--record`. A new or renamed component must also be added to the plan (`tests/test_whole_link.py`).
+`--record`. `python tools/validate.py` does the same link from freshly compiled objects. A new or renamed component must
+also be added to the plan (`tests/test_whole_link.py`).
 
 Result: all 280,476 image bytes equal, with no generated variable and no filler, and the linked file has the original's
-259,583 bytes. The MZ header, every descriptor and every (compressed) payload are identical; the relocation sets are equal
-and only the order of the records differs (8,222 file bytes, all inside the MZ table and the 16 overlay tables; 482 records
-in place; symbol ids, o9/o11). This is image equality, not ownership. Since 2026-11-24 no stand-in is left: the two RTLUTILS
-members that differ from 6.10 (`rtcommon`, `expand`) are accepted modules rebuilt from source.
+259,583 bytes. The MZ header, every descriptor and every (compressed) payload are identical; no file byte outside the 17
+relocation tables differs, and each table holds the same records as the original's, none twice, in another order. The
+loaded program is therefore the original's; the order of the records (symbol ids, o9/o11) is the one file difference left.
+This is image equality, not ownership. Since 2026-11-24 no stand-in is left: the two RTLUTILS members that differ from 6.10
+(`rtcommon`, `expand`) are accepted modules rebuilt from source.
 
 Facts the link settled:
 

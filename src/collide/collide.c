@@ -201,38 +201,35 @@ void CheckBarr(void)
     signed char col;
 
     right_block_col = left_barrier = -1;
-    if ((unsigned char)Char.action == 7 || Char.sequence == 78 || Char.sequence == 70)
-        goto weightless;
-    if (Level.background_overlays[5] && slide_rock_on_row(Char.room, Char.row) && Char.sequence_group == 4)
-        goto weightless;
-
-    cur_row = Char.row;
-    InitColDetBufs();
-    old_row = cur_row;
-    if (get_char_col(CDRightEdge) + 4 <= 11)
-        stop_col = get_char_col(CDRightEdge) + 4;
-    else
-        stop_col = 11;
-    from_col = get_char_col(CDLeftEdge) - 2;
-    GetColDetData(cur_row, cur_rooms, ColDetThisFrame);
-    GetColDetData(cur_row + 1, bottom_rooms, lower_edges);
-    GetColDetData(cur_row - 1, up_rooms, above_edges);
-    if (Level.background_overlays[5]) {
-        slide_rock_collision_row(cur_row, cur_rooms, ColDetThisFrame);
-        slide_rock_collision_row(cur_row + 1, bottom_rooms, lower_edges);
-        slide_rock_collision_row(cur_row - 1, up_rooms, above_edges);
-    }
-    col = 9;
-    do {
-        if (cur_rooms[col] != 255 && cur_rooms[col] == old_rooms[col]) {
-            if (!(ColDetLastFrame[col] & 0x0f) && (ColDetThisFrame[col] & 0x0f))
-                right_block_col = col;
-            if (!(ColDetLastFrame[col] & 0xf0) && (ColDetThisFrame[col] & 0xf0))
-                left_barrier = col;
+    if ((unsigned char)Char.action != 7 && Char.sequence != 78 && Char.sequence != 70 &&
+        (!Level.background_overlays[5] || !slide_rock_on_row(Char.room, Char.row) || Char.sequence_group != 4)) {
+        cur_row = Char.row;
+        InitColDetBufs();
+        old_row = cur_row;
+        if (get_char_col(CDRightEdge) + 4 <= 11)
+            stop_col = get_char_col(CDRightEdge) + 4;
+        else
+            stop_col = 11;
+        from_col = get_char_col(CDLeftEdge) - 2;
+        GetColDetData(cur_row, cur_rooms, ColDetThisFrame);
+        GetColDetData(cur_row + 1, bottom_rooms, lower_edges);
+        GetColDetData(cur_row - 1, up_rooms, above_edges);
+        if (Level.background_overlays[5]) {
+            slide_rock_collision_row(cur_row, cur_rooms, ColDetThisFrame);
+            slide_rock_collision_row(cur_row + 1, bottom_rooms, lower_edges);
+            slide_rock_collision_row(cur_row - 1, up_rooms, above_edges);
         }
-    } while (--col >= 0);
+        col = 9;
+        do {
+            if (cur_rooms[col] != 255 && cur_rooms[col] == old_rooms[col]) {
+                if (!(ColDetLastFrame[col] & 0x0f) && (ColDetThisFrame[col] & 0x0f))
+                    right_block_col = col;
+                if (!(ColDetLastFrame[col] & 0xf0) && (ColDetThisFrame[col] & 0xf0))
+                    left_barrier = col;
+            }
+        } while (--col >= 0);
+    }
 
-weightless:
     if (Char.character_kind == 0 && right_block_col == -1 && left_barrier == -1 &&
         WeightlessTimer && (unsigned char)Char.action == 4)
         CheckWeightlessBarr();
@@ -277,9 +274,9 @@ int GetBarrCode(unsigned char cell)
     case 2:
         if (cell_flags < 5 && step_in_progress) {
             code = 3;
-            break;
-        }
-        goto solid;
+        } else
+            code = 4;
+        break;
     case 4:
         if (Level.environment_kind == 3)
             code = 5;
@@ -291,15 +288,14 @@ int GetBarrCode(unsigned char cell)
     case 7:
         if (ImHeight <= 18) {
             code = 2;
-            break;
-        }
-        goto solid;
+        } else
+            code = 4;
+        break;
     case 12:
         code = 6;
         break;
     case 20:
     case 25:
-solid:
         code = 4;
         break;
     default:
@@ -597,10 +593,9 @@ int gate_blocks_standing(void)
     int position = 0;
     unsigned int opening;
 
-    if ((unsigned char)Char.room == 9 && ((unsigned char)Level.level_number) == 8)
-        goto done;
-    if (ReadCell(Char.room, Char.column, Char.row) == 4 ||
-        get_cells_ahead(1) == 4 || get_behind() == 4) {
+    if (((unsigned char)Char.room != 9 || ((unsigned char)Level.level_number) != 8) &&
+        (ReadCell(Char.room, Char.column, Char.row) == 4 ||
+         get_cells_ahead(1) == 4 || get_behind() == 4)) {
         opening = Cell.modifier & 255;
         position = AddCharX(-6) - 14;
         if (opening != 0 && opening < 200 && ColEdgeX[Cell.column + 5] + 12 <= position &&

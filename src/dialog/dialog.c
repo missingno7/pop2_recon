@@ -56,6 +56,8 @@ static const struct notice_and_menu_text dialog_texts = {
 #define resume_option dialog_texts.resume_option
 #define continue_option dialog_texts.continue_option
 
+extern void far pascal Move(int, int);
+extern char far * far pascal lookup_prefixed_string(char far *, unsigned char);
 extern struct ScreenPort *Graf;
 
 extern int far pascal hGetFont(int);
@@ -319,21 +321,13 @@ int far pascal DialogWaitFunc(void)
     key = read_queued_key();
     if (key) {
         if (key == 0x1000 || key == 17)
-            goto acknowledge;
-        if (key == 27 || key == 32)
-            goto done;
-        key = 0;
-        goto empty;
-acknowledge:
-        abort_with_message(0, 0);
-empty:
-        return key;
-    }
-    if (GameState.control_mode == 2) {
+            abort_with_message(0, 0);
+        else if (key != 27 && key != 32)
+            key = 0;
+    } else if (GameState.control_mode == 2) {
         POLL_GAME_PORT();
         key = Joy.button;
     }
-done:
     return key;
 }
 
@@ -1729,8 +1723,6 @@ extern int far pascal find_option(const char far *);
 extern int far pascal allocate_clipped_port(const struct dialog_rect far *);
 extern void far pascal draw_record_bounds(int);
 extern void far pascal free_record_pair(int);
-extern void far pascal Move(int, int);
-extern char far * far pascal lookup_prefixed_string(char far *, unsigned char);
 
 void far pascal draw_credits_page(int, int);
 void far pascal draw_credit_category(int);

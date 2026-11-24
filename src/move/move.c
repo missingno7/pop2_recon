@@ -590,37 +590,32 @@ void check_floor(void)
 {
     unsigned frame;
 
-    if (Char.character_kind == 7 || Char.character_kind == 8 || Char.action == 9)
-        goto falling;
+    if (Char.character_kind == 7 || Char.character_kind == 8 || Char.action == 9) {
+        if (Char.vertical_step)
+            Falling();
+        return;
+    }
 
     frame = Char.frame;
     switch (Char.action) {
     default:
         on_ground();
-        return;
+        break;
     case 2:
     case 6:
         break;
     case 3:
-        if (frame >= 0x66 && frame < 0x6a) {
+        if (frame >= 0x66 && frame < 0x6a)
             FallOn();
-            return;
-        }
         break;
     case 4:
-        goto update_fall;
+        Falling();
+        break;
     case 5:
         if (frame == 0x6d)
             on_ground();
         break;
     }
-    return;
-
-falling:
-    if (!Char.vertical_step)
-        return;
-update_fall:
-    Falling();
 }
 
 extern FRAMEREC Frame;
@@ -1169,7 +1164,7 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
 extern int query_sound(int id);
 extern void AddSong(int sound);
 extern void trigger_slide_rock(byte room, sbyte cell, sbyte state);
-extern sbyte trigger_cave_bars(byte, sbyte);
+extern sbyte trigger_cave_bars(byte room, sbyte cell);
 extern void trigger_dart(byte, sbyte);
 
 sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
@@ -1703,10 +1698,8 @@ void make_rubble(void)
                 redraw_flask();
             }
         }
-        goto reread_cell;
     case 19:
     case 32:
-    reread_cell:
         work.kind = ReadCell(work.room, work.column, work.row);
         if (work.kind == 19 || work.kind == 32) {
             (&Level.cell_kinds[0][0])[30 * work.room - 30 + work.cell] = 32;

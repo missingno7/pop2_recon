@@ -233,6 +233,30 @@ def load_linked(candidate, oracle):
         oracle_module.expand = original_expand
 
 
+def relocation_tables(spaces, data):
+    """(file offset, record count) of every relocation table: the MZ one and one per overlay."""
+    count, = struct.unpack_from("<H", data, 6)
+    offset, = struct.unpack_from("<H", data, 0x18)
+    return [(offset, count)] + [(s.descriptor["relocation_file_offset"], s.descriptor["relocation_count"])
+                                for name, s in spaces.items() if name != "root"]
+
+
+def file_comparison(candidate, linked, oracle):
+    """The two files byte for byte: how many bytes differ, how many of those lie outside the relocation tables, and
+    whether every table holds the same records with none twice (then their order cannot change the loaded program)."""
+    tables = relocation_tables(oracle.spaces, oracle.data)
+    inside, same = set(), len(candidate) == len(oracle.data) and tables == relocation_tables(linked.spaces, candidate)
+    for offset, count in tables:
+        inside.update(range(offset, offset + 4 * count))
+        mine, original = ([data[offset + 4 * i:offset + 4 * i + 4] for i in range(count)]
+                          for data in (candidate, oracle.data))
+        same = same and sorted(mine) == sorted(original) and len(set(original)) == count
+    different = [i for i, (a, b) in enumerate(zip(candidate, oracle.data)) if a != b]
+    return {"file_bytes_different": len(different), "relocation_tables_same_records": same,
+            "file_bytes_different_outside_relocations": sum(i not in inside for i in different) +
+            abs(len(candidate) - len(oracle.data))}
+
+
 def compare(candidate, oracle):
     """Per space: size, differing bytes, relocation sets; plus the MZ header and the overlay payload bytes."""
     linked = load_linked(candidate, oracle)
@@ -259,9 +283,56 @@ def compare(candidate, oracle):
         report["spaces"][space_name] = row
     total = sum(r["size"] for r in report["spaces"].values())
     equal = total - sum(r["different"] for r in report["spaces"].values())
+    report.update(file_comparison(candidate, linked, oracle))
     report.update(bytes_total=total, bytes_equal=equal, identical=candidate == oracle.data,
                   relocations_in_order=sum(r["relocations_same_position"] for r in report["spaces"].values()))
     return report
+
+
+KEPT = ("bytes_total", "bytes_equal", "generated_variables", "mz_header_equal", "relocations_in_order",
+        "file_bytes_different_outside_relocations", "relocation_tables_same_records")
+
+
+def relink(out, oracle):
+    """Link into `out` and compare; objects compiled earlier in `out` are reused when source, flags and name are equal."""
+    out.mkdir(parents=True, exist_ok=True)
+    exe, text, generated = link(out)
+    (out / "POP.EXE").write_bytes(exe)
+    (out / "POP.MAP").write_text(text, encoding="latin1")
+    report = compare(exe, oracle)
+    report["generated_variables"] = generated
+    (out / "report.json").write_text(json.dumps(report, indent=1) + "\n")
+    return report
+
+
+def require_not_worse(report):
+    """The recorded result may only be improved (evidence/whole-link.json). `relocations_in_order` is a measure only:
+    until the original symbol order is recovered, most positions agree by chance and any declaration moves them."""
+    best = read_json(ROOT / "evidence/whole-link.json")
+    require(set(best) == set(KEPT), "evidence/whole-link.json does not list the kept values")
+    require(report["bytes_total"] == best["bytes_total"] and report["bytes_equal"] >= best["bytes_equal"] and
+            report["mz_header_equal"] >= best["mz_header_equal"] and
+            report["generated_variables"] <= best["generated_variables"] and
+            report["relocation_tables_same_records"] >= best["relocation_tables_same_records"] and
+            report["file_bytes_different_outside_relocations"] <= best["file_bytes_different_outside_relocations"],
+            f"Whole link got worse: {({k: report[k] for k in KEPT})} against {best}")
+
+
+def verify(out, oracle):
+    """The validation's whole link: every object compiled again, nothing reused."""
+    shutil.rmtree(out, ignore_errors=True)
+    report = relink(out, oracle)
+    require_not_worse(report)
+    return report
+
+
+def summary(report):
+    order = ("; the file differs from the original only in the order of relocation records"
+             if report["relocation_tables_same_records"] and not report["file_bytes_different_outside_relocations"]
+             else "")
+    return (f"whole link: {report['bytes_equal']} of {report['bytes_total']} image bytes equal, "
+            f"{report['file_bytes_different']} file bytes differ, {report['generated_variables']} generated variables" +
+            ("; the file equals the original" if report["identical"] else order))
 
 
 def main():
@@ -270,29 +341,17 @@ def main():
     parser.add_argument("--check", action="store_true", help="fail if the result is worse than evidence/whole-link.json")
     parser.add_argument("--record", action="store_true", help="write evidence/whole-link.json (integrating writer)")
     args = parser.parse_args()
-    out = project_path(args.output)
-    out.mkdir(parents=True, exist_ok=True)
-    exe, text, generated = link(out)
-    (out / "POP.EXE").write_bytes(exe)
-    (out / "POP.MAP").write_text(text, encoding="latin1")
-    report = compare(exe, Oracle.load())
-    report["generated_variables"] = generated
-    (out / "report.json").write_text(json.dumps(report, indent=1) + "\n")
+    report = relink(project_path(args.output), Oracle.load())
     for name, row in report["spaces"].items():
         print(f"{name:11} {row['size']:6} bytes, {row['different']:5} differ; relocations {row['relocations']:4}, "
               f"missing {row['relocations_missing']}, in original order {row['relocations_same_position']}"
               + ("" if row.get("payload_equal", True) else "; file payload differs"))
-    print(f"{report['bytes_equal']} of {report['bytes_total']} image bytes equal "
-          f"({100 * report['bytes_equal'] / report['bytes_total']:.2f}%); MZ header equal: {report['mz_header_equal']}; "
-          f"{generated} generated variables")
-    keep = {k: report[k] for k in ("bytes_total", "bytes_equal", "generated_variables", "mz_header_equal", "relocations_in_order")}
-    record = ROOT / "evidence/whole-link.json"
+    print(summary(report))
     if args.record:
-        record.write_text(json.dumps(keep, indent=1) + "\n", newline="\n")
+        (ROOT / "evidence/whole-link.json").write_text(json.dumps({k: report[k] for k in KEPT}, indent=1) + "\n",
+                                                       newline="\n")
     if args.check:
-        best = read_json(record)
-        require(keep["bytes_equal"] >= best["bytes_equal"] and keep["mz_header_equal"] and
-                keep["generated_variables"] <= best["generated_variables"], f"Whole link got worse: {keep} < {best}")
+        require_not_worse(report)
 
 
 if __name__ == "__main__":

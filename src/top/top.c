@@ -187,7 +187,7 @@ extern void CheckBPort(void);              /* far:0a5c:004e */
 extern int find_option(char far *);                  /* far:1101:29aa */
 extern int CheckPlayNIS(int level, int previous_level);             /* far:0284:000e */
 extern char poll_and_clear_pending_state(void);             /* far:0000:0210 */
-extern void load_level(char);                       /* far:0a5c:01b4 */
+extern void load_level(char level);                       /* far:0a5c:01b4 */
 extern void load_minimum_level(char);               /* far:0a5c:02f4 */
 extern void InitCollisionDetection(void);        /* far:2802:0848 */
 extern void InitInput(void);                        /* far:02cc:1404 */
@@ -296,7 +296,6 @@ extern int AddCharX(int);                     /* far:02cc:0360 */
 extern struct GetOppInfoIdx *GetOppInfoIdx(int, int); /* far:2344:08b4 */
 extern void clear_lava_slots(void);                  /* far:29cf:08c6 */
 extern void initialize_bridge(void);            /* far:29cf:0c1c */
-extern char ReadCell(char, char, char);              /* far:02cc:00f0 */
 extern int IsWall(char);                  /* far:078a:28fe */
 extern int IsImpassable(char);                 /* far:078a:2830 */
 extern int IS_SIX_KIND(char);               /* far:078a:28c8 */
@@ -665,52 +664,46 @@ int run_kid(void)
         if (result != -1) {
             if (!RestartLevel) {
                 AnimChar();
-                if (!Char.frame)
-                    goto normal_result;
-                Gravity();
-                add_char_velocity();
-                setup_char();
-                reread_cells();
-                get_char_edges();
-                face_first_guard();
-                CheckBarr();
-                collide_with_barriers();
-                check_gate_for_player();
-                check_floor();
-                check_press();
-                switch (Level.environment_kind) {
-                case 2:
-                    CheckSpikes();
-                    check_trapdoor();
-                    if (!BackToLife)
-                        CheckImpale();
-                    /* fall through */
-                case 4:
-                    CheckScythe();
-                    if (!BackToLife)
-                        CheckScytheHit();
-                    break;
-                case 3:
-                    goto room_set_c;
+                if (Char.frame) {
+                    Gravity();
+                    add_char_velocity();
+                    setup_char();
+                    reread_cells();
+                    get_char_edges();
+                    face_first_guard();
+                    CheckBarr();
+                    collide_with_barriers();
+                    check_gate_for_player();
+                    check_floor();
+                    check_press();
+                    switch (Level.environment_kind) {
+                    case 2:
+                        CheckSpikes();
+                        check_trapdoor();
+                        if (!BackToLife)
+                            CheckImpale();
+                        /* fall through */
+                    case 4:
+                        CheckScythe();
+                        if (!BackToLife)
+                            CheckScytheHit();
+                        break;
+                    case 3:
+                        CheckSpikes();
+                        if (!BackToLife) {
+                            check_dart_hit();
+                            CheckImpale();
+                            check_lava_boil();
+                        }
+                        break;
+                    }
+                    adjust_guard_view();
                 }
-finish_room_set_update:
-                adjust_guard_view();
-normal_result:
                 result = 0;
-                goto save_result;
-room_set_c:
-                CheckSpikes();
-                if (!BackToLife) {
-                    check_dart_hit();
-                    CheckImpale();
-                    check_lava_boil();
-                }
-                goto finish_room_set_update;
             } else {
                 result = 1;
             }
         }
-save_result:
         saved_result = result;
         if (KidInfo.death_countdown >= 0) {
             if (!KidInfo.death_countdown && Kid.alive < 0 && Kid.action != 3 && Kid.action != 4)
@@ -1026,6 +1019,8 @@ void init_level_specific(void)
         GameState.escher_room_eight_seen = 0;
     }
 }
+
+extern char ReadCell(char room, char column, char row);              /* far:02cc:00f0 */
 
 void check_alert(void)
 {

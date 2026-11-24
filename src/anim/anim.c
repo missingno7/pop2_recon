@@ -459,36 +459,35 @@ Animation *near advance_animation_frame(Animation *animation)
     cursor = animation->elements; count = 32;
     do {
         element = cursor;
-        if (!element->shape)
-            goto next_element;
-        if (element->first != element->last) {
-            tick = element->frame_ticks++;
-            if (((element->flags.word >> 8) & 15) <= tick) {
-                element->frame_ticks = 0; accumulate_element_bounds(animation, element);
-                element->shape += (element->flags.word & 0x1000) ? -1 : 1;
-                if (element->flags.word & 0x2000) {
-                    if (element->shape < element->first) {
-                        element->shape = element->first + 1; element->flags.word &= ~0x1000;
-                    } else if (element->shape > element->last) {
-                        element->shape = element->last - 1; element->flags.word |= 0x1000;
+        if (element->shape) {
+            if (element->first != element->last) {
+                tick = element->frame_ticks++;
+                if (((element->flags.word >> 8) & 15) <= tick) {
+                    element->frame_ticks = 0; accumulate_element_bounds(animation, element);
+                    element->shape += (element->flags.word & 0x1000) ? -1 : 1;
+                    if (element->flags.word & 0x2000) {
+                        if (element->shape < element->first) {
+                            element->shape = element->first + 1; element->flags.word &= ~0x1000;
+                        } else if (element->shape > element->last) {
+                            element->shape = element->last - 1; element->flags.word |= 0x1000;
+                        }
+                    } else if (element->shape < element->first) { element->shape = element->last;
+                    } else if (element->shape > element->last) { element->shape = element->first;
                     }
-                } else if (element->shape < element->first) { element->shape = element->last;
-                } else if (element->shape > element->last) { element->shape = element->first;
+                    accumulate_element_bounds(animation, element);
                 }
-                accumulate_element_bounds(animation, element);
+            }
+            tick = element->move_ticks++;
+            if (((element->flags.word >> 4) & 15) <= tick) {
+                element->move_ticks = 0;
+                if (element->dx || element->dy) {
+                    accumulate_element_bounds(animation, element);
+                    element->x += element->dx; element->y += element->dy;
+                    accumulate_element_bounds(animation, element);
+                }
+                element->dx += element->ddx; element->dy += element->ddy;
             }
         }
-        tick = element->move_ticks++;
-        if (((element->flags.word >> 4) & 15) <= tick) {
-            element->move_ticks = 0;
-            if (element->dx || element->dy) {
-                accumulate_element_bounds(animation, element);
-                element->x += element->dx; element->y += element->dy;
-                accumulate_element_bounds(animation, element);
-            }
-            element->dx += element->ddx; element->dy += element->ddy;
-        }
-next_element:
         ++cursor;
     } while (--count);
     return animation;
