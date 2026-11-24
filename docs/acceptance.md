@@ -435,7 +435,8 @@ The same list carries two code-entry checks. `alias:GROUP:NAME` is a far code en
 to the definer's public (tools/relocate.py `--rename`). `same-entry:GROUP:TARGET` is one file declaring one
 entry under several names. Merging the two declarations changes C1 symbol ids, so a file that stays exact only
 with both is a modelling error to resolve by matching work (the real declaration list), never by a dummy
-declaration. Data aliases are not checked: a struct's first member shares its base address.
+declaration. Names that one pinned library member itself defines at that address (`__aFlmul` and `__aFulmul`,
+read from the member's PUBDEF records) are exempt. Data aliases are not checked: a struct's first member shares its base address.
 
 ## Segment alignment (whole-link, 2026-11-22)
 

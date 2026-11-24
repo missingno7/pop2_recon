@@ -148,9 +148,8 @@ typedef struct {
 } CHARREC;
 extern signed char cut_blocked_index;
 extern CELLREC Cell;
-extern CHARREC Opp, Kid, Char;
-
 extern int Pause;
+extern CHARREC Opp, Kid, Char;
 
 void far pascal SetOppMaxLifePts(opponent_record *record);
 

@@ -577,6 +577,28 @@ class NameConsistencyTests(unittest.TestCase):
             a.write_text(json.dumps({"symbols": {"NEW": entry}}))
             self.assertEqual(module_gate.name_consistency_violations([({}, definer), ({}, user)]), set())
 
+    def test_library_public_aliases_share_an_entry(self):
+        import tempfile
+        (ROOT / "build/workers/tests").mkdir(parents=True, exist_ok=True)
+        runtime = json.loads((ROOT / "recipes/runtime/crt_aflmul_medium.json").read_text())
+        at = runtime["segment"] * 16 + runtime["offset"]
+        with tempfile.TemporaryDirectory(dir=ROOT / "build/workers/tests") as tmp:
+            a = Path(tmp) / "a.json"
+            user = {"kind": "same_source_group", "group_id": "group:u/u", "claims": [], "drafts": [], "binding": str(a)}
+            library = ({"kind": "PINNED_RUNTIME"}, runtime)
+
+            def found(names, position):
+                target = f"root:{position >> 4:04x}:{position & 15:04x}"
+                entry = {"kind": "far-code-entry", "entry_target_id": target, "segment": position >> 4,
+                         "offset": position & 15}
+                a.write_text(json.dumps({"symbols": {n: entry for n in names}}))
+                return {v.rsplit(":", 3)[0] for v in module_gate.name_consistency_violations([library, ({}, user)])}
+
+            self.assertEqual(found(["__aFlmul", "__aFulmul"], at), set())
+            # another name at that entry, or the same names at another address, stay violations
+            self.assertEqual(found(["__aFlmul", "OTHER"], at), {"same-entry:group:u/u"})
+            self.assertEqual(found(["__aFlmul", "__aFulmul"], at + 2), {"same-entry:group:u/u"})
+
 
 class AlignmentTests(unittest.TestCase):
     """A contribution starts at a multiple of its SEGDEF alignment (whole-link refutation)."""

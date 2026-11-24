@@ -1052,7 +1052,8 @@ def name_consistency_violations(recipes):
       published under another name (the linker resolves EXTDEFs by name, never by address; RTLink 6.10
       symbol ids are case-insensitive, o11_relorder);
     - `same-entry:GROUP:TARGET` for one binding naming the same code entry under several names (one
-      original declaration, two in the source)."""
+      original declaration, two in the source). Names that one pinned library member itself defines at that
+      very address (`__aFlmul`/`__aFulmul`) are the library's publics, not two declarations of one entry."""
     from common import project_path
     found = {f"duplicate-public:{n}" for n, c in accepted_public_names(recipes).items() if c > 1}
     entry_names = {}
@@ -1062,6 +1063,7 @@ def name_consistency_violations(recipes):
             if "target_id" in row and "public" in row:
                 entry_names.setdefault(row["target_id"], set()).add(row["public"])
     addresses = {}
+    runtime_names = runtime_public_positions(recipes)
     for owner, recipe in recipes:
         if owner.get("kind") == "PINNED_RUNTIME" or "binding" not in recipe:
             continue
@@ -1077,9 +1079,37 @@ def name_consistency_violations(recipes):
                 addresses.setdefault(name, set()).add(("DS", symbol["offset"]))
             elif symbol.get("kind") in FAR_KINDS and type(symbol.get("segment")) is int:
                 addresses.setdefault(name, set()).add(("FAR", symbol["segment"], symbol.get("offset")))
-        found |= {f"same-entry:{gid}:{t}" for t, names in entries.items() if len(names) > 1}
+        for t, names in entries.items():
+            if len(names) > 1 and not names <= runtime_names.get(entry_position(t), set()):
+                found.add(f"same-entry:{gid}:{t}")
     found |= {f"multi-address:{n}" for n, a in addresses.items() if len(a) > 1}
     return found
+
+
+def entry_position(target_id):
+    """(space, linear address) of a SPACE:SEG:OFF entry id."""
+    space, segment, offset = target_id.rsplit(":", 2)
+    return space, int(segment, 16) * 16 + int(offset, 16)
+
+
+def runtime_public_positions(recipes):
+    """(space, linear address) -> publics that one pinned library member defines at that address."""
+    from pathlib import Path
+    from omf import OmfReader
+    out = {}
+    for owner, recipe in recipes:
+        if owner.get("kind") != "PINNED_RUNTIME" or len(recipe.get("publics", [])) < 2:
+            continue
+        with open(Path(recipe["library_path"]), "rb") as f:
+            f.seek(recipe["archive_offset"])
+            raw = f.read(recipe["member_extent"])
+        require(sha(raw) == recipe["member_sha256"], "Pinned runtime member identity changed")
+        module = OmfReader(overwrite_ledata=True, library_records=True).read(raw, recipe["name"])
+        start = recipe["segment"] * 16 + recipe["offset"]
+        for public in module.publics:
+            if public["segment"] == recipe["object_segment"]:
+                out.setdefault((recipe["space"], start + public["offset"]), set()).add(public["name"])
+    return out
 
 
 def accepted_public_names(recipes):

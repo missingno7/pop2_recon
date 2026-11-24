@@ -1,7 +1,21 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "9b3e6f4dcb59867614990b6e7e3fce0e197cd465facadc06b5f34f99d5d821b3",
+  "binding_sha256": "b118abd8ee9a903afdf3e3d45068af3d2c9079494fbcae515d65f5fcf266edc5",
   "claims": [
+    {
+      "fixup_count": 10,
+      "public": "@add_image_info",
+      "relocation_indices": [
+        152,
+        177,
+        218
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0170:0008"
+    },
     {
       "fixup_count": 10,
       "public": "RESTORE_PEELS",
@@ -379,12 +393,7 @@
       ]
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 0,
-      "public": "@add_image_info"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 4502,
   "flags": [
     "/c",
@@ -399,12 +408,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "921085fb3e2903b059efbeb587fe306f069b322710220edef981f53a33a1de9d",
+  "object_sha256": "cc2e4c09bb119a0c6bd9c3ba2e4c5113c53139cb15da3d0d2f908e925bff2a50",
   "origin": 5896,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "210b055a09958050f375a51aae81fce7a47a043abfe4fcffe3c3c63a0976b262",
+  "source_sha256": "d0077133b9d03af0ebb67fd0203164cb67ef156565ed3343ce500e67c774caa2",
   "space": "root"
 }

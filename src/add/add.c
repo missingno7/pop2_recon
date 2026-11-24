@@ -118,10 +118,10 @@ extern BFItem far front_table[];
 
 extern void check_background_shape(int index);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
-extern void shape_rect(Rect far *, int, int, int far *);
-extern int clip_rect(Rect far *result, Rect far *bounds, Rect far *clip);
+extern void MAKESHAPERECT(Rect far *, int, int, int far *);
+extern int SECTRECT(Rect far *result, Rect far *bounds, Rect far *clip);
 
-int far _fastcall add_image_info(Byte set, int image, ImagePlacement *placement,
+int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
                                BFItem far *item, Offset x, Offset y,
                                Byte order, Byte layer)
 {
@@ -143,9 +143,9 @@ int far _fastcall add_image_info(Byte set, int image, ImagePlacement *placement,
 
     item->placement.y += image_y_offsets[y] - *shape;
     item->placement.x += image_x_offsets[x];
-    shape_rect(&bounds, item->placement.y, item->placement.x, shape);
+    MAKESHAPERECT(&bounds, item->placement.y, item->placement.x, shape);
 
-    if (clip_rect(&bounds, &bounds, &visible_region)) {
+    if (SECTRECT(&bounds, &bounds, &visible_region)) {
         item->set = set;
         item->flags = item_flags;
         item->palette = item_palette;
@@ -165,7 +165,7 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
     int added;
 
     if (i >= 130) return 0;
-    added = add_image_info(4, image, &level_pieces[tile].background,
+    added = add_image_info(4, &level_pieces[tile].background, image,
                            &back_table[i], x, y, order, layer);
     if (added) {
         back_table[i].mode = level_pieces[tile].mode;
@@ -184,8 +184,7 @@ int add_back_foreground_to_back(Byte tile, int image, Offset x, Offset y,
     if (image) {
         i = back_count;
         if (i >= 130) return 0;
-        added = add_image_info(4, image,
-                               &level_pieces[tile].background_foreground,
+        added = add_image_info(4, &level_pieces[tile].background_foreground, image,
                                &back_table[i], x, y, order, layer);
         if (added) {
             back_table[i].mode = level_pieces[tile].mode;
@@ -202,8 +201,7 @@ int add_back_foreground_to_front(Byte tile, int image, Offset x, Offset y,
     int added;
 
     if (i >= 100) return 0;
-    added = add_image_info(4, image,
-                           &level_pieces[tile].background_foreground,
+    added = add_image_info(4, &level_pieces[tile].background_foreground, image,
                            &front_table[i], x, y, order, layer);
     if (added) {
         front_table[i].mode = level_pieces[tile].mode;
@@ -337,7 +335,7 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
 
     i = front_count;
     if (i >= 100) return 0;
-    added = add_image_info(set, image, &level_pieces[tile].foreground,
+    added = add_image_info(set, &level_pieces[tile].foreground, image,
                            &front_table[i], x, y, order, layer);
     if (added) {
         front_table[i].mode = level_pieces[tile].mode;

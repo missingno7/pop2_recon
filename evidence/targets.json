@@ -66763,6 +66763,37 @@
       "state": "ANALYZED"
     },
     {
+      "abi": "Far runtime helper, two signed 32-bit operands, DX:AX, RETF 8",
+      "boundary_evidence": [
+        "Whole 154-byte segment of the independently pinned LIBH.LIB member crt_afldiv_medium (public __aFldiv) at root+0x21b5e.",
+        "1 original transfer(s) in v1.1 name this entry (call_sites).",
+        "The extent decodes linearly and closes with RETF."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 82602,
+          "image_offset": 74410,
+          "kind": "far_call",
+          "relocated_segment_site": 74413,
+          "space": "root"
+        }
+      ],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "Compiler runtime helper; the library member is pinned in recipes/runtime/crt_afldiv_medium.json."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1fef:1c6e",
+      "offset": 7278,
+      "segment": 8175,
+      "sha256": "766abe666898e314b979d81731f82a7d38f077e9105d61a5f18339bc71468d85",
+      "size": 154,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
       "boundary_evidence": [
         "v1.1 bytes: the code before 0x386a ends a function; recursive descent from the entry stays inside the extent and closes with a return at its end.",
         "3 original transfer(s) in v1.1 name this entry (call_sites)."

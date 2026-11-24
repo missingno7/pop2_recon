@@ -392,14 +392,14 @@
       "ADD_OPPONENT",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "INIT_FCHAR_RECT",
-      "SHAPE_RECT",
+      "MAKESHAPERECT",
       "GET_SET_IMAGE_SIZE",
       "CHECKMETERS",
       "CHECK_OPPONENT_SHAPE",
       "ADD_CHARACTERS",
       "SAVE_CHARACTER_PEEL",
       "@get_back_table_image_row",
-      "CLIP_RECT",
+      "SECTRECT",
       "CHARACTER_OBJECTS",
       "MARK_PEEL_FRONT_BUFFERS",
       "@add_middle_image",
@@ -529,7 +529,7 @@
         "target": {
           "kind": "external",
           "index": 67,
-          "name": "CLIP_RECT",
+          "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -537,7 +537,7 @@
       "target": {
         "kind": "external",
         "index": 67,
-        "name": "CLIP_RECT",
+        "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -583,7 +583,7 @@
         "target": {
           "kind": "external",
           "index": 60,
-          "name": "SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -591,7 +591,7 @@
       "target": {
         "kind": "external",
         "index": 60,
-        "name": "SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -14036,6 +14036,24 @@
       "space": "root",
       "witnesses": []
     },
+    "SECTRECT": {
+      "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
+      "entry_target_id": "root:1129:5266",
+      "kind": "far-code-entry",
+      "offset": 21094,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "MAKESHAPERECT": {
+      "entry_sha256": "fd4e66c3350ca5db43910ff2947eca5b98464c835b104fc1e050a9e67e8f76e4",
+      "entry_target_id": "root:1129:13b3",
+      "kind": "far-code-entry",
+      "offset": 5043,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
     "DISPOSE_BITMAP_PORT": {
       "entry_sha256": "9a52a47e505903037ce8bcdd3852a9568f4bc8658d9bcbc621a63b11ffd8fe43",
       "entry_target_id": "root:1129:5164",
@@ -14071,6 +14089,76 @@
       "segment": 732,
       "space": "root",
       "witnesses": []
+    },
+    "ITEM_PALETTE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 27502,
+      "witnesses": [
+        {
+          "bytes_hex": "803e6e6b00",
+          "entry": "root:0f9e:01ba",
+          "image_offset": 64579,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "ITEM_FLAGS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 27503,
+      "witnesses": [
+        {
+          "bytes_hex": "a06f6b",
+          "entry": "root:0f9e:07d4",
+          "image_offset": 66078,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "VISIBLE_REGION": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24798,
+      "witnesses": [
+        {
+          "bytes_hex": "b8de60",
+          "entry": "root:0f9e:07d4",
+          "image_offset": 66060,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "IMAGE_X_OFFSETS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 3366,
+      "witnesses": [
+        {
+          "bytes_hex": "8b87260d",
+          "entry": "root:0f9e:0112",
+          "image_offset": 64258,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "IMAGE_Y_OFFSETS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 3392,
+      "witnesses": [
+        {
+          "bytes_hex": "8b87400d",
+          "entry": "root:0f9e:0112",
+          "image_offset": 64280,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "MARK_FOREGROUND": {
       "entry_sha256": "5f5c4234b3c9b0d192a8b5953355812ff1a0366b24ec87332807ba83f57a8e5b",
