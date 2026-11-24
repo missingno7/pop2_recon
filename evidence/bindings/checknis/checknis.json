@@ -163,7 +163,7 @@
       "SET_LEVEL_SPEC_PTRS",
       "PENDING_SOUND",
       "CUTROOM",
-      "SCREEN_BOUNDS",
+      "SCREENPORTRECT",
       "ISLEVELSTARTWITHNISSCREEN",
       "PREPCUT",
       "CLEAN_CUT",
@@ -180,7 +180,7 @@
       "INTRO_PLAYED",
       "SHOW_DIALOG_NOTICE",
       "REMAINING_MINUTES",
-      "OPTION_FLAGS",
+      "FRAME_DIAGNOSTICS",
       "TREE_CHECK",
       "LEVEL_RESOURCE_FILES",
       "TRANSITION",
@@ -662,7 +662,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -670,7 +670,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -851,7 +851,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -859,7 +859,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1538,7 +1538,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "OPTION_FLAGS",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1546,7 +1546,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "OPTION_FLAGS",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -4041,20 +4041,6 @@
         }
       ]
     },
-    "OPTION_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 4290,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 190,
-          "bytes_hex": "833ec21000",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
     "PAINT_INDEXED_SHAPE": {
       "entry_sha256": "0f8674c0018a1e9d7718b2570743ccf56835ab99fdf1890f2852ce2f407476ca",
       "entry_target_id": "root:1129:04ba",
@@ -4386,19 +4372,17 @@
       "offset": 3331,
       "witnesses": []
     },
-    "SCREEN_BOUNDS": {
-      "kind": "dgroup-offset",
+    "SCREENPORTRECT": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 7978,
-      "witnesses": [
-        {
-          "bytes_hex": "b82a1f",
-          "entry": "root:053b:0544",
-          "image_offset": 22046,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "provider": "group:intrface/intrface",
+      "offset": 7978
+    },
+    "FRAME_DIAGNOSTICS": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4290
     },
     "INTRO_PLAYED": {
       "kind": "dgroup-offset",

@@ -8,21 +8,13 @@ EXTRN SCREEN_WIDTH:WORD
 EXTRN PIXELS_PER_BYTE:BYTE
 ; Default-port members are exported by the graphics-mode group.
 EXTRN DEFAULT_PORT:BYTE
-EXTRN DEFAULT_PORT_SEGMENT:WORD
-EXTRN DEFAULT_PORT_ORIGIN:DWORD
-EXTRN DEFAULT_PORT_LIMITS:DWORD
-EXTRN DEFAULT_PORT_MOUSE_BOUNDS:BYTE
-EXTRN DEFAULT_PORT_MOUSE_MAX_X:WORD
 EXTRN MOUSE_MAX_Y:WORD
 EXTRN MOUSE_STACK_TOP:BYTE
+EXTRN cursor_plane_mask:WORD
+EXTRN CURSOR_SHOW_COUNT:WORD
+EXTRN CURSOR_Y:WORD
+EXTRN CURSOR_X:WORD
 
-cursor_plane_mask DW 0fh
-CURSOR_SHOW_COUNT DW -1
-CURSOR_Y DW 0
-CURSOR_X DW 0
-
-CURSOR_DATA SEGMENT WORD PUBLIC 'DATA'
-DGROUP GROUP CURSOR_DATA
 cursor_image_handle DW 0
 cursor_hot_y DW 0
 cursor_hot_x DW 0
@@ -41,7 +33,6 @@ cursor_row_offsets DW 0, 0, 0, 0, 0, 0, 0, 0
                    DW 0, 0, 0, 0, 0, 0, 0, 0
 cursor_pending DW 0
 cursor_callback_depth DW -1
-CURSOR_DATA ENDS
 
 .CODE
 EXTRN MEASURE_TEXT:NEAR
@@ -257,7 +248,7 @@ initialize_cursor_state:
     mov ax, 2
     int 33h
 
-    les ax, DEFAULT_PORT_LIMITS
+    les ax, DWORD PTR DEFAULT_PORT+8
     shr ax, 1
     mov CURSOR_Y, ax
     mov ax, es
@@ -301,7 +292,7 @@ initialize_cursor_rows:
 
     ; Set the hardware mouse limits and install the movement callback.
     sub cx, cx
-    mov dx, DEFAULT_PORT_MOUSE_MAX_X
+    mov dx, WORD PTR DEFAULT_PORT+16h
     cmp SCREEN_WIDTH, 140h
     jne set_mouse_x_limit
     shl dx, 1
@@ -343,7 +334,7 @@ POSITION_MOUSE_CURSOR PROC FAR
     lea ax, [bp+6]
     push ds
     push ax
-    mov ax, OFFSET DEFAULT_PORT_MOUSE_BOUNDS
+    mov ax, OFFSET DEFAULT_PORT+10h
     push ds
     push ax
     push cs
@@ -597,9 +588,9 @@ check_port:
     cmp ax, WORD PTR DEFAULT_PORT
     jne increment_cursor_count
     mov ax, es
-    cmp ax, DEFAULT_PORT_SEGMENT
+    cmp ax, WORD PTR DEFAULT_PORT+2
     jne increment_cursor_count
-    les dx, DEFAULT_PORT_ORIGIN
+    les dx, DWORD PTR DEFAULT_PORT+4
     mov cx, es
     les ax, cursor_y1
     sub ax, dx

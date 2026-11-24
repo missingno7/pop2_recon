@@ -239,11 +239,11 @@
       "FIRST_IMAGE_TABLE",
       "SECOND_IMAGE_TABLE",
       "BACKGROUND_SHAPES",
-      "FALLBACK_IMAGES_RELEASED",
+      "BACKGROUND_IMAGE_COUNT",
       "PIECEBELOWID",
       "GETBELOWARY",
       "CELLTOCOL",
-      "LOW_MEMORY_MESSAGE",
+      "OUTOFFARMEM",
       "QUERY_SOUND",
       "DISPATCH_SOUND",
       "PRINCEMARKIMGSPURGEABLE",
@@ -3720,7 +3720,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "LOW_MEMORY_MESSAGE",
+          "name": "OUTOFFARMEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3728,7 +3728,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "LOW_MEMORY_MESSAGE",
+        "name": "OUTOFFARMEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -3774,7 +3774,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "LOW_MEMORY_MESSAGE",
+          "name": "OUTOFFARMEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3782,7 +3782,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "LOW_MEMORY_MESSAGE",
+        "name": "OUTOFFARMEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -3801,7 +3801,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "FALLBACK_IMAGES_RELEASED",
+          "name": "BACKGROUND_IMAGE_COUNT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3809,7 +3809,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "FALLBACK_IMAGES_RELEASED",
+        "name": "BACKGROUND_IMAGE_COUNT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3909,7 +3909,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "FALLBACK_IMAGES_RELEASED",
+          "name": "BACKGROUND_IMAGE_COUNT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3917,7 +3917,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "FALLBACK_IMAGES_RELEASED",
+        "name": "BACKGROUND_IMAGE_COUNT",
         "method": 6,
         "zero_displacement": true
       },
@@ -6228,20 +6228,6 @@
         }
       ]
     },
-    "FALLBACK_IMAGES_RELEASED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 1450,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 42787,
-          "bytes_hex": "c706aa050000",
-          "entry": "root:0a63:00a2"
-        }
-      ]
-    },
     "FIRSTINROW": {
       "entry_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
       "entry_target_id": "root:02dc:07d4",
@@ -6444,12 +6430,6 @@
           "space": "overlay-16"
         }
       }
-    },
-    "LOW_MEMORY_MESSAGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3024,
-      "witnesses": []
     },
     "MARK_FIXED": {
       "entry_sha256": "19a6043408f0f3b289bdc976c837e7b2482332a2e569fd6dd74ca36912594690",
@@ -6834,6 +6814,18 @@
           "space": "root"
         }
       ]
+    },
+    "OUTOFFARMEM": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:english/english",
+      "offset": 3024
+    },
+    "BACKGROUND_IMAGE_COUNT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:load/load",
+      "offset": 1450
     }
   },
   "target_id": "group:misc/misc",

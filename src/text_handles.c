@@ -1,7 +1,7 @@
 typedef unsigned Handle;
 
-extern unsigned far cdecl far_string_length(const char far *text);
-extern char far *far cdecl far_copy_string(char far *destination, const char far *source);
+extern unsigned far cdecl _fstrlen(const char far *text);
+extern char far *far cdecl _fstrcpy(char far *destination, const char far *source);
 extern Handle far pascal allocate_payload_handle(unsigned long size);
 extern void far *far pascal resolve_handle_to_far_payload(Handle handle);
 
@@ -17,9 +17,9 @@ int far pascal draw_text_handle(Handle handle)
 
 Handle far pascal create_string_handle(const char far *text)
 {
-    Handle handle = allocate_payload_handle((unsigned long)(far_string_length(text) + 1));
+    Handle handle = allocate_payload_handle((unsigned long)(_fstrlen(text) + 1));
     if (handle)
-        far_copy_string(resolve_handle_to_far_payload(handle), text);
+        _fstrcpy(resolve_handle_to_far_payload(handle), text);
     return handle;
 }
 

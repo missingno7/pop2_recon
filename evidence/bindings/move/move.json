@@ -979,7 +979,7 @@
       "LINK_HAS_PREVIOUS",
       "MARK_GUARD_UPDATES",
       "FRAME",
-      "ANIMATE_KIND_27",
+      "ANIMATE_CAVE_BARS",
       "CHECK_PRESS",
       "IS_SIX_KIND",
       "ANIMATE_DESERT_ROCKS",
@@ -1015,9 +1015,9 @@
       "SHAKE_BONES",
       "ANIMATE_GARGOYLE",
       "SHAKE_LOOSE_FLOOR",
-      "ANIMATE_KIND_43",
+      "ANIMATE_SACRED_FLAME",
       "COMPUTEOFFSETCELLRECT",
-      "ANIMATE_KIND_44",
+      "ANIMATE_BRIDGE_FLOOR",
       "CRUSHOPPINFO",
       "NEAR_CRUSH_OFFSET",
       "FAR_CRUSH_OFFSET",
@@ -2433,7 +2433,7 @@
         "target": {
           "kind": "external",
           "index": 145,
-          "name": "ANIMATE_KIND_44",
+          "name": "ANIMATE_BRIDGE_FLOOR",
           "method": 6,
           "zero_displacement": true
         }
@@ -2441,7 +2441,7 @@
       "target": {
         "kind": "external",
         "index": 145,
-        "name": "ANIMATE_KIND_44",
+        "name": "ANIMATE_BRIDGE_FLOOR",
         "method": 6,
         "zero_displacement": true
       },
@@ -2460,7 +2460,7 @@
         "target": {
           "kind": "external",
           "index": 143,
-          "name": "ANIMATE_KIND_43",
+          "name": "ANIMATE_SACRED_FLAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2468,7 +2468,7 @@
       "target": {
         "kind": "external",
         "index": 143,
-        "name": "ANIMATE_KIND_43",
+        "name": "ANIMATE_SACRED_FLAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2784,7 +2784,7 @@
         "target": {
           "kind": "external",
           "index": 107,
-          "name": "ANIMATE_KIND_27",
+          "name": "ANIMATE_CAVE_BARS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2792,7 +2792,7 @@
       "target": {
         "kind": "external",
         "index": 107,
-        "name": "ANIMATE_KIND_27",
+        "name": "ANIMATE_CAVE_BARS",
         "method": 6,
         "zero_displacement": true
       },
@@ -27785,12 +27785,10 @@
         },
         {
           "offset": 4,
-          "unproven": "Root+0x948e loads DS:5e96 into SI; the fall-through of the branch at root+0x9493 dereferences SI at root+0x9495. The immediate verifier stops at that conditional branch; the only qualifying memory operand is inside ADD_MOB_OBJ.",
           "witnesses": []
         },
         {
           "offset": 5,
-          "unproven": "No independent original operand witness for DGROUP offset 0x5e97; used at root+0xd6f0.",
           "witnesses": []
         },
         {
@@ -27831,12 +27829,10 @@
         },
         {
           "offset": 20,
-          "unproven": "No independent original operand witness for DGROUP offset 0x5ea6; used at root+0xd705.",
           "witnesses": []
         },
         {
           "offset": 22,
-          "unproven": "No independent original operand witness for DGROUP offset 0x5ea8; used at root+0xd70d.",
           "witnesses": []
         }
       ],
@@ -27849,7 +27845,17 @@
           "bytes_hex": "8b873a5d",
           "entry": "root:0790:01e4"
         }
-      ]
+      ],
+      "extent": {
+        "kind": "record",
+        "length": 23,
+        "witness": {
+          "space": "root",
+          "image_offset": 55304,
+          "bytes_hex": "b917008bd8f7e98bf0a06b660c808884445da1626689843a5d",
+          "entry": "root:0b52:22dc"
+        }
+      }
     },
     "MOVE_DART_MOB": {
       "entry_sha256": "e10bea74de9f0b25f4ad5b8bb07f460b6917018a179f249a6142d19c773ea872",
@@ -28443,12 +28449,21 @@
         },
         {
           "offset": 3,
-          "unproven": "The only reached address field for TROBS+3 is the induction base at GetTrobById+0x16.",
           "witnesses": []
         }
       ],
       "offset": 26230,
-      "witnesses": []
+      "witnesses": [],
+      "extent": {
+        "kind": "record",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "image_offset": 51573,
+          "bytes_hex": "d1e3d1e389877666",
+          "entry": "root:0b52:1414"
+        }
+      }
     },
     "TROB_COUNT": {
       "group": "DGROUP",
@@ -28504,25 +28519,25 @@
       "entry_sha256": "70a9a6a5930439d4f007fdc9fb8708ccb83f136490fd86a266b5ce3b0f1f6c77",
       "witnesses": []
     },
-    "ANIMATE_KIND_27": {
+    "ANIMATE_BRIDGE_FLOOR": {
       "kind": "rtlink-vector",
       "space": "root",
       "segment": 8718,
-      "offset": 3511,
+      "offset": 3531,
       "witnesses": []
     },
-    "ANIMATE_KIND_43": {
+    "ANIMATE_SACRED_FLAME": {
       "kind": "rtlink-vector",
       "space": "root",
       "segment": 8718,
       "offset": 3591,
       "witnesses": []
     },
-    "ANIMATE_KIND_44": {
+    "ANIMATE_CAVE_BARS": {
       "kind": "rtlink-vector",
       "space": "root",
       "segment": 8718,
-      "offset": 3531,
+      "offset": 3511,
       "witnesses": []
     },
     "SELECT_ROOM_ARRAYS": {

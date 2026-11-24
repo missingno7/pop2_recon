@@ -10,7 +10,7 @@ typedef struct Port {
 } Port;
 
 extern Port *Graf;
-extern signed char Byte_Alignment;
+extern signed char PIXELS_PER_BYTE;
 
 extern void far pascal Init_Port(Port *port, const Rect far *rect);
 extern void far pascal OFFSETRECT(Rect far *out, const Rect far *in, int x, int y);
@@ -32,9 +32,9 @@ Port *create_port(Port *port, const Rect far *rect)
     if (!port->row_offsets)
         goto fail;
     OFFSETRECT(&port->bounds, rect, -rect->left, -rect->top);
-    left_adjustment = (rect->left - Graf->bounds.left) & (Byte_Alignment - 1);
+    left_adjustment = (rect->left - Graf->bounds.left) & (PIXELS_PER_BYTE - 1);
     port->bounds.left -= left_adjustment;
-    port->row_bytes = (Byte_Alignment + (rect->right - rect->left) + left_adjustment - 1) / Byte_Alignment;
+    port->row_bytes = (PIXELS_PER_BYTE + (rect->right - rect->left) + left_adjustment - 1) / PIXELS_PER_BYTE;
     port->buffer = Allocate_Buffer((long)port->row_bytes * rows);
     if (!port->buffer) {
         _nfree(port->row_offsets);

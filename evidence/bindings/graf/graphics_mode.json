@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 74,
+        "length": 84,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -39,7 +39,7 @@
         "name": "SCREEN_WIDTH",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 2,
+        "offset": 12,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -54,10 +54,19 @@
         "type_index": 0
       },
       {
+        "name": "CURSOR_SHOW_COUNT",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 2,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "DEFAULT_PORT",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 30,
+        "offset": 40,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -75,7 +84,7 @@
         "name": "STROKE_RECTANGLE_CALLBACK",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 26,
+        "offset": 36,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -90,28 +99,10 @@
         "type_index": 0
       },
       {
-        "name": "DEFAULT_PORT_MOUSE_MAX_X",
+        "name": "MOUSE_PRESENT",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 52,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "DEFAULT_PORT_ORIGIN",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 34,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "DEFAULT_PORT_LIMITS",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 38,
+        "offset": 8,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -120,7 +111,7 @@
         "name": "PAINT_PLAIN_CALLBACK",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 28,
+        "offset": 38,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -135,43 +126,7 @@
         "type_index": 0
       },
       {
-        "name": "DEFAULT_PORT_MOUSE_BOUNDS",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 46,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "DEFAULT_PORT_SEGMENT",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 32,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "AXIS_SEGMENT_CALLBACK",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 22,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "MEASURE_TEXT_CALLBACK",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 20,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "PIXELS_PER_BYTE",
+        "name": "CURSOR_X",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 6,
@@ -180,10 +135,46 @@
         "type_index": 0
       },
       {
+        "name": "CURSOR_Y",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 4,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "AXIS_SEGMENT_CALLBACK",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 32,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "MEASURE_TEXT_CALLBACK",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 30,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "PIXELS_PER_BYTE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 16,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "RELEASE_BUFFER_CALLBACK",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 14,
+        "offset": 24,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -201,7 +192,7 @@
         "name": "PAINT_FOUR_BIT_CALLBACK",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 24,
+        "offset": 34,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -210,7 +201,16 @@
         "name": "ALLOCATE_BUFFER_CALLBACK",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 18,
+        "offset": 28,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CURSOR_PLANE_MASK",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -347,10 +347,9 @@
         "kind": "segment",
         "index": 2,
         "name": "_DATA",
-        "method": 4,
-        "zero_displacement": true
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -393,7 +392,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 72
+      "displacement": 82
     },
     {
       "kind": "fixup",
@@ -414,7 +413,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 30
+      "displacement": 40
     },
     {
       "kind": "fixup",
@@ -521,10 +520,9 @@
         "kind": "segment",
         "index": 2,
         "name": "_DATA",
-        "method": 4,
-        "zero_displacement": true
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -545,7 +543,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 30
+      "displacement": 40
     },
     {
       "kind": "fixup",
@@ -632,7 +630,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 12
+      "displacement": 22
     },
     {
       "kind": "fixup",
@@ -653,7 +651,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 44
+      "displacement": 54
     },
     {
       "kind": "fixup",
@@ -696,7 +694,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 72
+      "displacement": 82
     },
     {
       "kind": "fixup",
@@ -891,7 +889,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 2
+      "displacement": 12
     }
   ],
   "frame": {
@@ -909,7 +907,7 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_DATA": 9312
+    "_DATA": 9302
   },
   "schema": 1,
   "symbols": {

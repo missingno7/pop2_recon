@@ -19,12 +19,12 @@ char *far pascal find_option(const char far *name)
 
 typedef struct SoundSettings SoundSettings;
 extern SoundSettings *configuration;
-extern unsigned far cdecl dos_open(const char *path, unsigned mode, int *handle);
+extern unsigned far cdecl _dos_open(const char *path, unsigned mode, int *handle);
 extern long far cdecl filelength(int handle);
-extern void *far cdecl near_calloc(unsigned count, unsigned size);
+extern void *far cdecl _ncalloc(unsigned count, unsigned size);
 extern unsigned far cdecl dos_read(int handle, void far *buffer, unsigned size,
                                    unsigned *bytes_read);
-extern unsigned far cdecl dos_close(int handle);
+extern unsigned far cdecl _dos_close(int handle);
 extern void far cdecl _nfree(void *allocation);
 
 SoundSettings *far pascal load_sound_settings(const char *path)
@@ -36,12 +36,12 @@ SoundSettings *far pascal load_sound_settings(const char *path)
     int buffer_size;
     unsigned bytes_read;
 
-    if (dos_open(path, 0, &handle) == 0) {
+    if (_dos_open(path, 0, &handle) == 0) {
         read_size = (int)filelength(handle);
         buffer_size = read_size;
         if (buffer_size < 32)
             buffer_size = 32;
-        result = near_calloc(1, buffer_size);
+        result = _ncalloc(1, buffer_size);
         if (result) {
             if (dos_read(handle, result, read_size, &bytes_read) == 0 &&
                 bytes_read == (unsigned)read_size)
@@ -49,7 +49,7 @@ SoundSettings *far pascal load_sound_settings(const char *path)
             else
                 failed = 1;
         }
-        dos_close(handle);
+        _dos_close(handle);
     } else {
         failed = 1;
     }

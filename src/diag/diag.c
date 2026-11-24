@@ -71,7 +71,7 @@ extern long tick_count;
 extern drawing_context ScreenPort, *Graf;
 extern int Row2PixelY[5];
 extern heap_block far *far *heap_state;
-extern char screen_name[];
+extern char ScreenPortRect[];
 static null_area null_snapshot;
 
 static const char position_format[] = "Pos=%d";
@@ -252,7 +252,7 @@ void preview_resource(int handle)
     image_header far *image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
 
     if (preview_x == 0)
-        STROKE_PORT_RECT(screen_name);
+        STROKE_PORT_RECT(ScreenPortRect);
     if (image->width < 200 && image->height < 320 && image->width && image->height) {
         Graf = &ScreenPort;
         paint_plain(image, 0, preview_x, 0);

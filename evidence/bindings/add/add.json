@@ -71,7 +71,7 @@
         "type_index": 0
       },
       {
-        "name": "ADD_BACK_FOREGROUND_TO_BACK",
+        "name": "ADDBFIMGTOBTABLE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 404,
@@ -134,7 +134,7 @@
         "type_index": 0
       },
       {
-        "name": "ADD_BACK_FOREGROUND_TO_FRONT",
+        "name": "ADDBFIMGTOFTABLE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 536,
@@ -345,8 +345,8 @@
       "HGETRSRC",
       "CLIP_CHARACTER_AT_WATER",
       "OPPONENT_OUTFIT_BY_CHARACTER",
-      "ADD_BACK_FOREGROUND_TO_BACK",
-      "OPPONENT_EXTRA_IMAGE_LIMITS",
+      "ADDBFIMGTOBTABLE",
+      "OPPONENT_OVERLAY_FIRST",
       "SETUP_CARPET",
       "MARK_BUFS_FOR_RECT",
       "SETUP_FLAME",
@@ -377,10 +377,10 @@
       "SETUP_KID",
       "PRINCEFREESHP",
       "@add_peel",
-      "ADD_BACK_FOREGROUND_TO_FRONT",
+      "ADDBFIMGTOFTABLE",
       "@setup_sword",
       "CLEAR_PEELS",
-      "LEVEL_PIECES",
+      "PIECES",
       "SETUP_FLASK",
       "CUSTOM_ROOM",
       "BACK_TABLE",
@@ -848,7 +848,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -856,7 +856,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -902,7 +902,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -910,7 +910,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -1086,7 +1086,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1094,7 +1094,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -1140,7 +1140,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1148,7 +1148,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -1351,7 +1351,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1359,7 +1359,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -1405,7 +1405,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1413,7 +1413,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -2102,7 +2102,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -2110,7 +2110,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -2156,7 +2156,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -2164,7 +2164,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -11932,7 +11932,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "OPPONENT_EXTRA_IMAGE_LIMITS",
+          "name": "OPPONENT_OVERLAY_FIRST",
           "method": 6,
           "zero_displacement": true
         }
@@ -11940,7 +11940,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "OPPONENT_EXTRA_IMAGE_LIMITS",
+        "name": "OPPONENT_OVERLAY_FIRST",
         "method": 6,
         "zero_displacement": true
       },
@@ -13244,27 +13244,6 @@
         }
       }
     },
-    "LEVEL_PIECES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 4240,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 40291,
-          "bytes_hex": "8b1e9010",
-          "entry": "root:0790:2394"
-        },
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 43647,
-          "bytes_hex": "a39010",
-          "entry": "root:0a63:01f2"
-        }
-      ]
-    },
     "LOAD_ACTOR_SLOT": {
       "entry_sha256": "a77bfafd45e3cfe9a1c908e60c2feb0fdc89b1f8b59835ccc67501879c8ee9c1",
       "entry_target_id": "root:02dc:1d0e",
@@ -13624,20 +13603,6 @@
           "image_offset": 13801,
           "bytes_hex": "bff65a",
           "entry": "root:02dc:080a"
-        }
-      ]
-    },
-    "OPPONENT_EXTRA_IMAGE_LIMITS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 1724,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 44598,
-          "bytes_hex": "8b87bc06",
-          "entry": "root:0a63:01f2"
         }
       ]
     },
@@ -14168,6 +14133,12 @@
         }
       ]
     },
+    "PIECES": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 4240
+    },
     "MARK_FOREGROUND": {
       "entry_sha256": "5f5c4234b3c9b0d192a8b5953355812ff1a0366b24ec87332807ba83f57a8e5b",
       "entry_target_id": "root:0b52:0f16",
@@ -14176,6 +14147,12 @@
       "segment": 2898,
       "space": "root",
       "witnesses": []
+    },
+    "OPPONENT_OVERLAY_FIRST": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:load/load",
+      "offset": 1724
     }
   },
   "target_id": "group:add/add",

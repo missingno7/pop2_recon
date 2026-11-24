@@ -73,7 +73,7 @@
     ],
     "externals": [
       "GRAF",
-      "BYTE_ALIGNMENT",
+      "PIXELS_PER_BYTE",
       "INIT_PORT",
       "OFFSETRECT",
       "ALLOCATE_BUFFER",
@@ -287,7 +287,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "BYTE_ALIGNMENT",
+          "name": "PIXELS_PER_BYTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -295,7 +295,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "BYTE_ALIGNMENT",
+        "name": "PIXELS_PER_BYTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -341,7 +341,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "BYTE_ALIGNMENT",
+          "name": "PIXELS_PER_BYTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -349,7 +349,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "BYTE_ALIGNMENT",
+        "name": "PIXELS_PER_BYTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -470,20 +470,6 @@
         }
       ]
     },
-    "BYTE_ALIGNMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9318,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 91215,
-          "bytes_hex": "8a0e6624",
-          "entry": "root:1129:5194"
-        }
-      ]
-    },
     "FINISH_PORT": {
       "entry_sha256": "ee3d624c0399f4a55d269b44fe0e4b00c6020460c59d718691208b703cc6f1ab",
       "entry_target_id": "root:1129:399c",
@@ -583,6 +569,12 @@
           "relocation_index": 1
         }
       ]
+    },
+    "PIXELS_PER_BYTE": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9318
     }
   },
   "target_id": "group:graf/create_port",

@@ -450,8 +450,8 @@
       }
     ],
     "externals": [
+      "SCREENPORTRECT",
       "SET_KID_SWORD_KIND",
-      "SCREEN_BOUNDS",
       "OPEN_VERIFIED_RESOURCE",
       "LOAD_SHAPE_LIST",
       "UNLOADSHAPELIST",
@@ -492,25 +492,25 @@
       "NEED_SWORD_OVERLAY",
       "SETREBIRTHPTLEVELSTATUS",
       "SAVE_GAME_PLAY_PALETTE",
-      "LOAD_OVERLAY_ONE",
+      "LOADDSRTCODE",
       "ACTIVE_MAP",
-      "LOAD_OVERLAY_TWO",
+      "TEMPLE_FRAME",
       "RESUME_MODE",
       "OPEN_LEVEL_RESOURCE_FILES",
       "KID",
-      "LOAD_OVERLAY_THREE",
-      "LOAD_OVERLAY_FOUR",
+      "LOADTEMPLEDRAWCODE",
+      "LOAD_CAVE_DRAWING",
       "LOAD_LEVEL",
       "PRELOAD_ROOM_DATA",
       "@get_sword_frame_image",
-      "LOAD_OVERLAY_FIVE",
-      "LOAD_OVERLAY_SIX",
-      "LOAD_OVERLAY_SEVEN",
-      "LOAD_OVERLAY_EIGHT",
+      "CAVE_OVERLAY_ENTRY",
+      "LOADRUINSDRAWCODE",
+      "LOADRUINSMOVECODE",
+      "LOADROOFCODE",
       "NEED_KID_OVERLAY",
-      "LOAD_OVERLAY_NINE",
-      "LOAD_OVERLAY_TEN",
-      "LOAD_OVERLAY_ELEVEN",
+      "LOAD_FINAL_CODE",
+      "UNUSED_HEAD_ENTRY",
+      "UNUSED_GUARD_ENTRY",
       "UNLOAD_OPPONENT_OVERLAYS",
       "LOAD_RESOURCE_COPY",
       "NEED_OPPONENT_OVERLAY",
@@ -530,10 +530,10 @@
       "FETCH_LOCKED_SHAPE_LIST",
       "BACKGROUND_SCENE_GROUP",
       "SWORD_KIND",
-      "_copy_far_string",
-      "LEVEL_PIECES",
+      "__fstrcpy",
+      "PIECES",
       "BACKGROUND_SCENE_NUMBER",
-      "_split_path",
+      "__splitpath",
       "SWORD_FRAMES",
       "_sprintf",
       "OPPONENT_FRAMES",
@@ -869,16 +869,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
-          "name": "SCREEN_BOUNDS",
+          "index": 1,
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "SCREEN_BOUNDS",
+        "index": 1,
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1031,7 +1031,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 2,
           "name": "SET_KID_SWORD_KIND",
           "method": 6,
           "zero_displacement": true
@@ -1039,7 +1039,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "SET_KID_SWORD_KIND",
         "method": 6,
         "zero_displacement": true
@@ -1674,7 +1674,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 2,
           "name": "SET_KID_SWORD_KIND",
           "method": 6,
           "zero_displacement": true
@@ -1682,7 +1682,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "SET_KID_SWORD_KIND",
         "method": 6,
         "zero_displacement": true
@@ -1944,16 +1944,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
-          "name": "SCREEN_BOUNDS",
+          "index": 1,
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "SCREEN_BOUNDS",
+        "index": 1,
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -5381,7 +5381,7 @@
         "target": {
           "kind": "external",
           "index": 82,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -5389,7 +5389,7 @@
       "target": {
         "kind": "external",
         "index": 82,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -5462,7 +5462,7 @@
         "target": {
           "kind": "external",
           "index": 60,
-          "name": "LOAD_OVERLAY_TEN",
+          "name": "UNUSED_HEAD_ENTRY",
           "method": 6,
           "zero_displacement": true
         }
@@ -5470,7 +5470,7 @@
       "target": {
         "kind": "external",
         "index": 60,
-        "name": "LOAD_OVERLAY_TEN",
+        "name": "UNUSED_HEAD_ENTRY",
         "method": 6,
         "zero_displacement": true
       },
@@ -5489,7 +5489,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "LOAD_OVERLAY_ELEVEN",
+          "name": "UNUSED_GUARD_ENTRY",
           "method": 6,
           "zero_displacement": true
         }
@@ -5497,7 +5497,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "LOAD_OVERLAY_ELEVEN",
+        "name": "UNUSED_GUARD_ENTRY",
         "method": 6,
         "zero_displacement": true
       },
@@ -5516,7 +5516,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "LOAD_OVERLAY_NINE",
+          "name": "LOAD_FINAL_CODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5524,7 +5524,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "LOAD_OVERLAY_NINE",
+        "name": "LOAD_FINAL_CODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5543,7 +5543,7 @@
         "target": {
           "kind": "external",
           "index": 57,
-          "name": "LOAD_OVERLAY_EIGHT",
+          "name": "LOADROOFCODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5551,7 +5551,7 @@
       "target": {
         "kind": "external",
         "index": 57,
-        "name": "LOAD_OVERLAY_EIGHT",
+        "name": "LOADROOFCODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5570,7 +5570,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "LOAD_OVERLAY_SEVEN",
+          "name": "LOADRUINSMOVECODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5578,7 +5578,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "LOAD_OVERLAY_SEVEN",
+        "name": "LOADRUINSMOVECODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5597,7 +5597,7 @@
         "target": {
           "kind": "external",
           "index": 55,
-          "name": "LOAD_OVERLAY_SIX",
+          "name": "LOADRUINSDRAWCODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5605,7 +5605,7 @@
       "target": {
         "kind": "external",
         "index": 55,
-        "name": "LOAD_OVERLAY_SIX",
+        "name": "LOADRUINSDRAWCODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5624,7 +5624,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "LOAD_OVERLAY_FIVE",
+          "name": "CAVE_OVERLAY_ENTRY",
           "method": 6,
           "zero_displacement": true
         }
@@ -5632,7 +5632,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "LOAD_OVERLAY_FIVE",
+        "name": "CAVE_OVERLAY_ENTRY",
         "method": 6,
         "zero_displacement": true
       },
@@ -5651,7 +5651,7 @@
         "target": {
           "kind": "external",
           "index": 50,
-          "name": "LOAD_OVERLAY_FOUR",
+          "name": "LOAD_CAVE_DRAWING",
           "method": 6,
           "zero_displacement": true
         }
@@ -5659,7 +5659,7 @@
       "target": {
         "kind": "external",
         "index": 50,
-        "name": "LOAD_OVERLAY_FOUR",
+        "name": "LOAD_CAVE_DRAWING",
         "method": 6,
         "zero_displacement": true
       },
@@ -5678,7 +5678,7 @@
         "target": {
           "kind": "external",
           "index": 49,
-          "name": "LOAD_OVERLAY_THREE",
+          "name": "LOADTEMPLEDRAWCODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5686,7 +5686,7 @@
       "target": {
         "kind": "external",
         "index": 49,
-        "name": "LOAD_OVERLAY_THREE",
+        "name": "LOADTEMPLEDRAWCODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5705,7 +5705,7 @@
         "target": {
           "kind": "external",
           "index": 45,
-          "name": "LOAD_OVERLAY_TWO",
+          "name": "TEMPLE_FRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -5713,7 +5713,7 @@
       "target": {
         "kind": "external",
         "index": 45,
-        "name": "LOAD_OVERLAY_TWO",
+        "name": "TEMPLE_FRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -5732,7 +5732,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "LOAD_OVERLAY_ONE",
+          "name": "LOADDSRTCODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5740,7 +5740,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "LOAD_OVERLAY_ONE",
+        "name": "LOADDSRTCODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7860,7 +7860,7 @@
         "target": {
           "kind": "external",
           "index": 82,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -7868,7 +7868,7 @@
       "target": {
         "kind": "external",
         "index": 82,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -7914,7 +7914,7 @@
         "target": {
           "kind": "external",
           "index": 82,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -7922,7 +7922,7 @@
       "target": {
         "kind": "external",
         "index": 82,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -7941,7 +7941,7 @@
         "target": {
           "kind": "external",
           "index": 82,
-          "name": "LEVEL_PIECES",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -7949,7 +7949,7 @@
       "target": {
         "kind": "external",
         "index": 82,
-        "name": "LEVEL_PIECES",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -9332,7 +9332,7 @@
         "target": {
           "kind": "external",
           "index": 84,
-          "name": "_split_path",
+          "name": "__splitpath",
           "method": 6,
           "zero_displacement": true
         }
@@ -9340,7 +9340,7 @@
       "target": {
         "kind": "external",
         "index": 84,
-        "name": "_split_path",
+        "name": "__splitpath",
         "method": 6,
         "zero_displacement": true
       },
@@ -9359,7 +9359,7 @@
         "target": {
           "kind": "external",
           "index": 81,
-          "name": "_copy_far_string",
+          "name": "__fstrcpy",
           "method": 6,
           "zero_displacement": true
         }
@@ -9367,7 +9367,7 @@
       "target": {
         "kind": "external",
         "index": 81,
-        "name": "_copy_far_string",
+        "name": "__fstrcpy",
         "method": 6,
         "zero_displacement": true
       },
@@ -12418,20 +12418,6 @@
         }
       ]
     },
-    "LEVEL_PIECES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 4240,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 6246,
-          "bytes_hex": "031e9010",
-          "entry": "root:0170:0124"
-        }
-      ]
-    },
     "LEVEL_SEQUENCES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -13016,32 +13002,6 @@
         }
       ]
     },
-    "_copy_far_string": {
-      "entry_sha256": "d2de043779a7128c098a270356177adb5e2b742da948b8e8a1b0d4abbed13569",
-      "entry_target_id": "root:1fef:1f00",
-      "kind": "far-code-entry",
-      "offset": 7936,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 24050,
-          "bytes_hex": "9a001fef1f",
-          "file_offset": 32242,
-          "relocation_index": 621
-        }
-      ]
-    },
-    "_split_path": {
-      "entry_sha256": "16ee1c867cfa8ac5e5b75960ab4287bf5ac417c27b8b323f98a960a92ca3ab53",
-      "entry_target_id": "root:1fef:1a5e",
-      "kind": "far-code-entry",
-      "offset": 6750,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": []
-    },
     "_sprintf": {
       "entry_sha256": "ef400b60bfb15ef83e27bd8b12f175774b6a77d9b491ccd5049f90bbd9811086",
       "entry_target_id": "root:1fef:170e",
@@ -13058,83 +13018,6 @@
           "relocation_index": 128
         }
       ]
-    },
-    "LOAD_OVERLAY_EIGHT": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3381,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_ELEVEN": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3481,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_FIVE": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3411,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_FOUR": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3401,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_NINE": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3461,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_ONE": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3391,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_SEVEN": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3431,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_SIX": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3421,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_TEN": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3471,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_THREE": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3441,
-      "witnesses": []
-    },
-    "LOAD_OVERLAY_TWO": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3451,
-      "witnesses": []
     },
     "SET_PALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",
@@ -13154,19 +13037,106 @@
       "space": "root",
       "witnesses": []
     },
-    "SCREEN_BOUNDS": {
-      "kind": "dgroup-offset",
+    "UNUSED_HEAD_ENTRY": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3471,
+      "witnesses": []
+    },
+    "UNUSED_GUARD_ENTRY": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3481,
+      "witnesses": []
+    },
+    "LOAD_FINAL_CODE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3461,
+      "witnesses": []
+    },
+    "LOADROOFCODE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3381,
+      "witnesses": []
+    },
+    "LOADRUINSMOVECODE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3431,
+      "witnesses": []
+    },
+    "LOADRUINSDRAWCODE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3421,
+      "witnesses": []
+    },
+    "CAVE_OVERLAY_ENTRY": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3411,
+      "witnesses": []
+    },
+    "LOAD_CAVE_DRAWING": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3401,
+      "witnesses": []
+    },
+    "LOADTEMPLEDRAWCODE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3441,
+      "witnesses": []
+    },
+    "TEMPLE_FRAME": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3451,
+      "witnesses": []
+    },
+    "LOADDSRTCODE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3391,
+      "witnesses": []
+    },
+    "__splitpath": {
+      "entry_sha256": "16ee1c867cfa8ac5e5b75960ab4287bf5ac417c27b8b323f98a960a92ca3ab53",
+      "entry_target_id": "root:1fef:1a5e",
+      "kind": "far-code-entry",
+      "offset": 6750,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
+    },
+    "__fstrcpy": {
+      "entry_sha256": "d2de043779a7128c098a270356177adb5e2b742da948b8e8a1b0d4abbed13569",
+      "entry_target_id": "root:1fef:1f00",
+      "kind": "far-code-entry",
+      "offset": 7936,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
+    },
+    "SCREENPORTRECT": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 7978,
-      "witnesses": [
-        {
-          "bytes_hex": "b82a1f",
-          "entry": "root:053b:0544",
-          "image_offset": 22046,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "provider": "group:intrface/intrface",
+      "offset": 7978
     },
     "CHAR": {
       "kind": "dgroup-offset",
@@ -13195,6 +13165,12 @@
           ]
         }
       ]
+    },
+    "PIECES": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 4240
     }
   },
   "target_id": "group:load/load",

@@ -125,10 +125,10 @@ static struct {
     {0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1}
 };
 
-extern ShapeOffsets *shape_offsets;
+extern ShapeOffsets *Pieces;
 extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_back_foreground_to_back(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_back_foreground_to_front(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int add_middle_item(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern Byte PieceRightId(CellCoord, CellCoord);
 extern Byte PieceLeftId(CellCoord, CellCoord);
@@ -175,7 +175,7 @@ void DrawCaveBlock(DrawCell *cell)
             else
                 image = -1;
             if (image != (Word)-1)
-                add_back_foreground_to_back(20, image, cell->column, cell->row, 10, 0);
+                AddBFImgToBTable(20, image, cell->column, cell->row, 10, 0);
         }
         if (modifier & 0x80)
             AddBImgToBTable(51, group + 90, cell->column, cell->row, 10, 0);
@@ -280,10 +280,10 @@ void DrawCaveExitMovable(DrawCell *cell)
         doorway.top = cell->row * 63 + 1;
         if (SectRect(&clip_rect, &clip_rect, &doorway)) {
             lift = cell->modifier & 255;
-            shape_offsets->exit_y = -(15 + (lift < 42 ? lift : 42));
+            Pieces->exit_y = -(15 + (lift < 42 ? lift : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             draw = Kid.frame >= 217 && Kid.frame <= 226 ?
-                add_back_foreground_to_front : add_back_foreground_to_back;
+                AddBFImgToFTable : AddBFImgToBTable;
             draw(57, -2, cell->column, cell->row, 10, 0);
         }
         clip_rect = saved;
@@ -311,14 +311,14 @@ void DrawCaveFloor(DrawCell *cell)
     case 2:
         image = variant + 22;
         mode = 10;
-        draw = add_back_foreground_to_front;
+        draw = AddBFImgToFTable;
         break;
     case 5:
         if (IsWall(PieceLeftId(cell->column, cell->row)))
             AddBImgToBTable(54, variant + 19, cell->column, cell->row, 10, 0);
         image = variant + 22;
         mode = 10;
-        draw = add_back_foreground_to_back;
+        draw = AddBFImgToBTable;
         break;
     }
     if (draw) {
@@ -344,10 +344,10 @@ void DrawCaveGate(DrawCell *cell)
         DrawCaveTopEdge(cell);
         break;
     case 2:
-        add_back_foreground_to_front(4, -2, cell->column, cell->row, 10, 0);
+        AddBFImgToFTable(4, -2, cell->column, cell->row, 10, 0);
         break;
     case 5:
-        add_back_foreground_to_back(4, -2, cell->column, cell->row, 10, 0);
+        AddBFImgToBTable(4, -2, cell->column, cell->row, 10, 0);
         break;
     }
     DrawCaveGateMovable(cell);
@@ -374,16 +374,16 @@ void DrawCaveGateMovable(DrawCell *cell)
             draw = 0;
             break;
         case 1:
-            shape_offsets->front_gate_y = y;
+            Pieces->front_gate_y = y;
             draw = add_middle_item;
             break;
         case 2:
-            shape_offsets->gate_y = y;
-            draw = add_back_foreground_to_front;
+            Pieces->gate_y = y;
+            draw = AddBFImgToFTable;
             break;
         case 5:
-            shape_offsets->gate_y = y;
-            draw = add_back_foreground_to_back;
+            Pieces->gate_y = y;
+            draw = AddBFImgToBTable;
             break;
         }
         if (draw)
@@ -402,8 +402,8 @@ void DrawCaveGateSquishing(DrawCell *cell)
     gate.top = cell->row * 63 - 16;
     if (SectRect(&clip_rect, (const DrawRect *)&Kid.bounds, &gate)) {
         lift = (cell->modifier & 0xfc) >> 2;
-        shape_offsets->gate_y = -3 - (lift < 50 ? lift : 50);
-        add_back_foreground_to_front(55, -2, cell->column, cell->row, 10, 0);
+        Pieces->gate_y = -3 - (lift < 50 ? lift : 50);
+        AddBFImgToFTable(55, -2, cell->column, cell->row, 10, 0);
     }
     clip_rect = saved;
 }
@@ -427,13 +427,13 @@ void DrawCaveLava1(DrawCell *cell)
     case 2:
         DrawCaveFloor(&floor);
         if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-            draw = add_back_foreground_to_front;
+            draw = AddBFImgToFTable;
         break;
     case 5:
         DrawCaveFloor(&floor);
         if (!draw_pass_mode && lava &&
             (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-            draw = add_back_foreground_to_back;
+            draw = AddBFImgToBTable;
         break;
     case 11:
         DrawCaveLavaBubbles(cell, 0);
@@ -466,12 +466,12 @@ void DrawCaveLava2(DrawCell *cell)
     case 2:
         DrawCaveFloor(&floor);
         if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-            draw = add_back_foreground_to_front;
+            draw = AddBFImgToFTable;
         break;
     case 5:
         DrawCaveFloor(&floor);
         if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-            draw = add_back_foreground_to_back;
+            draw = AddBFImgToBTable;
         break;
     case 11:
         DrawCaveLavaBubbles(cell, 1);
@@ -493,7 +493,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
 
     if (draw_pass_mode && !right)
         return;
-    draw = cell->pass == 2 ? add_back_foreground_to_front : add_back_foreground_to_back;
+    draw = cell->pass == 2 ? AddBFImgToFTable : AddBFImgToBTable;
     lava = get_lava_info(Room.number, cell->column, cell->row);
     if (!lava)
         return;
@@ -504,18 +504,18 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
             return;
     }
     if ((lava->flags & 0x40) && frame >= 6 && frame <= 14) {
-        shape_offsets->bubble.y = frame + 20;
-        shape_offsets->bubble.flags = -8;
+        Pieces->bubble.y = frame + 20;
+        Pieces->bubble.flags = -8;
         /* The DOS branch requires both comparisons before the special arm. */
         if (frame == 6 && frame == 14) {
-            shape_offsets->bubble.image = 152;
+            Pieces->bubble.image = 152;
             if (frame == 6)
-                shape_offsets->bubble.y += 3;
+                Pieces->bubble.y += 3;
         } else {
-            shape_offsets->bubble.image = 151;
+            Pieces->bubble.image = 151;
         }
         if (right)
-            shape_offsets->bubble.y -= 32;
+            Pieces->bubble.y -= 32;
         draw(59, -2, cell->column, cell->row, 10, 0);
     }
     layer = 0;
@@ -525,19 +525,19 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
             if (bubble->active && bubble->layer != layer) {
                 signed char picture;
 
-                shape_offsets->bubble.y = bubble->y - (right << 5);
-                shape_offsets->bubble.flags = bubble->flags;
+                Pieces->bubble.y = bubble->y - (right << 5);
+                Pieces->bubble.flags = bubble->flags;
                 picture = bubble_frames[bubble->kind][bubble->frame];
-                shape_offsets->bubble.image = picture + 127;
+                Pieces->bubble.image = picture + 127;
                 draw(59, -2, cell->column, cell->row, 10, 0);
             }
         }
         if (layer == 0) {
             draw(right + 23, 144, cell->column, cell->row, 10, 0);
         } else if ((lava->flags & 0x40) && frame >= 13 && frame <= 23) {
-            shape_offsets->bubble = cave_images.bubble_positions[frame - 13];
+            Pieces->bubble = cave_images.bubble_positions[frame - 13];
             if (right)
-                shape_offsets->bubble.y -= 32;
+                Pieces->bubble.y -= 32;
             draw(59, -2, cell->column, cell->row, 10, 0);
         }
     } while (++layer < 2);
@@ -559,28 +559,28 @@ void DrawCaveLoose(DrawCell *cell)
     case 1:
         if (image == 13)
             break;
-        shape_offsets->loose_front_y = image + 5;
+        Pieces->loose_front_y = image + 5;
         add_middle_item(11, broken + 70, cell->column, cell->row, 10, 0);
         break;
     case 2:
-        shape_offsets->loose_x = 16;
-        shape_offsets->loose_y = -7;
-        add_back_foreground_to_front(11, broken + 68, cell->column, cell->row, 10, 0);
+        Pieces->loose_x = 16;
+        Pieces->loose_y = -7;
+        AddBFImgToFTable(11, broken + 68, cell->column, cell->row, 10, 0);
         if (image == 13)
             break;
-        shape_offsets->loose_x = 1;
-        shape_offsets->loose_y = image + 1;
-        add_back_foreground_to_front(11, broken + 66, cell->column, cell->row, 10, 0);
+        Pieces->loose_x = 1;
+        Pieces->loose_y = image + 1;
+        AddBFImgToFTable(11, broken + 66, cell->column, cell->row, 10, 0);
         break;
     case 5:
-        shape_offsets->loose_x = 16;
-        shape_offsets->loose_y = -7;
-        add_back_foreground_to_back(11, broken + 68, cell->column, cell->row, 10, 0);
+        Pieces->loose_x = 16;
+        Pieces->loose_y = -7;
+        AddBFImgToBTable(11, broken + 68, cell->column, cell->row, 10, 0);
         if (image == 13)
             break;
-        shape_offsets->loose_x = 1;
-        shape_offsets->loose_y = image + 1;
-        add_back_foreground_to_back(11, broken + 66, cell->column, cell->row, 10, 0);
+        Pieces->loose_x = 1;
+        Pieces->loose_y = image + 1;
+        AddBFImgToBTable(11, broken + 66, cell->column, cell->row, 10, 0);
         break;
     }
 }
@@ -618,10 +618,10 @@ void DrawCavePosts(DrawCell *cell)
         DrawCaveTopEdge(cell);
         break;
     case 2:
-        add_back_foreground_to_front(3, -2, cell->column, cell->row, 10, 0);
+        AddBFImgToFTable(3, -2, cell->column, cell->row, 10, 0);
         break;
     case 5:
-        add_back_foreground_to_back(3, -2, cell->column, cell->row, 10, 0);
+        AddBFImgToBTable(3, -2, cell->column, cell->row, 10, 0);
         break;
     }
 }
@@ -641,14 +641,14 @@ void DrawCaveRevPlate(DrawCell *cell)
         DrawCaveBotEdge(cell);
         break;
     case 2:
-        add_back_foreground_to_front(34, -2, cell->column, cell->row, 10, 0);
+        AddBFImgToFTable(34, -2, cell->column, cell->row, 10, 0);
         if (cell->modifier & 0x0800)
-            draw = add_back_foreground_to_front;
+            draw = AddBFImgToFTable;
         break;
     case 5:
-        add_back_foreground_to_back(34, -2, cell->column, cell->row, 10, 0);
+        AddBFImgToBTable(34, -2, cell->column, cell->row, 10, 0);
         if (cell->modifier & 0x0800)
-            draw = add_back_foreground_to_back;
+            draw = AddBFImgToBTable;
         break;
     }
     if (draw)
@@ -673,10 +673,10 @@ void draw_cave_rubble_pieces(DrawCell *cell)
         draw = add_middle_item;
         break;
     case 2:
-        draw = add_back_foreground_to_front;
+        draw = AddBFImgToFTable;
         break;
     case 5:
-        draw = add_back_foreground_to_back;
+        draw = AddBFImgToBTable;
         break;
     default:
         draw = 0;
@@ -777,11 +777,11 @@ void DrawCaveTopEdge(DrawCell *cell)
     if (cell->column == redraw_column && cell->row == redraw_row) {
         image = (cell->modifier & 0x3800) >> 11;
         if (image) {
-            shape_offsets->top_edge_x = cave_images.top_edge_x[image - 1];
+            Pieces->top_edge_x = cave_images.top_edge_x[image - 1];
             image += 91;
             check_background_shape(image);
             height = RESOLVE_HANDLE_TO_FAR_PAYLOAD(background_shapes[image].handle);
-            shape_offsets->top_edge_y = *height - 63;
+            Pieces->top_edge_y = *height - 63;
             add_middle_item(61, image, cell->column, cell->row, 10, 0);
         }
     }

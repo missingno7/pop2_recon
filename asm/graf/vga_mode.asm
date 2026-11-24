@@ -3,7 +3,6 @@
 .DATA
 EXTRN Graf:WORD
 EXTRN default_port:BYTE
-EXTRN surface_scanline_count:WORD
 EXTRN surface_row_stride:WORD
 EXTRN surface_scanline_offsets:WORD
 .CODE
@@ -361,7 +360,7 @@ initialize_vga PROC FAR
     pop ds
     rep movsb
     pop ds
-    mov ax, WORD PTR [surface_scanline_count]
+    mov ax, WORD PTR [default_port+8]
     shl ax, 1
     push ax
     call __nmalloc
@@ -371,7 +370,7 @@ initialize_vga PROC FAR
     je vga_692f
     xchg di, ax
     sub ax, ax
-    mov cx, WORD PTR [surface_scanline_count]
+    mov cx, WORD PTR [default_port+8]
     push ds
     pop es
 

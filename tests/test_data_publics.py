@@ -508,6 +508,31 @@ class FarReadExtentTests(unittest.TestCase):
             self.assertIsNone(far_read_extent(bytes.fromhex(code), 0x1F2A, arguments), code)
 
 
+class BaseExtentTests(unittest.TestCase):
+    """`mov r,S` and an access [r+k] on the fall-through path prove [S, S+k+w) is one object."""
+
+    def test_near_heap_descriptor_of_nfree(self):
+        from oracle import Oracle
+        from binding import base_extent
+        root = Oracle.load().spaces["root"]
+        self.assertEqual(base_extent(root.data[0x1FF11:0x1FF21], 0x20EC), 10)     # cmp [si+8],bx
+        self.assertEqual(base_extent(root.data[0x1FF11:0x1FF17], 0x20EC), 8)
+        self.assertIsNone(base_extent(root.data[0x1FF11:0x1FF21], 0x20EE))
+
+    def test_every_part_is_required(self):
+        from binding import base_extent
+        self.assertEqual(base_extent(bytes.fromhex("beec2089" "5c08"), 0x20EC), 10)
+        for code in ("beec204689" "5c08",                     # SI changed
+                     "beec20268c" "5c08",                     # ES access
+                     "beec208d" "5c08",                       # LEA
+                     "beec208958" "08",                       # an index register
+                     "beec20895cfe",                          # below S
+                     "beec201f895c08"):                       # DS changed
+            self.assertIsNone(base_extent(bytes.fromhex(code), 0x20EC), code)
+        with self.assertRaisesRegex(Exception, "fall through"):
+            base_extent(bytes.fromhex("beec20e80000895c08"), 0x20EC)
+
+
 class ArchivePublicTests(unittest.TestCase):
     """A pinned library member's unique data can be the provider of an extern."""
     ARCHIVE = {"library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
@@ -658,6 +683,27 @@ class NameConsistencyTests(unittest.TestCase):
                              {"alias:group:u/u:OLD", "alias:group:u/u:OTHER", "same-entry:group:u/u:root:0001:0000"})
             a.write_text(json.dumps({"symbols": {"NEW": entry}}))
             self.assertEqual(module_gate.name_consistency_violations([({}, definer), ({}, user)]), set())
+
+    def test_vector_and_data_aliases(self):
+        import tempfile
+        (ROOT / "build/workers/tests").mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=ROOT / "build/workers/tests") as tmp:
+            a = Path(tmp) / "a.json"
+            definer = {"kind": "same_source_group", "group_id": "group:d/d", "drafts": [],
+                       "claims": [{"public": "FRAME", "target_id": "overlay-14:2fcd:0000"}],
+                       "data_publics": [{"name": "TABLE", "address": 0x100}]}
+            user = {"kind": "same_source_group", "group_id": "group:u/u", "claims": [], "drafts": [], "binding": str(a)}
+            vectors = {(0x220E, 0xDE9): "overlay-14:2fcd:0000", (0x220E, 0xDA3): "overlay-13:2fcd:0000"}
+
+            def found(**symbols):
+                a.write_text(json.dumps({"symbols": symbols}))
+                return module_gate.name_consistency_violations([({}, definer), ({}, user)], vectors)
+            vector = {"kind": "rtlink-vector", "space": "root", "segment": 0x220E, "offset": 0xDE9}
+            data = {"kind": "dgroup-offset", "offset": 0x100}
+            self.assertEqual(found(Frame=vector, Table=data), set())
+            self.assertEqual(found(OTHER=vector, LIST=data),
+                             {"vector-alias:group:u/u:OTHER", "data-alias:group:u/u:LIST"})
+            self.assertEqual(found(OTHER=dict(vector, offset=0xDA3), LIST=dict(data, offset=0x102)), set())
 
     def test_library_public_aliases_share_an_entry(self):
         import tempfile

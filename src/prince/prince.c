@@ -62,7 +62,7 @@ extern const char *resource_files[3];
 extern LEVELREC Level;
 extern char selected_level;
 extern char LevelIdx;
-extern int command_line_enabled;
+extern int frame_diagnostics;
 extern int skip_opening;
 extern int restart_from_demo;
 
@@ -88,8 +88,8 @@ extern GameOptions *configuration;
 extern unsigned char active_sound_channels;
 extern void far *digital_driver, far *midi_driver;
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
-extern void far pascal reset_overlay_state(const char *message);
-extern void far pascal platform_setup(void);
+extern void far pascal show_init_message(const char *message);
+extern void far pascal init_system(void);
 extern void far pascal SetOptionsFromDisk(void);
 extern void far pascal open_verified_resource(const char *filename);
 extern int far pascal Rnd(int seed);
@@ -115,7 +115,7 @@ extern int far pascal init_port(void near *port, void far *buffer);
 extern void far pascal clear_peels(void);
 
 extern unsigned char ScreenPort[];
-extern unsigned char game_buffer[];
+extern unsigned char ScreenPortRect[];
 extern int Graf;
 extern int LastResume;
 
@@ -130,13 +130,13 @@ void far pascal ResetData(void);
     const char **file;
     char message[100];
 
-    platform_setup();
+    init_system();
     if (find_option("sbdiag")) {
         sprintf(message, "DType:%d MType:%d\rDDrv:%d MDrv: %d\rDInit:%d MInit:%d",
                 configuration->digital_type != 0, configuration->midi_type != 0,
                 digital_driver ? 1 : 0, midi_driver ? 1 : 0,
                 (active_sound_channels & 1) != 0, (active_sound_channels & 2) != 0);
-        reset_overlay_state(message);
+        show_init_message(message);
     }
     SetOptionsFromDisk();
     read_start_level();
@@ -155,7 +155,7 @@ void far pascal ResetData(void);
     char level = selected_level;
 
     for (;;) {
-        if (command_line_enabled) {
+        if (frame_diagnostics) {
             if (find_option("WATCHMEM")) {
                 const char near * const restart_message = "At beginning of ResetGame() loop.";
                 check_heaps(restart_message);
@@ -192,7 +192,7 @@ void far pascal ResetData(void);
     char near *option;
 
     selected_level = 0;
-    if (command_line_enabled) {
+    if (frame_diagnostics) {
         option = find_option("LEVEL");
         if (option == 0)
             return;
@@ -295,7 +295,7 @@ extern signed char joystick[3];
 #define joystick_y (joystick[0])
 #define joystick_x (joystick[1])
 #define joystick_button (joystick[2])
-extern signed char timer_disabled;
+extern signed char quote_index;
 extern int Pause;
 extern int minutes_remaining, countdown_pending, restart_blocked;
 extern int requested_level, control_mode, message_ticks, message_duration;
@@ -316,7 +316,7 @@ extern const char *far pascal toggle_ambient(void);
 extern int far pascal is_leave_level_music_on(void);
 extern void far pascal draw_message(const char *message);
 extern void far pascal dispatch_sound(int mode);
-extern int far pascal in_special_room(void);
+extern int far pascal altar_shadow_active(void);
 extern void far pascal clear_keyboard(void);
 extern void far pascal handle_debug_input(unsigned int key);
 
@@ -333,9 +333,9 @@ unsigned int far pascal prince_poll(void)
     if (key) {
         clear_keyboard(); switch (key) {
         case 0x1b: Pause = 1; break;
-        case 0x20: if (timer_disabled >= 0) countdown_pending = 1; break;
+        case 0x20: if (quote_index >= 0) countdown_pending = 1; break;
         case 0x1300:
-            selected_level = 0; timer_disabled = -1;
+            selected_level = 0; quote_index = -1;
         case 0x1e00:
             if (!is_leave_level_music_on()) restart = 1; break;
         case 0x1800: if (IsValidTimeForDialog() && !restart_from_demo) {
@@ -365,11 +365,11 @@ unsigned int far pascal prince_poll(void)
             break;
         case 0x2f00: message = title; break;
         case 0x3100:
-            if (LevelIdx <= 3 || command_line_enabled) { if (LevelIdx == 14 && command_line_enabled) {
+            if (LevelIdx <= 3 || frame_diagnostics) { if (LevelIdx == 14 && frame_diagnostics) {
                     requested_level = 1;
                 } else {
                     requested_level = LevelIdx + 1;
-                    if (!command_line_enabled && minutes_remaining > 15) {
+                    if (!frame_diagnostics && minutes_remaining > 15) {
                         minutes_remaining = 15; ticks_remaining = 719; }
                 }
                 dispatch_sound(0);
@@ -377,12 +377,12 @@ unsigned int far pascal prince_poll(void)
         case 0x3200: message = toggle_ambient(); break;
         }
 
-        if (command_line_enabled) handle_debug_input(key);
+        if (frame_diagnostics) handle_debug_input(key);
         if (message) { draw_message(message); message_ticks = message_duration = 24;
         }
     }
     if (restart && restart_blocked == 0 &&
-        (Room.number != 4 || Level.level_number != 13 || !in_special_room())) {
+        (Room.number != 4 || Level.level_number != 13 || !altar_shadow_active())) {
         demo_changed = 1; dispatch_sound(0);
     }
     return key;
@@ -394,8 +394,8 @@ extern CHARREC RoomOpp[5];
 
 extern int minutes_remaining, message_ticks, message_duration, countdown_pending;
 extern int debug_alt_view, debug_reload_room;
-extern int debug_show_objects, debug_show_messages, debug_show_buildings;
-extern int debug_show_collisions, debug_show_door_links, debug_show_meters;
+extern int pause_on_frame, show_actor_position, show_reference_position;
+extern int show_ruler, debug_show_door_links, debug_show_meters;
 extern int debug_kid_x, debug_kid_y, player_input_disabled;
 
 
@@ -536,19 +536,19 @@ void far pascal handle_debug_input(unsigned int key)
         show_dialog(0, debug_messages.debug_cheat_message, 0);
         break;
     case 0x3b00:
-        debug_show_objects = !debug_show_objects;
+        pause_on_frame = !pause_on_frame;
         break;
     case 0x3c00:
-        debug_show_messages = !debug_show_messages;
+        show_actor_position = !show_actor_position;
         break;
     case 0x3d00:
         message = (char *)(toggle_recording_player() ? debug_messages.recording_on_message : debug_messages.recording_off_message);
         break;
     case 0x3f00:
-        debug_show_buildings = !debug_show_buildings;
+        show_reference_position = !show_reference_position;
         break;
     case 0x4000:
-        debug_show_collisions = !debug_show_collisions;
+        show_ruler = !show_ruler;
         break;
     case 0x4100:
         debug_show_door_links = !debug_show_door_links;
@@ -822,7 +822,7 @@ void far pascal add_room_trobs(void)
     select_room_arrays(Room.number);
 }
 
-extern signed char timer_disabled;
+extern signed char quote_index;
 extern int minutes_remaining, countdown_pending;
 extern unsigned int ticks_remaining;
 extern int message_ticks, message_duration, deferred_room, LastResume;
@@ -836,7 +836,7 @@ void far pascal KeepTime(void)
     char text[40];
     unsigned int seconds;
 
-    if (timer_disabled >= 0 && Kid.alive < 0 && minutes_remaining != 0) {
+    if (quote_index >= 0 && Kid.alive < 0 && minutes_remaining != 0) {
         if (--ticks_remaining == 0) {
             ticks_remaining = 719;
             if (--minutes_remaining != 0 &&
@@ -1127,7 +1127,7 @@ extern void far pascal dispatch_sound(int mode);
 extern int far pascal init_port(void near *port, void far *buffer);
 extern void far pascal clear_peels(void);
 extern unsigned char ScreenPort[];
-extern unsigned char game_buffer[];
+extern unsigned char ScreenPortRect[];
 extern int Graf;
 extern char LevelIdx;
 extern int LastResume;
@@ -1191,7 +1191,7 @@ void far pascal GoWeightless(void)
 /* 1316 */ void far pascal ResetData(void)
 {
     dispatch_sound(0);
-    Graf = init_port(ScreenPort, game_buffer);
+    Graf = init_port(ScreenPort, ScreenPortRect);
     clear_peels();
     LevelIdx = -1;
     LastResume = 0;

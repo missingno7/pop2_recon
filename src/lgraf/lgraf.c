@@ -24,7 +24,7 @@ static char allocation_message[] = "ERROR:  Couldn't allocate backport.";
 void near * far cdecl _nmalloc(unsigned);
 void far cdecl _nfree(void near *);
 void far * far cdecl _fmemcpy(void far *, const void far *, unsigned);
-int far cdecl memcmp(const void far *, const void far *, unsigned);
+int far cdecl _fmemcmp(const void far *, const void far *, unsigned);
 int far pascal create_port(void near *, const Rect far *);
 void far pascal abort_with_message(int, const char far *);
 Color far * far pascal ALLOCATE_PINNED_PAYLOAD(long);
@@ -81,12 +81,12 @@ int far pascal EncloseRect(const Rect far *rect, const Rect far *other)
 {
     Rect work;
     UNIONRECT(&work, rect, other);
-    return memcmp(&work, rect, sizeof(work)) == 0;
+    return _fmemcmp(&work, rect, sizeof(work)) == 0;
 }
 
 int far pascal EqualRect(const Rect far *a, const Rect far *b)
 {
-    return memcmp(a, b, sizeof(*a)) == 0;
+    return _fmemcmp(a, b, sizeof(*a)) == 0;
 }
 
 void far pascal draw_record_bounds(GraphicsRecord near *record)

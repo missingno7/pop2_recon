@@ -17,18 +17,6 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 8,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "CURSOR_DATA",
-        "class": "DATA",
-        "overlay": "",
         "length": 60,
         "alignment": 2,
         "combine": 2,
@@ -42,8 +30,7 @@
       {
         "name": "DGROUP",
         "segments": [
-          2,
-          3
+          2
         ]
       }
     ],
@@ -160,21 +147,19 @@
     "externals": [
       "MOUSE_MAX_Y",
       "SCREEN_WIDTH",
+      "CURSOR_SHOW_COUNT",
       "DEFAULT_PORT",
       "MEASURE_TEXT",
       "CONVERT_SHAPE",
-      "DEFAULT_PORT_MOUSE_MAX_X",
       "MOUSE_PRESENT",
-      "DEFAULT_PORT_ORIGIN",
-      "DEFAULT_PORT_LIMITS",
       "RELEASE_BUFFER",
       "CLAMP_POINT_TO_RECT",
       "DISPOSE_HANDLE",
       "HGETRSRC",
-      "DEFAULT_PORT_MOUSE_BOUNDS",
       "RESTORE_HANDLE_FLAGS",
       "PAINT_FOUR_BIT",
-      "DEFAULT_PORT_SEGMENT",
+      "CURSOR_X",
+      "CURSOR_Y",
       "ALLOCATE_BUFFER",
       "GRAF",
       "PIXELS_PER_BYTE",
@@ -182,6 +167,7 @@
       "RELOCATE_HANDLE_PAYLOAD",
       "SAVE_HANDLE_FLAGS",
       "FETCH_LOCKED_SHAPE_LIST",
+      "CURSOR_PLANE_MASK",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
     ]
   },
@@ -210,12 +196,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -231,12 +218,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -253,7 +241,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -275,7 +263,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -297,8 +285,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 8
@@ -318,7 +306,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "MEASURE_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -340,7 +328,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -361,12 +349,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -383,7 +372,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 21,
         "name": "SAVE_HANDLE_FLAGS",
         "method": 6,
         "zero_displacement": true
@@ -405,7 +394,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 22,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -427,7 +416,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "CONVERT_SHAPE",
         "method": 6,
         "zero_displacement": true
@@ -449,7 +438,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "CONVERT_SHAPE",
         "method": 6,
         "zero_displacement": true
@@ -471,7 +460,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 10,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -493,7 +482,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 12,
         "name": "RESTORE_HANDLE_FLAGS",
         "method": 6,
         "zero_displacement": true
@@ -514,12 +503,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -558,8 +548,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 4,
         "zero_displacement": true
       },
@@ -580,7 +570,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 10,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -602,8 +592,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 6
@@ -623,7 +613,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 10,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -645,7 +635,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 20,
         "name": "RELOCATE_HANDLE_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -667,8 +657,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 6
@@ -688,7 +678,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 22,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -710,7 +700,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 20,
         "name": "RELOCATE_HANDLE_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -732,8 +722,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 4,
         "zero_displacement": true
       },
@@ -754,7 +744,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 22,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -776,8 +766,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 4
@@ -797,8 +787,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 2
@@ -817,12 +807,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -839,8 +830,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 12
@@ -860,8 +851,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 16
@@ -881,8 +872,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 14
@@ -902,8 +893,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 18
@@ -965,12 +956,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -987,8 +979,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 58
@@ -1008,12 +1000,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
-        "name": "DEFAULT_PORT_LIMITS",
-        "method": 6,
-        "zero_displacement": true
+        "index": 4,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -1029,12 +1020,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1050,12 +1042,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 14,
+        "name": "CURSOR_X",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 6
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1072,7 +1065,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -1094,8 +1087,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 8
@@ -1115,8 +1108,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 24
@@ -1136,8 +1129,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 16
@@ -1157,8 +1150,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 18
@@ -1178,7 +1171,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 18,
         "name": "PIXELS_PER_BYTE",
         "method": 6,
         "zero_displacement": true
@@ -1200,8 +1193,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 20
@@ -1221,8 +1214,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 16
@@ -1242,8 +1235,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 56
@@ -1263,8 +1256,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 20
@@ -1284,7 +1277,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "ALLOCATE_BUFFER",
         "method": 6,
         "zero_displacement": true
@@ -1306,8 +1299,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 8
@@ -1327,8 +1320,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 10
@@ -1391,12 +1384,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "DEFAULT_PORT_MOUSE_MAX_X",
-        "method": 6,
-        "zero_displacement": true
+        "index": 4,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 22
     },
     {
       "kind": "fixup",
@@ -1520,12 +1512,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1542,12 +1535,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
-        "name": "DEFAULT_PORT_MOUSE_BOUNDS",
-        "method": 6,
-        "zero_displacement": true
+        "index": 4,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 16
     },
     {
       "kind": "fixup",
@@ -1564,7 +1556,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "CLAMP_POINT_TO_RECT",
         "method": 6,
         "zero_displacement": true
@@ -1585,12 +1577,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1606,12 +1599,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 14,
+        "name": "CURSOR_X",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 6
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1628,8 +1622,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 4
@@ -1649,8 +1643,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 14
@@ -1669,12 +1663,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1691,8 +1686,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 2
@@ -1712,8 +1707,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 12
@@ -1797,12 +1792,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1840,12 +1836,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -1884,8 +1881,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 10
@@ -1905,8 +1902,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 8
@@ -1926,7 +1923,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 8,
         "name": "RELEASE_BUFFER",
         "method": 6,
         "zero_displacement": true
@@ -1948,8 +1945,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 4,
         "zero_displacement": true
       },
@@ -1970,7 +1967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 10,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -1992,8 +1989,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 6
@@ -2013,7 +2010,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 10,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2057,7 +2054,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 11,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -2099,12 +2096,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2120,12 +2118,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2142,8 +2141,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 56
@@ -2184,12 +2183,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2206,7 +2206,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -2228,7 +2228,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2249,12 +2249,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 14,
+        "name": "CURSOR_X",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 6
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2271,8 +2272,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 4
@@ -2292,8 +2293,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 14
@@ -2313,8 +2314,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 18
@@ -2333,12 +2334,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2355,8 +2357,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 2
@@ -2376,8 +2378,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 12
@@ -2397,8 +2399,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 16
@@ -2418,8 +2420,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 8
@@ -2439,7 +2441,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "MEASURE_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -2461,8 +2463,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 6
@@ -2482,7 +2484,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -2504,8 +2506,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 12
@@ -2525,7 +2527,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 13,
         "name": "PAINT_FOUR_BIT",
         "method": 6,
         "zero_displacement": true
@@ -2547,8 +2549,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 4,
         "zero_displacement": true
       },
@@ -2569,7 +2571,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -2591,8 +2593,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 12
@@ -2611,10 +2613,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 4,
+        "kind": "external",
+        "index": 23,
+        "name": "CURSOR_PLANE_MASK",
+        "method": 6,
         "zero_displacement": true
       },
       "displacement": null
@@ -2634,7 +2636,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 13,
         "name": "PAINT_FOUR_BIT",
         "method": 6,
         "zero_displacement": true
@@ -2656,7 +2658,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2784,12 +2786,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 14,
+        "name": "CURSOR_X",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 6
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2805,12 +2808,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2826,12 +2830,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 14,
+        "name": "CURSOR_X",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 6
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2847,12 +2852,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 15,
+        "name": "CURSOR_Y",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 4
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2868,12 +2874,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -2890,8 +2897,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 58
@@ -2911,7 +2918,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 19,
         "name": "MOUSE_STACK_TOP",
         "method": 6,
         "zero_displacement": true
@@ -2976,8 +2983,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 58
@@ -3018,8 +3025,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 56
@@ -3038,12 +3045,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -3059,12 +3067,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -3081,7 +3090,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -3103,12 +3112,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "DEFAULT_PORT_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 4,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -3125,12 +3133,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "DEFAULT_PORT_ORIGIN",
-        "method": 6,
-        "zero_displacement": true
+        "index": 4,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -3147,8 +3154,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 16
@@ -3168,8 +3175,8 @@
       },
       "target": {
         "kind": "segment",
-        "index": 3,
-        "name": "CURSOR_DATA",
+        "index": 2,
+        "name": "_DATA",
         "method": 0
       },
       "displacement": 12
@@ -3210,12 +3217,13 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 3,
+        "name": "CURSOR_SHOW_COUNT",
+        "method": 6,
+        "zero_displacement": true
       },
-      "displacement": 2
+      "displacement": null
     },
     {
       "kind": "fixup",
@@ -3232,7 +3240,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -3339,8 +3347,7 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "CURSOR_DATA": 7368,
-    "_DATA": 9302
+    "_DATA": 7368
   },
   "schema": 1,
   "symbols": {
@@ -3398,36 +3405,6 @@
       "offset": 9342,
       "provider": "group:graf/graphics_mode"
     },
-    "DEFAULT_PORT_LIMITS": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 9350,
-      "provider": "group:graf/graphics_mode"
-    },
-    "DEFAULT_PORT_MOUSE_BOUNDS": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 9358,
-      "provider": "group:graf/graphics_mode"
-    },
-    "DEFAULT_PORT_MOUSE_MAX_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 9364,
-      "provider": "group:graf/graphics_mode"
-    },
-    "DEFAULT_PORT_ORIGIN": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 9346,
-      "provider": "group:graf/graphics_mode"
-    },
-    "DEFAULT_PORT_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 9344,
-      "provider": "group:graf/graphics_mode"
-    },
     "DISPOSE_HANDLE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
@@ -3466,11 +3443,11 @@
       "offset": 9296,
       "witnesses": [
         {
-          "bytes_hex": "8b1e5024",
-          "entry": "root:1129:4fac",
-          "image_offset": 90687,
-          "operand_offset": 2,
-          "space": "root"
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 5116,
+          "bytes_hex": "a35024",
+          "entry": "root:0000:0000"
         }
       ]
     },
@@ -3633,6 +3610,30 @@
       "kind": "dgroup-public",
       "offset": 9314,
       "provider": "group:graf/graphics_mode"
+    },
+    "CURSOR_SHOW_COUNT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9304
+    },
+    "CURSOR_Y": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9306
+    },
+    "CURSOR_X": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9308
+    },
+    "CURSOR_PLANE_MASK": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9302
     }
   },
   "target_id": "group:graf/cursor_and_bitmap_frontend",

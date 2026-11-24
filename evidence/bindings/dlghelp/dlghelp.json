@@ -187,7 +187,7 @@
       "CLAMP_POINT_TO_RECT",
       "ALLOCATE_PINNED_PAYLOAD",
       "MOVE_HUGE_BYTES",
-      "_far_string_length",
+      "__fstrlen",
       "STROKE_PORT_RECT",
       "PAINT_EDIT_CARET",
       "DELETE_EDIT_CHARACTER",
@@ -1721,7 +1721,7 @@
         "target": {
           "kind": "external",
           "index": 8,
-          "name": "_far_string_length",
+          "name": "__fstrlen",
           "method": 6,
           "zero_displacement": true
         }
@@ -1729,7 +1729,7 @@
       "target": {
         "kind": "external",
         "index": 8,
-        "name": "_far_string_length",
+        "name": "__fstrlen",
         "method": 6,
         "zero_displacement": true
       },
@@ -2461,29 +2461,21 @@
         }
       ]
     },
-    "_far_string_length": {
-      "entry_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331",
-      "entry_target_id": "root:1fef:1ee8",
-      "kind": "far-code-entry",
-      "offset": 7912,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 23432,
-          "bytes_hex": "9ae81eef1f",
-          "file_offset": 31624,
-          "relocation_index": 674
-        }
-      ]
-    },
     "PLAY_SOUND": {
       "entry_sha256": "e36482d583c514ab1343b0ecffa61a728d3fcfa734f04732b4ee4ceb856a1596",
       "entry_target_id": "root:1129:840e",
       "kind": "far-code-entry",
       "offset": 33806,
       "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "__fstrlen": {
+      "entry_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331",
+      "entry_target_id": "root:1fef:1ee8",
+      "kind": "far-code-entry",
+      "offset": 7912,
+      "segment": 8175,
       "space": "root",
       "witnesses": []
     },

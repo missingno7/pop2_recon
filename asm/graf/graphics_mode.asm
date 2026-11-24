@@ -4,6 +4,13 @@ EXTRN Graf:WORD
 EXTRN MODE_TABLE:WORD
 EXTRN SAVED_BIOS_EQUIPMENT:WORD
 EXTRN SAVED_BIOS_MODE:BYTE
+; Mouse cursor state shared with the cursor module.
+PUBLIC cursor_plane_mask, CURSOR_SHOW_COUNT, CURSOR_Y, CURSOR_X, MOUSE_PRESENT
+cursor_plane_mask DW 0fh
+CURSOR_SHOW_COUNT DW -1
+CURSOR_Y DW 0
+CURSOR_X DW 0
+MOUSE_PRESENT DW 0
 ; Default mode record. Initialization replaces all fifteen words.
 PUBLIC SCREEN_WIDTH, PIXELS_PER_BYTE
 mode_snapshot DW 0
@@ -28,20 +35,16 @@ PUBLIC PAINT_PLAIN_CALLBACK
 PAINT_PLAIN_CALLBACK DW 0
 
 ; INIT_PORT copies the complete 2Ch-byte record before applying a caller rectangle.
-PUBLIC DEFAULT_PORT, DEFAULT_PORT_SEGMENT, DEFAULT_PORT_ORIGIN
-PUBLIC DEFAULT_PORT_LIMITS, DEFAULT_PORT_MOUSE_BOUNDS, DEFAULT_PORT_MOUSE_MAX_X
+PUBLIC DEFAULT_PORT
 DEFAULT_PORT DW 0
-DEFAULT_PORT_SEGMENT DW 0
-DEFAULT_PORT_ORIGIN LABEL DWORD
+default_port_segment DW 0
     DW 0, 0
-DEFAULT_PORT_LIMITS LABEL DWORD
     DW 0, 0
 default_port_pitch DW 0
 default_port_row_table DW 0
-DEFAULT_PORT_MOUSE_BOUNDS LABEL WORD
     DW 0, 0
 default_port_mouse_max_y DW 0
-DEFAULT_PORT_MOUSE_MAX_X DW 0
+default_port_mouse_max_x DW 0
 default_port_clip DW 0, 0, 0, 0
 default_port_attributes DW 0
 default_port_origin_transform DW 0, 0, 0, 0fh

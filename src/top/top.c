@@ -155,7 +155,7 @@ extern int special_sequence;                       /* ds:0a16 */
 extern int resource_index;                         /* ds:0902 */
 extern int last_sound;                             /* ds:08fe */
 extern int last_track;                             /* ds:0900 */
-extern int option_flags;                           /* ds:1142 */
+extern int frame_diagnostics;                           /* ds:1142 */
 extern int nis_skip_requested;                           /* ds:1504 */
 extern int view_retry;                             /* ds:6296 */
 extern int kid_step;                      /* ds:6298 */
@@ -164,7 +164,7 @@ extern int guard_timer;                            /* ds:629c */
 extern int control_lock;                           /* ds:629e */
 extern int collision_pending;                      /* ds:62de */
 extern int transition_pending;                     /* ds:67cc */
-extern char timer_disabled;                            /* ds:01d6 */
+extern char quote_index;                            /* ds:01d6 */
 #pragma pack(1)
 typedef struct {
     signed char kind;                                 /* 00 */
@@ -182,7 +182,7 @@ extern char room_render_flags[10];                  /* ds:6248 */
 extern unsigned char *room_kinds;                   /* ds:6294 */
 static char level_option[] = "LEVEL";
 struct char_bounds GamePlayRect = { 0, 0, 192, 320 };
-extern char loading_name[];                         /* ds:1fe0 */
+extern char ScreenPortRect[];                         /* ds:1fe0 */
 
 extern void CheckBPort(void);              /* far:0a5c:004e */
 extern int find_option(char far *);                  /* far:1101:29aa */
@@ -195,10 +195,10 @@ extern void InitInput(void);                        /* far:02cc:1404 */
 extern void reset_recorded_playback(void);                  /* far:0da4:0252 */
 extern void CheckRecordedGamePlayer(void);                 /* far:0da4:0122 */
 extern void clear_peels(void);                     /* far:0169:0794 */
-extern void reset_vector_a(void);                   /* far:2203:0d21 */
-extern void reset_vector_b(void);                   /* far:2203:0d0d */
-extern void reset_vector_c(void);                   /* far:2203:0d17 */
-extern void reset_vector_d(void);                   /* far:2203:0d2b */
+extern void reset_actor_alert(void);                   /* far:2203:0d21 */
+extern void reset_overlay_state(void);                   /* far:2203:0d0d */
+extern void reset_shadow_overlay_state(void);                   /* far:2203:0d17 */
+extern void reset_barrier_state(void);                   /* far:2203:0d2b */
 extern int SetRebirthPtKidStatus(void);                 /* far:052d:1234 */
 extern void JumpSeq(int);                    /* far:25da:0016 */
 extern void AnimChar(void);               /* far:02cc:0394 */
@@ -344,7 +344,7 @@ int start_game(signed char requested)
         remaining_minutes = 75;
         remaining_ticks = 719;
         starting_health = 3;
-        if (option_flags && find_option(level_option)) {
+        if (frame_diagnostics && find_option(level_option)) {
             signed char health = Level.level_number;
             health = health < 3 ? 3 : health;
             starting_health = health > 12 ? 12 : health;
@@ -412,10 +412,10 @@ int restart_level(signed char requested)
 
 void reset_level_overlays(void)
 {
-    reset_vector_a();
-    reset_vector_b();
-    reset_vector_c();
-    reset_vector_d();
+    reset_actor_alert();
+    reset_overlay_state();
+    reset_shadow_overlay_state();
+    reset_barrier_state();
 }
 
 void start_kid(void)
@@ -517,7 +517,7 @@ int first_frame(signed char requested)
     result = PrepCut(requested != -2 ? 1 : 0);
     if (result == -2) {
         if (!IsLevelStartWithNISScreen())
-            STROKE_PORT_RECT(loading_name);
+            STROKE_PORT_RECT(ScreenPortRect);
         else
             clear_message(1);
         sequence_delay = pending_sequence = 0;
@@ -1113,7 +1113,7 @@ void lose_game(void)
     dispatch_sound(0);
     result = play_nis(28);
     remaining_minutes = 0;
-    timer_disabled = 8;
+    quote_index = 8;
     if (result == 2)
         reset_level_overlays();
 }

@@ -83,7 +83,7 @@ extern int fade_to_step(unsigned long);
 extern void dispose_handle(int);
 extern void release_port(void *);
 extern void release_buffer(void far *);
-extern void cdecl release_animation_heap(void *);
+extern void cdecl free(void *);
 
 Animation *anim_draw(Animation *animation)
 {
@@ -109,7 +109,7 @@ void anim_free(Animation *animation)
     release_buffer(animation->background.pixels);
     if (animation->sound_flag)
         active_animation_flags &= ~animation->sound_flag;
-    release_animation_heap(animation);
+    free(animation);
 }
 
 Animation *draw_frame(Animation *animation);

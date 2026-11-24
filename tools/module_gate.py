@@ -1042,7 +1042,7 @@ def immediate_witness_violations(recipes, oracle):
     return found
 
 
-def name_consistency_violations(recipes):
+def name_consistency_violations(recipes, vectors=None):
     """Refutation only (whole-link names, 2026-11-22; o10_trial): a real link has one definition per public
     name and resolves one external name to one address. Returns stable keys:
     - `duplicate-public:NAME` for a public defined by more than one accepted component (claims, drafts,
@@ -1054,7 +1054,11 @@ def name_consistency_violations(recipes):
       symbol ids are case-insensitive, o11_relorder);
     - `same-entry:GROUP:TARGET` for one binding naming the same code entry under several names (one
       original declaration, two in the source). Names that one pinned library member itself defines at that
-      very address (`__aFlmul`/`__aFulmul`) are the library's publics, not two declarations of one entry."""
+      very address (`__aFlmul`/`__aFulmul`) are the library's publics, not two declarations of one entry;
+    - `vector-alias:GROUP:NAME` (2026-11-24, v1.1 trial link) for a call through an original overlay vector whose
+      destination is accepted under another name: RTLink vectors a name, so another name calls the overlay directly.
+      `vectors` maps (segment, offset) of each original vector to its target id;
+    - `data-alias:GROUP:NAME` for a DGROUP symbol at the address of an accepted data public with another name."""
     from common import project_path
     found = {f"duplicate-public:{n}" for n, c in accepted_public_names(recipes).items() if c > 1}
     entry_names = {}
@@ -1063,6 +1067,10 @@ def name_consistency_violations(recipes):
         for row in rows:
             if "target_id" in row and "public" in row:
                 entry_names.setdefault(row["target_id"], set()).add(row["public"])
+    data_names = {}
+    for owner, recipe in recipes:
+        for row in recipe.get("data_publics", []):
+            data_names.setdefault(row["address"], set()).add(row["name"].upper())
     addresses = {}
     runtime_names = runtime_public_positions(recipes)
     for owner, recipe in recipes:
@@ -1076,10 +1084,19 @@ def name_consistency_violations(recipes):
                 entries.setdefault(target, set()).add(name)
                 if target in entry_names and name.upper() not in {n.upper() for n in entry_names[target]}:
                     found.add(f"alias:{gid}:{name}")
+            if symbol.get("kind") == "rtlink-vector":
+                names = entry_names.get((vectors or {}).get((symbol["segment"], symbol["offset"])), set())
+                if names and name.upper() not in {n.upper() for n in names}:
+                    found.add(f"vector-alias:{gid}:{name}")
+            if symbol.get("kind") == "dgroup-offset" and                     name.upper() not in data_names.get(symbol.get("offset"), {name.upper()}):
+                found.add(f"data-alias:{gid}:{name}")
             if symbol.get("kind") == "dgroup-offset" and type(symbol.get("offset")) is int:
                 addresses.setdefault(name, set()).add(("DS", symbol["offset"]))
             elif symbol.get("kind") in FAR_KINDS and type(symbol.get("segment")) is int:
-                addresses.setdefault(name, set()).add(("FAR", symbol["segment"], symbol.get("offset")))
+                at = (symbol["segment"], symbol.get("offset"))
+                if symbol["kind"] == "rtlink-vector" and at in (vectors or {}):  # the name is the vector's destination
+                    at = tuple(int(q, 16) for q in vectors[at].split(":")[1:])
+                addresses.setdefault(name, set()).add(("FAR", *at))
         for t, names in entries.items():
             if len(names) > 1 and not names <= runtime_names.get(entry_position(t), set()):
                 found.add(f"same-entry:{gid}:{t}")

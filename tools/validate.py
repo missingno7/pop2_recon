@@ -247,7 +247,11 @@ def _validate(run_tests=True):
                         for s in read_json(project_path(recipe["binding"]))["declarations"]["segments"]}
             aligned += [(component, seg, declared[seg], p["placement"])
                         for seg, p in report["placements"].items() if p["length"]]
-    link = name_consistency_violations(recipes) | alignment_violations(aligned)
+    from tu_census import overlay_vectors
+    code = {n: s for n, s in oracle.spaces.items() if n not in ("root", "overlay-17")}
+    vectors = {k: f"{v['target_space']}:{v['target_segment']:04x}:{v['target_offset']:04x}"
+               for k, v in overlay_vectors(oracle, code).items()}
+    link = name_consistency_violations(recipes, vectors) | alignment_violations(aligned)
     link_debt = set(read_json(ROOT / "evidence/link-consistency-debt.json")["violations"])
     require(link == link_debt, "evidence/link-consistency-debt.json differs from the whole-link violations: "
             f"unlisted {sorted(link - link_debt)}, stale {sorted(link_debt - link)}")

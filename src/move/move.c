@@ -135,7 +135,7 @@ void animate_plate(void);
 extern void animate_desert_exit(void);
 extern void AnimScythe(void);
 extern void animate_lava(void);
-extern void animate_kind_27(void);
+extern void animate_cave_bars(void);
 extern void animate_desert_rocks(void);
 extern void animate_desert_planks(void);
 extern void animate_desert_stone(void);
@@ -147,8 +147,8 @@ extern void animate_roof_glass(void);
 extern void animate_spider(void);
 extern void animate_crystal(void);
 extern void animate_gargoyle(void);
-extern void animate_kind_43(void);
-extern void animate_kind_44(void);
+extern void animate_sacred_flame(void);
+extern void animate_bridge_floor(void);
 
 /* Draft. External provider names and same-file prototypes remain provisional. */
 void AnimTrob(int index)
@@ -190,7 +190,7 @@ void AnimTrob(int index)
         animate_lava();
         break;
     case 27:
-        animate_kind_27();
+        animate_cave_bars();
         break;
     case 28:
         animate_desert_rocks();
@@ -226,10 +226,10 @@ void AnimTrob(int index)
         animate_gargoyle();
         break;
     case 43:
-        animate_kind_43();
+        animate_sacred_flame();
         break;
     case 44:
-        animate_kind_44();
+        animate_bridge_floor();
         break;
     }
     BlueS[current_trob.cell].state = BlueSpec.state;

@@ -1,4 +1,4 @@
-extern signed char previous_track_range;
+extern signed char loaded_opponent;
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -152,7 +152,7 @@ typedef struct {
 extern CHARREC Char;
 extern CHARREC Kid;
 extern CHARREC RoomOpp[5];
-extern SoundRule sound_rules[];
+extern SoundRule Snd[];
 extern AmbientState ambient_state;
 extern ROOMREC Room;
 
@@ -274,7 +274,7 @@ void AddSong(int song)
 
 void AddSound(int effect)
 {
-    if ((pending_effect == -1 || sound_rules[effect].priority <= sound_rules[pending_effect].priority) &&
+    if ((pending_effect == -1 || Snd[effect].priority <= Snd[pending_effect].priority) &&
         !sound_inhibit && Char.character_kind != 1)
         pending_effect = effect;
 }
@@ -336,7 +336,7 @@ int is_leave_level_music_on(void)
 
 void change_song_range(signed char range)
 {
-    if (range != previous_track_range && previous_track_range != -1 && track_first[previous_track_range] != -1)
+    if (range != loaded_opponent && loaded_opponent != -1 && track_first[loaded_opponent] != -1)
         release_song_range(track_first[range], track_last[range]);
     if (range != -1 && track_first[range] != -1)
         load_song_range(track_first[range], track_last[range]);
@@ -443,8 +443,8 @@ int should_replace_effect(int effect, int playing)
         if (!query_sound(playing + 10000)) {
             replace = 1;
         } else {
-            if (((sound_rules[playing].mode == 1 && playing != effect) || sound_rules[playing].mode == 2) &&
-                sound_rules[playing].priority >= sound_rules[effect].priority)
+            if (((Snd[playing].mode == 1 && playing != effect) || Snd[playing].mode == 2) &&
+                Snd[playing].priority >= Snd[effect].priority)
                 replace = 1;
         }
     }

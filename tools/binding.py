@@ -463,6 +463,30 @@ def fill_extent(raw, base):
     return None
 
 
+def base_extent(raw, base):
+    """k + width when the original window `raw` starts with `mov r,base` (BX, SI or DI), never changes r and ends in
+    one DS access [r+k] of that width; else None. Conditional branches may lie between (the window is the path that
+    falls through them), no call, jump or return. The program then uses memory up to base+k+width as one object."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    first, last = rows[0], rows[-1]
+    if len(rows) < 2 or first.mnemonic != "mov" or first.imm_size != 2 or first.operands[0].type != xc.X86_OP_REG or             first.operands[1].imm & 0xFFFF != base:
+        return None
+    name = first.reg_name(first.operands[0].reg)
+    parts = {"bx": {"bx", "bl", "bh"}, "si": {"si"}, "di": {"di"}}.get(name)
+    if parts is None:
+        return None
+    for insn in rows[1:]:
+        branch = 0x70 <= insn.bytes[0] <= 0x7F
+        require(branch or not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Base window must fall through")
+        if (insn is not last and registers_written(insn) & parts) or "ds" in registers_written(insn):
+            return None
+    memory = [o for o in last.operands if o.type == xc.X86_OP_MEM]
+    if len(memory) != 1 or last.mnemonic == "lea" or memory[0].mem.index or             last.reg_name(memory[0].mem.base) != name or memory[0].mem.segment not in (0, xc.X86_REG_DS):
+        return None
+    return memory[0].mem.disp + memory[0].size if memory[0].mem.disp >= 0 else None
+
+
 def record_stride(raw, base, es=False):
     """d when the straight-line original window `raw` ends in one access [r+base] (default DS; ES: with `es`) whose index
     register holds d (>= 2) times one unknown value, computed inside the window; else None.
@@ -750,7 +774,7 @@ def ground(binding, target, oracle, claimed=None):
                 kind = spec.get("kind")
                 require(set(spec) <= {"length", "witness", "call", "kind", "next"} and {"length", "witness"} <= set(spec) and
                         ((symbol["witnesses"] or internal and "call" not in spec) and kind is None or
-                         kind in ("index", "pointer", "record", "fill") and "call" not in spec or
+                         kind in ("index", "pointer", "record", "fill", "base") and "call" not in spec or
                          kind == "far-read" and "call" in spec and symbol["witnesses"]) and
                         ("next" not in spec or kind == "record"),
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
@@ -789,9 +813,10 @@ def ground(binding, target, oracle, claimed=None):
                     length = (index_extent(raw, offset) if kind == "index" else pointer_extent(raw, offset)
                               if kind == "pointer" else far_read_extent(raw, offset, arguments)
                               if kind == "far-read" else fill_extent(raw, offset)
-                              if kind == "fill" else block_copy_extent(raw, at, offset, arguments))
+                              if kind == "fill" else base_extent(raw, offset)
+                              if kind == "base" else block_copy_extent(raw, at, offset, arguments))
                 require(length is not None and length == spec["length"],
-                        "Extent witness is not a block copy, fill, bounded index, far pointer access, record array or "
+                        "Extent witness is not a block copy, fill, bounded index, pointer or base access, record array or "
                         "argument read of that length at the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
                         type(m.get("witnesses")) is list and

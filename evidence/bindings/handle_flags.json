@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 4,
+        "length": 0,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -100,6 +100,7 @@
       }
     ],
     "externals": [
+      "__NHEAP_DESC",
       "__NFREE",
       "FIND_MOVABLE_PAYLOAD_SPACE",
       "__NMALLOC",
@@ -157,7 +158,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "ALLOCATE_BACKING_SPACE_GUARDED",
         "method": 6,
         "zero_displacement": true
@@ -174,12 +175,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "__NFREE"
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "__NFREE",
         "method": 6,
         "zero_displacement": true
@@ -200,13 +201,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 4,
-        "zero_displacement": true
+        "kind": "external",
+        "index": 1,
+        "name": "__NHEAP_DESC",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -222,12 +222,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 0
+        "kind": "external",
+        "index": 1,
+        "name": "__NHEAP_DESC",
+        "method": 2
       },
-      "displacement": 2
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -239,12 +239,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "__NMALLOC"
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "__NMALLOC",
         "method": 6,
         "zero_displacement": true
@@ -266,7 +266,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "RELEASE_HANDLE_STORAGE",
         "method": 6,
         "zero_displacement": true
@@ -288,7 +288,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "ALLOCATE_BACKING_SPACE_GUARDED",
         "method": 6,
         "zero_displacement": true
@@ -310,7 +310,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -332,7 +332,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "FIND_MOVABLE_PAYLOAD_SPACE",
         "method": 6,
         "zero_displacement": true
@@ -354,7 +354,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "ALLOCATE_BACKING_SPACE_GUARDED",
         "method": 6,
         "zero_displacement": true
@@ -376,7 +376,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "GET_BLOCK_PAYLOAD_SIZE",
         "method": 6,
         "zero_displacement": true
@@ -398,7 +398,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -441,9 +441,7 @@
     }
   },
   "mode": "external-dgroup-offset16-v4",
-  "placements": {
-    "_DATA": 8434
-  },
+  "placements": {},
   "schema": 1,
   "symbols": {
     "ALLOCATE_BACKING_SPACE_GUARDED": {
@@ -558,6 +556,57 @@
           "relocation_index": 56
         }
       ]
+    },
+    "__NMALLOC": {
+      "entry_sha256": "abd19e80ca3aabcf3263efabd0fa607a10f569effe3df9dbb140ef8d3f06a1e7",
+      "entry_target_id": "root:1fef:003b",
+      "kind": "far-code-entry",
+      "offset": 59,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 5207,
+          "bytes_hex": "9a3b00ef1f",
+          "file_offset": 13399,
+          "relocation_index": 1
+        }
+      ]
+    },
+    "__NHEAP_DESC": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8428,
+      "witnesses": [
+        {
+          "bytes_hex": "beec20",
+          "entry": "root:1fef:001a",
+          "image_offset": 130833,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 8,
+          "witnesses": []
+        },
+        {
+          "offset": 6,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "base",
+        "length": 10,
+        "witness": {
+          "space": "root",
+          "image_offset": 130833,
+          "bytes_hex": "beec20395c06730d4b4b800f01395c08",
+          "entry": "root:1fef:001a"
+        }
+      }
     }
   },
   "target_id": "group:handle_flags",

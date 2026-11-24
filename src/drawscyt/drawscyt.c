@@ -86,7 +86,7 @@ extern void draw_temple_floor(ScytheCell *);
 extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern ShapeOffsets *shape_offsets;
+extern ShapeOffsets *Pieces;
 /* Consecutive six-byte records starting with scythe image 97. */
 static ScythePosition scythe_positions[] = {
     {97, 22, -33}, {98, 28, -33}, {99, 41, -33},
@@ -138,7 +138,7 @@ void DrawScythe1(ScytheCell *cell)
             open_frame = 96;
         else
             open_frame = 95;
-        shape_offsets->scythe1_frame = open_frame;
+        Pieces->scythe1_frame = open_frame;
         add_image = AddBImgToBTable;
         break;
     }
@@ -146,9 +146,9 @@ void DrawScythe1(ScytheCell *cell)
         draw_base(&base);
         frame = ScytheImg[cell->modifier & 31];
         if (frame >= 97 && frame <= 99) {
-            shape_offsets->scythe1_position = scythe_positions[frame - 92];
+            Pieces->scythe1_position = scythe_positions[frame - 92];
             if (mirrored)
-                shape_offsets->scythe1_position.image += 9;
+                Pieces->scythe1_position.image += 9;
             add_image = AddBFImgToFTable;
         }
         break;
@@ -159,9 +159,9 @@ void DrawScythe1(ScytheCell *cell)
         draw_base(&base);
         frame = ScytheImg[cell->modifier & 31];
         if (frame >= 97 && frame <= 99) {
-            shape_offsets->scythe1_position = scythe_positions[frame - 97];
+            Pieces->scythe1_position = scythe_positions[frame - 97];
             if (mirrored)
-                shape_offsets->scythe1_position.image += 9;
+                Pieces->scythe1_position.image += 9;
             add_image = AddBFImgToBTable;
         }
         break;
@@ -201,7 +201,7 @@ void DrawScythe2(ScytheCell *cell)
                 open_frame = 96;
             else
                 open_frame = 95;
-            shape_offsets->scythe2_frame = open_frame;
+            Pieces->scythe2_frame = open_frame;
             add_image = AddBImgToBTable;
         }
         break;
@@ -210,9 +210,9 @@ void DrawScythe2(ScytheCell *cell)
         frame = ScytheImg[cell->modifier & 31];
         if (frame == 100 || frame == 101) {
             if (frame != 101) {
-                shape_offsets->scythe2_position = scythe_positions[frame - 92];
+                Pieces->scythe2_position = scythe_positions[frame - 92];
                 if (mirrored)
-                    shape_offsets->scythe2_position.image += 9;
+                    Pieces->scythe2_position.image += 9;
                 add_image = AddBFImgToFTable;
             }
         }
@@ -224,9 +224,9 @@ void DrawScythe2(ScytheCell *cell)
         draw_base(&base);
         frame = ScytheImg[cell->modifier & 31];
         if (frame == 100 || frame == 101) {
-            shape_offsets->scythe2_position = scythe_positions[frame - 97];
+            Pieces->scythe2_position = scythe_positions[frame - 97];
             if (mirrored)
-                shape_offsets->scythe2_position.image += 9;
+                Pieces->scythe2_position.image += 9;
             add_image = AddBFImgToBTable;
         }
         break;

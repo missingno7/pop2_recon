@@ -437,9 +437,9 @@
       "LEFT_BARRIER_COL",
       "COLEDGEX",
       "RIGHT_BARRIER_COL",
-      "LEFT_OFFSETS",
+      "BARL",
       "SWORD_TABLE_ID",
-      "RIGHT_OFFSETS",
+      "BARR",
       "ROOM",
       "NULLRECT",
       "CELL",
@@ -524,7 +524,7 @@
         "target": {
           "kind": "external",
           "index": 87,
-          "name": "LEFT_OFFSETS",
+          "name": "BARL",
           "method": 6,
           "zero_displacement": true
         }
@@ -532,7 +532,7 @@
       "target": {
         "kind": "external",
         "index": 87,
-        "name": "LEFT_OFFSETS",
+        "name": "BARL",
         "method": 6,
         "zero_displacement": true
       },
@@ -6680,7 +6680,7 @@
         "target": {
           "kind": "external",
           "index": 89,
-          "name": "RIGHT_OFFSETS",
+          "name": "BARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -6688,7 +6688,7 @@
       "target": {
         "kind": "external",
         "index": 89,
-        "name": "RIGHT_OFFSETS",
+        "name": "BARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -12755,7 +12755,7 @@
         "target": {
           "kind": "external",
           "index": 87,
-          "name": "LEFT_OFFSETS",
+          "name": "BARL",
           "method": 6,
           "zero_displacement": true
         }
@@ -12763,7 +12763,7 @@
       "target": {
         "kind": "external",
         "index": 87,
-        "name": "LEFT_OFFSETS",
+        "name": "BARL",
         "method": 6,
         "zero_displacement": true
       },
@@ -12836,7 +12836,7 @@
         "target": {
           "kind": "external",
           "index": 89,
-          "name": "RIGHT_OFFSETS",
+          "name": "BARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -12844,7 +12844,7 @@
       "target": {
         "kind": "external",
         "index": 89,
-        "name": "RIGHT_OFFSETS",
+        "name": "BARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -13052,7 +13052,7 @@
         "target": {
           "kind": "external",
           "index": 87,
-          "name": "LEFT_OFFSETS",
+          "name": "BARL",
           "method": 6,
           "zero_displacement": true
         }
@@ -13060,7 +13060,7 @@
       "target": {
         "kind": "external",
         "index": 87,
-        "name": "LEFT_OFFSETS",
+        "name": "BARL",
         "method": 6,
         "zero_displacement": true
       },
@@ -13133,7 +13133,7 @@
         "target": {
           "kind": "external",
           "index": 89,
-          "name": "RIGHT_OFFSETS",
+          "name": "BARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -13141,7 +13141,7 @@
       "target": {
         "kind": "external",
         "index": 89,
-        "name": "RIGHT_OFFSETS",
+        "name": "BARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -15183,22 +15183,7 @@
       "offset": 684,
       "segment": 732,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 8380,
-          "bytes_hex": "9aac02dc02",
-          "relocation_index": 238,
-          "file_offset": 16572
-        },
-        {
-          "space": "root",
-          "image_offset": 68225,
-          "bytes_hex": "9aac02dc02",
-          "relocation_index": 1424,
-          "file_offset": 76417
-        }
-      ]
+      "witnesses": []
     },
     "GET_SET_IMAGE_SIZE": {
       "entry_sha256": "2308bdcee2ff5310a9275740c8edff3d14043cdf6915c4d3cac1c22ac23c8530",
@@ -15363,12 +15348,6 @@
           "entry": "root:1047:009c"
         }
       ]
-    },
-    "LEFT_OFFSETS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3400,
-      "witnesses": []
     },
     "LEVEL": {
       "group": "DGROUP",
@@ -15608,12 +15587,6 @@
         }
       ]
     },
-    "RIGHT_OFFSETS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3410,
-      "witnesses": []
-    },
     "ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -15834,6 +15807,18 @@
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3324
+    },
+    "BARL": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3400
+    },
+    "BARR": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3410
     }
   },
   "target_id": "group:collide/collide",

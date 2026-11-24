@@ -423,7 +423,7 @@ typedef struct {
 extern RoomImageTable near *room_image_table;
 extern ForegroundImage far fore_queue[];
 extern int foreground_count;
-extern void far cdecl move_bytes(void far *dst, const void far *src, unsigned int size);
+extern void far cdecl _fmemmove(void far *dst, const void far *src, unsigned int size);
 
 void far pascal sort_foreground(void)
 {
@@ -438,7 +438,7 @@ void far pascal sort_foreground(void)
         if ((shape >= 0x1021 && shape <= 0x1024) || (shape >= 0x1058 && shape <= 0x105c)) {
             if (index != out) {
                 saved = fore_queue[index];
-                move_bytes(&fore_queue[index], &fore_queue[index + 1], (out - index) * sizeof(ForegroundImage));
+                _fmemmove(&fore_queue[index], &fore_queue[index + 1], (out - index) * sizeof(ForegroundImage));
                 fore_queue[out] = saved;
             }
             --out;

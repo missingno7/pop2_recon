@@ -15,7 +15,7 @@ extern Configuration *configuration;
 extern unsigned char active_sound_channels;
 extern int control_mode;
 extern int backing_driver_active;
-extern InputPoll poll_input;
+extern InputPoll wait_function;
 extern int poll_user(void);
 
 extern void STROKE_PORT_RECT(Rect far *);
@@ -58,11 +58,11 @@ void show_init_message(const char *message)
     frame_rect(&message_port);
     INSETRECT(&rect, &message_port, 5, 8);
     DRAW_NUL_TEXT_IN_RECT(&rect, 0, 0, message);
-    saved_input = poll_input;
-    poll_input = poll_user;
+    saved_input = wait_function;
+    wait_function = poll_user;
     wait_key();
     STROKE_PORT_RECT(&message_port);
-    poll_input = saved_input;
+    wait_function = saved_input;
 }
 
 extern const char digital_sound_error[], midi_sound_error[];
@@ -88,16 +88,16 @@ typedef void (far pascal *ResourceError)(const char far *);
 typedef void (far pascal *WindowAction)(void *, int);
 extern CatalogError catalog_callback;
 extern InputPoll allocation_handler;
-extern ResourceError resource_error_callback;
+extern ResourceError resource_error;
 extern int load_resource_error(unsigned int *);
 extern int report_fatal_memory(void), release_discardable_images(void), Input(void);
 extern void report_resource_path(const char far *);
 extern void ignore_window_action(void *, int);
 extern char *interface_buffer;
 extern void far *heap_state;
-extern int source_port, Graf, main_port, option_flags;
+extern int source_port, Graf, main_port, frame_diagnostics;
 extern int window_draw_ready;
-extern char ScreenPort[], screen_bounds[], joystick_state[];
+extern char ScreenPort[], ScreenPortRect[], joystick_state[];
 
 typedef struct {
     unsigned char enabled;
@@ -188,8 +188,8 @@ void init_system(void)
     allocation_handler = report_fatal_memory;
     interface_buffer = _nmalloc(500);
     *(InputPoll far *)((char far *)heap_state + 0x12) = release_discardable_images;
-    resource_error_callback = report_resource_path;
-    poll_input = Input;
+    resource_error = report_resource_path;
+    wait_function = Input;
     source_port = 0;
     snapshot_null_area();
     open_verified_resource("PRINCE.DAT");
@@ -199,9 +199,9 @@ void init_system(void)
     init_sound();
     if (configuration->sound_report == -1)
         set_sound_level(0);
-    Graf = init_port((int)ScreenPort, screen_bounds);
+    Graf = init_port((int)ScreenPort, ScreenPortRect);
     set_mode_flag_value();
-    Graf = main_port = create_window(-2, screen_bounds, 0, "Prince of Persia II");
+    Graf = main_port = create_window(-2, ScreenPortRect, 0, "Prince of Persia II");
     set_window_event_state(main_port, 0);
     *(WindowAction *)((char *)main_port + 0x56) = ignore_window_action;
     update_message_display();
@@ -218,7 +218,7 @@ void init_system(void)
     set_default_palette();
     wait_for_ready();
     sound = resolve_handle_to_far_payload(hGetTxt4(10));
-    option_flags = find_option((const char far *)sound) != 0;
+    frame_diagnostics = find_option((const char far *)sound) != 0;
     dispose_handle(owner_of_payload(sound));
 }
 

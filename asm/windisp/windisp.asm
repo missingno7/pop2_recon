@@ -60,7 +60,7 @@ EXTRN CREATE_STRING_HANDLE:NEAR
 EXTRN measure_text_handle:NEAR
 EXTRN __nfree:FAR
 EXTRN __nmalloc:FAR
-EXTRN COMPARE_FAR_STRINGS:FAR
+EXTRN __fstrcmp:FAR
 
 PUBLIC DEFAULT_ITEM_HANDLER
 PUBLIC DISPATCH_LINKED_ITEMS
@@ -1857,7 +1857,7 @@ loc_939e:
     lea ax, [di+38h]
     push ds
     push ax
-    call COMPARE_FAR_STRINGS
+    call __fstrcmp
     add sp, 8
     xchg cx, ax
     jcxz loc_9379

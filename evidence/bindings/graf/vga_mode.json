@@ -205,8 +205,7 @@
       "SHOW_MOUSE_GRAPHICS",
       "CHECK_CURSOR_OVERLAP",
       "__NMALLOC",
-      "GRAF",
-      "SURFACE_SCANLINE_COUNT"
+      "GRAF"
     ]
   },
   "fixups": [
@@ -735,12 +734,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "SURFACE_SCANLINE_COUNT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -801,12 +799,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "SURFACE_SCANLINE_COUNT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -2021,6 +2018,20 @@
           "bytes_hex": "39067e24",
           "entry": "root:1129:4e36"
         }
+      ],
+      "members": [
+        {
+          "offset": 8,
+          "witnesses": [
+            {
+              "bytes_hex": "c4068624",
+              "entry": "root:1129:01bf",
+              "image_offset": 70769,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
       ]
     },
     "GRAF": {
@@ -2064,20 +2075,6 @@
           "image_offset": 86560,
           "bytes_hex": "f7268a24",
           "entry": "root:1129:3f5b"
-        }
-      ]
-    },
-    "SURFACE_SCANLINE_COUNT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9350,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 70769,
-          "bytes_hex": "c4068624",
-          "entry": "root:1129:01bf"
         }
       ]
     },

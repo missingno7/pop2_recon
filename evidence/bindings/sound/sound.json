@@ -328,7 +328,7 @@
       "KID",
       "ROOMOPP",
       "INIT_AMBIENT",
-      "SOUND_RULES",
+      "SND",
       "SHOULD_REPLACE_EFFECT",
       "AMBIENT_STATE",
       "ROOM",
@@ -344,7 +344,7 @@
       "ADDLEAVELEVELSONG",
       "MUSIC_UNAVAILABLE_MESSAGE",
       "CHANGE_SONG_RANGE",
-      "PREVIOUS_TRACK_RANGE",
+      "LOADED_OPPONENT",
       "QUERY_SOUND",
       "OPPTOFIGHT",
       "@AddKidScream",
@@ -761,7 +761,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "PREVIOUS_TRACK_RANGE",
+          "name": "LOADED_OPPONENT",
           "method": 6,
           "zero_displacement": true
         }
@@ -769,7 +769,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "PREVIOUS_TRACK_RANGE",
+        "name": "LOADED_OPPONENT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1139,7 +1139,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "SOUND_RULES",
+          "name": "SND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1147,7 +1147,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "SOUND_RULES",
+        "name": "SND",
         "method": 6,
         "zero_displacement": true
       },
@@ -1166,7 +1166,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "SOUND_RULES",
+          "name": "SND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1174,7 +1174,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "SOUND_RULES",
+        "name": "SND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3325,7 +3325,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "SOUND_RULES",
+          "name": "SND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3333,7 +3333,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "SOUND_RULES",
+        "name": "SND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3352,7 +3352,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "SOUND_RULES",
+          "name": "SND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3360,7 +3360,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "SOUND_RULES",
+        "name": "SND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3379,7 +3379,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "SOUND_RULES",
+          "name": "SND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3387,7 +3387,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "SOUND_RULES",
+        "name": "SND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3406,7 +3406,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "SOUND_RULES",
+          "name": "SND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3414,7 +3414,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "SOUND_RULES",
+        "name": "SND",
         "method": 6,
         "zero_displacement": true
       },
@@ -6389,32 +6389,6 @@
         }
       ]
     },
-    "SOUND_RULES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": []
-        }
-      ],
-      "offset": 3420,
-      "witnesses": []
-    },
-    "PREVIOUS_TRACK_RANGE": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 1648,
-      "witnesses": [
-        {
-          "bytes_hex": "803e700601",
-          "entry": "overlay-3:251b:0064",
-          "image_offset": 921,
-          "operand_offset": 2,
-          "space": "overlay-3"
-        }
-      ]
-    },
     "PROCESS_HANDLE": {
       "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
       "entry_target_id": "root:1129:8092",
@@ -6450,6 +6424,18 @@
       "segment": 732,
       "space": "root",
       "witnesses": []
+    },
+    "LOADED_OPPONENT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:load/load",
+      "offset": 1648
+    },
+    "SND": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3420
     }
   },
   "target_id": "group:sound/sound",

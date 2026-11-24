@@ -169,10 +169,10 @@
       "__fmemcmp",
       "FADE_DELAY",
       "GRAF",
-      "SCREEN_BOUNDS",
+      "SCREENPORTRECT",
       "INIT_FADE_IN",
       "FADE_IN_STEP",
-      "POLL_INPUT",
+      "WAIT_FUNCTION",
       "FADE_OUT_AND_RESTORE_PALETTE",
       "QUIT_FADE_IN",
       "READ_DAC_BLOCKS",
@@ -1397,7 +1397,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POLL_INPUT",
+          "name": "WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
         }
@@ -1405,7 +1405,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POLL_INPUT",
+        "name": "WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
       },
@@ -1424,7 +1424,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POLL_INPUT",
+          "name": "WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
         }
@@ -1432,7 +1432,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POLL_INPUT",
+        "name": "WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
       },
@@ -1478,7 +1478,7 @@
         "target": {
           "kind": "external",
           "index": 8,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1486,7 +1486,7 @@
       "target": {
         "kind": "external",
         "index": 8,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1532,7 +1532,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POLL_INPUT",
+          "name": "WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
         }
@@ -1540,7 +1540,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POLL_INPUT",
+        "name": "WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
       },
@@ -1559,7 +1559,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POLL_INPUT",
+          "name": "WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
         }
@@ -1567,7 +1567,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POLL_INPUT",
+        "name": "WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
       },
@@ -1586,7 +1586,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POLL_INPUT",
+          "name": "WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
         }
@@ -1594,7 +1594,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POLL_INPUT",
+        "name": "WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
       },
@@ -1613,7 +1613,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POLL_INPUT",
+          "name": "WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
         }
@@ -1621,7 +1621,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POLL_INPUT",
+        "name": "WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
       },
@@ -1890,44 +1890,6 @@
         }
       ]
     },
-    "POLL_INPUT": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 7986,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 22318,
-          "bytes_hex": "c706321fa010",
-          "entry": "root:053b:0544"
-        }
-      ],
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 22324,
-              "bytes_hex": "c706341f0000",
-              "entry": "root:053b:0544"
-            }
-          ]
-        }
-      ],
-      "extent": {
-        "kind": "pointer",
-        "length": 4,
-        "witness": {
-          "bytes_hex": "ff1e321f",
-          "entry": "root:1f74:009c",
-          "image_offset": 128998,
-          "space": "root"
-        }
-      }
-    },
     "SET_RECORD_RANGE": {
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
       "entry_target_id": "root:1129:6632",
@@ -1937,19 +1899,17 @@
       "space": "root",
       "witnesses": []
     },
-    "SCREEN_BOUNDS": {
-      "kind": "dgroup-offset",
+    "WAIT_FUNCTION": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 7978,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 22046,
-          "bytes_hex": "b82a1f",
-          "entry": "root:053b:0544"
-        }
-      ]
+      "provider": "group:intrface/intrface",
+      "offset": 7986
+    },
+    "SCREENPORTRECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:intrface/intrface",
+      "offset": 7978
     }
   },
   "target_id": "group:fade/fade",

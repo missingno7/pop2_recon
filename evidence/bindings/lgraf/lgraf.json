@@ -146,7 +146,7 @@
       "__nmalloc",
       "__nfree",
       "__fmemcpy",
-      "_memcmp",
+      "__fmemcmp",
       "CREATE_PORT",
       "ABORT_WITH_MESSAGE",
       "ALLOCATE_PINNED_PAYLOAD",
@@ -266,7 +266,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "_memcmp",
+          "name": "__fmemcmp",
           "method": 6,
           "zero_displacement": true
         }
@@ -274,7 +274,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "_memcmp",
+        "name": "__fmemcmp",
         "method": 6,
         "zero_displacement": true
       },
@@ -293,7 +293,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "_memcmp",
+          "name": "__fmemcmp",
           "method": 6,
           "zero_displacement": true
         }
@@ -301,7 +301,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "_memcmp",
+        "name": "__fmemcmp",
         "method": 6,
         "zero_displacement": true
       },
@@ -927,22 +927,14 @@
         }
       ]
     },
-    "_memcmp": {
+    "__fmemcmp": {
       "entry_sha256": "ad9ce2b01cdf308c4f0836c8519ea524790908b86725daa870d5ca8986d892b8",
       "entry_target_id": "root:1fef:1e2e",
       "kind": "far-code-entry",
       "offset": 7726,
       "segment": 8175,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 124047,
-          "bytes_hex": "9a2e1eef1f",
-          "file_offset": 132239,
-          "relocation_index": 1729
-        }
-      ]
+      "witnesses": []
     },
     "__fmemcpy": {
       "entry_sha256": "753abe2022a393943e6f95c11aa492be1a7dee2bc440aa8d2faa3934fb4c722a",

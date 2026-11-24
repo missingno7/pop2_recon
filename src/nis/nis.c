@@ -67,7 +67,7 @@ extern unsigned char midi_play_time;
 extern unsigned long music_deadline;
 extern void play_sound(int sound);
 extern int wait_sound(int sound);
-extern int (far *poll_input)(void);
+extern int (far *wait_function)(void);
 extern int check_wait_function(void);
 
 void start_timed_music(int sound, unsigned int duration)
@@ -372,11 +372,11 @@ void tree_check(int scene)
 
     FreeDialog(); dispose_handle(sheet); dispose_handle(dialog_shape);
     close_resource_file(nis_file);
-    poll_input = saved_poll_input;
+    wait_function = saved_poll_input;
     close_level_resources(nis_data_files);
 }
 
-extern Rect screen_bounds, GamePlayRect;
+extern Rect ScreenPortRect, GamePlayRect;
 extern int transition_animation_state;
 extern ImagePort *title_patch;
 extern int animation_callback_argument;
@@ -425,7 +425,7 @@ int Transition(int scene)
         open_verified_resource(transition_file);
     if (scene != 6) {
         WRITE_DAC_BLOCK(0, 256, 0L, 1);
-        SET_RECORD_RANGE(&screen_bounds, 0);
+        SET_RECORD_RANGE(&ScreenPortRect, 0);
     }
     install_nis_input();
     transition_shapes = hGetSL(TRANSITION_RESOURCE, -1);
@@ -433,7 +433,7 @@ int Transition(int scene)
     if (scene == 4) {
         if (!query_sound(TRANSITION_RESOURCE + 11))
             play_sound(TRANSITION_RESOURCE + 16);
-        SET_RECORD_RANGE(&screen_bounds, 16);
+        SET_RECORD_RANGE(&ScreenPortRect, 16);
         NIS_ITEM(320, 118, 0, 10);
         NIS_ITEM(321, 73, 60, 10);
         NIS_ITEM(322, -41, 32, 10);
@@ -461,7 +461,7 @@ int Transition(int scene)
         dispose_handle(transition_palette);
         if (!interrupted) {
             WRITE_DAC_BLOCK(0, 256, 0L, 1);
-            SET_RECORD_RANGE(&screen_bounds, 0);
+            SET_RECORD_RANGE(&ScreenPortRect, 0);
             SET_RECORD_RANGE(&GamePlayRect, 16);
             NIS_ITEM(320, 117, 0, 10);
             NIS_ITEM(321, 73, 60, 10);
@@ -472,7 +472,7 @@ int Transition(int scene)
         }
         if (!interrupted) {
             WRITE_DAC_BLOCK(0, 256, 0L, 1);
-            SET_RECORD_RANGE(&screen_bounds, 0);
+            SET_RECORD_RANGE(&ScreenPortRect, 0);
             dispose_handle(transition_shapes);
             transition_shapes = hGetSL(TRANSITION_RESOURCE, -2);
             transition_background_shapes = hGetSL(3500, -16);
@@ -517,7 +517,7 @@ int Transition(int scene)
         }
         if (!interrupted) {
             interrupted = fade_to(0, -1, 0);
-            SET_RECORD_RANGE(&screen_bounds, 0);
+            SET_RECORD_RANGE(&ScreenPortRect, 0);
         }
         if (!interrupted) {
             NIS_ITEM(347, 0, 0, 10);
@@ -529,7 +529,7 @@ int Transition(int scene)
             interrupted = PLAY_TRANSITION(7, 1, transition_scene_seven);
         if (!interrupted) {
             interrupted = fade_to(0, -1, 0);
-            SET_RECORD_RANGE(&screen_bounds, 0);
+            SET_RECORD_RANGE(&ScreenPortRect, 0);
         }
         if (!interrupted) {
             SET_RECORD_RANGE(&GamePlayRect, 0);
@@ -558,7 +558,7 @@ int Transition(int scene)
         interrupted = PLAY_TRANSITION(9, 1, transition_scene_nine);
         if (!interrupted) {
             fade_to(0, -1, 0);
-            SET_RECORD_RANGE(&screen_bounds, 0);
+            SET_RECORD_RANGE(&ScreenPortRect, 0);
             SET_RECORD_RANGE(&GamePlayRect, 48);
             NIS_ITEM(373, 153, 33, 0); NIS_ITEM(374, 129, 51, 0); NIS_ITEM(375, -8, 39, 0); NIS_ITEM(373, 2, 10, 0);
             NIS_ITEM(362, 0, 135, 0);
@@ -570,7 +570,7 @@ int Transition(int scene)
         }
         if (!interrupted) {
             WRITE_DAC_BLOCK(0, 256, 0L, 1);
-            SET_RECORD_RANGE(&screen_bounds, 0);
+            SET_RECORD_RANGE(&ScreenPortRect, 0);
             dispose_handle(transition_shapes);
             transition_shapes = hGetSL(TRANSITION_RESOURCE, -2);
             draw_room_from_nis(14, 1);
@@ -594,7 +594,7 @@ int Transition(int scene)
         dispatch_resource_pointer(0L);
     }
     dispose_handle(transition_shapes);
-    poll_input = saved_poll_input;
+    wait_function = saved_poll_input;
     if (scene != 5)
         close_resource_file(transition_file);
     if (scene != 6)
@@ -627,7 +627,7 @@ int trans_princess_room(Handle shapes)
     if (!interrupted) {
         ((ShapeList far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(shapes))->shape_mode = -2;
         interrupted = play_anim(shapes, TRANSITION_RESOURCE, 1, 1, princess_room_callback, 0, 0, 1);
-        STROKE_PORT_RECT(&screen_bounds);
+        STROKE_PORT_RECT(&ScreenPortRect);
     }
     transition_animation_state = 0;
     return interrupted;
@@ -657,7 +657,7 @@ extern DrawPort *AllocBackPort(const Rect far *bounds);
 extern void DeallocBackPort(DrawPort *port);
 extern void free_record_pair(ImagePort *port);
 extern int dissolve_do_all(int mode, DrawPort *port, const Rect far *bounds, long duration);
-extern void prepare_throne_dissolve(Rect *bounds, int resource);
+extern void offset_throne_rect(Rect *bounds, int resource);
 extern int ruined_throne_callback(void *playback, int frame);
 enum { THRONE_DIALOG_RESOURCE = 31000, THRONE_MUSIC = 31020, THRONE_NEXT_MUSIC = 31021 };
 extern void far *init_fade_to(Handle palette, int timing, int options);
@@ -696,7 +696,7 @@ int trans_throne_room(Handle shapes)
         dispose_handle(colors);
         animation_shapes = hGetSL(3500, 4);
         ((ShapeList far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(animation_shapes))->animation_key = (4UL << 16) | 4210;
-        prepare_throne_dissolve(&small_throne_bounds, 4210);
+        offset_throne_rect(&small_throne_bounds, 4210);
         skipped = WaitMidiPlayTime(97);
     }
     if (!skipped) {
@@ -862,10 +862,10 @@ int transition_scene_five(void *playback, int frame)
         PaintRLEShapeItem(transition_shapes, 332, 0, 35, 10);
         Graf = saved;
         MEASURE_TEXT((DrawPort *)&((AnimationState *)playback)->port, &ScreenPort,
-                  OFFSETRECT(&lowered_bounds, &screen_bounds,
+                  OFFSETRECT(&lowered_bounds, &ScreenPortRect,
                                   -((AnimationState *)playback)->port.clip.left,
                                   -((AnimationState *)playback)->port.clip.top),
-                  &screen_bounds, 0);
+                  &ScreenPortRect, 0);
     } else if (frame == 1) {
         cut_to_primary();
     } else {
@@ -1825,7 +1825,7 @@ int dispatch_nis(int sequence)
         if (opened_nis_file)
             close_resource_file(nis_file);
     }
-    poll_input = saved_poll_input;
+    wait_function = saved_poll_input;
     close_level_resources(nis_data_files);
     return interrupted;
 }
@@ -2109,8 +2109,8 @@ int check_nis_input(void)
 
 void install_nis_input(void)
 {
-    saved_poll_input = poll_input;
-    poll_input = check_nis_input;
+    saved_poll_input = wait_function;
+    wait_function = check_nis_input;
     read_controls();
     nis_button_latched = nis_button_held != 0;
 }

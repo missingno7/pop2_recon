@@ -735,7 +735,7 @@
       "SWORD_KIND",
       "MIRRORMCGABLOCK",
       "DRAW_MIDDLE_ITEM",
-      "SCREEN_BOUNDS",
+      "SCREENPORTRECT",
       "CLEAR_MESSAGE",
       "ROOMOPP",
       "__fmemcpy",
@@ -843,7 +843,7 @@
       "LOAD_ACTOR_SLOT",
       "NEEDDRAWROOMBELOWCUSTOM",
       "INIT_FCHAR_RECT",
-      "MIDDLE_DRAW_STATE",
+      "PIECES",
       "SHOW_MESSAGE",
       "ADD_DIRTY_RECTANGLE",
       "LOAD_TOWER_TOP",
@@ -23007,7 +23007,7 @@
         "target": {
           "kind": "external",
           "index": 88,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -23015,7 +23015,7 @@
       "target": {
         "kind": "external",
         "index": 88,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -23277,7 +23277,7 @@
         "target": {
           "kind": "external",
           "index": 196,
-          "name": "MIDDLE_DRAW_STATE",
+          "name": "PIECES",
           "method": 6,
           "zero_displacement": true
         }
@@ -23285,7 +23285,7 @@
       "target": {
         "kind": "external",
         "index": 196,
-        "name": "MIDDLE_DRAW_STATE",
+        "name": "PIECES",
         "method": 6,
         "zero_displacement": true
       },
@@ -24976,7 +24976,7 @@
         "target": {
           "kind": "external",
           "index": 88,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -24984,7 +24984,7 @@
       "target": {
         "kind": "external",
         "index": 88,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -25003,7 +25003,7 @@
         "target": {
           "kind": "external",
           "index": 88,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -25011,7 +25011,7 @@
       "target": {
         "kind": "external",
         "index": 88,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -25057,7 +25057,7 @@
         "target": {
           "kind": "external",
           "index": 88,
-          "name": "SCREEN_BOUNDS",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -25065,7 +25065,7 @@
       "target": {
         "kind": "external",
         "index": 88,
-        "name": "SCREEN_BOUNDS",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -28214,20 +28214,6 @@
         }
       ]
     },
-    "MIDDLE_DRAW_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 4240,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 6246,
-          "bytes_hex": "031e9010",
-          "entry": "root:0170:0124"
-        }
-      ]
-    },
     "MIDDLE_QUEUE": {
       "kind": "far-data",
       "members": [
@@ -29634,45 +29620,17 @@
         }
       ]
     },
-    "SCREEN_BOUNDS": {
-      "kind": "dgroup-offset",
+    "SCREENPORTRECT": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 7978,
-      "witnesses": [
-        {
-          "bytes_hex": "b82a1f",
-          "entry": "root:053b:0544",
-          "image_offset": 22046,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ],
-      "members": [
-        {
-          "offset": 4,
-          "witnesses": []
-        },
-        {
-          "offset": 6,
-          "witnesses": []
-        }
-      ],
-      "extent": {
-        "kind": "far-read",
-        "length": 8,
-        "call": {
-          "space": "root",
-          "image_offset": 22578,
-          "bytes_hex": "b82a1f1e50b8090050509a0c502911",
-          "entry": "root:053b:03dc"
-        },
-        "witness": {
-          "space": "root",
-          "image_offset": 90780,
-          "bytes_hex": "558bec57561ec5760ac47e0e57ad034606abad034608abad2b4606abad2b4608ab",
-          "entry": "root:1129:500c"
-        }
-      }
+      "provider": "group:intrface/intrface",
+      "offset": 7978
+    },
+    "PIECES": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 4240
     },
     "FINAL_LEVEL_SPEC": {
       "kind": "dgroup-public",

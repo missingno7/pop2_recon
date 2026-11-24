@@ -17,7 +17,7 @@ struct LevelState {
 extern void cdecl _nfree(void *);
 extern int cdecl printf(const char *, ...);
 extern void cdecl exit(int);
-extern char far *cdecl far_find_string(FarName, FarName);
+extern char far *cdecl _fstrstr(FarName, FarName);
 extern int cdecl open(const char *, int, ...);
 extern int cdecl close(int);
 
@@ -188,7 +188,7 @@ ResourceMap find_resource_map(const char *name)
     if (!found) {
         while (map) {
             data = RESOLVE_HANDLE_TO_FAR_PAYLOAD(map);
-            if (far_find_string(data->name, name))
+            if (_fstrstr(data->name, name))
                 found = 1;
             else
                 map = data->next;

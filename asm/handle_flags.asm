@@ -1,7 +1,7 @@
 .MODEL MEDIUM
 .DATA
-handle_scratch_source DW 0
-handle_scratch_saved DW 0
+; Near-heap descriptor of the C runtime: +6 end of the heap, +8 first free block.
+EXTRN __nheap_desc:WORD
 .CODE
 EXTRN MATERIALIZE_HANDLE:NEAR
 EXTRN FIND_MOVABLE_PAYLOAD_SPACE:NEAR
@@ -51,8 +51,8 @@ ALLOCATE_EMPTY_HANDLE PROC NEAR
     push ds
     push ss
     pop ds
-    mov ax, handle_scratch_source
-    mov handle_scratch_saved, ax
+    mov ax, __nheap_desc+6
+    mov __nheap_desc+8, ax
     mov ax, 4
     push ax
     call __nmalloc

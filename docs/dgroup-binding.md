@@ -454,6 +454,10 @@ Added 2026-11-24 (each re-decoded from reached, straight-line original code; sam
   routine that loads it with `lds si,[bp+a]` and reads L bytes with LODS in straight-line code. S needs its own witness.
   First use: `SCREEN_BOUNDS` read by InsetRect.
 
+- `"kind": "base"` (`binding.base_extent`): `mov r,S`, r unchanged on the fall-through path, and one DS access [r+k] of
+  width w: extent k+w. First use: `__nheap_desc` (`cmp [si+8],bx` in `__nfree`), whose +6/+8 words ALLOCATE_EMPTY_HANDLE
+  reads and writes directly.
+
 For far data (docs/far-call-binding.md) a member O+k may carry `"record": {"base", "member"}`: one window steps through
 d-byte records at O, the other at O+k with |k| < d. Two such arrays would overlap, so both are the same array. Each window
 proves its own ES (a selector word, or a relocated `mov r16,N; mov es,r16`). First use: `MIDDLE_QUEUE[count - 1]` fields,

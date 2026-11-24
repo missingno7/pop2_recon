@@ -1,98 +1,98 @@
 {
   "declarations": {
-    "externals": [
-      "__NFREE",
-      "__NMALLOC"
+    "segments": [
+      {
+        "name": "PRINCE_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 362,
+        "alignment": 1,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "MIRRORRLEBLOCK",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 1,
         "offset": 51,
-        "segment": "MCGA1_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "MIRROR4BITBLOCK",
-        "offset": 199,
-        "segment": "MCGA1_TEXT",
+        "segment": "PRINCE_TEXT",
         "segment_index": 1,
+        "offset": 199,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "MIRRORMCGABLOCK",
-        "offset": 0,
-        "segment": "MCGA1_TEXT",
+        "segment": "PRINCE_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 1,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 362,
-        "name": "MCGA1_TEXT",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "__NFREE",
+      "__NMALLOC"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 68,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "external",
+        "index": 2,
         "name": "__NMALLOC"
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "MCGA1_TEXT",
-      "segment_index": 1,
-      "segment_offset": 68,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "__NMALLOC",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 183,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "external",
+        "index": 1,
         "name": "__NFREE"
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "MCGA1_TEXT",
-      "segment_index": 1,
-      "segment_offset": 183,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "__NFREE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "mode": "external-far-call-v1",

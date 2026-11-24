@@ -1,6 +1,6 @@
 EXTRN __nmalloc:FAR
 EXTRN __nfree:FAR
-EXTRN find_string_byte:FAR
+EXTRN _strchr:FAR
 
 GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
 GAMELIB_TEXT ENDS
@@ -3179,7 +3179,7 @@ loc_aead:
     push cx
     lea ax, [si + 3]
     push ax
-    call FAR PTR find_string_byte
+    call FAR PTR _strchr
     add sp, 4
     test ax, ax
     jne loc_aeeb
@@ -3400,7 +3400,7 @@ loc_b08c:
     push cx
     lea ax, [si + 3]
     push ax
-    call FAR PTR find_string_byte
+    call FAR PTR _strchr
     add sp, 4
     test ax, ax
     jne loc_b0e2

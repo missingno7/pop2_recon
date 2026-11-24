@@ -29,8 +29,8 @@ extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte col
 extern int SECTRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
 extern void UNIONRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
 extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_back_foreground_to_back(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_back_foreground_to_front(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int add_middle_item(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern Byte PieceRightId(CellCoord, CellCoord);
 
@@ -121,10 +121,10 @@ void draw_ruin_bones(RuinCell *cell)
         add_image = add_middle_item;
         break;
     case 2:
-        add_image = add_back_foreground_to_front;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
         break;
     }
     if (add_image) {
@@ -205,11 +205,11 @@ void draw_ruin_crevice(RuinCell *cell)
         break;
     case 2:
         if (revealed)
-            add_back_foreground_to_front(7, pattern + 54, cell->column, cell->row, 10, 0);
+            AddBFImgToFTable(7, pattern + 54, cell->column, cell->row, 10, 0);
         break;
     case 5:
         if (revealed) {
-            add_back_foreground_to_back(7, pattern + 54, cell->column, cell->row, 10, 0);
+            AddBFImgToBTable(7, pattern + 54, cell->column, cell->row, 10, 0);
         } else {
             block = *cell;
             block.modifier |= pattern ? 8 : 12;
@@ -237,11 +237,11 @@ void draw_ruin_exit_left(RuinCell *cell)
         layer = 0;
         break;
     case 2:
-        add_image = add_back_foreground_to_front;
+        add_image = AddBFImgToFTable;
         flaw = 0;
         break;
     case 5:
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
         break;
     default:
         flaw = 0;
@@ -272,7 +272,7 @@ typedef struct MovingExit {
     signed char height;
 } MovingExit;
 
-extern RuinPositions *shape_offsets;
+extern RuinPositions *Pieces;
 extern DrawRect GamePlayRect;
 #pragma pack(1)
 typedef struct {
@@ -338,8 +338,8 @@ void draw_ruin_exit_right(RuinCell *cell)
         if (draw_pass_mode) {
             draw_ruin_back_wall(cell);
         } else {
-            shape_offsets->exit = exit_positions[0];
-            add_back_foreground_to_back(57, -2, cell->column, cell->row, 10, 0);
+            Pieces->exit = exit_positions[0];
+            AddBFImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             add_image = 0;
         }
         break;
@@ -349,11 +349,11 @@ void draw_ruin_exit_right(RuinCell *cell)
         flaw = 1;
         break;
     case 2:
-        add_image = add_back_foreground_to_front;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
         if (!draw_pass_mode)
-            add_image = add_back_foreground_to_back;
+            add_image = AddBFImgToBTable;
         flaw = 1;
         break;
     }
@@ -379,10 +379,10 @@ void draw_ruin_exit_movable(RuinCell *cell)
             moving = get_trob_room_cell(cell->column + FirstInRow(Room.number, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
-            shape_offsets->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
+            Pieces->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
-            add_image = Kid.frame >= 217 && Kid.frame <= 226 ? add_back_foreground_to_front : add_back_foreground_to_back;
-            shape_offsets->exit = exit_positions[1];
+            add_image = Kid.frame >= 217 && Kid.frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
+            Pieces->exit = exit_positions[1];
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
         clip_rect = saved_clip;
@@ -411,15 +411,15 @@ void draw_ruin_flaw(RuinCell *cell)
     if (cell->pass == 5) {
         flaw = cell->modifier >> 8 & 15;
         if (flaw == 11 || flaw == 12) {
-            shape_offsets->front_flaw = ruin_tables.rows.flaw_positions[flaw - 11];
-            shape_offsets->flip_flaw = flaw == 12 ? 1 : 0;
+            Pieces->front_flaw = ruin_tables.rows.flaw_positions[flaw - 11];
+            Pieces->flip_flaw = flaw == 12 ? 1 : 0;
             AddBImgToBTable(18, -2, cell->column, cell->row, 10, 0);
         } else {
             flaw = cell->modifier & 0x3000;
             if (flaw) {
                 flaw >>= 12;
-                shape_offsets->back_flaw = ruin_tables.rows.flaw_positions[flaw + 11];
-                add_back_foreground_to_back(18, -2, cell->column, cell->row, 10, 0);
+                Pieces->back_flaw = ruin_tables.rows.flaw_positions[flaw + 11];
+                AddBFImgToBTable(18, -2, cell->column, cell->row, 10, 0);
             }
         }
     } else if (cell->pass == 1) {
@@ -428,12 +428,12 @@ void draw_ruin_flaw(RuinCell *cell)
             flaw = ((Byte *)&flags)[1];
             if (flaw != 2 || !draw_pass_mode) {
                 int emitted;
-                shape_offsets->back_flaw = ruin_tables.rows.flaw_positions[flaw + 1];
+                Pieces->back_flaw = ruin_tables.rows.flaw_positions[flaw + 1];
                 if (flaw == 3 && !draw_pass_mode &&
                     hidden_flaw_column == cell->column && hidden_flaw_row == cell->row)
                     emitted = 0;
                 else
-                    emitted = add_back_foreground_to_front(18, -2, cell->column, cell->row, 10, 0);
+                    emitted = AddBFImgToFTable(18, -2, cell->column, cell->row, 10, 0);
                 if (emitted && flaw == 4)
                     fore_queue[last_front_table_slot - 1].clip = GamePlayRect;
             }
@@ -453,10 +453,10 @@ void draw_ruin_floor(RuinCell *cell)
         add_middle_item(1, (cell->modifier & 3) + 26, cell->column, cell->row, 0, 0);
         goto finish_flaw;
     case 2:
-        add_back_foreground_to_front(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
+        AddBFImgToFTable(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
         break;
     case 5:
-        add_back_foreground_to_back(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
+        AddBFImgToBTable(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
     finish_flaw:
         draw_ruin_flaw(cell);
         break;
@@ -477,10 +477,10 @@ void draw_ruin_gate(RuinCell *cell)
         add_image = add_middle_item;
         break;
     case 2:
-        add_image = add_back_foreground_to_front;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
         break;
     }
     if (add_image) {
@@ -552,13 +552,13 @@ void draw_ruin_gate_movable(RuinCell *cell)
     gate_clip.top = cell->row * 63 - 10;
     if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
         unsigned int height = (cell->modifier & 0xfc) >> 2;
-        shape_offsets->gate_y = -(4 + (height < 50 ? height : 50));
+        Pieces->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
         case 2:
-            add_image = add_back_foreground_to_front;
+            add_image = AddBFImgToFTable;
             break;
         case 5:
-            add_image = add_back_foreground_to_back;
+            add_image = AddBFImgToBTable;
             break;
         default:
             add_image = 0;
@@ -617,7 +617,7 @@ void draw_ruin_loose(RuinCell *cell)
         if (image != 13) {
             if (image) {
                 RuinCell *tile = cell;
-                add_back_foreground_to_front(11, image + 41, tile->column, tile->row, 10, 0);
+                AddBFImgToFTable(11, image + 41, tile->column, tile->row, 10, 0);
             } else {
                 draw_ruin_floor(&floor);
             }
@@ -633,7 +633,7 @@ void draw_ruin_loose(RuinCell *cell)
             draw_ruin_floor(&floor);
             break;
         }
-        add_back_foreground_to_back(11, image + 41, tile->column, tile->row, 10, 0);
+        AddBFImgToBTable(11, image + 41, tile->column, tile->row, 10, 0);
         draw_ruin_flaw(tile);
         break;
     }
@@ -698,11 +698,11 @@ void draw_ruin_down_plate(RuinCell *cell)
         add_image = add_middle_item;
         break;
     case 5:
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
         /* Shared back and front plate image. */
     case 2:
         if (!add_image)
-            add_image = add_back_foreground_to_front;
+            add_image = AddBFImgToFTable;
         image = 51;
         layer = 10;
         break;
@@ -729,11 +729,11 @@ void draw_ruin_up_plate(RuinCell *cell)
         layer = 0;
         break;
     case 5:
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
         /* Shared back and front plate image. */
     case 2:
         if (!add_image)
-            add_image = add_back_foreground_to_front;
+            add_image = AddBFImgToFTable;
         image = 49;
         layer = 10;
         break;
@@ -757,10 +757,10 @@ void draw_ruin_posts(RuinCell *cell)
         image += 39;
         break;
     case 2:
-        add_image = add_back_foreground_to_front;
+        add_image = AddBFImgToFTable;
         goto offset_back_image;
     case 5:
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
     offset_back_image:
         image += 36;
         break;
@@ -809,11 +809,11 @@ void draw_ruin_rubble_pieces(RuinCell *cell)
         break;
     case 2:
         image += 30;
-        add_image = add_back_foreground_to_front;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
         image += 30;
-        add_image = add_back_foreground_to_back;
+        add_image = AddBFImgToBTable;
         break;
     }
     if (add_image) {

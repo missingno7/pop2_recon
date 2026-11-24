@@ -142,7 +142,7 @@ int GetLeftBarr(unsigned char room, signed char col, signed char row);
 int GetRightBarr(unsigned char room, signed char col, signed char row);
 extern int collision_x;
 extern int ColEdgeX[20];
-extern signed char left_offsets[], right_offsets[];
+extern signed char BarL[], BarR[];
 
 
 #define cell_flags (*(unsigned char *)&Cell.modifier)
@@ -333,7 +333,7 @@ int GetLeftBarr(unsigned char room, signed char col, signed char row)
     int edge;
 
     if (code)
-        edge = left_offsets[code] + collision_x;
+        edge = BarL[code] + collision_x;
     else
         edge = ColEdgeX[19];
     return edge;
@@ -345,7 +345,7 @@ int GetRightBarr(unsigned char room, signed char col, signed char row)
     int edge;
 
     if (code)
-        edge = collision_x - right_offsets[code] + 31;
+        edge = collision_x - BarR[code] + 31;
     else
         edge = 0;
     return edge;
@@ -914,9 +914,9 @@ int barrier_distance_from_face(unsigned char cell, unsigned char room, signed ch
         if (!code)
             distance = -1;
         else if (Char.direction != 0)
-            distance = right_offsets[code] - collision_x + left_edge - 31;
+            distance = BarR[code] - collision_x + left_edge - 31;
         else
-            distance = left_offsets[code] - right_edge + collision_x;
+            distance = BarL[code] - right_edge + collision_x;
     }
     return distance;
 }
@@ -930,9 +930,9 @@ int barrier_distance_from_back(unsigned char cell, unsigned char room, signed ch
     if (!code)
         distance = 99;
     else if (Char.direction >= 0)
-        distance = right_offsets[code] - collision_x + left_edge - 31;
+        distance = BarR[code] - collision_x + left_edge - 31;
     else
-        distance = left_offsets[code] - right_edge + collision_x;
+        distance = BarL[code] - right_edge + collision_x;
     return distance;
 }
 

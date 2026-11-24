@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "a23db493a11bd1f9cdaec753638cb622917f15b3ac133868ce9f8fa9aa2ca266",
+  "binding_sha256": "f8343083e0a6754cac633d7fabc0d5cb33fccc32d0990989883e97399acdcd70",
   "claims": [
     {
       "fixup_count": 43,
@@ -658,6 +658,16 @@
       "target_id": "root:0b52:2296"
     },
     {
+      "fixup_count": 16,
+      "public": "ADD_MOB_OBJ",
+      "relocation_indices": [
+        984
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b52:22dc"
+    },
+    {
       "fixup_count": 19,
       "public": "CHECK_LOOSE_CRUSH",
       "relocation_indices": [
@@ -708,28 +718,14 @@
       "target_id": "root:0b52:2598"
     },
     {
+      "fixup_count": 3,
+      "public": "GET_TROB_BY_ID",
+      "target_id": "root:0b52:25d6"
+    },
+    {
       "fixup_count": 4,
       "public": "IS_VISIBLE_ROOM_CELL",
       "target_id": "root:0b52:2620"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "ADD_MOB_OBJ",
-      "target_id": "root:0b52:22dc",
-      "unproven": [
-        "MOB_DRAW_LIST+0x14",
-        "MOB_DRAW_LIST+0x16",
-        "MOB_DRAW_LIST+0x4",
-        "MOB_DRAW_LIST+0x5"
-      ]
-    },
-    {
-      "public": "GET_TROB_BY_ID",
-      "target_id": "root:0b52:25d6",
-      "unproven": [
-        "TROBS+0x3"
-      ]
     }
   ],
   "data_publics": [
@@ -781,12 +777,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "0c77c65d13cfcb51852324d7c15b904dbda02af7603c59d41dd959757c09b161",
+  "object_sha256": "b57f338104c7de4a252c057fce349fc3a5283a65c2c2f482483f5f01beeecd8f",
   "origin": 46374,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "9ed58d394af0341d47bd57c3260f7b38ec7c282486fe8b41e21a31792076c6e7",
+  "source_sha256": "286574fc624c350344bed20ea9a4aa700d3f24273ebcef7b5944550516eac172",
   "space": "root"
 }

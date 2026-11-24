@@ -4,7 +4,6 @@
 EXTRN near_heap_segment:WORD
 EXTRN Graf:WORD
 EXTRN default_port:BYTE
-EXTRN surface_scanline_count:WORD
 EXTRN surface_row_stride:WORD
 EXTRN surface_scanline_offsets:WORD
 .CODE
@@ -812,7 +811,7 @@ banked16_59a5:
     pop ds
     rep movsb
     pop ds
-    mov ax, WORD PTR [surface_scanline_count]
+    mov ax, WORD PTR [default_port+8]
     shl ax, 1
     push ax
     call __nmalloc
@@ -829,7 +828,7 @@ banked16_59cb:
 banked16_59ce:
     xchg di, ax
     sub si, si
-    mov cx, WORD PTR [surface_scanline_count]
+    mov cx, WORD PTR [default_port+8]
 
 banked16_59d5:
     mov ax, si

@@ -329,7 +329,7 @@
       "ACTIVE_SOUND_CHANNELS",
       "JOYSTICK",
       "DIGITAL_DRIVER",
-      "TIMER_DISABLED",
+      "QUOTE_INDEX",
       "MIDI_DRIVER",
       "IGNORE_WINDOW_ACTION",
       "DRAWOPPMETER",
@@ -341,11 +341,11 @@
       "TOGGLE_RECORDING_PLAYER",
       "REQUESTED_LEVEL",
       "CONTROL_MODE",
-      "RESET_OVERLAY_STATE",
+      "SHOW_INIT_MESSAGE",
       "SETSIDEROOMINFO",
       "ADDCHARX",
       "MESSAGE_TICKS",
-      "PLATFORM_SETUP",
+      "INIT_SYSTEM",
       "GAMEPLAYRECT",
       "MESSAGE_DURATION",
       "SETOPTIONSFROMDISK",
@@ -381,15 +381,15 @@
       "COPY_KID_TO_CHAR",
       "DEFERRED_ROOM",
       "TRIGGER_TORCH",
-      "DEBUG_SHOW_OBJECTS",
+      "PAUSE_ON_FRAME",
       "TOGGLE_SOUND",
       "POLL_DOS_KEY",
-      "DEBUG_SHOW_MESSAGES",
-      "DEBUG_SHOW_BUILDINGS",
+      "SHOW_ACTOR_POSITION",
+      "SHOW_REFERENCE_POSITION",
       "JOYSTICK_STATUS",
       "SHOW_DIALOG",
       "TRIGGER_LAVA",
-      "DEBUG_SHOW_COLLISIONS",
+      "SHOW_RULER",
       "TOGGLE_AMBIENT",
       "DEBUG_SHOW_DOOR_LINKS",
       "IS_LEAVE_LEVEL_MUSIC_ON",
@@ -404,7 +404,7 @@
       "DEBUG_KID_Y",
       "ADD_TROB",
       "PLAYER_INPUT_DISABLED",
-      "IN_SPECIAL_ROOM",
+      "ALTAR_SHADOW_ACTIVE",
       "ENTER_HALL_RECORD",
       "CLEAR_KEYBOARD",
       "HANDLE_DEBUG_INPUT",
@@ -460,13 +460,13 @@
       "GET_ROOMS",
       "ADD_ROOM_TROBS",
       "SAVE_ACTOR_SLOT",
-      "COMMAND_LINE_ENABLED",
+      "FRAME_DIAGNOSTICS",
       "SCREENPORT",
       "INPUT",
       "ISLEVELSTARTWITHNISSCREEN",
       "SET_SOUND_LEVEL",
       "SKIP_OPENING",
-      "GAME_BUFFER",
+      "SCREENPORTRECT",
       "SAVE_GAME_PLAY_PALETTE",
       "SAVEOPTIONSTODISK",
       "JUMPSEQ",
@@ -519,7 +519,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "TIMER_DISABLED",
+          "name": "QUOTE_INDEX",
           "method": 6,
           "zero_displacement": true
         }
@@ -527,7 +527,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "TIMER_DISABLED",
+        "name": "QUOTE_INDEX",
         "method": 6,
         "zero_displacement": true
       },
@@ -600,7 +600,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "TIMER_DISABLED",
+          "name": "QUOTE_INDEX",
           "method": 6,
           "zero_displacement": true
         }
@@ -608,7 +608,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "TIMER_DISABLED",
+        "name": "QUOTE_INDEX",
         "method": 6,
         "zero_displacement": true
       },
@@ -2012,7 +2012,7 @@
         "target": {
           "kind": "external",
           "index": 146,
-          "name": "COMMAND_LINE_ENABLED",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2020,7 +2020,7 @@
       "target": {
         "kind": "external",
         "index": 146,
-        "name": "COMMAND_LINE_ENABLED",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2738,7 +2738,7 @@
         "target": {
           "kind": "external",
           "index": 146,
-          "name": "COMMAND_LINE_ENABLED",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2746,7 +2746,7 @@
       "target": {
         "kind": "external",
         "index": 146,
-        "name": "COMMAND_LINE_ENABLED",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -3008,7 +3008,7 @@
         "target": {
           "kind": "external",
           "index": 27,
-          "name": "RESET_OVERLAY_STATE",
+          "name": "SHOW_INIT_MESSAGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3016,7 +3016,7 @@
       "target": {
         "kind": "external",
         "index": 27,
-        "name": "RESET_OVERLAY_STATE",
+        "name": "SHOW_INIT_MESSAGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3322,7 +3322,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "PLATFORM_SETUP",
+          "name": "INIT_SYSTEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3330,7 +3330,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "PLATFORM_SETUP",
+        "name": "INIT_SYSTEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4613,7 +4613,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "IN_SPECIAL_ROOM",
+          "name": "ALTAR_SHADOW_ACTIVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4621,7 +4621,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "IN_SPECIAL_ROOM",
+        "name": "ALTAR_SHADOW_ACTIVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4829,7 +4829,7 @@
         "target": {
           "kind": "external",
           "index": 146,
-          "name": "COMMAND_LINE_ENABLED",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -4837,7 +4837,7 @@
       "target": {
         "kind": "external",
         "index": 146,
-        "name": "COMMAND_LINE_ENABLED",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -5018,7 +5018,7 @@
         "target": {
           "kind": "external",
           "index": 146,
-          "name": "COMMAND_LINE_ENABLED",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -5026,7 +5026,7 @@
       "target": {
         "kind": "external",
         "index": 146,
-        "name": "COMMAND_LINE_ENABLED",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -5126,7 +5126,7 @@
         "target": {
           "kind": "external",
           "index": 146,
-          "name": "COMMAND_LINE_ENABLED",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -5134,7 +5134,7 @@
       "target": {
         "kind": "external",
         "index": 146,
-        "name": "COMMAND_LINE_ENABLED",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -5180,7 +5180,7 @@
         "target": {
           "kind": "external",
           "index": 146,
-          "name": "COMMAND_LINE_ENABLED",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -5188,7 +5188,7 @@
       "target": {
         "kind": "external",
         "index": 146,
-        "name": "COMMAND_LINE_ENABLED",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -7391,7 +7391,7 @@
         "target": {
           "kind": "external",
           "index": 75,
-          "name": "DEBUG_SHOW_COLLISIONS",
+          "name": "SHOW_RULER",
           "method": 6,
           "zero_displacement": true
         }
@@ -7399,7 +7399,7 @@
       "target": {
         "kind": "external",
         "index": 75,
-        "name": "DEBUG_SHOW_COLLISIONS",
+        "name": "SHOW_RULER",
         "method": 6,
         "zero_displacement": true
       },
@@ -7418,7 +7418,7 @@
         "target": {
           "kind": "external",
           "index": 75,
-          "name": "DEBUG_SHOW_COLLISIONS",
+          "name": "SHOW_RULER",
           "method": 6,
           "zero_displacement": true
         }
@@ -7426,7 +7426,7 @@
       "target": {
         "kind": "external",
         "index": 75,
-        "name": "DEBUG_SHOW_COLLISIONS",
+        "name": "SHOW_RULER",
         "method": 6,
         "zero_displacement": true
       },
@@ -7445,7 +7445,7 @@
         "target": {
           "kind": "external",
           "index": 71,
-          "name": "DEBUG_SHOW_BUILDINGS",
+          "name": "SHOW_REFERENCE_POSITION",
           "method": 6,
           "zero_displacement": true
         }
@@ -7453,7 +7453,7 @@
       "target": {
         "kind": "external",
         "index": 71,
-        "name": "DEBUG_SHOW_BUILDINGS",
+        "name": "SHOW_REFERENCE_POSITION",
         "method": 6,
         "zero_displacement": true
       },
@@ -7472,7 +7472,7 @@
         "target": {
           "kind": "external",
           "index": 71,
-          "name": "DEBUG_SHOW_BUILDINGS",
+          "name": "SHOW_REFERENCE_POSITION",
           "method": 6,
           "zero_displacement": true
         }
@@ -7480,7 +7480,7 @@
       "target": {
         "kind": "external",
         "index": 71,
-        "name": "DEBUG_SHOW_BUILDINGS",
+        "name": "SHOW_REFERENCE_POSITION",
         "method": 6,
         "zero_displacement": true
       },
@@ -7570,7 +7570,7 @@
         "target": {
           "kind": "external",
           "index": 70,
-          "name": "DEBUG_SHOW_MESSAGES",
+          "name": "SHOW_ACTOR_POSITION",
           "method": 6,
           "zero_displacement": true
         }
@@ -7578,7 +7578,7 @@
       "target": {
         "kind": "external",
         "index": 70,
-        "name": "DEBUG_SHOW_MESSAGES",
+        "name": "SHOW_ACTOR_POSITION",
         "method": 6,
         "zero_displacement": true
       },
@@ -7597,7 +7597,7 @@
         "target": {
           "kind": "external",
           "index": 70,
-          "name": "DEBUG_SHOW_MESSAGES",
+          "name": "SHOW_ACTOR_POSITION",
           "method": 6,
           "zero_displacement": true
         }
@@ -7605,7 +7605,7 @@
       "target": {
         "kind": "external",
         "index": 70,
-        "name": "DEBUG_SHOW_MESSAGES",
+        "name": "SHOW_ACTOR_POSITION",
         "method": 6,
         "zero_displacement": true
       },
@@ -7624,7 +7624,7 @@
         "target": {
           "kind": "external",
           "index": 67,
-          "name": "DEBUG_SHOW_OBJECTS",
+          "name": "PAUSE_ON_FRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -7632,7 +7632,7 @@
       "target": {
         "kind": "external",
         "index": 67,
-        "name": "DEBUG_SHOW_OBJECTS",
+        "name": "PAUSE_ON_FRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -7651,7 +7651,7 @@
         "target": {
           "kind": "external",
           "index": 67,
-          "name": "DEBUG_SHOW_OBJECTS",
+          "name": "PAUSE_ON_FRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -7659,7 +7659,7 @@
       "target": {
         "kind": "external",
         "index": 67,
-        "name": "DEBUG_SHOW_OBJECTS",
+        "name": "PAUSE_ON_FRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -9941,7 +9941,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "TIMER_DISABLED",
+          "name": "QUOTE_INDEX",
           "method": 6,
           "zero_displacement": true
         }
@@ -9949,7 +9949,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "TIMER_DISABLED",
+        "name": "QUOTE_INDEX",
         "method": 6,
         "zero_displacement": true
       },
@@ -15261,7 +15261,7 @@
         "target": {
           "kind": "external",
           "index": 152,
-          "name": "GAME_BUFFER",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -15269,7 +15269,7 @@
       "target": {
         "kind": "external",
         "index": 152,
-        "name": "GAME_BUFFER",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -16619,21 +16619,6 @@
         }
       ]
     },
-    "COMMAND_LINE_ENABLED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 4290,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 10864,
-          "bytes_hex": "833ec21000",
-          "entry": "root:0289:000e"
-        }
-      ]
-    },
     "COMPACT_HEAP_BLOCKS": {
       "entry_sha256": "26f3e6745782276cf4d2b7784d0e192c7d42177d44c02d5b24c677737521afd3",
       "entry_target_id": "root:1129:1a0a",
@@ -16774,77 +16759,17 @@
         }
       ]
     },
-    "DEBUG_SHOW_BUILDINGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 4300,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 70264,
-          "bytes_hex": "833ecc1000",
-          "entry": "root:10a5:0008"
-        }
-      ]
-    },
-    "DEBUG_SHOW_COLLISIONS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 4312,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 70253,
-          "bytes_hex": "833ed81000",
-          "entry": "root:10a5:0008"
-        }
-      ]
-    },
     "DEBUG_SHOW_DOOR_LINKS": {
       "group": "DGROUP",
       "kind": "dgroup-public",
       "offset": 4308,
       "provider": "group:diag/diag"
     },
-    "DEBUG_SHOW_MESSAGES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 4306,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 68213,
-          "bytes_hex": "833ed21000",
-          "entry": "root:10a5:0008"
-        }
-      ]
-    },
     "DEBUG_SHOW_METERS": {
       "group": "DGROUP",
       "kind": "dgroup-public",
       "offset": 4310,
       "provider": "group:diag/diag"
-    },
-    "DEBUG_SHOW_OBJECTS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 4314,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 68206,
-          "bytes_hex": "833eda1000",
-          "entry": "root:10a5:0008"
-        }
-      ]
     },
     "DEFERRED_ROOM": {
       "group": "DGROUP",
@@ -17064,21 +16989,6 @@
           "image_offset": 5756,
           "bytes_hex": "bb041d",
           "entry": "root:0000:164b"
-        }
-      ]
-    },
-    "GAME_BUFFER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 7978,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 11115,
-          "bytes_hex": "b82a1f",
-          "entry": "root:0289:000e"
         }
       ]
     },
@@ -18350,21 +18260,6 @@
         }
       ]
     },
-    "TIMER_DISABLED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 362,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 10812,
-          "bytes_hex": "803e6a01ff",
-          "entry": "root:0289:000e"
-        }
-      ]
-    },
     "TIME_EXPIRED": {
       "group": "DGROUP",
       "kind": "dgroup-public",
@@ -18529,23 +18424,16 @@
         }
       ]
     },
-    "IN_SPECIAL_ROOM": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3601,
-      "witnesses": []
-    },
-    "RESET_OVERLAY_STATE": {
-      "entry_sha256": "b5074fa9f3471281d5d8ccc9301a8df94affc64abc3fa5d7f6fa05f5573f5060",
-      "entry_target_id": "overlay-3:251b:0000",
+    "SHOW_INIT_MESSAGE": {
+      "entry_sha256": "5b9251e089bee7251091d456dabc7274b30875100bc870db3fea4f771bb94810",
+      "entry_target_id": "overlay-2:251b:0000",
       "kind": "overlay-code-entry",
       "offset": 0,
       "segment": 9499,
-      "space": "overlay-3",
+      "space": "overlay-2",
       "witnesses": []
     },
-    "PLATFORM_SETUP": {
+    "INIT_SYSTEM": {
       "kind": "rtlink-vector",
       "space": "root",
       "segment": 8718,
@@ -18559,6 +18447,13 @@
       "offset": 11036,
       "segment": 1936,
       "space": "root",
+      "witnesses": []
+    },
+    "ALTAR_SHADOW_ACTIVE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3601,
       "witnesses": []
     },
     "SELECT_ROOM_ARRAYS": {
@@ -18613,11 +18508,23 @@
       "space": "root",
       "witnesses": []
     },
+    "QUOTE_INDEX": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:checknis/checknis",
+      "offset": 362
+    },
     "NIS_SKIP_REQUESTED": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:nis/nis",
       "offset": 5010
+    },
+    "FRAME_DIAGNOSTICS": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4290
     },
     "DIGITAL_DRIVER": {
       "kind": "dgroup-offset",
@@ -18675,6 +18582,30 @@
         }
       ]
     },
+    "SHOW_RULER": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4312
+    },
+    "SHOW_REFERENCE_POSITION": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4300
+    },
+    "SHOW_ACTOR_POSITION": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4306
+    },
+    "PAUSE_ON_FRAME": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4314
+    },
     "FRAMENUM": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -18688,6 +18619,12 @@
           "space": "root"
         }
       ]
+    },
+    "SCREENPORTRECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:intrface/intrface",
+      "offset": 7978
     },
     "FALL_TRANSITION": {
       "kind": "dgroup-offset",

@@ -6,8 +6,7 @@ EXTRN screen_bits:DWORD
 EXTRN Graf:WORD
 EXTRN screen_row_origin:WORD
 EXTRN screen_x_origin:WORD
-EXTRN mode_surface:BYTE
-EXTRN mode_scanline_count:WORD
+EXTRN DEFAULT_PORT:BYTE
 EXTRN mode_bytes_per_row:WORD
 EXTRN mode_scanline_offsets:WORD
 
@@ -811,14 +810,14 @@ initialize_cga PROC FAR
     push ds
     mov cx, 0Eh
     mov si, OFFSET cga_surface_geometry
-    mov di, OFFSET mode_surface
+    mov di, OFFSET DEFAULT_PORT
     push ds
     pop es
     push cs
     pop ds
     rep movsb
     pop ds
-    mov ax, WORD PTR [mode_scanline_count]
+    mov ax, WORD PTR [DEFAULT_PORT+8]
     shl ax, 1
     push ax
     call __nmalloc
@@ -828,7 +827,7 @@ initialize_cga PROC FAR
     je loc_3fc4
     xchg di, ax
     sub si, si
-    mov cx, WORD PTR [mode_scanline_count]
+    mov cx, WORD PTR [DEFAULT_PORT+8]
     push ds
     pop es
 
@@ -2331,14 +2330,14 @@ initialize_hercules PROC FAR
     push ds
     mov cx, 0Eh
     mov si, OFFSET hercules_surface_geometry
-    mov di, OFFSET mode_surface
+    mov di, OFFSET DEFAULT_PORT
     push ds
     pop es
     push cs
     pop ds
     rep movsb
     pop ds
-    mov ax, WORD PTR [mode_scanline_count]
+    mov ax, WORD PTR [DEFAULT_PORT+8]
     shl ax, 1
     push ax
     call __nmalloc
@@ -2355,7 +2354,7 @@ loc_4ba1:
 loc_4ba4:
     xchg di, ax
     sub si, si
-    mov cx, WORD PTR [mode_scanline_count]
+    mov cx, WORD PTR [DEFAULT_PORT+8]
 
 loc_4bab:
     mov ax, si

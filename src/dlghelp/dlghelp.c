@@ -64,7 +64,7 @@ extern void far pascal play_sound(int);
 extern void far pascal CLAMP_POINT_TO_RECT(Point far *, void far *, Rect far *);
 extern EditField far * far pascal ALLOCATE_PINNED_PAYLOAD(long);
 extern void far pascal MOVE_HUGE_BYTES(void far *, const void far *, long);
-extern Word far cdecl far_string_length(const char far *);
+extern Word far cdecl _fstrlen(const char far *);
 extern void far pascal STROKE_PORT_RECT(Rect far *);
 
 void far pascal paint_edit_caret(EditField far *, int);
@@ -306,7 +306,7 @@ EditField far * far pascal create_edit_field(Rect far *bounds, Rect far *clip,
 void far pascal replace_edit_text(EditField far *field, char far *text)
 {
     field->text = text;
-    field->length = far_string_length(text);
+    field->length = _fstrlen(text);
     field->caret = 0;
     update_edit_caret(field);
 }

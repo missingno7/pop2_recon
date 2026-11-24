@@ -101,8 +101,8 @@
     "externals": [
       "DRAW_TEXT_HANDLE_IN_RECT",
       "MEASURE_TEXT_HANDLE",
-      "_far_string_length",
-      "_far_copy_string",
+      "__fstrlen",
+      "__fstrcpy",
       "ALLOCATE_PAYLOAD_HANDLE",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "DRAW_NUL_TERMINATED_TEXT",
@@ -234,7 +234,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "_far_copy_string",
+          "name": "__fstrcpy",
           "method": 6,
           "zero_displacement": true
         }
@@ -242,7 +242,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "_far_copy_string",
+        "name": "__fstrcpy",
         "method": 6,
         "zero_displacement": true
       },
@@ -315,7 +315,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "_far_string_length",
+          "name": "__fstrlen",
           "method": 6,
           "zero_displacement": true
         }
@@ -323,7 +323,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "_far_string_length",
+        "name": "__fstrlen",
         "method": 6,
         "zero_displacement": true
       },
@@ -433,22 +433,7 @@
       "offset": 21300,
       "segment": 4393,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 21883,
-          "bytes_hex": "9a34532911",
-          "relocation_index": 631,
-          "file_offset": 30075
-        },
-        {
-          "space": "root",
-          "image_offset": 21811,
-          "bytes_hex": "9a34532911",
-          "relocation_index": 632,
-          "file_offset": 30003
-        }
-      ]
+      "witnesses": []
     },
     "MEASURE_NUL_TERMINATED_TEXT": {
       "entry_sha256": "175a94a62efe397a6f87cd4c7f087335a5978e7aed276e59f29902f9a2a185cd",
@@ -476,39 +461,23 @@
         }
       ]
     },
-    "_far_copy_string": {
+    "__fstrcpy": {
       "entry_sha256": "d2de043779a7128c098a270356177adb5e2b742da948b8e8a1b0d4abbed13569",
       "entry_target_id": "root:1fef:1f00",
       "kind": "far-code-entry",
       "offset": 7936,
       "segment": 8175,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 24050,
-          "bytes_hex": "9a001fef1f",
-          "file_offset": 32242,
-          "relocation_index": 621
-        }
-      ]
+      "witnesses": []
     },
-    "_far_string_length": {
+    "__fstrlen": {
       "entry_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331",
       "entry_target_id": "root:1fef:1ee8",
       "kind": "far-code-entry",
       "offset": 7912,
       "segment": 8175,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 23432,
-          "bytes_hex": "9ae81eef1f",
-          "file_offset": 31624,
-          "relocation_index": 674
-        }
-      ]
+      "witnesses": []
     }
   },
   "target_id": "group:text_handles",

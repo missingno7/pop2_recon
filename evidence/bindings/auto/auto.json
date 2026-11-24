@@ -487,8 +487,8 @@
       "IS_SELECTED_ACTOR",
       "CUTROOM",
       "OPPONENT_REVIEW_DELAY",
-      "APPEARANCE_FOR_KIND",
-      "LOADED_APPEARANCE",
+      "OPPONENT_OUTFIT_BY_CHARACTER",
+      "LOADED_OPPONENT",
       "LOAD_ACTOR_SLOT",
       "CHECK_GENERATOR_POINTS",
       "LEVEL",
@@ -681,7 +681,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "LOADED_APPEARANCE",
+          "name": "LOADED_OPPONENT",
           "method": 6,
           "zero_displacement": true
         }
@@ -689,7 +689,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "LOADED_APPEARANCE",
+        "name": "LOADED_OPPONENT",
         "method": 6,
         "zero_displacement": true
       },
@@ -5622,7 +5622,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "APPEARANCE_FOR_KIND",
+          "name": "OPPONENT_OUTFIT_BY_CHARACTER",
           "method": 6,
           "zero_displacement": true
         }
@@ -5630,7 +5630,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "APPEARANCE_FOR_KIND",
+        "name": "OPPONENT_OUTFIT_BY_CHARACTER",
         "method": 6,
         "zero_displacement": true
       },
@@ -6513,7 +6513,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "LOADED_APPEARANCE",
+          "name": "LOADED_OPPONENT",
           "method": 6,
           "zero_displacement": true
         }
@@ -6521,7 +6521,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "LOADED_APPEARANCE",
+        "name": "LOADED_OPPONENT",
         "method": 6,
         "zero_displacement": true
       },
@@ -25855,20 +25855,6 @@
         }
       ]
     },
-    "APPEARANCE_FOR_KIND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 162,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 9860,
-          "bytes_hex": "8a87a200",
-          "entry": "root:0170:03cc"
-        }
-      ]
-    },
     "AUTOMATIC_ADJUSTMENT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -27316,20 +27302,6 @@
         }
       ]
     },
-    "LOADED_APPEARANCE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 1648,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 44730,
-          "bytes_hex": "a07006",
-          "entry": "root:0a63:01f2"
-        }
-      ]
-    },
     "LOAD_ACTOR_SLOT": {
       "entry_sha256": "a77bfafd45e3cfe9a1c908e60c2feb0fdc89b1f8b59835ccc67501879c8ee9c1",
       "entry_target_id": "root:02dc:1d0e",
@@ -28076,6 +28048,18 @@
       "segment": 11226,
       "space": "overlay-10",
       "witnesses": []
+    },
+    "LOADED_OPPONENT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:load/load",
+      "offset": 1648
+    },
+    "OPPONENT_OUTFIT_BY_CHARACTER": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:prince/prince",
+      "offset": 162
     },
     "COLEDGEX": {
       "kind": "dgroup-public",

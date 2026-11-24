@@ -151,8 +151,8 @@
       "RELEASE_BUFFER",
       "ALLOCATE_BUFFER",
       "__NMALLOC",
-      "HORIZONTAL_PIXELS_PER_BYTE",
       "GRAF",
+      "PIXELS_PER_BYTE",
       "PAINT_FOUR_BIT_CALLBACK"
     ]
   },
@@ -172,7 +172,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -238,7 +238,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -326,7 +326,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -348,8 +348,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
-        "name": "HORIZONTAL_PIXELS_PER_BYTE",
+        "index": 8,
+        "name": "PIXELS_PER_BYTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -457,7 +457,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 7,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -530,20 +530,6 @@
           "image_offset": 5116,
           "bytes_hex": "a35024",
           "entry": "root:0000:0000"
-        }
-      ]
-    },
-    "HORIZONTAL_PIXELS_PER_BYTE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9318,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 84862,
-          "bytes_hex": "a06624",
-          "entry": "root:1129:3890"
         }
       ]
     },
@@ -624,6 +610,12 @@
           "relocation_index": 1
         }
       ]
+    },
+    "PIXELS_PER_BYTE": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9318
     }
   },
   "target_id": "group:graf/paint_four_bit",

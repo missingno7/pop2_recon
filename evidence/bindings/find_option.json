@@ -81,9 +81,9 @@
       }
     ],
     "externals": [
-      "_near_calloc",
+      "__ncalloc",
       "_dos_read",
-      "_dos_close",
+      "__dos_close",
       "__nfree",
       "LOAD_SOUND_SETTINGS",
       "ARGUMENT_COUNT",
@@ -92,7 +92,7 @@
       "__fstrnicmp",
       "FIND_OPTION",
       "CONFIGURATION",
-      "_dos_open",
+      "__dos_open",
       "_filelength"
     ]
   },
@@ -164,7 +164,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "_dos_close",
+          "name": "__dos_close",
           "method": 6,
           "zero_displacement": true
         }
@@ -172,7 +172,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "_dos_close",
+        "name": "__dos_close",
         "method": 6,
         "zero_displacement": true
       },
@@ -218,7 +218,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "_near_calloc",
+          "name": "__ncalloc",
           "method": 6,
           "zero_displacement": true
         }
@@ -226,7 +226,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "_near_calloc",
+        "name": "__ncalloc",
         "method": 6,
         "zero_displacement": true
       },
@@ -272,7 +272,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "_dos_open",
+          "name": "__dos_open",
           "method": 6,
           "zero_displacement": true
         }
@@ -280,7 +280,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "_dos_open",
+        "name": "__dos_open",
         "method": 6,
         "zero_displacement": true
       },
@@ -526,40 +526,6 @@
         }
       ]
     },
-    "_dos_close": {
-      "entry_sha256": "f31352fbe706a84f5dc89fad388aaa5089797b4b5e8c588e87ca50dce3fe6947",
-      "entry_target_id": "root:1fef:1bee",
-      "kind": "far-code-entry",
-      "offset": 7150,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 24654,
-          "bytes_hex": "9aee1bef1f",
-          "file_offset": 32846,
-          "relocation_index": 537
-        }
-      ]
-    },
-    "_dos_open": {
-      "entry_sha256": "7e1d7bf2eeed69d6c3aa0d09f56c72984132695760e56d79822211ccb5c4df95",
-      "entry_target_id": "root:1fef:1c26",
-      "kind": "far-code-entry",
-      "offset": 7206,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 24528,
-          "bytes_hex": "9a261cef1f",
-          "file_offset": 32720,
-          "relocation_index": 627
-        }
-      ]
-    },
     "_dos_read": {
       "entry_sha256": "a822c2510e5f7801517877300c94184bf84b05504f4fee2e1d4d009b62e4ec59",
       "entry_target_id": "root:1fef:1c3e",
@@ -594,11 +560,29 @@
         }
       ]
     },
-    "_near_calloc": {
+    "__dos_close": {
+      "entry_sha256": "f31352fbe706a84f5dc89fad388aaa5089797b4b5e8c588e87ca50dce3fe6947",
+      "entry_target_id": "root:1fef:1bee",
+      "kind": "far-code-entry",
+      "offset": 7150,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
+    },
+    "__ncalloc": {
       "entry_sha256": "6f87760d9624ff06db8d789dd1433da4207a34b9f772ba34520bacab7ba518c2",
       "entry_target_id": "root:1fef:17ee",
       "kind": "far-code-entry",
       "offset": 6126,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
+    },
+    "__dos_open": {
+      "entry_sha256": "7e1d7bf2eeed69d6c3aa0d09f56c72984132695760e56d79822211ccb5c4df95",
+      "entry_target_id": "root:1fef:1c26",
+      "kind": "far-code-entry",
+      "offset": 7206,
       "segment": 8175,
       "space": "root",
       "witnesses": []

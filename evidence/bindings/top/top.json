@@ -390,19 +390,19 @@
       "CLEAR_PEELS",
       "CHECKSCYTHEHIT",
       "CHECK_REBIRTH_POINTS",
-      "RESET_VECTOR_A",
+      "RESET_ACTOR_ALERT",
       "AMBIENT_STATE",
       "CHECK_DART_HIT",
       "ADJUST_GUARD_VIEW",
-      "RESET_VECTOR_B",
+      "RESET_OVERLAY_STATE",
       "TICK_MISC_TIMERS",
       "CHECK_LAVA_BOIL",
-      "RESET_VECTOR_C",
+      "RESET_SHADOW_OVERLAY_STATE",
       "REMAINING_MINUTES",
       "ADDSOUND",
       "FACE_FIRST_GUARD",
       "RESTART_REQUEST",
-      "RESET_VECTOR_D",
+      "RESET_BARRIER_STATE",
       "FALLINGINUNDEFINEDROOM",
       "SETREBIRTHPTKIDSTATUS",
       "RESET_GUARD_RECORDS",
@@ -499,7 +499,7 @@
       "GET_OPP_DIST",
       "LIMIT_FRAME_RATE",
       "CHAR",
-      "OPTION_FLAGS",
+      "FRAME_DIAGNOSTICS",
       "ADDCHARX",
       "ANIM_MOBS",
       "ROOMOPP",
@@ -525,7 +525,7 @@
       "IS_SIX_KIND",
       "CHANGEMETERS",
       "TRANSITION_PENDING",
-      "TIMER_DISABLED",
+      "QUOTE_INDEX",
       "SAVE_GAME_PLAY_PALETTE",
       "CHECK_CUT",
       "CUT_ROOM_OPPONENTS",
@@ -550,7 +550,7 @@
       "CUTROOM",
       "SPECIAL_ENTRANCE",
       "GRAVITY",
-      "LOADING_NAME",
+      "SCREENPORTRECT",
       "OPEN_START_GATE",
       "STARTING_HEALTH",
       "ADD_CHAR_VELOCITY",
@@ -2642,7 +2642,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "RESET_VECTOR_D",
+          "name": "RESET_BARRIER_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2650,7 +2650,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "RESET_VECTOR_D",
+        "name": "RESET_BARRIER_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2669,7 +2669,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "RESET_VECTOR_C",
+          "name": "RESET_SHADOW_OVERLAY_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2677,7 +2677,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "RESET_VECTOR_C",
+        "name": "RESET_SHADOW_OVERLAY_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2696,7 +2696,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "RESET_VECTOR_B",
+          "name": "RESET_OVERLAY_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2704,7 +2704,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "RESET_VECTOR_B",
+        "name": "RESET_OVERLAY_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2723,7 +2723,7 @@
         "target": {
           "kind": "external",
           "index": 40,
-          "name": "RESET_VECTOR_A",
+          "name": "RESET_ACTOR_ALERT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2731,7 +2731,7 @@
       "target": {
         "kind": "external",
         "index": 40,
-        "name": "RESET_VECTOR_A",
+        "name": "RESET_ACTOR_ALERT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3854,7 +3854,7 @@
         "target": {
           "kind": "external",
           "index": 149,
-          "name": "OPTION_FLAGS",
+          "name": "FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -3862,7 +3862,7 @@
       "target": {
         "kind": "external",
         "index": 149,
-        "name": "OPTION_FLAGS",
+        "name": "FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -7754,7 +7754,7 @@
         "target": {
           "kind": "external",
           "index": 200,
-          "name": "LOADING_NAME",
+          "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -7762,7 +7762,7 @@
       "target": {
         "kind": "external",
         "index": 200,
-        "name": "LOADING_NAME",
+        "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -14727,7 +14727,7 @@
         "target": {
           "kind": "external",
           "index": 175,
-          "name": "TIMER_DISABLED",
+          "name": "QUOTE_INDEX",
           "method": 6,
           "zero_displacement": true
         }
@@ -14735,7 +14735,7 @@
       "target": {
         "kind": "external",
         "index": 175,
-        "name": "TIMER_DISABLED",
+        "name": "QUOTE_INDEX",
         "method": 6,
         "zero_displacement": true
       },
@@ -19439,20 +19439,6 @@
         }
       ]
     },
-    "LOADING_NAME": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7978,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 5106,
-          "bytes_hex": "b82a1f",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
     "LOAD_ACTOR_SLOT": {
       "entry_sha256": "a77bfafd45e3cfe9a1c908e60c2feb0fdc89b1f8b59835ccc67501879c8ee9c1",
       "entry_target_id": "root:02dc:1d0e",
@@ -19716,20 +19702,6 @@
           "image_offset": 13801,
           "bytes_hex": "bff65a",
           "entry": "root:02dc:080a"
-        }
-      ]
-    },
-    "OPTION_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 4290,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 190,
-          "bytes_hex": "833ec21000",
-          "entry": "root:0000:0000"
         }
       ]
     },
@@ -20424,20 +20396,6 @@
       "offset": 9438,
       "witnesses": []
     },
-    "TIMER_DISABLED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 362,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 3426,
-          "bytes_hex": "803e6a0100",
-          "entry": "root:0000:0d5a"
-        }
-      ]
-    },
     "TOGGLEINVERTSTATE": {
       "entry_sha256": "9378a051190163020b66763864e33ae82398bb9ba3a851c6ca25cbb6edc2aca1",
       "entry_target_id": "root:0000:139c",
@@ -20500,34 +20458,6 @@
       "space": "root",
       "witnesses": []
     },
-    "RESET_VECTOR_A": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3361,
-      "witnesses": []
-    },
-    "RESET_VECTOR_B": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3341,
-      "witnesses": []
-    },
-    "RESET_VECTOR_C": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3351,
-      "witnesses": []
-    },
-    "RESET_VECTOR_D": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8718,
-      "offset": 3371,
-      "witnesses": []
-    },
     "SELECT_ROOM_ARRAYS": {
       "entry_sha256": "d045ec88ddd750c76ed5869ba105f12cae1767771e3af69ed6045b702fbc9e7e",
       "entry_target_id": "root:0f9e:0008",
@@ -20535,6 +20465,34 @@
       "offset": 8,
       "segment": 3998,
       "space": "root",
+      "witnesses": []
+    },
+    "RESET_BARRIER_STATE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3371,
+      "witnesses": []
+    },
+    "RESET_SHADOW_OVERLAY_STATE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3351,
+      "witnesses": []
+    },
+    "RESET_OVERLAY_STATE": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3341,
+      "witnesses": []
+    },
+    "RESET_ACTOR_ALERT": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3361,
       "witnesses": []
     },
     "CLEAR_KEYBOARD": {
@@ -20586,6 +20544,12 @@
       "provider": "group:nis/nis",
       "offset": 5010
     },
+    "FRAME_DIAGNOSTICS": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:diag/diag",
+      "offset": 4290
+    },
     "FADE_ACTIVE": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -20599,6 +20563,12 @@
           "space": "root"
         }
       ]
+    },
+    "SCREENPORTRECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:intrface/intrface",
+      "offset": 7978
     },
     "FRAMENUM": {
       "kind": "dgroup-offset",
@@ -20636,6 +20606,12 @@
       "segment": 2898,
       "space": "root",
       "witnesses": []
+    },
+    "QUOTE_INDEX": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:checknis/checknis",
+      "offset": 362
     },
     "ESCHER_ROOM_EIGHT_SEEN": {
       "kind": "dgroup-offset",

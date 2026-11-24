@@ -72,7 +72,7 @@
       }
     ],
     "externals": [
-      "CURRENTPORT",
+      "DEFAULT_PORT",
       "RELEASE_BUFFER",
       "__nfree",
       "RELEASE_PORT"
@@ -119,7 +119,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "CURRENTPORT",
+          "name": "DEFAULT_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -127,7 +127,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "CURRENTPORT",
+        "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -173,7 +173,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "CURRENTPORT",
+          "name": "DEFAULT_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -181,7 +181,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "CURRENTPORT",
+        "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -200,7 +200,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "CURRENTPORT",
+          "name": "DEFAULT_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -208,7 +208,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "CURRENTPORT",
+        "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -231,46 +231,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "CURRENTPORT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 71429,
-              "bytes_hex": "3b068024",
-              "entry": "root:1129:04ba"
-            }
-          ]
-        },
-        {
-          "offset": 14,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 90536,
-              "bytes_hex": "87068c24",
-              "entry": "root:1129:4ef2"
-            }
-          ]
-        }
-      ],
-      "offset": 9342,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 90719,
-          "bytes_hex": "be7e24",
-          "entry": "root:1129:4fc2"
-        }
-      ]
-    },
     "RELEASE_BUFFER": {
       "entry_sha256": "bb478178867019eacbddbade3053a02531fb7f7aefa3158a4faab67dd43f738f",
       "entry_target_id": "root:1129:64ce",
@@ -296,6 +256,12 @@
           "relocation_index": 56
         }
       ]
+    },
+    "DEFAULT_PORT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:graf/graphics_mode",
+      "offset": 9342
     }
   },
   "target_id": "group:graf/release_port",

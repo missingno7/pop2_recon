@@ -43,7 +43,7 @@ extern int background_intro_group[], background_intro_number[];
 extern unsigned overlay_output;
 extern Handle sprite_sets[];
 extern int sound_available;
-extern Rect screen_bounds;
+extern Rect ScreenPortRect;
 extern char background_overlay_file[];
 extern int extra_kid_overlay;
 typedef void (far pascal *LevelFrameProc)(void);
@@ -95,7 +95,7 @@ static const int kid_image_last[8] = { 32, 79, 111, 129, 144, 215, 220, 299 };
 static const char map_option[] = "GAMEPLAY\0%s%s";
 
 extern SByte sword_kind;
-extern Handle level_pieces, sword_frames, opponent_frames, opponent_effect_frames;
+extern Handle Pieces, sword_frames, opponent_frames, opponent_effect_frames;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -170,17 +170,17 @@ extern void * far pascal find_option(const char far *);
 extern void far pascal LOAD_RESOURCE_INTO(int, int, int, const char far *, long);
 extern void far pascal SetRebirthPtLevelStatus(void);
 extern void far pascal save_game_play_palette(void);
-extern void far pascal load_overlay_one(void);
-extern void far pascal load_overlay_two(void);
-extern void far pascal load_overlay_three(void);
-extern void far pascal load_overlay_four(void);
-extern void far pascal load_overlay_five(void);
-extern void far pascal load_overlay_six(void);
-extern void far pascal load_overlay_seven(void);
-extern void far pascal load_overlay_eight(void);
-extern void far pascal load_overlay_nine(void);
-extern void far pascal load_overlay_ten(void);
-extern void far pascal load_overlay_eleven(void);
+extern void far pascal LoadDsrtCode(void);
+extern void far pascal temple_frame(void);
+extern void far pascal LoadTempleDrawCode(void);
+extern void far pascal load_cave_drawing(void);
+extern void far pascal cave_overlay_entry(void);
+extern void far pascal LoadRuinsDrawCode(void);
+extern void far pascal LoadRuinsMoveCode(void);
+extern void far pascal LoadRoofCode(void);
+extern void far pascal load_final_code(void);
+extern void far pascal unused_head_entry(void);
+extern void far pascal unused_guard_entry(void);
 extern Handle far pascal LOAD_RESOURCE_COPY(unsigned long, unsigned);
 extern void far pascal DISPOSE_HANDLE(Handle);
 extern Handle far pascal HGETRSRC(unsigned long, unsigned);
@@ -191,8 +191,8 @@ extern void far _fastcall reserve_opponent_bank(Byte);
 extern Handle far pascal hGetSnd(unsigned);
 extern void far pascal SAVE_HANDLE_FLAGS(Handle);
 extern const char far * far pascal FETCH_LOCKED_SHAPE_LIST(Handle);
-extern char far * far cdecl copy_far_string(char far *, const char far *);
-extern void far cdecl split_path(char *, char *, char *, char *, char *);
+extern char far * far cdecl _fstrcpy(char far *, const char far *);
+extern void far cdecl _splitpath(char *, char *, char *, char *, char *);
 extern int far cdecl sprintf(char *, const char *, ...);
 extern void far pascal abort_with_message(int, const char far *);
 extern void far pascal clear_peels(void);
@@ -371,7 +371,7 @@ void far pascal load_level(SByte number)
     load_level_map(LevelIdx);
     starts_with_nis = IsLevelStartWithNISScreen();
     if (!starts_with_nis)
-        STROKE_PORT_RECT(&screen_bounds);
+        STROKE_PORT_RECT(&ScreenPortRect);
     load_flask_set();
     open_level_resource_files(Level.environment_kind, previous);
     load_background_set(!starts_with_nis);
@@ -409,7 +409,7 @@ void far pascal load_minimum_level(SByte number)
     load_sword_set(sword_kind);
     save_game_play_palette();
     Graf = ScreenPort;
-    STROKE_PORT_RECT(&screen_bounds);
+    STROKE_PORT_RECT(&ScreenPortRect);
 }
 
 extern int background_scene_group[], background_scene_number[];
@@ -426,37 +426,37 @@ void far pascal load_code_overlays(Byte background_kind, Byte opponent_kind)
 {
     switch (background_kind) {
     case 1:
-        load_overlay_one();
+        LoadDsrtCode();
         break;
     case 2:
-        load_overlay_two();
-        load_overlay_three();
+        temple_frame();
+        LoadTempleDrawCode();
         break;
     case 3:
-        load_overlay_four();
-        load_overlay_five();
+        load_cave_drawing();
+        cave_overlay_entry();
         break;
     case 4:
-        load_overlay_six();
-        load_overlay_seven();
+        LoadRuinsDrawCode();
+        LoadRuinsMoveCode();
         break;
     case 5:
-        load_overlay_eight();
+        LoadRoofCode();
         break;
     case 6:
-        load_overlay_nine();
+        load_final_code();
         break;
     }
     if (opponent_kind == 5 || opponent_kind == 6 || opponent_kind == 8)
-        load_overlay_ten();
+        unused_head_entry();
     else
-        load_overlay_eleven();
+        unused_guard_entry();
 }
 
 void far pascal load_pieces_data(void)
 {
     unload_pieces_data();
-    level_pieces = LOAD_RESOURCE_COPY(0x50494543UL, 3500);
+    Pieces = LOAD_RESOURCE_COPY(0x50494543UL, 3500);
 }
 
 #pragma pack(1)
@@ -813,8 +813,8 @@ int far pascal load_resource_error(Handle resource)
     char drive[4], directory[256], basename[256], extension[256];
 
     SAVE_HANDLE_FLAGS(resource);
-    copy_far_string(path, FETCH_LOCKED_SHAPE_LIST(resource) + 16);
-    split_path(path, drive, directory, basename, extension);
+    _fstrcpy(path, FETCH_LOCKED_SHAPE_LIST(resource) + 16);
+    _splitpath(path, drive, directory, basename, extension);
     sprintf(path, map_option + sizeof("GAMEPLAY"), basename, extension);
     report_resource_path(path);
     return 1;
@@ -903,9 +903,9 @@ void far pascal unload_opponent_overlays(SByte previous, SByte current)
 
 void far pascal unload_pieces_data(void)
 {
-    if (level_pieces) {
-        _nfree((void *)level_pieces);
-        level_pieces = 0;
+    if (Pieces) {
+        _nfree((void *)Pieces);
+        Pieces = 0;
     }
 }
 

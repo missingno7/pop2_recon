@@ -177,7 +177,7 @@ extern void AddSong(int), AddSound(int);
 extern void CycleColors(int, int, int);
 extern int query_sound(int);
 extern void dispatch_sound(int);
-extern int query_animation(sbyte, sbyte);
+extern int get_trob_by_id(sbyte, sbyte);
 extern void copy_kid_to_char(void), reset_char_y(void);
 extern void JumpSeq(int);
 extern int Rnd(int);
@@ -294,7 +294,7 @@ void desert_frame(void)
             dispatch_sound(10038);
     } else if (Kid.sequence_group != 7 && Kid.alive < 0 &&
                !query_sound(sound_room + 10000) &&
-               !query_animation(30, 1) && !is_desert_exit_open()) {
+               !get_trob_by_id(30, 1) && !is_desert_exit_open()) {
         add_desert_ambient();
     }
 }
@@ -559,7 +559,7 @@ void animate_desert_stone(void)
 
         if ((frame == 10 && animation_remove == 3) ||
             (frame == 0 && animation_remove == 1)) {
-            if (animation_remove == 3 && !query_animation(30, 2))
+            if (animation_remove == 3 && !get_trob_by_id(30, 2))
                 add_desert_ambient();
             animation_remove = -1;
         } else {
@@ -673,7 +673,7 @@ int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
         }
     } else {
         started = 0;
-        if (action == 3 && (sbyte)(cell % 10) == 7 && !query_animation(30, 1))
+        if (action == 3 && (sbyte)(cell % 10) == 7 && !get_trob_by_id(30, 1))
             add_desert_ambient();
     }
 

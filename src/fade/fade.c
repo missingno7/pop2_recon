@@ -38,7 +38,7 @@ extern int far cdecl _fmemcmp(const void far *left, const void far *right, unsig
 
 extern int fade_delay;
 extern int Graf;
-extern Rect screen_bounds;
+extern Rect ScreenPortRect;
 
 fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsigned blocks);
 int far pascal fade_in_step(fade_state far *state);
@@ -242,14 +242,14 @@ int far pascal fade_to_step(fade_state far *state)
     return done;
 }
 
-extern int (far *poll_input)(void);
+extern int (far *wait_function)(void);
 
 void far pascal fade_out_and_restore_palette(void)
 {
-    int (far *saved)(void) = poll_input;
+    int (far *saved)(void) = wait_function;
 
-    poll_input = 0;
+    wait_function = 0;
     fade_to(0, 0xffff, 0);
-    SET_RECORD_RANGE(&screen_bounds, 0);
-    poll_input = saved;
+    SET_RECORD_RANGE(&ScreenPortRect, 0);
+    wait_function = saved;
 }

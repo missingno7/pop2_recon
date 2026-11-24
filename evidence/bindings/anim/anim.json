@@ -225,7 +225,7 @@
       "CLEAR_PAYLOAD_HEADER",
       "RELEASE_BUFFER",
       "QUERY_SOUND_PAYLOAD",
-      "_release_animation_heap",
+      "_free",
       "SCREENPORT"
     ]
   },
@@ -762,7 +762,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "_release_animation_heap",
+          "name": "_free",
           "method": 6,
           "zero_displacement": true
         }
@@ -770,7 +770,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "_release_animation_heap",
+        "name": "_free",
         "method": 6,
         "zero_displacement": true
       },
@@ -4932,23 +4932,6 @@
         }
       ]
     },
-    "_release_animation_heap": {
-      "entry_sha256": "1cace76e2caba3e7be26595ed7f64897c53f03419076b901c10137a90dbad86c",
-      "entry_target_id": "root:1fef:1446",
-      "kind": "far-code-entry",
-      "offset": 5190,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 133037,
-          "bytes_hex": "9a4614ef1f",
-          "file_offset": 141229,
-          "relocation_index": 1941
-        }
-      ]
-    },
     "_sprintf": {
       "entry_sha256": "ef400b60bfb15ef83e27bd8b12f175774b6a77d9b491ccd5049f90bbd9811086",
       "entry_target_id": "root:1fef:170e",
@@ -4965,6 +4948,15 @@
           "relocation_index": 128
         }
       ]
+    },
+    "_free": {
+      "entry_sha256": "1cace76e2caba3e7be26595ed7f64897c53f03419076b901c10137a90dbad86c",
+      "entry_target_id": "root:1fef:1446",
+      "kind": "far-code-entry",
+      "offset": 5190,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
     },
     "__nmsize": {
       "entry_sha256": "65f2940dcea8f9a6757cce4f2770d99fc059f4b78f2bdc40e490933558a19a63",

@@ -179,7 +179,7 @@ void far pascal SetOppMaxLifePts(opponent_record *record)
         Char.life_initial = record->max_life;
 }
 
-extern unsigned char loaded_appearance;
+extern unsigned char loaded_opponent;
 extern LEVELREC Level;
 
 extern unsigned char OppCharId[];
@@ -343,10 +343,10 @@ void far pascal initialize_room_actors(void)
 
     if (count == 0) {
         if (Level.level_number == 12 && (Room.number == 11 || Room.number == 19) &&
-            loaded_appearance != 1)
+            loaded_opponent != 1)
             load_opponent_set(1);
         else if (Level.generators[Room.number - 1].count != 0 &&
-                 loaded_appearance != Level.preferred_opponent &&
+                 loaded_opponent != Level.preferred_opponent &&
                  Level.preferred_opponent != 5 && Level.preferred_opponent != 6)
             load_opponent_set(Level.preferred_opponent);
     }
@@ -387,7 +387,7 @@ void far pascal check_side_rooms(void)
     }
 }
 
-extern signed char appearance_for_kind[];
+extern signed char opponent_outfit_by_character[];
 
 extern int actor_y_offset[];
 extern int ColEdgeX[20];
@@ -438,7 +438,7 @@ int far pascal update_opponent_record(void)
                 }
                 record->combat_mode = Char.stance;
                 record->life = Char.life_points;
-                record->appearance = appearance_for_kind[Char.character_kind];
+                record->appearance = opponent_outfit_by_character[Char.character_kind];
                 set_special_opponent(record);
                 room = get_under_foot();
                 if (room == 5 || room == 6)

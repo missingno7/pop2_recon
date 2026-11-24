@@ -290,7 +290,7 @@
       "__nfree",
       "_printf",
       "_exit",
-      "_far_find_string",
+      "__fstrstr",
       "_open",
       "WAIT_TIMER",
       "_close",
@@ -1635,7 +1635,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "_far_find_string",
+          "name": "__fstrstr",
           "method": 6,
           "zero_displacement": true
         }
@@ -1643,7 +1643,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "_far_find_string",
+        "name": "__fstrstr",
         "method": 6,
         "zero_displacement": true
       },
@@ -2407,15 +2407,6 @@
         }
       ]
     },
-    "_far_find_string": {
-      "entry_sha256": "96bacf99c5d1b777c600fbe722335dc43e0f348dee34b05352ece25c7c57176b",
-      "entry_target_id": "root:1fef:1f7e",
-      "kind": "far-code-entry",
-      "offset": 8062,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": []
-    },
     "_open": {
       "entry_sha256": "6f786021b4c2310033310bcbe0895a7c909cf5c02f5ecc52caf9bb9d28e73b95",
       "entry_target_id": "root:1fef:114a",
@@ -2448,6 +2439,15 @@
       "kind": "far-code-entry",
       "offset": 714,
       "segment": 8005,
+      "space": "root",
+      "witnesses": []
+    },
+    "__fstrstr": {
+      "entry_sha256": "96bacf99c5d1b777c600fbe722335dc43e0f348dee34b05352ece25c7c57176b",
+      "entry_target_id": "root:1fef:1f7e",
+      "kind": "far-code-entry",
+      "offset": 8062,
+      "segment": 8175,
       "space": "root",
       "witnesses": []
     },

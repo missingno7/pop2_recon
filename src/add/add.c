@@ -112,7 +112,7 @@ extern int far *MATERIALIZE_HANDLE(unsigned int handle);
 extern void load_set_shape(unsigned int, int, ShapeItem far *, int);
 extern void MARK_PURGEABLE(unsigned int handle);
 extern void PrinceFreeShp(int);
-extern TileImages *level_pieces;
+extern TileImages *pieces;
 extern BFItem far back_table[];
 extern BFItem far front_table[];
 
@@ -165,17 +165,17 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
     int added;
 
     if (i >= 130) return 0;
-    added = add_image_info(4, &level_pieces[tile].background, image,
+    added = add_image_info(4, &pieces[tile].background, image,
                            &back_table[i], x, y, order, layer);
     if (added) {
-        back_table[i].mode = level_pieces[tile].mode;
+        back_table[i].mode = pieces[tile].mode;
         ++back_count;
     }
     return added;
 }
 
 
-int add_back_foreground_to_back(Byte tile, int image, Offset x, Offset y,
+int AddBFImgToBTable(Byte tile, int image, Offset x, Offset y,
                      Byte order, Byte layer)
 {
     int i;
@@ -184,27 +184,27 @@ int add_back_foreground_to_back(Byte tile, int image, Offset x, Offset y,
     if (image) {
         i = back_count;
         if (i >= 130) return 0;
-        added = add_image_info(4, &level_pieces[tile].background_foreground, image,
+        added = add_image_info(4, &pieces[tile].background_foreground, image,
                                &back_table[i], x, y, order, layer);
         if (added) {
-            back_table[i].mode = level_pieces[tile].mode;
+            back_table[i].mode = pieces[tile].mode;
             ++back_count;
         }
     }
     return added;
 }
 
-int add_back_foreground_to_front(Byte tile, int image, Offset x, Offset y,
+int AddBFImgToFTable(Byte tile, int image, Offset x, Offset y,
                      Byte order, Byte layer)
 {
     int i = front_count;
     int added;
 
     if (i >= 100) return 0;
-    added = add_image_info(4, &level_pieces[tile].background_foreground, image,
+    added = add_image_info(4, &pieces[tile].background_foreground, image,
                            &front_table[i], x, y, order, layer);
     if (added) {
-        front_table[i].mode = level_pieces[tile].mode;
+        front_table[i].mode = pieces[tile].mode;
         ++front_count;
     }
     return added;
@@ -335,10 +335,10 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
 
     i = front_count;
     if (i >= 100) return 0;
-    added = add_image_info(set, &level_pieces[tile].foreground, image,
+    added = add_image_info(set, &pieces[tile].foreground, image,
                            &front_table[i], x, y, order, layer);
     if (added) {
-        front_table[i].mode = level_pieces[tile].mode;
+        front_table[i].mode = pieces[tile].mode;
         ++front_count;
     }
     return added;
@@ -919,7 +919,7 @@ void check_background_shape(int index)
 
 extern unsigned int HGETRSRC(unsigned long resource, int image);
 extern Offset opponent_outfit_by_character[];
-extern int *opponent_extra_image_limits[];
+extern int *opponent_overlay_first[];
 extern ShapeItem far *get_list_item(ShapeSet *set, int image, ImageSize far *size);
 extern int far *PrinceGetnShapeItemSize(ShapeSet *set, int image, ImageSize far *size);
 
@@ -957,8 +957,8 @@ void check_opponent_shape(int index)
     image = index + 1;
     outfit = (Char.character_kind == 10 || Char.character_kind == 12)
            ? opponent_outfit_by_character[(Offset)Char.character_kind] : (Offset)Level.preferred_opponent;
-    if (outfit != 5 && outfit != 6 && opponent_extra_image_limits[outfit] &&
-        *opponent_extra_image_limits[outfit] <= index)
+    if (outfit != 5 && outfit != 6 && opponent_overlay_first[outfit] &&
+        *opponent_overlay_first[outfit] <= index)
         image += 100;
     load_set_shape(opponent_shapes->resource, image, &opponent_shapes->images[index], 2);
     MARK_PURGEABLE(opponent_shapes->images[index].handle);

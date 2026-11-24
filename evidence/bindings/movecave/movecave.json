@@ -300,7 +300,7 @@
       "ANIMATE_LAVA",
       "REDRAW_GATE",
       "LEVEL",
-      "FRAME_WATER_EFFECT",
+      "BRIDGE_FRAME",
       "KID",
       "SET_PALETTE",
       "BLUESPEC",
@@ -345,7 +345,7 @@
       "TRIGGER_LAVA",
       "GETROW",
       "MARK_MOB_REDRAW",
-      "PLAY_EXIT_SOUND",
+      "ADD_MOB_OBJ",
       "GET_MOB_TYPE_ITEM",
       "SECTRECT",
       "ADDSOUND",
@@ -1587,7 +1587,7 @@
         "target": {
           "kind": "external",
           "index": 58,
-          "name": "PLAY_EXIT_SOUND",
+          "name": "ADD_MOB_OBJ",
           "method": 6,
           "zero_displacement": true
         }
@@ -1595,7 +1595,7 @@
       "target": {
         "kind": "external",
         "index": 58,
-        "name": "PLAY_EXIT_SOUND",
+        "name": "ADD_MOB_OBJ",
         "method": 6,
         "zero_displacement": true
       },
@@ -7076,7 +7076,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "FRAME_WATER_EFFECT",
+          "name": "BRIDGE_FRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -7084,7 +7084,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "FRAME_WATER_EFFECT",
+        "name": "BRIDGE_FRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -9326,23 +9326,6 @@
         }
       ]
     },
-    "PLAY_EXIT_SOUND": {
-      "entry_sha256": "b9aeab5ef69cd12a7b8cd03422125cd9b87f3bc869a04ff78e811a3315a42d08",
-      "entry_target_id": "root:0b52:22dc",
-      "kind": "far-code-entry",
-      "offset": 8924,
-      "segment": 2898,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 66804,
-          "bytes_hex": "9adc22520b",
-          "file_offset": 74996,
-          "relocation_index": 1360
-        }
-      ]
-    },
     "READCELL": {
       "entry_sha256": "4107c34d016a5821a3bc36599ce6d8d1e0d1342c9b3c3fe1d645dce061650c7b",
       "entry_target_id": "root:02dc:00fa",
@@ -9575,11 +9558,13 @@
         }
       ]
     },
-    "FRAME_WATER_EFFECT": {
-      "kind": "rtlink-vector",
+    "ADD_MOB_OBJ": {
+      "entry_sha256": "b9aeab5ef69cd12a7b8cd03422125cd9b87f3bc869a04ff78e811a3315a42d08",
+      "entry_target_id": "root:0b52:22dc",
+      "kind": "far-code-entry",
+      "offset": 8924,
+      "segment": 2898,
       "space": "root",
-      "segment": 8718,
-      "offset": 3561,
       "witnesses": []
     },
     "SETKIDDEATHMETHOD": {
@@ -9607,6 +9592,13 @@
       "offset": 11036,
       "segment": 1936,
       "space": "root",
+      "witnesses": []
+    },
+    "BRIDGE_FRAME": {
+      "kind": "rtlink-vector",
+      "space": "root",
+      "segment": 8718,
+      "offset": 3561,
       "witnesses": []
     },
     "COLEDGEX": {

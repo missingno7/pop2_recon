@@ -661,7 +661,7 @@
       "ANIMATE_GARGOYLE",
       "FINLGENERATEOPP",
       "STANDING_JUMP",
-      "_move_bytes",
+      "__fmemmove",
       "@add_middle_image",
       "DRAW_FIREBALL_OBJECT",
       "JUMP_UP",
@@ -4249,7 +4249,7 @@
         "target": {
           "kind": "external",
           "index": 86,
-          "name": "_move_bytes",
+          "name": "__fmemmove",
           "method": 6,
           "zero_displacement": true
         }
@@ -4257,7 +4257,7 @@
       "target": {
         "kind": "external",
         "index": 86,
-        "name": "_move_bytes",
+        "name": "__fmemmove",
         "method": 6,
         "zero_displacement": true
       },
@@ -23078,15 +23078,6 @@
         }
       ]
     },
-    "_move_bytes": {
-      "entry_sha256": "58374ed939c4b118991926ad5e1a15900845e86730aee33394853d396062a6b4",
-      "entry_target_id": "root:1fef:1fe6",
-      "kind": "far-code-entry",
-      "offset": 8166,
-      "segment": 8175,
-      "space": "root",
-      "witnesses": []
-    },
     "FOREGROUND_COUNT": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -23107,6 +23098,15 @@
       "kind": "far-code-entry",
       "offset": 11036,
       "segment": 1936,
+      "space": "root",
+      "witnesses": []
+    },
+    "__fmemmove": {
+      "entry_sha256": "58374ed939c4b118991926ad5e1a15900845e86730aee33394853d396062a6b4",
+      "entry_target_id": "root:1fef:1fe6",
+      "kind": "far-code-entry",
+      "offset": 8166,
+      "segment": 8175,
       "space": "root",
       "witnesses": []
     },

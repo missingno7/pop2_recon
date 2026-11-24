@@ -248,7 +248,7 @@ extern void redraw_trob(int *);
 extern sbyte IndexCell1(int);
 extern int GetRow(int, int);
 extern void mark_mob_redraw(sbyte);
-extern void play_exit_sound(int);
+extern void add_mob_obj(int);
 extern Projectile *get_mob_type_item(sbyte, int);
 extern int SECTRECT(struct char_bounds far *, struct char_bounds far *, struct char_bounds far *);
 extern void AddSound(int);
@@ -276,7 +276,7 @@ extern sbyte check_trob_right(void);
 extern void add_gate_sound(int);
 extern sbyte FirstInRow(sbyte);
 extern void redraw_gate(void);
-extern void frame_water_effect(void);
+extern void bridge_frame(void);
 extern void set_palette(int, int, ubyte, ubyte);
 extern void show_message(const char far *, int);
 extern void *cdecl _nmalloc(uword);
@@ -366,7 +366,7 @@ void move_dart_to_tile(void)
         FChar.index = IndexCell1(GetRow(Mob.x / 32, Mob.y));
         if (Room.number == Mob.room) {
             mark_mob_redraw(1);
-            play_exit_sound(Mob.y);
+            add_mob_obj(Mob.y);
             Mob.kind = 2;
         }
     }
@@ -838,7 +838,7 @@ void cave_frame(void)
     if ((((unsigned char)Level.level_number) == 5 && Room.number == 10) ||
         (((unsigned char)Level.level_number) == 5 && Room.number == 7) ||
         (((unsigned char)Level.level_number) == 5 && Room.number == 12))
-        frame_water_effect();
+        bridge_frame();
 }
 
 void initialize_bridge(void)

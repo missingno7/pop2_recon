@@ -446,8 +446,8 @@ typedef struct {
 extern ImageTable *first_image_table;
 extern ImageTable *second_image_table;
 extern ImageTable *background_shapes;
-extern int fallback_images_released;
-extern const char low_memory_message[];
+extern int background_image_count;
+extern const char OutOfFarMem[];
 static const char fatal_memory_message[] = "Insufficient near Memory.";
 
 extern int query_sound(int);
@@ -473,12 +473,12 @@ int release_discardable_images(void)
         for (i = 216; i <= 218; ++i)
             if (second_image_table->image[i].handle)
                 MARK_FIXED(second_image_table->image[i].handle);
-    } else if (background_shapes && !fallback_images_released) {
+    } else if (background_shapes && !background_image_count) {
         PrinceMarkImgsPurgeable(background_shapes, 0, background_shapes->count - 1);
-        fallback_images_released = 1;
+        background_image_count = 1;
     } else {
-        save_cleanup_state(0, low_memory_message, (void *)0);
-        abort_with_message(1, low_memory_message);
+        save_cleanup_state(0, OutOfFarMem, (void *)0);
+        abort_with_message(1, OutOfFarMem);
     }
     return 1;
 }

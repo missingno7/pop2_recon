@@ -31,9 +31,9 @@ extern int far pascal set_current_dos_directory(const char far *);
 extern void far pascal discard_queued_events(int);
 extern unsigned far pascal HGETRSRC(unsigned long, int);
 extern struct Record *far pascal create_window_from_resource(int);
-extern unsigned far cdecl far_string_length(const char far *);
+extern unsigned far cdecl _fstrlen(const char far *);
 extern void *far cdecl _nmalloc(unsigned);
-extern char far *far cdecl far_string_copy(char far *, const char far *);
+extern char far *far cdecl _fstrcpy(char far *, const char far *);
 extern int far pascal wait_for_window_result(void (far pascal *)(void));
 extern void far cdecl _nfree(void *);
 extern void far pascal dispose_window(struct Record *);
@@ -117,7 +117,7 @@ int far pascal show_resource_dialog(int resource, int item, const char far *mess
     if (replace_port)
         port = create_dialog_port(resource);
     window = create_window_from_resource(resource);
-    far_string_copy(text = _nmalloc(far_string_length(message) + 1), message);
+    _fstrcpy(text = _nmalloc(_fstrlen(message) + 1), message);
     set_window_item_text(window, item, text);
     SET_NEAR_RECORD_WORD20(window, 15);
     result = wait_for_window_result(0);

@@ -158,7 +158,7 @@ int far pascal IsLevelStartWithNISScreen(void)
 extern signed char game_request;
 extern int intro_played;
 extern unsigned int remaining_minutes;
-extern int option_flags;
+extern int frame_diagnostics;
 extern int level_resource_files[];
 extern char *find_option(const char far *option);
 extern int cdecl atoi(const char *value);
@@ -203,7 +203,7 @@ int IsTimeForNIS(int level, int previous_level)
         }
     }
 
-    if (option_flags) {
+    if (frame_diagnostics) {
         if ((options.arg = find_option("NIS")) != 0) {
             sequence = atoi(options.arg + 3);
             if (sequence == 1) {
@@ -224,7 +224,7 @@ int IsTimeForNIS(int level, int previous_level)
 }
 
 extern int playing_nis, pending_sound;
-extern char screen_bounds[];
+extern char ScreenPortRect[];
 extern void unload_level(int mode);
 extern void RemoveRebirthPt(void);
 extern void DeallocBackPort(int sound);
@@ -256,7 +256,7 @@ int play_nis(int sequence)
     }
     if (EraseScreenBeforeNIS(sequence)) {
         WRITE_DAC_BLOCK(0, 256, (const unsigned char far *)0, 1);
-        STROKE_PORT_RECT(screen_bounds);
+        STROKE_PORT_RECT(ScreenPortRect);
     }
     if (sequence == 100) {
         show_dialog_notice();
@@ -275,7 +275,7 @@ int play_nis(int sequence)
             result = 2;
     }
     if (EraseScreenAfterNIS(sequence))
-        STROKE_PORT_RECT(screen_bounds);
+        STROKE_PORT_RECT(ScreenPortRect);
     set_default_palette();
     set_kid_palette(room);
     playing_nis = 0;

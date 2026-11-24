@@ -1717,7 +1717,7 @@ void draw_horse(unsigned int shape, unsigned int origin, char pass)
 
 
 
-extern int *middle_draw_state;
+extern int *Pieces;
 extern void add_middle_item(unsigned char sheet, int image, char column, char row,
                             unsigned char color, unsigned char flags);
 extern unsigned char flask_bubble_color(unsigned int attributes);
@@ -1749,7 +1749,7 @@ void draw_flask(TileDrawArgs *args)
         flags = 1;
     } else
         flags = 0;
-    *(int *)((char *)middle_draw_state + 0x485) = tall ? -17 : -14;
+    *(int *)((char *)Pieces + 0x485) = tall ? -17 : -14;
     add_middle_item(60, color + 3, args->column, args->row, bubble, flags);
     add_middle_item(60, color + 13, args->column, args->row, bubble + 1, flags);
 }
@@ -1773,7 +1773,7 @@ unsigned char flask_bubble_color(unsigned int attributes)
     return color;
 }
 
-extern DrawRect screen_bounds;
+extern DrawRect ScreenPortRect;
 extern void PrincePaintShapeIdx(int table, int image, int x, int y, int flags, int mode);
 extern void load_kid_with_opponent(signed char guard);
 extern CHARREC Opp;
@@ -1796,7 +1796,7 @@ void DrawKidMeter(int life, int max_life)
     if (max_life >= 1 && Char.life_initial < meter_phase) {
         rect.top = 193;
         rect.left = x + (Kid.life_initial - max_life) * 8;
-        rect.bottom = screen_bounds.bottom;
+        rect.bottom = ScreenPortRect.bottom;
         rect.right = 98;
         STROKE_PORT_RECT(&rect);
     }
@@ -1834,7 +1834,7 @@ void DrawOppMeter(signed char guard, int life, int max_life)
         rect.top = 193;
         rect.left = 218;
         *(struct RectCorner *)&rect.bottom =
-            *(const struct RectCorner *)&screen_bounds.bottom;
+            *(const struct RectCorner *)&ScreenPortRect.bottom;
         STROKE_PORT_RECT(&rect);
     } else if (message_counter != 600) {
         x = 308;
@@ -1854,7 +1854,7 @@ void DrawOppMeter(signed char guard, int life, int max_life)
             ++index;
         }
         rect.top = 193;
-        rect.bottom = screen_bounds.bottom;
+        rect.bottom = ScreenPortRect.bottom;
         for (index = life; index < 8; ++index) {
             rect.left = x;
             rect.right = x + 10;
