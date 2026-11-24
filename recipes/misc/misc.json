@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/misc/misc.json",
-  "binding_sha256": "260fec9d64de2da6c5e1924f3d8b2331af74055d3d05bdc7e0b02b9f63937093",
+  "binding_sha256": "9bbe723ae85850496c7ac6a354b129367adc989a2b5721857fb6307aaea4c2cf",
   "claims": [
     {
       "fixup_count": 16,
@@ -50,6 +50,16 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0f9e:016e"
+    },
+    {
+      "fixup_count": 34,
+      "public": "GETABOVEARY",
+      "relocation_indices": [
+        1337
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f9e:01ba"
     },
     {
       "fixup_count": 16,
@@ -107,6 +117,11 @@
       "target_id": "root:0f9e:0738"
     },
     {
+      "fixup_count": 35,
+      "public": "SETLOCVARS",
+      "target_id": "root:0f9e:07d4"
+    },
+    {
       "fixup_count": 17,
       "public": "SETSIDEROOMINFO",
       "target_id": "root:0f9e:08b6"
@@ -140,24 +155,6 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0f9e:0a86"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "GETABOVEARY",
-      "target_id": "root:0f9e:01ba",
-      "unproven": [
-        "LEVEL+0xffe1"
-      ]
-    },
-    {
-      "public": "SETLOCVARS",
-      "target_id": "root:0f9e:07d4",
-      "unproven": [
-        "CELLRIGHT",
-        "CELLRIGHT+0x1",
-        "CELLRIGHT+0x2"
-      ]
     }
   ],
   "data_publics": [

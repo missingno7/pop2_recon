@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/prince/prince.json",
-  "binding_sha256": "18e35c1af2db6617bb3a9261782a6a015d25b77287fd9184de9da5fe393de6bf",
+  "binding_sha256": "f64a2609adc8d3075c2bbccf01fcd972ec409dd295a3cf07204b39c72cee4f04",
   "claims": [
     {
       "fixup_count": 21,
@@ -183,6 +183,32 @@
       "target_id": "root:0000:0b1a"
     },
     {
+      "fixup_count": 70,
+      "public": "ADD_ROOM_TROBS",
+      "relocation_indices": [
+        3,
+        4,
+        27,
+        41,
+        43,
+        44,
+        58,
+        81,
+        88,
+        93,
+        122,
+        133,
+        134,
+        135,
+        136
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:0b78"
+    },
+    {
       "fixup_count": 33,
       "public": "KEEPTIME",
       "relocation_indices": [
@@ -347,15 +373,6 @@
       "fixup_count": 0,
       "public": "IGNORE_WINDOW_ACTION",
       "target_id": "root:0000:1410"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "ADD_ROOM_TROBS",
-      "target_id": "root:0000:0b78",
-      "unproven": [
-        "SCRLEFT+0xff6a"
-      ]
     }
   ],
   "data_publics": [

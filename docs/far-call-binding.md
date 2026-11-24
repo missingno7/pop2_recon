@@ -513,6 +513,8 @@ The same-overlay inside-object test isolates the CALL FAR rule with
 `no_site_frames()`. Its draft's own CALL FAR record now brackets the claim
 legitimately.
 
+The anchor may also be accepted code (a pinned runtime member without a target row included) whose linear decode ends in
+an unconditional JMP back into itself (2026-11-24). First use: `_fclose`, behind `dosret`'s shared tail, in DUMP_HEAP.
 The structural anchor may already include its single alignment NOP: when the
 anchor's linear decode ends in RET/RETF[ iw] followed by one `90` that the
 reviewed extent covers, that NOP is the one allowed pad byte. No further pad

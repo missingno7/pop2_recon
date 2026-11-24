@@ -1,7 +1,39 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "3263ed8efb51769556a4102ff78c9f23fc4d571a0f7e842e84c8ae62429d4872",
+  "binding_sha256": "80b4c36109957834f9ab1ed146e4f200a53affd8bf5e486926dcb84216bd635e",
   "claims": [
+    {
+      "fixup_count": 50,
+      "public": "DUMP_HEAP",
+      "relocation_indices": [
+        1377,
+        1382,
+        1385,
+        1386,
+        1387,
+        1388,
+        1389,
+        1390,
+        1391,
+        1392,
+        1393,
+        1394,
+        1400,
+        1404,
+        1409,
+        1410,
+        1414,
+        1416,
+        1417,
+        1418,
+        1429
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:10a5:033c"
+    },
     {
       "fixup_count": 12,
       "public": "LIMIT_FRAME_RATE",
@@ -160,15 +192,6 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:10a5:0800"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "DUMP_HEAP",
-      "target_id": "root:10a5:033c",
-      "unproven": [
-        "_fclose"
-      ]
     }
   ],
   "data_publics": [

@@ -1364,18 +1364,24 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
     for name, symbol in symbols.items():
         if symbol.get("kind") != "dgroup-offset" or symbol.get("unproven"):
             continue
-        if not symbol.get("witnesses"):
+        if not symbol.get("witnesses") and not symbol.get("fit"):
             need.add((name, 0))
         extent = (symbol.get("extent") or {}).get("length", 0)
         need.update((name, m["offset"]) for m in symbol.get("members", [])
-                    if not m.get("witnesses") and not m["offset"] < extent and not m.get("unproven"))
+                    if not m.get("witnesses") and not m["offset"] < extent and not m.get("unproven") and
+                    not m.get("fit") and not m.get("floor"))
     inner = [(name, m["offset"], m["extent"]["length"]) for name, s in symbols.items() if s.get("kind") == "dgroup-offset"
              for m in s.get("members", []) if m.get("extent")]
     by_public = {r["public"]: r for r in reports}
     # An aggregate whose base has no witness: its in-extent members stand only on the base's own consensus.
     bases = {name: s["extent"]["length"] for name, s in symbols.items()
              if s.get("kind") == "dgroup-offset" and s.get("extent") and not s.get("witnesses") and
-             s["extent"].get("kind") != "index"}
+             s["extent"].get("kind") != "index" and not s.get("fit")}
+    # A fitted object (no witness, one place between its neighbours): its claimed fields still have to agree at two
+    # or more distinct original instruction starts, anywhere in the object.
+    fitted = {name: s["extent"]["length"] for name, s in symbols.items() if s.get("kind") == "dgroup-offset" and s.get("fit")}
+    other = {(name, m["offset"]): label for name, s in symbols.items() if s.get("kind") == "dgroup-offset"
+             for m in s.get("members", []) for label in ("fit", "floor") if m.get(label)}
     for state in states.values():
         for field in state["v4"]:
             for equation in state["equations"]:
@@ -1385,9 +1391,12 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
                                  and not any(m["offset"] == field["key"][1] and m.get("witnesses")
                                              for m in symbol.get("members", [])))
                     equation["support"] = ("internal consensus" if field["key"] in need else
+                                           "fitted object" if field["key"][0] in fitted or
+                                           other.get(field["key"]) == "fit" else
+                                           "index floor" if other.get(field["key"]) == "floor" else
                                            "accepted provider public" if field["key"][0] in provided else
                                            "aggregate extent" if in_extent else "witnessed")
-    if not need:
+    if not need and not fitted:
         return
     changed = True
     while changed:
@@ -1398,6 +1407,8 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
             for field in states[public]["v4"]:
                 if field["key"] in need and field["equal"]:
                     sites.setdefault(field["key"], set()).add(field["insn"])
+                if field["equal"] and field["key"][1] < fitted.get(field["key"][0], 0):
+                    sites.setdefault((field["key"][0], "fit"), set()).add(field["insn"])
 
         def supported(key):
             return key not in need or len(sites.get(key, ())) >= 2
@@ -1408,7 +1419,9 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
                               not any(f["key"][0] == name and base < f["key"][1] < base + length
                                       for name, base, length in covered)} |
                              {(f["key"][0], 0) for f in states[public]["v4"]
-                              if f["key"][1] < bases.get(f["key"][0], 0) and len(sites.get((f["key"][0], 0), ())) < 2})
+                              if f["key"][1] < bases.get(f["key"][0], 0) and len(sites.get((f["key"][0], 0), ())) < 2} |
+                             {f["key"] for f in states[public]["v4"]
+                              if f["key"][0] in fitted and len(sites.get((f["key"][0], "fit"), ())) < 2})
             if lacking:
                 by_public[public].update(exact=False, state="REFUSED",
                                          reason="v4 address without witness lacks a second equal claimed site: " +

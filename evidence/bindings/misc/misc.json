@@ -6106,18 +6106,59 @@
       "members": [
         {
           "offset": 1,
-          "witnesses": [],
-          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: CELLRIGHT+0, CELLRIGHT+1, CELLRIGHT+2"
+          "witnesses": []
         },
         {
           "offset": 2,
-          "witnesses": [],
-          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: CELLRIGHT+0, CELLRIGHT+1, CELLRIGHT+2"
+          "witnesses": []
         }
       ],
       "offset": 24980,
       "witnesses": [],
-      "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: CELLRIGHT+0, CELLRIGHT+1, CELLRIGHT+2"
+      "extent": {
+        "length": 5,
+        "kind": "writes",
+        "witness": {
+          "space": "root",
+          "image_offset": 64904,
+          "bytes_hex": "558bec",
+          "entry": "root:0f9e:03a8"
+        },
+        "call": {
+          "space": "root",
+          "image_offset": 66146,
+          "bytes_hex": "b8946150b89561508a46ff500ee816fb",
+          "entry": "root:0f9e:07d4"
+        },
+        "writes": [
+          {
+            "space": "root",
+            "image_offset": 65034,
+            "bytes_hex": "8b5e0a8807",
+            "entry": "root:0f9e:03a8"
+          },
+          {
+            "space": "root",
+            "image_offset": 64954,
+            "bytes_hex": "8b5e088907895702",
+            "entry": "root:0f9e:03a8"
+          }
+        ]
+      },
+      "fit": {
+        "below": {
+          "space": "root",
+          "image_offset": 32297,
+          "bytes_hex": "8b169161",
+          "entry": "root:0790:03dc"
+        },
+        "above": {
+          "space": "root",
+          "image_offset": 64984,
+          "bytes_hex": "8a879a61",
+          "entry": "root:0f9e:03a8"
+        }
+      }
     },
     "DISPATCH_SOUND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
@@ -6253,7 +6294,11 @@
         {
           "offset": 65505,
           "witnesses": [],
-          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEVEL+65505"
+          "floor": {
+            "space": "root",
+            "entry": "root:0f9e:01ba",
+            "image_offset": 64607
+          }
         },
         {
           "offset": 65506,

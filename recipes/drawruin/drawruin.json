@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawruin/drawruin.json",
-  "binding_sha256": "7b0a44f84ea362e09456f2932ecc0bc7db3c9378a293735034969c4d9ddd529d",
+  "binding_sha256": "13d37590ad3973286018983c8dd49cb6e4ff4da4af44b0e0a2d0820f4d66fdd0",
   "claims": [
     {
       "fixup_count": 15,
@@ -306,15 +306,20 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-8:2c80:0a72"
-    }
-  ],
-  "code_matches": [
+    },
     {
+      "fixup_count": 18,
       "public": "DRAW_RUIN_FLAW",
-      "target_id": "overlay-8:2c80:06e4",
-      "unproven": [
-        "FORETABLE+0xfff6"
-      ]
+      "relocation_indices": [
+        49,
+        67,
+        88
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-8:2c80:06e4"
     }
   ],
   "data_publics": [

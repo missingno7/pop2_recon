@@ -100,7 +100,9 @@ def _selector_word(spec, segment, oracle):
 def _record_window(spec, segment, value, oracle):
     """Stride of one reached original window that steps through records at segment:value: its only ES load is
     `mov es,[D]` (D a selector word of `segment`) or a relocated `mov r16,N` directly followed by `mov es,r16`, and
-    `binding.record_stride` follows the index of its last instruction, an ES access with displacement `value`."""
+    `binding.record_stride` follows the index of its last instruction, an ES access with displacement `value` or a string
+    store whose DI is `lea di,[r+value]`. A window with `construct` builds a far pointer to a record instead: it ends in
+    `add r16,value` and a relocated `mov r16,N` directly behind it, and loads no segment register (2026-11-24)."""
     from binding import instructions, reachable_from_entry, record_stride, registers_written
     wspace = oracle.spaces[spec["space"]]
     at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
@@ -108,6 +110,13 @@ def _record_window(spec, segment, value, oracle):
             at in reachable_from_entry(oracle, spec["entry"]), "Record window is not reached original code")
     rows = instructions(raw)
     loads = [k for k, i in enumerate(rows) if {"es", "ds"} & registers_written(i)]
+    if "construct" in spec:
+        last = rows[-1]
+        require(spec["construct"] is True and not loads and len(rows) >= 3 and
+                last.bytes[0] & 0xF8 == 0xB8 and struct.unpack_from("<H", last.bytes, 1)[0] == segment and
+                any(r["image_offset"] == at + last.address + 1 for r in wspace.relocations),
+                "Record window does not build a far pointer into the segment")
+        return record_stride(raw[:last.address], value, construct=True)
     require(len(loads) == 1, "Record window needs exactly one ES load and no DS load")
     load = rows[loads[0]]
     if bytes(load.bytes[:2]) == b"\x8e\x06":
@@ -353,20 +362,29 @@ STRUCTURAL_RETURNS = {0xc3: 1, 0xcb: 1, 0xc2: 3, 0xca: 3}  # RET, RETF, RET iw, 
 STRUCTURAL_PROLOGUE = bytes((0x55, 0x8b, 0xec))  # push bp; mov bp,sp
 
 
-def _extents(oracle):
-    """(space, start, end, id, accepted) for every reviewed target, accepted marked by the
-    canonical CODE_EXACT/ASM_EXACT/PINNED_RUNTIME owners naming it."""
+def _extents(oracle, members=False):
+    """(space, start, end, id, accepted) for every reviewed target, accepted marked by the canonical
+    CODE_EXACT/ASM_EXACT/PINNED_RUNTIME owners naming it. With `members`, also every such owner without a
+    target row: the pinned runtime members, whose publics may lie inside their extent."""
     from common import ROOT, read_json_shared
     from match import EXTRA_TARGETS
-    owners = {o["target_id"] for o in read_json_shared(ROOT / "layout/manifest.json")["owners"]
+    owners = {o["target_id"]: o for o in read_json_shared(ROOT / "layout/manifest.json")["owners"]
               if o["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME")}
-    rows = []
+    rows, named = [], set()
     for f in read_json_shared(ROOT / "evidence/targets.json")["functions"] + EXTRA_TARGETS:
         try:
             lo = oracle.spaces[f["space"]].position(f["segment"], f["offset"])
         except (KeyError, ValueError):
             continue
         rows.append((f["space"], lo, lo + f["size"], f["id"], f["id"] in owners))
+        named.add(f["id"])
+    for ident, owner in owners.items() if members else ():
+        if ident not in named and owner["space"] in oracle.spaces:
+            try:
+                lo = oracle.spaces[owner["space"]].position(owner["segment"], owner["offset"])
+            except ValueError:
+                continue
+            rows.append((owner["space"], lo, lo + owner["size"], ident, True))
     return rows
 
 
@@ -386,13 +404,15 @@ def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
     All of: the entry precedes the RTLink manager/vector region; it starts with a BP-frame
     prologue; it lies strictly inside no reviewed or accepted extent; a reviewed or accepted
     extent ends at entry-pad (pad <= 1 byte of 90/00 without relocation) and its linear
-    decode ends exactly there with RET/RETF[ iw]; and another relocated CALL FAR outside the
-    candidate object uses the same segment word for a different reviewed entry."""
+    decode ends exactly there with RET/RETF[ iw], or with an unconditional JMP back into
+    itself when the extent is accepted code (a runtime member's shared tail, 2026-11-24); and
+    another relocated CALL FAR outside the candidate object uses the same segment word for a
+    different reviewed entry."""
     root = oracle.spaces["root"]
     data = root.data
     require(entry < root.position(oracle.mz.header["initial_cs"], 0), "Structural entry refuses the RTLink manager and vector region")
     require(data[entry:entry + 3] == STRUCTURAL_PROLOGUE, "Structural entry needs a BP-frame prologue")
-    extents = [e for e in _extents(oracle) if e[0] == "root"]
+    extents = [e for e in _extents(oracle, members=True) if e[0] == "root"]
     require(not any(lo < entry < hi for _, lo, hi, _, _ in extents),
             "Structural entry lies inside a reviewed or accepted extent")
     require(not any(accepted and lo != entry and lo < entry + size and entry < hi
@@ -403,7 +423,7 @@ def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
         if pad and (data[stop] not in (0x90, 0x00) or
                     any(stop - 1 <= r["image_offset"] <= stop for r in root.relocations)):
             continue
-        for _, lo, hi, ident, _ in extents:
+        for _, lo, hi, ident, accepted in extents:
             if hi != stop or lo >= hi:
                 continue
             try:
@@ -413,6 +433,9 @@ def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
             last = rows_[-1]
             if STRUCTURAL_RETURNS.get(last.bytes[0]) == last.size:
                 anchors.append({"anchor": ident, "pad": pad})
+            elif (accepted and last.bytes[0] in (0xE9, 0xEB) and
+                  any(r.address == last.operands[0].imm & 0xFFFF for r in rows_[:-1])):
+                anchors.append({"anchor": ident, "pad": pad, "closing_jump": True})
             elif (pad == 0 and len(rows_) >= 2 and list(last.bytes) == [0x90] and
                   STRUCTURAL_RETURNS.get(rows_[-2].bytes[0]) == rows_[-2].size):
                 # The reviewed extent already includes its one alignment NOP after the return:

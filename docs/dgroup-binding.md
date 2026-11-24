@@ -476,6 +476,31 @@ d-byte records at O, the other at O+k with |k| < d. Two such arrays would overla
 proves its own ES (a selector word, or a relocated `mov r16,N; mov es,r16`). First use: `MIDTABLE[count - 1]` fields,
 which the compiler folds to O-1 and O-2.
 
+- `"kind": "walk"` (`binding.walk_extent`): a complete original loop `mov r,S ... jcc` is executed; one access instruction
+  touches S, S+d, S+2d, ... and nothing else (d >= 2, two or more records), so [S, S+(n-1)d+width) is one array. First use:
+  `RoomOpp+26h`, cleared in five 64-byte records by CLEAR_ROW_HANDLES, which covers `RoomOpp[1]`.
+- `"kind": "writes"` (`binding.argument_writes`): a reached call (far, or `push cs; call rel16`) passes S, and reached windows
+  of that callee store through its near-pointer arguments; the stored ranges join to [S, S+L). The callee never writes
+  those argument words. First use: `CellRight`, whose byte and two words GETOBJECT stores.
+
+Unique fit (`"fit": {"below", "above"}`, 2026-11-24). `below` is a direct original access that ends at address B, `above` an
+original access to address A. An object of the proven extent L has exactly one place in [B, A):
+- A symbol without any witness and with a `writes` or other extent: even places only, as communals are word-aligned. Its
+  claimed fields must also agree at two or more distinct original instruction starts inside the object. First use:
+  `CellRight` (5 bytes between 6193 and 619a).
+- A member of a witnessed symbol with a `fill` extent of its own: any place. First use: `Bridge+4` (8 bytes cleared between
+  the state word at 693e and 6948).
+
+Index floors (`"floor": {space, entry, image_offset}` on a member, 2026-11-24, `tools/index_floor.py`). MSC folds the constant
+part of an index into the displacement, so `cells[column - 1]` addresses a byte below the array. The interval analysis of the
+original routine (signed ranges of registers and BP slots, guards, calls keep SI/DI and the slots, wrapped or unfollowed
+values are unknown) gives the lowest index at that access. Displacement plus lowest index must be S or a witnessed member.
+First uses: GETABOVEARY (`[bx+si+2b99]`, column from 1: 2b9a) and ADD_ROOM_TROBS (`[bx+5c5e]` behind `cmp si,1e; jge`: 5cf4).
+
+For a far `record` member, a window may also end in a string store through ES:DI with `lea di,[r+O]`, or build a far pointer
+(`"construct": true`: `add r,O` and the relocated segment word directly behind it). First use: `FORETABLE[count - 1]`'s
+rectangle in DRAW_RUIN_FLAW (O-10, records of 20 bytes).
+
 A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
 segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocated word is refused.
 

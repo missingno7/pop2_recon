@@ -34,8 +34,8 @@ described by `layout/link-plan.json`. It compares the result with the original p
 Result: all 280,476 image bytes equal, with no generated variable and no filler, and the linked file has the original's
 259,583 bytes. The MZ header, every descriptor and every (compressed) payload are identical; the relocation sets are equal
 and only the order of the records differs (8,222 file bytes, all inside the MZ table and the 16 overlay tables; 482 records
-in place; symbol ids, o9/o11). This is image equality, not ownership: two RTLUTILS members are patched stand-ins, and
-functions recorded as CODE_MATCH are byte-equal while some of their bindings have no independent witness.
+in place; symbol ids, o9/o11). This is image equality, not ownership: two RTLUTILS members
+are patched stand-ins.
 
 Facts the link settled:
 

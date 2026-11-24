@@ -487,14 +487,18 @@ def base_extent(raw, base):
     return memory[0].mem.disp + memory[0].size if memory[0].mem.disp >= 0 else None
 
 
-def record_stride(raw, base, es=False):
+def record_stride(raw, base, es=False, construct=False):
     """d when the straight-line original window `raw` ends in one access [r+base] (default DS; ES: with `es`) whose index
     register holds d (>= 2) times one unknown value, computed inside the window; else None.
 
     The program then steps through memory at `base` in records of d bytes, so it addresses an array there. Only
     register moves, adding or subtracting a register, shifts by a constant and multiplication by a constant are
     followed; anything else makes the register a new unknown of factor 1. Every unknown may itself be a multiple of
-    something, so the real record can only be longer than d."""
+    something, so the real record can only be longer than d.
+
+    Two more endings (2026-11-24). With `es`, a string store through ES:DI whose DI was last written by
+    `lea di,[r+base]` in the window (a record copied into the array). With `construct`, `add r,base` as the last
+    instruction: the near half of a far pointer to one record (the caller checks the segment half behind it)."""
     _, xc = _capstone()
     rows = instructions(raw)
     halves = {"ax": ("al", "ah"), "bx": ("bl", "bh"), "cx": ("cl", "ch"), "dx": ("dl", "dh")}
@@ -502,6 +506,7 @@ def record_stride(raw, base, es=False):
     fresh = iter(range(1, 10000))
     value = {n: (next(fresh), 1) for n in names}     # (unknown, factor); unknown 0 is the constant 1
     half = {}                                        # constants in byte registers
+    lea = None                                       # (value, displacement) of the LEA that last wrote DI
 
     def constant(op, insn):
         if op.type == xc.X86_OP_IMM:
@@ -539,6 +544,11 @@ def record_stride(raw, base, es=False):
                 result = (other[0], other[1] * value["ax"][1])
             target = "ax"
         written = registers_written(insn)
+        if "di" in written:
+            mem = ops[1].mem if name == "lea" else None
+            only = [r for r in (mem.base, mem.index) if r] if mem is not None else []
+            lea = ((value[insn.reg_name(only[0])], mem.disp & 0xFFFF)
+                   if len(only) == 1 and insn.disp_size == 2 and insn.reg_name(only[0]) in value else None)
         for full in names:
             if written & {full, *halves.get(full, ())}:
                 value[full] = (next(fresh), 1)
@@ -549,6 +559,17 @@ def record_stride(raw, base, es=False):
         if low is not None:
             half[target] = low
     access = rows[-1]
+    if construct:
+        ops = access.operands
+        if access.mnemonic != "add" or len(ops) != 2 or ops[0].type != xc.X86_OP_REG or ops[0].size != 2 or \
+                ops[1].type != xc.X86_OP_IMM or ops[1].imm & 0xFFFF != base:
+            return None
+        unknown, factor = value.get(access.reg_name(ops[0].reg), (0, 0))
+        return factor if unknown and 2 <= factor < 0x8000 else None
+    if es and bytes(access.bytes) in (b"\xa4", b"\xa5", b"\xaa", b"\xab"):
+        if lea is None or lea[1] != base:
+            return None
+        return lea[0][1] if lea[0][0] and 2 <= lea[0][1] < 0x8000 else None
     memory = [o for o in access.operands if o.type == xc.X86_OP_MEM]
     if len(memory) != 1 or access.disp_size != 2 or memory[0].mem.disp & 0xFFFF != base or access.mnemonic == "lea" or             (memory[0].mem.segment != xc.X86_REG_ES if es else
              _not_dgroup(memory[0]) or memory[0].mem.segment not in (0, xc.X86_REG_DS)):
@@ -563,14 +584,17 @@ def record_stride(raw, base, es=False):
 def call_arguments(raw):
     """Stack words a straight-line original window passes to the far CALL that ends it, as {disp: value}: disp is the
     callee's [bp+disp] after `push bp; mov bp,sp` (6 for the last word pushed), value the pushed constant or "ds" for
-    `push ds` while DS is unchanged. Other words are absent."""
+    `push ds` while DS is unchanged. Other words are absent. The CALL may also be `push cs; call rel16`, the same far
+    call inside one segment (2026-11-24)."""
     _, xc = _capstone()
     rows = instructions(raw)
-    require(len(rows) >= 2 and rows[-1].bytes[0] == 0x9a and
-            not any(set(r.groups).intersection((1, 2, 3, 4, 5, 7)) for r in rows[:-1]),
+    same = len(rows) >= 3 and rows[-1].bytes[0] == 0xe8 and bytes(rows[-2].bytes) == b"\x0e"
+    body = rows[:-2] if same else rows[:-1]
+    require(len(rows) >= 2 and (same or rows[-1].bytes[0] == 0x9a) and
+            not any(set(r.groups).intersection((1, 2, 3, 4, 5, 7)) for r in body),
             "Call window must be straight-line code ending in one far CALL")
     value, stack = {"ds": "ds"}, []
-    for insn in rows[:-1]:
+    for insn in body:
         ops = insn.operands
         if insn.mnemonic == "push":
             stack.append(value.get(insn.reg_name(ops[0].reg)) if ops[0].type == xc.X86_OP_REG else
@@ -696,6 +720,104 @@ def far_read_extent(raw, base, arguments):
     return length or None
 
 
+def walk_extent(raw, base):
+    """Bytes [base, base+L) a complete original loop steps through, as L, else None.
+
+    `raw` is the whole loop from `mov r,base` to its closing backward branch. It is executed: the constant registers
+    follow MOV/ADD/SUB/INC/DEC with constants, each conditional branch directly follows a CMP of a constant register with
+    a constant, and every other instruction may not change a constant register that is still used. One access instruction
+    through the pointer must touch base, base+d, base+2d, ... (d >= 2, at least two records) and nothing else, so the
+    program uses one array of d-byte records there (2026-11-24)."""
+    _, xc = _capstone()
+    rows = {i.address: i for i in instructions(raw)}
+    first = rows[0]
+    if not (0xB8 <= first.bytes[0] <= 0xBF and first.size == 3):
+        return None
+    value, touched, compare, pos, sites = {}, [], None, 0, set()
+    for _ in range(20000):
+        if pos == len(raw):
+            break
+        insn = rows.get(pos)
+        if insn is None:
+            return None
+        ops, name = insn.operands, insn.mnemonic
+        target = insn.reg_name(ops[0].reg) if ops and ops[0].type == xc.X86_OP_REG and ops[0].size == 2 else ""
+        constant = (ops[1].imm & 0xFFFF) if len(ops) == 2 and ops[1].type == xc.X86_OP_IMM else None
+        if name in ("jb", "jae", "jne", "je", "jbe", "ja"):
+            if compare is None or not 0 <= ops[0].imm < pos:
+                return None
+            a, b = compare
+            taken = {"jb": a < b, "jae": a >= b, "jne": a != b, "je": a == b, "jbe": a <= b, "ja": a > b}[name]
+            pos = ops[0].imm if taken else pos + insn.size
+            compare = None
+            continue
+        if set(insn.groups).intersection((1, 2, 3, 4, 5, 7)):
+            return None
+        compare = (value[target], constant) if name == "cmp" and target in value and constant is not None else None
+        memory = [o for o in ops if o.type == xc.X86_OP_MEM]
+        if memory:
+            mem = memory[0].mem
+            used = [insn.reg_name(r) for r in (mem.base, mem.index) if r]
+            if len(memory) != 1 or _not_dgroup(memory[0]) or len(used) != 1 or used[0] not in value or name == "lea":
+                return None
+            touched.append((value[used[0]] + mem.disp & 0xFFFF, memory[0].size))
+            sites.add(pos)
+        written = registers_written(insn) & set(value) | ({target} if target in value and name != "cmp" else set())
+        if name == "mov" and target and constant is not None:
+            value[target] = constant
+        elif name in ("add", "sub") and target in value and constant is not None:
+            value[target] = (value[target] + (constant if name == "add" else -constant)) & 0xFFFF
+        elif name in ("inc", "dec") and target in value:
+            value[target] = (value[target] + (1 if name == "inc" else -1)) & 0xFFFF
+        elif name != "cmp":
+            for register in written:
+                value.pop(register, None)
+        pos += insn.size
+    else:
+        return None
+    if len(touched) < 2 or len(sites) != 1 or touched[0][0] != base:
+        return None
+    d, width = touched[1][0] - base, touched[0][1]
+    if d < 2 or any(at != base + k * d or size != width for k, (at, size) in enumerate(touched)):
+        return None
+    return (len(touched) - 1) * d + width
+
+
+def argument_writes(raw, arguments):
+    """Byte ranges [lo, hi) a callee stores through near-pointer arguments in the straight-line window `raw`:
+    `mov r,[bp+a]` loads a passed constant (`arguments`), `mov [r+k],value` stores through it. Nothing else may write the
+    pointer register or the stack frame."""
+    _, xc = _capstone()
+    value, ranges = {}, []
+    for insn in instructions(raw):
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Argument write window must be straight-line")
+        ops = insn.operands
+        require(insn.mnemonic == "mov" and len(ops) == 2, "Argument write window may hold only MOV")
+        if ops[0].type == xc.X86_OP_MEM:
+            mem = ops[0].mem
+            require(not mem.segment and not mem.index and insn.reg_name(mem.base) in value,
+                    "Argument write window stores elsewhere")
+            lo = value[insn.reg_name(mem.base)] + mem.disp & 0xFFFF
+            ranges.append((lo, lo + ops[0].size))
+            continue
+        for name in registers_written(insn):
+            require(name not in ("bp", "ds"), "Argument write window changes its frame")
+            value.pop(name, None)
+            value.pop({"bl": "bx", "bh": "bx"}.get(name, name), None)
+        if ops[1].type == xc.X86_OP_MEM and ops[1].mem.base == xc.X86_REG_BP and not ops[1].mem.index and \
+                not ops[1].mem.segment and ops[0].size == 2:
+            passed = arguments.get(ops[1].mem.disp)
+            if type(passed) is int:
+                value[insn.reg_name(ops[0].reg)] = passed
+    return ranges
+
+
+def fits_once(position, length, low, high, even):
+    """True when `position` is the only place (even addresses only, with `even`) for `length` bytes in [low, high)."""
+    places = [p for p in range(low, high - length + 1) if not even or p % 2 == 0]
+    return length > 0 and places == [position]
+
+
 def ground(binding, target, oracle, claimed=None):
     """Recheck frozen original witnesses outside the contribution being judged.
 
@@ -772,11 +894,13 @@ def ground(binding, target, oracle, claimed=None):
             if "extent" in symbol:
                 spec = symbol["extent"]
                 kind = spec.get("kind")
-                require(set(spec) <= {"length", "witness", "call", "kind", "next"} and {"length", "witness"} <= set(spec) and
+                require(set(spec) <= {"length", "witness", "call", "kind", "next", "writes"} and
+                        {"length", "witness"} <= set(spec) and
                         ((symbol["witnesses"] or internal and "call" not in spec) and kind is None or
-                         kind in ("index", "pointer", "record", "fill", "base") and "call" not in spec or
-                         kind == "far-read" and "call" in spec and symbol["witnesses"]) and
-                        ("next" not in spec or kind == "record"),
+                         kind in ("index", "pointer", "record", "fill", "base", "walk") and "call" not in spec or
+                         kind == "far-read" and "call" in spec and symbol["witnesses"] or
+                         kind == "writes" and "call" in spec and internal) and
+                        ("next" not in spec or kind == "record") and ("writes" in spec) == (kind == "writes"),
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
                 # In a group the copy may itself lie inside a claim (2026-11-23): its length is an
                 # original fact about [S, S+L). An index witness is S's only evidence, so it must stay outside
@@ -793,10 +917,15 @@ def ground(binding, target, oracle, claimed=None):
                     wspace, target_at = oracle.spaces[spec["call"]["space"]], cat + len(craw) - 4
                     c_off, c_seg = struct.unpack_from("<HH", craw, len(craw) - 4)
                     callee = oracle.spaces[spec["witness"]["space"]]
+                    if craw[-4:-2] == b"\x0e\xe8" and kind == "writes":
+                        # push cs; call rel16 inside the caller's own segment
+                        reached = cat + len(craw) + struct.unpack_from("<h", craw, len(craw) - 2)[0]
+                        called = wspace is callee and reached == at
+                    else:
+                        called = (sum(r["image_offset"] == target_at + 2 for r in wspace.relocations) == 1 and
+                                  (c_seg - callee.link_segment) * 16 + c_off == at and callee.name == "root")
                     require("entry" in spec["call"] and cat in reachable_from_entry(oracle, spec["call"]["entry"]) and
-                            sum(r["image_offset"] == target_at + 2 for r in wspace.relocations) == 1 and
-                            (c_seg - callee.link_segment) * 16 + c_off == at and callee.name == "root",
-                            "Extent call is not a reached, relocated far CALL of the copying routine")
+                            called, "Extent call is not a reached, relocated far CALL of the copying routine")
                     arguments = call_arguments(craw)
                     require(offset in arguments.values(), "Extent call does not pass the symbol's address")
                 if kind == "record":
@@ -809,6 +938,29 @@ def ground(binding, target, oracle, claimed=None):
                                 record_stride(nraw, (offset + length) & 0xFFFF) == length,
                                 "Record extent's next window does not step through the same records")
                         length *= 2
+                elif kind == "writes":
+                    # The callee stores through its pointer arguments: the stored ranges, taken from several reached
+                    # windows of that callee, join to [S, S+L) without a gap.
+                    require(raw == b"\x55\x8b\xec", "Argument writes need the callee's stack frame")
+                    ranges = []
+                    for row in spec["writes"]:
+                        wat, wraw = witness(row, draft_ok=True, anywhere=True)
+                        require(wat in reachable_from_entry(oracle, row["entry"]) and
+                                row["entry"] == spec["witness"]["entry"] and row["space"] == spec["witness"]["space"],
+                                "Argument write is not reached from the callee's entry")
+                        ranges += argument_writes(wraw, arguments)
+                    from index_floor import frame_writes
+                    c_base = (int(spec["witness"]["entry"].split(":")[1], 16) - callee.link_segment) * 16
+                    pointers = [a for a, v in arguments.items() if type(v) is int]
+                    require(not any(lo < a + 2 and a < hi for lo, hi in frame_writes(callee, at, c_base) for a in pointers),
+                            "The callee overwrites a pointer argument")
+                    reached = offset
+                    for lo, hi in sorted(set(ranges)):
+                        require(offset <= lo <= reached, "Argument writes leave a gap")
+                        reached = max(reached, hi)
+                    length = reached - offset
+                elif kind == "walk":
+                    length = walk_extent(raw, offset)
                 else:
                     length = (index_extent(raw, offset) if kind == "index" else pointer_extent(raw, offset)
                               if kind == "pointer" else far_read_extent(raw, offset, arguments)
@@ -816,8 +968,52 @@ def ground(binding, target, oracle, claimed=None):
                               if kind == "fill" else base_extent(raw, offset)
                               if kind == "base" else block_copy_extent(raw, at, offset, arguments))
                 require(length is not None and length == spec["length"],
-                        "Extent witness is not a block copy, fill, bounded index, pointer or base access, record array or "
-                        "argument read of that length at the symbol")
+                        "Extent witness is not a block copy, fill, bounded index, pointer or base access, record array, "
+                        "argument read or argument write of that length at the symbol")
+            def fits(fit, position, size, even):
+                """One object of `size` bytes has no other place between the two named neighbours."""
+                require(set(fit) == {"below", "above"} and internal, "Unsupported fit evidence")
+                bat, braw = witness(fit["below"], draft_ok=True, anywhere=True)
+                brows = instructions(braw)
+                operands = [o for o in brows[0].operands if o.type == _capstone()[1].X86_OP_MEM] if len(brows) == 1 else []
+                require("entry" in fit["below"] and bat in reachable_from_entry(oracle, fit["below"]["entry"]) and
+                        len(operands) == 1 and not _not_dgroup(operands[0]) and not operands[0].mem.base and
+                        not operands[0].mem.index and brows[0].disp_size == 2, "Fit's lower neighbour is not a direct access")
+                low = (operands[0].mem.disp & 0xFFFF) + operands[0].size
+                aat, araw = witness(fit["above"], draft_ok=True, anywhere=True)
+                arows = instructions(araw)
+                require(len(arows) == 1 and "entry" in fit["above"] and
+                        aat in reachable_from_entry(oracle, fit["above"]["entry"]), "Fit's upper neighbour is not reached")
+                above = [o for o in arows[0].operands if o.type == _capstone()[1].X86_OP_MEM]
+                require(len(above) == 1 and not _not_dgroup(above[0]) and arows[0].disp_size == 2 and
+                        arows[0].mnemonic != "lea", "Fit's upper neighbour is not a memory access")
+                require(fits_once(position, size, low, above[0].mem.disp & 0xFFFF, even),
+                        "The object fits in another place between its neighbours")
+            if "fit" in symbol:
+                require(not symbol["witnesses"] and length, "A fitted symbol needs an extent and no witness")
+                fits(symbol["fit"], offset, length, True)
+            for m in (m for m in members if "fit" in m):
+                require(not m["witnesses"] and symbol["witnesses"] and m.get("extent", {}).get("kind") == "fill",
+                        "A fitted member needs a fill extent of its own and a witnessed symbol")
+                fits(m["fit"], (offset + m["offset"]) & 0xFFFF, m["extent"]["length"], False)
+            for m in (m for m in members if "floor" in m):
+                # The folded constant part of an index: the lowest byte the original access reaches is S or a
+                # witnessed member of S (tools/index_floor.py).
+                from index_floor import index_floor
+                row = m["floor"]
+                require(set(row) == {"space", "entry", "image_offset"} and internal and not m["witnesses"] and
+                        row["entry"].split(":")[0] == row["space"] and
+                        row["image_offset"] in reachable_from_entry(oracle, row["entry"]),
+                        "Index floor is not a reached original access")
+                fspace = oracle.spaces[row["space"]]
+                f_seg, f_off = (int(x, 16) for x in row["entry"].split(":")[1:])
+                found = index_floor(fspace, fspace.position(f_seg, f_off), (f_seg - fspace.link_segment) * 16,
+                                    row["image_offset"])
+                anchored = {offset} if symbol["witnesses"] else set()
+                anchored |= {(offset + q["offset"]) & 0xFFFF for q in members if q["witnesses"]}
+                require(found is not None and found[0] == (offset + m["offset"]) & 0xFFFF and
+                        (found[0] + found[1]) & 0xFFFF in anchored,
+                        "Index floor does not reach a witnessed address of the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
                         type(m.get("witnesses")) is list and
                         (m["witnesses"] or internal or m["offset"] < length or
