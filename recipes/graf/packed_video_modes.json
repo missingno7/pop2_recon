@@ -124,46 +124,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 0,
-      "public": "CGA_MODE_DESCRIPTOR"
-    },
-    {
-      "object_offset": 30,
-      "public": "HERCULES_MODE_DESCRIPTOR"
-    },
-    {
-      "object_offset": 60,
-      "public": "PACKED_PATTERN_BANK"
-    },
-    {
-      "object_offset": 1351,
-      "public": "COPY_ROP_FORWARD"
-    },
-    {
-      "object_offset": 1489,
-      "public": "CGA_SURFACE_GEOMETRY"
-    },
-    {
-      "object_offset": 2110,
-      "public": "LINE_ROP_DISPATCH"
-    },
-    {
-      "object_offset": 2752,
-      "public": "BITMAP_ROP_DISPATCH"
-    },
-    {
-      "object_offset": 3221,
-      "public": "FILL_ROP_DISPATCH"
-    },
-    {
-      "object_offset": 4178,
-      "public": "TRANSPARENT_PAIR_MASKS"
-    },
-    {
-      "object_offset": 4608,
-      "public": "HERCULES_SURFACE_GEOMETRY"
-    },
-    {
       "object_offset": 4679,
       "public": "MODE_BOUNDARY_FILL"
     }
@@ -182,5 +142,47 @@
   "schema": 1,
   "source": "asm/graf/packed_video_modes.asm",
   "source_sha256": "ceeb108929e09212934fe4db4143c299a7dfe8ea03b1661595bcfcbb101a55ac",
-  "space": "root"
+  "space": "root",
+  "tables": [
+    {
+      "fixup_count": 16,
+      "public": "CGA_MODE_DESCRIPTOR",
+      "target_id": "root:1129:39d8"
+    },
+    {
+      "fixup_count": 8,
+      "public": "COPY_ROP_FORWARD",
+      "target_id": "root:1129:3f1f"
+    },
+    {
+      "fixup_count": 0,
+      "public": "CGA_SURFACE_GEOMETRY",
+      "target_id": "root:1129:3fa9"
+    },
+    {
+      "fixup_count": 4,
+      "public": "LINE_ROP_DISPATCH",
+      "target_id": "root:1129:4216"
+    },
+    {
+      "fixup_count": 4,
+      "public": "BITMAP_ROP_DISPATCH",
+      "target_id": "root:1129:4498"
+    },
+    {
+      "fixup_count": 4,
+      "public": "FILL_ROP_DISPATCH",
+      "target_id": "root:1129:466d"
+    },
+    {
+      "fixup_count": 4,
+      "public": "TRANSPARENT_PAIR_MASKS",
+      "target_id": "root:1129:4a2a"
+    },
+    {
+      "fixup_count": 0,
+      "public": "HERCULES_SURFACE_GEOMETRY",
+      "target_id": "root:1129:4bd8"
+    }
+  ]
 }

@@ -80,6 +80,8 @@ def _promote(base, group, extra, verify_only, stage=None):
         cmd += ["--flags"] + group["flags"]
     for claim in group.get("claims", []):
         cmd += ["--claim", claim]
+    for table in group.get("tables", []):        # code tables: original data between accepted code (asm)
+        cmd += ["--table", table]
     for claim in group.get("conditional", []):   # CODE_MATCH targets (exact code, unproven bindings)
         cmd += ["--conditional", claim]
     binding = group.get("binding")
@@ -148,6 +150,7 @@ def _republish(name, binding):
     group = {"name": name, "source": str(ROOT / recipe["source"]), "profile": recipe["profile"],
              "language": recipe.get("language", "c"), "flags": recipe.get("flags", []),
              "claims": [f"{c['target_id']}={c['public']}" for c in recipe["claims"]],
+             "tables": [f"{c['target_id']}={c['public']}" for c in recipe.get("tables", [])],
              "binding": str(binding)}
     return _promote(Path("/"), group, [], False)
 

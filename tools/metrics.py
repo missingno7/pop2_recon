@@ -21,12 +21,13 @@ def metrics(oracle=None, manifest=None):
                 "Invalid/duplicate original relocation coverage indices")
         c = counts["MATCHING_C"]
         asm = counts["MATCHING_ASM"]
+        data = counts["MATCHING_ASM_DATA"]
         runtime = counts["PINNED_RUNTIME"]
         third = counts["EXTERNAL_DRIVER"]
         rows.append({"space": space.name, "payload_bytes": space.size, "matching_c_bytes": c,
-                     "matching_asm_bytes": asm, "pinned_runtime_bytes": runtime,
+                     "matching_asm_bytes": asm, "matching_asm_data_bytes": data, "pinned_runtime_bytes": runtime,
                      "external_driver_bytes": third,
-                     "unresolved_or_unclassified_payload_bytes": space.size-c-asm-runtime-third,
+                     "unresolved_or_unclassified_payload_bytes": space.size-c-asm-data-runtime-third,
                      "exact_function_count": sum(r["kind"] in ("MATCHING_C", "MATCHING_ASM") for r in owners),
                      "pinned_runtime_component_count": sum(r["kind"] == "PINNED_RUNTIME" for r in owners),
                      "total_relocation_records": len(space.relocations),
@@ -41,6 +42,8 @@ def metrics(oracle=None, manifest=None):
               "total_payload_bytes": sum(r["payload_bytes"] for r in rows),
               "matching_c_bytes": sum(r["matching_c_bytes"] for r in rows),
               "matching_asm_bytes": sum(r["matching_asm_bytes"] for r in rows),
+              "matching_asm_data_bytes": sum(r["matching_asm_data_bytes"] for r in rows),
+              "code_table_count": sum(r["kind"] == "MATCHING_ASM_DATA" for r in manifest["owners"]),
               "pinned_runtime_bytes": sum(r["pinned_runtime_bytes"] for r in rows),
               "pinned_runtime_component_count": sum(r["pinned_runtime_component_count"] for r in rows),
               "identified_game_code_bytes": sum(r["size"] for r in game),

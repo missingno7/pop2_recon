@@ -68474,8 +68474,368 @@
         "Independent MSC 6.00 mlibcr.lib member at archive offset 55760 exports __memmax."
       ],
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, five words, RETF 10",
+      "boundary_evidence": [
+        "It starts where the accepted WRITE_DAC_BLOCK ends and its RETF 10 ends where the accepted WAIT_DAC_WINDOW starts.",
+        "The extent decodes linearly from a BP-frame prologue and closes with RETF; its PUSH CS; CALL near reaches the accepted WAIT_DAC_WINDOW.",
+        "No original transfer names this entry: the program never calls it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Palette port writer between accepted routines of the same palette file."
+      ],
+      "classification_status": "Reviewed original assembly idioms.",
+      "entry_kind": "direct-code",
+      "id": "root:1129:79f7",
+      "offset": 31223,
+      "segment": 4393,
+      "semantic_name_hypothesis": "write_dac_entry",
+      "sha256": "0f61124610f5644167942cfbd7de091bae4633060b76abe619ff0c99e0cd597b",
+      "size": 47,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, three words, RETF 6",
+      "boundary_evidence": [
+        "It starts where the accepted WAIT_DAC_WINDOW ends; its only RETF 6 is followed by the next BP-frame prologue.",
+        "The extent decodes linearly from a BP-frame prologue and closes with RETF; its PUSH CS; CALL near reaches the accepted WAIT_DAC_WINDOW.",
+        "No original transfer names this entry: the program never calls it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Palette port writer between accepted routines of the same palette file."
+      ],
+      "classification_status": "Reviewed original assembly idioms.",
+      "entry_kind": "direct-code",
+      "id": "root:1129:7a44",
+      "offset": 31300,
+      "segment": 4393,
+      "semantic_name_hypothesis": "write_ega_palette",
+      "sha256": "051c7eeef386038110ad6785a977d181e94e000eccafcf36aca87d7321ddf31e",
+      "size": 51,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, three words, RETF 6",
+      "boundary_evidence": [
+        "It starts behind the RETF 6 of the preceding BP-frame routine; its RETF 6 is followed by one alignment byte and the accepted entry root:1129:7aa0.",
+        "The extent decodes linearly from a BP-frame prologue and closes with RETF; its PUSH CS; CALL near reaches the accepted WAIT_DAC_WINDOW.",
+        "No original transfer names this entry: the program never calls it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Palette port writer between accepted routines of the same palette file."
+      ],
+      "classification_status": "Reviewed original assembly idioms.",
+      "entry_kind": "direct-code",
+      "id": "root:1129:7a77",
+      "offset": 31351,
+      "segment": 4393,
+      "semantic_name_hypothesis": "write_tga_palette",
+      "sha256": "fb6946037d55eaa3fd95b4aa7f9a355d9be3d23dd70bab8697c2f24e9b913d26",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "code_tables": [
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:399c and root:1129:3a54; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:39d8",
+      "offset": 14808,
+      "segment": 4393,
+      "sha256": "0b2a2c0ff92dd557939355b988217618062fc144d9aab1cfb88e3b6ba3d39422",
+      "size": 124,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:3a54 and root:1129:3f37; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:3f1f",
+      "offset": 16159,
+      "segment": 4393,
+      "sha256": "df016d54c4afb9616168e35bee3734a291eaf183a9eeef00a9b189267e8b3640",
+      "size": 24,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:3f5b and root:1129:3fb7; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:3fa9",
+      "offset": 16297,
+      "segment": 4393,
+      "sha256": "99b23e1e01a4a8dabc34a4f65a7480449f49ec64ab27e51e5678aeed12ffc771",
+      "size": 14,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:41f7 and root:1129:4226; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:4216",
+      "offset": 16918,
+      "segment": 4393,
+      "sha256": "0a9fca49f43fd072fed7c37846a74925a260e450daeadf60fdf383b51ceec583",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:4226 and root:1129:44a8; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:4498",
+      "offset": 17560,
+      "segment": 4393,
+      "sha256": "8001a674c91bd957dfafe707d9b5daded25bf21a91a70d8b3e6ca54cc3697ee6",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:44a9 and root:1129:467d; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:466d",
+      "offset": 18029,
+      "segment": 4393,
+      "sha256": "f411df8583ff5be483828c852a3a29f6e842c0277ecd145569dccfec46d051d6",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:467d and root:1129:4b3a; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:4a2a",
+      "offset": 18986,
+      "segment": 4393,
+      "sha256": "d8faa96f7fc8703b5b1dc4b042ad535ebed16ce8e5798e95a5bb77f6fa526611",
+      "size": 272,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:4b5b and root:1129:4bf2; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:4bd8",
+      "offset": 19416,
+      "segment": 4393,
+      "sha256": "8c2c97e3cba3d05ff1757c7214816561b479bc95fa48b228eb0ad1e88d52b2e4",
+      "size": 26,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:53e2 and root:1129:5455; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:5426",
+      "offset": 21542,
+      "segment": 4393,
+      "sha256": "80513298138e812caa95787899e2833d5986ffb05340633786d47a3e92312db0",
+      "size": 47,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:5455 and root:1129:591f; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:5907",
+      "offset": 22791,
+      "segment": 4393,
+      "sha256": "d2b59355b3378aae52c279fb0b4aba9bac20a8bde531d5713112c81a184b41bf",
+      "size": 24,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:593a and root:1129:59f2; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:59e4",
+      "offset": 23012,
+      "segment": 4393,
+      "sha256": "05b56e258566eb3b65a472b69bd7beabc39873209b6b5dfa0f589dd278f88511",
+      "size": 14,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:5bf6 and root:1129:5c25; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:5c15",
+      "offset": 23573,
+      "segment": 4393,
+      "sha256": "23f1e866c9e96432ae16c80896cb4e25e0b624404d73259154c7e6c91cdcb56e",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:5c25 and root:1129:5e5b; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:5e4b",
+      "offset": 24139,
+      "segment": 4393,
+      "sha256": "3028c5e4e776a6b78c89d8843d9d8507db241101f642057bbc7b6e4168386aeb",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:5e5c and root:1129:5fdc; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:5fcc",
+      "offset": 24524,
+      "segment": 4393,
+      "sha256": "f8bae206719675ffb00c792ccbad43bf57de834a1ac870d1d5b6ff0f3f31bd28",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:5fdc and root:1129:647e; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:636d",
+      "offset": 25453,
+      "segment": 4393,
+      "sha256": "7711d3556420a164259c97896da745495f8067d7dbca9ad9def278fd96e7fdae",
+      "size": 272,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:6632 and root:1129:6698; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:664a",
+      "offset": 26186,
+      "segment": 4393,
+      "sha256": "1f9ad19196915522a99dcdef1a541038c080c86e7a7102b85c2ae02c984462ca",
+      "size": 78,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:6698 and root:1129:6899; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:6889",
+      "offset": 26761,
+      "segment": 4393,
+      "sha256": "9f9922f993a55e7533440893c31747496a2d27db382dc22495dd26632e288cf0",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:68c5 and root:1129:6922; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:6914",
+      "offset": 26900,
+      "segment": 4393,
+      "sha256": "a0c48d9ccccf7f9019da20806bd6c87257035f8ec64a408bd6a2e83b62d03e0c",
+      "size": 14,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:6ad7 and root:1129:6b06; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:6af6",
+      "offset": 27382,
+      "segment": 4393,
+      "sha256": "b7de6268f71e6800b0bea2b35c9408890882f2cc0e8129eafd6de7b05bcbfc86",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:6b06 and root:1129:6c63; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:6c53",
+      "offset": 27731,
+      "segment": 4393,
+      "sha256": "f5c74bf2799f329efc668c61f343e16b87abbbe97d68943c58fd0705043b35ae",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:6c64 and root:1129:6d42; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:6d32",
+      "offset": 27954,
+      "segment": 4393,
+      "sha256": "48e7abd3cbf438536d5853ddc63a0e99349a51e9a37aad466bc0e4197ee901e8",
+      "size": 16,
+      "space": "root"
+    },
+    {
+      "boundary_evidence": [
+        "Original bytes between the accepted code root:1129:6d42 and root:1129:6f00; no reviewed function reaches or enters them as code.",
+        "Accepted code of the same object reads the region through CS (checked freshly by the gate)."
+      ],
+      "boundary_status": "REVIEWED",
+      "id": "root:1129:6ef0",
+      "offset": 28400,
+      "segment": 4393,
+      "sha256": "290f4acafc78d230f6dee0df3d2e49ce98fe13aa18cb83be176576622cee5902",
+      "size": 16,
+      "space": "root"
+    }
+  ]
 }

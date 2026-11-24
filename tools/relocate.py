@@ -105,7 +105,7 @@ def main():
     old_recipe_path = project_path(f"recipes/{args.old_name}.json")
     recipe = read_json(old_recipe_path)
     owners = [o for o in manifest["owners"] if o.get("recipe") == old_recipe_path.relative_to(ROOT).as_posix()]
-    require(owners and all(o["kind"] in ("MATCHING_C", "MATCHING_ASM") for o in owners),
+    require(owners and all(o["kind"] in ("MATCHING_C", "MATCHING_ASM", "MATCHING_ASM_DATA") for o in owners),
             "Relocation needs an accepted C/ASM recipe with owners")
     old_source = project_path(recipe["source"]).read_bytes()
     require(sha(old_source) == recipe["source_sha256"], "Canonical source changed without acceptance")

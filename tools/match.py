@@ -22,6 +22,22 @@ class CompiledObjectRejected(ValueError):
 EXTRA_TARGETS = []
 
 
+def get_table(identifier, oracle):
+    """A reviewed code table (evidence/targets.json `code_tables`): original data inside a code segment."""
+    inventory = read_json_shared(ROOT / "evidence/targets.json")
+    require(inventory["target_sha256"] == sha(oracle.data), "Targets belong to another oracle")
+    matches = [t for t in inventory.get("code_tables", []) if t["id"] == identifier]
+    require(len(matches) == 1 and not any(f["id"] == identifier for f in inventory["functions"]),
+            "Unknown/ambiguous reviewed code table")
+    table = matches[0]
+    require(table["boundary_status"] == "REVIEWED" and table["boundary_evidence"],
+            "Acceptance requires reviewed independent boundary evidence")
+    space = oracle.spaces[table["space"]]
+    raw = space.extent(table["segment"], table["offset"], table["size"])
+    require(sha(raw) == table["sha256"], "Code table extent differs from frozen original evidence")
+    return table, space, raw
+
+
 def get_target(identifier, oracle=None):
     oracle = oracle or Oracle.load()
     inventory = read_json_shared(ROOT / "evidence/targets.json")

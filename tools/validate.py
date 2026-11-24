@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 from common import ROOT, read_json, read_json_shared, require, sha, project_path, write_json
-from match import compile_and_check, get_target
+from match import compile_and_check, get_table, get_target
 from metrics import metrics
 from oracle import Oracle
 from publication import require_idle
@@ -27,11 +27,14 @@ def check_manifest(oracle, manifest):
         ids.add(owner["target_id"])
         require((owner["kind"], owner["state"]) in (("MATCHING_C", "CODE_EXACT"),
                                                       ("MATCHING_ASM", "ASM_EXACT"),
+                                                      ("MATCHING_ASM_DATA", "ASM_DATA_EXACT"),
                                                       ("PINNED_RUNTIME", "PINNED_RUNTIME")),
                 "Unsupported bootstrap ownership kind/state")
         recipe = read_json_shared(project_path(owner["recipe"]))
         if owner["kind"] in ("MATCHING_C", "MATCHING_ASM"):
             target, space, _ = get_target(owner["target_id"], oracle)
+        elif owner["kind"] == "MATCHING_ASM_DATA":
+            target, space, _ = get_table(owner["target_id"], oracle)
         else:
             target = recipe
             space = oracle.spaces[target["space"]]
@@ -43,7 +46,7 @@ def check_manifest(oracle, manifest):
         touched = [r["index"] for r in space.relocations
                    if start-1 <= r["image_offset"] < start+owner["size"]]
         # A group recipe records relocation obligations per claim.
-        pinned = (next((c.get("relocation_indices", []) for c in recipe["claims"]
+        pinned = (next((c.get("relocation_indices", []) for c in recipe["claims"] + recipe.get("tables", [])
                         if c["target_id"] == owner["target_id"]), None)
                   if recipe.get("kind") == GROUP_KIND else recipe.get("relocation_indices", []))
         require(owner.get("relocation_indices", []) == touched and
@@ -61,22 +64,25 @@ def check_manifest(oracle, manifest):
                     "Runtime owner obligation counts differ from fresh proof")
             continue
         if recipe.get("kind") == GROUP_KIND:
-            require(owner["kind"] == ("MATCHING_ASM" if recipe.get("language", "c") == "asm" else "MATCHING_C") and
+            table = owner["kind"] == "MATCHING_ASM_DATA"
+            require((table and recipe.get("language") == "asm" or
+                     owner["kind"] == ("MATCHING_ASM" if recipe.get("language", "c") == "asm" else "MATCHING_C")) and
                     owner.get("group") == recipe["name"],
                     "Group owner does not name its group recipe")
-            claim = [c for c in recipe["claims"] if c["target_id"] == owner["target_id"]]
+            claim = [c for c in (recipe.get("tables", []) if table else recipe["claims"])
+                     if c["target_id"] == owner["target_id"]]
             require(len(claim) == 1 and claim[0]["fixup_count"] == owner["fixup_count"],
                     "Group owner is not exactly one recipe claim")
             group_claims.setdefault(owner["recipe"], set()).add(owner["target_id"])
         else:
-            require(recipe["target_id"] == owner["target_id"], "Recipe target mismatch")
+            require(recipe["target_id"] == owner["target_id"] and owner["kind"] != "MATCHING_ASM_DATA", "Recipe target mismatch")
         source = project_path(recipe["source"])
         language = recipe.get("language", "c")
-        require(language == ("asm" if owner["kind"] == "MATCHING_ASM" else "c"),
+        require(language == ("c" if owner["kind"] == "MATCHING_C" else "asm"),
                 "Recipe source language disagrees with ownership")
         source_dir = ROOT / ("asm" if language == "asm" else "src")
         require(source.is_relative_to(source_dir), "Canonical source outside its language directory")
-        if language == "asm":
+        if owner["kind"] == "MATCHING_ASM":
             # Only genuine original assembly is matched as MASM (evidence/asm-origin-audit.json).
             from origin import require_genuine_asm
             require_genuine_asm([owner["target_id"]])
@@ -89,7 +95,8 @@ def check_manifest(oracle, manifest):
             if recipe.get("kind") != GROUP_KIND:
                 require(owner["fixup_count"] == recipe["fixup_count"], "Owner fixup count differs from recipe")
     for path, claimed in group_claims.items():
-        require(claimed == {c["target_id"] for c in read_json_shared(project_path(path))["claims"]},
+        group_recipe = read_json_shared(project_path(path))
+        require(claimed == {c["target_id"] for c in group_recipe["claims"] + group_recipe.get("tables", [])},
                 "Group recipe claims and canonical owners differ")
     from runtime_fixups import check_layout
     check_layout(runtime_reports)
@@ -110,7 +117,8 @@ def verify_group(recipe):
     _, report = compile_group(source.decode("ascii"), recipe["profile"], recipe["flags"],
                               [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"] + matches],
                               ROOT / "build/workers/validation" / recipe["name"],
-                              binding=binding, group_id=recipe["group_id"], language=recipe.get("language", "c"))
+                              binding=binding, group_id=recipe["group_id"], language=recipe.get("language", "c"),
+                              tables=[{"target_id": t["target_id"], "public": t["public"]} for t in recipe.get("tables", [])])
     # Code matches (exact code, listed unproven bindings) are rechecked but never counted as exact.
     match_ids = {c["target_id"] for c in matches}
     fresh = {c["target_id"]: c for c in report["claims"]}
@@ -124,6 +132,9 @@ def verify_group(recipe):
     require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
     require(all(report[key] == recipe[key] for key in ("space", "origin", "emitted_size", "frame", "drafts")),
             "Accepted group placement, extent or draft record changed")
+    require([{k: t[k] for k in ("target_id", "public", "fixups")} for t in report.get("tables", [])] ==
+            [{"target_id": t["target_id"], "public": t["public"], "fixups": t["fixup_count"]}
+             for t in recipe.get("tables", [])], "Accepted code tables changed")
     # Data publics ground other groups' externals (module_gate._provider_public); old recipes have none.
     require(report["data_publics"] == recipe.get("data_publics", []) and
             report.get("provider_span_aliases", []) == recipe.get("provider_span_aliases", []),
@@ -170,6 +181,11 @@ def _validate(run_tests=True):
             if owner["recipe"] not in groups:
                 groups[owner["recipe"]] = verify_group(recipe)
                 accepted.append(groups[owner["recipe"]])
+            if owner["kind"] == "MATCHING_ASM_DATA":
+                table = next(t for t in groups[owner["recipe"]]["tables"] if t["target_id"] == owner["target_id"])
+                require(table["exact"] and table["fixups"] == owner["fixup_count"] and not owner["relocation_count"],
+                        "Code table owner differs from its fresh proof")
+                continue
             claim = next(c for c in groups[owner["recipe"]]["claims"] if c["target_id"] == owner["target_id"])
             pinned = next(c for c in recipe["claims"] if c["target_id"] == owner["target_id"])
             require(claim["exact"] and claim["fixups"] == owner["fixup_count"] and
@@ -372,6 +388,7 @@ def main():
     print(f"PASS: {report['metrics']['exact_function_count']} freshly recompiled exact functions; "
           f"{report['metrics']['matching_c_bytes']} C bytes; "
           f"{report['metrics']['matching_asm_bytes']} ASM bytes; "
+          f"{report['metrics']['matching_asm_data_bytes']} bytes in {report['metrics']['code_table_count']} code tables; "
           f"{report['metrics']['pinned_runtime_bytes']} pinned runtime bytes; "
           f"{report['placement_debt_claims']} claims with placement debt; "
           f"{len(report['code_matches'])} code matches ({sum(c['size'] for c in report['code_matches'])} bytes) "

@@ -101,7 +101,7 @@ close_write:
     retf 10
 WRITE_DAC_BLOCK ENDP
 
-; The intervening single-entry writer is an unclaimed draft.
+; One DAC entry: index [bp+14], then red, green and blue.
 WRITE_DAC_ENTRY PROC FAR
     push bp
     mov bp, sp

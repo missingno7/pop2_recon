@@ -34,6 +34,8 @@ def main():
     parser.add_argument("--conditional", action="append", default=[], type=parse_claim,
                         help="TARGET_ID=PUBLIC recorded as a CODE_MATCH (exact code, listed unproven bindings); "
                              "never an owner")
+    parser.add_argument("--table", action="append", default=[], type=parse_claim,
+                        help="TABLE_ID=PUBLIC: a whole region of original data between accepted code (asm only)")
     parser.add_argument("--binding", help="Reviewed group binding under evidence/bindings")
     parser.add_argument("--verify-only", action="store_true")
     parser.add_argument("--stage", help="verify-only: staging directory (a worker's own build/workers/NAME/...)")
@@ -94,11 +96,14 @@ def main():
                                    args.claim + args.conditional,
                                    stage / "compile",
                                    binding=json.loads(binding_bytes) if binding_bytes else None,
-                                   group_id=group_id, language=args.language)
+                                   group_id=group_id, language=args.language, tables=args.table)
     for claim in report["claims"]:
         print(f"  {claim['target_id']} {claim['public']}: {claim['state']}"
               + (f" ({claim['reason']})" if claim.get("reason") else "")
               + (f" first difference {claim['first_difference']}" if claim.get("first_difference") is not None else ""))
+    require(len(report.get("tables", [])) == len(args.table), "A requested code table was not judged")
+    for table in report.get("tables", []):
+        print(f"  {table['target_id']} {table['public']}: {table['state']} ({table['size']} bytes, not a function)")
     for draft in report["drafts"]:
         print(f"  draft {draft['public']} at +{draft['object_offset']} (owns nothing)")
     exact_state = "ASM_EXACT" if args.language == "asm" else "CODE_EXACT"
@@ -118,7 +123,9 @@ def main():
     for c in report["claims"]:
         start = report["origin"] + c["object_offset"]
         hull.update(range(start, start + c["expected_size"]))
-    claimed = {c["target_id"] for c in args.claim}
+    for t in report.get("tables", []):
+        hull.update(range(report["origin"] + t["object_offset"], report["origin"] + t["object_offset"] + t["size"]))
+    claimed = {c["target_id"] for c in args.claim + args.table}
     migrated, kept = [], []
     for owner in manifest["owners"]:
         position = space.position(owner["segment"], owner["offset"]) if owner["space"] == space.name else None
@@ -129,10 +136,10 @@ def main():
         recipe = read_json(project_path(owner["recipe"]))
         if recipe.get("kind") == GROUP_KIND:
             # A smaller group grows into this one only whole: every old claim is reclaimed.
-            require({c["target_id"] for c in recipe["claims"]} <= claimed,
+            require({c["target_id"] for c in recipe["claims"] + recipe.get("tables", [])} <= claimed,
                     f"Group {recipe['name']} overlaps this group but not all its claims are reclaimed")
         else:
-            require(owner["kind"] in ("MATCHING_C", "MATCHING_ASM") and owner["target_id"] in claimed,
+            require(owner["kind"] in ("MATCHING_C", "MATCHING_ASM", "MATCHING_ASM_DATA") and owner["target_id"] in claimed,
                     f"Owner {owner['target_id']} overlaps a claim but is not itself claimed")
         migrated.append((owner, recipe))
     if args.verify_only:
@@ -165,6 +172,9 @@ def main():
               "space": report["space"], "origin": report["origin"], "emitted_size": report["emitted_size"],
               "frame": report["frame"],
               "claims": claims, "drafts": report["drafts"], "proof_scope": report["proof_scope"]}
+    if report.get("tables"):
+        recipe["tables"] = [{"target_id": t["target_id"], "public": t["public"], "fixup_count": t["fixups"]}
+                            for t in report["tables"]]
     if report["data_publics"]:
         recipe["data_publics"] = report["data_publics"]
     if matches:
@@ -185,6 +195,13 @@ def main():
                      relocation_count=claim["relocations"], fixup_count=claim["fixups"])
         if claim.get("covered_relocation_indices"):
             owner["relocation_indices"] = claim["covered_relocation_indices"]
+        owners.append(owner)
+    for table in report.get("tables", []):
+        row = next(t for t in read_json(ROOT / "evidence/targets.json")["code_tables"] if t["id"] == table["target_id"])
+        owner = {key: row[key] for key in ("space", "segment", "offset", "size")}
+        owner.update(target_id=table["target_id"], kind="MATCHING_ASM_DATA", state="ASM_DATA_EXACT",
+                     recipe=recipe_path.relative_to(ROOT).as_posix(), group=args.name, relocation_count=0,
+                     fixup_count=table["fixups"])
         owners.append(owner)
     manifest["owners"] = kept + owners
     # Retire only files that no recipe in the final manifest still references.

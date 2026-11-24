@@ -39,7 +39,7 @@ from far_binding import FAR_KINDS, NEAR_KIND, ground_near_entry as near_ground, 
 DATA_MODES = ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
               "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE, OPERAND_MODE)
 from common import ROOT, read_json_shared, require, sha
-from match import code_segment, get_target
+from match import code_segment, get_table, get_target
 from omf import OmfReader
 
 GROUP_PROOF_SCOPE = ("Complete code of each claimed function at one shared placement from one compilation; "
@@ -1598,7 +1598,72 @@ def _data_tail(piece, own_targets, tables, start, addressed=()):
     return None
 
 
-def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
+def _code_tables(tables, reports, states, publics, actual, code_fixes, data_fixes, module, name, origin, space, window,
+                 oracle):
+    """Judge the claimed code tables of one MASM object (docs/acceptance.md "Code tables").
+
+    A table claim is one whole region of unclaimed publics: it starts at the object's start or where an exact claim ends,
+    and ends where an exact claim starts or the object ends (at most one zero byte that word-aligns what follows stays
+    outside). Every byte equals the original; its only fields are own-segment offset16 words, equations in the witnessed
+    CS frame that name an instruction of an exact claim or the region itself. The program must read it: an equal own-segment
+    field of an exact claim, or a pointer in the object's placed data, addresses a byte of the region."""
+    exact = [(r["object_offset"], r["object_offset"] + r["emitted_size"]) for r in reports if r.get("exact")]
+    starts, ends = {lo for lo, _ in exact}, {hi for _, hi in exact}
+    entries = {lo + i.address for r, (lo, _) in zip([r for r in reports if r.get("exact")], exact)
+               for i in states[r["public"]]["rows"] or ()}
+    readers = {own["addend"] & 0xFFFF for r in reports if r.get("exact") for own in states[r["public"]]["own"]}
+    for fix in data_fixes:
+        content = module.segments.get(fix["segment"]) or b""
+        at, target = fix["segment_offset"], fix["target"]
+        base = 0 if target.get("kind") == "segment" and target.get("name") == name else \
+            publics.get(target.get("name")) if target.get("kind") == "external" else None
+        if base is not None and fix["loc_type"] in (1, 3) and not fix["self_relative"]:
+            readers.add((base + struct.unpack_from("<H", content, at)[0] + (fix["displacement"] or 0)) & 0xFFFF)
+    found = []
+    for table in tables:
+        target, home, expected = get_table(table["target_id"], oracle)
+        require(home.name == space.name and table["public"] in publics, "Code table is not in this object")
+        start = publics[table["public"]]
+        end, position = start + len(expected), origin + start
+        require(space.position(target["segment"], target["offset"]) == position and end <= len(actual),
+                "Code table does not share the object placement")
+        require(start == 0 or start in ends, "Code table does not start where accepted code ends")
+        follows = lambda at: at == len(actual) or at in starts
+        require(follows(end) or (origin + end) % 2 and end < len(actual) and actual[end] == 0 and follows(end + 1),
+                "Code table does not end where accepted code starts")
+        require(not any(lo < end and start < hi for lo, hi in exact), "Code table overlaps a claim")
+        marks = sorted([o for o in publics.values() if start <= o < end]) + [end]
+        require(not any(hi - lo == 1 and actual[lo] == 0 for lo, hi in zip(marks, marks[1:])),
+                "A single zero alignment byte is never part of a code table")
+        require(not any(position - 1 <= r["image_offset"] < origin + end for r in space.relocations),
+                "Code table overlaps original relocated words")
+        require(window is not None and window[0] <= position and origin + end <= window[1],
+                "Code table lies outside the witnessed original CS window")
+        piece, occupied, equations = bytearray(actual[start:end]), set(), []
+        for fix in (f for f in code_fixes if f["segment_offset"] < end and start < f["segment_offset"] + f["field_width"]):
+            at = fix["segment_offset"] - start
+            require(_own_segment(fix, name) and fix["field_width"] == 2 and 0 <= at and at + 2 <= len(piece) and
+                    not occupied.intersection((at, at + 1)), "Unsupported field in a code table")
+            addend = (struct.unpack_from("<H", piece, at)[0] + (fix["displacement"] or 0)) & 0xFFFF
+            require(addend in entries or start <= addend < end,
+                    "Code table word names no instruction of an accepted claim")
+            value, observed = (origin - window[0] + addend) & 0xFFFF, struct.unpack_from("<H", expected, at)[0]
+            require(value == observed, "Code table word differs from the original")
+            equations.append({"offset": at, "kind": "own-segment offset16", "encoded_addend": addend,
+                              "linked_value": value, "original_value": observed, "equal": True})
+            piece[at:at + 2] = struct.pack("<H", value)
+            occupied.update((at, at + 1))
+        require(bytes(piece) == expected, "Code table differs from the original")
+        used = sorted(a for a in readers if start <= a < end)
+        require(used, "No accepted code or placed data reads the code table")
+        found.append({"target_id": table["target_id"], "public": table["public"], "object_offset": start,
+                      "size": len(expected), "fixups": len(equations), "read_at": used, "exact": True,
+                      "state": "ASM_DATA_EXACT", "equations": equations})
+    require(len({t["target_id"] for t in found}) == len(found), "Duplicate code table claim")
+    return found
+
+
+def check_group(obj_data, claims, oracle, *, binding=None, group_id=None, code_tables=()):
     """Judge every claim; never raises for a claim-level mismatch, only for object-level refusal."""
     module = OmfReader().read(obj_data, "candidate")
     placements = (binding or {}).get("placements", {})
@@ -2288,7 +2353,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                          if frames and window is not None else None)
     _placed_support(placement_report, states, reports, placed_witnessed, placed_extents)
     _bracket_located((binding or {}).get("brackets", {}), states, reports)
-    claimed = {c["public"] for c in claims}
+    table_report = _code_tables(code_tables, reports, states, publics, actual, code_fixes, data_fixes, module, name, origin,
+                                space, window, oracle) if code_tables else []
+    claimed = {c["public"] for c in claims} | {
+        p for p, o in publics.items() for t in table_report
+        if t["object_offset"] <= o < t["object_offset"] + t["size"]}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
                                unique=placement_report[d["segment"]]["unique"])
                           for d in sorted(data_publics.values(), key=lambda d: (d["segment"], d["offset"]))]
@@ -2308,6 +2377,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             "placements": placement_report, "data_publics": data_public_report,
             **({"provider_span_aliases": span_aliases} if span_aliases else {}),
             **({"far_placements": far_placements} if far_placements else {}),
+            **({"tables": table_report} if table_report else {}),
             "space": space.name, "origin": origin, "emitted_size": len(actual),
             "frame": next(iter(frames)) if frames else None,
             "segment": segment, "claims": reports,
@@ -2367,12 +2437,13 @@ def compile_data_group(source_text, profile, flags, workdir, *, binding, group_i
     return result, check_data_group(result.obj_bytes, Oracle.load(), binding=binding, group_id=group_id)
 
 
-def compile_group(source_text, profile, flags, claims, workdir, *, binding=None, group_id=None, language="c"):
+def compile_group(source_text, profile, flags, claims, workdir, *, binding=None, group_id=None, language="c", tables=()):
     """Compile (C) or assemble (MASM) exactly the given source text, the bytes the caller
     hashed, and judge it. ASM claims report ASM_EXACT/CANDIDATE_ASM."""
     from pathlib import Path
     from oracle import Oracle
     require(language in ("c", "asm"), "Unknown source language")
+    require(language == "asm" or not tables, "Code tables are claimed from MASM sources only")
     oracle = Oracle.load()
     work = Path(workdir)
     if language == "asm":
@@ -2385,7 +2456,7 @@ def compile_group(source_text, profile, flags, claims, workdir, *, binding=None,
         from compiler import compile_c
         result = compile_c(source_text, profile, flags=flags, workdir=work)
     require(result.ok, "Historical compilation failed: " + result.log)
-    report = check_group(result.obj_bytes, claims, oracle, binding=binding, group_id=group_id)
+    report = check_group(result.obj_bytes, claims, oracle, binding=binding, group_id=group_id, code_tables=tables)
     if language == "asm":
         for claim in report["claims"]:
             claim["state"] = {"CODE_EXACT": "ASM_EXACT", "CANDIDATE_C": "CANDIDATE_ASM"}.get(claim["state"],

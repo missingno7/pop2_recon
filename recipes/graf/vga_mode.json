@@ -58,40 +58,7 @@
       "target_id": "root:1129:6d42"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 0,
-      "public": "VGA_MODE_DESCRIPTOR"
-    },
-    {
-      "object_offset": 30,
-      "public": "VGA_PALETTE"
-    },
-    {
-      "object_offset": 575,
-      "public": "VGA_COPY_DISPATCH"
-    },
-    {
-      "object_offset": 714,
-      "public": "VGA_SURFACE_GEOMETRY"
-    },
-    {
-      "object_offset": 1196,
-      "public": "VGA_LINE_DISPATCH"
-    },
-    {
-      "object_offset": 1545,
-      "public": "VGA_BITMAP_DISPATCH"
-    },
-    {
-      "object_offset": 1768,
-      "public": "VGA_FILL_DISPATCH"
-    },
-    {
-      "object_offset": 2214,
-      "public": "VGA_COMPOSITE_DISPATCH"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 2230,
   "flags": [],
   "frame": 4393,
@@ -106,5 +73,42 @@
   "schema": 1,
   "source": "asm/graf/vga_mode.asm",
   "source_sha256": "b80ce0e1401fd097626152d361fba1657d177167516c51916dd3deb823fa1bf0",
-  "space": "root"
+  "space": "root",
+  "tables": [
+    {
+      "fixup_count": 8,
+      "public": "VGA_MODE_DESCRIPTOR",
+      "target_id": "root:1129:664a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "VGA_COPY_DISPATCH",
+      "target_id": "root:1129:6889"
+    },
+    {
+      "fixup_count": 0,
+      "public": "VGA_SURFACE_GEOMETRY",
+      "target_id": "root:1129:6914"
+    },
+    {
+      "fixup_count": 4,
+      "public": "VGA_LINE_DISPATCH",
+      "target_id": "root:1129:6af6"
+    },
+    {
+      "fixup_count": 4,
+      "public": "VGA_BITMAP_DISPATCH",
+      "target_id": "root:1129:6c53"
+    },
+    {
+      "fixup_count": 4,
+      "public": "VGA_FILL_DISPATCH",
+      "target_id": "root:1129:6d32"
+    },
+    {
+      "fixup_count": 4,
+      "public": "VGA_COMPOSITE_DISPATCH",
+      "target_id": "root:1129:6ef0"
+    }
+  ]
 }
