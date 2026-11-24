@@ -83,17 +83,24 @@ static char fixed_text[] = "Fix ";
 static char free_text[] = "Free";
 
 int frame_diagnostics = 0;
-static int diagnostic_default_options[3] = { 1, 0, 0 };
+/* The original link registers nine public debug variables here that no code refers to (docs/rtlink.md). */
+int debug_option_1 = 1;
+int debug_option_2 = 0;
+int debug_option_3 = 0;
 static int log_ticks = 0;
 int show_reference_position = 0;
-static int diagnostic_check_flags[2] = { 0, 0 };
+int debug_check_1 = 0;
+int debug_check_2 = 0;
 int show_actor_position = 0;
 int debug_show_door_links = 0;
 int debug_show_meters = 0;
 int show_ruler = 0;
 int pause_on_frame = 0;
 struct { int y, x; } DebugKid = { 63, 140 };
-static int diagnostic_position_defaults[4] = { 20, 79, 34, 109 };
+int debug_position_1 = 20;
+int debug_position_2 = 79;
+int debug_position_3 = 34;
+int debug_position_4 = 109;
 
 extern void copy_kid_to_char(void);
 extern void get_frame_info(void);

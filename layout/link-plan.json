@@ -51,12 +51,7 @@
   "TRIGGER_BRIDGE_FLOOR",
   "LOAD_ALTAR_ROOM",
   "ANIMATE_SACRED_FLAME",
-  "ALTAR_SHADOW_ACTIVE",
-  "PLAY_THRONE_ROOM_NIS",
-  "UNLOAD_THRONE_ROOM",
-  "LOAD_THRONE_ROOM",
-  "OFFSET_THRONE_RECT",
-  "DRAW_THRONE_ROOM_GATE_IN_FORE"
+  "ALTAR_SHADOW_ACTIVE"
  ],
  "root": [
   "prince/prince",
@@ -77,6 +72,7 @@
   "tables/tables",
   "link:frames",
   "diag/diag",
+  "link:resources",
   "link:interrupt_stack"
  ],
  "areas": [
@@ -191,7 +187,8 @@
     "name": "S16_THRONE",
     "files": [
      "throne/throne"
-    ]
+    ],
+    "vectors": true
    }
   ]
  ],
@@ -199,7 +196,6 @@
   {
    "name": "GAMEA",
    "members": [
-    "link:resources",
     "link:builtin_mapping",
     "mcga1/mirrors",
     "normalize_banked_pointer",
@@ -963,7 +959,6 @@
   }
  ],
  "force": [
-  "RES_SND_1",
   "ALERT_20",
   "__aFahdiff"
  ],
@@ -973,5 +968,6 @@
    "segment": "GAMELIB_TEXT",
    "size": 14
   }
- ]
+ ],
+ "unknown_prefix_names": 5
 }

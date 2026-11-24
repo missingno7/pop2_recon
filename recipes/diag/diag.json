@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "2ac23baf6d99047e52be15dda1a9e43c196b9f850bf5892ab8e5d3db11bb8b2a",
+  "binding_sha256": "92832079f9e7dad01e6caf73ed331877c3760042683c37e18f2f760b7dae3eb7",
   "claims": [
     {
       "fixup_count": 12,
@@ -168,7 +168,31 @@
       "name": "FRAME_DIAGNOSTICS",
       "offset": 36,
       "segment": "_DATA",
-      "span": 10,
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4292,
+      "name": "DEBUG_OPTION_1",
+      "offset": 38,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4294,
+      "name": "DEBUG_OPTION_2",
+      "offset": 40,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4296,
+      "name": "DEBUG_OPTION_3",
+      "offset": 42,
+      "segment": "_DATA",
+      "span": 4,
       "unique": true
     },
     {
@@ -176,7 +200,23 @@
       "name": "SHOW_REFERENCE_POSITION",
       "offset": 46,
       "segment": "_DATA",
-      "span": 6,
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4302,
+      "name": "DEBUG_CHECK_1",
+      "offset": 48,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4304,
+      "name": "DEBUG_CHECK_2",
+      "offset": 50,
+      "segment": "_DATA",
+      "span": 2,
       "unique": true
     },
     {
@@ -224,7 +264,39 @@
       "name": "DEBUGKID",
       "offset": 62,
       "segment": "_DATA",
-      "span": 362,
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 4320,
+      "name": "DEBUG_POSITION_1",
+      "offset": 66,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4322,
+      "name": "DEBUG_POSITION_2",
+      "offset": 68,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4324,
+      "name": "DEBUG_POSITION_3",
+      "offset": 70,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4326,
+      "name": "DEBUG_POSITION_4",
+      "offset": 72,
+      "segment": "_DATA",
+      "span": 352,
       "unique": true
     },
     {
@@ -256,12 +328,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "diag/diag",
-  "object_sha256": "f24e7e9eeb29fd202b93f128ae8a66f01f515fe4793dea06a329ec768f4230f1",
+  "object_sha256": "154c9bba91689d21545526791addb93a21989c88f3df1e7673af67c512d21363",
   "origin": 68184,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/diag/diag.c",
-  "source_sha256": "61a8c9013b0c234c0d34f6b5ce23ad1736fb840f552f5c796b2cbdbbabf445d8",
+  "source_sha256": "15532a67cf884a427fd6ffe806548d8b1e425da4859b289ed5ea6d03c454a429",
   "space": "root"
 }

@@ -64,6 +64,10 @@ at their original values without a generated module. `cp` (ANIM.C) and `pFont` (
 names with these sizes and neighbours, and the DOS layout has exactly their gaps. `ExitEdge` (CTRL.C) is the same case.
 MSC writes COMDEF records in symbol-number order modulo 64, so the declarations before a block of communals matter.
 
+The relocation tables also show the original's symbol numbers (evidence/rtlink-probe/prince-scale/README.md, v1.1 part): the
+resource module is a root file after DIAG, the THRONE vectors come from VECTORON at their section, and five ALWAYS names
+before the first object are unknown (placeholders in the plan).
+
 Open: the plan's one `fills` entry (14 missing bytes of the CONVERT_SOUND_HANDLE draft), the declaring module of
 the interrupt stacks and of the `link/` data, the two RTLUTILS members, and the relocation order.
 

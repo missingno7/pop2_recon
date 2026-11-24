@@ -63,6 +63,22 @@ Against the original:
 - PUBDEF and COMDEF records come out in symbol-number order modulo 64 (probe), so the order of a file's publics in the
   original tells in which order it declared them. The ids the tables allow for single publics are few (often one).
 
-Open per object (ids missing in our source, from the fit): CHECKNIS -1, CTRL +1 before `GRAB_ROOF_SHIP` and +1 before
-`APPLY_INPUT`, CUSTOM +2 among its references, DRAW -2, ENGLISH or MISC +1, TABLES or DIAG +7, DIAG -1 before
-`CHECK_HEAP_CHAIN`, INIT and NIS unresolved; the order of every file's publics; the library objects.
+Later the same day:
+- The five THRONE entries are not among the first 40 registered names (their table positions exclude ids 36-40, all
+  others confirm theirs). Linking them through VECTORON at their section gives the identical image and vector table. The
+  original's first object id (51) still needs 40 + 10 earlier names, so five unknown names come before it; the plan holds
+  placeholders.
+- Eight names are registered between DIAG and INIT: the eight publics of the resident resource module, which is therefore
+  a root file after DIAG (identical image when linked that way).
+- DIAG has nine more publics: exactly its nine debug integers.
+- With the counts below, the FIXUP-registered symbols of all 34 C files (1,287 table groups against each other) fit with
+  one descent, and for all but four files an order of the file's publics exists that satisfies every table.
+
+Counts the source does not reproduce yet (fit): CHECKNIS, MOVESPIK, AUTO one public less, DRAW two, NIS eleven (probably
+static functions); MISC or ENGLISH and one of FINAL/AUTOHEAD/AUTOGUAR one public more; CTRL one more symbol before
+`GRAB_ROOF_SHIP`; DIAG refers to no new `TimeVal`; INIT two publics more and two references less; NIS no `MIDI_CUE`.
+
+Why the order itself is not reproduced: a file's publics are numbered by symbol number modulo 64 in the original compile.
+The solved orders mix functions and variables in no source order (PRINCE: `DoBlackOut`, `CheckMeters`, `BlackOut`,
+`clear_keyboard`, ...), as follows from large shared headers. Declaring the names in that order in each file would be a
+construct for the compiler only; the real way is the original header text, which is not known.

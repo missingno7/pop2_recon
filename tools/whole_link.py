@@ -180,12 +180,15 @@ def link(out):
         where = next(q for q in sequences if neighbour in q)
         where.insert(where.index(neighbour) + ("after" in fill), name)
     lines = ["SYNTAX FREEFORMAT", "VERBOSE", "MAP", "OUTPUT POP", *plan["options"], "VECTOROFF"]
-    lines += [f"ALWAYS {n}" for n in plan["vectors"]]
+    # The original's first object symbol has id 51 = 40 + 11, but its THRONE vectors are not among the first 40 names
+    # (docs/rtlink.md): five further ALWAYS names are unknown. Placeholders keep the symbol numbers.
+    lines += [f"ALWAYS {n}" for n in [*plan["vectors"], *(f"UNKNOWN_{k}" for k in range(plan["unknown_prefix_names"]))]]
     lines += [f"FILE {files[n]}" for n in root] + ["FILE VARS"]
 
     def sections(area, indent):
         out_lines = [indent + "BEGINAREA"]
         for section in area:
+            out_lines += [f"{indent}  VECTORON"] if section.get("vectors") else []
             out_lines += [f"{indent}  SECTION = {section['name']}", f"{indent}    COMPRESS ON"]
             out_lines += [f"{indent}    FILE {files[n]}" for n in section["files"]]
             out_lines += [f"{indent}    MODULE {m}" for m in section.get("modules", [])]
@@ -254,7 +257,8 @@ def compare(candidate, oracle):
         report["spaces"][space_name] = row
     total = sum(r["size"] for r in report["spaces"].values())
     equal = total - sum(r["different"] for r in report["spaces"].values())
-    report.update(bytes_total=total, bytes_equal=equal, identical=candidate == oracle.data)
+    report.update(bytes_total=total, bytes_equal=equal, identical=candidate == oracle.data,
+                  relocations_in_order=sum(r["relocations_same_position"] for r in report["spaces"].values()))
     return report
 
 
@@ -279,7 +283,7 @@ def main():
     print(f"{report['bytes_equal']} of {report['bytes_total']} image bytes equal "
           f"({100 * report['bytes_equal'] / report['bytes_total']:.2f}%); MZ header equal: {report['mz_header_equal']}; "
           f"{generated} generated variables")
-    keep = {k: report[k] for k in ("bytes_total", "bytes_equal", "generated_variables", "mz_header_equal")}
+    keep = {k: report[k] for k in ("bytes_total", "bytes_equal", "generated_variables", "mz_header_equal", "relocations_in_order")}
     record = ROOT / "evidence/whole-link.json"
     if args.record:
         record.write_text(json.dumps(keep, indent=1) + "\n", newline="\n")
