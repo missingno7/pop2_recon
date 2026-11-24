@@ -188,7 +188,7 @@ extern void create_shape(Handle, int, CarpetImage far *, int);
 extern void PrinceFreeShp(int);
 extern void dispatch_sound(int);
 extern void MAKESHAPERECT(Rect far *, int, int, Shape far *);
-extern void far _fastcall save_under_shape(int, int, int, int, Byte, Byte);
+extern void far _fastcall add_peel(int, int, int, int, Byte, Byte);
 extern void RestoreKeepCustomPeel(Byte);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern void SaveFChar(void), RestoreFChar(void), init_fchar_rect(void);
@@ -286,7 +286,7 @@ void save_under_carpet(void)
 
     if (carpet && !carpet->saved) {
         shape = get_carpet_shape_info(&ref, 0);
-        save_under_shape(carpet_y, carpet_y + shape->width, carpet_x,
+        add_peel(carpet_y, carpet_y + shape->width, carpet_x,
                          shape->height, 101, 2);
         carpet->saved = 1;
     }

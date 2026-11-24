@@ -4956,13 +4956,29 @@
         },
         {
           "offset": 3,
-          "unproven": "No independent original operand witness for DGROUP offset 0x62a9; used at root+0x4bb7.",
           "witnesses": []
         }
       ],
       "offset": 24904,
-      "unproven": "The near pointer loaded at root+0xfa1c is passed to the same-CS routine at root+0xfb0e; the immediate checker cannot trace the argument through the call. No independent encoded v4 memory operand names DS:62a6.",
-      "witnesses": []
+      "witnesses": [
+        {
+          "bytes_hex": "b84861",
+          "entry": "root:0f9e:01ba",
+          "image_offset": 64662,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "extent": {
+        "kind": "record",
+        "length": 5,
+        "witness": {
+          "space": "root",
+          "image_offset": 19584,
+          "bytes_hex": "8bd8d1e3d1e303d8c687486100",
+          "entry": "root:04b3:0142"
+        }
+      }
     },
     "CUSTOM_ROOM": {
       "group": "DGROUP",

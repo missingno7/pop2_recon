@@ -814,7 +814,7 @@
       "DEATH_TIMER_LIMIT",
       "PROBE_CHAIN_FLOOR",
       "REMOVE_CHAR",
-      "CHANGE_ACTOR_LIFE",
+      "DRAWOPPMETER",
       "CLIP_CHARACTER_AT_WATER",
       "DELAYED_DEATH",
       "SAVE_HANDLE_FLAGS",
@@ -23924,7 +23924,7 @@
         "target": {
           "kind": "external",
           "index": 41,
-          "name": "CHANGE_ACTOR_LIFE",
+          "name": "DRAWOPPMETER",
           "method": 6,
           "zero_displacement": true
         }
@@ -23932,7 +23932,7 @@
       "target": {
         "kind": "external",
         "index": 41,
-        "name": "CHANGE_ACTOR_LIFE",
+        "name": "DRAWOPPMETER",
         "method": 6,
         "zero_displacement": true
       },
@@ -25372,23 +25372,6 @@
           "image_offset": 51970,
           "bytes_hex": "a02e61",
           "entry": "root:0b52:0758"
-        }
-      ]
-    },
-    "CHANGE_ACTOR_LIFE": {
-      "entry_sha256": "a8cfab202db7c83310a51a88f1031fb17a6b60f49f6d05989175b246e15bcb1e",
-      "entry_target_id": "root:0790:25d4",
-      "kind": "far-code-entry",
-      "offset": 9684,
-      "segment": 1936,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 2381,
-          "bytes_hex": "9ad4259007",
-          "file_offset": 10573,
-          "relocation_index": 59
         }
       ]
     },
@@ -27242,6 +27225,15 @@
       "space": "root",
       "segment": 8718,
       "offset": 3611,
+      "witnesses": []
+    },
+    "DRAWOPPMETER": {
+      "entry_sha256": "a8cfab202db7c83310a51a88f1031fb17a6b60f49f6d05989175b246e15bcb1e",
+      "entry_target_id": "root:0790:25d4",
+      "kind": "far-code-entry",
+      "offset": 9684,
+      "segment": 1936,
+      "space": "root",
       "witnesses": []
     }
   },

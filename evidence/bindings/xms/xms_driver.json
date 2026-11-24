@@ -1,13 +1,30 @@
 {
   "declarations": {
-    "externals": [
-      "XMS_ENTRY_SEGMENT",
-      "XMS_POSITION",
-      "XMS_CAPACITY_HI",
-      "XMS_CAPACITY_LO",
-      "XMS_ENTRY",
-      "XMS_POSITION_HI",
-      "XMS_HANDLE"
+    "segments": [
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "XMS_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 625,
+        "alignment": 1,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -19,1115 +36,1096 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "XMS_PROBE",
-        "offset": 557,
         "segment": "XMS_TEXT",
         "segment_index": 2,
+        "offset": 557,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "XMS_DRIVER",
-        "offset": 0,
         "segment": "XMS_TEXT",
         "segment_index": 2,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 1,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 625,
-        "name": "XMS_TEXT",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "XMS_POSITION",
+      "XMS_CAPACITY_HI",
+      "XMS_CAPACITY_LO",
+      "XMS_ENTRY",
+      "XMS_POSITION_HI",
+      "XMS_HANDLE"
     ]
   },
   "fixups": [
     {
-      "displacement": 20,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "XMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 18,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 32,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 20
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 20,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 37,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 32
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 22,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 83,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 37
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 24,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 100,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 83
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 26,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 158,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 100
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 28,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 314,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 158
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 30,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 557,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 314
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 33,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 2,
         "name": "XMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 557
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 45,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 5,
         "kind": "external",
-        "method": 6,
+        "index": 4,
         "name": "XMS_ENTRY",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 557,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "XMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 51,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 2,
         "name": "XMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 557
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 64,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 68,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "XMS_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 72,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_LO",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "XMS_CAPACITY_LO",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 86,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "XMS_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 93,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 121,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_LO",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "XMS_CAPACITY_LO",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 126,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "XMS_CAPACITY_HI",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 131,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "XMS_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 136,
-      "self_relative": false,
-      "target": {
-        "index": 6,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_POSITION_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 5,
+        "name": "XMS_POSITION_HI",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 149,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "XMS_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 154,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 6,
         "kind": "external",
-        "method": 6,
+        "index": 5,
         "name": "XMS_POSITION_HI",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 178,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "XMS_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 185,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "XMS_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 201,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "XMS_CAPACITY_HI",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 209,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_LO",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "XMS_CAPACITY_LO",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 227,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 259,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "XMS_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 281,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 5,
         "kind": "external",
-        "method": 6,
+        "index": 4,
         "name": "XMS_ENTRY",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 128,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "XMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 309,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 115,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 128
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 312,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 2,
         "name": "XMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 115
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 334,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "XMS_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 341,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "XMS_POSITION",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 357,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "XMS_CAPACITY_HI",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 365,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_LO",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 392,
-      "self_relative": false,
       "target": {
-        "index": 7,
         "kind": "external",
-        "method": 6,
-        "name": "XMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 396,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": 115,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "XMS_TEXT"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 402,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 410,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_CAPACITY_LO",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 414,
-      "self_relative": false,
-      "target": {
         "index": 3,
-        "kind": "external",
+        "name": "XMS_CAPACITY_LO",
         "method": 6,
-        "name": "XMS_CAPACITY_HI",
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 392,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 434,
-      "self_relative": false,
       "target": {
-        "index": 5,
         "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 466,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
+        "index": 6,
         "name": "XMS_HANDLE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 396,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 402,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 115
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 410,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "XMS_CAPACITY_LO",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 414,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "XMS_CAPACITY_HI",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 434,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 466,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "XMS_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 488,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 546,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 5,
         "kind": "external",
-        "method": 6,
+        "index": 4,
         "name": "XMS_ENTRY",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 128,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "XMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 552,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "XMS_TEXT"
-      }
-    },
-    {
-      "displacement": 401,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 2,
         "name": "XMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 128
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 555,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 2,
         "name": "XMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "XMS_TEXT",
+        "method": 0
+      },
+      "displacement": 401
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 576,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 580,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY_SEGMENT",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 2
+      },
+      "displacement": 2
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
       "segment_index": 2,
+      "segment": "XMS_TEXT",
       "segment_offset": 586,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "XMS_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "XMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 597,
-      "self_relative": false,
       "target": {
-        "index": 5,
         "kind": "external",
-        "method": 6,
+        "index": 4,
         "name": "XMS_ENTRY",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "XMS_TEXT",
+      "segment_offset": 597,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "XMS_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
@@ -1162,14 +1160,23 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 9878,
-      "witnesses": []
-    },
-    "XMS_ENTRY_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9880,
-      "unproven": "The equal EMS use is behind an indirect dispatch.",
-      "witnesses": []
+      "witnesses": [],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "pointer",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "image_offset": 130768,
+          "bytes_hex": "ff1e9626",
+          "entry": "root:1fc8:0235"
+        }
+      }
     },
     "XMS_HANDLE": {
       "group": "DGROUP",

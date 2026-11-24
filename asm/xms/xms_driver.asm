@@ -5,7 +5,6 @@
 
 _DATA SEGMENT WORD PUBLIC 'DATA'
 EXTRN xms_entry:DWORD
-EXTRN xms_entry_segment:WORD
 EXTRN xms_handle:WORD
 EXTRN xms_position:DWORD
 EXTRN xms_position_hi:WORD
@@ -293,7 +292,7 @@ XMS_PROBE PROC NEAR
     mov ax, 4310h
     int 2Fh
     mov WORD PTR [xms_entry], bx
-    mov WORD PTR [xms_entry_segment], es
+    mov WORD PTR [xms_entry+2], es
     sub ah, ah
     call [xms_entry]
     cmp ah, 2

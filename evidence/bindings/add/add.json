@@ -12424,6 +12424,7 @@
         }
       ],
       "offset": 0,
+      "offset_witnesses": [],
       "segment": 12733,
       "segment_witnesses": [
         {
@@ -12431,8 +12432,7 @@
           "image_offset": 34081,
           "relocation_index": 703
         }
-      ],
-      "consensus": true
+      ]
     },
     "CHAR": {
       "extent": {
@@ -13689,7 +13689,6 @@
         },
         {
           "offset": 3,
-          "unproven": "No independent original operand witness for DGROUP offset 0x6149; used at root+0x1c28.",
           "witnesses": []
         }
       ],
@@ -13709,7 +13708,17 @@
           "bytes_hex": "8b87ee5f",
           "entry": "overlay-5:2bda:0904"
         }
-      ]
+      ],
+      "extent": {
+        "kind": "record",
+        "length": 6,
+        "witness": {
+          "space": "root",
+          "image_offset": 7218,
+          "bytes_hex": "8bcbd1e303d9d1e38987ee5f",
+          "entry": "root:0170:04f0"
+        }
+      }
     },
     "PEEL_RESTORE_MODE": {
       "group": "DGROUP",
@@ -13867,7 +13876,6 @@
         },
         {
           "offset": 358,
-          "unproven": "No independent original operand witness for DGROUP offset 0x5e26; used at root+0x2849.",
           "witnesses": [
             {
               "bytes_hex": "813edc5c5802",

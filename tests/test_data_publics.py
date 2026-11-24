@@ -426,6 +426,88 @@ class IndexExtentTests(unittest.TestCase):
             self.assertIsNone(index_extent(bytes.fromhex(code), 0x1E7B), code)
 
 
+class RecordExtentTests(unittest.TestCase):
+    """Stepping through [r+S] with an index of d times one unknown proves records of d bytes at S."""
+
+    def stride(self, code, base, **kw):
+        from binding import record_stride
+        return record_stride(bytes.fromhex(code), base, **kw)
+
+    def test_original_tile_and_object_records(self):
+        from oracle import Oracle
+        from binding import record_stride
+        root = Oracle.load().spaces["root"]
+        self.assertEqual(record_stride(root.data[0x7D34:0x7D44], 0x61AA), 5)      # shifts and an add
+        self.assertEqual(record_stride(root.data[0xD808:0xD81A], 0x5D44), 23)     # imul by a constant register
+        self.assertIsNone(record_stride(root.data[0x7D34:0x7D44], 0x61AB))
+
+    def test_the_scale_must_be_visible_and_the_index_one_unknown(self):
+        self.assertEqual(self.stride("8bd8d1e3d1e303d88a87aa61", 0x61AA), 5)
+        self.assertEqual(self.stride("b016f62ede5c8bd88a87aa61", 0x61AA), 22)     # byte mul by a constant
+        for code in ("8bd88a87aa61",                          # no scale
+                     "8bd8d1e3d1e303d98a87aa61",              # two unknowns added
+                     "8bd8d1e3d1e303d88a1e0e018a87aa61",      # BL replaced afterwards
+                     "8bd8d1e3d1e303d88d87aa61",              # LEA is no access
+                     "8bd8d1e3d1e303d8268a87aa61",            # ES
+                     "8bd8d1e3d1e303d88a80aa61",              # two index registers
+                     "bb0500d1e38a87aa61"):                   # a constant index
+            self.assertIsNone(self.stride(code, 0x61AA), code)
+        with self.assertRaisesRegex(Exception, "straight-line"):
+            self.stride("8bd8d1e3740003d88a87aa61", 0x61AA)
+
+    def test_es_records_need_the_es_access(self):
+        self.assertEqual(self.stride("b91400f7e98bd8268987f811", 0x11F8, es=True), 20)
+        self.assertIsNone(self.stride("b91400f7e98bd88987f811", 0x11F8, es=True))
+
+
+class FillExtentTests(unittest.TestCase):
+    """REP STOS of a constant count at a constant DGROUP address fills one unit."""
+
+    def test_original_redraw_table_clear(self):
+        from oracle import Oracle
+        from binding import fill_extent
+        root = Oracle.load().spaces["root"]
+        self.assertEqual(fill_extent(root.data[0xC9A1:0xC9B9], 0x6248), 300)
+        self.assertIsNone(fill_extent(root.data[0xC9A1:0xC9B9], 0x64FA))          # an earlier fill of the window
+
+    def test_every_part_is_required(self):
+        from binding import fill_extent
+        self.assertEqual(fill_extent(bytes.fromhex("1e07bf4862b91000f3ab"), 0x6248), 32)
+        for code in ("bf4862b91000f3ab",                      # ES unknown
+                     "1e07bf4862f3ab",                        # no count
+                     "1e07bf4862b91000b108f3ab",              # count changed
+                     "1e07bf486247b91000f3ab",                # DI changed
+                     "1e07fdbf4862b91000f3ab",                # backwards
+                     "1607bf4862b91000f3ab"):                 # ES = SS
+            self.assertIsNone(fill_extent(bytes.fromhex(code), 0x6248), code)
+
+
+class FarReadExtentTests(unittest.TestCase):
+    """A callee that reads L bytes in sequence through a DS:S argument proves [S, S+L) is one unit."""
+
+    def setUp(self):
+        from oracle import Oracle
+        self.root = Oracle.load().spaces["root"]
+
+    def test_inset_rect_reads_the_screen_rectangle(self):
+        from binding import call_arguments, far_read_extent
+        arguments = call_arguments(self.root.data[0x5832:0x5841])
+        self.assertEqual(arguments, {6: 9, 8: 9, 10: 0x1F2A, 12: "ds"})
+        body = self.root.data[0x1629C:0x162BD]
+        self.assertEqual(far_read_extent(body, 0x1F2A, arguments), 8)
+        self.assertIsNone(far_read_extent(body, 0x1F2C, arguments))
+        self.assertIsNone(far_read_extent(body, 0x1F2A, {10: 0x1F2A}))            # not the caller's DS
+        self.assertIsNone(far_read_extent(body, 9, {10: 0x1F2A, 12: "ds", 14: 9, 16: "ds"}))
+
+    def test_nothing_else_may_move_the_pointer(self):
+        from binding import far_read_extent
+        arguments = {6: 0x1F2A, 8: "ds"}
+        self.assertEqual(far_read_extent(bytes.fromhex("558bec561ec57606adac"), 0x1F2A, arguments), 3)
+        for code in ("558bec561ec576064ead", "558bec561ec576061607ad1fad", "558bec561efdc57606ad",
+                     "558bec895e06c57606ad"):
+            self.assertIsNone(far_read_extent(bytes.fromhex(code), 0x1F2A, arguments), code)
+
+
 class ArchivePublicTests(unittest.TestCase):
     """A pinned library member's unique data can be the provider of an extern."""
     ARCHIVE = {"library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
@@ -478,7 +560,7 @@ class CallArgumentExtentTests(unittest.TestCase):
         at = self.root.data.find(bytes.fromhex("b80a5d50b82a1f1e509ac24f2911"))
         self.assertEqual(at, 0x13EE)
         arguments = call_arguments(self.root.data[at:at + 14])
-        self.assertEqual(arguments, {6: 0x1F2A, 10: 0x5D0A})
+        self.assertEqual(arguments, {6: 0x1F2A, 8: "ds", 10: 0x5D0A})
         self.assertEqual(block_copy_extent(self.root.data[lo:hi], lo, 0x5D0A, arguments), 44)
         self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x1F2A, arguments))   # not the copied argument
         self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x5D0A, {6: 0x5D0A}))  # another slot

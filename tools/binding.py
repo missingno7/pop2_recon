@@ -421,16 +421,131 @@ def pointer_extent(raw, base):
     return 4 if ok else None
 
 
+def fill_extent(raw, base):
+    """Bytes the straight-line original window `raw` fills from DGROUP offset `base`, else None.
+
+    The last instruction is REP STOSW/STOSB with ES = DS loaded in the window (`push ds; pop es` or `mov ax,ds;
+    mov es,ax`), DI = base (a constant, possibly through registers) and CX = a constant. Earlier fills in the window
+    are followed (DI then unknown, CX 0). The program then clears or sets [base, base+L) as one unit, as a block copy."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    sizes = {b"\xf3\xab": 2, b"\xf3\xaa": 1}
+    value, es_ds, ds_ok, prev = {}, False, True, b""
+    require(rows and bytes(rows[-1].bytes) in sizes, "Fill window must end in REP STOS")
+    for insn in rows:
+        b, ops, source = bytes(insn.bytes), insn.operands, None
+        if insn is rows[-1]:
+            count = value.get("cx")
+            return count * sizes[b] if es_ds and count and value.get("di") == base else None
+        if b in sizes:
+            value.pop("di", None)
+            value["cx"], prev = 0, b
+            continue
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Extent witness window must be straight-line")
+        if b == b"\xfd":
+            return None
+        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].size == 2:
+            source = (ops[1].imm & 0xFFFF if ops[1].type == xc.X86_OP_IMM else
+                      value.get(insn.reg_name(ops[1].reg)) if ops[1].type == xc.X86_OP_REG else None)
+        written = registers_written(insn)
+        for name in written:
+            for full in ("ax", "bx", "cx", "dx"):
+                if name in (full[0] + "l", full[0] + "h"):
+                    value.pop(full, None)
+            value.pop(name, None)
+        if "ds" in written:
+            ds_ok = False
+        if "es" in written:
+            es_ds = ds_ok and ((b == b"\x07" and prev == b"\x1e") or (b == b"\x8e\xc0" and prev == b"\x8c\xd8"))
+        if source is not None:
+            value[insn.reg_name(ops[0].reg)] = source
+        prev = b
+    return None
+
+
+def record_stride(raw, base, es=False):
+    """d when the straight-line original window `raw` ends in one access [r+base] (default DS; ES: with `es`) whose index
+    register holds d (>= 2) times one unknown value, computed inside the window; else None.
+
+    The program then steps through memory at `base` in records of d bytes, so it addresses an array there. Only
+    register moves, adding or subtracting a register, shifts by a constant and multiplication by a constant are
+    followed; anything else makes the register a new unknown of factor 1. Every unknown may itself be a multiple of
+    something, so the real record can only be longer than d."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    halves = {"ax": ("al", "ah"), "bx": ("bl", "bh"), "cx": ("cl", "ch"), "dx": ("dl", "dh")}
+    names = ("ax", "bx", "cx", "dx", "si", "di")
+    fresh = iter(range(1, 10000))
+    value = {n: (next(fresh), 1) for n in names}     # (unknown, factor); unknown 0 is the constant 1
+    half = {}                                        # constants in byte registers
+
+    def constant(op, insn):
+        if op.type == xc.X86_OP_IMM:
+            return op.imm
+        name = insn.reg_name(op.reg) if op.type == xc.X86_OP_REG else ""
+        return half.get(name) if op.size == 1 else value[name][1] if name in value and value[name][0] == 0 else None
+
+    require(len(rows) >= 2, "Record window needs the index computation")
+    for insn in rows[:-1]:
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Record window must be straight-line")
+        ops, name, result, low = insn.operands, insn.mnemonic, None, None
+        target = insn.reg_name(ops[0].reg) if ops and ops[0].type == xc.X86_OP_REG else ""
+        source = insn.reg_name(ops[1].reg) if len(ops) == 2 and ops[1].type == xc.X86_OP_REG else ""
+        if name == "mov" and target in value:
+            result = value.get(source) or ((0, ops[1].imm & 0xFFFF) if ops[1].type == xc.X86_OP_IMM else None)
+        elif name == "mov" and target and ops[0].size == 1 and ops[1].type == xc.X86_OP_IMM:
+            low = ops[1].imm & 0xFF
+        elif name in ("add", "sub") and target in value and source in value:
+            (a, m), (b, k) = value[target], value[source]
+            if a == b:
+                result = (a, m + k if name == "add" else m - k)
+        elif name in ("shl", "sal") and target in value:
+            count = 1 if len(ops) == 1 else constant(ops[1], insn)
+            if count is not None and 0 < count < 16:
+                result = (value[target][0], value[target][1] << count)
+        elif name in ("imul", "mul") and len(ops) == 1:
+            k = constant(ops[0], insn)
+            if ops[0].size == 1:
+                k = half.get("al") if k is None else k
+                result = (next(fresh), k) if k else None
+            elif k is not None:
+                result = (value["ax"][0], value["ax"][1] * k)
+            elif value["ax"][0] == 0:
+                other = value.get(target, (next(fresh), 1))
+                result = (other[0], other[1] * value["ax"][1])
+            target = "ax"
+        written = registers_written(insn)
+        for full in names:
+            if written & {full, *halves.get(full, ())}:
+                value[full] = (next(fresh), 1)
+                for part in halves.get(full, ()):
+                    half.pop(part, None)
+        if result is not None:
+            value[target] = result
+        if low is not None:
+            half[target] = low
+    access = rows[-1]
+    memory = [o for o in access.operands if o.type == xc.X86_OP_MEM]
+    if len(memory) != 1 or access.disp_size != 2 or memory[0].mem.disp & 0xFFFF != base or access.mnemonic == "lea" or             (memory[0].mem.segment != xc.X86_REG_ES if es else
+             _not_dgroup(memory[0]) or memory[0].mem.segment not in (0, xc.X86_REG_DS)):
+        return None
+    used = [r for r in (memory[0].mem.base, memory[0].mem.index) if r]
+    if len(used) != 1 or access.reg_name(used[0]) not in value:
+        return None
+    unknown, factor = value[access.reg_name(used[0])]
+    return factor if unknown and 2 <= factor < 0x8000 else None
+
+
 def call_arguments(raw):
     """Stack words a straight-line original window passes to the far CALL that ends it, as {disp: value}: disp is the
-    callee's [bp+disp] after `push bp; mov bp,sp` (6 for the last word pushed), value the pushed constant. Words that
-    are not constants loaded in the window are absent; `push ds` is absent too."""
+    callee's [bp+disp] after `push bp; mov bp,sp` (6 for the last word pushed), value the pushed constant or "ds" for
+    `push ds` while DS is unchanged. Other words are absent."""
     _, xc = _capstone()
     rows = instructions(raw)
     require(len(rows) >= 2 and rows[-1].bytes[0] == 0x9a and
             not any(set(r.groups).intersection((1, 2, 3, 4, 5, 7)) for r in rows[:-1]),
             "Call window must be straight-line code ending in one far CALL")
-    value, stack = {}, []
+    value, stack = {"ds": "ds"}, []
     for insn in rows[:-1]:
         ops = insn.operands
         if insn.mnemonic == "push":
@@ -448,7 +563,7 @@ def call_arguments(raw):
                 if name in (full, full[0] + "l", full[0] + "h"):
                     value.pop(full, None)
             value.pop(name, None)
-        if source is not None:
+        if source is not None and insn.reg_name(ops[0].reg) != "ds":
             value[insn.reg_name(ops[0].reg)] = source
     return {6 + 2 * k: v for k, v in enumerate(reversed(stack)) if v is not None}
 
@@ -504,6 +619,7 @@ def block_copy_extent(raw, at, base, arguments=None):
             elif arguments and ops[1].type == xc.X86_OP_MEM and ops[1].mem.base == xc.X86_REG_BP and \
                     ops[1].mem.index == ops[1].mem.segment == 0:
                 source = arguments.get(ops[1].mem.disp)
+                source = None if source == "ds" else source
         written = registers_written(insn)
         if arguments is not None and any(o.type == xc.X86_OP_MEM and xc.X86_REG_BP in (o.mem.base, o.mem.index)
                                          for o in ops[:1]):
@@ -524,6 +640,36 @@ def block_copy_extent(raw, at, base, arguments=None):
                 count = source
         prev = b
     return copied if run else None
+
+
+def far_read_extent(raw, base, arguments):
+    """Bytes a callee reads in sequence through a far pointer argument that is DS:base, else None.
+
+    `raw` starts at the callee's entry (`push bp; mov bp,sp`) and is straight-line; `lds si,[bp+a]` loads the argument
+    (`arguments[a] == base`, `arguments[a+2] == "ds"`: the caller's DS, which is DGROUP) and every following LODSW/LODSB
+    reads the next bytes. Nothing else writes SI, DS or the frame, and there is no STD."""
+    _, xc = _capstone()
+    require(raw[:3] == b"\x55\x8b\xec", "Callee window must start with its stack frame")
+    loaded, length = False, 0
+    for insn in instructions(raw)[2:]:
+        b = bytes(insn.bytes)
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Extent witness window must be straight-line")
+        ops, written = insn.operands, registers_written(insn)
+        if b == b"\xfd" or "bp" in written:
+            return None
+        if not loaded and ops and ops[0].type == xc.X86_OP_MEM and insn.mnemonic != "push":
+            return None  # an argument slot may have been written
+        if insn.mnemonic == "lds" and insn.reg_name(ops[0].reg) == "si":
+            mem = ops[1].mem
+            if loaded or mem.base != xc.X86_REG_BP or mem.index or mem.segment or \
+                    arguments.get(mem.disp) != base or arguments.get(mem.disp + 2) != "ds":
+                return None
+            loaded = True
+        elif b in (b"\xad", b"\xac"):
+            length += (2 if b == b"\xad" else 1) if loaded else 0
+        elif loaded and {"si", "ds"} & written:
+            return None
+    return length or None
 
 
 def ground(binding, target, oracle, claimed=None):
@@ -602,9 +748,11 @@ def ground(binding, target, oracle, claimed=None):
             if "extent" in symbol:
                 spec = symbol["extent"]
                 kind = spec.get("kind")
-                require(set(spec) <= {"length", "witness", "call", "kind"} and {"length", "witness"} <= set(spec) and
+                require(set(spec) <= {"length", "witness", "call", "kind", "next"} and {"length", "witness"} <= set(spec) and
                         ((symbol["witnesses"] or internal and "call" not in spec) and kind is None or
-                         kind in ("index", "pointer") and "call" not in spec),
+                         kind in ("index", "pointer", "record", "fill") and "call" not in spec or
+                         kind == "far-read" and "call" in spec and symbol["witnesses"]) and
+                        ("next" not in spec or kind == "record"),
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
                 # In a group the copy may itself lie inside a claim (2026-11-23): its length is an
                 # original fact about [S, S+L). An index witness is S's only evidence, so it must stay outside
@@ -627,10 +775,24 @@ def ground(binding, target, oracle, claimed=None):
                             "Extent call is not a reached, relocated far CALL of the copying routine")
                     arguments = call_arguments(craw)
                     require(offset in arguments.values(), "Extent call does not pass the symbol's address")
-                length = (index_extent(raw, offset) if kind == "index" else pointer_extent(raw, offset)
-                          if kind == "pointer" else block_copy_extent(raw, at, offset, arguments))
+                if kind == "record":
+                    # The program steps through records of d bytes at S. With a second window that steps through the
+                    # same records at S+d (element v+1), records 0 and 1 both belong to the array.
+                    length = record_stride(raw, offset)
+                    if "next" in spec and length is not None:
+                        nat, nraw = witness(spec["next"], draft_ok=True, anywhere=True)
+                        require("entry" in spec["next"] and nat in reachable_from_entry(oracle, spec["next"]["entry"]) and
+                                record_stride(nraw, (offset + length) & 0xFFFF) == length,
+                                "Record extent's next window does not step through the same records")
+                        length *= 2
+                else:
+                    length = (index_extent(raw, offset) if kind == "index" else pointer_extent(raw, offset)
+                              if kind == "pointer" else far_read_extent(raw, offset, arguments)
+                              if kind == "far-read" else fill_extent(raw, offset)
+                              if kind == "fill" else block_copy_extent(raw, at, offset, arguments))
                 require(length is not None and length == spec["length"],
-                        "Extent witness is not a block copy, bounded index or far pointer access of that length at the symbol")
+                        "Extent witness is not a block copy, fill, bounded index, far pointer access, record array or "
+                        "argument read of that length at the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
                         type(m.get("witnesses")) is list and
                         (m["witnesses"] or internal or m["offset"] < length or

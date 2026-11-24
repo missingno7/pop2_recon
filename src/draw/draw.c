@@ -73,7 +73,7 @@ extern void SetSideRoomInfo(void);
 extern void prepare_row(void);
 extern void GetBelowAry(void);
 extern void select_draw_cell(void);
-extern void draw_custom_above_row(void);
+extern void GetCustomAboveAry(void);
 extern void redraw_room_sure(void);
 extern void redraw_cell_sure(void);
 
@@ -156,7 +156,7 @@ void redraw_room_sure(void)
         Room.number = (RoomNumber)saved_room;
         get_rooms();
     } else {
-        draw_custom_above_row();
+        GetCustomAboveAry();
     }
 }
 
@@ -1030,7 +1030,7 @@ next_row:
         Room.number = saved_room;
         get_rooms();
     } else {
-        draw_custom_above_row();
+        GetCustomAboveAry();
     }
     draw_cell_objects(-1);
 }
@@ -1388,7 +1388,7 @@ extern FCHARREC FChar;
 extern int active_object_offset;
 extern int middle_count;
 extern int far _fastcall add_middle_image(unsigned char set, int image, int x, int y, unsigned char order);
-extern void draw_overlay_object_13(unsigned char type);
+extern void draw_obj_carpet(unsigned char type);
 extern void DrawObjSpikes(unsigned char type);
 extern void draw_object_slide_rock(unsigned char type);
 extern void draw_object_trapdoor(unsigned char type);
@@ -1418,7 +1418,7 @@ void draw_cell_object(signed char index)
         }
         break;
     case 13:
-        draw_overlay_object_13(type);
+        draw_obj_carpet(type);
         break;
     case 0x80: case 0x81: case 0x83:
         draw_loose_object(type);
@@ -1777,7 +1777,7 @@ extern DrawRect screen_bounds;
 extern void PrincePaintShapeIdx(int table, int image, int x, int y, int flags, int mode);
 extern void load_kid_with_opponent(signed char guard);
 extern CHARREC Opp;
-extern void draw_opponent_meter(signed char guard, int life, int max_life);
+extern void DrawOppMeter(signed char guard, int life, int max_life);
 
 void DrawKidMeter(int life, int max_life)
 {
@@ -1806,7 +1806,7 @@ void draw_meters(void)
 {
     if (Kid.opponent_index >= 0 && Kid.opponent_index < 5) {
         load_kid_with_opponent(Kid.opponent_index);
-        draw_opponent_meter(Opp.slot, Opp.life_points, Opp.life_initial);
+        DrawOppMeter(Opp.slot, Opp.life_points, Opp.life_initial);
     }
     DrawKidMeter(Kid.life_points, Kid.life_initial);
 }
@@ -1814,7 +1814,7 @@ void draw_meters(void)
 extern signed char pick_hidden_actor(unsigned char slot);
 extern void load_actor_slot(signed char guard);
 
-void draw_opponent_meter(signed char guard, int life, int max_life)
+void DrawOppMeter(signed char guard, int life, int max_life)
 {
     DrawRect rect;
     struct RectCorner { int bottom, right; };

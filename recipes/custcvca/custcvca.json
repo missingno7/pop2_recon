@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custcvca/custcvca.json",
-  "binding_sha256": "51ca374582bb61cfa289c736a8e617c61b1073099abfa078312e6ab5e6e5df72",
+  "binding_sha256": "ee672d700f5a2735f8be4061db11e261b2ca3968b28a965c47939c5b38a0865c",
   "claims": [
     {
       "fixup_count": 3,
@@ -62,6 +62,18 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-13:2fcd:01e6"
+    },
+    {
+      "fixup_count": 32,
+      "public": "DRAW_OBJ_CARPET",
+      "relocation_indices": [
+        0,
+        6,
+        17
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-13:2fcd:023a"
     },
     {
       "fixup_count": 2,
@@ -215,15 +227,6 @@
       "target_id": "overlay-13:2fcd:0786"
     }
   ],
-  "code_matches": [
-    {
-      "public": "DRAW_OBJ_CARPET",
-      "target_id": "overlay-13:2fcd:023a",
-      "unproven": [
-        "CELL_OBJECTS+0xb"
-      ]
-    }
-  ],
   "drafts": [],
   "emitted_size": 1996,
   "flags": [
@@ -239,12 +242,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "custcvca/custcvca",
-  "object_sha256": "1019c7955bd25fb7bb1fe57bdb8ffd533d71a6629f6c0f508100b8b85fa841ef",
+  "object_sha256": "178b59818e2b528687f4eb282d05173554685900a34688a3e76b4a798f38e279",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custcvca/custcvca.c",
-  "source_sha256": "956b3867d755ffa059fa2a12e0638fc8b514b984b1f2c4a0b33db95c8aaba7ab",
+  "source_sha256": "bdbe1187078654ab0233da02be299890adca3a9d1a34febc97f05d86fa3cf3ed",
   "space": "overlay-13"
 }

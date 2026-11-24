@@ -844,7 +844,7 @@ extern int opponent_review_delay;
 void far pascal load_actor_slot(signed char index);
 int far pascal query_sound(int object_id);
 void far pascal add_opponent_death_song(void);
-void far pascal refresh_actor_life(signed char index, int change, int life);
+void far pascal DrawOppMeter(signed char index, int change, int life);
 void far pascal copy_kid_to_char(void);
 void far pascal setup_char(void);
 void far pascal get_char_edges(void);
@@ -883,7 +883,7 @@ void far pascal cut_room_opponents(void)
         }
 
         add_opponent_death_song();
-        refresh_actor_life(actor_index, 0, Char.life_points);
+        DrawOppMeter(actor_index, 0, Char.life_points);
         if (Kid.opponent_index == actor_index)
             Kid.opponent_index = -1;
     }

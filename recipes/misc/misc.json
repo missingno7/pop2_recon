@@ -1,7 +1,18 @@
 {
   "binding": "evidence/bindings/misc/misc.json",
-  "binding_sha256": "a14e95911bf9bb7d48d373603fec883215eb7d2bdf436d01c626e9cb4d09cff3",
+  "binding_sha256": "00b0c6d0eefdc1e8bd0509fa184fd348e02764949ce492e11db93771aa9b652b",
   "claims": [
+    {
+      "fixup_count": 16,
+      "public": "GETOBJECT",
+      "relocation_indices": [
+        1327,
+        1334
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f9e:03a8"
+    },
     {
       "fixup_count": 4,
       "public": "SELECT_ROOM_ARRAYS",
@@ -96,6 +107,11 @@
       "target_id": "root:0f9e:0738"
     },
     {
+      "fixup_count": 17,
+      "public": "SETSIDEROOMINFO",
+      "target_id": "root:0f9e:08b6"
+    },
+    {
       "fixup_count": 26,
       "public": "RELEASE_DISCARDABLE_IMAGES",
       "relocation_indices": [
@@ -128,18 +144,6 @@
   ],
   "code_matches": [
     {
-      "public": "GETOBJECT",
-      "target_id": "root:0f9e:03a8",
-      "unproven": [
-        "LEFT_TILES",
-        "LEFT_TILES+0x1",
-        "LEFT_TILES+0x3",
-        "RIGHT_TILES",
-        "RIGHT_TILES+0x1",
-        "RIGHT_TILES+0x3"
-      ]
-    },
-    {
       "public": "GETABOVEARY",
       "target_id": "root:0f9e:01ba",
       "unproven": [
@@ -153,16 +157,6 @@
         "CELLRIGHT",
         "CELLRIGHT+0x1",
         "CELLRIGHT+0x2"
-      ]
-    },
-    {
-      "public": "SETSIDEROOMINFO",
-      "target_id": "root:0f9e:08b6",
-      "unproven": [
-        "LEFT_TILES",
-        "LEFT_TILES+0x1",
-        "RIGHT_TILES",
-        "RIGHT_TILES+0x1"
       ]
     }
   ],

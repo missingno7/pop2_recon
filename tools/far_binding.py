@@ -86,6 +86,44 @@ def _carried_pointer(rows, load, value):
     return False
 
 
+def _selector_word(spec, segment, oracle):
+    """The DGROUP word at `selector_offset` is an original relocated word storing `segment`."""
+    from module_gate import _dgroup_home
+    home, dgroup = _dgroup_home({"dgroup_segment": spec["dgroup_segment"]}, oracle.spaces["root"], oracle)
+    word = dgroup + spec["selector_offset"]
+    relocs = [r for r in home.relocations if r["image_offset"] == word]
+    require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
+            struct.unpack_from("<H", home.data, word)[0] == segment,
+            "Selector word is not an original relocated DGROUP word storing the segment")
+
+
+def _record_window(spec, segment, value, oracle):
+    """Stride of one reached original window that steps through records at segment:value: its only ES load is
+    `mov es,[D]` (D a selector word of `segment`) or a relocated `mov r16,N` directly followed by `mov es,r16`, and
+    `binding.record_stride` follows the index of its last instruction, an ES access with displacement `value`."""
+    from binding import instructions, reachable_from_entry, record_stride, registers_written
+    wspace = oracle.spaces[spec["space"]]
+    at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
+    require(wspace.data[at:at + len(raw)] == raw and spec["entry"].split(":")[0] == spec["space"] and
+            at in reachable_from_entry(oracle, spec["entry"]), "Record window is not reached original code")
+    rows = instructions(raw)
+    loads = [k for k, i in enumerate(rows) if {"es", "ds"} & registers_written(i)]
+    require(len(loads) == 1, "Record window needs exactly one ES load and no DS load")
+    load = rows[loads[0]]
+    if bytes(load.bytes[:2]) == b"\x8e\x06":
+        require(struct.unpack_from("<H", load.bytes, 2)[0] == spec.get("selector_offset"),
+                "Record window loads ES from another word")
+        _selector_word(spec, segment, oracle)
+    else:
+        before = rows[loads[0] - 1] if loads[0] else None
+        require(before is not None and before.bytes[0] & 0xF8 == 0xB8 and
+                bytes(load.bytes) == bytes((0x8E, 0xC0 | before.bytes[0] & 7)) and
+                struct.unpack_from("<H", before.bytes, 1)[0] == segment and
+                any(r["image_offset"] == at + before.address + 1 for r in wspace.relocations),
+                "Record window's ES is not loaded with the relocated segment")
+    return record_stride(raw, value, es=True)
+
+
 def _far_window(spec, raw, at, wspace, symbol, value, oracle):
     """Explicit original far-address forms pairing offset `value` with segment N (2026-11-23):
     - `selector-access`: `mov es,[D]` first, straight-line code with no write to ES or DS, and a
@@ -113,12 +151,7 @@ def _far_window(spec, raw, at, wspace, symbol, value, oracle):
                 struct.unpack_from("<H", load[0].bytes, 2)[0] == spec["selector_offset"],
                 "Selector window must start with mov es,[D]" if spec["kind"] != "selector-pointer" else
                 "Pointer window must hold exactly one mov es,[D]")
-        home, dgroup = _dgroup_home({"dgroup_segment": spec["dgroup_segment"]}, oracle.spaces["root"], oracle)
-        word = dgroup + spec["selector_offset"]
-        relocs = [r for r in home.relocations if r["image_offset"] == word]
-        require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
-                struct.unpack_from("<H", home.data, word)[0] == segment,
-                "Selector word is not an original relocated DGROUP word storing the segment")
+        _selector_word(spec, segment, oracle)
         if spec["kind"] == "selector-pointer":
             require(_carried_pointer(rows, load[0], value), "Selector window does not carry that offset to an ES access")
             return
@@ -239,9 +272,19 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
     # A member O+k (k > 0, e.g. ES:[BX+1] into a far table) is proven only by its own
     # independent offset witnesses, as v4 members are: a free addend would re-fit O.
     # An `unproven` member (a reason, no witness) makes every claim that uses it a CODE_MATCH, as for v4 members.
+    # A member with `record` windows: the program steps through records of d bytes at O and, in the other window, at
+    # O+k with |k| < d. Two arrays of two or more d-byte records starting less than d apart would overlap, so both
+    # windows address one array (2026-11-24). O itself keeps its own witnesses.
     members = symbol.get("members", [])
+    for m in (m for m in members if "record" in m):
+        near = m["offset"] if m["offset"] < 0x8000 else m["offset"] - 0x10000
+        strides = [_record_window(m["record"][side], symbol["segment"], value, oracle)
+                   for side, value in (("base", offset), ("member", (offset + m["offset"]) & 0xFFFF))]
+        require(set(m["record"]) == {"base", "member"} and strides[0] is not None and strides[0] == strides[1] and
+                abs(near) < strides[0] and symbol.get("offset_witnesses") and claimed is not None,
+                "Far member's record windows do not step through one array of records")
     require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
-                (m.get("offset_witnesses") or consensus(m) or
+                (m.get("offset_witnesses") or consensus(m) or "record" in m or
                  claimed is not None and type(m.get("unproven")) is str and m["unproven"].strip())
                 for m in members) and len({m["offset"] for m in members}) == len(members),
             "Every far data member needs a positive offset and its own offset witnesses")

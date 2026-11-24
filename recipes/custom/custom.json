@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custom/custom.json",
-  "binding_sha256": "e8cded0f1ee57d0739e5f53045c4ea8ea42aa006eb59292a2b7819e46e3690bb",
+  "binding_sha256": "915ac33388d64fd94a553152ba75439e48d0dae78261b3224752dfeb5ddea643",
   "claims": [
     {
       "fixup_count": 1,
@@ -45,6 +45,11 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:04b3:0108"
+    },
+    {
+      "fixup_count": 3,
+      "public": "GETCUSTOMABOVEARY",
+      "target_id": "root:04b3:0142"
     },
     {
       "fixup_count": 10,
@@ -180,16 +185,6 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:04b3:0792"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "GETCUSTOMABOVEARY",
-      "target_id": "root:04b3:0142",
-      "unproven": [
-        "CUSTOM_ABOVE",
-        "CUSTOM_ABOVE+0x3"
-      ]
     }
   ],
   "data_publics": [

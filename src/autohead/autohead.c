@@ -206,7 +206,7 @@ extern signed char far pascal get_char_col(int room);
 extern int far pascal get_base_x(void);
 extern int far pascal get_opp_dist(void);
 extern void far pascal save_actor_slot(void);
-extern void far pascal refresh_actor_life(signed char id, int x, int y);
+extern void far pascal DrawOppMeter(signed char id, int x, int y);
 extern void far pascal load_actor_slot(signed char id);
 extern OpponentRecord near *far pascal GetOppInfoIdx(int room, int id);
 extern void far pascal load_shadow_with_opponent(signed char id);
@@ -685,7 +685,7 @@ void far pascal head_get_angry(HeadPlan near *plan)
     Char.stance = 1;
     if (Opp.opponent_index == -1) {
         save_actor_slot();
-        refresh_actor_life(Char.slot, Char.life_points, Char.life_initial);
+        DrawOppMeter(Char.slot, Char.life_points, Char.life_initial);
         load_actor_slot(Char.slot);
         Opp.opponent_index = Char.slot;
     }
@@ -882,7 +882,7 @@ int far pascal head_set_to_flee_mode(void)
         record->timer = -1;
         record->sound_played = 0;
         save_actor_slot();
-        refresh_actor_life(Char.slot, 0, Char.life_initial);
+        DrawOppMeter(Char.slot, 0, Char.life_initial);
         load_actor_slot(Char.slot);
         if (Char.slot == Opp.opponent_index)
             Opp.opponent_index = -1;

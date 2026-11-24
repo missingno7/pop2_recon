@@ -970,7 +970,7 @@ extern int far pascal IS_SIX_KIND(signed char tile);
 extern int far pascal get_edge_distance(void);
 extern int far pascal AddCharX(int amount);
 extern void far pascal AddSound(int id);
-extern void far pascal set_guard_life(signed char id, int flags, int health);
+extern void far pascal DrawOppMeter(signed char id, int flags, int health);
 extern int far pascal decrement_life_points(signed char amount);
 extern void far pascal begin_actor_death(void);
 void far pascal set_skeleton_timer(signed char id, int duration);
@@ -995,7 +995,7 @@ void far pascal bones_fall(void)
         }
     }
     save_actor_slot();
-    set_guard_life(Char.slot, 0, Char.life_initial);
+    DrawOppMeter(Char.slot, 0, Char.life_initial);
     set_skeleton_timer(Char.slot, 120);
     set_skeleton_shakes(Char.slot);
     load_actor_slot(Char.slot);

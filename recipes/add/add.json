@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "b118abd8ee9a903afdf3e3d45068af3d2c9079494fbcae515d65f5fcf266edc5",
+  "binding_sha256": "0ca41a9cb694120350b10f4710a2d0d674491ab10010b9b086b580bc759bd603",
   "claims": [
     {
       "fixup_count": 10,
@@ -101,6 +101,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0170:03cc"
+    },
+    {
+      "fixup_count": 14,
+      "public": "@add_peel",
+      "relocation_indices": [
+        171,
+        204
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0170:04f0"
     },
     {
       "fixup_count": 2,
@@ -375,22 +388,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0170:108a"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "@add_peel",
-      "target_id": "root:0170:04f0",
-      "unproven": [
-        "PEEL_ENTRIES+0x3"
-      ]
     },
     {
+      "fixup_count": 2,
       "public": "CLEAR_ROW_HANDLES",
-      "target_id": "root:0170:118c",
-      "unproven": [
-        "ROOMOPP+0x166"
-      ]
+      "target_id": "root:0170:118c"
     }
   ],
   "drafts": [],

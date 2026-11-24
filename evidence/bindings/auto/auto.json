@@ -510,7 +510,7 @@
       "HIT_ACTIONS",
       "PREVIOUS_ACTOR",
       "REGISTER_ACTOR_ROOM",
-      "REFRESH_ACTOR_LIFE",
+      "DRAWOPPMETER",
       "JAM_PLATE",
       "CAN_CONTINUE_RUN_JUMP",
       "ACTOR_STAGE",
@@ -11697,7 +11697,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "REFRESH_ACTOR_LIFE",
+          "name": "DRAWOPPMETER",
           "method": 6,
           "zero_displacement": true
         }
@@ -11705,7 +11705,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "REFRESH_ACTOR_LIFE",
+        "name": "DRAWOPPMETER",
         "method": 6,
         "zero_displacement": true
       },
@@ -26695,22 +26695,7 @@
       "offset": 684,
       "segment": 732,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 8380,
-          "bytes_hex": "9aac02dc02",
-          "relocation_index": 238,
-          "file_offset": 16572
-        },
-        {
-          "space": "root",
-          "image_offset": 68225,
-          "bytes_hex": "9aac02dc02",
-          "relocation_index": 1424,
-          "file_offset": 76417
-        }
-      ]
+      "witnesses": []
     },
     "GET_OPP_DIST": {
       "entry_sha256": "9219a187a5b0f166e4cc15b82d8705e76b4f2a53db568e597ebb42e426f36975",
@@ -26827,8 +26812,7 @@
           "image_offset": 12488,
           "relocation_index": 358
         }
-      ],
-      "consensus": true
+      ]
     },
     "HORIZONTAL_EXIT_MARGIN": {
       "group": "DGROUP",
@@ -27690,23 +27674,6 @@
       "space": "root",
       "witnesses": []
     },
-    "REFRESH_ACTOR_LIFE": {
-      "entry_sha256": "a8cfab202db7c83310a51a88f1031fb17a6b60f49f6d05989175b246e15bcb1e",
-      "entry_target_id": "root:0790:25d4",
-      "kind": "far-code-entry",
-      "offset": 9684,
-      "segment": 1936,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 2381,
-          "bytes_hex": "9ad4259007",
-          "file_offset": 10573,
-          "relocation_index": 59
-        }
-      ]
-    },
     "REREAD_CELLS": {
       "entry_sha256": "5140edf850f9dd5c1d22d70f2d655a2c89b4ea3b9ff7b8438189e69d01cdb93a",
       "entry_target_id": "root:02dc:0294",
@@ -28089,6 +28056,15 @@
       "kind": "far-code-entry",
       "offset": 1940,
       "segment": 732,
+      "space": "root",
+      "witnesses": []
+    },
+    "DRAWOPPMETER": {
+      "entry_sha256": "a8cfab202db7c83310a51a88f1031fb17a6b60f49f6d05989175b246e15bcb1e",
+      "entry_target_id": "root:0790:25d4",
+      "kind": "far-code-entry",
+      "offset": 9684,
+      "segment": 1936,
       "space": "root",
       "witnesses": []
     },

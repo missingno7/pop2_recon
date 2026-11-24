@@ -285,7 +285,7 @@
       "DRAW_CAVE_BARS",
       "DISPATCH_SOUND",
       "MAKESHAPERECT",
-      "@save_under_shape",
+      "@add_peel",
       "RESTOREKEEPCUSTOMPEEL",
       "OFFSETRECT",
       "SAVEFCHAR",
@@ -359,7 +359,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "@save_under_shape",
+          "name": "@add_peel",
           "method": 6,
           "zero_displacement": true
         }
@@ -367,7 +367,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "@save_under_shape",
+        "name": "@add_peel",
         "method": 6,
         "zero_displacement": true
       },
@@ -5127,23 +5127,6 @@
         }
       ]
     },
-    "@save_under_shape": {
-      "entry_sha256": "0ddddc7393c93250db2e15d9970551fbe6f8492c8a2dbb4378cd9f77d3d37b65",
-      "entry_target_id": "root:0170:04f0",
-      "kind": "far-code-entry",
-      "offset": 1264,
-      "segment": 368,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 19292,
-          "bytes_hex": "9af0047001",
-          "file_offset": 27484,
-          "relocation_index": 392
-        }
-      ]
-    },
     "ADDSONG": {
       "entry_sha256": "358aec5c0c86dff7d7b10e62fe9bec692d613b52b52e27fe1122014ebe17b728",
       "entry_target_id": "root:0dee:01a8",
@@ -5352,7 +5335,6 @@
       "members": [
         {
           "offset": 11,
-          "unproven": "No independent original operand witness for this address.",
           "witnesses": []
         },
         {
@@ -5377,7 +5359,17 @@
           "bytes_hex": "89843a5d",
           "entry": "root:0b52:22dc"
         }
-      ]
+      ],
+      "extent": {
+        "kind": "record",
+        "length": 23,
+        "witness": {
+          "space": "root",
+          "image_offset": 55304,
+          "bytes_hex": "b917008bd8f7e98bf0a06b660c808884445da1626689843a5d",
+          "entry": "root:0b52:22dc"
+        }
+      }
     },
     "CHAR": {
       "extent": {
@@ -6221,6 +6213,15 @@
           "relocation_index": 1
         }
       ]
+    },
+    "@add_peel": {
+      "entry_sha256": "0ddddc7393c93250db2e15d9970551fbe6f8492c8a2dbb4378cd9f77d3d37b65",
+      "entry_target_id": "root:0170:04f0",
+      "kind": "far-code-entry",
+      "offset": 1264,
+      "segment": 368,
+      "space": "root",
+      "witnesses": []
     },
     "SET_PALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",

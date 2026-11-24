@@ -1650,11 +1650,11 @@ void far pascal remove_char(void)
     character_room = 0;
 }
 
-extern void far pascal change_actor_life(char slot, int life, int maximum);
+extern void far pascal DrawOppMeter(char slot, int life, int maximum);
 void far pascal VanishChar(void)
 {
     signed char zero = 0;
-    change_actor_life(Char.slot, 0, Char.life_initial);
+    DrawOppMeter(Char.slot, 0, Char.life_initial);
     char_direction = 86;
     Char.action = zero;
     Char.alive = zero;

@@ -534,7 +534,7 @@
       "IMPALE_SKELETON",
       "GETOPPINFOIDX",
       "GET_COL",
-      "SET_GUARD_LIFE",
+      "DRAWOPPMETER",
       "DIRECTION_FACTOR",
       "CHECK_GUARD_STEP",
       "CAN_CONTINUE_RUN_JUMP",
@@ -11425,7 +11425,7 @@
         "target": {
           "kind": "external",
           "index": 58,
-          "name": "SET_GUARD_LIFE",
+          "name": "DRAWOPPMETER",
           "method": 6,
           "zero_displacement": true
         }
@@ -11433,7 +11433,7 @@
       "target": {
         "kind": "external",
         "index": 58,
-        "name": "SET_GUARD_LIFE",
+        "name": "DRAWOPPMETER",
         "method": 6,
         "zero_displacement": true
       },
@@ -19865,23 +19865,6 @@
         }
       ]
     },
-    "SET_GUARD_LIFE": {
-      "entry_sha256": "a8cfab202db7c83310a51a88f1031fb17a6b60f49f6d05989175b246e15bcb1e",
-      "entry_target_id": "root:0790:25d4",
-      "kind": "far-code-entry",
-      "offset": 9684,
-      "segment": 1936,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 2381,
-          "bytes_hex": "9ad4259007",
-          "file_offset": 10573,
-          "relocation_index": 59
-        }
-      ]
-    },
     "SET_OPPONENT_LIFE": {
       "entry_sha256": "ed78b5f17709bcae6d2a4080c8433c5ca6b0df021dd166692e4aea826153a41d",
       "entry_target_id": "overlay-3:251b:0008",
@@ -19941,6 +19924,15 @@
       "space": "root",
       "segment": 8718,
       "offset": 3541,
+      "witnesses": []
+    },
+    "DRAWOPPMETER": {
+      "entry_sha256": "a8cfab202db7c83310a51a88f1031fb17a6b60f49f6d05989175b246e15bcb1e",
+      "entry_target_id": "root:0790:25d4",
+      "kind": "far-code-entry",
+      "offset": 9684,
+      "segment": 1936,
+      "space": "root",
       "witnesses": []
     },
     "BRIDGE_SKELETON_PROGRESS": {

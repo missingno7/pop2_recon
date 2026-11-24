@@ -441,6 +441,24 @@ it as a whole (`les`/`lds r,[S]`, `call`/`jmp far [S]`); its segment half S+2 is
 S as well, so it must lie outside the claims; after a pointer access inside a claim, S still needs an outside witness or
 two equal claimed sites (internal consensus).
 
+Added 2026-11-24 (each re-decoded from reached, straight-line original code; same rules for the base as a copy):
+- `"kind": "record"` (`binding.record_stride`): an access [r+S] whose index is d times one unknown, the scaling visible in
+  the window. The program steps through records of d bytes at S, so [S, S+d] is inside one array of two or more records;
+  the extent is d. With a second window `next` that steps by the same d at S+d (element v+1), records 0 and 1 are both
+  used and the extent is 2d. Unrelated unknowns, a second index register, LEA or ES refuse the window. First use: the
+  5-byte `BELOW_TILES`/`ABOVE_TILES` records. The stride also shows that S is a used address, so a plain immediate S in
+  other code may then be its witness (`ABOVE_TILES` passed by GETABOVEARY).
+- `"kind": "fill"` (`binding.fill_extent`): REP STOS of a constant count with DI = S and ES loaded from DS. First use:
+  `REDRAW_FORE_CELLS` (300 bytes cleared at DS:6248).
+- `"kind": "far-read"` (`binding.far_read_extent`): a reached original call passes DS:S (`push ds; push S`) to a resident
+  routine that loads it with `lds si,[bp+a]` and reads L bytes with LODS in straight-line code. S needs its own witness.
+  First use: `SCREEN_BOUNDS` read by InsetRect.
+
+For far data (docs/far-call-binding.md) a member O+k may carry `"record": {"base", "member"}`: one window steps through
+d-byte records at O, the other at O+k with |k| < d. Two such arrays would overlap, so both are the same array. Each window
+proves its own ES (a selector word, or a relocated `mov r16,N; mov es,r16`). First use: `MIDDLE_QUEUE[count - 1]` fields,
+which the compiler folds to O-1 and O-2.
+
 A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
 segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocated word is refused.
 

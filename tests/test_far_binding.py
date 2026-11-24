@@ -1,4 +1,5 @@
 """Root CALL FAR proof fixtures, including adversarial full OMF obligations."""
+import json
 import copy
 from dataclasses import replace
 from pathlib import Path
@@ -10,7 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 from binding import declarations, fixes
-from common import sha
+from common import ROOT, sha
 from match import check_object
 from omf import OmfReader
 from oracle import Oracle, Space
@@ -403,6 +404,44 @@ class FarWindowTests(unittest.TestCase):
             self.window("address-construction", 0x851D, 0x8523, 0x0A29)
         with self.assertRaisesRegex(ValueError, "does not pair"):       # same bytes, no relocation there
             self.window("address-construction", 0x100, 0x106, 0x0A28, raw=self.root.data[0x851D:0x8523])
+
+    def record(self, lo, hi, value, segment=0x31BD, entry="root:0790:1c32", raw=None, **extra):
+        from far_binding import _record_window
+        raw = bytes(self.root.data[lo:hi]) if raw is None else raw
+        return _record_window(dict(extra, space="root", image_offset=lo, bytes_hex=raw.hex(), entry=entry),
+                              segment, value, self.oracle)
+
+    def test_record_windows_follow_the_es_index(self):
+        base = dict(entry="root:0170:03cc", selector_offset=0x26CA, relocation_index=155, dgroup_segment=self.DGROUP)
+        self.assertEqual(self.record(0x1AF3, 0x1B06, 0x11F8, **base), 20)         # mov es,[26ca]; es:[bx+11f8]
+        self.assertEqual(self.record(0x9617, 0x9635, 0x11F7), 20)                 # relocated mov ax,N; mov es,ax
+        self.assertIsNone(self.record(0x9617, 0x9635, 0x11F6))
+        with self.assertRaisesRegex(ValueError, "relocated segment"):
+            self.record(0x9617, 0x9635, 0x11F7, segment=0x306E)
+        with self.assertRaisesRegex(ValueError, "another word"):
+            self.record(0x1AF3, 0x1B06, 0x11F8, **dict(base, selector_offset=0x26CC))
+        with self.assertRaisesRegex(ValueError, "relocated DGROUP word"):
+            self.record(0x1AF3, 0x1B06, 0x11F8, **dict(base, relocation_index=153))
+        with self.assertRaisesRegex(ValueError, "exactly one ES load"):
+            self.record(0x961C, 0x9635, 0x11F7)                                   # ES from before the window
+        with self.assertRaisesRegex(ValueError, "not reached"):
+            self.record(0x9617, 0x9635, 0x11F7, raw=bytes([0x90]) * 30)
+
+    def test_record_member_needs_an_overlapping_stride_and_a_witnessed_base(self):
+        import copy
+        from far_binding import _ground_far_data
+        symbol = json.loads((ROOT / "evidence/bindings/draw/draw.json").read_text())["symbols"]["MIDDLE_QUEUE"]
+        row = next(m for m in symbol["members"] if "record" in m)
+        self.assertEqual(row["offset"], 0xFFFF)
+        target = {"space": "root", "segment": 0x790, "offset": 0, "size": 1}
+        _ground_far_data(symbol, target, self.oracle, claimed=[])
+        for change in (lambda m: m.update(offset=0xFFEC),                         # a whole record away
+                       lambda m: m["record"].update(base=m["record"]["member"]),
+                       lambda m: m["record"].pop("base")):
+            bad = copy.deepcopy(symbol)
+            change(next(m for m in bad["members"] if "record" in m))
+            with self.assertRaises((ValueError, KeyError)):
+                _ground_far_data(bad, target, self.oracle, claimed=[])
 
     def test_consensus_is_explicit_and_exclusive(self):
         from far_binding import _ground_far_data
