@@ -1600,6 +1600,25 @@ def _data_tail(piece, own_targets, tables, start, addressed=()):
     return None
 
 
+def _object_order(reports, states, code_fixes):
+    """Relocation targets whose order across the object's exact claims differs from FIXUPP traversal.
+
+    RTLink keeps raw FIXUPP order inside one (target, field) group of the output segment, across functions too, so one
+    compilation of the original file must show the original order for every group (docs/far-call-binding.md)."""
+    traversal = {f["segment_offset"]: i for i, f in enumerate(code_fixes)}
+    groups = {}
+    for report in reports:
+        state = states.get(report["public"])
+        if not report.get("exact") or state is None:
+            continue
+        index = {r["image_offset"]: r["index"] for r in state["relocations"]}
+        for site in state.get("sites", ()):
+            groups.setdefault((site["symbol"], site.get("field", "pointer32")), []).append(
+                (traversal[state["start"] + site["offset"]], index[site["site"]]))
+    return sorted({f"{name}:{field}" for (name, field), rows in groups.items()
+                   if [i for _, i in sorted(rows)] != sorted(i for _, i in rows)})
+
+
 def _code_tables(tables, reports, states, publics, actual, code_fixes, data_fixes, module, name, origin, space, window,
                  oracle):
     """Judge the claimed code tables of one MASM object (docs/acceptance.md "Code tables").
@@ -2280,15 +2299,16 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None, code_t
                           for g, seg in state["far_bases"].items()]
                 relocation_proof = relocation_order(state["relocations"], sites,
                                                     [r["index"] for r in state["relocations"]])
+                state["sites"] = sites
             if (state["group_bases"] or state["own_bases"] or state["far_bases"]) and not state["far"]:
-                relocation_proof = relocation_order(
-                    state["relocations"],
+                state["sites"] = sites = (
                     [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP", "field": "base16"} for g in state["group_bases"]] +
                     [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g], "field": "base16"}
                           for g in state["own_bases"]] +
                     [{"site": state["position"] + g, "offset": g, "symbol": seg, "field": "base16"}
-                     for g, seg in state["far_bases"].items()],
-                    [r["index"] for r in state["relocations"]])
+                     for g, seg in state["far_bases"].items()])
+                relocation_proof = relocation_order(state["relocations"], sites,
+                                                    [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
                 missing = sorted({f["target"].get("name") for f in state["data"]} - set(symbols))
@@ -2380,6 +2400,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None, code_t
             **({"provider_span_aliases": span_aliases} if span_aliases else {}),
             **({"far_placements": far_placements} if far_placements else {}),
             **({"tables": table_report} if table_report else {}),
+            "object_order": _object_order(reports, states, code_fixes),
             "space": space.name, "origin": origin, "emitted_size": len(actual),
             "frame": next(iter(frames)) if frames else None,
             "segment": segment, "claims": reports,

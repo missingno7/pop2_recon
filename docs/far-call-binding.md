@@ -200,6 +200,13 @@ SHAPE's 13 same-symbol orders match only with it. `/Zd` only imitates the 52-lin
 Line-event counts (code-generating lines before a point, mod 52) are file-wide; a
 draft-formatting change that satisfies them is a hypothesis about layout, not history.
 
+v1.1 (2026-11-24): the within-target order across each whole file settles the flag for every file with evidence. All game
+files match plain flags (47 files, 0 wrong targets; `/Zi` gives 1-28 wrong targets each). The library files SHAPE, ANIM,
+FADE, INTRFACE, DLGHELP, DISSOLVE, GFXERR, HNEWSHPI, LGRAF, UTIL, `resc/shape_list`, the sound controls and conversion and
+`text_handles` match only with `/Zi`; `xlatgraf` matches plain flags. Since `/Zi` ends a LEDATA record at every goto label, the
+order also refutes labels: ANIM's paint_element and DLGHELP's key handler have none. The gate therefore requires the order
+of every (target, field) group across all exact claims of a file (`module_gate._object_order`), not only inside each claim.
+
 Own-object `SEG` bases are bucketed by target identity: an EXTDEF that resolves to a
 public of the object (`mov ax, SEG MarkMove`) is its own bucket; only SEGDEF (T4)
 targets share the segment bucket (MOVE MarkMobRedraw: three buckets, original

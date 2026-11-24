@@ -175,12 +175,10 @@ int far pascal handle_edit_key(EditField far *field, int key)
                     ++field->caret;
                     update_edit_caret(field);
                     changed = 1;
-                    goto dispatch;
                 }
             }
         }
     }
-dispatch:
     if (!rejected && !changed) {
         switch (key) {
         default:

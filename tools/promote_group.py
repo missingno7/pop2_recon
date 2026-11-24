@@ -114,6 +114,8 @@ def main():
     matches = [c for c in report["claims"] if c["target_id"] in conditional_ids]
     report["claims"] = [c for c in report["claims"] if c["target_id"] not in conditional_ids]
     require(all(c["exact"] for c in report["claims"]), f"Refusing promotion: not every claim is {exact_state}")
+    require(not report["object_order"], "Refusing promotion: relocation order inside the file differs from the original "
+            "(build flags, goto labels or function order): " + ", ".join(report["object_order"]))
     require(all(c["state"] == "CODE_MATCH" for c in matches),
             "Refusing promotion: a conditional target is not a CODE_MATCH (exact code with listed unproven bindings)")
     space = oracle.spaces[report["space"]]

@@ -524,21 +524,16 @@ extern void PAINT_PLAIN(const ShapeHeader far *, int, int, int);
 
 void near paint_element(Animation *animation, Element *element)
 {
-    if (!element->shape)
-        goto done;
-    if (TGAMode || !(high_color_shape_boundary < element->shape))
-        goto high_color;
-    PAINTRLESHAPE_ASM(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
-                          (int)(element->x >> 16), (int)(element->y >> 16),
-                          element->flags.word & 15);
-    goto done;
-
-high_color:
-    PAINT_PLAIN(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
-                (int)(element->x >> 16), (int)(element->y >> 16),
-                element->flags.word & 15);
-done:
-    return;
+    if (element->shape) {
+        if (!TGAMode && high_color_shape_boundary < element->shape)
+            PAINTRLESHAPE_ASM(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
+                              (int)(element->x >> 16), (int)(element->y >> 16),
+                              element->flags.word & 15);
+        else
+            PAINT_PLAIN(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
+                        (int)(element->x >> 16), (int)(element->y >> 16),
+                        element->flags.word & 15);
+    }
 }
 
 extern int SECTRECT(Rect far *, const Rect far *, const Rect far *);

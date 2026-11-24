@@ -133,6 +133,8 @@ def verify_group(recipe):
     report["claims"] = [c for c in report["claims"] if c["target_id"] not in match_ids]
     report["exact"] = True
     require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
+    require(not report["object_order"], "Relocation order inside the file differs from the original: " +
+            ", ".join(report["object_order"]))
     require(all(report[key] == recipe[key] for key in ("space", "origin", "emitted_size", "frame", "drafts")),
             "Accepted group placement, extent or draft record changed")
     require([{k: t[k] for k in ("target_id", "public", "fixups")} for t in report.get("tables", [])] ==

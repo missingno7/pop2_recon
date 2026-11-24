@@ -676,6 +676,45 @@ class FarConsensusTests(unittest.TestCase):
             ground_symbol({**symbol, "witnesses": [{}]}, target, oracle, claimed=[])
 
 
+class ObjectOrderTests(unittest.TestCase):
+    """Relocations of one target keep FIXUPP order across the functions of a file."""
+
+    def order(self, indices, exact=(True, True)):
+        from module_gate import _object_order
+        # F at 0 calls X at 10 and Y at 20; G at 100 calls X at 5. One LEDATA record: FIXUPPs descend.
+        fixes = [{"segment_offset": 105}, {"segment_offset": 20}, {"segment_offset": 10}]
+        states = {"F": {"start": 0, "sites": [{"site": 1010, "offset": 10, "symbol": "X"}, {"site": 1020, "offset": 20, "symbol": "Y"}],
+                        "relocations": [{"image_offset": 1010, "index": indices[0]}, {"image_offset": 1020, "index": indices[1]}]},
+                  "G": {"start": 100, "sites": [{"site": 1105, "offset": 5, "symbol": "X", "field": "pointer32"}],
+                        "relocations": [{"image_offset": 1105, "index": indices[2]}]}}
+        return _object_order([{"public": "F", "exact": exact[0]}, {"public": "G", "exact": exact[1]}], states, fixes)
+
+    def test_order_is_checked_across_functions(self):
+        self.assertEqual(self.order((8, 1, 7)), [])
+        self.assertEqual(self.order((7, 1, 8)), ["X:pointer32"])
+        self.assertEqual(self.order((7, 9, 8), exact=(True, False)), [])     # only exact claims are compared
+        self.assertEqual(self.order((8, 2, 7)), [])                          # other targets do not matter
+
+    def test_library_files_need_the_debug_flag(self):
+        from module_gate import compile_group
+        recipe = common.read_json(ROOT / "recipes/util/util.json")
+        self.assertIn("/Zi", recipe["flags"])
+        binding = common.read_json(ROOT / recipe["binding"])
+        for flags, wanted in ((recipe["flags"], True), ([f for f in recipe["flags"] if f != "/Zi"], False)):
+            from compiler import compile_c
+            from binding import declarations, fixes
+            from omf import OmfReader
+            text = (ROOT / recipe["source"]).read_text()
+            result = compile_c(text, recipe["profile"], flags=flags, workdir=ROOT / "build/workers/tests/object_order")
+            module = OmfReader().read(result.obj_bytes)
+            bound = dict(binding, declarations=declarations(module), fixups=fixes(module))
+            _, report = compile_group(text, recipe["profile"], flags,
+                                      [{"target_id": t["target_id"], "public": t["public"]} for t in recipe["claims"]],
+                                      ROOT / "build/workers/tests/object_order", binding=bound, group_id=recipe["group_id"])
+            self.assertTrue(all(t["exact"] for t in report["claims"]))       # the code bytes are the same
+            self.assertIs(report["object_order"] == [], wanted)
+
+
 class UnwitnessedExtentTests(unittest.TestCase):
     """In-extent members of an aggregate without a witness stand only on its base's own consensus."""
 

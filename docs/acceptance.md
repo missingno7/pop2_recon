@@ -152,6 +152,9 @@ bytes compare literally, except for these fixup fields:
   see [dgroup-binding.md](dgroup-binding.md#provider-data-publics-2026-11-22). A data fixup
   naming the object's own data public is refused.
 
+- **Order across the file (2026-11-24).** Original relocations of one target keep FIXUPP order across all exact claims of
+  the object. Promotion and validation refuse a group that differs (wrong debug flag, a goto label the original did not
+  have, or another function order).
 - **Code tables (2026-11-24).** Dispatch tables, masks and mode descriptors inside a MASM code segment are data, so they
   are claimed apart from functions: rows of `code_tables` in evidence/targets.json, `promote_group.py --table ID=PUBLIC`,
   owners of kind `MATCHING_ASM_DATA` / `ASM_DATA_EXACT`, and their own metric. A table claim is one whole region of
