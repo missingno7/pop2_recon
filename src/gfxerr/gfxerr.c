@@ -1,3 +1,4 @@
+#include "types.h"
 struct Record;
 struct window_item {
     char prefix[4];
@@ -6,9 +7,7 @@ struct window_item {
     char effect_name[26];
     const void *argument;
 };
-struct rectangle {
-    int top, left, bottom, right;
-};
+
 struct window {
     char prefix[70];
     int needs_update;
@@ -24,7 +23,7 @@ extern char ScreenPort[];
 extern struct window *window_head;
 extern int graphics_mode;
 extern int draw_record_range;
-extern struct rectangle NullRect;
+extern Rect NullRect;
 
 extern struct window_item *far pascal ITEM_BY_INDEX(void *, int);
 extern void far pascal STROKE_PORT_RECT(const void far *);
@@ -41,13 +40,13 @@ extern void far cdecl _nfree(void *);
 extern void far pascal dispose_window(struct Record *);
 extern void far pascal dispose_bitmap_port(void *);
 extern unsigned far pascal save_handle_flags(unsigned);
-extern struct rectangle far *far pascal FETCH_LOCKED_SHAPE_LIST(unsigned);
-extern struct rectangle far *far pascal InsetRect(struct rectangle far *,
-                                                  const struct rectangle far *, int, int);
-extern void *far pascal allocate_clipped_port(const struct rectangle far *);
+extern Rect far *far pascal FETCH_LOCKED_SHAPE_LIST(unsigned);
+extern Rect far *far pascal InsetRect(Rect far *,
+                                                  const Rect far *, int, int);
+extern void *far pascal allocate_clipped_port(const Rect far *);
 extern void far pascal restore_handle_flags(unsigned, unsigned);
 /* These two DOS helpers leave and then consume the same saved clip state. */
-extern void far pascal push_port_clip(struct rectangle far *);
+extern void far pascal push_port_clip(Rect far *);
 extern void far pascal pop_port_clip(void);
 
 int far pascal show_resource_dialog(int, int, const char far *, int);
@@ -147,7 +146,7 @@ void *far pascal create_dialog_port(int resource)
     unsigned handle;
     unsigned saved_flags;
     void *port;
-    struct rectangle bounds;
+    Rect bounds;
 
     Graf = ScreenPort;
     handle = HGETRSRC(0x444c4f47UL, resource);

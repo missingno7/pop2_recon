@@ -20,7 +20,7 @@ Current numbers come from `python tools/validate.py`; this page holds only goals
 
 | Area | State | Next step |
 |---|---|---|
-| Shared headers | Each C file repeats its own `extern` lines and structs. | Find one declaration order that satisfies every file's symbol ids (codegen-rules FRAME-7); then `#include` replaces the local copies. Also needs pinned include files in `tools/compiler.py` and the gates. |
+| Shared headers | The core types are in `include/` and 41 files use them; AUTO, AUTOHEAD, DRAW, FINAL, LOAD, NIS and TOP still have their own copies (their symbol ids do not fit yet). Globals and prototypes are still repeated in every file. | Put globals and prototypes in headers; find one declaration order that fits every file (codegen-rules FRAME-7). |
 | Relocation order | Fits from the first object through CTRL; stops at DRAW (two symbols too many). | Follows from the headers: public order is the alphabetical prototype list, rotated by symbol id. |
 | Data | About 20 KB of overlay 17 is linked from `link/` without an owner; ten link modules have an unsettled file. | Settle each with the neighbouring symbols in the FM Towns and Mac builds. |
 | Link aids | Two forced symbols, five prefix names of unknown meaning, the `VARS` object. | Replace by real references once their users are known. |

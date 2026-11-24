@@ -62,6 +62,33 @@
     ],
     "publics": [
       {
+        "name": "DESERT_FRAME",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 368,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DRAW_DESERT_EXIT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1474,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "ANIMATE_DESERT_PLANKS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1624,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "DRAW_DESERT_PLANKS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -276,36 +303,29 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
-      },
-      {
-        "name": "DESERT_FRAME",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 368,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "DRAW_DESERT_EXIT",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1474,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "ANIMATE_DESERT_PLANKS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1624,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
       }
     ],
     "externals": [
+      "RND",
+      "FETCH_LOCKED_SHAPE_LIST",
+      "DESERT_FRAME",
+      "CLEAR_HANDLE_OWNED",
+      "DRAW_DESERT_EXIT",
+      "DISPOSE_HANDLE",
+      "HGETRSRC",
+      "PRINCEUNPACKSHAPE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "MAKESHAPERECT",
+      "MARK_MOVE",
+      "MARK_BUFS_FOR_RECT",
+      "@draw_custom_room_image",
+      "GET_TROB_ROOM_CELL",
+      "ANIMATE_DESERT_PLANKS",
+      "ADD_TROB",
+      "CHECK_TROB_VISIBILITY",
+      "RESTOREKEEPCUSTOMPEEL",
+      "DRAWCUSTOMROOMIMGATINFO",
+      "OFFSETRECT",
       "@add_peel",
       "COMPUTE_TROB_MOVE_RECT",
       "CHECK_TROB_RIGHT",
@@ -318,28 +338,32 @@
       "WATCH_DESERT_KID",
       "IS_SELECTED_CODE",
       "IS_DESERT_EXIT_OPEN",
-      "LEVEL",
       "TRIGGER_DESERT_EXIT",
       "TRIGGER_ALL_STONES_DOWN",
       "ANIMATE_DESERT_STONE",
-      "BLUESPEC",
       "REDRAW_STONE",
       "RESET_DESERT_VARIANT",
       "REMOVE_LAST_STONE_PEEL",
+      "MIDI",
       "DRAW_DESERT_ROCKS",
-      "GAMESTATE",
       "SINK_DESERT_STONE",
+      "FCHAR",
       "TRIGGER_STONE_AT",
-      "FRAMENUM",
       "ADD_DESERT_AMBIENT",
-      "ROOM",
+      "CHAR",
+      "LEVEL",
+      "BLUESPEC",
       "CLIP_DESERT_CHARACTER",
       "ADDDSRTSTONEUPPEELS",
+      "GAMESTATE",
+      "FRAMENUM",
+      "ROOM",
       "AMBIENT_STATE",
+      "LOADDSRTCODE",
       "KID",
       "NEXTLEVEL",
+      "__aFulrem",
       "PENDING_EFFECT",
-      "LOADDSRTCODE",
       "DIR",
       "CUSTOM_ROOM",
       "PICS",
@@ -355,35 +379,11 @@
       "ANIMATE_DESERT_EXIT",
       "QUERY_SOUND",
       "DISPATCH_SOUND",
-      "__aFulrem",
       "GET_TROB_BY_ID",
       "DRAW_DESERT_STONE",
       "COPY_KID_TO_CHAR",
       "RESET_CHAR_Y",
-      "JUMPSEQ",
-      "RND",
-      "FETCH_LOCKED_SHAPE_LIST",
-      "DESERT_FRAME",
-      "CLEAR_HANDLE_OWNED",
-      "DRAW_DESERT_EXIT",
-      "DISPOSE_HANDLE",
-      "HGETRSRC",
-      "PRINCEUNPACKSHAPE",
-      "MIDI",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "MAKESHAPERECT",
-      "MARK_MOVE",
-      "FCHAR",
-      "MARK_BUFS_FOR_RECT",
-      "@draw_custom_room_image",
-      "GET_TROB_ROOM_CELL",
-      "ANIMATE_DESERT_PLANKS",
-      "ADD_TROB",
-      "CHECK_TROB_VISIBILITY",
-      "RESTOREKEEPCUSTOMPEEL",
-      "CHAR",
-      "DRAWCUSTOMROOMIMGATINFO",
-      "OFFSETRECT"
+      "JUMPSEQ"
     ]
   },
   "dgroup_segment": {
@@ -409,7 +409,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 1,
           "name": "RND",
           "method": 6,
           "zero_displacement": true
@@ -417,7 +417,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 1,
         "name": "RND",
         "method": 6,
         "zero_displacement": true
@@ -458,7 +458,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -466,7 +466,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -485,7 +485,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -493,7 +493,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -556,7 +556,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -564,7 +564,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -583,7 +583,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 55,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -591,7 +591,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 55,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -610,7 +610,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 69,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -618,7 +618,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 69,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -637,7 +637,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 1,
           "name": "RND",
           "method": 6,
           "zero_displacement": true
@@ -645,7 +645,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 1,
         "name": "RND",
         "method": 6,
         "zero_displacement": true
@@ -664,7 +664,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 59,
           "name": "DIR",
           "method": 6,
           "zero_displacement": true
@@ -672,7 +672,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 59,
         "name": "DIR",
         "method": 6,
         "zero_displacement": true
@@ -691,7 +691,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -699,7 +699,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -718,7 +718,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 77,
           "name": "RESET_CHAR_Y",
           "method": 6,
           "zero_displacement": true
@@ -726,7 +726,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 77,
         "name": "RESET_CHAR_Y",
         "method": 6,
         "zero_displacement": true
@@ -745,7 +745,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 78,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -753,7 +753,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 78,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -772,7 +772,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 59,
           "name": "DIR",
           "method": 6,
           "zero_displacement": true
@@ -780,7 +780,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 59,
         "name": "DIR",
         "method": 6,
         "zero_displacement": true
@@ -799,7 +799,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -807,7 +807,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -826,7 +826,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 59,
           "name": "DIR",
           "method": 6,
           "zero_displacement": true
@@ -834,7 +834,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 59,
         "name": "DIR",
         "method": 6,
         "zero_displacement": true
@@ -853,7 +853,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 59,
           "name": "DIR",
           "method": 6,
           "zero_displacement": true
@@ -861,7 +861,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 59,
         "name": "DIR",
         "method": 6,
         "zero_displacement": true
@@ -880,7 +880,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -888,7 +888,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -907,7 +907,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -915,7 +915,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -934,7 +934,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 58,
           "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
@@ -942,7 +942,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 58,
         "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
@@ -961,7 +961,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 78,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -969,7 +969,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 78,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -988,7 +988,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 78,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -996,7 +996,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 78,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -1015,7 +1015,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 56,
           "name": "NEXTLEVEL",
           "method": 6,
           "zero_displacement": true
@@ -1023,7 +1023,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 56,
         "name": "NEXTLEVEL",
         "method": 6,
         "zero_displacement": true
@@ -1042,7 +1042,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 56,
           "name": "NEXTLEVEL",
           "method": 6,
           "zero_displacement": true
@@ -1050,7 +1050,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 56,
         "name": "NEXTLEVEL",
         "method": 6,
         "zero_displacement": true
@@ -1069,7 +1069,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -1077,7 +1077,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -1096,7 +1096,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1104,7 +1104,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1145,7 +1145,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1153,7 +1153,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1172,7 +1172,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 31,
           "name": "IS_SELECTED_CODE",
           "method": 6,
           "zero_displacement": true
@@ -1180,7 +1180,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 31,
         "name": "IS_SELECTED_CODE",
         "method": 6,
         "zero_displacement": true
@@ -1199,7 +1199,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1207,7 +1207,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1226,7 +1226,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 68,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -1234,7 +1234,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 68,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -1297,7 +1297,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 41,
           "name": "SINK_DESERT_STONE",
           "method": 6,
           "zero_displacement": true
@@ -1305,7 +1305,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 41,
         "name": "SINK_DESERT_STONE",
         "method": 6,
         "zero_displacement": true
@@ -1390,7 +1390,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 31,
           "name": "IS_SELECTED_CODE",
           "method": 6,
           "zero_displacement": true
@@ -1398,7 +1398,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 31,
         "name": "IS_SELECTED_CODE",
         "method": 6,
         "zero_displacement": true
@@ -1417,7 +1417,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1425,7 +1425,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1444,7 +1444,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1452,7 +1452,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1493,7 +1493,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1501,7 +1501,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1520,7 +1520,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 53,
+          "index": 76,
           "name": "COPY_KID_TO_CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1528,7 +1528,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 53,
+        "index": 76,
         "name": "COPY_KID_TO_CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1547,7 +1547,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 44,
           "name": "ADD_DESERT_AMBIENT",
           "method": 6,
           "zero_displacement": true
@@ -1555,7 +1555,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 44,
         "name": "ADD_DESERT_AMBIENT",
         "method": 6,
         "zero_displacement": true
@@ -1574,7 +1574,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 32,
           "name": "IS_DESERT_EXIT_OPEN",
           "method": 6,
           "zero_displacement": true
@@ -1582,7 +1582,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 32,
         "name": "IS_DESERT_EXIT_OPEN",
         "method": 6,
         "zero_displacement": true
@@ -1601,7 +1601,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 74,
           "name": "GET_TROB_BY_ID",
           "method": 6,
           "zero_displacement": true
@@ -1609,7 +1609,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 74,
         "name": "GET_TROB_BY_ID",
         "method": 6,
         "zero_displacement": true
@@ -1628,7 +1628,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1636,7 +1636,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1655,7 +1655,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 53,
           "name": "AMBIENT_STATE",
           "method": 6,
           "zero_displacement": true
@@ -1663,7 +1663,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 53,
         "name": "AMBIENT_STATE",
         "method": 6,
         "zero_displacement": true
@@ -1682,7 +1682,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 55,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -1690,7 +1690,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 55,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -1709,7 +1709,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 55,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -1717,7 +1717,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 55,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -1736,7 +1736,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1744,7 +1744,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1763,7 +1763,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1771,7 +1771,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1790,7 +1790,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 73,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1798,7 +1798,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 73,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1817,7 +1817,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1825,7 +1825,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1844,7 +1844,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 69,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -1852,7 +1852,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 69,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -1871,7 +1871,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1879,7 +1879,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1898,7 +1898,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 52,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -1906,7 +1906,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 52,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -1925,7 +1925,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 27,
           "name": "CHECK_DESERT_EXIT",
           "method": 6,
           "zero_displacement": true
@@ -1933,7 +1933,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 27,
         "name": "CHECK_DESERT_EXIT",
         "method": 6,
         "zero_displacement": true
@@ -1952,7 +1952,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 30,
           "name": "WATCH_DESERT_KID",
           "method": 6,
           "zero_displacement": true
@@ -1960,7 +1960,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 30,
         "name": "WATCH_DESERT_KID",
         "method": 6,
         "zero_displacement": true
@@ -1979,7 +1979,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 28,
           "name": "CYCLE_DESERT_COLORS",
           "method": 6,
           "zero_displacement": true
@@ -1987,7 +1987,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 28,
         "name": "CYCLE_DESERT_COLORS",
         "method": 6,
         "zero_displacement": true
@@ -2006,7 +2006,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 70,
           "name": "CYCLECOLORS",
           "method": 6,
           "zero_displacement": true
@@ -2014,7 +2014,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 70,
         "name": "CYCLECOLORS",
         "method": 6,
         "zero_displacement": true
@@ -2033,7 +2033,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 70,
           "name": "CYCLECOLORS",
           "method": 6,
           "zero_displacement": true
@@ -2041,7 +2041,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 70,
         "name": "CYCLECOLORS",
         "method": 6,
         "zero_displacement": true
@@ -2060,7 +2060,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 70,
           "name": "CYCLECOLORS",
           "method": 6,
           "zero_displacement": true
@@ -2068,7 +2068,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 70,
         "name": "CYCLECOLORS",
         "method": 6,
         "zero_displacement": true
@@ -2087,7 +2087,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 57,
           "name": "__aFulrem",
           "method": 6,
           "zero_displacement": true
@@ -2095,7 +2095,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 57,
         "name": "__aFulrem",
         "method": 6,
         "zero_displacement": true
@@ -2114,7 +2114,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 51,
           "name": "FRAMENUM",
           "method": 6,
           "zero_displacement": true
@@ -2122,7 +2122,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 51,
         "name": "FRAMENUM",
         "method": 6,
         "zero_displacement": true
@@ -2141,7 +2141,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 51,
           "name": "FRAMENUM",
           "method": 6,
           "zero_displacement": true
@@ -2149,7 +2149,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 51,
         "name": "FRAMENUM",
         "method": 6,
         "zero_displacement": true
@@ -2168,7 +2168,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 52,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -2176,7 +2176,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 52,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -2195,7 +2195,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 50,
           "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
@@ -2203,7 +2203,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 50,
         "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
@@ -2222,7 +2222,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2230,7 +2230,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2249,7 +2249,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 41,
           "name": "SINK_DESERT_STONE",
           "method": 6,
           "zero_displacement": true
@@ -2257,7 +2257,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 41,
         "name": "SINK_DESERT_STONE",
         "method": 6,
         "zero_displacement": true
@@ -2298,7 +2298,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 69,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -2306,7 +2306,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 69,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -2325,7 +2325,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 68,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -2333,7 +2333,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 68,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -2396,7 +2396,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2404,7 +2404,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2423,7 +2423,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 33,
           "name": "TRIGGER_DESERT_EXIT",
           "method": 6,
           "zero_displacement": true
@@ -2431,7 +2431,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 33,
         "name": "TRIGGER_DESERT_EXIT",
         "method": 6,
         "zero_displacement": true
@@ -2494,7 +2494,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2502,7 +2502,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2521,7 +2521,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 42,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -2529,7 +2529,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 42,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -2548,7 +2548,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 42,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -2556,7 +2556,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 42,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -2575,7 +2575,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 42,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -2583,7 +2583,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 42,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -2602,7 +2602,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 42,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -2610,7 +2610,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 42,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -2629,7 +2629,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 68,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -2637,7 +2637,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 68,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -2656,7 +2656,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 39,
           "name": "MIDI",
           "method": 6,
           "zero_displacement": true
@@ -2664,7 +2664,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 39,
         "name": "MIDI",
         "method": 6,
         "zero_displacement": true
@@ -2683,7 +2683,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -2691,7 +2691,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -2710,7 +2710,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 13,
           "name": "@draw_custom_room_image",
           "method": 6,
           "zero_displacement": true
@@ -2718,7 +2718,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 13,
         "name": "@draw_custom_room_image",
         "method": 6,
         "zero_displacement": true
@@ -2737,7 +2737,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 63,
           "name": "GAMEPLAYRECT",
           "method": 6,
           "zero_displacement": true
@@ -2745,7 +2745,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 63,
         "name": "GAMEPLAYRECT",
         "method": 6,
         "zero_displacement": true
@@ -2764,7 +2764,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -2772,7 +2772,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -2791,7 +2791,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -2799,7 +2799,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -2818,7 +2818,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -2826,7 +2826,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -2845,7 +2845,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -2853,7 +2853,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -2872,7 +2872,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -2880,7 +2880,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -2899,7 +2899,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -2907,7 +2907,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -2926,7 +2926,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -2934,7 +2934,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -2953,7 +2953,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -2961,7 +2961,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -2980,7 +2980,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 74,
+          "index": 17,
           "name": "CHECK_TROB_VISIBILITY",
           "method": 6,
           "zero_displacement": true
@@ -2988,7 +2988,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 74,
+        "index": 17,
         "name": "CHECK_TROB_VISIBILITY",
         "method": 6,
         "zero_displacement": true
@@ -3007,7 +3007,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -3015,7 +3015,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -3034,7 +3034,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 13,
           "name": "@draw_custom_room_image",
           "method": 6,
           "zero_displacement": true
@@ -3042,7 +3042,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 13,
         "name": "@draw_custom_room_image",
         "method": 6,
         "zero_displacement": true
@@ -3061,7 +3061,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 63,
           "name": "GAMEPLAYRECT",
           "method": 6,
           "zero_displacement": true
@@ -3069,7 +3069,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 63,
         "name": "GAMEPLAYRECT",
         "method": 6,
         "zero_displacement": true
@@ -3088,7 +3088,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -3096,7 +3096,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -3115,7 +3115,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -3123,7 +3123,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -3142,7 +3142,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -3150,7 +3150,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -3169,7 +3169,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3177,7 +3177,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3196,7 +3196,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -3204,7 +3204,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -3223,7 +3223,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -3231,7 +3231,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -3250,7 +3250,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -3258,7 +3258,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -3277,7 +3277,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -3285,7 +3285,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -3304,7 +3304,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 74,
+          "index": 17,
           "name": "CHECK_TROB_VISIBILITY",
           "method": 6,
           "zero_displacement": true
@@ -3312,7 +3312,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 74,
+        "index": 17,
         "name": "CHECK_TROB_VISIBILITY",
         "method": 6,
         "zero_displacement": true
@@ -3331,7 +3331,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 68,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -3339,7 +3339,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 68,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -3358,7 +3358,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 73,
+          "index": 16,
           "name": "ADD_TROB",
           "method": 6,
           "zero_displacement": true
@@ -3366,7 +3366,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 73,
+        "index": 16,
         "name": "ADD_TROB",
         "method": 6,
         "zero_displacement": true
@@ -3385,7 +3385,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 71,
+          "index": 14,
           "name": "GET_TROB_ROOM_CELL",
           "method": 6,
           "zero_displacement": true
@@ -3393,7 +3393,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 71,
+        "index": 14,
         "name": "GET_TROB_ROOM_CELL",
         "method": 6,
         "zero_displacement": true
@@ -3412,7 +3412,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3420,7 +3420,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3439,7 +3439,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 13,
           "name": "@draw_custom_room_image",
           "method": 6,
           "zero_displacement": true
@@ -3447,7 +3447,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 13,
         "name": "@draw_custom_room_image",
         "method": 6,
         "zero_displacement": true
@@ -3466,7 +3466,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 13,
           "name": "@draw_custom_room_image",
           "method": 6,
           "zero_displacement": true
@@ -3474,7 +3474,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 13,
         "name": "@draw_custom_room_image",
         "method": 6,
         "zero_displacement": true
@@ -3493,7 +3493,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3501,7 +3501,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3520,7 +3520,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3528,7 +3528,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3547,7 +3547,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3555,7 +3555,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3574,7 +3574,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 75,
+          "index": 18,
           "name": "RESTOREKEEPCUSTOMPEEL",
           "method": 6,
           "zero_displacement": true
@@ -3582,7 +3582,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 75,
+        "index": 18,
         "name": "RESTOREKEEPCUSTOMPEEL",
         "method": 6,
         "zero_displacement": true
@@ -3601,7 +3601,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -3609,7 +3609,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -3628,7 +3628,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -3636,7 +3636,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -3655,7 +3655,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -3663,7 +3663,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -3682,7 +3682,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -3690,7 +3690,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -3709,7 +3709,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -3717,7 +3717,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -3736,7 +3736,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -3744,7 +3744,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -3763,7 +3763,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -3771,7 +3771,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -3790,7 +3790,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -3798,7 +3798,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -3817,7 +3817,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3825,7 +3825,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3844,7 +3844,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -3852,7 +3852,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -3871,7 +3871,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -3879,7 +3879,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -3898,7 +3898,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 69,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -3906,7 +3906,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 69,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -3925,7 +3925,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 72,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -3933,7 +3933,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 72,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -3952,7 +3952,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 73,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -3960,7 +3960,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 73,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -3979,7 +3979,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -3987,7 +3987,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -4006,7 +4006,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -4014,7 +4014,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -4033,7 +4033,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -4041,7 +4041,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -4060,7 +4060,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 13,
           "name": "@draw_custom_room_image",
           "method": 6,
           "zero_displacement": true
@@ -4068,7 +4068,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 13,
         "name": "@draw_custom_room_image",
         "method": 6,
         "zero_displacement": true
@@ -4087,7 +4087,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -4095,7 +4095,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -4114,7 +4114,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 69,
+          "index": 12,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -4122,7 +4122,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 69,
+        "index": 12,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -4141,7 +4141,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -4149,7 +4149,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -4168,7 +4168,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -4176,7 +4176,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -4195,7 +4195,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 66,
+          "index": 10,
           "name": "MAKESHAPERECT",
           "method": 6,
           "zero_displacement": true
@@ -4203,7 +4203,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 66,
+        "index": 10,
         "name": "MAKESHAPERECT",
         "method": 6,
         "zero_displacement": true
@@ -4222,7 +4222,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 65,
+          "index": 9,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -4230,7 +4230,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 65,
+        "index": 9,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -4249,7 +4249,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 65,
           "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
@@ -4257,7 +4257,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 65,
         "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
@@ -4276,7 +4276,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 42,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -4284,7 +4284,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 42,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -4303,7 +4303,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 42,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -4311,7 +4311,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 42,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -4330,7 +4330,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -4338,7 +4338,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -4357,7 +4357,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 51,
           "name": "FRAMENUM",
           "method": 6,
           "zero_displacement": true
@@ -4365,7 +4365,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 51,
         "name": "FRAMENUM",
         "method": 6,
         "zero_displacement": true
@@ -4384,7 +4384,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 62,
           "name": "CELLCLIPRECT",
           "method": 6,
           "zero_displacement": true
@@ -4392,7 +4392,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 62,
         "name": "CELLCLIPRECT",
         "method": 6,
         "zero_displacement": true
@@ -4411,7 +4411,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4419,7 +4419,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4438,7 +4438,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 4,
           "name": "CLEAR_HANDLE_OWNED",
           "method": 6,
           "zero_displacement": true
@@ -4446,7 +4446,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 4,
         "name": "CLEAR_HANDLE_OWNED",
         "method": 6,
         "zero_displacement": true
@@ -4465,7 +4465,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 61,
           "name": "PICS",
           "method": 6,
           "zero_displacement": true
@@ -4473,7 +4473,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 61,
         "name": "PICS",
         "method": 6,
         "zero_displacement": true
@@ -4492,7 +4492,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 63,
+          "index": 8,
           "name": "PRINCEUNPACKSHAPE",
           "method": 6,
           "zero_displacement": true
@@ -4500,7 +4500,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 63,
+        "index": 8,
         "name": "PRINCEUNPACKSHAPE",
         "method": 6,
         "zero_displacement": true
@@ -4519,7 +4519,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 7,
           "name": "HGETRSRC",
           "method": 6,
           "zero_displacement": true
@@ -4527,7 +4527,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 7,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -4546,7 +4546,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 61,
+          "index": 6,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -4554,7 +4554,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 61,
+        "index": 6,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -4573,7 +4573,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -4581,7 +4581,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -4600,7 +4600,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 63,
+          "index": 8,
           "name": "PRINCEUNPACKSHAPE",
           "method": 6,
           "zero_displacement": true
@@ -4608,7 +4608,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 63,
+        "index": 8,
         "name": "PRINCEUNPACKSHAPE",
         "method": 6,
         "zero_displacement": true
@@ -4627,7 +4627,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 7,
           "name": "HGETRSRC",
           "method": 6,
           "zero_displacement": true
@@ -4635,7 +4635,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 7,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -4654,7 +4654,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -4662,7 +4662,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -4703,7 +4703,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 61,
+          "index": 6,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -4711,7 +4711,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 61,
+        "index": 6,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -4730,7 +4730,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 60,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -4738,7 +4738,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 60,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -4757,7 +4757,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 2,
           "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -4765,7 +4765,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 2,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -4784,7 +4784,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 61,
           "name": "PICS",
           "method": 6,
           "zero_displacement": true
@@ -4792,7 +4792,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 61,
         "name": "PICS",
         "method": 6,
         "zero_displacement": true
@@ -4855,7 +4855,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 1,
           "name": "RND",
           "method": 6,
           "zero_displacement": true
@@ -4863,7 +4863,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 1,
         "name": "RND",
         "method": 6,
         "zero_displacement": true
@@ -4904,7 +4904,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 38,
           "name": "REMOVE_LAST_STONE_PEEL",
           "method": 6,
           "zero_displacement": true
@@ -4912,7 +4912,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 38,
         "name": "REMOVE_LAST_STONE_PEEL",
         "method": 6,
         "zero_displacement": true
@@ -4931,7 +4931,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 73,
+          "index": 16,
           "name": "ADD_TROB",
           "method": 6,
           "zero_displacement": true
@@ -4939,7 +4939,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 73,
+        "index": 16,
         "name": "ADD_TROB",
         "method": 6,
         "zero_displacement": true
@@ -4958,7 +4958,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 44,
           "name": "ADD_DESERT_AMBIENT",
           "method": 6,
           "zero_displacement": true
@@ -4966,7 +4966,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 44,
         "name": "ADD_DESERT_AMBIENT",
         "method": 6,
         "zero_displacement": true
@@ -4985,7 +4985,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 74,
           "name": "GET_TROB_BY_ID",
           "method": 6,
           "zero_displacement": true
@@ -4993,7 +4993,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 74,
         "name": "GET_TROB_BY_ID",
         "method": 6,
         "zero_displacement": true
@@ -5012,7 +5012,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 71,
+          "index": 14,
           "name": "GET_TROB_ROOM_CELL",
           "method": 6,
           "zero_displacement": true
@@ -5020,7 +5020,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 71,
+        "index": 14,
         "name": "GET_TROB_ROOM_CELL",
         "method": 6,
         "zero_displacement": true
@@ -5039,7 +5039,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 69,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -5047,7 +5047,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 69,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -5066,7 +5066,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 1,
           "name": "RND",
           "method": 6,
           "zero_displacement": true
@@ -5074,7 +5074,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 1,
         "name": "RND",
         "method": 6,
         "zero_displacement": true
@@ -5093,7 +5093,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5101,7 +5101,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5120,7 +5120,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 41,
           "name": "SINK_DESERT_STONE",
           "method": 6,
           "zero_displacement": true
@@ -5128,7 +5128,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 41,
         "name": "SINK_DESERT_STONE",
         "method": 6,
         "zero_displacement": true
@@ -5147,7 +5147,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 76,
+          "index": 45,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -5155,7 +5155,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 76,
+        "index": 45,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5174,7 +5174,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 41,
           "name": "SINK_DESERT_STONE",
           "method": 6,
           "zero_displacement": true
@@ -5182,7 +5182,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 41,
         "name": "SINK_DESERT_STONE",
         "method": 6,
         "zero_displacement": true
@@ -5289,7 +5289,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5297,7 +5297,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5316,7 +5316,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5324,7 +5324,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5343,7 +5343,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5351,7 +5351,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5370,7 +5370,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 35,
           "name": "ANIMATE_DESERT_STONE",
           "method": 6,
           "zero_displacement": true
@@ -5378,7 +5378,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 35,
         "name": "ANIMATE_DESERT_STONE",
         "method": 6,
         "zero_displacement": true
@@ -5397,7 +5397,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5405,7 +5405,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5424,7 +5424,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 46,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5432,7 +5432,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 46,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5451,7 +5451,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5459,7 +5459,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5478,7 +5478,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 43,
           "name": "TRIGGER_STONE_AT",
           "method": 6,
           "zero_displacement": true
@@ -5486,7 +5486,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 43,
         "name": "TRIGGER_STONE_AT",
         "method": 6,
         "zero_displacement": true
@@ -5505,7 +5505,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 67,
           "name": "PEELINFO",
           "method": 6,
           "zero_displacement": true
@@ -5513,7 +5513,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 67,
         "name": "PEELINFO",
         "method": 6,
         "zero_displacement": true
@@ -5532,7 +5532,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 67,
           "name": "PEELINFO",
           "method": 6,
           "zero_displacement": true
@@ -5540,7 +5540,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 67,
         "name": "PEELINFO",
         "method": 6,
         "zero_displacement": true
@@ -5559,7 +5559,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 67,
           "name": "PEELINFO",
           "method": 6,
           "zero_displacement": true
@@ -5567,7 +5567,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 67,
         "name": "PEELINFO",
         "method": 6,
         "zero_displacement": true
@@ -5586,7 +5586,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 26,
           "name": "FIND_CHARACTER_PEEL",
           "method": 6,
           "zero_displacement": true
@@ -5594,7 +5594,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 26,
         "name": "FIND_CHARACTER_PEEL",
         "method": 6,
         "zero_displacement": true
@@ -5613,7 +5613,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -5621,7 +5621,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -5640,7 +5640,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 25,
           "name": "CHECK_TROB_BELOW",
           "method": 6,
           "zero_displacement": true
@@ -5648,7 +5648,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 25,
         "name": "CHECK_TROB_BELOW",
         "method": 6,
         "zero_displacement": true
@@ -5667,7 +5667,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -5675,7 +5675,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -5694,7 +5694,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 23,
           "name": "CHECK_TROB_RIGHT",
           "method": 6,
           "zero_displacement": true
@@ -5702,7 +5702,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 23,
         "name": "CHECK_TROB_RIGHT",
         "method": 6,
         "zero_displacement": true
@@ -5721,7 +5721,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 11,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -5729,7 +5729,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 11,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -5748,7 +5748,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -5756,7 +5756,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -5775,7 +5775,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 22,
           "name": "COMPUTE_TROB_MOVE_RECT",
           "method": 6,
           "zero_displacement": true
@@ -5783,7 +5783,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 22,
         "name": "COMPUTE_TROB_MOVE_RECT",
         "method": 6,
         "zero_displacement": true
@@ -5824,7 +5824,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 77,
+          "index": 19,
           "name": "DRAWCUSTOMROOMIMGATINFO",
           "method": 6,
           "zero_displacement": true
@@ -5832,7 +5832,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 77,
+        "index": 19,
         "name": "DRAWCUSTOMROOMIMGATINFO",
         "method": 6,
         "zero_displacement": true
@@ -5873,7 +5873,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 77,
+          "index": 19,
           "name": "DRAWCUSTOMROOMIMGATINFO",
           "method": 6,
           "zero_displacement": true
@@ -5881,7 +5881,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 77,
+        "index": 19,
         "name": "DRAWCUSTOMROOMIMGATINFO",
         "method": 6,
         "zero_displacement": true
@@ -5900,7 +5900,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5908,7 +5908,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5927,7 +5927,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5935,7 +5935,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5954,7 +5954,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 55,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -5962,7 +5962,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 55,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -5981,7 +5981,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 55,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -5989,7 +5989,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 55,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -6008,7 +6008,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 36,
           "name": "REDRAW_STONE",
           "method": 6,
           "zero_displacement": true
@@ -6016,7 +6016,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 36,
         "name": "REDRAW_STONE",
         "method": 6,
         "zero_displacement": true
@@ -6035,7 +6035,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6043,7 +6043,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6062,7 +6062,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6070,7 +6070,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6089,7 +6089,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6097,7 +6097,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6116,7 +6116,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6124,7 +6124,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6143,7 +6143,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6151,7 +6151,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6170,7 +6170,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 44,
           "name": "ADD_DESERT_AMBIENT",
           "method": 6,
           "zero_displacement": true
@@ -6178,7 +6178,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 44,
         "name": "ADD_DESERT_AMBIENT",
         "method": 6,
         "zero_displacement": true
@@ -6197,7 +6197,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 74,
           "name": "GET_TROB_BY_ID",
           "method": 6,
           "zero_displacement": true
@@ -6205,7 +6205,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 74,
         "name": "GET_TROB_BY_ID",
         "method": 6,
         "zero_displacement": true
@@ -6224,7 +6224,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6232,7 +6232,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6251,7 +6251,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6259,7 +6259,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6278,7 +6278,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6286,7 +6286,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6305,7 +6305,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 69,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -6313,7 +6313,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 69,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -6332,7 +6332,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 66,
           "name": "TROB",
           "method": 6,
           "zero_displacement": true
@@ -6340,7 +6340,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 66,
         "name": "TROB",
         "method": 6,
         "zero_displacement": true
@@ -6359,7 +6359,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6367,7 +6367,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6386,7 +6386,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 47,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6394,7 +6394,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 47,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6413,7 +6413,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 21,
           "name": "@add_peel",
           "method": 6,
           "zero_displacement": true
@@ -6421,7 +6421,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 21,
         "name": "@add_peel",
         "method": 6,
         "zero_displacement": true
@@ -6440,7 +6440,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 78,
+          "index": 20,
           "name": "OFFSETRECT",
           "method": 6,
           "zero_displacement": true
@@ -6448,7 +6448,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 78,
+        "index": 20,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -6467,7 +6467,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 75,
           "name": "DRAW_DESERT_STONE",
           "method": 6,
           "zero_displacement": true
@@ -6475,7 +6475,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 75,
         "name": "DRAW_DESERT_STONE",
         "method": 6,
         "zero_displacement": true
@@ -6494,7 +6494,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 24,
           "name": "DRAW_DESERT_PLANKS",
           "method": 6,
           "zero_displacement": true
@@ -6502,7 +6502,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 24,
         "name": "DRAW_DESERT_PLANKS",
         "method": 6,
         "zero_displacement": true
@@ -6521,7 +6521,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 40,
           "name": "DRAW_DESERT_ROCKS",
           "method": 6,
           "zero_displacement": true
@@ -6529,7 +6529,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 40,
         "name": "DRAW_DESERT_ROCKS",
         "method": 6,
         "zero_displacement": true
@@ -6548,7 +6548,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 5,
           "name": "DRAW_DESERT_EXIT",
           "method": 6,
           "zero_displacement": true
@@ -6556,7 +6556,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 5,
         "name": "DRAW_DESERT_EXIT",
         "method": 6,
         "zero_displacement": true

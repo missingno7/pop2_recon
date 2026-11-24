@@ -1,3 +1,6 @@
+#include "types.h"
+#include "level.h"
+#include "char.h"
 #define KIND_SAME_ROW (Room.number)
 #define KIND_ROW_ABOVE (Room.left)
 #define KIND_ROW_BELOW (Room.right)
@@ -14,15 +17,6 @@ static signed char cur_row, from_col, stop_col;
 static signed char old_row;
 static signed char left_barrier;
 static signed char right_block_col;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
 extern ROOMREC Room;
 #pragma pack(1)
 extern struct {
@@ -35,94 +29,7 @@ extern struct {
     unsigned char top_row, bottom_row;                 /* 09-0a */
 } Cell;
 #pragma pack()
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 
-
-
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 extern LEVELREC Level;
 extern int WeightlessTimer, CDRightEdge, CDLeftEdge, ImHeight;
 extern int AlertGuard;
@@ -145,7 +52,6 @@ int GetRightBarr(unsigned char room, signed char col, signed char row);
 static int coll_x;
 extern int ColEdgeX[20];
 extern signed char BarL[], BarR[];
-
 
 #define cell_flags (*(unsigned char *)&Cell.modifier)
 
@@ -175,33 +81,15 @@ extern int step_in_progress;
 
 void *memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
-#pragma pack(1)
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
-#pragma pack()
 extern FCHARREC FChar;
-#pragma pack(1)
-typedef struct {
-    int image, equipment_image;                       /* 00,02 */
-    signed char x, y;                                 /* 04-05 */
-    unsigned char flags;                              /* 06 */
-} FRAMEREC;
-#pragma pack()
 extern FRAMEREC Frame;
-
 
 void CheckBarr(void)
 {
     signed char col;
 
     right_block_col = left_barrier = -1;
-    if ((unsigned char)Char.action != 7 && Char.sequence != 78 && Char.sequence != 70 &&
+    if (Char.action != 7 && Char.sequence != 78 && Char.sequence != 70 &&
         (!Level.background_overlays[5] || !slide_rock_on_row(Char.room, Char.row) || Char.sequence_group != 4)) {
         cur_row = Char.row;
         InitColDetBufs();
@@ -231,7 +119,7 @@ void CheckBarr(void)
     }
 
     if (Char.character_kind == 0 && right_block_col == -1 && left_barrier == -1 &&
-        WeightlessTimer && (unsigned char)Char.action == 4)
+        WeightlessTimer && Char.action == 4)
         CheckWeightlessBarr();
 }
 
@@ -280,7 +168,7 @@ int GetBarrCode(unsigned char cell)
     case 4:
         if (Level.environment_kind == 3)
             code = 5;
-        else if (KIND_SAME_ROW == 9 && ((unsigned char)Level.level_number) == 8)
+        else if (KIND_SAME_ROW == 9 && (Level.level_number) == 8)
             code = 8;
         else
             code = 1;
@@ -351,7 +239,7 @@ int GetRightBarr(unsigned char room, signed char col, signed char row)
 
 void collide_with_barriers(void)
 {
-    if ((unsigned char)Char.action != 2 && (unsigned char)Char.action != 6 && (Char.frame < 135 || Char.frame >= 145)) {
+    if (Char.action != 2 && Char.action != 6 && (Char.frame < 135 || Char.frame >= 145)) {
         if (right_block_col >= 0)
             left_collision();
         else if (left_barrier >= 0)
@@ -364,9 +252,9 @@ void right_collision(void)
     int barrier;
 
     if ((Char.stance == 1 || Char.direction != 0) && check_collision_col(left_barrier)) {
-        barrier = GetRightBarr(Cell.room, Cell.column, ((unsigned char)Cell.row));
+        barrier = GetRightBarr(Cell.room, Cell.column, (Cell.row));
         if (barrier <= 0 && Level.background_overlays[5])
-            barrier = slide_rock_barrier(0, Cell.room, ((unsigned char)Cell.row));
+            barrier = slide_rock_barrier(0, Cell.room, (Cell.row));
         barrier -= CDLeftEdge;
         apply_collision(barrier, 0);
     }
@@ -377,9 +265,9 @@ void left_collision(void)
     int barrier;
 
     if ((Char.stance == 1 || Char.direction != -1) && check_collision_col(right_block_col)) {
-        barrier = GetLeftBarr(Cell.room, Cell.column, ((unsigned char)Cell.row));
+        barrier = GetLeftBarr(Cell.room, Cell.column, (Cell.row));
         if (ColEdgeX[19] <= barrier && Level.background_overlays[5])
-            barrier = slide_rock_barrier(-1, Cell.room, ((unsigned char)Cell.row));
+            barrier = slide_rock_barrier(-1, Cell.room, (Cell.row));
         barrier -= CDRightEdge;
         apply_collision(barrier, -1);
     }
@@ -424,7 +312,6 @@ int check_collision_tile(unsigned char cell)
     return blocked;
 }
 
-
 int far pascal AdjustRoom(unsigned char kind, int value)
 {
     /* The first matching kind leaves the signed offset unchanged. */
@@ -445,17 +332,17 @@ void apply_collision(int displacement, signed char direction)
     if (Char.alive >= 0 || Char.frame == 242 || Char.frame == 243)
         return;
     Char.x += displacement;
-    cell = ((unsigned char)Cell.kind);
+    cell = (Cell.kind);
     if (direction == -1) {
         if (IsWall(cell))
-            cell = ReadCell(Cell.room, --Cell.column, ((unsigned char)Cell.row));
+            cell = ReadCell(Cell.room, --Cell.column, (Cell.row));
     } else if (IsWall(cell)) {
         ++Cell.column;
         if (Cell.room == 0 && Cell.column == 10) {
             Cell.room = Char.room;
             Cell.column = 0;
         }
-        cell = ReadCell(Cell.room, Cell.column, ((unsigned char)Cell.row));
+        cell = ReadCell(Cell.room, Cell.column, (Cell.row));
     }
     if (IS_SIX_KIND(cell) && (Level.environment_kind != 2 || !probe_chain_floor(8)))
         apply_air_bump();
@@ -466,7 +353,7 @@ void apply_collision(int displacement, signed char direction)
 void apply_air_bump(void)
 {
     Char.x = AddCharX(-8);
-    if ((unsigned char)Char.action == 4)
+    if (Char.action == 4)
         Char.horizontal_step = 0;
     else {
         JumpSeq(45);
@@ -475,7 +362,6 @@ void apply_air_bump(void)
     BumpSound();
     reread_cells();
 }
-
 
 void apply_ground_bump(signed char direction)
 {
@@ -504,7 +390,7 @@ void apply_ground_bump(signed char direction)
         } else {
             sequence = 64;
             if (is_striking_position(Char.character_kind, Char.frame)) {
-                if (((unsigned char)Cell.kind) == 4 && cell_flags > 64)
+                if ((Cell.kind) == 4 && cell_flags > 64)
                     sequence = -1;
                 else
                     Char.x = AddCharX(16);
@@ -516,7 +402,7 @@ void apply_ground_bump(signed char direction)
     } else {
         frame = Char.frame;
         if (frame >= 246 && frame <= 261) {
-            Char.x = AddCharX(-3), sequence = 121, Char.field_0f = 0;
+            Char.x = AddCharX(-3), sequence = 121, Char.repeat = 0;
         } else if (frame == 24 || frame == 25 ||
                    (frame >= 40 && frame < 43) || (frame >= 102 && frame < 107)) {
             sequence = 46;
@@ -550,14 +436,12 @@ void InitCollisionDetection(void)
     old_row = -1;
 }
 
-
 int CreviceBarr(void)
 {
     if (Char.character_kind == 7 || Char.character_kind == 8 || ImHeight > 18 || (cell_flags & 3) == 3)
         return 1;
     return 0;
 }
-
 
 int gate_blocks_passage(void)
 {
@@ -593,7 +477,7 @@ int gate_blocks_standing(void)
     int position = 0;
     unsigned int opening;
 
-    if (((unsigned char)Char.room != 9 || ((unsigned char)Level.level_number) != 8) &&
+    if ((Char.room != 9 || (Level.level_number) != 8) &&
         (ReadCell(Char.room, Char.column, Char.row) == 4 ||
          get_cells_ahead(1) == 4 || get_behind() == 4)) {
         opening = Cell.modifier & 255;
@@ -633,7 +517,7 @@ struct sword_frame {
     unsigned char flags;
 };
 
-extern struct char_bounds NullRect;
+extern Rect NullRect;
 extern int Pics[];
 extern int ImWidth, LeftEdge, RightEdge, TopEdge;
 extern void far *get_set_image_size(int table, int index, struct sprite_size far *size);
@@ -645,7 +529,7 @@ extern struct sword_frame far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int id);
 
 void get_char_edges(void)
 {
-    struct char_bounds previous, bounds;
+    Rect previous, bounds;
     struct sprite_size size;
     int sword_width;
 
@@ -679,13 +563,13 @@ void get_char_edges(void)
     if (Cell.bottom_row == 255)
         Cell.bottom_row = 3;
     if (get_col(LeftEdge) < 0)
-        (*(unsigned char *)&Cell.from_col) = 0;
+        Cell.from_col = 0;
     else
-        (*(unsigned char *)&Cell.from_col) = get_col(LeftEdge);
+        Cell.from_col = get_col(LeftEdge);
     if (get_col(RightEdge) <= 9)
-        (*(unsigned char *)&Cell.stop_col) = get_col(RightEdge);
+        Cell.stop_col = get_col(RightEdge);
     else
-        (*(unsigned char *)&Cell.stop_col) = 9;
+        Cell.stop_col = 9;
     if (Frame.flags & 32) {
         CDLeftEdge += 9;
         CDRightEdge -= 9;
@@ -793,11 +677,11 @@ void check_gate_for_opponent(void)
         return;
     if (cell != 4 && get_behind() != 4 && get_cells_ahead(1) != 4)
         return;
-    if ((Cell.room == 9 && ((unsigned char)Level.level_number) == 8) || Char.character_kind == 12 || !gate_blocks_passage())
+    if ((Cell.room == 9 && (Level.level_number) == 8) || Char.character_kind == 12 || !gate_blocks_passage())
         return;
     coll_x = ColEdgeX[Cell.column + 5] + 14;
-    left = GetLeftBarr(Cell.room, Cell.column, ((unsigned char)Cell.row));
-    right = GetRightBarr(Cell.room, Cell.column, ((unsigned char)Cell.row));
+    left = GetLeftBarr(Cell.room, Cell.column, (Cell.row));
+    right = GetRightBarr(Cell.room, Cell.column, (Cell.row));
     if (Room.number != Cell.room) {
         if (Room.left == Cell.room) {
             left -= 320;
@@ -822,7 +706,7 @@ void check_gate_for_player(void)
         return;
     if (Char.sequence == 118 || (cell != 4 && get_behind() != 4 && get_cells_ahead(1) != 4))
         return;
-    if (Cell.room == 9 && ((unsigned char)Level.level_number) == 8)
+    if (Cell.room == 9 && (Level.level_number) == 8)
         return;
     if ((ColDetThisFrame[Cell.column] & ColDetLastFrame[Cell.column]) != 255 || !gate_blocks_passage())
         return;
@@ -861,7 +745,7 @@ void collide_enemy_with_barrier(void)
     unsigned char cell;
 
     airborne = Char.character_kind == 7 || Char.character_kind == 8;
-    if ((signed char)(unsigned char)Char.action != ((Char.character_kind == 7 || Char.character_kind == 8) ? 0 : 1) &&
+    if (Char.action != ((Char.character_kind == 7 || Char.character_kind == 8) ? 0 : 1) &&
         ((Char.character_kind != 7 && Char.character_kind != 8) || Char.sequence == 164))
         return;
     if ((Char.alive >= 0 && !airborne) || Char.stance != 1 || Char.sequence == 70)
@@ -879,8 +763,8 @@ void collide_enemy_with_barrier(void)
     if (!check_collision_tile(cell))
         return;
     sequence = -1;
-    back = barrier_distance_from_back(((unsigned char)Cell.kind), Cell.room, Cell.column);
-    front = barrier_distance_from_face(((unsigned char)Cell.kind), Cell.room, Cell.column);
+    back = barrier_distance_from_back((Cell.kind), Cell.room, Cell.column);
+    front = barrier_distance_from_face((Cell.kind), Cell.room, Cell.column);
     distance = abs(front) < abs(back) ? front : back;
     if (airborne)
         sequence = head_enemy_collide(front);

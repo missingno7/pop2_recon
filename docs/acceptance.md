@@ -364,6 +364,14 @@ addend = F's object offset + A + D. The segment half (`mov ax, SEG F`, LOC2) mus
 equal the claim's witnessed CS frame paragraph and counts among the claim's
 relocation sites.
 
+## Project headers (2026-11-25)
+
+A C source may include `include/NAME.h` as `#include "NAME.h"`, directly or through another project header; every other
+form is refused before the compiler runs. The compiler stages exactly those files beside the source, the group recipe
+records the SHA-256 of each (`includes`), and validation compares both the staged and the live headers with it. Checks on
+what a source declares (`_segname`, case aliases) read the headers too. A header change makes the pins of all its users
+stale: republish each of them, then validate. Publication itself does not look at other components' pins.
+
 ## Genuine assembly only (2026-11-21)
 
 MASM claims are accepted only for routines whose original source was assembly. The FM

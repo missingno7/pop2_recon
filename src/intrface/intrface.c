@@ -1,3 +1,4 @@
+#include "types.h"
 typedef unsigned int ResourceMap;
 typedef const char far *FarName;
 typedef unsigned int (far pascal *WaitFunction)(void);
@@ -34,8 +35,8 @@ extern struct LevelState *configuration;
 extern const char system_error[];
 
 static const char message_format[] = "%s\n";
-struct screen_port_rect { int top, left, bottom, right; };
-struct screen_port_rect ScreenPortRect = { 0, 0, 200, 320 };
+
+Rect ScreenPortRect = { 0, 0, 200, 320 };
 unsigned int poll_user(void);
 void StdRsrcVerify(FarName);
 

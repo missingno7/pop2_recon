@@ -19,7 +19,7 @@ from pathlib import Path
 
 from assembler import verify_assembler
 from common import ROOT, project_path, read_json, require, sha
-from compiler import CompileError, compile_c, load_lock
+from compiler import CompileError, compile_c, header_pins, load_lock
 from omf import OmfReader
 from oracle import Oracle
 
@@ -76,7 +76,9 @@ def build(name, module, out):
         source = project_path(row["source"]).read_bytes()
         require(sha(source) == row["source_sha256"], f"Canonical source changed without acceptance: {name}")
     language = row.get("language", "c")
-    key = sha(json.dumps([sha(source), row["profile"], row.get("flags"), module, language]).encode())[:24]
+    pins = header_pins(source.decode("ascii")) if language == "c" else {}
+    require(name.startswith("link:") or pins == row.get("includes", {}), f"Project headers changed without acceptance: {name}")
+    key = sha(json.dumps([sha(source), row["profile"], row.get("flags"), module, language, pins]).encode())[:24]
     cached = out / "cache" / f"{key}.obj"
     if cached.is_file():
         return cached.read_bytes()
@@ -347,11 +349,11 @@ def main():
               f"missing {row['relocations_missing']}, in original order {row['relocations_same_position']}"
               + ("" if row.get("payload_equal", True) else "; file payload differs"))
     print(summary(report))
+    if args.check or args.record:
+        require_not_worse(report)   # a worse result is never recorded
     if args.record:
         (ROOT / "evidence/whole-link.json").write_text(json.dumps({k: report[k] for k in KEPT}, indent=1) + "\n",
                                                        newline="\n")
-    if args.check:
-        require_not_worse(report)
 
 
 if __name__ == "__main__":

@@ -1,74 +1,37 @@
 /* ROOFTOPS.C: DOS overlay 4. Descriptive names mark unresolved symbols. */
-typedef signed char sbyte;
-typedef unsigned char ubyte;
-typedef unsigned int uword;
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 
 #pragma pack(1)
-typedef struct {
-    int top, left, bottom, right;
-} Rect;
 
 typedef struct {
     sbyte kind;
     int y, x;
-    ubyte pass;
-    ubyte reserved[3];
+    byte pass;
+    byte reserved[3];
     int image_set;
     Rect bounds;
-    ubyte tail[6];
+    byte tail[6];
 } DrawPiece;
 
 typedef struct {
     sbyte piece_count;
-    ubyte bank;
-    ubyte reserved[26];
+    byte bank;
+    byte reserved[26];
     DrawPiece pieces[80];
 } DrawList;
-
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
 
 typedef struct {
     sbyte kind;
     sbyte column, row;
-    ubyte reserved;
-    uword frame;
+    byte reserved;
+    word frame;
 } RoofAnimation;
 
 typedef struct {
-    ubyte reserved[18];
+    byte reserved[18];
     int top;
     int left;
     int bottom;
@@ -76,12 +39,12 @@ typedef struct {
 
 typedef struct {
     Peel near *peel;
-    ubyte reserved[4];
+    byte reserved[4];
 } PeelSlot;
 
 typedef struct {
-    ubyte index;
-    ubyte reserved;
+    byte index;
+    byte reserved;
 } SplashImage;
 #pragma pack()
 
@@ -92,93 +55,17 @@ typedef struct {
 } WATERSTATE;
 WATERSTATE InWater;
 static sbyte palette_bank;
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 
 extern LEVELREC Level;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
 
 extern CHARREC Char;
 extern ROOMREC Room;
-typedef struct {
-    signed char tile;
-    unsigned char room;
-    signed char state;
-    unsigned char field_3;
-} TrobRecord;
-extern TrobRecord Trob;
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
+
+extern TROBREC Trob;
+
 extern GAMESTATE GameState;
 extern unsigned long FrameNum;
-extern uword BlueSpec;
-#pragma pack(1)
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
-#pragma pack()
+extern word BlueSpec;
 
 extern FCHARREC FChar;
 extern int NewRoom;
@@ -202,7 +89,7 @@ extern void far pascal mark_move(void), mark_foreground(void);
 extern int far pascal SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void far pascal mark_bufs_for_rect(RedrawCallback, Rect near *, sbyte);
 extern void far pascal decrement_life_points(sbyte), SetKidDeathMethod(sbyte);
-extern int far pascal set_palette(uword, int, ubyte, sbyte);
+extern int far pascal set_palette(word, int, byte, sbyte);
 extern void far pascal CycleColors(int, int, int);
 extern int far pascal query_sound(int);
 extern void far pascal AddSound(int), AddLeaveLevelSong(void), play_song(int);
@@ -213,9 +100,8 @@ extern void far pascal load_actor_slot(sbyte), save_actor_slot(void);
 extern int far pascal check_trob_visibility(void);
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
 extern Rect far *far pascal MAKESHAPERECT(Rect far *, int, int, void far *);
-extern void far _fastcall draw_custom_room_image(ubyte, ubyte);
-extern sbyte far pascal RestoreKeepCustomPeel(ubyte);
-
+extern void far _fastcall draw_custom_room_image(byte, byte);
+extern sbyte far pascal RestoreKeepCustomPeel(byte);
 
 void far pascal check_character_water(void);
 void far pascal cycle_roof_colors(void);
@@ -235,7 +121,7 @@ int far _fastcall keep_image_in_back(DrawPiece near *piece)
     if ((piece->kind == 35 || piece->kind == 22 ||
          piece->kind == 72 || piece->kind == 23) &&
         SECTRECT(&intersection, &piece->bounds, (Rect far *)&Kid.bounds) &&
-        (int)Kid.sequence != 68 &&
+        Kid.sequence != 68 &&
         (Kid.action == 3 || Kid.action == 4))
         result = 1;
     else
@@ -255,8 +141,8 @@ void far pascal LoadRoofCode(void)
 void far pascal check_character_water(void)
 {
     if (InWater.character == -1) {
-        if (Char.y >= 172 && (int)Char.sequence != 68 && (int)Char.sequence != 15 &&
-            (int)Char.sequence != 59 && Char.action != 2)
+        if (Char.y >= 172 && Char.sequence != 68 && Char.sequence != 15 &&
+            Char.sequence != 59 && Char.action != 2)
             trigger_character_water();
     } else if (Char.slot == InWater.character) {
         if (InWater.frame < 7) {
@@ -303,9 +189,9 @@ void far pascal clip_character_at_water(void)
     if ((Char.room == 19 || Char.room == 16) && Char.slot == InWater.character) {
         limit = 172;
         if (Char.action == 9) limit = 186;
-        FChar.clip_bottom = limit > FChar.clip_bottom ? FChar.clip_bottom : limit;
-        if (FChar.clip_bottom < FChar.clip_top)
-            FChar.clip_top = FChar.clip_bottom;
+        FChar.clip.bottom = limit > FChar.clip.bottom ? FChar.clip.bottom : limit;
+        if (FChar.clip.bottom < FChar.clip.top)
+            FChar.clip.top = FChar.clip.bottom;
     }
 }
 
@@ -362,7 +248,7 @@ Rect near *far pascal make_water_test_rect(Rect near *rect)
 {
     if (InWater.frame && InWater.frame <= 7) {
         if (InWater.low == 1)
-            *(unsigned int *)&rect->top = 186;
+            rect->top = 186;
         else
             rect->top = 172;
         rect->left = InWater.x - 16;
@@ -426,7 +312,7 @@ void far pascal setup_splash(void)
 {
     Rect clip;
     DrawPiece near *piece;
-    ubyte image;
+    byte image;
 
     if (Char.slot == InWater.character && InWater.frame != 0 && InWater.frame < 7 &&
         (custom_room->bank == 18 || custom_room->bank == 19)) {
@@ -457,18 +343,18 @@ void far pascal animate_roof_glass(void)
     ++BlueSpec;
     if (BlueSpec == 1)
         AddSound(49);
-    mark_bufs_for_rect(mark_move, &custom_room->pieces[(ubyte)(BlueSpec + 30)].bounds, -1);
+    mark_bufs_for_rect(mark_move, &custom_room->pieces[(byte)(BlueSpec + 30)].bounds, -1);
 }
 
 void far pascal draw_roof_glass(RoofAnimation near *animation)
 {
     Rect clip;
-    ubyte image;
+    byte image;
 
     if (animation->kind == 11 && animation->frame < 11) {
         clip = CellClipRect;
         CellClipRect = GamePlayRect;
-        image = (ubyte)(animation->frame + 31);
+        image = (byte)(animation->frame + 31);
         draw_custom_room_image(image, 11);
         if (image + 1 < custom_room->piece_count)
             mark_bufs_for_rect(mark_foreground, &custom_room->pieces[image + 1].bounds, -1);
@@ -478,7 +364,7 @@ void far pascal draw_roof_glass(RoofAnimation near *animation)
 
 extern void far pascal OFFSETRECT(Rect far *, Rect far *, int, int);
 extern DrawPiece near *far pascal offset_custom_piece(DrawPiece near *, sbyte, sbyte);
-extern void far pascal DrawCustomRoomImgAtInfo(ubyte, signed char near *);
+extern void far pascal DrawCustomRoomImgAtInfo(byte, signed char near *);
 DrawPiece near *far pascal offset_roof_pillar(DrawPiece near *);
 
 void far pascal AnimRoofPillar(void)
@@ -500,7 +386,7 @@ void far pascal AnimRoofPillar(void)
         piece = &custom_room->pieces[25];
         bounds = piece->bounds;
         position = *(long *)&piece->y;
-        piece = offset_custom_piece(piece, Trob.tile % 10, Trob.tile / 10);
+        piece = offset_custom_piece(piece, Trob.cell % 10, Trob.cell / 10);
         if (!InWater.frame || !SECTRECT(&water, &water, &piece->bounds)) {
             mark_bufs_for_rect(mark_move, &piece->bounds, -1);
             offset_roof_pillar(piece);
@@ -517,7 +403,7 @@ void far pascal draw_roof_pillar(RoofAnimation near *animation)
     struct {
         long position;
         sbyte kind;
-        ubyte image;
+        byte image;
     } saved;
     Rect bounds;
 
@@ -595,7 +481,7 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
 {
     Rect clip;
     DrawPiece near *piece;
-    uword position;
+    word position;
     int ship_x;
     sbyte image;
 
@@ -628,7 +514,7 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
 int far pascal RoofClimbingIntoShip(void)
 {
     int result;
-    if (Char.room == 19 && (int)Char.sequence == 59)
+    if (Char.room == 19 && Char.sequence == 59)
         result = 1;
     else
         result = 0;

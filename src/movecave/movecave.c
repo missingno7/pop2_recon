@@ -1,16 +1,17 @@
 /* MOVECAVE.C, DOS cave movement overlay. */
-typedef signed char sbyte;
-typedef unsigned char ubyte;
-typedef unsigned int uword;
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 
 #pragma pack(1)
 typedef struct {
     int sequence;
-    ubyte action;
+    byte action;
 } TrobRecord;
 
 typedef struct {
-    uword state;
+    word state;
     int other;
 } CellState;
 
@@ -26,8 +27,6 @@ typedef struct {
     sbyte slot;
     sbyte other;
 } LavaTrob;
-
-struct char_bounds { int top, left, bottom, right; };
 
 struct item {
     int active;
@@ -50,146 +49,20 @@ struct input {
 
 extern CellState *BlueS;
 extern int BlueT;
-#pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-#pragma pack()
 extern CELLREC Cell;
 #pragma pack(1)
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
 
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
 extern CHARREC Char;
 
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
 #pragma pack()
 extern LEVELREC Level;
 extern CHARREC Kid;
 
-extern uword BlueSpec;
-#pragma pack(1)
-typedef struct {
-    int x, y;                                         /* 00,02 */
-    unsigned char room;                               /* 04 */
-    int velocity, auxiliary;                          /* 05,07 */
-    signed char kind, row;                             /* 09-0a */
-    unsigned int flags;                               /* 0b */
-} MOBREC;
-#pragma pack()
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
+extern word BlueSpec;
 extern MOBREC Mob;
 extern LavaTrob Trob;
 #define animation_code Trob.slot
-#pragma pack(1)
-typedef struct {
-    int image, equipment_image;                       /* 00,02 */
-    signed char x, y;                                 /* 04-05 */
-    unsigned char flags;                              /* 06 */
-} FRAMEREC;
-#pragma pack()
 extern FRAMEREC Frame;
-#pragma pack(1)
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
-#pragma pack()
 extern FCHARREC FChar;
 extern int ColEdgeX[20];
 extern int Col2PixelX[13];
@@ -244,7 +117,7 @@ extern BRIDGEREC Bridge;
 
 extern int is_loose_pushing_plate(void);
 extern TrobRecord *get_trob_room_cell(sbyte, int);
-extern ubyte ReadCell(sbyte, sbyte, sbyte);
+extern byte ReadCell(sbyte, sbyte, sbyte);
 extern void add_trob(sbyte, sbyte, sbyte, sbyte);
 extern int check_trob_visibility(void);
 extern void redraw_trob(int *);
@@ -253,10 +126,10 @@ extern int GetRow(int, int);
 extern void mark_mob_redraw(sbyte);
 extern void add_mob_obj(int);
 extern Projectile *get_mob_type_item(sbyte, int);
-extern int SECTRECT(struct char_bounds far *, struct char_bounds far *, struct char_bounds far *);
+extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void AddSound(int);
-extern int IS_SIX_KIND(ubyte);
-extern int IsWall(ubyte);
+extern int IS_SIX_KIND(byte);
+extern int IsWall(byte);
 extern int gate_blocks_passage(void);
 extern int decrement_life_points(sbyte);
 extern int get_edge_distance(void);
@@ -273,34 +146,34 @@ extern unsigned int Rnd(unsigned int);
 extern void ClearCharVel(void);
 extern void AnimChar(void);
 extern void select_room_arrays(sbyte);
-extern void mark_move(sbyte, struct char_bounds *);
-extern int compute_trob_move_rect(struct char_bounds *, int *);
+extern void mark_move(sbyte, Rect *);
+extern int compute_trob_move_rect(Rect *, int *);
 extern sbyte check_trob_right(void);
 extern void add_gate_sound(int);
 extern sbyte FirstInRow(sbyte);
 extern void redraw_gate(void);
 extern void bridge_frame(void);
-extern void set_palette(int, int, ubyte, ubyte);
+extern void set_palette(int, int, byte, byte);
 extern void show_message(const char far *, int);
-extern void *cdecl _nmalloc(uword);
+extern void *cdecl _nmalloc(word);
 extern void cdecl _nfree(void *);
-extern void *cdecl memset(void *, int, uword);
+extern void *cdecl memset(void *, int, word);
 #pragma intrinsic(memset)
 
 void redraw_dart(void);
 void hit_actor_with_dart(void);
 void do_lava_boil(void);
 struct list *get_lava_info(sbyte, sbyte, sbyte);
-LavaTrob *get_lava_trob(sbyte, sbyte, sbyte);
+LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row);
 void redraw_lava(void);
-void reset_lava_info(struct list *, int);
-void far pascal TriggerLavaBubble(struct list *, struct input *);
+void reset_lava_info(struct list *pool, int type);
+void far pascal TriggerLavaBubble(struct list *destination, struct input *source);
 
 int trigger_reverse_gate(sbyte room, sbyte cell)
 {
     int cell_index, pressed, result;
     CELLREC previous_tile;
-    uword low, high, flags, state;
+    word low, high, flags, state;
     CellState *previous_cells;
     int previous_number;
     TrobRecord *trob;
@@ -320,7 +193,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
                 previous_tile = Cell;
                 previous_number = BlueT;
                 previous_cells = BlueS;
-                flags = ReadCell((ubyte)Char.room, Char.column, Char.row) == 34
+                flags = ReadCell(Char.room, Char.column, Char.row) == 34
                     ? Cell.modifier : 0;
                 BlueS = previous_cells;
                 BlueT = previous_number;
@@ -336,8 +209,8 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
         } else if (trob->action == 2 && pressed)
             trob->action = 3;
     } else if (low != 255) {
-        if (low == 0 && !(Char.character_kind == 4 && Char.row != 0 && ((unsigned char)Level.level_number) == 5 &&
-                         ((ubyte)Char.room == 10 || (ubyte)Char.room == 7 || (ubyte)Char.room == 12))) {
+        if (low == 0 && !(Char.character_kind == 4 && Char.row != 0 && (Level.level_number) == 5 &&
+                         (Char.room == 10 || Char.room == 7 || Char.room == 12))) {
             if (!pressed) {
                 if (!(Cell.modifier & 0x0800))
                     result = 2;
@@ -351,7 +224,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
 
 void animate_dart(void)
 {
-    uword frame = (ubyte)BlueSpec & 15;
+    word frame = BlueSpec & 15;
 
     if (frame < 6) {
         ++BlueSpec;
@@ -377,7 +250,7 @@ void move_dart_to_tile(void)
 
 void check_dart_hit(void)
 {
-    struct char_bounds hit, bounds;
+    Rect hit, bounds;
     int index;
     Projectile *dart_mob;
 
@@ -407,7 +280,7 @@ void check_dart_hit(void)
 void move_dart_mob(void)
 {
     int x, y;
-    ubyte tile;
+    byte tile;
 
     if (Mob.velocity == -2) {
         Mob.velocity = -1;
@@ -417,7 +290,7 @@ void move_dart_mob(void)
         y = Mob.y + Mob.velocity;
         x = Mob.auxiliary + Mob.x;
         if (x > 320) {
-            if ((ubyte)((signed char)Room.left) == Mob.room) {
+            if ((byte)(Room.left) == Mob.room) {
                 Mob.room = Room.number;
                 x -= 320;
             } else {
@@ -495,10 +368,10 @@ void redraw_dart(void)
 void trigger_dart(sbyte room, sbyte cell)
 {
     MOBREC saved;
-    uword frame;
+    word frame;
     int x;
 
-    frame = (ubyte)BlueS[cell].state & 15;
+    frame = BlueS[cell].state & 15;
     saved = Mob;
     if (!frame) {
         add_trob(room, cell, 1, 36);
@@ -507,7 +380,7 @@ void trigger_dart(sbyte room, sbyte cell)
         Mob.velocity = -11;
         x = Col2PixelX[Trob.cell % (sbyte)10 + 1] + 30;
         if (x > 320) {
-            if (Room.left == (ubyte)room) {
+            if (Room.left == (byte)room) {
                 room = Room.number;
                 x -= 320;
             } else
@@ -596,12 +469,11 @@ void animate_lava(void)
     }
 }
 
-
 void check_lava_boil(void)
 {
-    uword kind;
+    word kind;
     int y, center, reach;
-    kind = ReadCell((ubyte)Char.room, Char.column, Char.row);
+    kind = ReadCell(Char.room, Char.column, Char.row);
     y = (sbyte)63 * Char.row + 41;
     center = get_base_x();
     reach = ColEdgeX[Char.column + 5] - center + 26;
@@ -615,7 +487,7 @@ void do_lava_boil(void)
     struct list *pool;
     LavaTrob *trob;
 
-    pool = get_lava_info((ubyte)Char.room, Char.column, Char.row);
+    pool = get_lava_info(Char.room, Char.column, Char.row);
     if (pool) {
         pool->prefix = 0x80;
         if (Char.character_kind == 0 && Rnd(3) == 0) {
@@ -627,12 +499,12 @@ void do_lava_boil(void)
             JumpSeq(115);
         }
         Char.alert_delay = 0;
-        Char.field_0f = 1;
+        Char.repeat = 1;
         Char.sequence_group = 5;
         ClearCharVel();
         decrement_life_points(100);
         AnimChar();
-        trob = get_lava_trob((ubyte)Char.room, Char.column, Char.row);
+        trob = get_lava_trob(Char.room, Char.column, Char.row);
         if (trob) {
             Trob = *trob;
             redraw_lava();
@@ -640,9 +512,9 @@ void do_lava_boil(void)
     }
 }
 
-ubyte get_free_lava_slot(void)
+byte get_free_lava_slot(void)
 {
-    ubyte slot = 0;
+    byte slot = 0;
     do {
         if (!lava_slots[slot])
             break;
@@ -671,7 +543,7 @@ struct list *get_lava_info(sbyte room, sbyte col, sbyte row)
 LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
 {
     sbyte cell;
-    ubyte kind;
+    byte kind;
     LavaTrob *trob;
 
     kind = ReadCell(room, col, row);
@@ -706,12 +578,12 @@ void redraw_lava(void)
         lava_redraw_type = 39;
     else
         lava_redraw_type = 48;
-    if (compute_trob_move_rect((struct char_bounds *)redraw.bounds, &lava_redraw_type)) {
-        mark_move(Trob.cell, (struct char_bounds *)redraw.bounds);
-        mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);
+    if (compute_trob_move_rect((Rect *)redraw.bounds, &lava_redraw_type)) {
+        mark_move(Trob.cell, (Rect *)redraw.bounds);
+        mark_move(check_trob_right(), (Rect *)redraw.bounds);
         if (Trob.cell % (sbyte)10 < 8) {
             ++Trob.cell;
-            mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);
+            mark_move(check_trob_right(), (Rect *)redraw.bounds);
             --Trob.cell;
         }
     }
@@ -758,7 +630,7 @@ void reset_lava_info(struct list *pool, int type)
 
 void trigger_lava(sbyte room, sbyte cell)
 {
-    ubyte slot;
+    byte slot;
     if (!get_trob_room_cell(room, cell)) {
         slot = get_free_lava_slot();
         lava_slots[slot] = _nmalloc(sizeof(struct list));
@@ -791,13 +663,12 @@ void far pascal TriggerLavaBubble(struct list *destination,
     }
 }
 
-
 int move_cave_gate(int sequence)
 {
     sbyte cell;
 
     cell = FirstInRow(Kid.row) + Kid.column;
-    if (Kid.room != Trob.room) {
+    if ((sbyte)Kid.room != Trob.room) {
         if (((signed char)Room.left) == Trob.room)
             cell += 10;
         else if (((signed char)Room.right) == Trob.room)
@@ -821,9 +692,9 @@ int move_cave_gate(int sequence)
     return sequence;
 }
 
-uword get_cave_torch_frame(uword previous)
+word get_cave_torch_frame(word previous)
 {
-    uword frame = Rnd(8);
+    word frame = Rnd(8);
     if (frame == previous) {
         ++frame;
         if (frame >= 9)
@@ -838,9 +709,9 @@ void cave_overlay_entry(void)
 
 void cave_frame(void)
 {
-    if ((((unsigned char)Level.level_number) == 5 && Room.number == 10) ||
-        (((unsigned char)Level.level_number) == 5 && Room.number == 7) ||
-        (((unsigned char)Level.level_number) == 5 && Room.number == 12))
+    if (((Level.level_number) == 5 && Room.number == 10) ||
+        ((Level.level_number) == 5 && Room.number == 7) ||
+        ((Level.level_number) == 5 && Room.number == 12))
         bridge_frame();
 }
 

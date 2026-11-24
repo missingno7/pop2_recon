@@ -1,3 +1,6 @@
+#include "types.h"
+#include "char.h"
+#include "game.h"
 #pragma pack(1)
 typedef struct {
     signed char level;
@@ -35,14 +38,9 @@ static struct {
 extern unsigned long FrameNum;
 extern signed char Char;
 extern signed char LevelIdx;
-typedef struct {
-    signed char forward, back, up, down, action;
-} Directions;
+
 extern Directions Dir;
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
+
 extern GAMESTATE GameState;
 extern signed char StartLevel;
 

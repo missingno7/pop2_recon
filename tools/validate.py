@@ -105,6 +105,17 @@ def check_manifest(oracle, manifest):
     check_layout(runtime_reports)
 
 
+def check_headers(manifest):
+    """Every accepted C source was accepted with exactly the project headers it includes now. Publication does not ask
+    this of other components, so a header change and the republication of its users can be several steps."""
+    from compiler import header_pins
+    for path in sorted({o["recipe"] for o in manifest["owners"]} | set(manifest.get("data_groups", []))):
+        recipe = read_json_shared(project_path(path))
+        if recipe.get("language", "c") == "c" and str(recipe.get("source", "")).endswith(".c"):
+            require(header_pins(project_path(recipe["source"]).read_text(encoding="ascii")) == recipe.get("includes", {}),
+                    f"Project headers changed without acceptance: {recipe['source']}")
+
+
 def verify_group(recipe):
     """Fresh compilation of one same-source group; every claim must stay exact."""
     from module_gate import compile_group
@@ -132,6 +143,7 @@ def verify_group(recipe):
     report["code_matches"] = [fresh[c] for c in sorted(match_ids)]
     report["claims"] = [c for c in report["claims"] if c["target_id"] not in match_ids]
     report["exact"] = True
+    require(report["includes"] == recipe.get("includes", {}), "Project headers changed without acceptance")
     require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
     require(not report["object_order"], "Relocation order inside the file differs from the original: " +
             ", ".join(report["object_order"]))
@@ -168,6 +180,7 @@ def _validate(run_tests=True):
             "Parsed structure disagrees with original-derived frozen structure")
     manifest = read_json(ROOT / "layout/manifest.json")
     check_manifest(oracle, manifest)
+    check_headers(manifest)
     from compiler import load_lock, verify_profile
     profiles = read_json(ROOT / "recipes/compiler-profiles.json")
     # Pin checks cover installed tested profiles even before one owns canonical code.
@@ -241,6 +254,7 @@ def _validate(run_tests=True):
         _, report = compile_data_group(source.decode("ascii"), recipe["profile"], recipe["flags"],
                                        ROOT / "build/workers/validation" / recipe["name"],
                                        binding=json.loads(raw), group_id=recipe["group_id"])
+        require(report["includes"] == recipe.get("includes", {}), "Project headers changed without acceptance")
         require(report["object_sha256"] == recipe["object_sha256"], "Accepted data group OMF identity changed")
         require(report["placements"] == recipe["placements"] and report["data_publics"] == recipe["data_publics"],
                 "Accepted data group placement or data publics changed")
@@ -324,10 +338,10 @@ def _validate(run_tests=True):
             f"stale {sorted(listed - debt)}, unlisted {sorted(debt - listed)}")
     # Explicit segment placement debt may only shrink: the ledger lists exactly the accepted
     # C sources that still use _segname.
-    from module_gate import SEGNAME
+    from module_gate import SEGNAME, with_headers
     segname = {r.get("group_id") or "recipe:" + r["name"] for o, r in recipes
                if o.get("kind") != "PINNED_RUNTIME" and r.get("language", "c") == "c" and "source" in r
-               and SEGNAME.search(project_path(r["source"]).read_bytes())}
+               and SEGNAME.search(with_headers(project_path(r["source"]).read_bytes()))}
     const_debt = set(read_json(ROOT / "evidence/const-layout-debt.json")["keys"])
     require(segname == const_debt, "evidence/const-layout-debt.json differs from the sources using _segname: "
             f"stale {sorted(const_debt - segname)}, unlisted {sorted(segname - const_debt)}")
@@ -335,7 +349,7 @@ def _validate(run_tests=True):
     aliases = {}
     for o, r in recipes:
         if o.get("kind") != "PINNED_RUNTIME" and r.get("language", "c") == "c" and "source" in r:
-            found = case_aliases(project_path(r["source"]).read_bytes())
+            found = case_aliases(with_headers(project_path(r["source"]).read_bytes()))
             if found:
                 aliases[r.get("group_id") or "recipe:" + r["name"]] = found
     alias_debt = read_json(ROOT / "evidence/case-alias-debt.json")["aliases"]
@@ -347,6 +361,7 @@ def _validate(run_tests=True):
     # Live canonical files must still carry their pins after all compilation, so a
     # PASS never certifies files edited while proofs ran on earlier snapshots.
     check_manifest(oracle, manifest)
+    check_headers(manifest)
     if run_tests:
         result = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], cwd=ROOT)
         require(result.returncode == 0, "Focused invariant tests failed")

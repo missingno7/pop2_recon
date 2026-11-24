@@ -1,61 +1,8 @@
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 extern signed char loaded_opponent;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    signed char ambient_cues[32][30];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 
 #pragma pack(1)
 
@@ -68,52 +15,8 @@ typedef struct {
     unsigned char attribute;
 } SoundRule;
 
-typedef struct {
-    unsigned char enabled;
-    signed char cue;
-    int song;
-    int delay;
-    int reserved;
-} AmbientState;
-
 extern LEVELREC Level;
 extern struct { unsigned char channels, volume; } Midi;
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 int pending_effect = -1, pending_song = -1;
 int current_effect = -1, current_song = -1;
 static int death_songs[] = {
@@ -193,6 +96,14 @@ void play_song(int song);
 int should_replace_effect(int effect, int playing);
 void remember_ambient_song(AmbientState *state, int song);
 
+void add_actor_sfx(void);
+void add_opponent_death_song(void);
+void AddKidDeathSong(signed char kind);
+void _fastcall AddKidScream(unsigned char room);
+void AddLeaveLevelSong(void);
+void change_song_range(signed char range);
+void init_ambient(AmbientState *state);
+
 void AddKidDeathSong(signed char kind)
 {
     AddSong(death_songs[kind]);
@@ -218,7 +129,7 @@ void add_opponent_death_song(void)
     int allowed;
     int song;
 
-    if (Char.field_0f) {
+    if (Char.repeat) {
         switch (Char.character_kind) {
         case 2:
             allowed = Char.alive >= 6 ? 1 : 0;
@@ -234,7 +145,7 @@ void add_opponent_death_song(void)
             song = 192;
             break;
         case 11:
-            Char.field_0f = 0;
+            Char.repeat = 0;
         default:
             allowed = Kid.alive < 0 && Char.sequence == 120 &&
                       Char.alive > 4 && !query_sound(10076) &&
@@ -246,7 +157,7 @@ void add_opponent_death_song(void)
         if (allowed) {
             if (!OppToFight() && !find_active_generator(Char.room, Char.row) && Level.environment_kind != 5)
                 AddSong(song);
-            Char.field_0f = 0;
+            Char.repeat = 0;
         }
     }
 }
@@ -270,7 +181,6 @@ void AddSong(int song)
         pending_song = song;
     }
 }
-
 
 void AddSound(int effect)
 {
@@ -386,7 +296,7 @@ void play_ambient(AmbientState *state)
             if (song == -1) {
                 if (!special) {
                     cell = FIRSTINROW(Char.row) + Char.column;
-                    cue = Level.ambient_cues[(unsigned char)Char.room - 1][cell];
+                    cue = Level.ambient_cues[Char.room - 1][cell];
                 } else {
                     cue = ambient_special[Level.environment_kind];
                 }

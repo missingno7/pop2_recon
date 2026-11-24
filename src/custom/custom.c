@@ -1,8 +1,8 @@
 /* DOS CUSTOM.C, resident frame 04b3. Function order follows the DOS image. */
+#include "types.h"
+#include "level.h"
+#include "char.h"
 #pragma pack(1)
-typedef struct {
-    int left, top, right, bottom;
-} CustomRect;
 
 typedef unsigned int ShapeHandle;
 typedef struct { int x, y; } CustomPosition;
@@ -13,7 +13,7 @@ typedef struct {
     unsigned char pass, palette;
     int resource;
     ShapeHandle handle;
-    CustomRect rect;
+    Rect rect;
     unsigned char flags, peel_type;
     char tail[4];
 } CustomPiece;
@@ -61,71 +61,13 @@ typedef struct {
 } PeelRecord;
 #pragma pack()
 
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 extern LEVELREC Level;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
 extern ROOMREC Room;
 extern struct {
     unsigned char kind, reserved, separate_mask, palette;
     ShapeHandle handle;
 } HorseShpInfo;
-/* Rectangle passed to StrokePortRect for the style-4 border. */
+/* Rect passed to StrokePortRect for the style-4 border. */
 extern const int TopRowRect[4];
 extern AboveCell Above[];
 extern struct {
@@ -184,19 +126,17 @@ static RoomTemplate *template_table[] = {
 
 RoomTemplate *CustomTemplate = &NullPlate;
 extern unsigned int *Pics[5];
-extern CustomRect NullRect;
-extern struct Rect {
-    int top, left, bottom, right;
-} BridgeRect;
+extern Rect NullRect;
+extern Rect BridgeRect;
 extern void far mark_move(void);
 
-extern void far _fastcall add_peel(int top, int bottom, int left, int width,
+extern void far _fastcall add_peel(int left, int right, int top, int height,
                                    unsigned char id, unsigned char kind);
 extern int find_character_peel(unsigned char id, int restore);
 extern void stroke_port_rect(const int far *rect);
 extern void check_roof_room(void);
 extern void DISPOSE_HANDLE(ShapeHandle handle);
-extern void OFFSETRECT(CustomRect far *dst, CustomRect far *src, int dy, int dx);
+extern void OFFSETRECT(Rect far *dst, Rect far *src, int dy, int dx);
 extern void far _fastcall draw_custom_room_image(char index, char pass);
 extern void far *MATERIALIZE_HANDLE(ShapeHandle handle);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(ShapeHandle handle);
@@ -210,11 +150,11 @@ extern void RESTORE_HANDLE_FLAGS(unsigned int archive, int position);
 extern ShapeHandle PrinceUnpackShape(unsigned int resource, int format, void far *archive);
 extern void load_song_range(int first, int last);
 extern void release_song_range(int first, int last);
-extern void MAKESHAPERECT(CustomRect far *rect, int x, int y, void far *shape);
-extern int EMPTYRECT(CustomRect far *);
-extern void SECTRECT(CustomRect far *, CustomRect far *, CustomRect far *);
+extern void MAKESHAPERECT(Rect far *rect, int x, int y, void far *shape);
+extern int EMPTYRECT(Rect far *);
+extern void SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void AddDsrtStoneUpPeels(CustomPiece *);
-extern void mark_bufs_for_rect(void (far *image)(void), CustomRect *rect, char pass);
+extern void mark_bufs_for_rect(void (far *image)(void), Rect *rect, char pass);
 extern void * _cdecl _nmalloc(unsigned int bytes);
 extern void _cdecl _nfree(void *);
 extern void * _cdecl memset(void *, int, unsigned int);
@@ -225,9 +165,9 @@ void UnloadCustomRoomShapes(int all);
 void UnloadCustomRoomData(void);
 void SetCustomRoomTemplate(unsigned char type);
 
-void AddCustomPiecePeel(CustomPiece *piece, CustomRect far *rect)
+void AddCustomPiecePeel(CustomPiece *piece, Rect far *rect)
 {
-    add_peel(rect->top, rect->bottom, rect->left, rect->right - rect->left,
+    add_peel(rect->left, rect->right, rect->top, rect->bottom - rect->top,
              (unsigned char)(piece->shape + 100), piece->peel_type);
 }
 
@@ -253,7 +193,7 @@ CustomPiece *offset_custom_piece(CustomPiece *piece, signed char column, signed 
 void DrawCustomRoomImgAtInfo(unsigned char index, signed char *info)
 {
     CustomPiece *piece = &custom_room->pieces[index];
-    CustomRect saved_rect;
+    Rect saved_rect;
     CustomPosition saved_position;
     unsigned char saved_pass;
 
@@ -356,7 +296,6 @@ int IsCustomizedRoom(unsigned char room)
     return flags != 0;
 }
 
-
 void LoadCustomRoomData(unsigned char room_number_arg)
 {
     CustomRoom *room;
@@ -385,8 +324,8 @@ void LoadCustomRoomData(unsigned char room_number_arg)
         }
     } else if (custom_room) {
         UnloadCustomRoomData();
-        if ((((unsigned char)Level.level_number) == 5 && Room.number == 7) ||
-            (((unsigned char)Level.level_number) == 5 && Room.number == 12))
+        if (((Level.level_number) == 5 && Room.number == 7) ||
+            ((Level.level_number) == 5 && Room.number == 12))
             load_bridge_code();
     }
 }
@@ -399,7 +338,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
     void far *archive;
     void far *bitmap;
     CustomPiece *piece;
-    CustomRect rect;
+    Rect rect;
 
     if (custom_room) {
         if (custom_room->shape_base == (shape_base = room->shape_base)) {
@@ -503,7 +442,6 @@ void SaveCustomRoomPeels(void)
     }
 }
 
-
 void SetCustomRoomTemplate(unsigned char type)
 {
     if (type < 35) {
@@ -552,7 +490,7 @@ void UnloadCustomRoomShapes(int all)
             if (!all && piece->pass == 11) {
                 if (custom_room->template_id == 33) {
                     if (custom_room->count - i - 1 == 0)
-                        mark_bufs_for_rect(mark_move, (CustomRect *)&BridgeRect, -1);
+                        mark_bufs_for_rect(mark_move, &BridgeRect, -1);
                 } else {
                     mark_bufs_for_rect(mark_move, &piece->rect, -1);
                 }
@@ -561,5 +499,3 @@ void UnloadCustomRoomShapes(int all)
         _nfree(released);
     }
 }
-
-

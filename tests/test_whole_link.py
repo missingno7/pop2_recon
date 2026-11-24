@@ -74,6 +74,15 @@ class LinkPlanTests(unittest.TestCase):
         self.assertEqual(report["bytes_equal"], report["bytes_total"])
         self.assertEqual((report["file_bytes_different"], report["relocation_tables_same_records"]), (0, True))
 
+    def test_a_worse_link_is_refused_and_never_recorded(self):
+        best = read_json(ROOT / "evidence/whole-link.json")
+        whole_link.require_not_worse(best)
+        for change in ({"bytes_equal": best["bytes_equal"] - 1}, {"mz_header_equal": False},
+                       {"generated_variables": best["generated_variables"] + 1},
+                       {"file_bytes_different_outside_relocations": 1}, {"relocation_tables_same_records": False}):
+            with self.assertRaises(ValueError):
+                whole_link.require_not_worse(dict(best, **change))
+
     def test_a_changed_record_is_not_taken_for_a_changed_order(self):
         from oracle import Oracle
         oracle = Oracle.load()

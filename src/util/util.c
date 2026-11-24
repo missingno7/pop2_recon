@@ -1,7 +1,5 @@
 /* UTIL.C: rectangle offsets, text resources, memory limits, and RNG. */
-typedef struct {
-    int top, left, bottom, right;
-} Rect;
+#include "types.h"
 
 static long random_state;
 static int random_seeded = 0;

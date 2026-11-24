@@ -1,6 +1,8 @@
+#include "types.h"
+#include "level.h"
+#include "char.h"
 #pragma pack(1)
 
-typedef unsigned char Byte;
 typedef signed char Offset;
 
 typedef struct {
@@ -10,21 +12,14 @@ typedef struct {
 } ImagePlacement;
 
 typedef struct {
-    int top;
-    int left;
-    int bottom;
-    int right;
-} Rect;
-
-typedef struct {
-    Byte set;
-    Byte mode;
+    byte set;
+    byte mode;
     ImagePlacement placement;
-    Byte flags;
-    Byte palette;
+    byte flags;
+    byte palette;
     Rect clip;
-    Byte order;
-    Byte layer;
+    byte order;
+    byte layer;
 } BFItem;
 
 typedef struct {
@@ -34,7 +29,7 @@ typedef struct {
 } ShapeItem;
 
 typedef struct {
-    Byte mode;
+    byte mode;
     ImagePlacement background;
     ImagePlacement background_foreground;
     ImagePlacement foreground;
@@ -51,87 +46,41 @@ extern ShapeSet *Pics[5];
 extern int Row2PixelY[5];
 extern int Col2PixelX[13];
 extern Rect CellClipRect;
-extern Byte ColNo;
-extern Byte RowNo;
+extern byte ColNo;
+extern byte RowNo;
 extern int Ct[5];
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
 
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
 extern LEVELREC Level;
 extern int background_image_limits[];
-extern void DISPOSE_HANDLE(unsigned int handle);
-extern int far *MATERIALIZE_HANDLE(unsigned int handle);
-extern void PrinceNewShpItem(unsigned int list, int index, ShapeItem far *info, int resource);
-extern void MARK_PURGEABLE(unsigned int handle);
-extern void PrinceFreeShp(int id);
+extern void DISPOSE_HANDLE(unsigned int);
+extern int far *MATERIALIZE_HANDLE(unsigned int);
+extern void PrinceNewShpItem(unsigned int, int, ShapeItem far *, int);
+extern void MARK_PURGEABLE(unsigned int);
+extern void PrinceFreeShp(int);
 extern TileImages *pieces;
 BFItem far BackTable[130];
 BFItem far ForeTable[100];
 typedef struct {
     int x;
     int y;
-    Byte set;
+    byte set;
     int image;
     Rect clip;
-    Byte order;
+    byte order;
     int reserved;
-    Byte visible;
-    Byte depth;
+    byte visible;
+    byte depth;
 } MidItem;
 MidItem far MidTable[30];
 
-extern void check_background_shape(int index);
+extern void check_background_shape(int);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int);
 extern void MAKESHAPERECT(Rect far *, int, int, int far *);
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 
-int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
+int far _fastcall add_image_info(byte set, ImagePlacement *placement, int image,
                                BFItem far *item, Offset x, Offset y,
-                               Byte order, Byte layer)
+                               byte order, byte layer)
 {
     Rect bounds;
     int far *shape;
@@ -167,7 +116,7 @@ int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
     return result;
 }
 
-int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte layer)
+int AddBImgToBTable(byte tile, int image, Offset x, Offset y, byte order, byte layer)
 {
     int i = Ct[0];
     int added;
@@ -182,9 +131,8 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
     return added;
 }
 
-
-int AddBFImgToBTable(Byte tile, int image, Offset x, Offset y,
-                     Byte order, Byte layer)
+int AddBFImgToBTable(byte tile, int image, Offset x, Offset y,
+                     byte order, byte layer)
 {
     int i;
     int added = 0;
@@ -202,8 +150,8 @@ int AddBFImgToBTable(Byte tile, int image, Offset x, Offset y,
     return added;
 }
 
-int AddBFImgToFTable(Byte tile, int image, Offset x, Offset y,
-                     Byte order, Byte layer)
+int AddBFImgToFTable(byte tile, int image, Offset x, Offset y,
+                     byte order, byte layer)
 {
     int i = Ct[1];
     int added;
@@ -217,7 +165,6 @@ int AddBFImgToFTable(Byte tile, int image, Offset x, Offset y,
     }
     return added;
 }
-
 
 extern void add_kid(void);
 extern void add_opponent(void);
@@ -235,80 +182,30 @@ void add_characters(void)
 typedef struct {
     int x;
     int y;
-    Byte set;
+    byte set;
     int image;
     int object_id;
-    Byte flags;
-    Byte kind;
+    byte flags;
+    byte kind;
     Rect clip;
-    Byte status;
+    byte status;
     int depth;
-    Byte object_type;
+    byte object_type;
 } CharacterObject;
 
 CharacterObject ObjTable[30];
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    Rect clip;                              /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
+
 extern FCHARREC FChar;
 
-
-
 #pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
 
-
-extern void ConvertX(int x, int *destination);
+extern void ConvertX(int, int *);
 extern CHARREC Char;
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-extern ROOMREC Room;
-extern void set_object_cell(Byte index);
 
-void far _fastcall add_char_object(Byte kind)
+extern ROOMREC Room;
+extern void set_object_cell(byte);
+
+void far _fastcall add_char_object(byte kind)
 {
     int index;
     CharacterObject *object;
@@ -324,16 +221,16 @@ void far _fastcall add_char_object(Byte kind)
         object->flags = FChar.flipped;
         object->clip = FChar.clip;
         object->depth = FChar.depth;
-        set_object_cell((Byte)index);
+        set_object_cell(index);
         object->object_id = Char.frame;
         object->object_type = Char.slot;
     }
 }
 
-int add_middle_item(Byte tile, int image, Offset x, Offset y,
-                    Byte order, Byte layer)
+int add_middle_item(byte tile, int image, Offset x, Offset y,
+                    byte order, byte layer)
 {
-    Byte set;
+    byte set;
     int i;
     int added;
 
@@ -351,15 +248,10 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
     return added;
 }
 
-
 typedef struct {
     int height;
     int width;
 } ImageSize;
-
-typedef struct {
-    int left, top, right, bottom;
-} CustomRect;
 
 typedef unsigned int ShapeHandle;
 typedef struct {
@@ -368,7 +260,7 @@ typedef struct {
     unsigned char pass, palette;
     int resource;
     ShapeHandle handle;
-    CustomRect rect;
+    Rect rect;
     unsigned char flags, peel_type;
     char tail[4];
 } CustomPiece;
@@ -382,10 +274,10 @@ typedef struct {
     CustomPiece pieces[1];
 } CustomRoom;
 extern CustomRoom *custom_room;
-extern ImageSize far *GetCustomPieceSize(Byte index, ImageSize far *size);
+extern ImageSize far *GetCustomPieceSize(byte, ImageSize far *);
 extern int far *get_set_image_size(ShapeSet *set, int index, ImageSize far *size);
 
-int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order)
+int far _fastcall add_middle_image(byte set, int image, int x, int y, byte order)
 {
     int index;
     int image_index;
@@ -396,7 +288,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         image_index = image - 1;
         index = Ct[3];
         MidTable[index].x = x;
-        if ((Byte)Level.level_number == 5 && Room.number == 10 &&
+        if (Level.level_number == 5 && Room.number == 10 &&
             set == 4 && custom_room->count > image_index) {
             GetCustomPieceSize(image_index, &size);
         } else {
@@ -449,14 +341,14 @@ extern void draw_record_bounds(unsigned int handle);
 extern void DISPOSE_BITMAP_PORT(unsigned int handle);
 extern int NewRoom;
 
-void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, Offset mode)
+void far _fastcall add_peel(int left, int right, int top, int height, Offset actor, Offset mode)
 {
     Rect rect;
 
     if (PeelInfo.count >= 40) return;
-    rect.left = y; rect.right = bottom;
-    rect.top = x;
-    rect.bottom = x + width;
+    rect.left = left; rect.right = right;
+    rect.top = top;
+    rect.bottom = top + height;
     if (EMPTYRECT(&rect)) return;
 
     PeelInfo.entries[PeelInfo.count].handle = ALLOCATE_CLIPPED_PORT(&rect);
@@ -572,7 +464,7 @@ void clear_peels(void)
     PeelInfo.count = 0;
 }
 
-BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte palette)
+BFItem far *far _fastcall get_back_table_image_row(int image, byte flags, byte palette)
 {
     int index = 0;
     BFItem far *result = 0;
@@ -588,23 +480,11 @@ BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte p
     return result;
 }
 
+extern byte actor_force_redraw;
 
-
-
-extern Byte actor_force_redraw;
-typedef struct {
-    int image, equipment_image;                       /* 00,02 */
-    signed char x, y;                                 /* 04-05 */
-    unsigned char flags;                              /* 06 */
-} FRAMEREC;
 extern FRAMEREC Frame;
 
-
-
 extern Offset actor_clip_mode;
-
-
-
 
 extern unsigned int SwordFrames;
 
@@ -643,14 +523,14 @@ extern void setup_char(void);
 extern void setup_comix(void);
 extern void setup_fireball(void);
 extern void setup_kid(void);
-extern void far _fastcall setup_sword(Byte kind);
+extern void far _fastcall setup_sword(byte kind);
 extern void setup_flask(void);
 extern int far _fastcall setup_opponent(void);
 
 void add_kid(void)
 {
     copy_kid_to_char();
-    if (Char.room != 0 && (Byte)Char.room == Room.number) {
+    if (Char.room != 0 && Char.room == Room.number) {
         setup_kid();
         if (Char.action == 99 || Char.sequence_group == 8) {
             setup_comix();
@@ -664,11 +544,11 @@ void add_kid(void)
             setup_splash();
         else if (Level.environment_kind == 1)
             setup_sand();
-        else if ((Byte)Level.level_number == 5 && Char.room == 3 && Char.frame == 295)
+        else if (Level.level_number == 5 && Char.room == 3 && Char.frame == 295)
             setup_carpet();
-        else if ((unsigned int)Char.frame >= 306 && (unsigned int)Char.frame <= 318)
+        else if (Char.frame >= 306 && Char.frame <= 318)
             setup_flame();
-        else if ((unsigned int)Char.frame >= 272 && (unsigned int)Char.frame <= 281)
+        else if (Char.frame >= 272 && Char.frame <= 281)
             setup_fireball();
 
         if (Char.character_kind == 1 && Level.environment_kind == 6)
@@ -688,7 +568,7 @@ void add_opponent(void)
         return;
     do {
         load_actor_slot(opponent);
-        if ((Byte)Char.room == Room.number) {
+        if (Char.room == Room.number) {
             if (!setup_opponent())
                 continue;
             if ((Char.action == 99 || Char.sequence_group == 8 ||
@@ -718,15 +598,14 @@ void setup_char(void)
 {
     int equipment;
 
-
     init_fchar_rect();
     get_frame_info();
-    equipment = get_sword_frame_image((unsigned int)Frame.equipment_image);
+    equipment = get_sword_frame_image(Frame.equipment_image);
     if (Char.frame == 0 || (Frame.image == -1 && equipment == -1))
         return;
 
     FChar.flipped = Char.direction;
-    FChar.depth = Char.field_34;
+    FChar.depth = Char.image_bank;
     if (Char.character_kind == 0 || Char.character_kind == 6 || Char.character_kind == 1) {
         FChar.image_set = 2;
         FChar.image = Frame.image;
@@ -745,7 +624,7 @@ void setup_char(void)
         setup_flame_sword();
         return;
     }
-    if (Char.character_kind == 4 && (unsigned int)Char.frame >= 206 && (unsigned int)Char.frame <= 209) {
+    if (Char.character_kind == 4 && Char.frame >= 206 && Char.frame <= 209) {
         FChar.image_set = 4;
         FChar.image += 104;
     }
@@ -797,7 +676,7 @@ void setup_comix(void)
     }
     MakeFCharClipRect();
     add_char_object(5);
-    mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, -1);
+    mark_bufs_for_rect(mark_foreground, &FChar.clip, -1);
     RestoreFChar();
 }
 
@@ -810,15 +689,15 @@ typedef struct {
 void setup_fireball(void)
 {
     SaveFChar();
-    if ((unsigned int)Frame.equipment_image) {
-        unsigned int frame = (unsigned int)Frame.equipment_image;
+    if (Frame.equipment_image) {
+        unsigned int frame = Frame.equipment_image;
         EquipmentPlacement far *entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
         FChar.image = entries[frame].image;
         AddFCharX(entries[frame].x);
         FChar.y += entries[frame].y;
         MakeFCharClipRect();
         add_char_object(3);
-        mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, -1);
+        mark_bufs_for_rect(mark_foreground, &FChar.clip, -1);
     }
     RestoreFChar();
 }
@@ -838,23 +717,23 @@ void setup_kid(void)
     add_char_object(Char.character_kind);
 }
 
-void far _fastcall setup_sword(Byte kind)
+void far _fastcall setup_sword(byte kind)
 {
     unsigned int frame;
     EquipmentPlacement far *entries;
 
-    if (is_char_non_viewable() || (unsigned int)Frame.equipment_image == 0)
+    if (is_char_non_viewable() || Frame.equipment_image == 0)
         return;
-    if ((unsigned int)Frame.equipment_image > 144 &&
-        !((unsigned int)Frame.equipment_image >= 200 && (unsigned int)Frame.equipment_image < 251) &&
-        !((unsigned int)Frame.equipment_image >= 292 && (unsigned int)Frame.equipment_image <= 304))
+    if (Frame.equipment_image > 144 &&
+        !(Frame.equipment_image >= 200 && Frame.equipment_image < 251) &&
+        !(Frame.equipment_image >= 292 && Frame.equipment_image <= 304))
         return;
     if (Char.character_kind == 0 && Char.stance == 0 && Char.frame != 133 &&
-        !((unsigned int)Char.frame >= 229 && (unsigned int)Char.frame <= 240) &&
+        !(Char.frame >= 229 && Char.frame <= 240) &&
         Char.frame != 323 && Char.frame != 324)
         return;
 
-    frame = (unsigned int)Frame.equipment_image;
+    frame = Frame.equipment_image;
     entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
     FChar.image = entries[frame].image;
     if (FChar.image == -1)
@@ -867,7 +746,7 @@ void far _fastcall setup_sword(Byte kind)
         clip_character_at_water();
     add_char_object(kind);
     if (Char.action != 9)
-        mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, Char.slot);
+        mark_bufs_for_rect(mark_foreground, &FChar.clip, Char.slot);
 }
 
 void setup_flask(void)
@@ -875,9 +754,9 @@ void setup_flask(void)
     unsigned int frame;
     EquipmentPlacement far *entries;
 
-    if ((unsigned int)Frame.equipment_image < 145 || (unsigned int)Frame.equipment_image > 168)
+    if (Frame.equipment_image < 145 || Frame.equipment_image > 168)
         return;
-    frame = (unsigned int)Frame.equipment_image;
+    frame = Frame.equipment_image;
     entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
     if (entries[frame].image == -1)
         return;
@@ -887,7 +766,7 @@ void setup_flask(void)
     FChar.image_set = 1;
     MakeFCharClipRect();
     add_char_object(3);
-    mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, Char.slot);
+    mark_bufs_for_rect(mark_foreground, &FChar.clip, Char.slot);
 }
 
 void check_background_shape(int index)
@@ -988,7 +867,7 @@ ShapeItem far *get_set_shape_item(ShapeSet *set, int image, ImageSize far *size)
 
 int far _fastcall setup_opponent(void)
 {
-    Byte kind;
+    byte kind;
     int added;
 
     reread_cells();
@@ -1015,7 +894,7 @@ int far _fastcall setup_opponent(void)
             kind = 2;
         }
         if (Char.action != 9 && !is_char_non_viewable())
-            mark_bufs_for_rect(mark_foreground, (unsigned int)&Char.bounds, Char.slot);
+            mark_bufs_for_rect(mark_foreground, &Char.bounds, Char.slot);
         add_char_object(kind);
         Char.previous_x = Char.x;
         Char.previous_y = Char.y;
@@ -1037,4 +916,3 @@ void clear_row_handles(void)
         *(int *)(row - sizeof(CHARREC)) = 0;
     } while (row < (char *)&RoomOpp[0].previous_x + sizeof(RoomOpp));
 }
-

@@ -20,6 +20,7 @@ in memory and remain separately identified. See [RTLink evidence](docs/rtlink.md
 
 - `src/MODULE/` C and `asm/MODULE/` assembly, under the original module names ([source layout](docs/source-layout.md)).
   `CamelCase` names are original (FM Towns or Macintosh symbols), `snake_case` names are ours.
+- `include/` shared headers.
 - `link/` data modules no accepted component owns yet, and `layout/link-plan.json`, the link script's contents.
 - `recipes/`, `evidence/`, `layout/`: compiler flags, proofs of every address and pointer, and the list of owned bytes
   (`layout/manifest.json`, the only record of ownership).

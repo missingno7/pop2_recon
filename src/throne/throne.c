@@ -1,87 +1,45 @@
 /* THRONE.C, overlay 16. DOS entry order. */
+#include "types.h"
+#include "char.h"
+#include "game.h"
 #pragma pack(1)
-typedef unsigned char Byte;
+
 typedef unsigned int Handle;
-typedef struct { Byte unused[5]; Byte foreground; } GateDraw;
-typedef struct { Byte bytes[12025]; } RoomState;
-typedef struct { int top, left, bottom, right; } Rect;
+typedef struct { byte unused[5]; byte foreground; } GateDraw;
+typedef struct { byte bytes[12025]; } RoomState;
+
 #pragma pack()
 
-extern Byte *custom_room;                   /* DS:0228 */
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
+extern byte *custom_room;                   /* DS:0228 */
 
 extern CHARREC Kid;
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
+
 extern GAMESTATE GameState;
 extern int CDLeftEdge;
-extern struct {
-    unsigned char enabled;
-    signed char cue;
-    int song, delay, reserved[2];
-} ambient_state;
+extern AmbientState ambient_state;
 extern RoomState Level;                 /* DS:2d02 */
-extern Byte Room;                   /* DS:5e34 */
+extern byte Room;                   /* DS:5e34 */
 extern CHARREC Char;
-extern Byte CutRoom;                     /* DS:6ccd */
-extern Byte LevelIdx;                    /* DS:0a18 */
-typedef struct {
-    signed char forward, back, up, down, action;
-} Directions;
+extern byte CutRoom;                     /* DS:6ccd */
+extern byte LevelIdx;                    /* DS:0a18 */
+
 extern Directions Dir;
 
-extern void far _fastcall draw_custom_room_image(Byte, Byte);
-extern void set_palette(int, unsigned int, Byte, Byte), AddSong(int);
+extern void far _fastcall draw_custom_room_image(byte, byte);
+extern void set_palette(int, unsigned int, byte, byte), AddSong(int);
 extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
 extern RoomState far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
 extern void DISPOSE_HANDLE(Handle);
 extern int play_nis(int);
 extern void reset_level_overlays(void), copy_kid_to_char(void), reset_char_y(void);
 extern void JumpSeq(int);
-extern void load_level(Byte);
-extern void LoadCustomRoomData(Byte);
+extern void load_level(byte);
+extern void LoadCustomRoomData(byte);
 typedef void far pascal DrawCallback(void);
 extern DrawCallback mark_move;
-extern void mark_bufs_for_rect(DrawCallback *, Rect *, Byte);
+extern void mark_bufs_for_rect(DrawCallback *, Rect *, byte);
 extern void AnimChar(void), ClrAll(void);
-extern void load_code_overlays(Byte, Byte), mark_redraw(int);
+extern void load_code_overlays(byte, byte), mark_redraw(int);
 extern int query_sound(int);
 extern void remember_ambient_song(int *, int);
 extern void OffsetRect(Rect far *, Rect far *, int, int);
@@ -131,7 +89,7 @@ void play_throne_room_nis(void)
     copy_kid_to_char();
     Char.direction = 0;
     JumpSeq(231);
-    CutRoom = *(Byte *)&Char.room = 9;
+    CutRoom = Char.room = 9;
     reset_char_y();
     Char.life_delta = Char.life_points;
     load_level(LevelIdx = 8);

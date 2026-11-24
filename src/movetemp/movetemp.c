@@ -1,6 +1,7 @@
-struct rock_rect {
-    int top, left, bottom, right;
-};
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 
 #pragma pack(1)
 struct moving_rock {
@@ -14,49 +15,15 @@ struct moving_rock {
     int screen_x;
 };
 
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
 #pragma pack()
 
-extern int Rnd(int maximum);
-extern signed char FirstInRow(signed char row);
-extern signed char get_char_col(int x);
-extern int IsWall(unsigned char kind);
-extern void add_mob_obj(int y);
-extern signed char GetRow(int y);
-extern unsigned char IndexCell1(signed char col, signed char row);
+extern int Rnd(int);
+extern signed char FirstInRow(signed char);
+extern signed char get_char_col(int);
+extern int IsWall(unsigned char);
+extern void add_mob_obj(int);
+extern signed char GetRow(int);
+extern unsigned char IndexCell1(signed char, signed char);
 extern int is_visible_room_cell(unsigned char room, unsigned char cell);
 extern void mark_mob_redraw(unsigned char cell);
 extern void copy_kid_to_char(void);
@@ -64,26 +31,6 @@ extern void far _fastcall add_middle_image(unsigned char kind, int x, int y, int
 extern int probe_floors_toward_rock(signed char row, int row_delta);
 extern void hit_character_with_rock(void);
 extern struct slide_rock *far _fastcall slide_rock_on_row(unsigned char, signed char);
-
-#pragma pack(1)
-typedef struct {
-    int x, y;                                         /* 00,02 */
-    unsigned char room;                               /* 04 */
-    int velocity, auxiliary;                          /* 05,07 */
-    signed char kind, row;                             /* 09-0a */
-    unsigned int flags;                               /* 0b */
-} MOBREC;
-
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y;
-    struct { unsigned char low, high; } image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
-#pragma pack()
 
 extern FCHARREC FChar;
 extern int MobHeight[13], MobWidth[13];
@@ -102,65 +49,6 @@ static struct {
 };
 extern CHARREC Kid;
 extern unsigned char ColDetLastFrame[];
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
-
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
 
 extern ROOMREC Room;
 extern MOBREC Mob;
@@ -168,7 +56,6 @@ extern CHARREC Char;
 extern LEVELREC Level;
 extern int ColEdgeX[20];
 extern int CDLeftEdge, CDRightEdge;
-
 
 int choose_trapdoor_delay(int active)
 {
@@ -197,7 +84,7 @@ void move_slide_rock(void)
     signed char row;
     if (Mob.velocity != -1) {
         row = GetRow(Mob.y); FChar.index = IndexCell1(Mob.x / 32, row);
-        if (is_visible_room_cell(Mob.room, (unsigned char)FChar.index)) {
+        if (is_visible_room_cell(Mob.room, FChar.index)) {
             sequence = MobHeight[7];
             if (!probe_floors_toward_rock(-1, 52)) {
                 y = Mob.y; Mob.y -= 59; old_speed = MobWidth[6];
@@ -211,16 +98,16 @@ void move_slide_rock(void)
                 MobHeight[7] = MobHeight[6] = 58;
             Mob.kind = 7; add_mob_obj(Mob.y);
             x = Mob.x; Mob.x += 32; y = Mob.y;
-            if (Mob.flags > (unsigned int)Mob.x) {
+            if (Mob.flags > Mob.x) {
                 FChar.index = FirstInRow(row) + Mob.x / 32; Mob.kind = 6;
                 --Mob.y; add_mob_obj(Mob.y);
             }
             Mob.x = temple_draw_offsets.trapdoor_x[0] + x;
-            if ((unsigned int)Mob.x < Mob.flags) {
+            if (Mob.x < Mob.flags) {
                 Mob.y = temple_draw_offsets.bolt_y_1 + y; Mob.kind = 8; move_slide_bolt();
             }
             Mob.x = temple_draw_offsets.bolt_x_2 + x;
-            if ((unsigned int)Mob.x < Mob.flags) {
+            if (Mob.x < Mob.flags) {
                 Mob.y = temple_draw_offsets.bolt_y_2 + y; Mob.kind = 9;
                 move_slide_bolt();
                 Mob.x = temple_draw_offsets.bolt_x_3 + x;
@@ -240,7 +127,7 @@ int can_slide_rock_stop(void)
     return result;
 }
 
-struct rock_rect *compute_slide_rock_rect(struct rock_rect *rect, unsigned char room, signed char row)
+Rect *compute_slide_rock_rect(Rect *rect, unsigned char room, signed char row)
 {
     struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
     if (rock) {
@@ -256,7 +143,7 @@ void check_slide_rock_crush(void)
     int kid_x, rock_x;
     copy_kid_to_char();
     kid_x = Char.direction == 0 ? Char.x : Char.x + 13;
-    if (Mob.room == (unsigned char)Char.room && Mob.row == Char.row) {
+    if (Mob.room == Char.room && Mob.row == Char.row) {
         rock_x = Mob.x + 140;
         if (Char.sequence_group == 4 || (rock_x < kid_x && rock_x + 16 > kid_x)) {
             hit_character_with_rock(); Kid = Char;
@@ -270,7 +157,7 @@ void draw_object_slide_rock(unsigned char kind)
     int x, frame, right;
     rock = (struct moving_rock *)slide_rock_on_row(Room.number, FChar.y / 63);
     right = rock ? rock->screen_x : 320;
-    FChar.clip_right = right; x = right - FChar.x;
+    FChar.clip.right = right; x = right - FChar.x;
     switch (kind) {
     case 134: frame = 79; break;
     case 135: frame = 80; break;
@@ -280,7 +167,6 @@ void draw_object_slide_rock(unsigned char kind)
     }
     if (frame != -1) add_middle_image(4, frame, FChar.x, FChar.y, 10);
 }
-
 
 int slide_rock_barrier(signed char direction, unsigned char room, signed char row)
 {
@@ -320,7 +206,7 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
     } edge;
     signed char column;
 
-    rock = (struct moving_rock *)slide_rock_on_row((unsigned char)Char.room, row);
+    rock = (struct moving_rock *)slide_rock_on_row(Char.room, row);
     if (rock) {
         left = rock->x + 137;
         if (left < CDRightEdge) {
@@ -402,7 +288,7 @@ void hit_character_with_rock(void)
         x = Char.x - 8;
         if (Char.direction == 0) x -= 13;
         column = get_char_col(x);
-        tile = ReadCell((unsigned char)Char.room, column, Char.row);
+        tile = ReadCell(Char.room, column, Char.row);
         if (!IsWall(tile) && tile != 4) {
             if (Char.alive < 0) {
                 if (Char.stance != 1) sequence = Char.direction == 0 ? 47 : 48;
@@ -423,12 +309,12 @@ void hit_character_with_rock(void)
                 } else {
                     int rock_x = Mob.x - 10;
                     column = rock_x / 32;
-                    tile = ReadCell((unsigned char)Char.room, column, Char.row);
+                    tile = ReadCell(Char.room, column, Char.row);
                     if (!IsWall(tile) && tile != 4) {
                         if (Char.alive < 0) {
                             rock_x -= 5;
                             if (rock_x / 32 != column) {
-                                tile = ReadCell((unsigned char)Char.room, rock_x / 32, Char.row);
+                                tile = ReadCell(Char.room, rock_x / 32, Char.row);
                                 if (IsWall(tile) || tile == 4) AddSound(1);
                             }
                         }
@@ -455,7 +341,7 @@ int probe_floors_toward_rock(signed char row_delta, int step)
     signed char first = (Mob.x + 6) / 32;
     signed char last, row;
     unsigned char tile;
-    step = (unsigned int)step < Mob.flags - Mob.x ? step : Mob.flags - Mob.x;
+    step = step < Mob.flags - Mob.x ? step : Mob.flags - Mob.x;
     last = (step + Mob.x) / 32;
     row = Mob.row + row_delta;
     if (last >= first) {
@@ -479,36 +365,24 @@ struct trapdoor_bounds {
 };
 #pragma pack()
 
-#pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-#pragma pack()
-
 extern CELLREC Cell;
 extern struct tile_animation *BlueS;
 extern unsigned char *BlueT;
-extern int query_sound(int);
+extern int query_sound(int id);
 extern int pending_effect;
 extern void DoImpale(void);
 extern void control_drop(void);
-extern int probe_chain_floor(int);
+extern int probe_chain_floor(int margin);
 extern int Pics[5];
 extern int trapdoor_top, trapdoor_left;
 extern void add_mob(void);
-extern void AddSong(int);
+extern void AddSong(int song);
 extern void altar_watch_kid(void);
 extern unsigned long get_set_image_size(int sheet, int shape, struct trapdoor_bounds far *bounds);
-extern void compute_mob_rect(struct rock_rect *rect);
-extern void mark_floor(signed char cell, struct rock_rect *rect);
-extern void mark_bufs_for_rect(void (far pascal *update)(signed char, struct rock_rect *),
-                                    struct rock_rect *rect, signed char flags);
+extern void compute_mob_rect(Rect *rect);
+extern void mark_floor(signed char cell, Rect *rect);
+extern void mark_bufs_for_rect(void (far pascal *update)(signed char, Rect *),
+                                    Rect *rect, signed char flags);
 extern void trigger_trapdoor(unsigned char room, signed char cell);
 
 void move_rock_record(void)
@@ -623,14 +497,6 @@ int far _fastcall get_slide_rock_x(unsigned char room, signed char row)
 extern int Col2PixelX[13];
 extern int Row2PixelY[5];
 
-#pragma pack(1)
-typedef struct {
-    int image, equipment_image;                       /* 00,02 */
-    signed char x, y;                                 /* 04-05 */
-    unsigned char flags;                              /* 06 */
-} FRAMEREC;
-#pragma pack()
-
 extern FRAMEREC Frame;
 
 void trigger_slide_rock(unsigned char room, signed char cell, unsigned char action)
@@ -665,7 +531,6 @@ void trigger_slide_rock(unsigned char room, signed char cell, unsigned char acti
     }
 }
 
-
 void move_trapdoor(void)
 {
     int x = Mob.x, y = Mob.y;
@@ -676,7 +541,7 @@ void move_trapdoor(void)
     struct trapdoor_bounds bounds;
     struct {
         signed char saved_column;
-        struct rock_rect rect;
+        Rect rect;
     } draw;
 
     if (room != Room.number) {
@@ -757,7 +622,7 @@ void check_trapdoor(void)
     if ((Frame.flags & 0x40) &&
         (signed char)63 * Char.row - Char.y == -56 &&
         Char.character_kind != 1 &&
-        ReadCell((unsigned char)Char.room, Char.column, Char.row) == 26 &&
+        ReadCell(Char.room, Char.column, Char.row) == 26 &&
         !(Cell.modifier & 31))
         trigger_trapdoor(Cell.room, Cell.index);
 }
@@ -792,7 +657,7 @@ void trigger_trapdoor(unsigned char room, signed char cell)
 
 void draw_object_trapdoor(unsigned char modifier)
 {
-    int shape = temple_draw_offsets.trapdoor_shape[FChar.image.low & 31];
+    int shape = temple_draw_offsets.trapdoor_shape[FChar.image & 31];
     if (shape == 21) {
         add_middle_image(4, shape, FChar.x + 1, FChar.y - 2, 10);
         add_middle_image(4, 22, FChar.x, FChar.y - 1, 0);
@@ -802,13 +667,13 @@ void draw_object_trapdoor(unsigned char modifier)
 
 void load_inscription_room(void)
 {
-    if ((signed char)Kid.column >= 9)
+    if (Kid.column >= 9)
         AddSong(92);
 }
 
 void check_temple_event(void)
 {
-    if (Room.number == 4 && ((unsigned char)Level.level_number) == 13)
+    if (Room.number == 4 && (Level.level_number) == 13)
         altar_watch_kid();
 }
 

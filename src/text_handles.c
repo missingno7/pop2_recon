@@ -1,3 +1,4 @@
+#include "types.h"
 typedef unsigned Handle;
 
 extern unsigned far cdecl _fstrlen(const char far *text);
@@ -23,13 +24,13 @@ Handle far pascal create_string_handle(const char far *text)
     return handle;
 }
 
-typedef struct Rectangle Rectangle;
+typedef Rect Rect;
 
-extern Rectangle far *far pascal draw_nul_text_in_rect(Rectangle far *rect,
+extern Rect far *far pascal draw_nul_text_in_rect(Rect far *rect,
     int vertical_alignment, int horizontal_alignment, const char far *text);
 extern int far pascal measure_nul_terminated_text(const char far *text);
 
-Rectangle far *far pascal draw_text_handle_in_rect(Rectangle far *rect,
+Rect far *far pascal draw_text_handle_in_rect(Rect far *rect,
     int vertical_alignment, int horizontal_alignment, Handle handle)
 {
     const char far *text = resolve_handle_to_far_payload(handle);

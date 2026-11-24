@@ -1,123 +1,18 @@
 /* MOVESCYT.C, DOS scythe movement and collision. */
-typedef signed char sbyte;
-typedef unsigned char ubyte;
-typedef unsigned int uword;
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 
 typedef struct {
-    int top, left, bottom, right;
-} Rect;
-
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-
-#pragma pack()
-
-typedef struct {
-    uword modifier;
-    uword extra;
+    word modifier;
+    word extra;
 } RoomCell;
 
-extern uword BlueSpec;
-typedef struct {
-    signed char tile;
-    unsigned char room;
-    signed char state;
-    unsigned char field_3;
-} TrobRecord;
-extern TrobRecord Trob;
+extern word BlueSpec;
+
+extern TROBREC Trob;
 extern CHARREC Char;
-#pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 
 extern CELLREC Cell;
 extern LEVELREC Level;
@@ -134,7 +29,7 @@ int ScytheImg[20] = {
 };
 
 extern void far pascal AddSound(int sound);
-extern char far pascal ReadCell(ubyte room, sbyte column, sbyte row);
+extern char far pascal ReadCell(byte room, sbyte column, sbyte row);
 extern int far pascal SectRect(Rect far *out, const Rect far *left, const Rect far *right);
 extern void far pascal JumpSeq(int seq);
 extern void far pascal SetKidDeathMethod(sbyte method);
@@ -147,13 +42,13 @@ extern int far pascal compute_trob_move_rect(Rect near *out, const Rect near *in
 extern void far pascal mark_move(sbyte cell, const Rect near *rect);
 extern void far pascal mark_bufs_for_rect(void (far pascal *mark)(sbyte, const Rect near *),
                                              const Rect near *rect, sbyte cell);
-extern void far pascal add_trob(ubyte room, sbyte index, sbyte mode, ubyte kind);
+extern void far pascal add_trob(byte room, sbyte index, sbyte mode, byte kind);
 
 int far pascal GetScytheHitType();
 int far pascal ScytheBladeExtended();
 int far pascal ComputeBladeHitRect(Rect near *bounds);
 void far pascal RedrawScythe(int bloody);
-void far pascal TriggerScythe(ubyte room, sbyte index);
+void far pascal TriggerScythe(byte room, sbyte index);
 
 void far pascal AnimScythe(void)
 {
@@ -174,10 +69,10 @@ void far pascal AnimScythe(void)
         BlueSpec &= ~31;
         Trob.state = -1;
     }
-    ReadCell(Trob.room, Trob.tile % 10 - 1, Trob.tile / 10);
-    *(ubyte near *)&Cell.modifier = 0;
+    ReadCell(Trob.room, Trob.cell % 10 - 1, Trob.cell / 10);
+    *(byte near *)&Cell.modifier = 0;
     Level.cell_info[Cell.room - 1][Cell.index].modifier =
-        (Cell.modifier |= (ubyte)BlueSpec);
+        (Cell.modifier |= (byte)BlueSpec);
 }
 
 void far pascal CheckScythe(void)
@@ -197,7 +92,7 @@ void far pascal CheckScytheHit(void)
     Rect bounds;
     if (Char.character_kind != 0 && Char.character_kind != 2)
         return;
-    if ((int)Char.sequence == 44)
+    if (Char.sequence == 44)
         return;
     column = Char.column - 1;
     while (column <= Char.column + 1) {
@@ -252,7 +147,7 @@ int far pascal ComputeBladeHitRect(Rect near *bounds)
 
 int far pascal GetScytheHitType(unsigned char value)
 {
-    unsigned int low5 = (unsigned int)value & 31U;
+    unsigned int low5 = value & 31U;
 
     if (low5 == 2U || (low5 >= 16U && low5 <= 17U)) {
         low5 = 1U;
@@ -296,10 +191,10 @@ int far pascal ScytheBarrToStandUp(void)
 
 int far pascal ScytheBladeExtended(unsigned char value)
 {
-    unsigned int low5 = (unsigned int)value & 31U;
+    unsigned int low5 = value & 31U;
     return low5 >= 3U && low5 <= 15U;
 }
-void far pascal TriggerScythe(ubyte room, sbyte index)
+void far pascal TriggerScythe(byte room, sbyte index)
 {
     if (Cell.kind == 12) {
         ReadCell(room, Cell.column + 1, Cell.row);

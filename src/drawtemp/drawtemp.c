@@ -1,26 +1,22 @@
 /* DRAWTEMP.C, DOS overlay 9 frame 2b4b. */
-typedef unsigned char Byte;
-typedef signed char CellCoord;
+#include "types.h"
+#include "char.h"
 
 typedef struct TempleCell {
-    Byte pass;
-    CellCoord column, row;
-    Byte foreground, modifier, flags, background, background_modifier;
+    byte pass;
+    sbyte column, row;
+    byte foreground, modifier, flags, background, background_modifier;
 } TempleCell;
 
 /* Each tile longword has two packed views shared with the draw dispatcher. */
 #define CELL_INFO_WORD(cell, i) (((unsigned int *)&(cell)->modifier)[(i)])
 
-typedef struct DrawRect {
-    int top, left, bottom, right;
-} DrawRect;
-
 typedef struct BackImage {
-    Byte placement[10];
-    DrawRect clip;
+    byte placement[10];
+    Rect clip;
 } BackImage;
 
-typedef int (far pascal *AddImage)(Byte, int, CellCoord, CellCoord, Byte, Byte);
+typedef int (far pascal *AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
 typedef struct ShapePosition {
     int x, y, flags;
@@ -42,77 +38,41 @@ typedef struct ShapeOffsets {
 #pragma pack()
 
 typedef struct MovingExit {
-    Byte reserved[2];
+    byte reserved[2];
     signed char height;
 } MovingExit;
 
 extern int NewRoom;
-extern DrawRect CellClipRect, GamePlayRect;
+extern Rect CellClipRect, GamePlayRect;
 extern int Row2PixelY[];
 extern ShapeOffsets *Pieces;
-extern Byte Room;
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
+extern byte Room;
 
 extern CHARREC Kid;
-extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte column, Byte row);
-extern int SECTRECT(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
-extern void UNIONRECT(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
-extern int visible_above_piece(CellCoord column, CellCoord row);
-extern int EMPTYRECT(const DrawRect far *rect);
-extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_middle_item(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern Byte PieceLeftId(CellCoord, CellCoord);
-extern int IsWall(Byte);
-extern Byte PieceBelowId(CellCoord, CellCoord);
-extern Byte PieceRightId(CellCoord, CellCoord);
-extern signed char FirstInRow(Byte, CellCoord);
+extern BackImage far *far _fastcall get_back_table_image_row(int image, byte column, byte row);
+extern int SECTRECT(Rect far *out, const Rect far *a, const Rect far *b);
+extern void UNIONRECT(Rect far *out, const Rect far *a, const Rect far *b);
+extern int visible_above_piece(sbyte column, sbyte row);
+extern int EMPTYRECT(const Rect far *rect);
+extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
+extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
+extern int add_middle_item(byte, int, sbyte, sbyte, byte, byte);
+extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
+extern byte PieceLeftId(sbyte, sbyte);
+extern int IsWall(byte);
+extern byte PieceBelowId(sbyte, sbyte);
+extern byte PieceRightId(sbyte, sbyte);
+extern signed char FirstInRow(byte, sbyte);
 extern MovingExit *get_trob_room_cell(int tile);
 
 static int loose_odd[12] = { 0, 1, 0, 2, 2, 0, 0, 0, 1, 1, 1, 0 };
 static int loose_even[12] = { 0, 2, 2, 0, 1, 1, 0, 2, 2, 2, 0, 1 };
 extern signed char RowNo;
-extern Byte ObjId;
-extern int is_six_kind(Byte);
-extern DrawRect TempTorchRect;
-extern DrawRect *ComputeOffsetCellRect(DrawRect *, const DrawRect *, int, int);
-extern int EncloseRect(const DrawRect far *, const DrawRect far *);
+extern byte ObjId;
+extern int is_six_kind(byte);
+extern Rect TempTorchRect;
+extern Rect *ComputeOffsetCellRect(Rect *, const Rect *, int, int);
+extern int EncloseRect(const Rect far *, const Rect far *);
 extern int Pause;
 
 void draw_temple_exit_movable(TempleCell *cell);
@@ -124,10 +84,10 @@ void draw_temple_floor_detail(TempleCell *cell);
 void draw_temple_back_wall(TempleCell *cell)
 {
     int image;
-    Byte modifier;
+    byte modifier;
     int paired, fallback;
     BackImage far *shape;
-    DrawRect overlap;
+    Rect overlap;
     int saved_top;
 
     modifier = (CELL_INFO_WORD(cell, 1) & 0x0f00) >> 8;
@@ -186,7 +146,7 @@ void draw_temple_back_wall(TempleCell *cell)
 void draw_temple_block(TempleCell *cell)
 {
     int image;
-    Byte left;
+    byte left;
     AddImage add_image;
 
     switch (cell->pass) {
@@ -233,7 +193,7 @@ void draw_temple_block(TempleCell *cell)
 
 void draw_temple_exit_left(TempleCell *cell)
 {
-    Byte layer;
+    byte layer;
     AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
@@ -259,7 +219,7 @@ void draw_temple_exit_left(TempleCell *cell)
 
 void draw_temple_exit_right(TempleCell *cell)
 {
-    Byte layer;
+    byte layer;
     AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
@@ -291,7 +251,7 @@ void draw_temple_exit_right(TempleCell *cell)
 void draw_temple_exit_movable(TempleCell *cell)
 {
     AddImage add_image;
-    DrawRect door_clip, saved_clip;
+    Rect door_clip, saved_clip;
     MovingExit *moving;
     if (cell->pass == 5) {
         saved_clip = CellClipRect;
@@ -312,7 +272,7 @@ void draw_temple_exit_movable(TempleCell *cell)
 
 void draw_temple_floor(TempleCell *cell)
 {
-    Byte layer;
+    byte layer;
     int detail = 0;
     AddImage add_image = 0;
     switch (cell->pass) {
@@ -386,7 +346,7 @@ void draw_temple_gate(TempleCell *cell)
 void draw_temple_gate_movable(TempleCell *cell)
 {
     AddImage draw;
-    DrawRect gate_clip, saved_clip;
+    Rect gate_clip, saved_clip;
     unsigned int height;
 
     saved_clip = CellClipRect;
@@ -492,7 +452,7 @@ void draw_temple_pillar_top(TempleCell *cell)
 
 void draw_temple_down_plate(TempleCell *cell)
 {
-    Byte tile;
+    byte tile;
     int image;
     int pressed = CELL_INFO_WORD(cell, 0) & 0x0800;
     AddImage draw = 0;
@@ -525,7 +485,7 @@ void draw_temple_down_plate(TempleCell *cell)
 void draw_temple_up_plate(TempleCell *cell)
 {
     int image;
-    Byte tile = 5 + ((CELL_INFO_WORD(cell, 0) & 0x0800) != 0);
+    byte tile = 5 + ((CELL_INFO_WORD(cell, 0) & 0x0800) != 0);
     AddImage draw = 0;
 
     switch (cell->pass) {
@@ -669,7 +629,7 @@ void draw_temple_torch(TempleCell *cell)
 {
     int frame = cell->modifier;
     TempleCell floor_cell = *cell;
-    DrawRect torch_clip;
+    Rect torch_clip;
     CELL_INFO_WORD(&floor_cell, 1) = CELL_INFO_WORD(&floor_cell, 0) = 0;
     switch (cell->pass) {
     case 0:

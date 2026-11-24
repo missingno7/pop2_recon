@@ -58,7 +58,8 @@ def main():
     canonical_binding = ROOT / "evidence/bindings" / (args.name + ".json")
     recipe = {"schema": 1, "kind": DATA_GROUP_KIND, "name": args.name, "group_id": group_id, "language": "c",
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(source_bytes),
-              "profile": args.profile, "flags": list(result.flags), "object_sha256": report["object_sha256"],
+              "profile": args.profile, "flags": list(result.flags), **({"includes": report["includes"]} if report["includes"] else {}),
+              "object_sha256": report["object_sha256"],
               "space": "root", "placements": report["placements"], "data_publics": report["data_publics"],
               "binding": canonical_binding.relative_to(ROOT).as_posix(), "binding_sha256": sha(binding_bytes)}
     rel = recipe_path.relative_to(ROOT).as_posix()

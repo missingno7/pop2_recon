@@ -2,23 +2,23 @@
  * External names describe DOS uses. Structure members outside the accessed
  * fields are placeholders for the observed offsets and strides.
  */
-typedef signed char SByte;
-typedef unsigned char Byte;
-typedef unsigned int Word;
+#include "types.h"
+#include "level.h"
+#include "char.h"
 
 #pragma pack(1)
 typedef union SpikeState {
-    Word word;
+    word word;
     int signed_word; /* Signed view of the same packed state word. */
     struct {
-        Byte phase;
-        Byte flags;
+        byte phase;
+        byte flags;
     } byte;
 } SpikeState;
 
 typedef struct TileState {
     SpikeState spikes;
-    Word other;
+    word other;
 } TileState;
 
 #pragma pack()
@@ -32,133 +32,22 @@ typedef struct {
     SpikeState spikes;                               /* 0b */
 } MOBREC;
 
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
 #pragma pack()
 
 extern ROOMREC Room;
 extern MOBREC Mob;
 
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 extern CHARREC Char;
-#pragma pack(1)
-typedef struct {
-    SpikeState spikes;
-    unsigned int unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 
 extern LEVELREC Level;
 
 #pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    SpikeState modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
 
 typedef union {
-    Word number;
-    struct { Byte low, high; } byte;
+    word number;
+    struct { byte low, high; } byte;
 } SpikeImage;
 
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y;
-    SpikeImage image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
 #pragma pack()
 
 extern CELLREC Cell;
@@ -171,34 +60,34 @@ static const int spike_images_a[] = {0, 116, 117, 118, 119, 120, 117, 116, 120};
 static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
 extern TileState *BlueS;
 
-extern Byte FirstInRow(SByte row);
+extern byte FirstInRow(sbyte row);
 extern void add_mob_obj(int y);
-extern int is_dead_pos(Word frame);
-extern Byte ReadCell(Byte room, SByte column, SByte row);
+extern int is_dead_pos(word frame);
+extern byte ReadCell(byte room, sbyte column, sbyte row);
 extern int slide_rock_near_spikes(void);
-extern SByte GetCellCol(void);
+extern sbyte GetCellCol(void);
 extern int get_sword_width(void);
 extern void add_mob(void);
-extern MOBREC *get_mob_type_item(Byte kind, int index);
+extern MOBREC *get_mob_type_item(byte kind, int index);
 extern void impale_skeleton(void);
-extern void JumpSeq(Word sequence);
+extern void JumpSeq(word sequence);
 extern void AddSound(int sound);
-extern void decrement_life_points(Byte amount);
+extern void decrement_life_points(byte amount);
 extern void AnimChar(void);
 extern void reset_char_y(void);
-extern void select_room_arrays(Byte room);
+extern void select_room_arrays(byte room);
 /* The sprite entry consumes kind, image and context in AX, DX and BX. */
-extern void _fastcall add_middle_image(Byte kind, int image, int context, int x, Byte height);
+extern void _fastcall add_middle_image(byte kind, int image, int context, int x, byte height);
 
 int GetSpikes(void);
-MOBREC *GetSpikeMobRoomRow(Byte room, SByte row);
+MOBREC *GetSpikeMobRoomRow(byte room, sbyte row);
 void DoImpale(void);
-void TriggerSpikes(Byte room, int index);
+void TriggerSpikes(byte room, int index);
 
 /* ATMSpikes */
 void ATMSpikes(void)
 {
-    SByte column;
+    sbyte column;
 
     column = Mob.x / 32;
     if (Mob.room != Room.number) {
@@ -226,10 +115,10 @@ void ATMSpikes(void)
 /* CheckImpale */
 void CheckImpale(void)
 {
-    SByte column;
+    sbyte column;
     MOBREC *mob;
     int x;
-    SByte last_column;
+    sbyte last_column;
 
     if (Char.sequence == 0x55 || Char.character_kind == 4 || Char.character_kind == 1
         || is_dead_pos(Char.frame))
@@ -253,7 +142,7 @@ void CheckImpale(void)
                     if (mob) {
                         mob->spikes.word &= 0xff00;
                         mob->spikes.word |= 0xf0;
-                        (&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].spikes.word = mob->spikes.word;
+                        (&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].modifier = mob->spikes.word;
                     }
                 }
             }
@@ -283,18 +172,18 @@ void CheckSpikes(void)
 }
 
 /* CheckSpikesJammed */
-void CheckSpikesJammed(Byte room, int index)
+void CheckSpikesJammed(byte room, int index)
 {
-    union { SByte value; Byte raw; Word storage; } row;
-    Word state;
+    union { sbyte value; byte raw; word storage; } row;
+    word state;
     int zero;
 
     if (GetSpikeMobRoomRow(room, row.value = index / 10) == 0) {
-        state = (&Level.cell_info[0][0])[room * 30 + index - 30].spikes.word;
-        if ((Byte)state == 0xf0) {
+        state = (&Level.cell_info[0][0])[room * 30 + index - 30].modifier;
+        if ((byte)state == 0xf0) {
             Mob.x = (index % 10) * 32 + 46;
             /* Narrow the stored byte before multiplying. */
-            Mob.y = (row.value = (SByte)row.raw) * 63 + 47;
+            Mob.y = (row.value = row.raw) * 63 + 47;
             Mob.row = row.value;
             Mob.room = room;
             zero = 0;
@@ -312,12 +201,12 @@ void DoImpale(void)
 {
     SpikeState *state;
     MOBREC *mob;
-    Word sequence;
+    word sequence;
 
-    state = &(&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].spikes;
+    state = (SpikeState *)&(&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].modifier;
     if (Char.character_kind != 4) {
-        Byte flags = Cell.modifier.byte.flags & 8;
-        state->word = 0xf0 + ((Word)flags << 8);
+        byte flags = ((byte *)&Cell.modifier)[1] & 8;
+        state->word = 0xf0 + (flags << 8);
     } else {
         state->signed_word = 0x8f;
     }
@@ -329,7 +218,7 @@ void DoImpale(void)
     reset_char_y();
     Char.vertical_step = 0;
     if (Char.character_kind == 0 || Char.character_kind == 2) {
-        Char.field_0f = 1;
+        Char.repeat = 1;
         Char.x = ColEdgeX[GetCellCol() + 6] + 27;
         if (Char.direction == 0) {
             sequence = Char.character_kind == 0 ? 0x36 : 0xbd;
@@ -349,21 +238,21 @@ void DoImpale(void)
 }
 
 /* DrawObjSpikes */
-void DrawObjSpikes(Byte object)
+void DrawObjSpikes(byte object)
 {
     int image;
 
-    if (FChar.image.number == 0xf0)
-        FChar.image.number = 8;
-    else if ((Byte)FChar.image.number & 0x80)
-        FChar.image.number = 5;
+    if (FChar.image == 0xf0)
+        FChar.image = 8;
+    else if (FChar.image & 0x80)
+        FChar.image = 5;
     else
-        FChar.image.number &= 0xff;
+        FChar.image &= 0xff;
 
     if (object == 0x84)
-        image = spike_images_a[FChar.image.number];
+        image = spike_images_a[FChar.image];
     else if (object == 0x85)
-        image = spike_images_b[FChar.image.number];
+        image = spike_images_b[FChar.image];
     else
         return;
 
@@ -372,7 +261,7 @@ void DrawObjSpikes(Byte object)
 }
 
 /* GetSpikeIdx */
-int GetSpikeIdx(Word state)
+int GetSpikeIdx(word state)
 {
     int index;
     if (state & 0x80) {
@@ -385,7 +274,7 @@ int GetSpikeIdx(Word state)
 }
 
 /* GetSpikeMobRoomRow */
-MOBREC *GetSpikeMobRoomRow(Byte room, SByte row)
+MOBREC *GetSpikeMobRoomRow(byte room, sbyte row)
 {
     int found = 0;
     int index = 1;
@@ -405,7 +294,7 @@ int GetSpikes(void)
     int state;
     int result;
 
-    state = Cell.modifier.byte.phase;
+    state = *(byte *)&Cell.modifier;
     if (state && state != 0xf0) {
         if (state & 0x80)
             result = 1;
@@ -422,14 +311,14 @@ int GetSpikes(void)
 /* MobSpikes */
 void MobSpikes(void)
 {
-    Word state;
+    word state;
     TileState *room;
 
     ReadCell(Mob.room, Mob.x / 32 - 1, Mob.row);
-    state = Cell.modifier.byte.phase;
+    state = *(byte *)&Cell.modifier;
     if (state != 0xf0) {
         if (state & 0x80) {
-            --*(Byte *)&state; /* Decrement the low byte without changing the flags. */
+            --*(byte *)&state; /* Decrement the low byte without changing the flags. */
             if (!(state & 0x7f)) {
                 state = 6;
                 AddSound(79);
@@ -445,18 +334,18 @@ void MobSpikes(void)
         }
         select_room_arrays(Cell.room);
         room = BlueS;
-        room[Cell.index].spikes.word = (state += Cell.modifier.word & 0x800);
+        room[Cell.index].spikes.word = (state += Cell.modifier & 0x800);
         Mob.spikes.word = state;
     }
 }
 
 /* TriggerSpikes */
-void TriggerSpikes(Byte room, int index)
+void TriggerSpikes(byte room, int index)
 {
-    Word next;
+    word next;
     SpikeState *spikes;
-    Word state;
-    SByte row;
+    word state;
+    sbyte row;
     MOBREC *mob;
     int zero;
 
@@ -480,7 +369,7 @@ void TriggerSpikes(Byte room, int index)
             add_mob();
             AddSound(78);
         } else if (state != 0xf0) {
-            next = (Cell.modifier.word & 0x800) + 0x8f;
+            next = (Cell.modifier & 0x800) + 0x8f;
             spikes->word = next;
             mob = GetSpikeMobRoomRow(Char.room, Char.row);
             if (mob)

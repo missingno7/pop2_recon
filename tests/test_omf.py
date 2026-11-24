@@ -254,6 +254,30 @@ class CompilerScratchTests(unittest.TestCase):
             compile_c('#include "unknown.h"\nint f(void) { return 1; }\n',
                       "msc510", flags=["/c"])
 
+    def test_project_headers_are_staged_and_pinned(self):
+        import compiler
+        worker_root = ROOT / "build/workers"
+        worker_root.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=worker_root) as directory:
+            headers = Path(directory) / "headers"
+            headers.mkdir()
+            (headers / "a.h").write_bytes(b'#include "b.h"\nextern int First;\n')
+            (headers / "b.h").write_bytes(b"extern int Second;\n")
+            source = '#include "a.h"\nint f(void) { return First + Second; }\n'
+            self.assertEqual(sorted(compiler.header_closure(source, headers)), ["a.h", "b.h"])
+            work = Path(directory) / "work"
+            work.mkdir()
+            (work / "old.h").write_bytes(b"stale")
+            with patch("compiler.subprocess.run") as runner, \
+                 patch("compiler.verify_profile", return_value={"flags": ["/c"], "executable": "CL.EXE", "directory": "."}):
+                runner.return_value.returncode, runner.return_value.stdout = 1, b""
+                result = compile_c(source, "fixture", workdir=work, headers=headers)
+            self.assertEqual(sorted(p.name for p in work.glob("*.h")), ["a.h", "b.h"])
+            self.assertEqual(result.includes, {p.name: compiler.sha256(p.read_bytes()) for p in headers.glob("*.h")})
+            for refused in ("#include <a.h>\n", '#include "../a.h"\n', "#include NAME\n", '#include "c.h"\n'):
+                with self.assertRaisesRegex(CompileError, "includes are refused"):
+                    compiler.header_closure(refused, headers)
+
     def test_stale_object_is_removed_before_a_timed_out_run(self):
         worker_root = ROOT / "build" / "workers"
         worker_root.mkdir(parents=True, exist_ok=True)

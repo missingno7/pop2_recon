@@ -1,8 +1,6 @@
 /* INIT.C. DOS platform initialization and startup diagnostics. */
-typedef struct
-{
-    int top, left, bottom, right;
-} Rect;
+#include "types.h"
+#include "game.h"
 
 typedef struct
 {
@@ -13,10 +11,7 @@ typedef int (far pascal *InputPoll)(void);
 
 extern Configuration *configuration;
 extern struct { unsigned char channels, volume; } Midi;
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
+
 extern GAMESTATE GameState;
 extern int backing_driver_active;
 extern InputPoll wait_function;
@@ -104,11 +99,6 @@ extern int dos_vectors_installed;
 char ScreenPort[44];
 extern char ScreenPortRect[], joystick_state[];
 
-typedef struct {
-    unsigned char enabled;
-    signed char cue;
-    int song, delay, reserved;
-} AmbientState;
 extern AmbientState ambient_state;
 extern void initialize_dos_heap(unsigned long);
 extern unsigned long expand_memory_limits(void);
@@ -204,7 +194,7 @@ void init_system(void)
     init_sound();
     if (configuration->sound_report == -1)
         set_sound_level(0);
-    Graf = init_port((int)ScreenPort, ScreenPortRect);
+    Graf = init_port(ScreenPort, ScreenPortRect);
     set_mode_flag_value();
     Graf = main_port = create_window(-2, ScreenPortRect, 0, "Prince of Persia II");
     set_window_event_state(main_port, 0);

@@ -15,6 +15,8 @@ overlay regions to those modules:
 
 - `src/MODULE/` and `asm/MODULE/` use the lowercase original module name, e.g.
   `src/ctrl/`, `src/draw/`, `asm/mcga1/`.
+- `include/` holds what several files share: `types.h`, `level.h` (a level and the room shown), `char.h` (characters and
+  the cell under examination), `game.h` (game state, moving objects, changing cells). A type is declared there once.
 - Components whose module is not anchored stay at the top of `src/`.
 - Recipes and bindings mirror the same paths (`recipes/ctrl/…`,
   `evidence/bindings/ctrl/…`).

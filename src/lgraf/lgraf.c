@@ -1,6 +1,7 @@
 /* LGRAF.C (original module, FM Towns debug symbols): back ports, colour cycling and rectangles.
    CamelCase names are anchored (docs/source-layout.md); snake_case names are descriptive.
    EncloseRect: union(rect, other) == rect, between DeallocBackPort and EqualRect in both builds. */
+#include "types.h"
 #pragma pack(1)
 typedef struct {
     unsigned first, second;
@@ -14,9 +15,6 @@ typedef struct {
 typedef struct {
     unsigned char bytes[3];
 } Color;
-typedef struct {
-    int top, left, bottom, right;
-} Rect;
 
 extern unsigned Graf;
 static char allocation_message[] = "ERROR:  Couldn't allocate backport.";

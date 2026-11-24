@@ -1,20 +1,16 @@
 /* DRAWCAVE.C, DOS overlay 6 frame 2a93. */
-typedef unsigned char Byte;
-typedef signed char CellCoord;
-typedef unsigned int Word;
+#include "types.h"
+#include "level.h"
+#include "char.h"
 
 typedef struct DrawCell {
-    Byte pass;
-    CellCoord column, row;
-    Byte foreground;
-    Word modifier, background;
+    byte pass;
+    sbyte column, row;
+    byte foreground;
+    word modifier, background;
 } DrawCell;
 
-typedef struct DrawRect {
-    int top, left, bottom, right;
-} DrawRect;
-
-typedef int (far pascal *AddImage)(Byte, int, CellCoord, CellCoord, Byte, Byte);
+typedef int (far pascal *AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
 #pragma pack(1)
 typedef struct BubblePosition { int image, y, flags; } BubblePosition;
@@ -23,9 +19,9 @@ typedef struct LavaBubble {
     signed char frame, kind;
     int flags, y, layer;
 } LavaBubble;
-typedef struct LavaInfo { Byte flags; LavaBubble bubbles[10]; } LavaInfo;
+typedef struct LavaInfo { byte flags; LavaBubble bubbles[10]; } LavaInfo;
 typedef struct BackgroundImage { int flags, id, handle; } BackgroundImage;
-typedef struct TileNeighbor { Byte kind; Word modifier; } TileNeighbor;
+typedef struct TileNeighbor { byte kind; word modifier; } TileNeighbor;
 typedef struct ShapeOffsets {
     char before_loose[0xda];
     int loose_x, loose_y;
@@ -44,69 +40,24 @@ typedef struct ShapeOffsets {
 } ShapeOffsets;
 #pragma pack()
 
-extern CellCoord ColNo, RowNo;
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
+extern sbyte ColNo, RowNo;
 
 extern CHARREC Kid;
-extern DrawRect CellClipRect, GamePlayRect, CaveTorchRect;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
+extern Rect CellClipRect, GamePlayRect, CaveTorchRect;
 extern ROOMREC Room;
-extern Byte ObjId;
+extern byte ObjId;
 extern int NewRoom;
 extern signed char *bubble_frames[];
 extern TileNeighbor CellLeft;
 extern BackgroundImage *Pics[5];
-extern LavaInfo *get_lava_info(Byte, CellCoord, CellCoord);
+extern LavaInfo *get_lava_info(byte, sbyte, sbyte);
 extern void check_background_shape(int);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
-extern Byte PieceAboveId(CellCoord, CellCoord);
-extern Byte PieceAboveRightId(CellCoord, CellCoord);
-extern int IS_SIX_KIND(Byte);
-extern DrawRect *ComputeOffsetCellRect(DrawRect *, const DrawRect *, int, int);
-extern int EncloseRect(const DrawRect far *, const DrawRect far *);
+extern byte PieceAboveId(sbyte, sbyte);
+extern byte PieceAboveRightId(sbyte, sbyte);
+extern int IS_SIX_KIND(byte);
+extern Rect *ComputeOffsetCellRect(Rect *, const Rect *, int, int);
+extern int EncloseRect(const Rect far *, const Rect far *);
 static struct {
     int top_edge_x[7];
     BubblePosition bubble_positions[11];
@@ -126,15 +77,15 @@ static struct {
 };
 
 extern ShapeOffsets *Pieces;
-extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_middle_item(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern Byte PieceRightId(CellCoord, CellCoord);
-extern Byte PieceLeftId(CellCoord, CellCoord);
-extern int IsWall(Byte);
-extern int EmptyRect(const DrawRect far *);
-extern int SectRect(DrawRect far *, const DrawRect far *, const DrawRect far *);
+extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
+extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
+extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
+extern int add_middle_item(byte, int, sbyte, sbyte, byte, byte);
+extern byte PieceRightId(sbyte, sbyte);
+extern byte PieceLeftId(sbyte, sbyte);
+extern int IsWall(byte);
+extern int EmptyRect(const Rect far *);
+extern int SectRect(Rect far *, const Rect far *, const Rect far *);
 
 void DrawCaveBotEdge(DrawCell *);
 void DrawCaveExitMovable(DrawCell *);
@@ -148,9 +99,9 @@ void draw_cave_rubble_pieces(DrawCell *);
 
 void DrawCaveBlock(DrawCell *cell)
 {
-    Word modifier;
-    Word image;
-    Byte group;
+    word modifier;
+    word image;
+    byte group;
 
     modifier = cell->modifier;
     image = (modifier & 15) + 74;
@@ -174,7 +125,7 @@ void DrawCaveBlock(DrawCell *cell)
                 image = 33;
             else
                 image = -1;
-            if (image != (Word)-1)
+            if (image != (word)-1)
                 AddBFImgToBTable(20, image, cell->column, cell->row, 10, 0);
         }
         if (modifier & 0x80)
@@ -236,7 +187,7 @@ void DrawCaveExit2(DrawCell *cell)
 
 void DrawCaveExit3(DrawCell *cell)
 {
-    DrawRect saved;
+    Rect saved;
 
     if (cell->pass == 0) {
         if (cell->row != RowNo - 1)
@@ -253,7 +204,7 @@ void DrawCaveExit3(DrawCell *cell)
 
 void DrawCaveExit4(DrawCell *cell)
 {
-    DrawRect saved;
+    Rect saved;
 
     if (cell->pass == 0) {
         if (cell->row != RowNo - 1)
@@ -270,7 +221,7 @@ void DrawCaveExit4(DrawCell *cell)
 
 void DrawCaveExitMovable(DrawCell *cell)
 {
-    DrawRect saved, doorway;
+    Rect saved, doorway;
     AddImage draw;
     unsigned int lift;
 
@@ -294,8 +245,8 @@ void DrawCaveFloor(DrawCell *cell)
 {
     AddImage draw = 0;
     int image;
-    Byte mode;
-    Word variant = cell->modifier & 3;
+    byte mode;
+    word variant = cell->modifier & 3;
 
     switch (cell->pass) {
     case 0:
@@ -353,10 +304,9 @@ void DrawCaveGate(DrawCell *cell)
     DrawCaveGateMovable(cell);
 }
 
-
 void DrawCaveGateMovable(DrawCell *cell)
 {
-    DrawRect saved, gate;
+    Rect saved, gate;
     AddImage draw;
     unsigned int lift;
     int y;
@@ -394,13 +344,13 @@ void DrawCaveGateMovable(DrawCell *cell)
 
 void DrawCaveGateSquishing(DrawCell *cell)
 {
-    DrawRect saved, gate;
+    Rect saved, gate;
     unsigned int lift;
 
     saved = CellClipRect;
     gate = GamePlayRect;
     gate.top = cell->row * 63 - 16;
-    if (SectRect(&CellClipRect, (const DrawRect *)&Kid.bounds, &gate)) {
+    if (SectRect(&CellClipRect, (const Rect *)&Kid.bounds, &gate)) {
         lift = (cell->modifier & 0xfc) >> 2;
         Pieces->gate_y = -3 - (lift < 50 ? lift : 50);
         AddBFImgToFTable(55, -2, cell->column, cell->row, 10, 0);
@@ -415,7 +365,7 @@ void DrawCaveLava1(DrawCell *cell)
     LavaInfo *lava;
 
     floor = *cell;
-    ((Byte *)&floor.modifier)[0] = 0;
+    ((byte *)&floor.modifier)[0] = 0;
     lava = get_lava_info(Room.number, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
@@ -453,7 +403,7 @@ void DrawCaveLava2(DrawCell *cell)
     LavaInfo *lava;
 
     floor = *cell;
-    ((Byte *)&floor.modifier)[0] = 0;
+    ((byte *)&floor.modifier)[0] = 0;
     ++floor.modifier;
     lava = get_lava_info(Room.number, cell->column, cell->row);
     switch (cell->pass) {
@@ -596,7 +546,7 @@ void DrawCavePillarTop(DrawCell *cell)
 {
     switch (cell->pass) {
     case 0:
-        ((Byte *)&cell->modifier)[0] &= 0xf8;
+        ((byte *)&cell->modifier)[0] &= 0xf8;
         DrawCaveSpace(cell);
         break;
     case 1:
@@ -694,7 +644,7 @@ void draw_cave_rubble_torch(DrawCell *cell)
 
 void DrawCaveSpace(DrawCell *cell)
 {
-    volatile Word modifier = cell->modifier;
+    volatile word modifier = cell->modifier;
     int draw_loose = 0;
     int draw_floor;
     DrawCell loose;
@@ -751,8 +701,8 @@ void DrawCaveSpikes(DrawCell *cell)
     DrawCell block;
 
     block = *cell;
-    ((Byte *)&block.modifier)[0] &= 0xf0;
-    ((Byte *)&block.modifier)[0] |= 0x80;
+    ((byte *)&block.modifier)[0] &= 0xf0;
+    ((byte *)&block.modifier)[0] |= 0x80;
     switch (cell->pass) {
     case 0:
         DrawCaveBlock(&block);
@@ -790,11 +740,11 @@ void DrawCaveTopEdge(DrawCell *cell)
 void DrawCaveTorch(DrawCell *cell)
 {
     DrawCell floor;
-    DrawRect bounds;
+    Rect bounds;
     int enclosed;
 
     floor = *cell;
-    ((Byte *)&floor.modifier)[0] &= 0xfc;
+    ((byte *)&floor.modifier)[0] &= 0xfc;
     ComputeOffsetCellRect(&bounds, &CaveTorchRect, cell->column, cell->row);
     enclosed = EncloseRect(&bounds, &CellClipRect);
     switch (cell->pass) {
@@ -803,7 +753,7 @@ void DrawCaveTorch(DrawCell *cell)
             DrawCaveFloor(&floor);
             AddBImgToBTable(19, -2, cell->column, cell->row, 10, 0);
         }
-        AddBImgToBTable(58, (Byte)cell->modifier + 53, cell->column, cell->row, 10, 0);
+        AddBImgToBTable(58, (byte)cell->modifier + 53, cell->column, cell->row, 10, 0);
         break;
     case 5:
         if (enclosed)
@@ -818,7 +768,7 @@ void DrawCaveTorch(DrawCell *cell)
     }
 }
 
-int far _fastcall IsRoundCaveBlock(Word modifier)
+int far _fastcall IsRoundCaveBlock(word modifier)
 {
     int round;
 

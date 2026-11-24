@@ -1,8 +1,5 @@
 /* DISSOLVE.C */
-typedef struct
-{
-    int top, left, bottom, right;
-} Rect;
+#include "types.h"
 
 typedef void (far pascal *StepFunc)(unsigned long, int);
 
@@ -66,7 +63,7 @@ int dissolve_do_all(int mode, int source, const Rect far *bounds, long duration)
         do {
             interrupted = check_wait_function();
             more = dissolve_step(record) == 0;
-            MEASURE_TEXT((int)ScreenPort, record->destination,
+            MEASURE_TEXT(ScreenPort, record->destination,
                       &record->rect, &record->rect, 0);
         } while (!interrupted && more);
         dissolve_free(record, 0);
@@ -102,7 +99,7 @@ Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long durati
 
         if (record->mode == 2) {
             if (create_port(&record->temporary, bounds))
-                MEASURE_TEXT((int)&record->temporary, record->source, bounds, bounds, 0);
+                MEASURE_TEXT(&record->temporary, record->source, bounds, bounds, 0);
             else {
                 _nfree(record);
                 record = 0;
@@ -111,7 +108,7 @@ Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long durati
         if (record)
             dissolve_set_inc_amt(record);
         if (record->mode == 2)
-            MEASURE_TEXT((int)&record->temporary, record->destination, bounds, bounds, 0);
+            MEASURE_TEXT(&record->temporary, record->destination, bounds, bounds, 0);
     }
     return record;
 }
@@ -199,7 +196,7 @@ int dissolve_step(Dissolve *record)
         if (record->mode == 1)
             DITHER_SEED = record->pattern;
         else if (record->mode == 2)
-            MEASURE_TEXT(record->destination, (int)&record->temporary,
+            MEASURE_TEXT(record->destination, &record->temporary,
                       &record->rect, &record->rect, 0);
         if (!find_option(dissolve_option))
             COPY_DITHERED_PORT_REGION(record->destination, record->source, &record->rect, &record->rect, record->level);

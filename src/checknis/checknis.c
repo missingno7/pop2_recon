@@ -1,12 +1,13 @@
 /* CHECKNIS.C reconstruction. External aliases describe the observed uses. */
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 
 signed char quote_index = -1;
-extern int IsTimeForNIS(int level, int previous_level);
-extern int play_nis(int sequence);
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
+extern int IsTimeForNIS(int, int);
+extern int play_nis(int);
+
 extern GAMESTATE GameState;
 
 int CheckPlayNIS(int level, int previous_level)
@@ -50,98 +51,13 @@ int EraseScreenBeforeNIS(int sequence)
 }
 
 /* Field aliases, original long type, signedness, and purpose are hypotheses. */
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 extern LEVELREC Level;
 extern unsigned long hRebirthSaved;
 extern unsigned int Resume;
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 
 extern CHARREC Kid;
 
-extern signed char CutRoom;
+extern unsigned char CutRoom;
 
 int far pascal IsLevelStartWithNISScreen(void)
 {
@@ -164,10 +80,10 @@ extern struct { int done; } notice_state;
 extern unsigned int Minutes;
 extern int frame_diagnostics;
 extern int level_resource_files[];
-extern char *find_option(const char far *option);
-extern int cdecl atoi(const char *value);
-extern void open_verified_resource(int sound);
-extern void close_resource_file(int sound);
+extern char *find_option(const char far *);
+extern int cdecl atoi(const char *);
+extern void open_verified_resource(int);
+extern void close_resource_file(int);
 extern void play_sound(int sound);
 
 int IsTimeForNIS(int level, int previous_level)
@@ -241,7 +157,6 @@ extern int Dispatch_NIS(int sequence);
 extern void set_default_palette(void);
 extern void set_kid_palette(unsigned char room);
 
-
 int play_nis(int sequence)
 {
     int result = 1;
@@ -287,15 +202,6 @@ int play_nis(int sequence)
 }
 
 extern signed char LevelIdx;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
 extern ROOMREC Room;
 extern int NextLevel, Graf;
 extern void reset_level_overlays(void);
@@ -348,7 +254,6 @@ typedef struct {
     unsigned char pixels[1];
 } image_header;
 
-
 extern unsigned int hGetSL(int resource_id, int mode);
 extern int hNewShpItem1(int asset, int frame, int type);
 extern image_header far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int image);
@@ -388,4 +293,3 @@ void draw_dead_kid(int install_palette)
     if (install_palette)
         set_palette(1000, 240, 16, 0);
 }
-

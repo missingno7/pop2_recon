@@ -65,7 +65,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 1110,
+        "length": 1382,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -86,76 +86,13 @@
     ],
     "publics": [
       {
-        "name": "PAINT_EDIT_CARET",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 146,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 590
-      },
-      {
-        "name": "DELETE_EDIT_CHARACTER",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1136,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 602
-      },
-      {
-        "name": "REPLACE_EDIT_TEXT",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1602,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 612
-      },
-      {
-        "name": "REDRAW_EDIT_TEXT",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1666,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 614
-      },
-      {
-        "name": "SHOW_EDIT_CARET",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 0,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 584
-      },
-      {
-        "name": "UPDATE_EDIT_CARET",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 24,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 586
-      },
-      {
-        "name": "HIDE_EDIT_CARET",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 124,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 588
-      },
-      {
         "name": "CLICK_EDIT_FIELD",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1186,
         "group_index": 0,
         "frame": null,
-        "type_index": 606
+        "type_index": 674
       },
       {
         "name": "FRAME_EDIT_FIELD",
@@ -164,7 +101,7 @@
         "offset": 368,
         "group_index": 0,
         "frame": null,
-        "type_index": 592
+        "type_index": 660
       },
       {
         "name": "CLEAR_FLAGS_OF_FAR_BLOCK",
@@ -173,7 +110,7 @@
         "offset": 438,
         "group_index": 0,
         "frame": null,
-        "type_index": 594
+        "type_index": 662
       },
       {
         "name": "BLINK_EDIT_CARET",
@@ -182,7 +119,7 @@
         "offset": 458,
         "group_index": 0,
         "frame": null,
-        "type_index": 596
+        "type_index": 664
       },
       {
         "name": "HANDLE_EDIT_KEY",
@@ -191,7 +128,7 @@
         "offset": 552,
         "group_index": 0,
         "frame": null,
-        "type_index": 600
+        "type_index": 668
       },
       {
         "name": "CREATE_EDIT_FIELD",
@@ -200,26 +137,73 @@
         "offset": 1402,
         "group_index": 0,
         "frame": null,
-        "type_index": 610
+        "type_index": 678
+      },
+      {
+        "name": "PAINT_EDIT_CARET",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 146,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 658
+      },
+      {
+        "name": "DELETE_EDIT_CHARACTER",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1136,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 670
+      },
+      {
+        "name": "REPLACE_EDIT_TEXT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1602,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 680
+      },
+      {
+        "name": "REDRAW_EDIT_TEXT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1666,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 682
+      },
+      {
+        "name": "SHOW_EDIT_CARET",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 652
+      },
+      {
+        "name": "UPDATE_EDIT_CARET",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 24,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 654
+      },
+      {
+        "name": "HIDE_EDIT_CARET",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 124,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 656
       }
     ],
     "externals": [
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "MEASURE_CHARACTER",
-      "MEASURE_NUL_TERMINATED_TEXT",
-      "PLAY_SOUND",
-      "CLAMP_POINT_TO_RECT",
-      "ALLOCATE_PINNED_PAYLOAD",
-      "MOVE_HUGE_BYTES",
-      "__fstrlen",
-      "STROKE_PORT_RECT",
-      "PAINT_EDIT_CARET",
-      "DELETE_EDIT_CHARACTER",
-      "REPLACE_EDIT_TEXT",
-      "REDRAW_EDIT_TEXT",
-      "SHOW_EDIT_CARET",
-      "UPDATE_EDIT_CARET",
-      "HIDE_EDIT_CARET",
       "CLICK_EDIT_FIELD",
       "FRAME_EDIT_FIELD",
       "CLEAR_FLAGS_OF_FAR_BLOCK",
@@ -241,7 +225,23 @@
       "MEASURE_COUNTED_TEXT",
       "INSETRECT",
       "FRAME_RECT",
-      "CLEAR_PAYLOAD_HEADER"
+      "CLEAR_PAYLOAD_HEADER",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "MEASURE_CHARACTER",
+      "MEASURE_NUL_TERMINATED_TEXT",
+      "PLAY_SOUND",
+      "CLAMP_POINT_TO_RECT",
+      "ALLOCATE_PINNED_PAYLOAD",
+      "MOVE_HUGE_BYTES",
+      "__fstrlen",
+      "STROKE_PORT_RECT",
+      "PAINT_EDIT_CARET",
+      "DELETE_EDIT_CHARACTER",
+      "REPLACE_EDIT_TEXT",
+      "REDRAW_EDIT_TEXT",
+      "SHOW_EDIT_CARET",
+      "UPDATE_EDIT_CARET",
+      "HIDE_EDIT_CARET"
     ]
   },
   "dgroup_segment": {
@@ -267,7 +267,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -275,7 +275,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -294,7 +294,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 18,
           "name": "HSETFONT",
           "method": 6,
           "zero_displacement": true
@@ -302,7 +302,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 18,
         "name": "HSETFONT",
         "method": 6,
         "zero_displacement": true
@@ -321,7 +321,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 19,
           "name": "MEASURE_COUNTED_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -329,7 +329,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 19,
         "name": "MEASURE_COUNTED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -348,7 +348,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 18,
           "name": "HSETFONT",
           "method": 6,
           "zero_displacement": true
@@ -356,7 +356,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 18,
         "name": "HSETFONT",
         "method": 6,
         "zero_displacement": true
@@ -375,7 +375,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 5,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -383,7 +383,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -402,7 +402,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -410,7 +410,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -429,7 +429,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -437,7 +437,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -456,7 +456,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 17,
           "name": "SET_RELATIVE_PEN_STATE",
           "method": 6,
           "zero_displacement": true
@@ -464,7 +464,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 17,
         "name": "SET_RELATIVE_PEN_STATE",
         "method": 6,
         "zero_displacement": true
@@ -483,7 +483,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 16,
           "name": "POP_PORT_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -491,7 +491,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 16,
         "name": "POP_PORT_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -510,7 +510,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 15,
           "name": "DRAW_NUL_TEXT_IN_RECT",
           "method": 6,
           "zero_displacement": true
@@ -518,7 +518,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 15,
         "name": "DRAW_NUL_TEXT_IN_RECT",
         "method": 6,
         "zero_displacement": true
@@ -537,7 +537,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 5,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -545,7 +545,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -564,7 +564,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 14,
           "name": "DRAW_RELATIVE_AXIS_SEGMENT",
           "method": 6,
           "zero_displacement": true
@@ -572,7 +572,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 14,
         "name": "DRAW_RELATIVE_AXIS_SEGMENT",
         "method": 6,
         "zero_displacement": true
@@ -591,7 +591,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 5,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -599,7 +599,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -618,7 +618,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 13,
           "name": "MOVETO",
           "method": 6,
           "zero_displacement": true
@@ -626,7 +626,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 13,
         "name": "MOVETO",
         "method": 6,
         "zero_displacement": true
@@ -645,7 +645,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 12,
           "name": "PUSH_PORT_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -653,7 +653,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 12,
         "name": "PUSH_PORT_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -672,7 +672,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 11,
           "name": "COPY_CURRENT_PORT_ORIGIN",
           "method": 6,
           "zero_displacement": true
@@ -680,7 +680,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 11,
         "name": "COPY_CURRENT_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true
@@ -699,7 +699,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 5,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -707,7 +707,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -726,7 +726,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 21,
           "name": "FRAME_RECT",
           "method": 6,
           "zero_displacement": true
@@ -734,7 +734,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 21,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -753,7 +753,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 20,
           "name": "INSETRECT",
           "method": 6,
           "zero_displacement": true
@@ -761,7 +761,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 20,
         "name": "INSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -780,7 +780,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 5,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -788,7 +788,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -807,7 +807,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 22,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -815,7 +815,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 22,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -834,7 +834,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 7,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -842,7 +842,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 7,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -861,7 +861,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 7,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -869,7 +869,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 7,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -888,7 +888,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -896,7 +896,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -915,7 +915,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 8,
           "name": "TIMER_RATE",
           "method": 6,
           "zero_displacement": true
@@ -923,7 +923,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 8,
         "name": "TIMER_RATE",
         "method": 6,
         "zero_displacement": true
@@ -942,7 +942,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 7,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -950,7 +950,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 7,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -969,7 +969,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 7,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -977,7 +977,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 7,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -996,7 +996,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1004,7 +1004,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1023,7 +1023,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 26,
           "name": "PLAY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1031,7 +1031,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 26,
         "name": "PLAY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1050,7 +1050,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 33,
           "name": "DELETE_EDIT_CHARACTER",
           "method": 6,
           "zero_displacement": true
@@ -1058,7 +1058,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 33,
         "name": "DELETE_EDIT_CHARACTER",
         "method": 6,
         "zero_displacement": true
@@ -1099,7 +1099,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 35,
           "name": "REDRAW_EDIT_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -1107,7 +1107,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 35,
         "name": "REDRAW_EDIT_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -1170,7 +1170,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 37,
           "name": "UPDATE_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1178,7 +1178,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 37,
         "name": "UPDATE_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1197,7 +1197,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 37,
           "name": "UPDATE_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1205,7 +1205,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 37,
         "name": "UPDATE_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1224,7 +1224,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 33,
           "name": "DELETE_EDIT_CHARACTER",
           "method": 6,
           "zero_displacement": true
@@ -1232,7 +1232,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 33,
         "name": "DELETE_EDIT_CHARACTER",
         "method": 6,
         "zero_displacement": true
@@ -1273,7 +1273,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 37,
           "name": "UPDATE_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1281,7 +1281,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 37,
         "name": "UPDATE_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1322,7 +1322,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 25,
           "name": "MEASURE_NUL_TERMINATED_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -1330,7 +1330,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 25,
         "name": "MEASURE_NUL_TERMINATED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -1349,7 +1349,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 24,
           "name": "MEASURE_CHARACTER",
           "method": 6,
           "zero_displacement": true
@@ -1357,7 +1357,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 24,
         "name": "MEASURE_CHARACTER",
         "method": 6,
         "zero_displacement": true
@@ -1398,7 +1398,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 24,
           "name": "MEASURE_CHARACTER",
           "method": 6,
           "zero_displacement": true
@@ -1406,7 +1406,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 24,
         "name": "MEASURE_CHARACTER",
         "method": 6,
         "zero_displacement": true
@@ -1425,7 +1425,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 10,
           "name": "__ctype",
           "method": 6,
           "zero_displacement": true
@@ -1433,7 +1433,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 10,
         "name": "__ctype",
         "method": 6,
         "zero_displacement": true
@@ -1452,7 +1452,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 23,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -1460,7 +1460,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 23,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -1479,7 +1479,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1487,7 +1487,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1528,7 +1528,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1536,7 +1536,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1555,7 +1555,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 37,
           "name": "UPDATE_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1563,7 +1563,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 37,
         "name": "UPDATE_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1582,7 +1582,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 24,
           "name": "MEASURE_CHARACTER",
           "method": 6,
           "zero_displacement": true
@@ -1590,7 +1590,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 24,
         "name": "MEASURE_CHARACTER",
         "method": 6,
         "zero_displacement": true
@@ -1609,7 +1609,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 19,
           "name": "MEASURE_COUNTED_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -1617,7 +1617,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 19,
         "name": "MEASURE_COUNTED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -1636,7 +1636,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 19,
           "name": "MEASURE_COUNTED_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -1644,7 +1644,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 19,
         "name": "MEASURE_COUNTED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -1663,7 +1663,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 27,
           "name": "CLAMP_POINT_TO_RECT",
           "method": 6,
           "zero_displacement": true
@@ -1671,7 +1671,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 27,
         "name": "CLAMP_POINT_TO_RECT",
         "method": 6,
         "zero_displacement": true
@@ -1690,7 +1690,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 32,
           "name": "PAINT_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1698,7 +1698,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 32,
         "name": "PAINT_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1717,7 +1717,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "REPLACE_EDIT_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -1725,7 +1725,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "REPLACE_EDIT_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -1744,7 +1744,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 7,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -1752,7 +1752,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 7,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -1771,7 +1771,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 7,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -1779,7 +1779,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 7,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -1798,7 +1798,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 29,
           "name": "MOVE_HUGE_BYTES",
           "method": 6,
           "zero_displacement": true
@@ -1806,7 +1806,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 29,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -1825,7 +1825,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 29,
           "name": "MOVE_HUGE_BYTES",
           "method": 6,
           "zero_displacement": true
@@ -1833,7 +1833,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 29,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -1852,7 +1852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 5,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1860,7 +1860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1879,7 +1879,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 28,
           "name": "ALLOCATE_PINNED_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -1887,7 +1887,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 28,
         "name": "ALLOCATE_PINNED_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -1906,7 +1906,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 37,
           "name": "UPDATE_EDIT_CARET",
           "method": 6,
           "zero_displacement": true
@@ -1914,7 +1914,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 37,
         "name": "UPDATE_EDIT_CARET",
         "method": 6,
         "zero_displacement": true
@@ -1933,7 +1933,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 30,
           "name": "__fstrlen",
           "method": 6,
           "zero_displacement": true
@@ -1941,7 +1941,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 30,
         "name": "__fstrlen",
         "method": 6,
         "zero_displacement": true
@@ -1960,7 +1960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 17,
           "name": "SET_RELATIVE_PEN_STATE",
           "method": 6,
           "zero_displacement": true
@@ -1968,7 +1968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 17,
         "name": "SET_RELATIVE_PEN_STATE",
         "method": 6,
         "zero_displacement": true
@@ -1987,7 +1987,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 16,
           "name": "POP_PORT_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -1995,7 +1995,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 16,
         "name": "POP_PORT_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -2014,7 +2014,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 15,
           "name": "DRAW_NUL_TEXT_IN_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2022,7 +2022,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 15,
         "name": "DRAW_NUL_TEXT_IN_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2041,7 +2041,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 13,
           "name": "MOVETO",
           "method": 6,
           "zero_displacement": true
@@ -2049,7 +2049,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 13,
         "name": "MOVETO",
         "method": 6,
         "zero_displacement": true
@@ -2068,7 +2068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 31,
           "name": "STROKE_PORT_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2076,7 +2076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 31,
         "name": "STROKE_PORT_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2095,7 +2095,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 12,
           "name": "PUSH_PORT_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -2103,7 +2103,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 12,
         "name": "PUSH_PORT_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -2122,7 +2122,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 11,
           "name": "COPY_CURRENT_PORT_ORIGIN",
           "method": 6,
           "zero_displacement": true
@@ -2130,7 +2130,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 11,
         "name": "COPY_CURRENT_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true

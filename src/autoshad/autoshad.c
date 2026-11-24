@@ -1,38 +1,7 @@
+#include "types.h"
+#include "level.h"
+#include "char.h"
 #pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
 
 typedef struct {
     signed char cell;
@@ -47,82 +16,11 @@ typedef struct {
 #pragma pack()
 
 extern CHARREC Opp, Char, Kid, RoomOpp[5];
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 extern LEVELREC Level;
 extern signed char Minus1[2];
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
 extern ROOMREC Room;
-#pragma pack(1)
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
-#pragma pack()
 extern FCHARREC FChar;
-typedef struct {
-    signed char argument, entrance_mode, sword_kind, death_countdown;
-    int field_4, shadow_timer;
-} KIDINFO;
+
 extern KIDINFO KidInfo;
 extern int Pause, ImWidth;
 extern unsigned long FrameNum;
@@ -177,7 +75,7 @@ int far pascal CheckShadowmanBackIntoKid(void)
         }
         Char.x -= distance;
         --Char.y;
-        Char.field_0f = 0;
+        Char.repeat = 0;
         kid = &Kid;
         *kid = Char;
         result = 71;
@@ -204,7 +102,7 @@ void far pascal CheckShadowmanCreate(void)
                 if (Char.life_points > 4) {
                     CreateKidAsOpp();
                     Char.character_kind = 1;
-                    Char.field_34 = 8;
+                    Char.image_bank = 8;
                     JumpSeq(2);
                     AddSound(261);
                     AddSong(272);
@@ -253,9 +151,9 @@ void far pascal CheckTurnSeqs(void)
     else if (Char.frame >= 45 && Char.frame <= 52 &&
              !((Char.room == 1 || Char.room == 2) && Level.level_number == 14)) {
         if (KidInfo.shadow_timer >= 4)
-            Char.field_34 = IsShadowBlinkOn(Char.frame, KidInfo.shadow_timer) ? 8 : 0;
+            Char.image_bank = IsShadowBlinkOn(Char.frame, KidInfo.shadow_timer) ? 8 : 0;
     } else if (Char.sequence != 5 && KidInfo.shadow_timer != 0) {
-        set_kid_palette((signed char)Level.environment_kind);
+        set_kid_palette(Level.environment_kind);
         KidInfo.shadow_timer = 0;
     }
 }
@@ -273,8 +171,8 @@ void far pascal CreateKidAsOpp(void)
 
     kid = &Kid;
     *kid = Char;
-    index = Level.room_objects[(unsigned char)Char.room - 1].opponent_count++;
-    opp = GetOppInfoIdx((unsigned char)Char.room, index);
+    index = Level.room_objects[Char.room - 1].opponent_count++;
+    opp = GetOppInfoIdx(Char.room, index);
     opp->cell = FirstInRow(Char.row) + Char.column;
     opp->x = Char.x;
     opp->facing = Char.direction;
@@ -288,7 +186,7 @@ void far pascal CreateKidAsOpp(void)
     opp->max_health = Char.life_initial;
     Char.slot = index;
     Char.character_kind = 0;
-    Char.field_34 = 2;
+    Char.image_bank = 2;
     JumpSeq(71);
     AnimChar();
     save_actor_slot();
@@ -306,7 +204,7 @@ void far pascal CutToKidRoom(void)
     load_actor_slot(GetKidIdxAsOpp());
     saved = Char;
     Char.slot = 10;
-    Char.field_34 = 0;
+    Char.image_bank = 0;
     Char.life_points = Kid.life_points;
     Char.life_initial = Kid.life_initial;
     Char.life_delta = Kid.life_delta;
@@ -370,7 +268,7 @@ int far pascal IsShadowImbued(void)
 {
     int result;
 
-    if (Char.sequence_group == 13 || ((signed char)Level.environment_kind == 6 && Char.life_points > 2))
+    if (Char.sequence_group == 13 || (Level.environment_kind == 6 && Char.life_points > 2))
         result = 1;
     else
         result = 0;
@@ -389,8 +287,8 @@ void far pascal KidRiseFromShadowman(void)
         save_actor_slot();
         copy_kid_to_char();
         Char.character_kind = 0;
-        Char.field_34 = 0;
-        Char.field_0f = 1;
+        Char.image_bank = 0;
+        Char.repeat = 1;
         JumpSeq(231);
         AnimChar();
         Kid = Char;
@@ -409,7 +307,7 @@ void far pascal SetupShadowFlame(void)
         AddFCharX(13 - ImWidth / 2);
         MakeFCharClipRect();
         add_char_object(14);
-        mark_bufs_for_rect(mark_foreground, (char *)&FChar.clip_top, Char.slot);
+        mark_bufs_for_rect(mark_foreground, (char *)&FChar.clip.top, Char.slot);
         RestoreFChar();
     }
 }

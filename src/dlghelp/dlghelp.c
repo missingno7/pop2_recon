@@ -1,7 +1,6 @@
-typedef unsigned int Word;
-typedef struct {
-    int top, left, bottom, right;
-} Rect;
+#include "types.h"
+#include "level.h"
+#include "char.h"
 
 typedef struct {
     int y, x;
@@ -14,35 +13,35 @@ typedef struct {
 
 typedef struct {
     char reserved[0x20];
-    Word erase_mode;
+    word erase_mode;
     char pen[6];
-    Word pen_mode;
-    Word font;
+    word pen_mode;
+    word font;
 } Port;
 
 typedef struct EditField EditField;
 
 struct EditField {
     Port *port;
-    Word font;
+    word font;
     Rect bounds;
     Rect clip;
     int style;
-    Word selection_start;
-    Word selection_end;
-    Word caret;
+    word selection_start;
+    word selection_end;
+    word caret;
     int y, x;
     int visible;
     unsigned long last_blink;
     char far *text;
-    Word capacity;
-    Word length;
+    word capacity;
+    word length;
     void (far pascal *paint)(EditField far *);
 };
 
 extern Port *Graf;
 extern unsigned long TimeVal;
-extern Word timer_rate;
+extern word timer_rate;
 extern unsigned char near cdecl _ctype[];
 #define isprint(c) ((_ctype + 1)[(c)] & 0x57)
 extern void far pascal COPY_CURRENT_PORT_ORIGIN(Pen far *);
@@ -52,23 +51,23 @@ extern void far pascal DRAW_RELATIVE_AXIS_SEGMENT(int, int);
 extern void far pascal DRAW_NUL_TEXT_IN_RECT(Rect far *, int, int, char far *);
 extern void far pascal POP_PORT_CLIP(void);
 extern void far pascal SET_RELATIVE_PEN_STATE(Pen far *);
-extern Word far pascal hSetFont(Word);
-extern int far pascal measure_counted_text(char far *, Word);
+extern word far pascal hSetFont(word);
+extern int far pascal measure_counted_text(char far *, word);
 extern void far pascal InsetRect(Rect far *, Rect far *, int, int);
 extern void far pascal frame_rect(Rect far *);
 extern void far pascal CLEAR_PAYLOAD_HEADER(void far *block);
-extern void far * far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(Word);
+extern void far * far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(word);
 extern int far pascal MEASURE_CHARACTER(unsigned char);
 extern int far pascal MEASURE_NUL_TERMINATED_TEXT(char far *);
 extern void far pascal play_sound(int);
 extern void far pascal CLAMP_POINT_TO_RECT(Point far *, void far *, Rect far *);
 extern EditField far * far pascal ALLOCATE_PINNED_PAYLOAD(long);
 extern void far pascal MOVE_HUGE_BYTES(void far *, const void far *, long);
-extern Word far cdecl _fstrlen(const char far *);
+extern word far cdecl _fstrlen(const char far *);
 extern void far pascal STROKE_PORT_RECT(Rect far *);
 
 void far pascal paint_edit_caret(EditField far *, int);
-void far pascal delete_edit_character(EditField far *, Word);
+void far pascal delete_edit_character(EditField far *, word);
 void far pascal replace_edit_text(EditField far *, char far *);
 void far pascal redraw_edit_text(EditField far *);
 
@@ -79,7 +78,7 @@ void far pascal show_edit_caret(EditField far *field)
 
 void far pascal update_edit_caret(EditField far *field)
 {
-    Word saved_font;
+    word saved_font;
 
     paint_edit_caret(field, 0);
     saved_font = Graf->font;
@@ -95,7 +94,7 @@ void far pascal hide_edit_caret(EditField far *field)
 
 void far pascal paint_edit_caret(EditField far *field, int visible)
 {
-    Word saved_mode;
+    word saved_mode;
     Pen pen;
 
     COPY_CURRENT_PORT_ORIGIN(&pen);
@@ -120,10 +119,10 @@ void far pascal paint_edit_caret(EditField far *field, int visible)
     SET_RELATIVE_PEN_STATE(&pen);
 }
 
-void far pascal frame_edit_field(EditField far *field, Word mode)
+void far pascal frame_edit_field(EditField far *field, word mode)
 {
     Rect rect;
-    Word saved_mode = Graf->pen_mode;
+    word saved_mode = Graf->pen_mode;
 
     Graf->pen_mode = mode;
     InsetRect(&rect, &field->clip, -1, -1);
@@ -149,7 +148,7 @@ int far pascal handle_edit_key(EditField far *field, int key)
 {
     unsigned char far *font;
     int rejected, changed, result;
-    Word i;
+    word i;
 
     result = changed = rejected = 0;
     if (key) {
@@ -238,7 +237,7 @@ int far pascal handle_edit_key(EditField far *field, int key)
     return result;
 }
 
-void far pascal delete_edit_character(EditField far *field, Word index)
+void far pascal delete_edit_character(EditField far *field, word index)
 {
     if (index < field->length) {
         do {
@@ -251,7 +250,7 @@ void far pascal delete_edit_character(EditField far *field, Word index)
 void far pascal click_edit_field(EditField far *field, void *point)
 {
     Point position;
-    Word index;
+    word index;
     int width;
     register int total;
 
@@ -266,7 +265,7 @@ void far pascal click_edit_field(EditField far *field, void *point)
     if (index < field->length) {
         do {
             width = MEASURE_CHARACTER(field->text[index]);
-            if ((int)((Word)width >> 1) + total > position.x)
+            if ((int)((word)width >> 1) + total > position.x)
                 break;
             total += width;
         } while (++index < field->length);
@@ -277,7 +276,7 @@ void far pascal click_edit_field(EditField far *field, void *point)
 }
 
 EditField far * far pascal create_edit_field(Rect far *bounds, Rect far *clip,
-                                             char far *text, Word capacity)
+                                             char far *text, word capacity)
 {
     EditField far *field = ALLOCATE_PINNED_PAYLOAD(sizeof(EditField));
 

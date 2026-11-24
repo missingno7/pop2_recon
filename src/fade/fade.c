@@ -1,4 +1,6 @@
 /* FADE.C: palette fades and DAC block transfers. */
+#include "types.h"
+#include "char.h"
 
 typedef unsigned char component;
 typedef component palette[768];
@@ -30,7 +32,7 @@ extern int far pascal check_wait_function(void);
 extern void far pascal MEASURE_TEXT(int slot, int port, fade_state far *draw,
     fade_state far *update, int flags);
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(void near *handle);
-typedef struct { int top, left, bottom, right; } Rect;
+
 extern void far pascal SET_RECORD_RANGE(const Rect far *bounds, int color);
 extern void far *far cdecl _fmemset(void far *buffer, int value, unsigned count);
 extern void far *far cdecl _fmemcpy(void far *dest, const void far *src, unsigned count);
@@ -51,7 +53,7 @@ int far pascal fade_to_step(fade_state far *state);
 int far pascal fade_in_port(fade_header near *port, unsigned blocks)
 {
     int result = 0;
-    fade_state far *state = init_fade_in((int)port,
+    fade_state far *state = init_fade_in(port,
         (fade_header near *)((char near *)port + 16), blocks);
 
     while (!fade_in_step(state))

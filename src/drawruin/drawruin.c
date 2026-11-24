@@ -1,48 +1,45 @@
 /* DRAWRUIN.C, DOS overlay 8 code frame 2a74. */
-typedef unsigned char Byte;
-typedef signed char CellCoord;
+#include "types.h"
+#include "level.h"
+#include "char.h"
 
 #pragma pack(1)
 typedef struct RuinCell {
-    Byte pass;
-    CellCoord column, row;
-    Byte foreground;
+    byte pass;
+    sbyte column, row;
+    byte foreground;
     unsigned int modifier;
-    Byte background, background_modifier;
+    byte background, background_modifier;
 } RuinCell;
 #pragma pack()
 
-typedef struct DrawRect {
-    int top, left, bottom, right;
-} DrawRect;
-
 typedef struct BackImage {
-    Byte placement[10];
-    DrawRect clip;
+    byte placement[10];
+    Rect clip;
 } BackImage;
 
-typedef int (far pascal *AddImage)(Byte, int, CellCoord, CellCoord, Byte, Byte);
+typedef int (far pascal *AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
 extern int NewRoom;
-extern DrawRect CellClipRect;
-extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte column, Byte row);
-extern int SECTRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
-extern void UNIONRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
-extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_middle_item(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern Byte PieceRightId(CellCoord, CellCoord);
+extern Rect CellClipRect;
+extern BackImage far *far _fastcall get_back_table_image_row(int image, byte column, byte row);
+extern int SECTRECT(Rect far *, const Rect far *, const Rect far *);
+extern void UNIONRECT(Rect far *, const Rect far *, const Rect far *);
+extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
+extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
+extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
+extern int add_middle_item(byte, int, sbyte, sbyte, byte, byte);
+extern byte PieceRightId(sbyte, sbyte);
 
 void draw_ruin_flaw(RuinCell *cell);
 
 void draw_ruin_back_wall(RuinCell *cell)
 {
     int image;
-    Byte background_modifier, tile, layer;
+    byte background_modifier, tile, layer;
     int fallback;
     BackImage far *shape;
-    DrawRect overlap;
+    Rect overlap;
 
     background_modifier = cell->background_modifier & 15;
     image = (*(unsigned int *)&cell->background) & 31;
@@ -222,7 +219,7 @@ void draw_ruin_crevice(RuinCell *cell)
 void draw_ruin_exit_left(RuinCell *cell)
 {
     AddImage add_image = 0;
-    Byte layer = 10;
+    byte layer = 10;
     int flaw = 1;
 
     switch (cell->pass) {
@@ -257,7 +254,7 @@ void draw_ruin_exit_left(RuinCell *cell)
 #pragma pack(1)
 typedef struct RuinPositions {
     char before_flaw[0x156];
-    Byte flip_flaw;
+    byte flip_flaw;
     ShapePosition front_flaw, back_flaw;
     char before_gate[0x420 - 0x163];
     int gate_y;
@@ -268,61 +265,16 @@ typedef struct RuinPositions {
 #pragma pack()
 
 typedef struct MovingExit {
-    Byte reserved[2];
+    byte reserved[2];
     signed char height;
 } MovingExit;
 
 extern RuinPositions *Pieces;
-extern DrawRect GamePlayRect;
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
+extern Rect GamePlayRect;
 extern ROOMREC Room;
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 
 extern CHARREC Kid;
-extern signed char FirstInRow(Byte, CellCoord);
+extern signed char FirstInRow(byte, sbyte);
 extern MovingExit *get_trob_room_cell(int);
 
 void draw_ruin_exit_movable(RuinCell *cell);
@@ -330,7 +282,7 @@ void draw_ruin_exit_movable(RuinCell *cell);
 void draw_ruin_exit_right(RuinCell *cell)
 {
     AddImage add_image = 0;
-    Byte layer = 10;
+    byte layer = 10;
     int flaw = 0;
 
     switch (cell->pass) {
@@ -369,7 +321,7 @@ void draw_ruin_exit_movable(RuinCell *cell)
 {
     AddImage add_image;
     MovingExit *moving;
-    DrawRect saved_clip, door_clip;
+    Rect saved_clip, door_clip;
 
     if (cell->pass == 0) {
         saved_clip = CellClipRect;
@@ -389,20 +341,19 @@ void draw_ruin_exit_movable(RuinCell *cell)
     }
 }
 
-extern CellCoord ColNo, RowNo;
+extern sbyte ColNo, RowNo;
 extern int Ct[5];
 
 #pragma pack(1)
 typedef struct DrawEntry {
-    Byte type, sheet;
+    byte type, sheet;
     int shape, x, y;
-    CellCoord column, row;
-    DrawRect clip;
-    Byte flip, attributes;
+    sbyte column, row;
+    Rect clip;
+    byte flip, attributes;
 } DrawEntry;
 #pragma pack()
 extern DrawEntry far ForeTable[];
-
 
 void draw_ruin_flaw(RuinCell *cell)
 {
@@ -425,7 +376,7 @@ void draw_ruin_flaw(RuinCell *cell)
     } else if (cell->pass == 1) {
         flags = cell->modifier & 0xf00;
         if (flags && (unsigned)flags < 0xb00) {
-            flaw = ((Byte *)&flags)[1];
+            flaw = ((byte *)&flags)[1];
             if (flaw != 2 || !NewRoom) {
                 int emitted;
                 Pieces->back_flaw = ruin_tables.rows.flaw_positions[flaw + 1];
@@ -440,8 +391,6 @@ void draw_ruin_flaw(RuinCell *cell)
         }
     }
 }
-
-
 
 void draw_ruin_floor(RuinCell *cell)
 {
@@ -490,62 +439,13 @@ void draw_ruin_gate(RuinCell *cell)
     }
 }
 
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 extern LEVELREC Level;
 extern void draw_throne_room_gate_in_fore(void);
 
 void draw_ruin_gate_movable(RuinCell *cell)
 {
     AddImage add_image;
-    DrawRect gate_clip, saved_clip;
+    Rect gate_clip, saved_clip;
 
     saved_clip = CellClipRect;
     gate_clip = GamePlayRect;
@@ -565,7 +465,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
             break;
         }
         if (add_image) {
-            if (Room.number == 9 && ((Byte)Level.level_number) == 8) {
+            if (Room.number == 9 && (Level.level_number) == 8) {
                 if (cell->pass == 2)
                     draw_throne_room_gate_in_fore();
             } else {
@@ -683,10 +583,10 @@ void draw_ruin_pillar_top(RuinCell *cell)
 
 void draw_ruin_down_plate(RuinCell *cell)
 {
-    Byte layer;
+    byte layer;
     int image;
     AddImage add_image = 0;
-    Byte tile = 5 + ((cell->modifier & 0x800) != 0);
+    byte tile = 5 + ((cell->modifier & 0x800) != 0);
 
     switch (cell->pass) {
     case 0:
@@ -714,10 +614,10 @@ void draw_ruin_down_plate(RuinCell *cell)
 
 void draw_ruin_up_plate(RuinCell *cell)
 {
-    Byte layer;
+    byte layer;
     int image;
     AddImage add_image = 0;
-    Byte tile = 5 + ((cell->modifier & 0x800) != 0);
+    byte tile = 5 + ((cell->modifier & 0x800) != 0);
 
     switch (cell->pass) {
     case 0:
@@ -822,9 +722,9 @@ void draw_ruin_rubble_pieces(RuinCell *cell)
     }
 }
 
-extern Byte ObjId;
-extern int visible_above_piece(CellCoord, CellCoord);
-extern int is_six_kind(Byte);
+extern byte ObjId;
+extern int visible_above_piece(sbyte, sbyte);
+extern int is_six_kind(byte);
 extern int Pause;
 
 void draw_ruin_space(RuinCell *cell)
@@ -850,30 +750,19 @@ void LoadRuinsDrawCode(void)
     Pause = 0;
 }
 
-#pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-#pragma pack()
 extern CELLREC Cell;
 extern CHARREC Char;
-extern Byte ReadCell(CellCoord, CellCoord, CellCoord);
-extern Byte get_cells_ahead(Byte);
-extern int is_visible_room_cell(CellCoord, CellCoord);
+extern byte ReadCell(sbyte, sbyte, sbyte);
+extern byte get_cells_ahead(byte);
+extern int is_visible_room_cell(sbyte, sbyte);
 extern void mark_cell_redraw(void);
 
 void ruin_set_crevice_revealed(int reveal);
 
-void ruin_change_crevices(int reveal, CellCoord room, CellCoord column, CellCoord row)
+void ruin_change_crevices(int reveal, sbyte room, sbyte column, sbyte row)
 {
-    CellCoord stop;
-    Byte tile;
+    sbyte stop;
+    byte tile;
 
     stop = column + 3 >= 10 ? column + 3 : 10;
     column = column - 2 <= 0 ? column - 2 : 0;
@@ -881,18 +770,18 @@ void ruin_change_crevices(int reveal, CellCoord room, CellCoord column, CellCoor
         tile = ReadCell(room, column, row);
     } while (stop != ++column && tile != 7);
     if (tile == 7) {
-        while (ReadCell(((CellCoord)Cell.room), Cell.column - 1, Cell.row) == 7)
+        while (ReadCell((Cell.room), Cell.column - 1, Cell.row) == 7)
             ;
-        ReadCell(((CellCoord)Cell.room), Cell.column + 1, Cell.row);
+        ReadCell((Cell.room), Cell.column + 1, Cell.row);
         do
             ruin_set_crevice_revealed(reveal);
-        while (ReadCell(((CellCoord)Cell.room), Cell.column + 1, Cell.row) == 7);
+        while (ReadCell((Cell.room), Cell.column + 1, Cell.row) == 7);
     }
 }
 
 void ruin_check_crevices(void)
 {
-    if (Char.sequence != 17 && get_cells_ahead(1) == 7 && ((*(Byte *)&Cell.modifier) & 3) != 3)
+    if (Char.sequence != 17 && get_cells_ahead(1) == 7 && (Cell.modifier & 3) != 3)
         ruin_change_crevices(1, Char.room, Char.column, Char.row);
 }
 
@@ -901,7 +790,7 @@ void ruin_set_crevice_revealed(int reveal)
     int changed;
     unsigned int flags;
 
-    flags = ((LEVELCELL *)Level.cell_info)[(Byte)Cell.room * 30 + Cell.index - 30].modifier;
+    flags = ((LEVELCELL *)Level.cell_info)[Cell.room * 30 + Cell.index - 30].modifier;
     if (reveal) {
         changed = (flags & 0x80) == 0;
         if (changed)
@@ -912,14 +801,14 @@ void ruin_set_crevice_revealed(int reveal)
             flags &= ~0x80;
     }
     if (changed) {
-        if (is_visible_room_cell(((CellCoord)Cell.room), Cell.index))
+        if (is_visible_room_cell((Cell.room), Cell.index))
             mark_cell_redraw();
         if (!(flags & 3) && Cell.column != 9) {
-            ReadCell(((CellCoord)Cell.room), Cell.column + 1, Cell.row);
+            ReadCell((Cell.room), Cell.column + 1, Cell.row);
             mark_cell_redraw();
-            ReadCell(((CellCoord)Cell.room), Cell.column - 1, Cell.row);
+            ReadCell((Cell.room), Cell.column - 1, Cell.row);
         }
-        ((LEVELCELL *)Level.cell_info)[(Byte)Cell.room * 30 + Cell.index - 30].modifier = flags;
+        ((LEVELCELL *)Level.cell_info)[Cell.room * 30 + Cell.index - 30].modifier = flags;
     }
 }
 

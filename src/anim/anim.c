@@ -1,9 +1,7 @@
 /* ANIM.C, overlay 2. Definitions follow DOS code order. Built with line numbers (/Zd) like the other
    library modules: the original relocation order fixes where its line records end. */
-typedef struct
-{
-    int top, left, bottom, right;
-} Rect;
+#include "types.h"
+#include "char.h"
 
 typedef struct
 {
@@ -90,7 +88,7 @@ Animation *anim_draw(Animation *animation)
     int saved_port = Graf;
 
     Graf = animation->destination;
-    MEASURE_TEXT(Graf, (int)animation, &animation->bounds, &animation->source, 0);
+    MEASURE_TEXT(Graf, animation, &animation->bounds, &animation->source, 0);
     Graf = saved_port;
     return animation;
 }
@@ -124,13 +122,12 @@ extern int query_sound(int);
 extern unsigned char midi_cue;
 int high_color_shape_boundary = 0;
 
-/* Byte-offset access for scanning an unparsed animation resource. */
+/* byte-offset access for scanning an unparsed animation resource. */
 #define WORD_AT(p, n) (((const int far *)&(p)[(n)])[0])
 /* Command operands begin immediately after the opcode. */
 #define EVENT_WORD(p, i) (((const int far *)((p) + 1))[(i)])
 #define EVENT_LONG(p, i) (((const long far *)((p) + 1))[(i)])
 #define CLOCK_WORDS() (TimeVal.words.low | ((unsigned long)TimeVal.words.high << 16))
-
 
 int anim_idle(Animation *animation)
 {
@@ -142,7 +139,7 @@ int anim_idle(Animation *animation)
     void far *saved_pixels;
     Element *current_element;
 
-    Graf = (int)animation;
+    Graf = animation;
 
     for (;;) {
         event = animation->commands;
@@ -211,12 +208,12 @@ int anim_idle(Animation *animation)
                 idx = *event & 3;
                 if (animation->loops[idx]) {
                     if (--animation->loops[idx])
-                        *(unsigned *)&animation->commands = (unsigned)event + EVENT_WORD(event, 1) + 3;
+                        *(unsigned *)&animation->commands = event + EVENT_WORD(event, 1) + 3;
                     else
                         animation->commands += 5;
                 } else {
                     animation->loops[idx] = EVENT_WORD(event, 0);
-                    *(unsigned *)&animation->commands = (unsigned)event + EVENT_WORD(event, 1) + 3;
+                    *(unsigned *)&animation->commands = event + EVENT_WORD(event, 1) + 3;
                 }
                 continue;
             }
@@ -274,7 +271,7 @@ int anim_idle(Animation *animation)
                     paint_element(animation, current_element);
                     ((int *)&current_element->x)[1] -= animation->bounds.left;
                     ((int *)&current_element->y)[1] -= animation->bounds.top;
-                    Graf = (int)animation;
+                    Graf = animation;
                 }
                 if (!event[1]) {
                     paint_element(animation, current_element);
@@ -353,7 +350,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         }
         idx = 0;
         do {
-            used_entries[idx] = (unsigned char)ForceShapes;
+            used_entries[idx] = ForceShapes;
         } while (++idx < (int)sizeof(used_entries));
         if (!ForceShapes) {
             command_cursor = commands + sizeof(Rect);
@@ -409,7 +406,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         }
         {
             if (!create_port(anim_record, _fmemcpy(&anim_record->bounds, commands, sizeof(Rect)))) goto fail;
-            Graf = (int)anim_record;
+            Graf = anim_record;
             SET_ORIGIN(0, 0);
             anim_record->dirty = anim_record->source;
             anim_record->commands = &commands[8];
@@ -419,7 +416,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                     (long)(anim_record->port.bounds.bottom - anim_record->port.bounds.top) *
                     anim_record->port.row_bytes);
                 if (!anim_record->background.pixels) goto fail;
-                MEASURE_TEXT((int)&anim_record->background, anim_record->destination,
+                MEASURE_TEXT(&anim_record->background, anim_record->destination,
                           &anim_record->source, &anim_record->bounds, 0);
             }
         }
@@ -454,7 +451,7 @@ Animation *near advance_animation_frame(Animation *animation)
         draw_frame(animation);
     animation->skip_draw = 0;
     OFFSETRECT(&region.box, &animation->dirty, animation->bounds.left, animation->bounds.top);
-    MEASURE_TEXT(animation->destination, (int)animation, &region.box, &animation->dirty, 0);
+    MEASURE_TEXT(animation->destination, animation, &region.box, &animation->dirty, 0);
     memset(&animation->dirty, 0, sizeof(Rect));
     cursor = animation->elements; count = 32;
     do {
@@ -500,7 +497,7 @@ Animation *draw_frame(Animation *animation)
 
     PUSH_PORT_CLIP(&animation->dirty);
     if (animation->background.pixels) {
-        MEASURE_TEXT((int)animation, (int)&animation->background,
+        MEASURE_TEXT(animation, &animation->background,
                   &animation->source, &animation->source, 0);
     } else {
         SET_RECORD_RANGE(&animation->source, *(int *)((char *)animation->destination + 0x20));
@@ -624,7 +621,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     if (restore) {
         if (save_background) {
             Rect rect;
-            MEASURE_TEXT((int)ScreenPort, (int)&animation->background, &animation->bounds,
+            MEASURE_TEXT(ScreenPort, &animation->background, &animation->bounds,
                       OFFSETRECT(&rect, &animation->bounds, -animation->bounds.left,
                                   -animation->bounds.top), 0);
         } else {
@@ -640,7 +637,6 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         if (palettes[result] && !query_sound_payload(resolve_handle_to_far_payload(palettes[result]))) dispose_handle(palettes[result]);
     return aborted;
 }
-
 
 void swap_record_pairs(Animation *animation)
 {

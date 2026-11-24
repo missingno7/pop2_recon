@@ -569,9 +569,16 @@ CONST_LAYOUT_DEBT = set(read_json_shared(ROOT / "evidence/const-layout-debt.json
     if (ROOT / "evidence/const-layout-debt.json").exists() else set()
 
 
+def with_headers(source_bytes):
+    """A C source together with the project headers it includes, for checks on what the source declares."""
+    from compiler import header_closure
+    text = source_bytes.decode("latin-1")
+    return b"\n".join([*header_closure(text).values(), source_bytes])
+
+
 def require_no_segname(source_bytes, key, language="c"):
     """Refuse new explicit segment placement; listed debt keys keep theirs."""
-    require(language != "c" or key in CONST_LAYOUT_DEBT or not SEGNAME.search(source_bytes),
+    require(language != "c" or key in CONST_LAYOUT_DEBT or not SEGNAME.search(with_headers(source_bytes)),
             "_segname data placement is not a linkable DGROUP layout: model initialized data as "
             "ordinary _DATA (docs/dgroup-binding.md, DGROUP class order)")
 
@@ -597,7 +604,7 @@ def require_no_case_alias(source_bytes, key, language="c"):
     """Refuse new case-folded extern aliases; listed debt keeps exactly its own."""
     if language != "c":
         return
-    extra = sorted(set(case_aliases(source_bytes)) - set(CASE_ALIAS_DEBT.get(key, [])))
+    extra = sorted(set(case_aliases(with_headers(source_bytes))) - set(CASE_ALIAS_DEBT.get(key, [])))
     require(not extra, "One external declared under two case spellings (a second C name for one object): "
             + ", ".join(extra))
 
@@ -2457,7 +2464,9 @@ def compile_data_group(source_text, profile, flags, workdir, *, binding, group_i
     from compiler import compile_c
     result = compile_c(source_text, profile, flags=flags, workdir=Path(workdir))
     require(result.ok, "Historical compilation failed: " + result.log)
-    return result, check_data_group(result.obj_bytes, Oracle.load(), binding=binding, group_id=group_id)
+    report = check_data_group(result.obj_bytes, Oracle.load(), binding=binding, group_id=group_id)
+    report["includes"] = result.includes
+    return result, report
 
 
 def compile_group(source_text, profile, flags, claims, workdir, *, binding=None, group_id=None, language="c", tables=()):
@@ -2485,4 +2494,5 @@ def compile_group(source_text, profile, flags, claims, workdir, *, binding=None,
             claim["state"] = {"CODE_EXACT": "ASM_EXACT", "CANDIDATE_C": "CANDIDATE_ASM"}.get(claim["state"],
                                                                                            claim["state"])
     report["language"] = language
+    report["includes"] = result.includes if language == "c" else {}
     return result, report

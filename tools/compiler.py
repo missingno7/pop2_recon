@@ -16,6 +16,8 @@ from omf import ObjectModule, OmfError, OmfReader
 ROOT = Path(__file__).resolve().parents[1]
 LOCK = ROOT / "layout" / "toolchain.lock.json"
 WORKERS = ROOT / "build" / "workers"
+HEADERS = ROOT / "include"
+INCLUDE = re.compile(r"^[ \t]*#[ \t]*include\b(.*)$", re.MULTILINE)
 
 class CompileError(RuntimeError):
     pass
@@ -42,6 +44,33 @@ def verify_profile(profile: str) -> dict:
             raise CompileError(f"pinned tool hash mismatch for {path}: {actual}")
     return spec
 
+def header_closure(text: str, staged: Path | None = None) -> dict[str, bytes]:
+    """The project headers a C source includes, directly or through another, by name. `#include "name.h"` of a file in
+    include/ is the only form; a research compile may read its own copy of the header directory instead (`staged`)."""
+    found, queue = {}, [text]
+    while queue:
+        for operand in INCLUDE.findall(queue.pop()):
+            name = re.fullmatch(r'[ \t]*"([a-z][a-z0-9]{0,7}\.h)"[ \t]*\r?', operand)
+            if not name:
+                raise CompileError(f"C includes are refused unless they name a project header: {operand.strip()}")
+            if name.group(1) in found:
+                continue
+            path = (staged or HEADERS) / name.group(1)
+            if not path.is_file():
+                raise CompileError(f"C includes are refused: no project header {name.group(1)}")
+            data = path.read_bytes()
+            found[name.group(1)] = data
+            try:
+                queue.append(data.decode("ascii"))
+            except UnicodeDecodeError as exc:
+                raise CompileError(f"historical DOS source must be ASCII: {name.group(1)}") from exc
+    return found
+
+
+def header_pins(text: str) -> dict[str, str]:
+    return {name: sha256(data) for name, data in sorted(header_closure(text).items())}
+
+
 @dataclass
 class CompileResult:
     ok: bool
@@ -57,10 +86,11 @@ class CompileResult:
     parsed: ObjectModule | None = None
     obj_bytes: bytes | None = None
     timed_out: bool = False
+    includes: dict[str, str] | None = None
 
 def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, *,
               basename: str = "UNIT", workdir: str | Path | None = None,
-              keep: bool = True, timeout: int = 60) -> CompileResult:
+              keep: bool = True, timeout: int = 60, headers: Path | None = None) -> CompileResult:
     spec = verify_profile(profile)
     timeout = int(spec.get("timeout_seconds", timeout))
     if not basename.isascii() or not basename.isalnum() or len(basename) > 8:
@@ -75,8 +105,7 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
         source_bytes = text.replace("\r\n", "\n").replace("\r", "\n").replace("\n", "\r\n").encode("ascii")
     except (UnicodeDecodeError, UnicodeEncodeError) as exc:
         raise CompileError(f"historical DOS source must be ASCII: {exc}") from exc
-    if re.search(r"^[ \t]*#[ \t]*include\b", text, re.MULTILINE):
-        raise CompileError("C includes are refused until their exact header files are pinned in the toolchain lock")
+    included = header_closure(text, headers)
     workroot = WORKERS / "toolchain"
     workroot.mkdir(parents=True, exist_ok=True)
     work = Path(workdir).resolve() if workdir is not None else Path(tempfile.mkdtemp(prefix=f"{profile}-", dir=workroot))
@@ -86,6 +115,10 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
         raise CompileError(f"compiler workdir must be isolated under {WORKERS}") from exc
     work.mkdir(parents=True, exist_ok=True)
     (work / f"{basename}.C").write_bytes(source_bytes)
+    for stale in work.glob("*.h"):
+        stale.unlink()
+    for name, data in included.items():
+        (work / name).write_bytes(data.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
     selected_flags = list(flags if flags is not None else spec["flags"])
     if not any(flag.lower() == "/c" for flag in selected_flags):
         raise CompileError("compile_c requires the /c switch; linker invocation is a separate experiment")
@@ -123,11 +156,12 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
     result = CompileResult(exit_code == 0 and obj is not None and parsed is not None,
                            obj_path if obj is not None else None, log, work, argv, profile, selected_flags,
                            sha256(original_source), sha256(source_bytes),
-                           sha256(obj) if obj is not None else None, parsed, obj, exit_code is None)
+                           sha256(obj) if obj is not None else None, parsed, obj, exit_code is None,
+                           {name: sha256(data) for name, data in sorted(included.items())})
     (work / "compiler.log").write_text(log, encoding="latin1")
     receipt = {"profile": profile, "argv": argv, "flags": selected_flags,
                "source_sha256": result.source_sha256,
-               "staged_source_sha256": result.staged_source_sha256,
+               "staged_source_sha256": result.staged_source_sha256, "includes": result.includes,
                "object_sha256": result.obj_sha256,
                "exit_code": exit_code, "workdir": str(work)}
     (work / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")

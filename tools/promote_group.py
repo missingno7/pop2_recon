@@ -170,7 +170,8 @@ def main():
         claims.append(row)
     recipe = {"schema": 1, "kind": GROUP_KIND, "name": args.name, "group_id": group_id, "language": args.language,
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(source_bytes),
-              "profile": args.profile, "flags": list(result.flags), "object_sha256": report["object_sha256"],
+              "profile": args.profile, "flags": list(result.flags), **({"includes": report["includes"]} if report["includes"] else {}),
+              "object_sha256": report["object_sha256"],
               "space": report["space"], "origin": report["origin"], "emitted_size": report["emitted_size"],
               "frame": report["frame"],
               "claims": claims, "drafts": report["drafts"], "proof_scope": report["proof_scope"]}

@@ -1,6 +1,4 @@
-typedef struct Rect {
-    int top, left, bottom, right;
-} Rect;
+#include "types.h"
 
 typedef struct Port {
     void far *buffer;

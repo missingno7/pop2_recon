@@ -1,40 +1,9 @@
 /* BRIDGE.C, DOS overlay 14. Names and packed layouts reflect the observed uses. */
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 #pragma pack(1)
-
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
 
 typedef struct Gate {
     int timer;
@@ -65,73 +34,7 @@ typedef struct Tile {
     unsigned int extra;
 } Tile;
 
-typedef struct Rect {
-    int top, left, bottom, right;
-} Rect;
-
 extern CHARREC Kid, Char, RoomOpp[5], Opp;
-
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    unsigned char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-
-typedef struct {
-    int image, equipment_image;                       /* 00,02 */
-    signed char x, y;                                 /* 04-05 */
-    unsigned char flags;                              /* 06 */
-} FRAMEREC;
 
 extern LEVELREC Level;
 extern FRAMEREC Frame;
@@ -179,31 +82,11 @@ typedef struct {
 extern ShapeSize far *GetCustomPieceSize(unsigned char, ShapeSize far *);
 extern void mark_mob_redraw(char), compute_mob_rect(Rect near *), add_mob_obj(int), add_mob(void);
 extern void far _fastcall add_middle_image(char, int, void near *, int, char);
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
 
 extern FCHARREC FChar;
 extern unsigned int BlueSpec;
-typedef struct {
-    signed char tile;
-    unsigned char room;
-    signed char state;
-    unsigned char field_3;
-} TrobRecord;
-extern TrobRecord Trob;
-typedef struct {
-    int x, y;                                         /* 00,02 */
-    unsigned char room;                               /* 04 */
-    int velocity, auxiliary;                          /* 05,07 */
-    signed char kind, row;                             /* 09-0a */
-    unsigned int flags;                               /* 0b */
-} MOBREC;
+
+extern TROBREC Trob;
 
 extern ROOMREC Room;
 extern MOBREC Mob;
@@ -430,7 +313,7 @@ int bridge_char_on_floor(void)
 
 void load_bridge_code(void)
 {
-    if (Level.level_number == 5 && ((signed char)Room.number) == 10)
+    if (Level.level_number == 5 && (Room.number) == 10)
         set_palette(3500, 64, 160, 1);
     floor_mask = 0;
     Bridge.wait = 0;
@@ -498,10 +381,10 @@ void animate_bridge_floor(void)
 {
     unsigned char phase, old_phase;
 
-    if (Level.level_number == 5 && ((signed char)Room.number) == 10) {
+    if (Level.level_number == 5 && (Room.number) == 10) {
         old_phase = BlueSpec & 15;
         BlueSpec &= 0xfff0;
-        if (!(floor_mask & (1 << (Trob.tile % (signed char)10 - 1)))) {
+        if (!(floor_mask & (1 << (Trob.cell % (signed char)10 - 1)))) {
             phase = 0;
         } else {
             phase = Rnd(3);
@@ -516,7 +399,7 @@ void animate_bridge_floor(void)
                 phase = old_phase;
             }
         }
-        redraw_bridge_floor(phase, Trob.tile);
+        redraw_bridge_floor(phase, Trob.cell);
     } else {
         Trob.state = -1;
     }
@@ -589,18 +472,18 @@ void animate_bridge_mob(void)
     Rect redraw;
 
     if (room != (signed char)Room.number) {
-        if ((signed char)Room.below == (signed char)Mob.room) {
+        if (Room.below == Mob.room) {
             y += 191;
-            room = (signed char)Room.number;
-        } else if ((signed char)Mob.room == (signed char)Room.above) {
+            room = Room.number;
+        } else if (Mob.room == Room.above) {
             y = Mob.y - 191;
-            room = (signed char)Room.number;
-        } else if ((signed char)Mob.room == (signed char)Room.left) {
+            room = Room.number;
+        } else if (Mob.room == Room.left) {
             x -= 320;
-            room = (signed char)Room.number;
+            room = Room.number;
         } else if ((signed char)Mob.room == (signed char)Room.right) {
             x += 320;
-            room = (signed char)Room.number;
+            room = Room.number;
         }
     }
     col = x / 32;
@@ -638,7 +521,7 @@ void animate_bridge_mob(void)
 
 void draw_bridge_mob_object(int unused)
 {
-    add_middle_image(4, (unsigned char)bridge_images[(*(unsigned char *)&FChar.image) & 15] + 1,
+    add_middle_image(4, (unsigned char)bridge_images[FChar.image & 15] + 1,
                (*(void near **)&FChar.x), FChar.y - 1, 10);
 }
 
@@ -646,7 +529,7 @@ void step_bridge_mob(void)
 {
     int phase, speed;
 
-    if (Level.level_number == 5 && ((signed char)Room.number) == 10) {
+    if (Level.level_number == 5 && (Room.number) == 10) {
         phase = Mob.flags & 15;
         speed = (Mob.flags & 0x30) >> 4;
         if ((speed == 1 && phase != 4) || (speed == 2 && phase != 9)) {

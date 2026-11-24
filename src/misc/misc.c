@@ -1,10 +1,6 @@
+#include "types.h"
+#include "level.h"
 #pragma pack(1)
-typedef unsigned char byte;
-typedef signed char sbyte;
-
-typedef struct {
-    int left, top, right, bottom;
-} Rect;
 
 typedef struct {
     unsigned int modifier, extra;
@@ -15,63 +11,11 @@ typedef struct {
     TileInfo info;
 } Tile;
 
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
 extern sbyte RowNo, ColNo;
 extern Rect GamePlayRect, CellClipRect;
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
 
 extern ROOMREC Room;
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
 
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
 extern LEVELREC Level;
 typedef int COL_TO_PIXEL_X[13];                       /* DS:0da4 */
 extern COL_TO_PIXEL_X Col2PixelX;
@@ -93,6 +37,10 @@ extern int IsWall(byte);
 extern sbyte FirstInRow(sbyte);
 extern void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
+
+sbyte CellToCol(byte room, int cell);
+sbyte CellToRow(byte room, int cell);
+void ComputeClipRect(Rect far *rect, int col, int row);
 
 void select_room_arrays(byte room)
 {
@@ -138,13 +86,13 @@ sbyte CellToRow(byte room, int cell)
 
 void ComputeClipRect(Rect far *rect, int col, int row)
 {
-    rect->top = Col2PixelX[col + 1];
-    rect->bottom = rect->top + 32;
-    rect->right = Row2PixelY[row + 1];
-    rect->left = rect->right - 63;
+    rect->left = Col2PixelX[col + 1];
+    rect->right = rect->left + 32;
+    rect->bottom = Row2PixelY[row + 1];
+    rect->top = rect->bottom - 63;
     SECTRECT(rect, rect, &GamePlayRect);
     if (Room.custom && !row)
-        rect->left -= 3;
+        rect->top -= 3;
 }
 
 Rect *ComputeOffsetCellRect(Rect *rect, Rect *base, int col, int row)

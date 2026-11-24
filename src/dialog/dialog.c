@@ -1,6 +1,7 @@
-struct dialog_rect {
-    int left, top, right, bottom;
-};
+#include "types.h"
+#include "level.h"
+#include "char.h"
+#include "game.h"
 
 struct dialog_point {
     int x, y;
@@ -19,27 +20,27 @@ struct ScreenPort {
 
 struct dialog_text {
     char header[0x0c];
-    struct dialog_rect bounds;
+    Rect bounds;
     char reserved[0x12];
     char far *text;
 };
 
-static struct dialog_rect save_heading = {14, 16, 37, 304};
-static struct dialog_rect save_description = {167, 16, 183, 304};
+static Rect save_heading = {14, 16, 37, 304};
+static Rect save_description = {167, 16, 183, 304};
 
 static const struct dialog_point symbol_heading = {28, 47};
 static const struct dialog_point symbol_caption = {44, 72};
-static struct dialog_rect notice_port[1] = {{32, 73, 50, 266}};
+static Rect notice_port[1] = {{32, 73, 50, 266}};
 struct { int done; } notice_state = {0};
 static const struct dialog_point hall_name_caption = {53, 25};
 static const struct dialog_point hall_score_caption = {53, 260};
-static struct dialog_rect hall_box = {38, 20, 57, 300};
+static Rect hall_box = {38, 20, 57, 300};
 static const char save_path[12] = "PRINCE.SAV";
 static const char hall_read_path[12] = "PRINCE.HOF";
 static const char options_path[12] = "PRINCE.OPT";
 static const int credits_first[] = {1000, 1007, 1009, 1011, 1012};
 static const int credits_last[] = {1006, 1008, 1010, 1011, 1012};
-static const struct dialog_rect credits_blink_box = {70, 17, 85, 307};
+static const Rect credits_blink_box = {70, 17, 85, 307};
 struct notice_and_menu_text {
     char notice_failure[25];
     char hall_write_path[11];
@@ -56,17 +57,17 @@ static const struct notice_and_menu_text dialog_texts = {
 #define resume_option dialog_texts.resume_option
 #define continue_option dialog_texts.continue_option
 
-extern void far pascal Move(int, int);
-extern char far * far pascal lookup_prefixed_string(char far *, unsigned char);
+extern void far pascal Move(int y_delta, int x_delta);
+extern char far * far pascal lookup_prefixed_string(char far *strings, unsigned char index);
 extern struct ScreenPort *Graf;
 
-extern int far pascal hGetFont(int);
+extern int far pascal hGetFont(int id);
 extern void far pascal DISPOSE_HANDLE(int);
 extern char * far cdecl itoa(int, char *, int);
-extern int far pascal SetFont(int);
-extern void far pascal OffsetRect(struct dialog_rect far *,
-                                  const struct dialog_rect far *, int, int);
-extern void far pascal DRAW_NUL_TEXT_IN_RECT(const struct dialog_rect far *,
+extern int far pascal SetFont(int attribute);
+extern void far pascal OffsetRect(Rect far *,
+                                  const Rect far *, int, int);
+extern void far pascal DRAW_NUL_TEXT_IN_RECT(const Rect far *,
                                         struct dialog_range, const char far *);
 extern void far pascal MoveTo(int, int);
 extern void far pascal DRAW_NUL_TERMINATED_TEXT(const char far *);
@@ -83,7 +84,7 @@ extern int far pascal fade_to(PaletteHandle, int, int);
 extern void far pascal STROKE_PORT_RECT(void far *);
 
 void far pascal DialogDrawStr(const char far *, int, int, const struct dialog_point *,
-                              const struct dialog_rect far *, const struct dialog_range *);
+                              const Rect far *, const struct dialog_range *);
 
 void far pascal draw_dialog_text_block(struct dialog_text far *block)
 {
@@ -98,7 +99,7 @@ void far pascal draw_dialog_text_block(struct dialog_text far *block)
 }
 
 void far pascal DialogDrawNumber(int number, const struct dialog_point *point,
-                                 const struct dialog_rect far *rect,
+                                 const Rect far *rect,
                                  const struct dialog_range *range)
 {
     char text[10];
@@ -110,10 +111,10 @@ void far pascal DialogDrawNumber(int number, const struct dialog_point *point,
 
 void far pascal DialogDrawStr(const char far *text, int font, int style,
                               const struct dialog_point *point,
-                              const struct dialog_rect far *rect,
+                              const Rect far *rect,
                               const struct dialog_range *bounds)
 {
-    struct dialog_rect shadow_rect;
+    Rect shadow_rect;
     struct dialog_range range;
     int ink, shadow, first_ink;
 
@@ -163,7 +164,7 @@ void far pascal DialogDrawStr(const char far *text, int font, int style,
 
 void far pascal DialogDrawStrId(int string_id, int font, int style,
                                 const struct dialog_point *point,
-                                const struct dialog_rect far *rect,
+                                const Rect far *rect,
                                 const struct dialog_range *range)
 {
     int handle;
@@ -176,7 +177,7 @@ void far pascal DialogDrawStrId(int string_id, int font, int style,
 }
 
 extern struct ScreenPort ScreenPort;
-extern struct dialog_rect ScreenPortRect;
+extern Rect ScreenPortRect;
 extern int BPort;
 
 int far pascal DialogFadeIn(void)
@@ -201,68 +202,14 @@ int far pascal DialogFadeOut(void)
     STROKE_PORT_RECT(&ScreenPortRect);
     return result;
 }
-extern struct dialog_rect GamePlayRect;
+extern Rect GamePlayRect;
 extern int RedrawFlag;
 extern int nis_skip_requested;
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
 extern LEVELREC Level;
 extern int Minutes, SixtiethsCtr, MobCt;
-typedef struct {
-    signed char x, y, button;
-} JoyState;
+
 extern JoyState Joy;
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
+
 extern GAMESTATE GameState;
 extern int (far pascal *wait_function)(void);
 
@@ -282,8 +229,8 @@ extern int far pascal hNewShpItem1(DialogAsset, int, int);
 extern void far pascal PaintRLEShapeItem(DialogAsset, int, int, int, int);
 extern void far pascal PAINTRLESHAPE_ASM(void far *, int, int, int);
 extern void far pascal MIRRORRLEBLOCK(void far *, int, int);
-extern void far pascal InsetRect(struct dialog_rect far *, const void far *, int, int);
-extern void far pascal SET_RECORD_RANGE(struct dialog_rect far *, int);
+extern void far pascal InsetRect(Rect far *, const void far *, int, int);
+extern void far pascal SET_RECORD_RANGE(Rect far *, int);
 extern void far pascal release_shape_list(DialogAsset);
 extern void far pascal dispatch_sound(int);
 extern void far pascal save_game_play_palette(void);
@@ -310,7 +257,7 @@ void far pascal DialogResetToGamePlay(int restart_input)
         RedrawFlag = 1;
     }
     restore_game_play_palette();
-    set_kid_palette((signed char)Level.environment_kind);
+    set_kid_palette(Level.environment_kind);
     wait_function = Input;
 }
 
@@ -340,7 +287,7 @@ struct frame_bitmap {
 
 void far pascal DrawDialogFrame(DialogAsset asset)
 {
-    struct dialog_rect border;
+    Rect border;
     int temporary;
     int handle;
     struct frame_bitmap far *bitmap;
@@ -396,42 +343,6 @@ struct save_slot_table {
 };
 
 extern signed char LevelIdx, StartLevel, main_theme, sound_effect;
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 
 extern CHARREC Kid;
 extern int NextLevel, RestartLevel, MsgTimer, MsgTimerStart;
@@ -444,7 +355,7 @@ extern void far pascal draw_message(const char *);
 extern void far pascal play_song(int);
 extern unsigned far cdecl _fstrlen(const char far *);
 extern char far * far cdecl _fstrcpy(char far *, const char far *);
-extern void far pascal FRAME_RECT(const struct dialog_rect far *);
+extern void far pascal FRAME_RECT(const Rect far *);
 extern void far pascal play_sound(int);
 
 int far pascal load_game_dialog(void);
@@ -556,29 +467,29 @@ void far pascal main_menu_dialog(void)
     else if (selection == 4)
         load_game_dialog();
     SaveOptionsToDisk();
-    set_kid_palette((signed char)Level.environment_kind);
+    set_kid_palette(Level.environment_kind);
     RedrawFlag = 1;
 }
 
-struct dialog_rect far * far pascal compute_save_slot_rect(struct dialog_rect far *rect, int index)
+Rect far * far pascal compute_save_slot_rect(Rect far *rect, int index)
 {
     if (index >= 5) {
-        rect->top = 163;
+        rect->left = 163;
         index -= 5;
     } else {
-        rect->top = 19;
+        rect->left = 19;
     }
-    rect->bottom = rect->top + 137;
-    rect->left = index * 22 + 37;
-    rect->right = rect->left + 20;
+    rect->right = rect->left + 137;
+    rect->top = index * 22 + 37;
+    rect->bottom = rect->top + 20;
     return rect;
 }
 
-void far pascal draw_save_slot_frame(struct dialog_rect *rect, int selected);
+void far pascal draw_save_slot_frame(Rect *rect, int selected);
 
 void far pascal draw_save_slot(struct save_slot_table far *slots, int index, int selected)
 {
-    struct dialog_rect rect;
+    Rect rect;
     int style;
 
     compute_save_slot_rect(&rect, index);
@@ -590,7 +501,7 @@ void far pascal draw_save_slot(struct save_slot_table far *slots, int index, int
     }
 }
 
-void far pascal draw_save_slot_frame(struct dialog_rect *rect, int selected)
+void far pascal draw_save_slot_frame(Rect *rect, int selected)
 {
     int fill, edge;
 
@@ -657,8 +568,8 @@ struct slot_editor {
 };
 
 extern void far pascal CLEAR_FLAGS_OF_FAR_BLOCK(struct slot_editor far *);
-extern struct slot_editor far * far pascal create_edit_field(struct dialog_rect far *,
-                                          struct dialog_rect far *, char far *, int);
+extern struct slot_editor far * far pascal create_edit_field(Rect far *,
+                                          Rect far *, char far *, int);
 extern void far pascal show_edit_caret(struct slot_editor far *);
 extern void far pascal blink_edit_caret(struct slot_editor far *);
 extern void far pascal handle_edit_key(struct slot_editor far *, int);
@@ -667,7 +578,7 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
 {
     int result, done, slot, previous, key;
     struct slot_editor far *editor;
-    struct dialog_rect rect;
+    Rect rect;
     char initials[26];
 
     result = previous = -1;
@@ -778,7 +689,7 @@ struct save_slot_table far * far pascal read_save_slot_table(void)
 
     if (!_dos_open(save_path, 2, &file)) {
         count = filelength(file) >= sizeof(*slots) ?
-                sizeof(*slots) : (int)filelength(file);
+                sizeof(*slots) : filelength(file);
         slots = ALLOCATE_PINNED_PAYLOAD(count);
         if (_dos_read(file, slots, count, &read_count) || read_count != count) {
             CLEAR_PAYLOAD_HEADER(slots);
@@ -1110,7 +1021,7 @@ void far pascal draw_notice_symbols(unsigned symbol, DialogAsset asset, int atte
     int index;
 
     if (attempt)
-        SET_RECORD_RANGE((struct dialog_rect far *)notice_port, 12);
+        SET_RECORD_RANGE((Rect far *)notice_port, 12);
     text_handle = hGetTxt4(8006);
     format = FETCH_LOCKED_SHAPE_LIST(text_handle);
     near_format = _nmalloc(_fstrlen(format) + 1);
@@ -1137,7 +1048,7 @@ void far pascal draw_notice_symbols(unsigned symbol, DialogAsset asset, int atte
 
 void far pascal draw_notice_cursor(int index, int selected)
 {
-    struct { int * ink; struct dialog_rect rect; } state;
+    struct { int * ink; Rect rect; } state;
     int previous_ink;
 
     state.ink = &Graf->foreground;
@@ -1148,14 +1059,13 @@ void far pascal draw_notice_cursor(int index, int selected)
     else
         *(unsigned *)state.ink = 12;
     ComputeSymbolPt((int *)&state.rect, index);
-    state.rect.left -= 3;
-    state.rect.right = state.rect.left + 35;
     state.rect.top -= 3;
     state.rect.bottom = state.rect.top + 35;
+    state.rect.left -= 3;
+    state.rect.right = state.rect.left + 35;
     FRAME_RECT(&state.rect);
     Graf->foreground = previous_ink;
 }
-
 
 int far pascal read_notice_selection(void)
 {
@@ -1241,7 +1151,7 @@ void far pascal enter_hall_record(int score)
 {
     int index;
     struct hall_table far *entries;
-    struct dialog_rect rect;
+    Rect rect;
     struct hall_table far *table;
 
     entries = read_hall_file(score, &index);
@@ -1295,7 +1205,7 @@ struct hall_editor {
 
 void far pascal draw_hall_records(struct hall_table far *table)
 {
-    struct dialog_rect rect;
+    Rect rect;
     struct dialog_range range;
     int row;
 
@@ -1310,7 +1220,7 @@ void far pascal draw_hall_records(struct hall_table far *table)
     for (row = 0; row < table->count; ++row) {
         ComputeHallPlayerRect((int far *)&rect, row);
         range.last = -1; DialogDrawStr(table->records[row].name, 10, 0, 0, &rect, &range);
-        rect.top = 185; rect.bottom = 220;
+        rect.left = 185; rect.right = 220;
         range.last = 0;
         OffsetRect(&rect, &rect, 75, 0);
         DialogDrawNumber(table->records[row].score, 0, &rect, &range);
@@ -1319,7 +1229,7 @@ void far pascal draw_hall_records(struct hall_table far *table)
 
 void far pascal edit_hall_name(struct hall_table far *table, int row)
 {
-    struct dialog_rect rect;
+    Rect rect;
     struct hall_editor far *editor;
     int key, done = 0;
 
@@ -1387,7 +1297,7 @@ struct hall_table far * far pascal read_hall_file(int score, int *index)
     unsigned transferred;
 
     if (!_dos_open(hall_read_path, 2, &file)) {
-        size = (int)filelength(file);
+        size = filelength(file);
         table = ALLOCATE_PINNED_PAYLOAD(size);
         if (_dos_read(file, table, size, &transferred) ||
             transferred != size || table->count > 5) {
@@ -1563,11 +1473,7 @@ void far pascal draw_main_menu(void)
 }
 
 extern struct { unsigned char channels, volume; } Midi;
-extern struct {
-    unsigned char enabled;
-    signed char cue;
-    int song, delay, reserved[2];
-} ambient_state;
+extern AmbientState ambient_state;
 extern char sound_on_message[], sound_off_message[], ambient_on_message[], ambient_off_message[], keyboard_mode_message[], joystick_mode_message[];
 
 struct menu_text_10 { char value[10]; };
@@ -1576,7 +1482,7 @@ struct menu_text_12 { char value[12]; };
 void far pascal draw_menu_label(int index, int selected)
 {
     char label_buffer[40];
-    struct dialog_rect rect;
+    Rect rect;
     struct dialog_range range;
     const char *label;
 
@@ -1622,14 +1528,14 @@ extern void far pascal PAINT_PLAIN(void far *, int, int, int);
 
 void far pascal draw_menu_icon(int index, int selected)
 {
-    struct dialog_rect rect;
+    Rect rect;
     struct dialog_point origin;
     struct frame_bitmap far *bitmap;
     int handle;
 
     if (MAKE_INDEX_RECT((int *)&rect, index)) {
-        origin.x = rect.left + 6;
-        origin.y = rect.top - 22;
+        origin.x = rect.top + 6;
+        origin.y = rect.left - 22;
         handle = hNewShpItem(find_shape_list(1000), 5);
         if (handle) {
             bitmap = (struct frame_bitmap far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
@@ -1638,8 +1544,8 @@ void far pascal draw_menu_icon(int index, int selected)
                 PAINT_PLAIN(bitmap, origin.y, origin.x, 10);
             } else {
                 *(struct dialog_point *)&rect = origin;
-                rect.right = bitmap->width + rect.left;
-                rect.bottom = bitmap->stride + rect.top;
+                rect.bottom = bitmap->width + rect.top;
+                rect.right = bitmap->stride + rect.left;
                 SET_RECORD_RANGE(&rect, 12);
             }
         }
@@ -1717,10 +1623,10 @@ int far pascal change_menu_option(int option)
     return changed;
 }
 
-extern int far pascal dissolve_do_all(int, int, const struct dialog_rect far *, long);
+extern int far pascal dissolve_do_all(int, int, const Rect far *, long);
 extern volatile int Timer[4];
 extern int far pascal find_option(const char far *);
-extern int far pascal allocate_clipped_port(const struct dialog_rect far *);
+extern int far pascal allocate_clipped_port(const Rect far *);
 extern void far pascal draw_record_bounds(int);
 extern void far pascal free_record_pair(int);
 
@@ -1730,7 +1636,7 @@ static const char credits_blink_key[] = "BLINK";
 
 int far pascal show_credits(void)
 {
-    struct dialog_rect clip;
+    Rect clip;
     int key, page;
 
     InitDialog();
@@ -1785,7 +1691,7 @@ void far pascal draw_credits_page(int first, int last)
 {
     int id;
 
-    MoveTo(save_heading.top, save_heading.right);
+    MoveTo(save_heading.left, save_heading.bottom);
     id = first;
     if (id <= last) {
         do {
@@ -1797,7 +1703,7 @@ void far pascal draw_credits_page(int first, int last)
 
 void far pascal draw_credit_category(int id)
 {
-    struct dialog_rect rect;
+    Rect rect;
     struct dialog_range range;
     char far *strings, far *payload;
     char far *title;
@@ -1807,13 +1713,13 @@ void far pascal draw_credit_category(int id)
     if (!handle)
         return;
     payload = FETCH_LOCKED_SHAPE_LIST(handle);
-    rect.right = *(int *)((char *)Graf + 0x22);
-    rect.top = save_description.top;
-    rect.left = rect.right - 19;
-    rect.bottom = save_description.bottom;
+    rect.bottom = *(int *)((char *)Graf + 0x22);
+    rect.left = save_description.left;
+    rect.top = rect.bottom - 19;
+    rect.right = save_description.right;
     strings = payload;
     title = lookup_prefixed_string(strings, 1);
-    if ((unsigned char)strings[0] == 1) {
+    if (strings[0] == 1) {
         range.last = 0;
         if (id == credits_first[4] || id == credits_first[3] || (id >= 1020 && id <= 1026))
             InsetRect(&rect, &ScreenPortRect, 9, 9);
