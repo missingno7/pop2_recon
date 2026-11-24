@@ -5,14 +5,16 @@
 ; points at the transfer buffer. Names describe operations inferred from the code.
 
 _DATA SEGMENT WORD PUBLIC 'DATA'
-EXTRN ems_handle:WORD
-EXTRN ems_position:DWORD
-EXTRN ems_capacity:DWORD
-EXTRN ems_position_hi:WORD
-EXTRN ems_capacity_hi:WORD
 EXTRN HEAP_STATE:DWORD
 _DATA ENDS
-DGROUP GROUP _DATA
+; Workspace shared by the EMS and XMS drivers.
+BACKING_DATA SEGMENT WORD COMMON 'DATA'
+ems_handle DW 0
+ems_position DD 0
+ems_capacity DD 0
+    DW 0, 0
+BACKING_DATA ENDS
+DGROUP GROUP _DATA, BACKING_DATA
 
 EMS_TEXT SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:EMS_TEXT, DS:DGROUP, SS:DGROUP
@@ -90,10 +92,10 @@ ems_seek:
     cmp ah, 2
     jne ems_failure
     add dx, WORD PTR ss:[ems_capacity]
-    adc cx, WORD PTR ss:[ems_capacity_hi]
+    adc cx, WORD PTR ss:[ems_capacity+2]
 ems_store_position:
     mov WORD PTR ss:[ems_position], dx
-    mov WORD PTR ss:[ems_position_hi], cx
+    mov WORD PTR ss:[ems_position+2], cx
 ems_success:
     clc
 ems_return:
@@ -105,7 +107,7 @@ ems_return:
     retf
 ems_seek_current:
     add dx, WORD PTR ss:[ems_position]
-    adc cx, WORD PTR ss:[ems_position_hi]
+    adc cx, WORD PTR ss:[ems_position+2]
     jmp SHORT ems_store_position
 ems_failure:
     stc
@@ -131,7 +133,7 @@ ems_read:
     mov ems_source_page, ax
     add dx, ems_move_length_lo
     adc cx, ems_move_length_hi
-    cmp cx, WORD PTR [ems_capacity_hi]
+    cmp cx, WORD PTR [ems_capacity+2]
     ja ems_failure
     jb ems_move
     cmp dx, WORD PTR [ems_capacity]
@@ -197,7 +199,7 @@ ems_write:
     mov ems_dest_page, ax
     add dx, ems_move_length_lo
     adc cx, ems_move_length_hi
-    cmp cx, WORD PTR [ems_capacity_hi]
+    cmp cx, WORD PTR [ems_capacity+2]
     ja ems_grow
     jb ems_write_in_range
     cmp dx, WORD PTR [ems_capacity]
@@ -219,7 +221,7 @@ ems_grow:
     jne ems_write_failed
     mov dx, di
     mov WORD PTR [ems_capacity], dx
-    mov WORD PTR [ems_capacity_hi], cx
+    mov WORD PTR [ems_capacity+2], cx
     jmp NEAR PTR ems_move
 ems_signature DB "EMMXXXX0"
 EMS_SIGNATURE_LENGTH EQU $ - ems_signature

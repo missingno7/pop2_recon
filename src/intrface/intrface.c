@@ -28,7 +28,7 @@ extern int interrupt_vectors_installed;
 extern int graphics_mode;
 extern int backing_driver_active;
 extern volatile int timers[];
-extern ResourceMap resource_map_list;
+extern ResourceMap SHAPE_METADATA_LIST;
 extern unsigned char active_sound_channels;
 extern struct LevelState *configuration;
 extern const char system_error[];
@@ -182,7 +182,7 @@ ResourceMap open_verified_resource(const char *name)
 
 ResourceMap find_resource_map(const char *name)
 {
-    ResourceMap map = resource_map_list;
+    ResourceMap map = SHAPE_METADATA_LIST;
     int found = name == (const char *)0;
     struct ResourceMapData far *data;
     if (!found) {

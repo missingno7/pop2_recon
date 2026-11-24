@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 0,
+        "length": 4,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -61,14 +61,21 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "HEAP_STATE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
       "COALESCE_FREE_BLOCKS",
       "ROUND_BYTES_TO_PARAGRAPHS",
-      "HEAP_DESCRIPTOR",
-      "MOVE_HUGE_BYTES",
-      "HEAP_DESCRIPTOR_SEGMENT"
+      "MOVE_HUGE_BYTES"
     ]
   },
   "fixups": [
@@ -86,10 +93,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -108,10 +115,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -174,7 +181,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -216,10 +223,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -260,10 +267,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -282,10 +289,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -304,10 +311,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -326,13 +333,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "HEAP_DESCRIPTOR_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -391,13 +397,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "HEAP_DESCRIPTOR_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -413,10 +418,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -456,10 +461,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -478,10 +483,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HEAP_DESCRIPTOR",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -531,27 +536,14 @@
       "offset": 9104,
       "segment": 4393,
       "space": "root",
-      "witnesses": []
-    },
-    "HEAP_DESCRIPTOR": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8028,
       "witnesses": [
         {
-          "operand_offset": 2,
           "space": "root",
-          "image_offset": 69272,
-          "bytes_hex": "c41e5c1f",
-          "entry": "root:10a5:033c"
+          "image_offset": 77999,
+          "bytes_hex": "e86e05",
+          "entry": "root:1129:6f4c"
         }
       ]
-    },
-    "HEAP_DESCRIPTOR_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8030,
-      "witnesses": []
     },
     "MOVE_HUGE_BYTES": {
       "entry_sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
@@ -560,7 +552,14 @@
       "offset": 8144,
       "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 100129,
+          "bytes_hex": "e83cab",
+          "entry": "root:1129:6f4c"
+        }
+      ]
     },
     "ROUND_BYTES_TO_PARAGRAPHS": {
       "entry_sha256": "0932941229bb55eeb9a6620e1245fe49383ce5f879330df3bf20ac7132227512",
@@ -573,5 +572,33 @@
     }
   },
   "target_id": "group:resize_dos_heap",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placements": {
+    "_DATA": 8028
+  },
+  "dgroup_segment": {
+    "segment": 13058,
+    "witnesses": [
+      {
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
+      }
+    ]
+  },
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "36c5365c1f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 76340,
+          "operand_offset": 3,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 0
+    }
+  ]
 }

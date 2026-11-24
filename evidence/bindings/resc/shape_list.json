@@ -95,7 +95,7 @@
       "SAVE_HANDLE_FLAGS",
       "FETCH_LOCKED_SHAPE_LIST",
       "RESTORE_HANDLE_FLAGS",
-      "OCCUPIED_BANKS",
+      "ALLOCATED_BANKS",
       "LOAD_SHAPE_LIST_BANKS",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "RELEASE_TAGGED_RESOURCE",
@@ -229,7 +229,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "OCCUPIED_BANKS",
+          "name": "ALLOCATED_BANKS",
           "method": 6,
           "zero_displacement": true
         }
@@ -237,7 +237,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "OCCUPIED_BANKS",
+        "name": "ALLOCATED_BANKS",
         "method": 6,
         "zero_displacement": true
       },
@@ -632,20 +632,6 @@
         }
       ]
     },
-    "OCCUPIED_BANKS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7962,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 71878,
-          "bytes_hex": "85361a1f",
-          "entry": "root:1129:0618"
-        }
-      ]
-    },
     "RELEASE_TAGGED_RESOURCE": {
       "entry_sha256": "410d0fc298d62ff44243533118cb0522102e380d56897f2e3d412ebad3c09719",
       "entry_target_id": "root:1129:6f04",
@@ -722,6 +708,20 @@
       "segment": 4393,
       "space": "root",
       "witnesses": []
+    },
+    "ALLOCATED_BANKS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7962,
+      "witnesses": [
+        {
+          "bytes_hex": "85361a1f",
+          "entry": "root:1129:0618",
+          "image_offset": 71878,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:resc/shape_list",

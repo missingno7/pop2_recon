@@ -21,7 +21,7 @@ extern int background_ink;
 extern char ScreenPort[];
 extern struct window *window_head;
 extern int graphics_mode;
-extern int window_style;
+extern int draw_record_range;
 extern struct rectangle NullRect;
 
 extern struct window_item *far pascal ITEM_BY_INDEX(void *, int);
@@ -160,10 +160,10 @@ void *far pascal create_dialog_port(int resource)
 void far pascal set_mode_flag_value(void)
 {
     if (graphics_mode == 2) {
-        window_style = 7;
+        draw_record_range = 7;
         return;
     }
-    window_style = 0;
+    draw_record_range = 0;
 }
 
 void far pascal set_window_item_text(void *port, int id, const void *text)

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/backing_records.json",
-  "binding_sha256": "f862ee3484786c10bb9b58078c9d95b8b2d633023e7ef5aa75d5572d75083433",
+  "binding_sha256": "e45522699e9baf5097c282bd6734dced10111617d553db9f82adf3dd5637716d",
   "claims": [
     {
       "fixup_count": 8,
@@ -18,6 +18,40 @@
       "target_id": "root:1129:26cd"
     }
   ],
+  "data_publics": [
+    {
+      "address": 8032,
+      "name": "BACKING_DRIVER",
+      "offset": 0,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": false
+    },
+    {
+      "address": 8036,
+      "name": "BACKING_POSITION",
+      "offset": 4,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": false
+    },
+    {
+      "address": 8040,
+      "name": "BACKING_FREE",
+      "offset": 8,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": false
+    },
+    {
+      "address": 8044,
+      "name": "BACKING_FULL",
+      "offset": 12,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": false
+    }
+  ],
   "drafts": [],
   "emitted_size": 158,
   "flags": [],
@@ -26,12 +60,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "backing_records",
-  "object_sha256": "3a2806ed8f8657a61e6804aafed587982b4188106219e22c3b327c79d28aed2e",
+  "object_sha256": "aa648c479d7e65c1e0ca251851e5d5225e40a53d0ac5aa9182b1c17f8f49efe4",
   "origin": 80080,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/backing_records.asm",
-  "source_sha256": "803b0eabaf73dce343084843e8badcf302670553e65350243154f5d0c28942a9",
+  "source_sha256": "72fa72eaf3b2a846898c88e1352679f64269e2e48158eb01c01832e1f69b9d88",
   "space": "root"
 }

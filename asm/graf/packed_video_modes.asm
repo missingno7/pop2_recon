@@ -2,14 +2,15 @@
 ; The CGA and Hercules descriptors use the same raster operations.
 .MODEL MEDIUM
 .DATA
-EXTRN screen_bits:DWORD
-EXTRN Graf:WORD
-EXTRN screen_row_origin:WORD
-EXTRN screen_x_origin:WORD
 EXTRN DEFAULT_PORT:BYTE
 EXTRN mode_bytes_per_row:WORD
 EXTRN mode_scanline_offsets:WORD
 
+PUBLIC screen_bits, Graf, screen_row_origin, screen_x_origin
+screen_bits DD packed_pattern_bank
+Graf DW 0
+screen_row_origin DW 0
+screen_x_origin DW 0
 .CODE
 EXTRN check_cursor_overlap:NEAR
 EXTRN show_mouse_graphics:NEAR

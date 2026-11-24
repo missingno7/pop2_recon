@@ -9,12 +9,16 @@ GAMELIB_TEXT ENDS
 ; The callback table holds the four far entries in their linked order.
 ; All entries have near assembler labels. Far-return entries are called
 ; within frame 1101 with PUSH CS before CALL.
+DGROUP GROUP _DATA
 _DATA SEGMENT WORD PUBLIC 'DATA'
+ASSUME DS:DGROUP
 EXTRN Graf:WORD
 EXTRN window_draw_port:WORD
-EXTRN menu_bounds_top:WORD
-EXTRN menu_list:WORD
 EXTRN item_state_2618:WORD
+
+PUBLIC menu_list, menu_bounds_top
+menu_list DW 0
+menu_bounds_top DW 0
 
 ; Menu and indexed item state precedes the slider tables in DGROUP.
 indexed_item_records       DW 0
@@ -42,7 +46,6 @@ slider_up_arrow          DW 4, 8, 1
                          DB 18h, 3Ch, 7Eh, 0FFh
 
 _DATA ENDS
-DGROUP GROUP _DATA
 
 GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:GAMELIB_TEXT, DS:DGROUP, SS:DGROUP

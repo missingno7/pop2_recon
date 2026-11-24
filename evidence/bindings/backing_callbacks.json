@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 0,
+        "length": 4,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -79,15 +79,21 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "ALLOCATION_HANDLER",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
       "BACKING_DRIVER",
-      "BACKING_POSITION_HIGH",
-      "BACKING_FREE_LOW",
       "BACKING_POSITION",
-      "BACKING_DRIVER_SEGMENT",
-      "BACKING_FREE_HIGH",
+      "BACKING_FREE",
       "BACKING_FULL"
     ]
   },
@@ -129,12 +135,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "BACKING_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -151,7 +156,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -447,7 +452,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -470,11 +475,10 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "BACKING_POSITION_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_POSITION",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -513,7 +517,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "BACKING_FREE_LOW",
+        "name": "BACKING_FREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -534,12 +538,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "BACKING_FREE_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "index": 3,
+        "name": "BACKING_FREE",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -556,7 +559,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -578,7 +581,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 4,
         "name": "BACKING_FULL",
         "method": 6,
         "zero_displacement": true
@@ -684,7 +687,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -707,11 +710,10 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "BACKING_POSITION_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_POSITION",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -750,7 +752,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "BACKING_FREE_LOW",
+        "name": "BACKING_FREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -771,12 +773,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "BACKING_FREE_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "index": 3,
+        "name": "BACKING_FREE",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -835,7 +836,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 4,
         "name": "BACKING_FULL",
         "method": 6,
         "zero_displacement": true
@@ -857,12 +858,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "BACKING_FREE_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "index": 3,
+        "name": "BACKING_FREE",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -880,7 +880,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "BACKING_FREE_LOW",
+        "name": "BACKING_FREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -901,7 +901,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -924,11 +924,10 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "BACKING_POSITION_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_POSITION",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -1068,47 +1067,19 @@
           "bytes_hex": "a1601f",
           "entry": "root:1129:2758"
         }
-      ]
-    },
-    "BACKING_DRIVER_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8034,
-      "witnesses": [
+      ],
+      "members": [
         {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80363,
-          "bytes_hex": "0b06621f",
-          "entry": "root:1129:2758"
-        }
-      ]
-    },
-    "BACKING_FREE_HIGH": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8042,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80147,
-          "bytes_hex": "11066a1f",
-          "entry": "root:1129:01bf"
-        }
-      ]
-    },
-    "BACKING_FREE_LOW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8040,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80143,
-          "bytes_hex": "0116681f",
-          "entry": "root:1129:01bf"
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "0b06621f",
+              "entry": "root:1129:6f4c",
+              "image_offset": 80089,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
         }
       ]
     },
@@ -1122,15 +1093,66 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 8036,
-      "witnesses": []
+      "witnesses": [],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "pointer",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "image_offset": 80489,
+          "bytes_hex": "c416641f",
+          "entry": "root:1129:27af"
+        }
+      }
     },
-    "BACKING_POSITION_HIGH": {
-      "group": "DGROUP",
+    "BACKING_FREE": {
       "kind": "dgroup-offset",
-      "offset": 8038,
-      "witnesses": []
+      "group": "DGROUP",
+      "offset": 8040,
+      "witnesses": [
+        {
+          "bytes_hex": "0116681f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 80143,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "11066a1f",
+              "entry": "root:1129:6f4c",
+              "image_offset": 80147,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ]
     }
   },
   "target_id": "group:backing_callbacks",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placements": {
+    "_DATA": 8046
+  },
+  "dgroup_segment": {
+    "segment": 13058,
+    "witnesses": [
+      {
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
+      }
+    ]
+  }
 }

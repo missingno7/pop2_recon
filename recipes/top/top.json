@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "5c99ed1d011913a1d042f47827509d6cb265d5de8b3fb98e312d11adcb54a7ac",
+  "binding_sha256": "8e0170bd7edfbe2639b51725b224681ecae987e66f22fb01fa9bdce3dd729608",
   "claims": [
     {
       "fixup_count": 16,
@@ -490,7 +490,15 @@
       "name": "LEVELIDX",
       "offset": 32,
       "segment": "_DATA",
-      "span": 1,
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 2458,
+      "name": "UNUSED_FLAG",
+      "offset": 34,
+      "segment": "_DATA",
+      "span": 2,
       "unique": true
     }
   ],
@@ -509,12 +517,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "f54e6f703e3f1cd268ad207f057b36d97af98a21131666d751d224f7be43820e",
+  "object_sha256": "24b610a368c33b2c6afcdae77108e0c50e15c94042c15c07d62a7310d1538199",
   "origin": 59270,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "61928dc7eb8496cb795c65bc469b475359d5e16a5b665210989545cf0a0266c6",
+  "source_sha256": "6a28fb24dd32c8d8d09a3166db40ccc0aaacb2d36c21796fa1f89bb000e72ab7",
   "space": "root"
 }

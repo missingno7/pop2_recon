@@ -229,7 +229,16 @@ def _validate(run_tests=True):
     # evidence/placement-overlap-debt.json; that list may only shrink.
     placed = sorted((p["placement"], p["placement"] + p["length"], f"{path}:{seg}")
                     for path, g in groups.items() for seg, p in (g.get("placements") or {}).items())
-    overlaps = {f"{a[2]}|{b[2]}" for i, a in enumerate(placed) for b in placed[i + 1:] if b[0] < a[1]}
+    by_recipe = {owner.get("recipe"): r for owner, r in recipes}
+
+    def common(key):
+        """Segment name when the piece is declared with COMMON combine (contributions of one name overlay)."""
+        path, seg = key.rsplit(":", 1)
+        recipe = by_recipe.get(path) or read_json(project_path(path))
+        declared = read_json_shared(project_path(recipe["binding"]))["declarations"]["segments"]
+        return seg if any(d["name"] == seg and d["combine"] == 6 for d in declared) else None
+    overlaps = {f"{a[2]}|{b[2]}" for i, a in enumerate(placed) for b in placed[i + 1:]
+                if b[0] < a[1] and not (a[:2] == b[:2] and common(a[2]) and common(a[2]) == common(b[2]))}
     overlap_debt = set(read_json(ROOT / "evidence/placement-overlap-debt.json")["pairs"])
     require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
             f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")

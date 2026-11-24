@@ -231,7 +231,7 @@
       "MIRRORMCGABLOCK",
       "BUILTIN_MAPPING",
       "FETCH_LOCKED_SHAPE_LIST",
-      "LOADED_MAPPING_FLAGS",
+      "ALLOCATED_BANKS",
       "OVERLAY_SHAPE_LIST",
       "ALLOCBANKS",
       "PRINCEPAINTSHAPEIDX",
@@ -918,7 +918,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "LOADED_MAPPING_FLAGS",
+          "name": "ALLOCATED_BANKS",
           "method": 6,
           "zero_displacement": true
         }
@@ -926,7 +926,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "LOADED_MAPPING_FLAGS",
+        "name": "ALLOCATED_BANKS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2875,20 +2875,6 @@
         }
       ]
     },
-    "LOADED_MAPPING_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7962,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 103018,
-          "bytes_hex": "09061a1f",
-          "entry": "root:1129:7f98"
-        }
-      ]
-    },
     "MAPPALINFO": {
       "entry_sha256": "f65a7cda6145535aea87a4ddf37ebbdfb593e7de34d291017e54efcca315065b",
       "entry_target_id": "root:1129:082a",
@@ -3196,6 +3182,20 @@
       "segment": 7550,
       "space": "root",
       "witnesses": []
+    },
+    "ALLOCATED_BANKS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7962,
+      "witnesses": [
+        {
+          "bytes_hex": "85361a1f",
+          "entry": "root:1129:0618",
+          "image_offset": 71878,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:shape/shape",

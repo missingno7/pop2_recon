@@ -70,7 +70,7 @@ typedef struct
 } ShapeHeader;
 
 extern int Graf;
-extern unsigned int active_animation_flags;
+extern unsigned int allocated_banks;
 extern union {
     unsigned long count;
     struct {
@@ -108,7 +108,7 @@ void anim_free(Animation *animation)
     release_port(animation);
     release_buffer(animation->background.pixels);
     if (animation->sound_flag)
-        active_animation_flags &= ~animation->sound_flag;
+        allocated_banks &= ~animation->sound_flag;
     free(animation);
 }
 

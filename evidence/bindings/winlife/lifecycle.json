@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 4,
+        "length": 54,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -225,11 +225,38 @@
         "type_index": 0
       },
       {
+        "name": "WINDOW_DRAW_PORT",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 52,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "WINDOW_HEAD",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 50,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "DRAG_WINDOW_FROM_POINT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 494,
         "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DRAW_RECORD_RANGE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
         "frame": null,
         "type_index": 0
       },
@@ -261,6 +288,15 @@
         "type_index": 0
       },
       {
+        "name": "WINDOW_LIST",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 6,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "INVALIDATE_WINDOW_BEHIND_PORT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -277,8 +313,6 @@
       "SET_CONTEXT_ORIGIN",
       "POST_POINTER_EVENT",
       "__NFREE",
-      "BACKGROUND_ORIGIN_X",
-      "BACKGROUND_ORIGIN_Y",
       "DISPOSE_BITMAP_PORT",
       "SHOW_MOUSE_GRAPHICS",
       "DISPOSE_WINDOW_ITEM",
@@ -289,7 +323,6 @@
       "HGETRSRC",
       "CREATE_STRING_HANDLE",
       "READ_MOUSE_EVENT_POSITION",
-      "SYSTEM_HIT_RECTANGLE",
       "PUSH_PORT_CLIP",
       "SUBTRACT_PORT_ORIGIN",
       "INSETRECT",
@@ -301,19 +334,17 @@
       "ADD_PORT_ORIGIN",
       "INIT_PORT",
       "GRAF",
+      "MENU_BOUNDS_TOP",
       "OFFSETRECT",
       "FRAME_RECT",
+      "HEAP_STATE",
       "STROKE_RECTANGLE",
       "MOUSE_BUTTON_UNQUEUED",
       "SET_RECORD_RANGE",
       "UPDATE_MESSAGE_DISPLAY",
       "STROKE_PORT_RECT",
-      "WINDOW_DRAW_PORT",
-      "WINDOW_HEAD",
-      "DRAW_RECORD_RANGE",
       "READ_QUEUED_EVENT",
-      "BACKING_PORT_DESCRIPTOR",
-      "WINDOW_LIST",
+      "ALLOCATION_HANDLER",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
     ]
   },
@@ -330,6 +361,27 @@
   "fixups": [
     {
       "kind": "fixup",
+      "segment_index": 2,
+      "segment": "_DATA",
+      "segment_offset": 52,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
+      },
+      "displacement": 6
+    },
+    {
+      "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
       "segment_offset": 27,
@@ -343,7 +395,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "UPDATE_MESSAGE_DISPLAY",
         "method": 6,
         "zero_displacement": true
@@ -364,13 +416,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -387,7 +438,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -409,7 +460,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 17,
         "name": "PUSH_PORT_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -431,7 +482,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 10,
         "name": "POP_PORT_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -453,7 +504,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -475,7 +526,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 11,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -497,7 +548,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 36,
         "name": "STROKE_PORT_RECT",
         "method": 6,
         "zero_displacement": true
@@ -519,7 +570,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -540,13 +591,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -563,7 +613,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 11,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -585,7 +635,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 20,
         "name": "UNIONRECT",
         "method": 6,
         "zero_displacement": true
@@ -606,13 +656,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -649,13 +698,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -672,7 +720,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -694,7 +742,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 13,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -716,7 +764,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "DISPOSE_WINDOW_ITEM",
         "method": 6,
         "zero_displacement": true
@@ -737,13 +785,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -759,13 +806,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -824,7 +870,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -845,13 +891,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -872,7 +917,7 @@
         "name": "_DATA",
         "method": 0
       },
-      "displacement": 2
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -891,10 +936,9 @@
         "kind": "segment",
         "index": 2,
         "name": "_DATA",
-        "method": 4,
-        "zero_displacement": true
+        "method": 0
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -931,13 +975,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -954,7 +997,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -976,7 +1019,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 19,
         "name": "INSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -1040,7 +1083,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1061,13 +1104,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -1084,7 +1126,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1106,7 +1148,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 19,
         "name": "INSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -1128,7 +1170,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1192,7 +1234,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1214,7 +1256,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 8,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -1236,8 +1278,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
-        "name": "SYSTEM_HIT_RECTANGLE",
+        "index": 28,
+        "name": "MENU_BOUNDS_TOP",
         "method": 6,
         "zero_displacement": true
       },
@@ -1279,13 +1321,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -1344,13 +1385,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -1387,13 +1427,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -1410,7 +1449,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1453,7 +1492,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 26,
         "name": "INIT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -1474,10 +1513,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 40,
-        "name": "DRAW_RECORD_RANGE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1497,7 +1536,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "SET_RECORD_RANGE",
         "method": 6,
         "zero_displacement": true
@@ -1519,7 +1558,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 18,
         "name": "SUBTRACT_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true
@@ -1541,7 +1580,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 18,
         "name": "SUBTRACT_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true
@@ -1562,13 +1601,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -1585,7 +1623,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1629,7 +1667,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 21,
         "name": "EMPTYRECT",
         "method": 6,
         "zero_displacement": true
@@ -1671,13 +1709,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -1694,7 +1731,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 11,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -1715,13 +1752,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -1738,7 +1774,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1759,10 +1795,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 40,
-        "name": "DRAW_RECORD_RANGE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1782,7 +1818,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "SET_RECORD_RANGE",
         "method": 6,
         "zero_displacement": true
@@ -1804,7 +1840,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1825,13 +1861,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -1848,7 +1883,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 20,
         "name": "UNIONRECT",
         "method": 6,
         "zero_displacement": true
@@ -1870,7 +1905,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 11,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -1914,7 +1949,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 21,
         "name": "EMPTYRECT",
         "method": 6,
         "zero_displacement": true
@@ -1957,7 +1992,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1979,7 +2014,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "UPDATE_MESSAGE_DISPLAY",
         "method": 6,
         "zero_displacement": true
@@ -2001,7 +2036,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2023,7 +2058,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 37,
         "name": "READ_QUEUED_EVENT",
         "method": 6,
         "zero_displacement": true
@@ -2045,7 +2080,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2067,7 +2102,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 8,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -2110,7 +2145,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2132,7 +2167,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 29,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -2154,7 +2189,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 29,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -2176,7 +2211,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2198,7 +2233,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2242,7 +2277,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2264,7 +2299,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 12,
         "name": "CLAMP_POINT_TO_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2286,7 +2321,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 29,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -2308,7 +2343,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2330,7 +2365,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 33,
         "name": "MOUSE_BUTTON_UNQUEUED",
         "method": 6,
         "zero_displacement": true
@@ -2352,7 +2387,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "READ_MOUSE_EVENT_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -2374,7 +2409,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 25,
         "name": "ADD_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true
@@ -2417,7 +2452,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 30,
         "name": "FRAME_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2438,13 +2473,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -2461,7 +2495,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2547,7 +2581,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2564,12 +2598,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 26,
+        "index": 23,
         "name": "__NMALLOC"
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 23,
         "name": "__NMALLOC",
         "method": 6,
         "zero_displacement": true
@@ -2611,13 +2645,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -2634,7 +2667,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2656,7 +2689,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 26,
         "name": "INIT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -2678,7 +2711,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 14,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -2700,7 +2733,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 39,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -2722,7 +2755,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "CREATE_STRING_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2743,13 +2776,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -2808,7 +2840,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2830,7 +2862,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 32,
         "name": "STROKE_RECTANGLE",
         "method": 6,
         "zero_displacement": true
@@ -2852,7 +2884,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 32,
         "name": "STROKE_RECTANGLE",
         "method": 6,
         "zero_displacement": true
@@ -2873,13 +2905,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -2918,7 +2949,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 24,
         "name": "DISCARD_QUEUED_EVENTS",
         "method": 6,
         "zero_displacement": true
@@ -2982,13 +3013,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "WINDOW_HEAD",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 50
     },
     {
       "kind": "fixup",
@@ -3025,13 +3055,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 43,
-        "name": "WINDOW_LIST",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -3069,7 +3098,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 13,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -3091,7 +3120,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "CREATE_STRING_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -3134,7 +3163,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "READ_MOUSE_EVENT_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -3156,7 +3185,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 33,
         "name": "MOUSE_BUTTON_UNQUEUED",
         "method": 6,
         "zero_displacement": true
@@ -3178,7 +3207,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -3200,7 +3229,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 18,
         "name": "SUBTRACT_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true
@@ -3222,7 +3251,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 18,
         "name": "SUBTRACT_PORT_ORIGIN",
         "method": 6,
         "zero_displacement": true
@@ -3287,7 +3316,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 21,
         "name": "EMPTYRECT",
         "method": 6,
         "zero_displacement": true
@@ -3308,13 +3337,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -3331,7 +3359,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -3353,7 +3381,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 7,
         "name": "DISPOSE_BITMAP_PORT",
         "method": 6,
         "zero_displacement": true
@@ -3375,7 +3403,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -3396,13 +3424,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "WINDOW_DRAW_PORT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 52
     },
     {
       "kind": "fixup",
@@ -3419,7 +3446,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -3441,8 +3468,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
-        "name": "BACKGROUND_ORIGIN_X",
+        "index": 38,
+        "name": "ALLOCATION_HANDLER",
         "method": 6,
         "zero_displacement": true
       },
@@ -3463,12 +3490,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "BACKGROUND_ORIGIN_Y",
-        "method": 6,
-        "zero_displacement": true
+        "index": 38,
+        "name": "ALLOCATION_HANDLER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -3485,8 +3511,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
-        "name": "BACKING_PORT_DESCRIPTOR",
+        "index": 31,
+        "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3507,7 +3533,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 22,
         "name": "ALLOCATE_CLIPPED_PORT",
         "method": 6,
         "zero_displacement": true
@@ -3529,8 +3555,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
-        "name": "BACKING_PORT_DESCRIPTOR",
+        "index": 31,
+        "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3551,8 +3577,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
-        "name": "BACKGROUND_ORIGIN_X",
+        "index": 38,
+        "name": "ALLOCATION_HANDLER",
         "method": 6,
         "zero_displacement": true
       },
@@ -3573,12 +3599,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "BACKGROUND_ORIGIN_Y",
-        "method": 6,
-        "zero_displacement": true
+        "index": 38,
+        "name": "ALLOCATION_HANDLER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -3595,7 +3620,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 27,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -3618,7 +3643,7 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_DATA": 9826
+    "_DATA": 9824
   },
   "schema": 1,
   "symbols": {
@@ -3646,49 +3671,6 @@
       "segment": 4393,
       "space": "root",
       "witnesses": []
-    },
-    "BACKGROUND_ORIGIN_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8046,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 130890,
-          "bytes_hex": "a16e1f",
-          "entry": "root:1fef:003b"
-        }
-      ]
-    },
-    "BACKGROUND_ORIGIN_Y": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8048,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 130893,
-          "bytes_hex": "0b06701f",
-          "entry": "root:1fef:003b"
-        }
-      ]
-    },
-    "BACKING_PORT_DESCRIPTOR": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 8028,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 69272,
-          "bytes_hex": "c41e5c1f",
-          "entry": "root:10a5:033c"
-        }
-      ]
     },
     "CLAMP_POINT_TO_RECT": {
       "entry_sha256": "9512a42300c9bb15c033a6a7d1526222a55a67f1f56dbf8676c00d2e64d4b5a6",
@@ -3764,21 +3746,6 @@
       "segment": 4393,
       "space": "root",
       "witnesses": []
-    },
-    "DRAW_RECORD_RANGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 9824,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 128702,
-          "bytes_hex": "a36026",
-          "entry": "root:1f45:0264"
-        }
-      ]
     },
     "EMPTYRECT": {
       "entry_sha256": "e9f74bae09bf698fd274a4846acfd9a104821484346ff379d01e3723bf27b632",
@@ -4119,21 +4086,6 @@
       "space": "root",
       "witnesses": []
     },
-    "SYSTEM_HIT_RECTANGLE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 9746,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 112040,
-          "bytes_hex": "be1226",
-          "entry": "root:1129:a2fe"
-        }
-      ]
-    },
     "UNIONRECT": {
       "entry_sha256": "133d52d3c840f5135c55060589bd21c1065daa19ac176fbf6de876a76f249705",
       "entry_target_id": "root:1129:647e",
@@ -4156,51 +4108,6 @@
           "image_offset": 71133,
           "bytes_hex": "e836fd",
           "entry": "root:1129:04ba"
-        }
-      ]
-    },
-    "WINDOW_DRAW_PORT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 9876,
-      "witnesses": [
-        {
-          "bytes_hex": "a19426",
-          "entry": "root:1129:9b60",
-          "image_offset": 110095,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "WINDOW_HEAD": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 9874,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 128566,
-          "bytes_hex": "8b1e9226",
-          "entry": "root:1f45:004c"
-        }
-      ]
-    },
-    "WINDOW_LIST": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 9830,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 109265,
-          "bytes_hex": "bb6626",
-          "entry": "root:1129:8f03"
         }
       ]
     },
@@ -4238,13 +4145,115 @@
         }
       ]
     },
+    "MENU_BOUNDS_TOP": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:itemdlg/itemdlg",
+      "offset": 9746
+    },
     "DEFAULT_PORT": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:graf/graphics_mode",
       "offset": 9342
+    },
+    "ALLOCATION_HANDLER": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8046,
+      "witnesses": [
+        {
+          "bytes_hex": "a16e1f",
+          "entry": "root:1fef:003b",
+          "image_offset": 130890,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "0b06701f",
+              "entry": "root:1fef:003b",
+              "image_offset": 130893,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ]
+    },
+    "HEAP_STATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8028,
+      "witnesses": [
+        {
+          "bytes_hex": "36c5365c1f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 76340,
+          "operand_offset": 3,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:winlife/lifecycle",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a36026",
+          "entry": "root:1f45:0264",
+          "image_offset": 128708,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 0
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "bb6626",
+          "entry": "root:1129:97f7",
+          "image_offset": 109265,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 6
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "8b1e9226",
+          "entry": "root:1f45:004c",
+          "image_offset": 128566,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 50
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a19426",
+          "entry": "root:1129:9b60",
+          "image_offset": 110095,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 52
+    }
+  ]
 }

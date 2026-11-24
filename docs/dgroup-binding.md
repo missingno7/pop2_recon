@@ -458,6 +458,13 @@ Added 2026-11-24 (each re-decoded from reached, straight-line original code; sam
   width w: extent k+w. First use: `__nheap_desc` (`cmp [si+8],bx` in `__nfree`), whose +6/+8 words ALLOCATE_EMPTY_HANDLE
   reads and writes directly.
 
+A field into the object's own placed segment without unique content (zero data) may also be proven by an outside
+original operand equal to P+A: `placed_witnesses` rows {segment, addend, witnesses}, grounded exactly as a v4 address
+(2026-11-24). A row may instead hold a `squeeze`: a bounds-checked index proves N bytes at P+A, a witnessed object with a
+base extent ends at P+A, and P+A+N is witnessed, so no other position is left (`KEY_DOWN`, 59h bytes between the joystick
+state and the installed flag). Two placed segments may coincide only when both are COMMON segments of one name (the
+EMS/XMS workspace `BACKING_DATA`).
+
 For far data (docs/far-call-binding.md) a member O+k may carry `"record": {"base", "member"}`: one window steps through
 d-byte records at O, the other at O+k with |k| < d. Two such arrays would overlap, so both are the same array. Each window
 proves its own ES (a selector word, or a relocated `mov r16,N; mov es,r16`). First use: `MIDDLE_QUEUE[count - 1]` fields,

@@ -303,7 +303,7 @@
       "BACKING_DRIVER_ACTIVE",
       "WAIT_TIMER_NO_POLL",
       "TIMERS",
-      "RESOURCE_MAP_LIST",
+      "SHAPE_METADATA_LIST",
       "ACTIVE_SOUND_CHANNELS",
       "CONFIGURATION",
       "SYSTEM_ERROR",
@@ -1689,7 +1689,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "RESOURCE_MAP_LIST",
+          "name": "SHAPE_METADATA_LIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -1697,7 +1697,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "RESOURCE_MAP_LIST",
+        "name": "SHAPE_METADATA_LIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -2277,20 +2277,6 @@
         }
       ]
     },
-    "RESOURCE_MAP_LIST": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9404,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 99799,
-          "bytes_hex": "bebc24",
-          "entry": "root:1129:0054"
-        }
-      ]
-    },
     "RESTORE_DOS_VECTORS": {
       "entry_sha256": "571c85fa7db49a10ecf223f46606d0025454501cb1de1f752d255ac970f8a918",
       "entry_target_id": "root:1129:9a73",
@@ -2478,8 +2464,55 @@
           "space": "overlay-2"
         }
       ]
+    },
+    "SHAPE_METADATA_LIST": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:resc/catalog_lookup",
+      "offset": 9404
     }
   },
   "target_id": "group:intrface/intrface",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "c706321fa010",
+          "entry": "root:053b:0544",
+          "image_offset": 22318,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 12
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "c706341f0000",
+          "entry": "root:053b:0544",
+          "image_offset": 22324,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 14
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "c706361fd60c",
+          "entry": "overlay-2:251b:019a",
+          "image_offset": 643,
+          "operand_offset": 2,
+          "space": "overlay-2"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 16
+    }
+  ]
 }

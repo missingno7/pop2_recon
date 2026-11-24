@@ -1,16 +1,16 @@
 GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
 GAMELIB_TEXT ENDS
 
-_DATA SEGMENT WORD PUBLIC 'DATA'
-EXTRN BACKING_DRIVER:DWORD
-EXTRN BACKING_DRIVER_SEGMENT:WORD
-EXTRN BACKING_POSITION:DWORD
-EXTRN BACKING_POSITION_HIGH:WORD
-EXTRN BACKING_FREE_LOW:WORD
-EXTRN BACKING_FREE_HIGH:WORD
-EXTRN BACKING_FULL:WORD
-_DATA ENDS
 DGROUP GROUP _DATA
+_DATA SEGMENT WORD PUBLIC 'DATA'
+ASSUME DS:DGROUP
+EXTRN BACKING_DRIVER:DWORD
+EXTRN BACKING_POSITION:DWORD
+EXTRN BACKING_FREE:DWORD
+EXTRN BACKING_FULL:WORD
+PUBLIC ALLOCATION_HANDLER
+ALLOCATION_HANDLER DD 0
+_DATA ENDS
 
 GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:GAMELIB_TEXT, DS:DGROUP, SS:DGROUP
@@ -27,7 +27,7 @@ ALLOCATE_BACKING_RECORD PROC FAR
     push ss
     pop ds
     mov ax, WORD PTR BACKING_DRIVER
-    or ax, BACKING_DRIVER_SEGMENT
+    or ax, WORD PTR BACKING_DRIVER+2
     jz allocation_failed
     cmp WORD PTR [bp+8], 0fe00h
     jbe size_ready
@@ -123,7 +123,7 @@ mark_allocated:
     mov cx, -1
     call SELECT_BACKING_EXTENDED
     mov WORD PTR BACKING_POSITION, dx
-    mov BACKING_POSITION_HIGH, cx
+    mov WORD PTR BACKING_POSITION+2, cx
     mov dx, si
     mov ax, di
     sub si, [bp+6]
@@ -136,8 +136,8 @@ mark_allocated:
     and ax, 1ffh
     add dx, 4
     adc ax, 0
-    sub BACKING_FREE_LOW, dx
-    sbb BACKING_FREE_HIGH, ax
+    sub WORD PTR BACKING_FREE, dx
+    sbb WORD PTR BACKING_FREE+2, ax
     les ax, BACKING_POSITION
     mov dx, es
     add ax, 4
@@ -175,14 +175,14 @@ write_end_marker:
     sbb cx, [bp+8]
     call SELECT_BACKING_EXTENDED
     mov WORD PTR BACKING_POSITION, dx
-    mov BACKING_POSITION_HIGH, cx
+    mov WORD PTR BACKING_POSITION+2, cx
     les dx, DWORD PTR [bp+6]
     mov ax, es
     call WRITE_BACKING_HEADER
     add dx, 4
     adc ax, 0
-    add BACKING_FREE_LOW, dx
-    adc BACKING_FREE_HIGH, ax
+    add WORD PTR BACKING_FREE, dx
+    adc WORD PTR BACKING_FREE+2, ax
     jmp seek_next_candidate
 give_up:
     jmp allocation_failed
@@ -193,15 +193,15 @@ restart_search:
     jz give_up
     les ax, DWORD PTR [bp+6]
     mov dx, es
-    cmp dx, BACKING_FREE_HIGH
+    cmp dx, WORD PTR BACKING_FREE+2
     ja give_up
     jb seek_from_start
-    cmp ax, BACKING_FREE_LOW
+    cmp ax, WORD PTR BACKING_FREE
     ja give_up
 seek_from_start:
     sub ax, ax
     mov WORD PTR BACKING_POSITION, ax
-    mov BACKING_POSITION_HIGH, ax
+    mov WORD PTR BACKING_POSITION+2, ax
     jmp seek_next_candidate
 ALLOCATE_BACKING_RECORD ENDP
 

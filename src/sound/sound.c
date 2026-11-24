@@ -76,41 +76,6 @@ typedef struct {
     int reserved;
 } AmbientState;
 
-static int death_songs[] = {
-    100, 103, 73, 102, 104, 150, 145, 149, 40,
-    100, 208, 0, 191, 207, 50, 51, 58, 264
-};
-
-static int track_first[] = {-1, 191, 72, -1, -1, 86, 86, -1, 69, 196, 0};
-static int track_last[] = {-1, 195, 76, -1, -1, 90, 90, -1, 71, 199, 0};
-
-int background_scene_group[] = {-1, 37, 204, 100, 145, 246, 256};
-int background_scene_number[] = {-1, 46, 245, 142, 190, 249, 272};
-
-static int level5_songs[] = {246};
-static int level5_song_counts[] = {3};
-static int level3_songs[] = {107, 123, 139};
-static int level3_song_counts[] = {15, 15, 3};
-static int level4_songs[] = {155, 171, 187};
-static int level4_song_counts[] = {15, 15, 3};
-static int level2_songs[] = {210, 226, 242};
-static int level2_song_counts[] = {15, 15, 3};
-static int extra_ambient_songs[] = {256};
-static int extra_ambient_song_counts[] = {16};
-
-static int *ambient_first[] = {0, 0, level2_songs, level3_songs, level4_songs,
-                              level5_songs, 0};
-static int *ambient_count[] = {0, 0, level2_song_counts, level3_song_counts,
-                              level4_song_counts, level5_song_counts, 0};
-static signed char ambient_special[] = {-1, 1, 2, 2, 2, -1, -1};
-
-int background_intro_group[] = {77, 97, -1, 83, 80, 53, 94, -1};
-int background_intro_number[] = {79, 99, -1, 85, 82, 55, 95, -1};
-
-static char no_load_sound[] = "NOLOADSOUND";
-static char no_sounds[] = "NOSOUNDS";
-
-extern int current_effect, current_song;
 extern LEVELREC Level;
 extern unsigned char active_sound_channels;
 #pragma pack(1)
@@ -149,6 +114,42 @@ typedef struct {
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
 #pragma pack()
+int pending_effect = -1, pending_song = -1;
+int current_effect = -1, current_song = -1;
+static int death_songs[] = {
+    100, 103, 73, 102, 104, 150, 145, 149, 40,
+    100, 208, 0, 191, 207, 50, 51, 58, 264
+};
+
+static int track_first[] = {-1, 191, 72, -1, -1, 86, 86, -1, 69, 196, 0};
+static int track_last[] = {-1, 195, 76, -1, -1, 90, 90, -1, 71, 199, 0};
+
+int background_scene_group[] = {-1, 37, 204, 100, 145, 246, 256};
+int background_scene_number[] = {-1, 46, 245, 142, 190, 249, 272};
+
+static int level5_songs[] = {246};
+static int level5_song_counts[] = {3};
+static int level3_songs[] = {107, 123, 139};
+static int level3_song_counts[] = {15, 15, 3};
+static int level4_songs[] = {155, 171, 187};
+static int level4_song_counts[] = {15, 15, 3};
+static int level2_songs[] = {210, 226, 242};
+static int level2_song_counts[] = {15, 15, 3};
+static int extra_ambient_songs[] = {256};
+static int extra_ambient_song_counts[] = {16};
+
+static int *ambient_first[] = {0, 0, level2_songs, level3_songs, level4_songs,
+                              level5_songs, 0};
+static int *ambient_count[] = {0, 0, level2_song_counts, level3_song_counts,
+                              level4_song_counts, level5_song_counts, 0};
+static signed char ambient_special[] = {-1, 1, 2, 2, 2, -1, -1};
+
+int background_intro_group[] = {77, 97, -1, 83, 80, 53, 94, -1};
+int background_intro_number[] = {79, 99, -1, 85, 82, 55, 95, -1};
+
+static char no_load_sound[] = "NOLOADSOUND";
+static char no_sounds[] = "NOSOUNDS";
+
 extern CHARREC Char;
 extern CHARREC Kid;
 extern CHARREC RoomOpp[5];
@@ -156,7 +157,7 @@ extern SoundRule Snd[];
 extern AmbientState ambient_state;
 extern ROOMREC Room;
 
-extern int sound_inhibit, ambient_last_song, pending_song;
+extern int sound_inhibit, ambient_last_song;
 extern SoundHandle sound_handles[];
 extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
@@ -174,7 +175,6 @@ extern void COPY_KID_TO_CHAR(void);
 extern unsigned RND(unsigned limit);
 extern signed char FIRSTINROW(signed char room);
 extern void dispatch_sound(int resource);
-extern int pending_effect;
 extern void process_handle(SoundHandle handle);
 extern int IsExitChasingSkel(signed char room);
 extern void SaveOptionsToDisk(void);

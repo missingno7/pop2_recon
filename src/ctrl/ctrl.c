@@ -1128,7 +1128,7 @@ extern void far pascal CheckRecordedDirForChar(void);
 extern void far pascal apply_input(void);
 extern void far pascal play_throne_room_nis(void);
 extern unsigned int prefer_kid_state;
-extern unsigned int death_sequence_primary, death_sequence_alternate;
+extern unsigned int current_effect, current_song;
 extern unsigned int pending_death_sound, death_timer, death_timer_limit;
 extern unsigned int delayed_death, replay_input, Invert;
 extern signed char LevelIdx;
@@ -1154,9 +1154,9 @@ int far pascal ctrl_player(void)
 
     if (Char.character_kind != 0 && Char.character_kind != 1)
         return result;
-    if (query_sound(death_sequence_primary + 10000) &&
-        death_sequence_primary != 4 && death_sequence_primary != 7 &&
-        death_sequence_primary != 54)
+    if (query_sound(current_effect + 10000) &&
+        current_effect != 4 && current_effect != 7 &&
+        current_effect != 54)
         return result;
 
     pending_death_sound = 0;
@@ -1164,9 +1164,9 @@ int far pascal ctrl_player(void)
         if (Char.alive == 6) {
             AddKidDeathSong(STATE_ARGUMENT);
         } else {
-            if (Char.alive != 7 || query_sound(death_sequence_primary + 10000))
+            if (Char.alive != 7 || query_sound(current_effect + 10000))
                 return result;
-            if (query_sound(death_sequence_alternate + 10000))
+            if (query_sound(current_song + 10000))
                 return result;
             if (!delayed_death) {
                 lose_game();

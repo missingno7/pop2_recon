@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/get_midi_driver_flag.json",
-  "binding_sha256": "ada87011d9740116ec876109b79576b5fe870db0eed8d298f35bff6166d02a1b",
+  "binding_sha256": "876834f467a51e4264f6b2518f192516ff756290ff401ec74e342675ef3760c3",
   "claims": [
     {
       "fixup_count": 42,
@@ -43,6 +43,56 @@
       "target_id": "root:1129:2ce6"
     }
   ],
+  "data_publics": [
+    {
+      "address": 8102,
+      "name": "MIDI_DRIVER",
+      "offset": 30,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 8106,
+      "name": "DIGITAL_DRIVER",
+      "offset": 34,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 8110,
+      "name": "MIDI_MODE",
+      "offset": 38,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 8112,
+      "name": "DIGITAL_MODE",
+      "offset": 40,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 8114,
+      "name": "MIDI_DRIVER_FLAG",
+      "offset": 42,
+      "segment": "_DATA",
+      "span": 6,
+      "unique": true
+    },
+    {
+      "address": 8120,
+      "name": "CONFIGURATION",
+      "offset": 48,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    }
+  ],
   "drafts": [],
   "emitted_size": 350,
   "flags": [
@@ -58,12 +108,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "get_midi_driver_flag",
-  "object_sha256": "5e36d7171243faeff82f57ec730b769c540a5c2cd88a16b49b5870cab8f9ae78",
+  "object_sha256": "61043d495be73fd20ed955c497a92a3b1a77443f97407ed7a7a53d64b46d4d40",
   "origin": 81436,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/get_midi_driver_flag.c",
-  "source_sha256": "1b12ce728d0ab8a6af94ad4866c59b7f2ca8fbaf769912c2360df42a0a7ccd8a",
+  "source_sha256": "91118b8351da010b3ffb97ba86a4c0bc813295138cdd5d55cb7db46346c131e5",
   "space": "root"
 }

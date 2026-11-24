@@ -897,6 +897,47 @@ class PlacedSupportTests(unittest.TestCase):
         self.assertEqual(run([(2, False, True), (0, True, False)]), [refused, refused])  # an unequal pointer read supports nothing
         self.assertEqual(run([(2, False, True), (0, True, True)]), [refused, refused])  # the pointer itself has one site
 
+    def test_witnessed_addend_needs_no_second_site(self):
+        import module_gate
+        states = {"P0": {"placed": [{"key": ("_BSS", 4), "equal": True, "insn": 4, "offset": 5}], "equations": []}}
+        for witnessed, state in (({("_BSS", 4)}, "CODE_EXACT"), ({("_BSS", 6)}, "REFUSED"), (set(), "REFUSED")):
+            reports = [{"public": "P0", "target_id": "t0", "exact": True, "state": "CODE_EXACT"}]
+            with patch.object(module_gate, "PLACEMENT_DEBT", set()):
+                module_gate._placed_support({"_BSS": {"unique": False}}, states, reports, witnessed)
+            self.assertEqual(reports[0]["state"], state)
+
+    def test_squeezed_index_array_of_the_keyboard_interrupt(self):
+        """KEY_DOWN: 59h indexed bytes between the joystick state and the installed flag, both witnessed."""
+        import copy
+        import module_gate
+        from common import ROOT, read_json
+        recipe = read_json(ROOT / "recipes/prince/keyboard.json")
+        binding = read_json(ROOT / recipe["binding"])
+        source = (ROOT / recipe["source"]).read_text("ascii")
+        claims = [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]]
+
+        def judge(b):
+            _, report = module_gate.compile_group(source, recipe["profile"], recipe["flags"], claims,
+                                                  ROOT / "build/workers/tests/keyboard", binding=b,
+                                                  group_id=recipe["group_id"], language="asm")
+            return next(c["state"] for c in report["claims"] if c["public"] == "TRACK_KEYBOARD_IRQ")
+        self.assertEqual(judge(binding), "ASM_EXACT")
+        row = next(k for k, r in enumerate(binding["placed_witnesses"]) if "squeeze" in r)
+
+        def changed(edit):
+            b = copy.deepcopy(binding)
+            edit(b["placed_witnesses"][row]["squeeze"])
+            return b
+        for edit in (lambda s: s["below"].update(offset=s["below"]["offset"] - 2),
+                     lambda s: s["below"]["extent"].update(length=s["below"]["extent"]["length"] - 1),
+                     lambda s: s.update(above=s["below"]["witnesses"]),
+                     lambda s: s["index"].update(bytes_hex=s["index"]["bytes_hex"][2:])):
+            with self.assertRaises(ValueError):
+                judge(changed(edit))
+        without = copy.deepcopy(binding)
+        del without["placed_witnesses"][row]
+        self.assertEqual(judge(without), "REFUSED")
+
     def test_listed_debt_keeps_claim_and_reports_it(self):
         states, reports = self.run_support([0], debt={"t0"})
         self.assertEqual(states, ["CODE_EXACT"])

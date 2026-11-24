@@ -10,11 +10,6 @@ typedef struct SoundSettings {
     unsigned char midi_parameters[6];
 } SoundSettings;
 
-extern SoundSettings *configuration;
-extern int digital_mode, midi_mode;
-extern int midi_driver_flag;
-extern SoundDriver digital_driver, midi_driver;
-extern void far *startup_presets;
 extern volatile int sound_startup_finished;
 
 extern SoundDriver far cdecl load_sound_driver(const char far *path);
@@ -30,6 +25,11 @@ static struct SoundFiles {
     char midi[9];
     char presets[12];
 } sound_files = { "DIGI.DRV", "MIDI.DRV", "PRESETS.DEF" };
+SoundDriver midi_driver = 0, digital_driver = 0;
+int midi_mode = 0, digital_mode = 0;
+int midi_driver_flag = 0;
+static void far *startup_presets = 0;
+SoundSettings *configuration = 0;
 
 void far cdecl initialize_sound_drivers(int wait_for_sound)
 {

@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 33,
+        "length": 36,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -260,6 +260,15 @@
         "type_index": 0
       },
       {
+        "name": "UNUSED_FLAG",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 34,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "LEVELIDX",
         "segment": "_DATA",
         "segment_index": 2,
@@ -487,15 +496,15 @@
       "MARK_FLOOR",
       "QUERY_SOUND",
       "FIRSTINROW",
+      "CURRENT_EFFECT",
       "DISPATCH_SOUND",
-      "RESOURCE_INDEX",
       "SAVEREBIRTHPTSTATUS",
       "REMOVEREBIRTHPT",
-      "LAST_SOUND",
+      "PENDING_EFFECT",
       "OPP",
       "SHAKE_ROW",
       "WAIT_TIMER_NO_POLL",
-      "LAST_TRACK",
+      "PENDING_SONG",
       "GET_OPP_DIST",
       "LIMIT_FRAME_RATE",
       "CHAR",
@@ -3096,7 +3105,7 @@
         "target": {
           "kind": "external",
           "index": 145,
-          "name": "LAST_TRACK",
+          "name": "PENDING_SONG",
           "method": 6,
           "zero_displacement": true
         }
@@ -3104,7 +3113,7 @@
       "target": {
         "kind": "external",
         "index": 145,
-        "name": "LAST_TRACK",
+        "name": "PENDING_SONG",
         "method": 6,
         "zero_displacement": true
       },
@@ -3123,7 +3132,7 @@
         "target": {
           "kind": "external",
           "index": 141,
-          "name": "LAST_SOUND",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3131,7 +3140,7 @@
       "target": {
         "kind": "external",
         "index": 141,
-        "name": "LAST_SOUND",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -6013,7 +6022,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 137,
+          "index": 138,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -6021,7 +6030,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 137,
+        "index": 138,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -6121,16 +6130,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 138,
-          "name": "RESOURCE_INDEX",
+          "index": 137,
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 138,
-        "name": "RESOURCE_INDEX",
+        "index": 137,
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -6148,16 +6157,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 138,
-          "name": "RESOURCE_INDEX",
+          "index": 137,
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 138,
-        "name": "RESOURCE_INDEX",
+        "index": 137,
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -6175,16 +6184,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 138,
-          "name": "RESOURCE_INDEX",
+          "index": 137,
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 138,
-        "name": "RESOURCE_INDEX",
+        "index": 137,
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -6229,16 +6238,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 138,
-          "name": "RESOURCE_INDEX",
+          "index": 137,
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 138,
-        "name": "RESOURCE_INDEX",
+        "index": 137,
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -14807,7 +14816,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 137,
+          "index": 138,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -14815,7 +14824,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 137,
+        "index": 138,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -19126,34 +19135,6 @@
         }
       ]
     },
-    "LAST_SOUND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2174,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 57513,
-          "bytes_hex": "833e7e08ff",
-          "entry": "root:0dee:0030"
-        }
-      ]
-    },
-    "LAST_TRACK": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2176,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 57484,
-          "bytes_hex": "833e8008ff",
-          "entry": "root:0dee:0002"
-        }
-      ]
-    },
     "LEVEL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -20021,20 +20002,6 @@
       "space": "root",
       "witnesses": []
     },
-    "RESOURCE_INDEX": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2178,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 16149,
-          "bytes_hex": "a18208",
-          "entry": "root:02dc:10e8"
-        }
-      ]
-    },
     "RESTART_REQUEST": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -20538,6 +20505,18 @@
       "provider": "group:tables/tables",
       "offset": 3324
     },
+    "PENDING_SONG": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2176
+    },
+    "PENDING_EFFECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2174
+    },
     "NIS_SKIP_REQUESTED": {
       "kind": "dgroup-public",
       "group": "DGROUP",
@@ -20563,6 +20542,12 @@
           "space": "root"
         }
       ]
+    },
+    "CURRENT_EFFECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2178
     },
     "SCREENPORTRECT": {
       "kind": "dgroup-public",
@@ -20671,5 +20656,46 @@
     }
   },
   "target_id": "group:top/top",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "b87e09",
+          "entry": "root:053b:0544",
+          "image_offset": 22167,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 6
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "833e960901",
+          "entry": "overlay-15:2fcd:0236",
+          "image_offset": 706,
+          "operand_offset": 2,
+          "space": "overlay-15"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 30
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a09809",
+          "entry": "root:0000:028c",
+          "image_offset": 673,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 32
+    }
+  ]
 }

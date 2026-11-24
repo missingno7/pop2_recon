@@ -2,7 +2,6 @@ GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
 GAMELIB_TEXT ENDS
 
 _DATA SEGMENT WORD PUBLIC 'DATA'
-EXTRN BACKING_DRIVER_SEGMENT:WORD
 EXTRN BACKING_DRIVER:DWORD
 _DATA ENDS
 DGROUP GROUP _DATA
@@ -40,7 +39,7 @@ INITIALIZE_BACKING_DRIVER PROC FAR
     jc backing_ready
     les ax, DWORD PTR [bp+6]
     mov WORD PTR BACKING_DRIVER, ax
-    mov BACKING_DRIVER_SEGMENT, es
+    mov WORD PTR BACKING_DRIVER+2, es
     mov ax, 4000h
     sub dx, dx
     call WRITE_BACKING_HEADER
@@ -60,7 +59,7 @@ close_failed_driver:
     call BACKING_DRIVER
     sub ax, ax
     mov WORD PTR BACKING_DRIVER, ax
-    mov BACKING_DRIVER_SEGMENT, ax
+    mov WORD PTR BACKING_DRIVER+2, ax
     mov [bp-8], ax
     mov [bp-6], ax
 backing_ready:
@@ -75,13 +74,13 @@ INITIALIZE_BACKING_DRIVER ENDP
 PUBLIC SHUTDOWN_BACKING_DRIVER
 SHUTDOWN_BACKING_DRIVER PROC FAR
     mov ax, WORD PTR BACKING_DRIVER
-    or ax, BACKING_DRIVER_SEGMENT
+    or ax, WORD PTR BACKING_DRIVER+2
     jz driver_inactive
     mov al, 2
     call BACKING_DRIVER
     sub ax, ax
     mov WORD PTR BACKING_DRIVER, ax
-    mov BACKING_DRIVER_SEGMENT, ax
+    mov WORD PTR BACKING_DRIVER+2, ax
 driver_inactive:
     retf
 SHUTDOWN_BACKING_DRIVER ENDP
@@ -92,7 +91,7 @@ TRANSFER_BACKING_RECORD PROC FAR
     push si
     push ds
     mov ax, WORD PTR ss:[BACKING_DRIVER]
-    or ax, ss:[BACKING_DRIVER_SEGMENT]
+    or ax, WORD PTR ss:[BACKING_DRIVER+2]
     jz done
     cmp WORD PTR [bp+6], 0
     jl read_data

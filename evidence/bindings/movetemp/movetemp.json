@@ -326,7 +326,7 @@
       "BLUES",
       "ROOM_TRAPDOOR_FLAGS",
       "QUERY_SOUND",
-      "CURRENT_SOUND",
+      "PENDING_EFFECT",
       "DOIMPALE",
       "READCELL",
       "ROOM",
@@ -7096,7 +7096,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "CURRENT_SOUND",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -7104,7 +7104,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "CURRENT_SOUND",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -7123,7 +7123,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "CURRENT_SOUND",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -7131,7 +7131,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "CURRENT_SOUND",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -8890,7 +8890,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "CURRENT_SOUND",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -8898,7 +8898,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "CURRENT_SOUND",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -8917,7 +8917,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "CURRENT_SOUND",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -8925,7 +8925,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "CURRENT_SOUND",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -11531,20 +11531,6 @@
         }
       ]
     },
-    "CURRENT_SOUND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2174,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 57513,
-          "bytes_hex": "833e7e08ff",
-          "entry": "root:0dee:0030"
-        }
-      ]
-    },
     "DECREMENT_LIFE_POINTS": {
       "entry_sha256": "2220988fd62ecef2d64b01a9470925065961f337e007e4de093cb2260ac543e1",
       "entry_target_id": "root:02dc:095c",
@@ -12326,22 +12312,7 @@
       "offset": 8924,
       "segment": 2898,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 66804,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 1360,
-          "file_offset": 74996
-        },
-        {
-          "space": "root",
-          "image_offset": 66780,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 1361,
-          "file_offset": 74972
-        }
-      ]
+      "witnesses": []
     },
     "SETKIDDEATHMETHOD": {
       "entry_sha256": "d0619e32a3b9dace7608856a096d9e5c0a960966643ec718bfe57c91929a6a8d",
@@ -12357,6 +12328,12 @@
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3324
+    },
+    "PENDING_EFFECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2174
     },
     "MARK_FLOOR": {
       "entry_sha256": "8f80a6dbd1f3debff61beecc4a1609cc84cb310dfbabb3dbbf14027a33629371",

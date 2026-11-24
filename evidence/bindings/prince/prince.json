@@ -316,10 +316,10 @@
     ],
     "externals": [
       "__acrtused",
-      "DEATH_SEQUENCE_PRIMARY",
+      "CURRENT_EFFECT",
       "CHECK_GAME_PORT",
       "_main",
-      "FALL_TRANSITION",
+      "PENDING_EFFECT",
       "CHAR",
       "SET_PALETTE",
       "KID",
@@ -491,7 +491,7 @@
       "POLL_AND_CLEAR_PENDING_STATE",
       "RESTRICTED_STEP",
       "READ_KEYBOARD_CONTROLS",
-      "GAMEPORT_STATE",
+      "JOYSTICK_STATE",
       "RESETDATA"
     ]
   },
@@ -11643,7 +11643,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11651,7 +11651,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12885,7 +12885,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -12893,7 +12893,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12966,7 +12966,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -12974,7 +12974,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12993,7 +12993,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13001,7 +13001,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13020,7 +13020,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13028,7 +13028,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13101,7 +13101,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13109,7 +13109,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13128,7 +13128,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13136,7 +13136,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13155,7 +13155,7 @@
         "target": {
           "kind": "external",
           "index": 177,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13163,7 +13163,7 @@
       "target": {
         "kind": "external",
         "index": 177,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -15342,7 +15342,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "FALL_TRANSITION",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -15350,7 +15350,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "FALL_TRANSITION",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -15396,7 +15396,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DEATH_SEQUENCE_PRIMARY",
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -15404,7 +15404,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DEATH_SEQUENCE_PRIMARY",
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -16925,70 +16925,6 @@
           "image_offset": 13955,
           "bytes_hex": "be7e09",
           "entry": "root:02dc:08be"
-        }
-      ]
-    },
-    "GAMEPORT_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 1,
-              "space": "root",
-              "image_offset": 125259,
-              "bytes_hex": "a1061d",
-              "entry": "root:1e92:000c"
-            }
-          ]
-        },
-        {
-          "offset": 4,
-          "witnesses": [
-            {
-              "operand_offset": 1,
-              "space": "root",
-              "image_offset": 125268,
-              "bytes_hex": "a3081d",
-              "entry": "root:1e92:000c"
-            }
-          ]
-        },
-        {
-          "offset": 6,
-          "witnesses": [
-            {
-              "operand_offset": 1,
-              "space": "root",
-              "image_offset": 125262,
-              "bytes_hex": "a30a1d",
-              "entry": "root:1e92:000c"
-            }
-          ]
-        },
-        {
-          "offset": 8,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "overlay-2",
-              "image_offset": 20089,
-              "bytes_hex": "803e0c1d01",
-              "entry": "overlay-2:255a:04f9"
-            }
-          ]
-        }
-      ],
-      "offset": 7428,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 5756,
-          "bytes_hex": "bb041d",
-          "entry": "root:0000:164b"
         }
       ]
     },
@@ -18527,60 +18463,16 @@
       "offset": 4290
     },
     "DIGITAL_DRIVER": {
-      "kind": "dgroup-offset",
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 8106,
-      "witnesses": [
-        {
-          "bytes_hex": "a3aa1f",
-          "entry": "root:1129:2b8c",
-          "image_offset": 81500,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ],
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "8916ac1f",
-              "entry": "root:1129:2b8c",
-              "image_offset": 81503,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ]
+      "provider": "group:get_midi_driver_flag",
+      "offset": 8106
     },
     "MIDI_DRIVER": {
-      "kind": "dgroup-offset",
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 8102,
-      "witnesses": [
-        {
-          "bytes_hex": "a3a61f",
-          "entry": "root:1129:2b8c",
-          "image_offset": 81532,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ],
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "8916a81f",
-              "entry": "root:1129:2b8c",
-              "image_offset": 81535,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ]
+      "provider": "group:get_midi_driver_flag",
+      "offset": 8102
     },
     "SHOW_RULER": {
       "kind": "dgroup-public",
@@ -18606,6 +18498,70 @@
       "provider": "group:diag/diag",
       "offset": 4314
     },
+    "JOYSTICK_STATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7428,
+      "witnesses": [
+        {
+          "bytes_hex": "a1041d",
+          "entry": "root:1e92:000c",
+          "image_offset": 125265,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 8,
+          "witnesses": [
+            {
+              "bytes_hex": "803e0c1d01",
+              "entry": "overlay-2:255a:04f9",
+              "image_offset": 20089,
+              "operand_offset": 2,
+              "space": "overlay-2"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "a1061d",
+              "entry": "root:1e92:000c",
+              "image_offset": 125259,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "a3081d",
+              "entry": "root:1e92:000c",
+              "image_offset": 125268,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "a30a1d",
+              "entry": "root:1e92:000c",
+              "image_offset": 125262,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        }
+      ]
+    },
     "FRAMENUM": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -18626,35 +18582,60 @@
       "provider": "group:intrface/intrface",
       "offset": 7978
     },
-    "FALL_TRANSITION": {
-      "kind": "dgroup-offset",
+    "PENDING_EFFECT": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 2174,
-      "witnesses": [
-        {
-          "bytes_hex": "a37e08",
-          "entry": "root:0e78:0006",
-          "image_offset": 59549,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "provider": "group:sound/sound",
+      "offset": 2174
     },
-    "DEATH_SEQUENCE_PRIMARY": {
-      "kind": "dgroup-offset",
+    "CURRENT_EFFECT": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 2178,
-      "witnesses": [
-        {
-          "bytes_hex": "a18208",
-          "entry": "root:0e78:0006",
-          "image_offset": 60609,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "provider": "group:sound/sound",
+      "offset": 2178
     }
   },
   "target_id": "group:prince/prince",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "c787dc00f9ff",
+          "entry": "overlay-6:2c9e:0c10",
+          "image_offset": 6416,
+          "operand_offset": 2,
+          "space": "overlay-6"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 154
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "89b7e500",
+          "entry": "overlay-7:2c20:0050",
+          "image_offset": 1336,
+          "operand_offset": 2,
+          "space": "overlay-7"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 163
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "b8ec00",
+          "entry": "overlay-4:2bda:01ce",
+          "image_offset": 545,
+          "operand_offset": 1,
+          "space": "overlay-4"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 170
+    }
+  ]
 }

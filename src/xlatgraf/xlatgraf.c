@@ -1,4 +1,4 @@
-extern unsigned int ALLOCATED_UNIT_BITS;
+unsigned int allocated_banks = 1;
 
 unsigned int far pascal AllocBanks(unsigned char request)
 {
@@ -11,7 +11,7 @@ unsigned int far pascal AllocBanks(unsigned char request)
     units = (request + 15) >> 4;
 
     while (units--) {
-        while (ALLOCATED_UNIT_BITS & bit) {
+        while (allocated_banks & bit) {
             bit <<= 1;
             if (bit == 0)
                 return 0;
@@ -20,7 +20,7 @@ unsigned int far pascal AllocBanks(unsigned char request)
         bit <<= 1;
     }
 
-    ALLOCATED_UNIT_BITS |= selected;
+    allocated_banks |= selected;
     return selected;
 }
 
@@ -28,10 +28,10 @@ void far pascal ResetBanks(unsigned int banks)
 {
     unsigned int bit;
 
-    ALLOCATED_UNIT_BITS = 0;
+    allocated_banks = 0;
     bit = 1;
     while (banks--) {
-        ALLOCATED_UNIT_BITS |= bit;
+        allocated_banks |= bit;
         bit <<= 1;
     }
 }
@@ -278,7 +278,7 @@ Handle far pascal XlatFont(FontHeader far *font)
 }
 
 extern int graphics_mode;
-extern unsigned chunk_byte_limit;
+unsigned chunk_byte_limit = 0;
 extern unsigned char far *far pascal NormalizePtr(unsigned char far *pointer);
 extern void far pascal TgaToMCGA(ShapeHeader far *shape, unsigned char far *pixels, int bank);
 extern int far pascal resize_handle(Handle handle, unsigned long bytes);

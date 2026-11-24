@@ -9,7 +9,6 @@ _DATA SEGMENT WORD PUBLIC 'DATA'
 EXTRN __nheap_desc:BYTE
 ; Two separately bound words of the same far callback slot.
 EXTRN allocation_handler:DWORD
-EXTRN allocation_handler_segment:WORD
 _DATA ENDS
 DGROUP GROUP _DATA
 
@@ -60,7 +59,7 @@ retry_search:
     jnc SHORT malloc_done
 ask_handler:
     mov ax, WORD PTR allocation_handler
-    or ax, allocation_handler_segment
+    or ax, WORD PTR allocation_handler+2
     jz SHORT allocation_failed
     push bx
     push cx

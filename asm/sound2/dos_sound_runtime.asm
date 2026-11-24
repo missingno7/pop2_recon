@@ -4,10 +4,8 @@ EXTRN SOUND_DGROUP:BYTE
 
 .DATA
 ; Driver entry points supplied by the startup loader and shared engine state.
-EXTRN FIRST_PROBE_DRIVER:DWORD
-EXTRN FIRST_PROBE_SEGMENT:WORD
-EXTRN SECOND_PROBE_DRIVER:DWORD
-EXTRN SECOND_PROBE_SEGMENT:WORD
+EXTRN midi_driver:DWORD
+EXTRN digital_driver:DWORD
 EXTRN MIDI_MODE:BYTE
 EXTRN DRIVER_CONFIG:DWORD
 EXTRN CALLBACK_STACK_TOP:BYTE
@@ -626,12 +624,12 @@ PROBE_FIRST_SOUND_DRIVER PROC FAR
     mov bp, sp
     push si
     xor si, si
-    mov ax, WORD PTR FIRST_PROBE_DRIVER
-    or ax, FIRST_PROBE_SEGMENT
+    mov ax, WORD PTR midi_driver
+    or ax, WORD PTR midi_driver+2
     jz first_probe_done
     les bx, DWORD PTR [bp+6]
     mov al, 0
-    call FIRST_PROBE_DRIVER
+    call midi_driver
     test ax, ax
     jl first_probe_done
     inc si
@@ -647,12 +645,12 @@ PROBE_SECOND_SOUND_DRIVER PROC FAR
     mov bp, sp
     push si
     xor si, si
-    mov ax, WORD PTR SECOND_PROBE_DRIVER
-    or ax, SECOND_PROBE_SEGMENT
+    mov ax, WORD PTR digital_driver
+    or ax, WORD PTR digital_driver+2
     jz second_probe_done
     les bx, DWORD PTR [bp+6]
     mov al, 0
-    call SECOND_PROBE_DRIVER
+    call digital_driver
     test ax, ax
     jl second_probe_done
     inc si
@@ -689,7 +687,7 @@ CONFIGURE_SOUND_DEVICES PROC FAR
     xor bx, bx
     mov es, bx
     mov al, 1
-    call SECOND_PROBE_DRIVER
+    call digital_driver
     test ax, ax
     je digital_ok
     or ACTIVE_SOUND_CHANNELS, 4
@@ -698,7 +696,7 @@ digital_ok:
     mov DIGITAL_LOOP_CAPABILITY, bx
     mov digital_rate, cx
     mov digital_type, dx
-    les ax, SECOND_PROBE_DRIVER
+    les ax, digital_driver
     mov WORD PTR FIRST_SOUND_DRIVER, ax
     mov WORD PTR FIRST_SOUND_DRIVER+2, es
     or ACTIVE_SOUND_CHANNELS, 1
@@ -711,14 +709,14 @@ probe_midi:
     pop ds
     xor bx, bx
     mov es, bx
-    call FIRST_PROBE_DRIVER
+    call midi_driver
     test ax, ax
     jge midi_ok
     or ACTIVE_SOUND_CHANNELS, 8
     jmp short update_channels
 midi_ok:
     mov midi_clock_rate, ax
-    les ax, FIRST_PROBE_DRIVER
+    les ax, midi_driver
     mov WORD PTR SECOND_SOUND_DRIVER, ax
     mov WORD PTR SECOND_SOUND_DRIVER+2, es
     or ACTIVE_SOUND_CHANNELS, 2

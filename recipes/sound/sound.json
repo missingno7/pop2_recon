@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound/sound.json",
-  "binding_sha256": "608d080909f3b14995d2aed1e5a3c8c8a30ef87de180f80364cfe806108f86d3",
+  "binding_sha256": "f0d5146a27b232e4d17e0e010d9cbd225a82e4316c5b5009c2669eb42aa3cdb2",
   "claims": [
     {
       "fixup_count": 21,
@@ -228,9 +228,41 @@
   ],
   "data_publics": [
     {
+      "address": 2174,
+      "name": "PENDING_EFFECT",
+      "offset": 0,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 2176,
+      "name": "PENDING_SONG",
+      "offset": 2,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 2178,
+      "name": "CURRENT_EFFECT",
+      "offset": 4,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 2180,
+      "name": "CURRENT_SONG",
+      "offset": 6,
+      "segment": "_DATA",
+      "span": 82,
+      "unique": true
+    },
+    {
       "address": 2262,
       "name": "BACKGROUND_SCENE_GROUP",
-      "offset": 80,
+      "offset": 88,
       "segment": "_DATA",
       "span": 14,
       "unique": true
@@ -238,7 +270,7 @@
     {
       "address": 2276,
       "name": "BACKGROUND_SCENE_NUMBER",
-      "offset": 94,
+      "offset": 102,
       "segment": "_DATA",
       "span": 94,
       "unique": true
@@ -246,7 +278,7 @@
     {
       "address": 2370,
       "name": "BACKGROUND_INTRO_GROUP",
-      "offset": 188,
+      "offset": 196,
       "segment": "_DATA",
       "span": 16,
       "unique": true
@@ -254,7 +286,7 @@
     {
       "address": 2386,
       "name": "BACKGROUND_INTRO_NUMBER",
-      "offset": 204,
+      "offset": 212,
       "segment": "_DATA",
       "span": 37,
       "unique": true
@@ -275,12 +307,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "sound/sound",
-  "object_sha256": "6c8939d5c0d2d456b064a14768527689e2d2cc229afb60fbc2b35d8ff6eae3c9",
+  "object_sha256": "a6a6efaed002f5808efeb02cf95875f4508d349b51ff4c1356138d772afbea22",
   "origin": 57058,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/sound/sound.c",
-  "source_sha256": "cff81758c87658d14bacdedb877edc10dfbcaf665f133dcbfcf5e1f0b82c31cb",
+  "source_sha256": "045c4461c3d9e54de64d27484f22e07e48cf012fa17edd71fdea122137ea3fba",
   "space": "root"
 }

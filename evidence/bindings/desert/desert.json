@@ -333,7 +333,7 @@
       "SOUND_ROOM",
       "KID",
       "NEXT_LEVEL",
-      "FALL_TRANSITION",
+      "PENDING_EFFECT",
       "LOADDSRTCODE",
       "MOVE_UP",
       "MOVE_DOWN",
@@ -946,7 +946,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "FALL_TRANSITION",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -954,7 +954,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "FALL_TRANSITION",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -7132,20 +7132,6 @@
         }
       ]
     },
-    "FALL_TRANSITION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2174,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 57513,
-          "bytes_hex": "833e7e08ff",
-          "entry": "root:0dee:0030"
-        }
-      ]
-    },
     "FCHAR": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7764,6 +7750,12 @@
       "segment": 8175,
       "space": "root",
       "witnesses": []
+    },
+    "PENDING_EFFECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2174
     },
     "FRAMENUM": {
       "kind": "dgroup-offset",

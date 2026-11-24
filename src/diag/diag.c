@@ -423,3 +423,5 @@ void draw_frame_diagnostics(void)
     if (show_reference_position)
         plot_position(Char.x - 130, 9);
 }
+
+char volume_format[] = "Volume: '%.11s'\r%ld bytes free.";      /* unreferenced */

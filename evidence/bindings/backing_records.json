@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 0,
+        "length": 14,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -45,11 +45,38 @@
         "type_index": 0
       },
       {
+        "name": "BACKING_DRIVER",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "RELEASE_BACKING_RECORD",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
         "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "BACKING_POSITION",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 4,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "BACKING_FREE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 8,
+        "group_index": 1,
         "frame": null,
         "type_index": 0
       },
@@ -61,15 +88,20 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "BACKING_FULL",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 12,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
       "READ_BACKING_HEADER",
       "WRITE_BACKING_HEADER",
-      "BACKING_DRIVER_OFFSET",
-      "BACKING_FREE_LOW",
-      "BACKING_DRIVER_SEGMENT",
-      "BACKING_FREE_HIGH",
       "SELECT_BACKING_EXTENDED",
       "SELECT_BACKING_POSITION"
     ]
@@ -89,10 +121,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "BACKING_DRIVER_OFFSET",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -111,13 +143,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -134,7 +165,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 4,
         "name": "SELECT_BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -178,7 +209,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 3,
         "name": "SELECT_BACKING_EXTENDED",
         "method": 6,
         "zero_displacement": true
@@ -221,13 +252,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "BACKING_FREE_LOW",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -243,13 +273,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "BACKING_FREE_HIGH",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -265,10 +294,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "BACKING_DRIVER_OFFSET",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -287,13 +316,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -310,7 +338,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 4,
         "name": "SELECT_BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -356,62 +384,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "BACKING_DRIVER_OFFSET": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8032,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 80458,
-          "bytes_hex": "a1601f",
-          "entry": "root:1129:1d56"
-        }
-      ]
-    },
-    "BACKING_DRIVER_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8034,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80461,
-          "bytes_hex": "0b06621f",
-          "entry": "root:1129:1d56"
-        }
-      ]
-    },
-    "BACKING_FREE_HIGH": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8042,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80713,
-          "bytes_hex": "19066a1f",
-          "entry": "root:1129:1d56"
-        }
-      ]
-    },
-    "BACKING_FREE_LOW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8040,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80709,
-          "bytes_hex": "2916681f",
-          "entry": "root:1129:1d56"
-        }
-      ]
-    },
     "READ_BACKING_HEADER": {
       "entry_sha256": "0f00d86d40bf6772c8ba2079918ea26ffd0bd9411f3e6e114e9753d9b3f37c2c",
       "entry_target_id": "root:1129:295e",
@@ -478,5 +450,72 @@
     }
   },
   "target_id": "group:backing_records",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placements": {
+    "_DATA": 8032
+  },
+  "dgroup_segment": {
+    "segment": 13058,
+    "witnesses": [
+      {
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
+      }
+    ]
+  },
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "36a1601f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 80389,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 0
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "360b06621f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 80393,
+          "operand_offset": 3,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 2
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "2916681f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 80709,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 8
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "19066a1f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 80713,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 10
+    }
+  ]
 }

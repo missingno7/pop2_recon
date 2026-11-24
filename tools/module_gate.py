@@ -460,7 +460,7 @@ def require_no_case_alias(source_bytes, key, language="c"):
 PLACEMENT_DEBT = set(read_json_shared(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
 
 
-def _placed_support(placement_report, states, reports):
+def _placed_support(placement_report, states, reports, witnessed=frozenset()):
     """Fields into a placed segment without unique initialized content are proven only by
     internal consensus: the same (segment, addend) at two or more distinct original instruction
     starts inside CODE_EXACT claims (as _internal_support for v4). Different addends never support
@@ -468,6 +468,9 @@ def _placed_support(placement_report, states, reports):
     exception is an original far pointer: an equal LDS/LES/CALL FAR/JMP FAR field at A is also a site
     of A+2, because that instruction itself reads the dword at P+A (`binding.pointer_extent`). Runs to a
     fixpoint, since a refused claim withdraws its sites.
+
+    `witnessed` (segment, addend) keys have an independent original operand equal to P+A outside the claims
+    (`placed_witnesses`, grounded exactly as a v4 address), so a field there needs no second site (2026-11-24).
 
     Claims accepted under the earlier rule (content equality alone, or two distinct uninitialized
     addends) are listed in evidence/placement-debt.json; they keep their state but report the
@@ -481,7 +484,8 @@ def _placed_support(placement_report, states, reports):
         for field in state["placed"]:
             for equation in state["equations"]:
                 if equation.get("kind") == "placed data" and equation["offset"] == field["offset"]:
-                    equation["support"] = "internal consensus" if field["key"][0] in weak else "unique content"
+                    equation["support"] = ("unique content" if field["key"][0] not in weak else
+                                           "witnessed" if field["key"] in witnessed else "internal consensus")
     changed = True
     while changed:
         changed = False
@@ -495,7 +499,8 @@ def _placed_support(placement_report, states, reports):
                         sites.setdefault((field["key"][0], field["key"][1] + 2), set()).add(field["insn"])
         for public in exact:
             lacking = sorted({f["key"] for f in states[public]["placed"]
-                              if f["key"][0] in weak and len(sites.get(f["key"], ())) < 2})
+                              if f["key"][0] in weak and f["key"] not in witnessed and
+                              len(sites.get(f["key"], ())) < 2})
             if lacking and by_public[public]["target_id"] in PLACEMENT_DEBT:
                 by_public[public]["placement_debt"] = [f"{n}+{k}" for n, k in lacking]
             elif lacking:
@@ -1499,6 +1504,37 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             require(binding["mode"] in ("external-far-call-v1",) + DATA_MODES, "Unsupported group binding mode")
             symbols, mode = {}, binding["mode"]
 
+    # Independent witnesses of addresses inside the object's own placed segments: the operand equals P + A.
+    placed_witnessed = set()
+    for row in (binding or {}).get("placed_witnesses", []):
+        require(set(row) in ({"segment", "addend", "witnesses"}, {"segment", "addend", "squeeze"}) and
+                row["segment"] in placements and type(row["addend"]) is int and 0 <= row["addend"],
+                "Unsupported placed witness")
+        key = (row["segment"], row["addend"])
+        address = (placements[row["segment"]] + row["addend"]) & 0xFFFF
+        extents = [(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved]
+
+        def proven(symbols):
+            ground({**binding, "mode": OPERAND_MODE, "symbols": symbols}, hull, oracle, claimed=extents)
+        v4 = {"kind": "dgroup-offset", "group": "DGROUP"}
+        if "squeeze" in row:
+            # A bounded index proves N bytes at P+A; the object below ends at P+A and the next address above is
+            # P+A+N, both independently witnessed. No other place holds N bytes between them.
+            from binding import index_extent, reachable_from_entry
+            s = row["squeeze"]
+            at, raw = s["index"]["image_offset"], bytes.fromhex(s["index"]["bytes_hex"])
+            ispace = oracle.spaces[s["index"]["space"]]
+            require(set(s) == {"index", "below", "above"} and ispace.data[at:at + len(raw)] == raw and
+                    at in reachable_from_entry(oracle, s["index"]["entry"]), "Squeeze index is not reached original code")
+            count = index_extent(raw, address)
+            require(count and s["below"]["witnesses"] and s["above"] and
+                    s["below"]["offset"] + s["below"]["extent"]["length"] == address, "Squeeze leaves another position")
+            proven({"BELOW": dict(v4, **s["below"]), "ABOVE": dict(v4, offset=address + count, witnesses=s["above"])})
+        else:
+            require(row["witnesses"], "Placed witness without witnesses")
+            proven({"PLACED": dict(v4, offset=address, witnesses=row["witnesses"])})
+        placed_witnessed.add(key)
+
     addressed = {f["segment_offset"]: (struct.unpack_from("<H", actual, f["segment_offset"])[0] +
                                        (f["displacement"] or 0)) & 0xFFFF
                  for f in code_fixes if _own_segment(f, name)}
@@ -1968,7 +2004,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                          (name, origin - window[0], len(actual), next(iter(frames)),
                                           {p["name"]: p["offset"] for p in module.publics if p["segment"] == name})
                                          if frames and window is not None else None)
-    _placed_support(placement_report, states, reports)
+    _placed_support(placement_report, states, reports, placed_witnessed)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
                                unique=placement_report[d["segment"]]["unique"])

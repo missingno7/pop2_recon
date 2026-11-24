@@ -687,7 +687,7 @@ typedef struct {
     signed char button;
 } GameportState;
 #pragma pack()
-extern GameportState gameport_state;
+extern GameportState joystick_state;
 extern int far pascal check_game_port(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
@@ -705,7 +705,7 @@ char *far pascal joystick_status(void)
         } else {
             message = joystick_missing_message;
             configuration->control_mode = control_mode = 0;
-            memset(&gameport_state, 0, sizeof(gameport_state));
+            memset(&joystick_state, 0, sizeof(joystick_state));
         }
     }
     return message;
@@ -1050,21 +1050,21 @@ void far pascal read_gameport_controls(void)
     int threshold;
 
     POLL_GAME_PORT();
-    threshold = *(volatile int *)&gameport_state.center_y / 2;
-    displacement = gameport_state.y - gameport_state.center_y;
+    threshold = *(volatile int *)&joystick_state.center_y / 2;
+    displacement = joystick_state.y - joystick_state.center_y;
     if (displacement > threshold)
         joystick_y = 1;
     else if (displacement < -threshold)
         joystick_y = -1;
 
-    threshold = *(volatile int *)&gameport_state.center_x / 2;
-    displacement = gameport_state.x - gameport_state.center_x;
+    threshold = *(volatile int *)&joystick_state.center_x / 2;
+    displacement = joystick_state.x - joystick_state.center_x;
     if (displacement > threshold)
         joystick_x = 1;
     else if (-threshold > displacement)
         joystick_x = -1;
 
-    joystick_button = -gameport_state.button;
+    joystick_button = -joystick_state.button;
     if (joystick_button < -2)
         joystick_button = -1;
 }
@@ -1177,15 +1177,15 @@ void far pascal ToggleInvertState(void)
 
 /* Restrict the step value, then request mode 105 unless already pending. */
 extern unsigned int RESTRICTED_STEP;
-extern unsigned int death_sequence_primary;
-extern int fall_transition;
+extern unsigned int current_effect;
+extern int pending_effect;
 
 void far pascal GoWeightless(void)
 {
     RESTRICTED_STEP = 228;
     AddSong(105);
-    dispatch_sound(death_sequence_primary + 10000);
-    fall_transition = -1;
+    dispatch_sound(current_effect + 10000);
+    pending_effect = -1;
 }
 
 /* 1316 */ void far pascal ResetData(void)

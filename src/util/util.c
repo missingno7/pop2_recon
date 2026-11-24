@@ -5,6 +5,7 @@ typedef struct {
 
 static long random_state;
 static int random_seeded = 0;
+Rect NullRect = { 0, 0, 0, 0 };
 
 void far * far cdecl _fmemcpy(void far *, const void far *, unsigned);
 int far pascal HGETRSRC(unsigned long, int);

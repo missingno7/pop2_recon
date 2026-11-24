@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 0,
+        "length": 2,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -43,13 +43,21 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "DITHER_SEED",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
       "SHOW_MOUSE_GRAPHICS",
       "CHECK_CURSOR_OVERLAP",
-      "GRAF",
-      "DITHER_SEED"
+      "GRAF"
     ]
   },
   "dgroup_segment": {
@@ -143,10 +151,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "DITHER_SEED",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -165,10 +173,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "DITHER_SEED",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -254,24 +262,10 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_DATA": 9302
+    "_DATA": 7966
   },
   "schema": 1,
   "symbols": {
-    "DITHER_SEED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7966,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "overlay-2",
-          "image_offset": 26825,
-          "bytes_hex": "c7061e1f8345",
-          "entry": "overlay-2:2b96:0000"
-        }
-      ]
-    },
     "GRAF": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -320,5 +314,20 @@
     }
   },
   "target_id": "group:graf/dithered_copy",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "c7061e1f8345",
+          "entry": "overlay-2:2b96:0000",
+          "image_offset": 26825,
+          "operand_offset": 2,
+          "space": "overlay-2"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 0
+    }
+  ]
 }

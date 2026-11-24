@@ -10,7 +10,7 @@ typedef struct ShapeListBanks {
 extern unsigned int far pascal save_handle_flags(Handle handle);
 extern ShapeListBanks far *far pascal fetch_locked_shape_list(Handle handle);
 extern Handle far pascal restore_handle_flags(Handle handle, unsigned int flags);
-extern unsigned int occupied_banks;
+extern unsigned int allocated_banks;
 
 Handle far pascal unlink_shape_list(Handle list)
 {
@@ -20,7 +20,7 @@ Handle far pascal unlink_shape_list(Handle list)
     saved = save_handle_flags(list);
     shape = fetch_locked_shape_list(list);
     if (shape && shape->bank_bits != 0) {
-        occupied_banks &= ~shape->bank_bits;
+        allocated_banks &= ~shape->bank_bits;
         shape->bank_bits = 0;
     }
     return restore_handle_flags(list, saved);

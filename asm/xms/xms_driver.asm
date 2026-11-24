@@ -3,15 +3,14 @@
 ; supplies a conventional-memory buffer. Carry reports failure.
 ; The workspace uses SS (DGROUP) even when DS points at the transfer buffer.
 
-_DATA SEGMENT WORD PUBLIC 'DATA'
-EXTRN xms_entry:DWORD
-EXTRN xms_handle:WORD
-EXTRN xms_position:DWORD
-EXTRN xms_position_hi:WORD
-EXTRN xms_capacity_lo:WORD
-EXTRN xms_capacity_hi:WORD
-_DATA ENDS
-DGROUP GROUP _DATA
+; Workspace shared by the EMS and XMS drivers.
+BACKING_DATA SEGMENT WORD COMMON 'DATA'
+xms_entry DD 0
+xms_handle DW 0
+xms_position DD 0
+xms_capacity DD 0
+BACKING_DATA ENDS
+DGROUP GROUP BACKING_DATA
 
 XMS_TEXT SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:XMS_TEXT, DS:DGROUP, SS:DGROUP
@@ -66,7 +65,7 @@ xms_open:
     mov ah, 9
     call [xms_entry]
     mov WORD PTR [xms_handle], dx
-    mov WORD PTR [xms_capacity_lo], XMS_KIB_BYTES
+    mov WORD PTR [xms_capacity], XMS_KIB_BYTES
     dec ax
     pop dx
     pop ax
@@ -90,11 +89,11 @@ xms_failure:
     stc
     jmp SHORT xms_return
 xms_seek_end:
-    add dx, WORD PTR ss:[xms_capacity_lo]
-    adc cx, WORD PTR ss:[xms_capacity_hi]
+    add dx, WORD PTR ss:[xms_capacity]
+    adc cx, WORD PTR ss:[xms_capacity+2]
 xms_store_position:
     mov WORD PTR ss:[xms_position], dx
-    mov WORD PTR ss:[xms_position_hi], cx
+    mov WORD PTR ss:[xms_position+2], cx
 xms_success:
     clc
 xms_return:
@@ -106,7 +105,7 @@ xms_return:
     retf
 xms_seek_current:
     add dx, WORD PTR ss:[xms_position]
-    adc cx, WORD PTR ss:[xms_position_hi]
+    adc cx, WORD PTR ss:[xms_position+2]
     jmp SHORT xms_store_position
 ; Build the XMS move descriptor on the stack (XMS to conventional).
 xms_read:
@@ -125,10 +124,10 @@ xms_read:
     add dx, ax
     mov ax, es
     adc cx, ax
-    cmp cx, WORD PTR [xms_capacity_hi]
+    cmp cx, WORD PTR [xms_capacity+2]
     ja xms_failure
     jb xms_read_even_part
-    cmp dx, WORD PTR [xms_capacity_lo]
+    cmp dx, WORD PTR [xms_capacity]
     ja xms_failure
 xms_read_even_part:
     lea si, [bp-12h]
@@ -190,10 +189,10 @@ xms_write:
     add dx, ax
     mov ax, es
     adc cx, ax
-    cmp cx, WORD PTR [xms_capacity_hi]
+    cmp cx, WORD PTR [xms_capacity+2]
     ja xms_grow
     jb xms_write_even_part
-    cmp dx, WORD PTR [xms_capacity_lo]
+    cmp dx, WORD PTR [xms_capacity]
     jbe xms_write_even_part
 ; Grow the handle to cover the requested endpoint, rounding up in KiB.
 xms_grow:
@@ -217,8 +216,8 @@ xms_write_failed:
 xms_update_capacity:
     mov ax, XMS_KIB_BYTES
     mul di
-    mov WORD PTR [xms_capacity_lo], ax
-    mov WORD PTR [xms_capacity_hi], dx
+    mov WORD PTR [xms_capacity], ax
+    mov WORD PTR [xms_capacity+2], dx
     mov cx, es
     mov dx, si
 xms_write_even_part:

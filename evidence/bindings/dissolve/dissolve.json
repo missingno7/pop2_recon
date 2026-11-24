@@ -130,7 +130,7 @@
       "__aFuldiv",
       "__aFlmul",
       "GRAF",
-      "DRAWING_PATTERN",
+      "DITHER_SEED",
       "CLOCK_TICKS",
       "SCREENPORT",
       "CACHED_MODE",
@@ -1008,7 +1008,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "DRAWING_PATTERN",
+          "name": "DITHER_SEED",
           "method": 6,
           "zero_displacement": true
         }
@@ -1016,7 +1016,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "DRAWING_PATTERN",
+        "name": "DITHER_SEED",
         "method": 6,
         "zero_displacement": true
       },
@@ -1516,7 +1516,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "DRAWING_PATTERN",
+          "name": "DITHER_SEED",
           "method": 6,
           "zero_displacement": true
         }
@@ -1524,7 +1524,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "DRAWING_PATTERN",
+        "name": "DITHER_SEED",
         "method": 6,
         "zero_displacement": true
       },
@@ -1651,20 +1651,6 @@
         }
       ]
     },
-    "DRAWING_PATTERN": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7966,
-      "witnesses": [
-        {
-          "bytes_hex": "8b161e1f",
-          "entry": "root:1129:13e6",
-          "image_offset": 75743,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "FIND_OPTION": {
       "entry_sha256": "146f6eb413a71912174bde1a89b732451d806e553aa74db5605cd6dbea444af1",
       "entry_target_id": "root:1129:2cea",
@@ -1783,8 +1769,7 @@
       "offset": 7524,
       "segment": 8175,
       "space": "root",
-      "witnesses": [],
-      "consensus": true
+      "witnesses": []
     },
     "__nfree": {
       "entry_sha256": "6c8d6437e51e6e44221d027366ec5d2597ca05cffc7791cb3e0f824a273f056e",
@@ -1817,6 +1802,20 @@
           "bytes_hex": "9a3b00ef1f",
           "file_offset": 13399,
           "relocation_index": 1
+        }
+      ]
+    },
+    "DITHER_SEED": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7966,
+      "witnesses": [
+        {
+          "bytes_hex": "8b161e1f",
+          "entry": "root:1129:13e6",
+          "image_offset": 75743,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     }

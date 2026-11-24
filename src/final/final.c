@@ -316,7 +316,7 @@ void far pascal clip_final_character(void)
 
 extern sbyte CutRoom;
 extern byte scroll_pending;
-extern unsigned int death_sequence_alternate;
+extern unsigned int current_song;
 extern sbyte LevelIdx;
 extern int next_level;
 extern byte ambient_state;
@@ -357,7 +357,7 @@ void far pascal run_final_frame(void)
     FinlWatchKid();
     FinlWatchOpps();
 
-    if (ambient_state && !query_sound(death_sequence_alternate + 10000) &&
+    if (ambient_state && !query_sound(current_song + 10000) &&
         Kid.alive < 0 && LevelIdx == next_level) {
         int tune = -1;
 

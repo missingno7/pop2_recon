@@ -1,16 +1,23 @@
 .MODEL MEDIUM
 EXTRN INTERRUPT_DGROUP:BYTE
 .DATA
+ERROR_CANCEL_HANDLER DD 0
+ABORT_REQUESTED DW 0
+ERROR_ACTION_LABEL DW 0
 event_hook DD 0
 saved_vectors DD 0, 0, 0, 0
-EXTRN ABORT_REQUESTED:WORD
-EXTRN CURRENT_PORT:WORD
-EXTRN ERROR_ACTION_LABEL:WORD
-EXTRN ERROR_CANCEL_HANDLER:DWORD
-EXTRN ERROR_CANCEL_HANDLER_SEGMENT:WORD
-EXTRN EVENT_COUNT:WORD
-EXTRN EVENT_QUEUE:BYTE
-EXTRN LAST_INPUT_TICK:WORD
+LAST_INPUT_TICK DW 0
+EVENT_QUEUE LABEL BYTE                  ; eight events of seven words
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0
+EVENT_COUNT DW 0
+EXTRN Graf:WORD
 EXTRN MOUSE_PRESENT:WORD
 EXTRN SCREEN_WIDTH:WORD
 EXTRN TIMER_TICKS:DWORD
@@ -613,7 +620,7 @@ DOS_CRITICAL_ERROR PROC FAR
     mov [bp-44h], si
     mov [bp-42h], dx
     mov ax, WINDOW_DRAW_PORT
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
 open_error_window:
     mov ax, 0ff9ch
@@ -643,7 +650,7 @@ save_background:
     push cs
     call SET_ITEM_ENABLED
     mov ax, WORD PTR ERROR_CANCEL_HANDLER
-    or ax, ERROR_CANCEL_HANDLER_SEGMENT
+    or ax, WORD PTR ERROR_CANCEL_HANDLER+2
     jne classify_error
     push di
     mov ax, 1
@@ -758,7 +765,7 @@ close_error_window:
     mov dl, 3
     mov ABORT_REQUESTED, 1
 return_status:
-    pop CURRENT_PORT
+    pop Graf
     mov sp, bp
     pop bp
     pop ax

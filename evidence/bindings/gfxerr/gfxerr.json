@@ -205,7 +205,7 @@
       "SCREENPORT",
       "WINDOW_HEAD",
       "GRAPHICS_MODE",
-      "WINDOW_STYLE",
+      "DRAW_RECORD_RANGE",
       "NULLRECT",
       "ITEM_BY_INDEX",
       "STROKE_PORT_RECT",
@@ -482,7 +482,7 @@
         "target": {
           "kind": "external",
           "index": 26,
-          "name": "WINDOW_STYLE",
+          "name": "DRAW_RECORD_RANGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -490,7 +490,7 @@
       "target": {
         "kind": "external",
         "index": 26,
-        "name": "WINDOW_STYLE",
+        "name": "DRAW_RECORD_RANGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -509,7 +509,7 @@
         "target": {
           "kind": "external",
           "index": 26,
-          "name": "WINDOW_STYLE",
+          "name": "DRAW_RECORD_RANGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -517,7 +517,7 @@
       "target": {
         "kind": "external",
         "index": 26,
-        "name": "WINDOW_STYLE",
+        "name": "DRAW_RECORD_RANGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2088,20 +2088,6 @@
         }
       ]
     },
-    "WINDOW_STYLE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9824,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 117987,
-          "bytes_hex": "ff366026",
-          "entry": "root:1129:8f03"
-        }
-      ]
-    },
     "__nfree": {
       "entry_sha256": "6c8d6437e51e6e44221d027366ec5d2597ca05cffc7791cb3e0f824a273f056e",
       "entry_target_id": "root:1fef:001a",
@@ -2171,6 +2157,20 @@
       "segment": 8175,
       "space": "root",
       "witnesses": []
+    },
+    "DRAW_RECORD_RANGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 9824,
+      "witnesses": [
+        {
+          "bytes_hex": "ff366026",
+          "entry": "root:1129:b96d",
+          "image_offset": 117987,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:gfxerr/gfxerr",

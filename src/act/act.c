@@ -71,7 +71,7 @@ extern int fall_scream_started;
 
 
 extern int Row2PixelY[5];
-extern int fall_transition;
+extern int pending_effect;
 
 extern void far _fastcall AddKidScream(unsigned char room);
 extern void far pascal AddSound(int effect);
@@ -128,8 +128,8 @@ void far pascal Falling(void)
                 decrement_life_points(100);
             Char.vertical_step /= (signed char)2;
             Char.y = Row2PixelY[Char.row + 1] - 7;
-            if (fall_transition == 1)
-                fall_transition = -1;
+            if (pending_effect == 1)
+                pending_effect = -1;
             dispatch_sound(10001);
             fall_scream_started = 0;
             return;

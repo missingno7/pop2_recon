@@ -794,10 +794,10 @@
       "PREFER_KID_STATE",
       "LOAD_KID_WITH_OPPONENT",
       "ANIM_CHAR_TAP",
-      "DEATH_SEQUENCE_PRIMARY",
+      "CURRENT_EFFECT",
       "ROOFCLIMBINGINTOSHIP",
       "RESET_CHAR_Y",
-      "DEATH_SEQUENCE_ALTERNATE",
+      "CURRENT_SONG",
       "TRIGGER_ALL_STONES_DOWN",
       "FRAME",
       "SAVED_FCHAR",
@@ -13596,7 +13596,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "DEATH_SEQUENCE_ALTERNATE",
+          "name": "CURRENT_SONG",
           "method": 6,
           "zero_displacement": true
         }
@@ -13604,7 +13604,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "DEATH_SEQUENCE_ALTERNATE",
+        "name": "CURRENT_SONG",
         "method": 6,
         "zero_displacement": true
       },
@@ -13650,7 +13650,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DEATH_SEQUENCE_PRIMARY",
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13658,7 +13658,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DEATH_SEQUENCE_PRIMARY",
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13866,7 +13866,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DEATH_SEQUENCE_PRIMARY",
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13874,7 +13874,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DEATH_SEQUENCE_PRIMARY",
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13893,7 +13893,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DEATH_SEQUENCE_PRIMARY",
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13901,7 +13901,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DEATH_SEQUENCE_PRIMARY",
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13920,7 +13920,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DEATH_SEQUENCE_PRIMARY",
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13928,7 +13928,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DEATH_SEQUENCE_PRIMARY",
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13974,7 +13974,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DEATH_SEQUENCE_PRIMARY",
+          "name": "CURRENT_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13982,7 +13982,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DEATH_SEQUENCE_PRIMARY",
+        "name": "CURRENT_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -25693,34 +25693,6 @@
         }
       ]
     },
-    "DEATH_SEQUENCE_ALTERNATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2180,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 58354,
-          "bytes_hex": "a18408",
-          "entry": "root:0dee:04d0"
-        }
-      ]
-    },
-    "DEATH_SEQUENCE_PRIMARY": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2178,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 58306,
-          "bytes_hex": "ff368208",
-          "entry": "root:0dee:04d0"
-        }
-      ]
-    },
     "DEATH_TIMER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -27235,6 +27207,18 @@
       "segment": 1936,
       "space": "root",
       "witnesses": []
+    },
+    "CURRENT_SONG": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2180
+    },
+    "CURRENT_EFFECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2178
     }
   },
   "target_id": "group:ctrl/ctrl",

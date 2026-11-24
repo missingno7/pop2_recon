@@ -4,8 +4,8 @@
 
 .DATA
 EXTRN Graf:WORD
-EXTRN PEN_COORDINATE_X:WORD
-EXTRN PEN_COORDINATE_Y:WORD
+EXTRN screen_row_origin:WORD
+EXTRN screen_x_origin:WORD
 EXTRN CURRENT_GRAPHICS_FONT:WORD
 EXTRN TIMER_RELOAD:WORD
 EXTRN TIMER_TICKS:WORD
@@ -2279,10 +2279,10 @@ loc_9642:
     mov cx, word ptr [di+34h]
     jcxz loc_96fb
     mov ax, word ptr [si+2]
-    xchg PEN_COORDINATE_Y, ax
+    xchg screen_x_origin, ax
     push ax
     mov ax, word ptr [si]
-    xchg PEN_COORDINATE_X, ax
+    xchg screen_row_origin, ax
     push ax
     push ds
     push si
@@ -2290,8 +2290,8 @@ loc_9642:
     push ax
     push cs
     call SET_RECORD_RANGE
-    pop PEN_COORDINATE_X
-    pop PEN_COORDINATE_Y
+    pop screen_row_origin
+    pop screen_x_origin
     mov cx, word ptr [di+32h]
     jcxz loc_96fb
     lea bx, [bp-8]

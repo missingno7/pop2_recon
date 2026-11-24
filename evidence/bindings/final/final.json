@@ -682,7 +682,7 @@
       "LOAD_FINAL_CODE",
       "ADDFCHARX",
       "RUN_JUMP",
-      "DEATH_SEQUENCE_ALTERNATE",
+      "CURRENT_SONG",
       "GET_MOB_TYPE_ITEM",
       "MAKEFCHARCLIPRECT",
       "LEVELIDX",
@@ -4038,7 +4038,7 @@
         "target": {
           "kind": "external",
           "index": 107,
-          "name": "DEATH_SEQUENCE_ALTERNATE",
+          "name": "CURRENT_SONG",
           "method": 6,
           "zero_displacement": true
         }
@@ -4046,7 +4046,7 @@
       "target": {
         "kind": "external",
         "index": 107,
-        "name": "DEATH_SEQUENCE_ALTERNATE",
+        "name": "CURRENT_SONG",
         "method": 6,
         "zero_displacement": true
       },
@@ -23144,22 +23144,7 @@
       "offset": 8924,
       "segment": 2898,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 66804,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 1360,
-          "file_offset": 74996
-        },
-        {
-          "space": "root",
-          "image_offset": 66780,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 1361,
-          "file_offset": 74972
-        }
-      ]
+      "witnesses": []
     },
     "GET_SET_IMAGE_SIZE": {
       "entry_sha256": "2308bdcee2ff5310a9275740c8edff3d14043cdf6915c4d3cac1c22ac23c8530",
@@ -23213,19 +23198,11 @@
         }
       ]
     },
-    "DEATH_SEQUENCE_ALTERNATE": {
-      "kind": "dgroup-offset",
+    "CURRENT_SONG": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "offset": 2180,
-      "witnesses": [
-        {
-          "bytes_hex": "a38408",
-          "entry": "root:0dee:04d0",
-          "image_offset": 58369,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "provider": "group:sound/sound",
+      "offset": 2180
     },
     "AMBIENT_STATE": {
       "kind": "dgroup-offset",

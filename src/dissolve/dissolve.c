@@ -24,7 +24,7 @@ typedef struct
 } Dissolve;
 
 extern int Graf;
-extern volatile int drawing_pattern;
+extern volatile int DITHER_SEED;
 extern volatile long clock_ticks;
 extern char ScreenPort[];
 static const char dissolve_option[] = "NODIS";
@@ -96,7 +96,7 @@ Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long durati
         record->step_argument = 0;
         record->mode = mode;
         record->pattern = 0x4583;
-        drawing_pattern = 0x4583;
+        DITHER_SEED = 0x4583;
 
         if (record->mode == 2) {
             if (create_port(&record->temporary, bounds))
@@ -195,7 +195,7 @@ int dissolve_step(Dissolve *record)
         scratch.words.high = Graf;
         Graf = record->destination;
         if (record->mode == 1)
-            drawing_pattern = record->pattern;
+            DITHER_SEED = record->pattern;
         else if (record->mode == 2)
             MEASURE_TEXT(record->destination, (int)&record->temporary,
                       &record->rect, &record->rect, 0);

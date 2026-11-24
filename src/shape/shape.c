@@ -71,7 +71,7 @@ extern Handle hNewShpItem1(int group, int item, int mode);
 extern void MIRRORMCGABLOCK(unsigned char far *, int, int);
 
 extern const unsigned char far builtin_mapping[];
-extern unsigned int loaded_mapping_flags;
+extern unsigned int allocated_banks;
 
 static struct ShapeErrors {
     char missing_list[41];
@@ -112,7 +112,7 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
         if (!mapping)
             mapping = AllocBanks(resource->mapping_id);
         resource->mapping = mapping;
-        loaded_mapping_flags |= mapping;
+        allocated_banks |= mapping;
         if (prepare) {
             Handle far *palette = &resource->mapping;
             unsigned long address = (unsigned long)palette;

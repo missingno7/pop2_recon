@@ -78,7 +78,7 @@
     "externals": [
       "CONFIGURATION",
       "ACTIVE_SOUND_CHANNELS",
-      "GAMEPORT_STATE",
+      "JOYSTICK_STATE",
       "POLL_GAME_PORT",
       "CHECK_ROM_SIGNATURE",
       "CHECK_GAME_PORT"
@@ -125,7 +125,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -133,7 +133,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -152,7 +152,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -160,7 +160,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -206,7 +206,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -214,7 +214,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -233,7 +233,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -241,7 +241,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -260,7 +260,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -268,7 +268,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -287,7 +287,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -295,7 +295,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -314,7 +314,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "GAMEPORT_STATE",
+          "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -322,7 +322,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "GAMEPORT_STATE",
+        "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -439,7 +439,25 @@
         }
       ]
     },
-    "GAMEPORT_STATE": {
+    "CHECK_ROM_SIGNATURE": {
+      "entry_sha256": "7c229c33236e58c488685c80ae4c2668952bcc062fa688db9d4f4f58cb339716",
+      "entry_target_id": "root:0000:16d0",
+      "kind": "far-code-entry",
+      "offset": 5840,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
+    "POLL_GAME_PORT": {
+      "entry_sha256": "f9787565e227ea42567abf5cbdccd7556f6e8ec766feea5a66263840866a07ff",
+      "entry_target_id": "root:0000:164b",
+      "kind": "far-code-entry",
+      "offset": 5707,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
+    "JOYSTICK_STATE": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
       "offset": 7428,
@@ -490,24 +508,6 @@
           ]
         }
       ]
-    },
-    "CHECK_ROM_SIGNATURE": {
-      "entry_sha256": "7c229c33236e58c488685c80ae4c2668952bcc062fa688db9d4f4f58cb339716",
-      "entry_target_id": "root:0000:16d0",
-      "kind": "far-code-entry",
-      "offset": 5840,
-      "segment": 0,
-      "space": "root",
-      "witnesses": []
-    },
-    "POLL_GAME_PORT": {
-      "entry_sha256": "f9787565e227ea42567abf5cbdccd7556f6e8ec766feea5a66263840866a07ff",
-      "entry_target_id": "root:0000:164b",
-      "kind": "far-code-entry",
-      "offset": 5707,
-      "segment": 0,
-      "space": "root",
-      "witnesses": []
     }
   },
   "frame": {

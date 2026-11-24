@@ -495,7 +495,7 @@ extern CELLREC Cell;
 extern struct tile_animation *BlueS;
 extern unsigned char *room_trapdoor_flags;
 extern int query_sound(int);
-extern int current_sound;
+extern int pending_effect;
 extern void DoImpale(void);
 extern void control_drop(void);
 extern int probe_chain_floor(int);
@@ -524,7 +524,7 @@ void move_rock_record(void)
     if (Mob.auxiliary == -1) --x;
     else if (can_slide_rock_stop() && Mob.auxiliary >= 8) {
         Mob.auxiliary = 0; dispatch_sound(10054);
-        if (current_sound == 54) current_sound = -1;
+        if (pending_effect == 54) pending_effect = -1;
     } else {
         Mob.x -= 8;
         if (can_slide_rock_stop()) AddSound(53);
@@ -711,8 +711,8 @@ void move_trapdoor(void)
         (&Level.cell_kinds[0][0])[(unsigned char)30 * *(volatile unsigned char *)&Mob.room - 30 + absolute_column] = 26;
         step = 17;
         dispatch_sound(10095);
-        if (current_sound == 95)
-            current_sound = -1;
+        if (pending_effect == 95)
+            pending_effect = -1;
         AddSound(3);
     }
     if (is_visible_room_cell(room, FirstInRow(Mob.row) + draw.saved_column)) {

@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 30,
+        "length": 50,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -62,11 +62,20 @@
     ],
     "publics": [
       {
-        "name": "FINISH_SOUND_STARTUP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 316,
-        "group_index": 0,
+        "name": "MIDI_DRIVER_FLAG",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 42,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CONFIGURATION",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 48,
+        "group_index": 1,
         "frame": null,
         "type_index": 0
       },
@@ -96,28 +105,66 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "FINISH_SOUND_STARTUP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 316,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "MIDI_DRIVER",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 30,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DIGITAL_DRIVER",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 34,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "MIDI_MODE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 38,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DIGITAL_MODE",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 40,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
-      "FINISH_SOUND_STARTUP",
       "_initialize_sound_drivers",
       "_release_driver_payload",
       "GET_SOUND_STARTUP_FLAG",
       "GET_MIDI_DRIVER_FLAG",
-      "CONFIGURATION",
-      "DIGITAL_MODE",
-      "MIDI_MODE",
-      "MIDI_DRIVER_FLAG",
-      "DIGITAL_DRIVER",
-      "MIDI_DRIVER",
-      "STARTUP_PRESETS",
       "SOUND_STARTUP_FINISHED",
       "_load_sound_driver",
       "_read_dos_file_to_buffer",
       "PROBE_FIRST_SOUND_DRIVER",
       "PROBE_SECOND_SOUND_DRIVER",
       "CONFIGURE_SOUND_DEVICES",
-      "START_SOUND_PAYLOAD"
+      "START_SOUND_PAYLOAD",
+      "FINISH_SOUND_STARTUP"
     ]
   },
   "dgroup_segment": {
@@ -140,20 +187,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 9,
-          "name": "MIDI_DRIVER_FLAG",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 9,
-        "name": "MIDI_DRIVER_FLAG",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -170,7 +212,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -178,7 +220,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -197,7 +239,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -205,7 +247,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -224,7 +266,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 2,
           "name": "_release_driver_payload",
           "method": 6,
           "zero_displacement": true
@@ -232,7 +274,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "_release_driver_payload",
         "method": 6,
         "zero_displacement": true
@@ -248,20 +290,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -275,20 +312,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -305,7 +337,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -313,7 +345,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -332,7 +364,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 10,
           "name": "CONFIGURE_SOUND_DEVICES",
           "method": 6,
           "zero_displacement": true
@@ -340,7 +372,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 10,
         "name": "CONFIGURE_SOUND_DEVICES",
         "method": 6,
         "zero_displacement": true
@@ -359,7 +391,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -367,7 +399,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -386,7 +418,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -394,7 +426,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -413,7 +445,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 11,
           "name": "START_SOUND_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -421,7 +453,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 11,
         "name": "START_SOUND_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -440,7 +472,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 12,
           "name": "FINISH_SOUND_STARTUP",
           "method": 6,
           "zero_displacement": true
@@ -448,7 +480,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 12,
         "name": "FINISH_SOUND_STARTUP",
         "method": 6,
         "zero_displacement": true
@@ -467,7 +499,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 12,
           "name": "FINISH_SOUND_STARTUP",
           "method": 6,
           "zero_displacement": true
@@ -475,7 +507,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 12,
         "name": "FINISH_SOUND_STARTUP",
         "method": 6,
         "zero_displacement": true
@@ -491,20 +523,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -518,20 +545,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -548,7 +570,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -556,7 +578,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -572,20 +594,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -599,20 +616,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -629,7 +641,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 5,
           "name": "SOUND_STARTUP_FINISHED",
           "method": 6,
           "zero_displacement": true
@@ -637,7 +649,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 5,
         "name": "SOUND_STARTUP_FINISHED",
         "method": 6,
         "zero_displacement": true
@@ -656,7 +668,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 10,
           "name": "CONFIGURE_SOUND_DEVICES",
           "method": 6,
           "zero_displacement": true
@@ -664,7 +676,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 10,
         "name": "CONFIGURE_SOUND_DEVICES",
         "method": 6,
         "zero_displacement": true
@@ -680,20 +692,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -707,20 +714,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -734,20 +736,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 12,
-          "name": "STARTUP_PRESETS",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 12,
-        "name": "STARTUP_PRESETS",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -764,7 +761,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 7,
           "name": "_read_dos_file_to_buffer",
           "method": 6,
           "zero_displacement": true
@@ -772,7 +769,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 7,
         "name": "_read_dos_file_to_buffer",
         "method": 6,
         "zero_displacement": true
@@ -810,20 +807,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -837,20 +829,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 9,
-          "name": "MIDI_DRIVER_FLAG",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 9,
-        "name": "MIDI_DRIVER_FLAG",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -864,20 +851,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -891,20 +873,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 7,
-          "name": "DIGITAL_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 7,
-        "name": "DIGITAL_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -918,20 +895,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -945,20 +917,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -975,7 +942,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 8,
           "name": "PROBE_FIRST_SOUND_DRIVER",
           "method": 6,
           "zero_displacement": true
@@ -983,7 +950,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 8,
         "name": "PROBE_FIRST_SOUND_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -999,20 +966,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 7,
-          "name": "DIGITAL_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 7,
-        "name": "DIGITAL_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1026,20 +988,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 7,
-          "name": "DIGITAL_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 7,
-        "name": "DIGITAL_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1056,7 +1013,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 9,
           "name": "PROBE_SECOND_SOUND_DRIVER",
           "method": 6,
           "zero_displacement": true
@@ -1064,7 +1021,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 9,
         "name": "PROBE_SECOND_SOUND_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -1080,20 +1037,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 11,
-          "name": "MIDI_DRIVER",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 11,
-        "name": "MIDI_DRIVER",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1107,20 +1059,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 11,
-          "name": "MIDI_DRIVER",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 11,
-        "name": "MIDI_DRIVER",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1137,7 +1084,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 6,
           "name": "_load_sound_driver",
           "method": 6,
           "zero_displacement": true
@@ -1145,7 +1092,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 6,
         "name": "_load_sound_driver",
         "method": 6,
         "zero_displacement": true
@@ -1183,20 +1130,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1210,20 +1152,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 10,
-          "name": "DIGITAL_DRIVER",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 10,
-        "name": "DIGITAL_DRIVER",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1237,20 +1174,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 10,
-          "name": "DIGITAL_DRIVER",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 10,
-        "name": "DIGITAL_DRIVER",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1267,7 +1199,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 6,
           "name": "_load_sound_driver",
           "method": 6,
           "zero_displacement": true
@@ -1275,7 +1207,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 6,
         "name": "_load_sound_driver",
         "method": 6,
         "zero_displacement": true
@@ -1313,20 +1245,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 7,
-          "name": "DIGITAL_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 7,
-        "name": "DIGITAL_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1340,20 +1267,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "MIDI_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "MIDI_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1367,20 +1289,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 7,
-          "name": "DIGITAL_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 7,
-        "name": "DIGITAL_MODE",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1394,20 +1311,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "CONFIGURATION",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "CONFIGURATION",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1432,20 +1344,6 @@
   },
   "schema": 1,
   "symbols": {
-    "CONFIGURATION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8120,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 2850,
-          "bytes_hex": "8b1eb81f",
-          "entry": "root:0000:0b1a"
-        }
-      ]
-    },
     "CONFIGURE_SOUND_DEVICES": {
       "entry_sha256": "586823101fc6e3028dbf42c5293ab965bfe5985c2271f692f5e2e761f42d3eda",
       "entry_target_id": "root:1129:31e2",
@@ -1454,88 +1352,6 @@
       "segment": 4393,
       "space": "root",
       "witnesses": []
-    },
-    "DIGITAL_DRIVER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 83031,
-              "bytes_hex": "0b06ac1f",
-              "entry": "root:1129:31be"
-            }
-          ]
-        }
-      ],
-      "offset": 8106,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 83028,
-          "bytes_hex": "a1aa1f",
-          "entry": "root:1129:31be"
-        }
-      ]
-    },
-    "DIGITAL_MODE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8112,
-      "witnesses": []
-    },
-    "MIDI_DRIVER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 82995,
-              "bytes_hex": "0b06a81f",
-              "entry": "root:1129:319a"
-            }
-          ]
-        }
-      ],
-      "offset": 8102,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 82992,
-          "bytes_hex": "a1a61f",
-          "entry": "root:1129:319a"
-        }
-      ]
-    },
-    "MIDI_DRIVER_FLAG": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8114,
-      "witnesses": []
-    },
-    "MIDI_MODE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8110,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 82716,
-          "bytes_hex": "3a06ae1f",
-          "entry": "root:1129:2f10"
-        }
-      ]
     },
     "PROBE_FIRST_SOUND_DRIVER": {
       "entry_sha256": "149f4662c7130ffdebd7e8a1a5f772f2537abbe66229fe3efc1246ce14051882",
@@ -1559,18 +1375,6 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11134,
-      "witnesses": []
-    },
-    "STARTUP_PRESETS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": []
-        }
-      ],
-      "offset": 8116,
       "witnesses": []
     },
     "START_SOUND_PAYLOAD": {
@@ -1619,5 +1423,85 @@
     }
   },
   "target_id": "group:get_midi_driver_flag",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a1a61f",
+          "entry": "root:1129:319a",
+          "image_offset": 82992,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 30
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "0b06a81f",
+          "entry": "root:1129:319a",
+          "image_offset": 82995,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 32
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "ff1eaa1f",
+          "entry": "root:1129:31be",
+          "image_offset": 83042,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 34
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "0b06ac1f",
+          "entry": "root:1129:31be",
+          "image_offset": 83031,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 36
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "3a06ae1f",
+          "entry": "root:1129:3339",
+          "image_offset": 82716,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 38
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "8b1eb81f",
+          "entry": "root:1e92:000c",
+          "image_offset": 125317,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 48
+    }
+  ]
 }

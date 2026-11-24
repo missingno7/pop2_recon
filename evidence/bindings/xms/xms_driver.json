@@ -2,12 +2,12 @@
   "declarations": {
     "segments": [
       {
-        "name": "_DATA",
+        "name": "BACKING_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 0,
+        "length": 14,
         "alignment": 2,
-        "combine": 2,
+        "combine": 6,
         "big": false,
         "use32": false,
         "frame": null,
@@ -54,14 +54,7 @@
         "type_index": 0
       }
     ],
-    "externals": [
-      "XMS_POSITION",
-      "XMS_CAPACITY_HI",
-      "XMS_CAPACITY_LO",
-      "XMS_ENTRY",
-      "XMS_POSITION_HI",
-      "XMS_HANDLE"
-    ]
+    "externals": []
   },
   "fixups": [
     {
@@ -246,10 +239,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -289,10 +282,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -311,13 +304,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -333,13 +325,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "XMS_CAPACITY_LO",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -355,13 +346,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -377,10 +367,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -399,13 +389,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "XMS_CAPACITY_LO",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -421,13 +410,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "XMS_CAPACITY_HI",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -443,13 +431,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
+        "kind": "segment",
         "index": 1,
-        "name": "XMS_POSITION",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -465,13 +452,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "XMS_POSITION_HI",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -487,13 +473,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
+        "kind": "segment",
         "index": 1,
-        "name": "XMS_POSITION",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -509,13 +494,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "XMS_POSITION_HI",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 8
     },
     {
       "kind": "fixup",
@@ -531,13 +515,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -553,13 +536,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
+        "kind": "segment",
         "index": 1,
-        "name": "XMS_POSITION",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -575,13 +557,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "XMS_CAPACITY_HI",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -597,13 +578,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "XMS_CAPACITY_LO",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -619,10 +599,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -641,13 +621,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -663,10 +642,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -727,13 +706,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -749,13 +727,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
+        "kind": "segment",
         "index": 1,
-        "name": "XMS_POSITION",
-        "method": 6,
-        "zero_displacement": true
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 6
     },
     {
       "kind": "fixup",
@@ -771,13 +748,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "XMS_CAPACITY_HI",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -793,13 +769,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "XMS_CAPACITY_LO",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -815,13 +790,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -837,10 +811,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -880,13 +854,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "XMS_CAPACITY_LO",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 10
     },
     {
       "kind": "fixup",
@@ -902,13 +875,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "XMS_CAPACITY_HI",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -924,10 +896,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -946,13 +918,12 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "XMS_HANDLE",
-        "method": 6,
-        "zero_displacement": true
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
-      "displacement": null
+      "displacement": 4
     },
     {
       "kind": "fixup",
@@ -968,10 +939,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -990,10 +961,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1054,10 +1025,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1076,10 +1047,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 2
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 0
       },
       "displacement": 2
     },
@@ -1097,10 +1068,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1119,10 +1090,10 @@
         "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "XMS_ENTRY",
-        "method": 6,
+        "kind": "segment",
+        "index": 1,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -1143,60 +1114,20 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
-  "symbols": {
-    "XMS_CAPACITY_HI": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9890,
-      "witnesses": []
-    },
-    "XMS_CAPACITY_LO": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9888,
-      "witnesses": []
-    },
-    "XMS_ENTRY": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9878,
-      "witnesses": [],
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": []
-        }
-      ],
-      "extent": {
-        "kind": "pointer",
-        "length": 4,
-        "witness": {
-          "space": "root",
-          "image_offset": 130768,
-          "bytes_hex": "ff1e9626",
-          "entry": "root:1fc8:0235"
-        }
-      }
-    },
-    "XMS_HANDLE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9882,
-      "witnesses": []
-    },
-    "XMS_POSITION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9884,
-      "witnesses": []
-    },
-    "XMS_POSITION_HI": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9886,
-      "witnesses": []
-    }
-  },
+  "symbols": {},
   "target_id": "group:xms/xms_driver",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placements": {
+    "BACKING_DATA": 9878
+  },
+  "dgroup_segment": {
+    "segment": 13058,
+    "witnesses": [
+      {
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
+      }
+    ]
+  }
 }

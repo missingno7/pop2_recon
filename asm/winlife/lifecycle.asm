@@ -1,19 +1,22 @@
 .MODEL MEDIUM
 .DATA
-EXTRN SYSTEM_HIT_RECTANGLE:WORD
-EXTRN BACKGROUND_ORIGIN_X:WORD
-EXTRN BACKGROUND_ORIGIN_Y:WORD
-EXTRN BACKING_PORT_DESCRIPTOR:DWORD
 EXTRN Graf:WORD
-EXTRN DRAW_RECORD_RANGE:WORD
+EXTRN menu_bounds_top:WORD
+EXTRN ALLOCATION_HANDLER:DWORD
+EXTRN HEAP_STATE:DWORD
 EXTRN DEFAULT_PORT:BYTE
-EXTRN window_draw_port:WORD
-EXTRN WINDOW_HEAD:WORD
-EXTRN WINDOW_LIST:BYTE
 .DATA
-; BIOS Alt-F1 and Alt-F2 command words.
+; BIOS Alt-F1 and Alt-F2 command words follow.
+PUBLIC DRAW_RECORD_RANGE, WINDOW_LIST, WINDOW_HEAD, WINDOW_DRAW_PORT
+DRAW_RECORD_RANGE DW 7
 SEND_WINDOW_BACK_COMMAND DW 6800h
 MOVE_WINDOW_COMMAND DW 6900h
+; The desktop window record of 22 words.
+WINDOW_LIST LABEL BYTE
+    DW 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    DW 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+WINDOW_HEAD DW 0
+WINDOW_DRAW_PORT DW OFFSET DGROUP:WINDOW_LIST
 .CODE
 EXTRN __nmalloc:FAR
 EXTRN CREATE_STRING_HANDLE:NEAR
@@ -451,7 +454,7 @@ LOCATE_WINDOW_AT_POINT PROC FAR
     push di
     push ds
     push WORD PTR [bp+8]
-    mov ax, OFFSET SYSTEM_HIT_RECTANGLE
+    mov ax, OFFSET menu_bounds_top
     push ds
     push ax
     push cs
@@ -1442,13 +1445,13 @@ ALLOCATE_BACKGROUND_PORT PROC NEAR
     push ax
     sub ax, ax
     cwd
-    xchg word ptr BACKGROUND_ORIGIN_X, ax
-    xchg word ptr BACKGROUND_ORIGIN_Y, dx
+    xchg word ptr WORD PTR ALLOCATION_HANDLER, ax
+    xchg word ptr WORD PTR ALLOCATION_HANDLER+2, dx
     push dx
     push ax
     sub ax, ax
     cwd
-    les bx, dword ptr BACKING_PORT_DESCRIPTOR
+    les bx, dword ptr HEAP_STATE
     xchg word ptr es:[bx + 12h], ax
     xchg word ptr es:[bx + 14h], dx
     push dx
@@ -1457,11 +1460,11 @@ ALLOCATE_BACKGROUND_PORT PROC NEAR
     push cx
     push cs
     call ALLOCATE_CLIPPED_PORT
-    les bx, dword ptr BACKING_PORT_DESCRIPTOR
+    les bx, dword ptr HEAP_STATE
     pop word ptr es:[bx + 12h]
     pop word ptr es:[bx + 14h]
-    pop word ptr BACKGROUND_ORIGIN_X
-    pop word ptr BACKGROUND_ORIGIN_Y
+    pop word ptr WORD PTR ALLOCATION_HANDLER
+    pop word ptr WORD PTR ALLOCATION_HANDLER+2
     pop word ptr Graf
     ret
 ALLOCATE_BACKGROUND_PORT ENDP

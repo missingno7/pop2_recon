@@ -516,7 +516,7 @@
       "GET_ABOVE_FRONT",
       "ADDLEAVELEVELSONG",
       "GET_CELLS_AHEAD",
-      "FALL_TRANSITION",
+      "PENDING_EFFECT",
       "GETOPPINFOIDX",
       "GET_ABOVE_BEHIND",
       "REDRAW_EXIT",
@@ -1826,7 +1826,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "FALL_TRANSITION",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1834,7 +1834,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "FALL_TRANSITION",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1853,7 +1853,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "FALL_TRANSITION",
+          "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1861,7 +1861,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "FALL_TRANSITION",
+        "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -26356,20 +26356,6 @@
         }
       ]
     },
-    "FALL_TRANSITION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2174,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 57513,
-          "bytes_hex": "833e7e08ff",
-          "entry": "root:0dee:0030"
-        }
-      ]
-    },
     "GATE_BLOCKS_PASSAGE": {
       "entry_sha256": "8f2debed8f84a729e4d08f68170134e2bbb53fdcfd1cf26641396b133eaf5121",
       "entry_target_id": "overlay-3:29ef:0896",
@@ -27564,6 +27550,12 @@
       "segment": 8718,
       "offset": 3541,
       "witnesses": []
+    },
+    "PENDING_EFFECT": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound/sound",
+      "offset": 2174
     },
     "COLEDGEX": {
       "kind": "dgroup-public",

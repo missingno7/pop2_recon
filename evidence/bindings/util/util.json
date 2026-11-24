@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 2,
+        "length": 10,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -62,6 +62,15 @@
     ],
     "publics": [
       {
+        "name": "RND",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 134,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "STORE_SCENE_RECT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -76,6 +85,15 @@
         "segment_index": 1,
         "offset": 322,
         "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "NULLRECT",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 2,
+        "group_index": 1,
         "frame": null,
         "type_index": 0
       },
@@ -114,18 +132,10 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
-      },
-      {
-        "name": "RND",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 134,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
       }
     ],
     "externals": [
+      "RND",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "STORE_SCENE_RECT",
       "WAIT_FOR_ACTION",
@@ -142,8 +152,7 @@
       "SETRNDSEED",
       "ALTERRECT",
       "HGETTXT4",
-      "EXPAND_MEMORY_LIMITS",
-      "RND"
+      "EXPAND_MEMORY_LIMITS"
     ]
   },
   "dgroup_segment": {
@@ -169,7 +178,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 13,
           "name": "MOUSE_BUTTON_UNQUEUED",
           "method": 6,
           "zero_displacement": true
@@ -177,7 +186,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 13,
         "name": "MOUSE_BUTTON_UNQUEUED",
         "method": 6,
         "zero_displacement": true
@@ -196,7 +205,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 14,
           "name": "CHECK_WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
@@ -204,7 +213,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 14,
         "name": "CHECK_WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
@@ -223,7 +232,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 13,
           "name": "MOUSE_BUTTON_UNQUEUED",
           "method": 6,
           "zero_displacement": true
@@ -231,7 +240,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 13,
         "name": "MOUSE_BUTTON_UNQUEUED",
         "method": 6,
         "zero_displacement": true
@@ -250,7 +259,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 2,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -258,7 +267,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -277,7 +286,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HGETRSRC",
           "method": 6,
           "zero_displacement": true
@@ -285,7 +294,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -370,7 +379,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "__bios_timeofday",
           "method": 6,
           "zero_displacement": true
@@ -378,7 +387,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "__bios_timeofday",
         "method": 6,
         "zero_displacement": true
@@ -419,7 +428,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 6,
           "name": "__aFulrem",
           "method": 6,
           "zero_displacement": true
@@ -427,7 +436,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "__aFulrem",
         "method": 6,
         "zero_displacement": true
@@ -490,7 +499,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 5,
           "name": "__aFlmul",
           "method": 6,
           "zero_displacement": true
@@ -498,7 +507,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "__aFlmul",
         "method": 6,
         "zero_displacement": true
@@ -561,7 +570,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 15,
           "name": "SETRNDSEED",
           "method": 6,
           "zero_displacement": true
@@ -569,7 +578,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 15,
         "name": "SETRNDSEED",
         "method": 6,
         "zero_displacement": true
@@ -610,7 +619,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "COMPACT_HEAP_BLOCKS",
           "method": 6,
           "zero_displacement": true
@@ -618,7 +627,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "COMPACT_HEAP_BLOCKS",
         "method": 6,
         "zero_displacement": true
@@ -637,7 +646,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "RESIZE_DOS_HEAP",
           "method": 6,
           "zero_displacement": true
@@ -645,7 +654,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "RESIZE_DOS_HEAP",
         "method": 6,
         "zero_displacement": true
@@ -664,7 +673,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 9,
           "name": "CONVERT_TEXT_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -672,7 +681,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "CONVERT_TEXT_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -691,7 +700,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HGETRSRC",
           "method": 6,
           "zero_displacement": true
@@ -699,7 +708,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -718,7 +727,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 7,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -726,7 +735,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true

@@ -162,7 +162,7 @@ typedef struct {
 extern ROOMREC Room;
 extern int sound_room;
 extern CHARREC Kid;
-extern int next_level, fall_transition;
+extern int next_level, pending_effect;
 extern sbyte move_up, move_down, move_forward, move_action;
 static Rect stone_bounds = {49, 11, 70, 54};
 static sbyte desert_variant = -1;
@@ -322,7 +322,7 @@ void watch_desert_kid(void)
                 JumpSeq(2);
             } else {
                 JumpSeq(2);
-                fall_transition = -1;
+                pending_effect = -1;
             }
         }
     } else if (Char.room == 3) {

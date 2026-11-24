@@ -75,7 +75,7 @@
       "SAVE_HANDLE_FLAGS",
       "FETCH_LOCKED_SHAPE_LIST",
       "RESTORE_HANDLE_FLAGS",
-      "OCCUPIED_BANKS",
+      "ALLOCATED_BANKS",
       "UNLINK_SHAPE_LIST"
     ]
   },
@@ -120,7 +120,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "OCCUPIED_BANKS",
+          "name": "ALLOCATED_BANKS",
           "method": 6,
           "zero_displacement": true
         }
@@ -128,7 +128,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "OCCUPIED_BANKS",
+        "name": "ALLOCATED_BANKS",
         "method": 6,
         "zero_displacement": true
       },
@@ -222,20 +222,6 @@
         }
       ]
     },
-    "OCCUPIED_BANKS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7962,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 71878,
-          "bytes_hex": "85361a1f",
-          "entry": "root:1129:0618"
-        }
-      ]
-    },
     "RESTORE_HANDLE_FLAGS": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
       "entry_target_id": "root:1129:195a",
@@ -267,6 +253,20 @@
           "bytes_hex": "9a16172911",
           "file_offset": 20878,
           "relocation_index": 368
+        }
+      ]
+    },
+    "ALLOCATED_BANKS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7962,
+      "witnesses": [
+        {
+          "bytes_hex": "85361a1f",
+          "entry": "root:1129:0618",
+          "image_offset": 71878,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     }

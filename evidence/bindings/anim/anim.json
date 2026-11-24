@@ -204,7 +204,7 @@
       "ABORT_WITH_MESSAGE",
       "GRAF",
       "SET_RECORD_RANGE",
-      "ACTIVE_ANIMATION_FLAGS",
+      "ALLOCATED_BANKS",
       "CHECK_WAIT_FUNCTION",
       "POP_PORT_CLIP",
       "FADE_OUT_AND_RESTORE_PALETTE",
@@ -789,7 +789,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "ACTIVE_ANIMATION_FLAGS",
+          "name": "ALLOCATED_BANKS",
           "method": 6,
           "zero_displacement": true
         }
@@ -797,7 +797,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "ACTIVE_ANIMATION_FLAGS",
+        "name": "ALLOCATED_BANKS",
         "method": 6,
         "zero_displacement": true
       },
@@ -4366,20 +4366,6 @@
         }
       ]
     },
-    "ACTIVE_ANIMATION_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7962,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 103121,
-          "bytes_hex": "21061a1f",
-          "entry": "root:1129:800e"
-        }
-      ]
-    },
     "ANIMATION_CALLBACK_ARGUMENT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5110,6 +5096,20 @@
       "segment": 7520,
       "space": "root",
       "witnesses": []
+    },
+    "ALLOCATED_BANKS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7962,
+      "witnesses": [
+        {
+          "bytes_hex": "85361a1f",
+          "entry": "root:1129:0618",
+          "image_offset": 71878,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "ANIMATION_WAIT_LEVEL": {
       "kind": "dgroup-offset",

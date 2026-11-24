@@ -1,918 +1,911 @@
 {
   "declarations": {
-    "externals": [
-      "EMS_CAPACITY",
-      "EMS_POSITION",
-      "EMS_CAPACITY_HI",
-      "EMS_POSITION_HI",
-      "EMS_HANDLE",
-      "HEAP_STATE"
+    "segments": [
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "BACKING_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 14,
+        "alignment": 2,
+        "combine": 6,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "EMS_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 491,
+        "alignment": 1,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
         "name": "DGROUP",
         "segments": [
-          1
+          1,
+          2
         ]
       }
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "EMS_PROBE",
+        "segment": "EMS_TEXT",
+        "segment_index": 3,
         "offset": 439,
-        "segment": "EMS_TEXT",
-        "segment_index": 2,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "EMS_SPLIT_PAGE_OFFSET",
-        "offset": 426,
         "segment": "EMS_TEXT",
-        "segment_index": 2,
+        "segment_index": 3,
+        "offset": 426,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "EMS_DRIVER",
-        "offset": 0,
         "segment": "EMS_TEXT",
-        "segment_index": 2,
+        "segment_index": 3,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 1,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 491,
-        "name": "EMS_TEXT",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "HEAP_STATE"
     ]
   },
   "fixups": [
     {
-      "displacement": 20,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 18,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 32,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 20
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 20,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 37,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 32
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 22,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 83,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 37
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 24,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 98,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 83
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 26,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 156,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 98
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 28,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 309,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 156
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 30,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 439,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 309
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 33,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 439
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 43,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_HANDLE",
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 4,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 439,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 49,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 439
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 65,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 70,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 6
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 86,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 116,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 6
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 121,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 8
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 126,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 2
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 131,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_POSITION_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 4
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 144,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 2
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 149,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_POSITION_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 4
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 186,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 193,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "segment",
         "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_POSITION",
-        "zero_displacement": true
-      }
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 2
     },
     {
-      "displacement": 426,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 198,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 426
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 213,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 8
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 221,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
-      "target": {
+      "frame": {
+        "kind": "group",
         "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY",
-        "zero_displacement": true
-      }
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 6
     },
     {
-      "displacement": 426,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 279,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 426
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 293,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 6,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "HEAP_STATE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 153,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 307,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 153
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 339,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 346,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "segment",
         "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_POSITION",
-        "zero_displacement": true
-      }
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 2
     },
     {
-      "displacement": 426,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 351,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 426
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 366,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 8
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 374,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
-      "target": {
+      "frame": {
+        "kind": "group",
         "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY",
-        "zero_displacement": true
-      }
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 6
     },
     {
-      "displacement": 225,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
       "segment_offset": 379,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 426,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
-        "name": "EMS_TEXT"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "EMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 384,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "EMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 395,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "EMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 409,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "EMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 413,
-      "self_relative": false,
-      "target": {
         "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "EMS_CAPACITY_HI",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": 225,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "segment",
         "name": "EMS_TEXT"
       },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 225
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
+      "segment_index": 3,
       "segment": "EMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 416,
+      "segment_offset": 384,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 0,
-        "name": "EMS_TEXT"
-      }
-    },
-    {
-      "displacement": 418,
-      "field_width": 2,
       "frame": {
-        "index": 2,
         "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "EMS_TEXT",
-      "segment_index": 2,
-      "segment_offset": 454,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "segment",
-        "method": 0,
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 426
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 3,
+      "segment": "EMS_TEXT",
+      "segment_offset": 395,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 3,
+      "segment": "EMS_TEXT",
+      "segment_offset": 409,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 6
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 3,
+      "segment": "EMS_TEXT",
+      "segment_offset": 413,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "BACKING_DATA",
+        "method": 0
+      },
+      "displacement": 8
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 3,
+      "segment": "EMS_TEXT",
+      "segment_offset": 416,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 3,
         "name": "EMS_TEXT"
-      }
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 225
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 3,
+      "segment": "EMS_TEXT",
+      "segment_offset": 454,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 3,
+        "name": "EMS_TEXT",
+        "method": 0
+      },
+      "displacement": 418
     }
   ],
   "frame": {
@@ -931,36 +924,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "EMS_CAPACITY": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9884,
-      "witnesses": []
-    },
-    "EMS_CAPACITY_HI": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9886,
-      "witnesses": []
-    },
-    "EMS_HANDLE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9878,
-      "witnesses": []
-    },
-    "EMS_POSITION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9880,
-      "witnesses": []
-    },
-    "EMS_POSITION_HI": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9882,
-      "witnesses": []
-    },
     "HEAP_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -977,5 +940,46 @@
     }
   },
   "target_id": "group:ems/ems_driver",
-  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "placements": {
+    "BACKING_DATA": 9878
+  },
+  "dgroup_segment": {
+    "segment": 13058,
+    "witnesses": [
+      {
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
+      }
+    ]
+  },
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "891e9626",
+          "entry": "root:1fc8:0235",
+          "image_offset": 130758,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "BACKING_DATA",
+      "addend": 0
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "8c069826",
+          "entry": "root:1fc8:0235",
+          "image_offset": 130762,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "BACKING_DATA",
+      "addend": 2
+    }
+  ]
 }

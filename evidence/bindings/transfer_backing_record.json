@@ -67,7 +67,6 @@
       "READ_BACKING_HEADER",
       "BACKING_DRIVER",
       "WRITE_BACKING_HEADER",
-      "BACKING_DRIVER_SEGMENT",
       "SELECT_BACKING_POSITION"
     ]
   },
@@ -131,12 +130,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "BACKING_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -175,7 +173,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "SELECT_BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -263,12 +261,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "BACKING_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -307,12 +304,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "BACKING_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -373,12 +369,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "BACKING_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -417,12 +412,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 2,
+        "name": "BACKING_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -439,7 +433,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "SELECT_BACKING_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -497,19 +491,19 @@
           "bytes_hex": "a1601f",
           "entry": "root:1129:1d56"
         }
-      ]
-    },
-    "BACKING_DRIVER_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8034,
-      "witnesses": [
+      ],
+      "members": [
         {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 80461,
-          "bytes_hex": "0b06621f",
-          "entry": "root:1129:1d56"
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "0b06621f",
+              "entry": "root:1129:6f4c",
+              "image_offset": 80089,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
         }
       ]
     },
@@ -520,7 +514,14 @@
       "offset": 10590,
       "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 80115,
+          "bytes_hex": "e8f802",
+          "entry": "root:1129:6f4c"
+        }
+      ]
     },
     "SELECT_BACKING_POSITION": {
       "entry_sha256": "c60fd1aac4bb3aa7815478f981c6a93a15f6767bf65499179f96c39d82504c27",
@@ -545,7 +546,14 @@
       "offset": 10615,
       "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 80134,
+          "bytes_hex": "e8fe02",
+          "entry": "root:1129:6f4c"
+        }
+      ]
     }
   },
   "target_id": "group:transfer_backing_record",

@@ -1,7 +1,7 @@
 .MODEL MEDIUM
 .DATA
-EXTRN heap_descriptor:DWORD
-EXTRN heap_descriptor_segment:WORD
+PUBLIC HEAP_STATE
+HEAP_STATE DD 0
 .CODE
 PUBLIC RESIZE_DOS_HEAP, INITIALIZE_DOS_HEAP
 EXTRN ROUND_BYTES_TO_PARAGRAPHS:NEAR
@@ -44,7 +44,7 @@ normalize_target:
     mov target_paragraphs, dx
     mov largest_offset, 6
     mov largest_paragraphs, 0
-    lds si, DWORD PTR ss:heap_descriptor
+    lds si, DWORD PTR ss:HEAP_STATE
     lds si, DWORD PTR [si]
     mov di, ds
 inspect_block:
@@ -66,7 +66,7 @@ advance_block:
     mov ds, di
     jmp SHORT inspect_block
 report_largest:
-    les di, DWORD PTR ss:heap_descriptor
+    les di, DWORD PTR ss:HEAP_STATE
     mov es:[di+4], si
     mov es:[di+6], ds
     les ax, DWORD PTR [bp-4]
@@ -176,7 +176,7 @@ RESIZE_DOS_HEAP PROC FAR
     push ds
     sub ax, ax
     mov grown, ax
-    lds di, DWORD PTR ss:heap_descriptor
+    lds di, DWORD PTR ss:HEAP_STATE
     cmp ax, [di+10h]
     jne add_to_heap_total
     les ax, DWORD PTR [bp+6]
@@ -214,7 +214,7 @@ count_growth:
     mov ds, dx
     mov WORD PTR [di], 4003h
     mov [di+2], ax
-    lds di, DWORD PTR ss:heap_descriptor
+    lds di, DWORD PTR ss:HEAP_STATE
     mov ax, requested
     cmp ax, grown
     ja expand_ems
@@ -276,7 +276,7 @@ map_page:
     mov ds, dx
     mov WORD PTR [di], 4003h
     mov WORD PTR [di+2], 0
-    lds di, DWORD PTR ss:heap_descriptor
+    lds di, DWORD PTR ss:HEAP_STATE
     jmp short add_to_heap_total
 RESIZE_DOS_HEAP ENDP
 
@@ -290,8 +290,8 @@ INITIALIZE_DOS_HEAP PROC FAR
     push si
     push ds
     sub ax, ax
-    mov WORD PTR heap_descriptor, ax
-    mov heap_descriptor_segment, ax
+    mov WORD PTR HEAP_STATE, ax
+    mov WORD PTR HEAP_STATE+2, ax
     les ax, DWORD PTR [bp+6]
     mov dx, es
     call ROUND_BYTES_TO_PARAGRAPHS
@@ -322,13 +322,13 @@ check_heap_segment:
     inc bx
     jmp SHORT allocate_paragraphs
 initialize_descriptor:
-    mov heap_descriptor_segment, ax
+    mov WORD PTR HEAP_STATE+2, ax
     mov es, ax
     sub ax, ax
     mov cx, 11
     sub di, di
     rep stosw
-    lds di, heap_descriptor
+    lds di, HEAP_STATE
     mov [di+8], bx
     mov [di+0ah], bx
     mov si, 6
@@ -390,10 +390,10 @@ count_adjacent_pages:
     int 67h
     test ah, ah
     jne ensure_heap_size
-    lds di, heap_descriptor
+    lds di, HEAP_STATE
     mov [di+0ch], dx
 ensure_heap_size:
-    lds di, DWORD PTR ss:[heap_descriptor]
+    lds di, DWORD PTR ss:[HEAP_STATE]
     mov ax, minimum_paragraphs
     sub ax, [di+8]
     jbe read_heap_size

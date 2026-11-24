@@ -52,34 +52,6 @@
         }
       ]
     },
-    "FIRST_PROBE_DRIVER": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 8102,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 81532,
-          "bytes_hex": "a3a61f",
-          "entry": "root:1129:2b8c"
-        }
-      ]
-    },
-    "FIRST_PROBE_SEGMENT": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 8104,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 81535,
-          "bytes_hex": "8916a81f",
-          "entry": "root:1129:2b8c"
-        }
-      ]
-    },
     "INSTALL_TIMER_HOOK": {
       "entry_sha256": "34ab159c56dee31a4bb26a78298751d35d82e1cacd229c08e1dc667fb46c4ea7",
       "entry_target_id": "root:1129:7d76",
@@ -126,34 +98,6 @@
         }
       ]
     },
-    "SECOND_PROBE_DRIVER": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 8106,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 81500,
-          "bytes_hex": "a3aa1f",
-          "entry": "root:1129:2b8c"
-        }
-      ]
-    },
-    "SECOND_PROBE_SEGMENT": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 8108,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 81503,
-          "bytes_hex": "8916ac1f",
-          "entry": "root:1129:2b8c"
-        }
-      ]
-    },
     "SOUND_DGROUP": {
       "kind": "segment-base",
       "segment": 13058,
@@ -164,6 +108,18 @@
           "relocation_index": 54
         }
       ]
+    },
+    "MIDI_DRIVER": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:get_midi_driver_flag",
+      "offset": 8102
+    },
+    "DIGITAL_DRIVER": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:get_midi_driver_flag",
+      "offset": 8106
     }
   },
   "fixups": [
@@ -603,7 +559,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 7,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -794,7 +750,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -1322,7 +1278,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 7,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -1366,7 +1322,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 7,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -1388,7 +1344,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 7,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -1599,7 +1555,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 6,
         "name": "MIDI_MODE",
         "method": 6,
         "zero_displacement": true
@@ -1999,8 +1955,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "FIRST_PROBE_DRIVER",
+        "index": 8,
+        "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2021,12 +1977,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
-        "name": "FIRST_PROBE_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 8,
+        "name": "MIDI_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -2043,8 +1998,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "FIRST_PROBE_DRIVER",
+        "index": 8,
+        "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2065,8 +2020,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "SECOND_PROBE_DRIVER",
+        "index": 5,
+        "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2087,12 +2042,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "SECOND_PROBE_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
+        "index": 5,
+        "name": "DIGITAL_DRIVER",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 2
     },
     {
       "kind": "fixup",
@@ -2109,8 +2063,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "SECOND_PROBE_DRIVER",
+        "index": 5,
+        "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2238,7 +2192,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -2260,7 +2214,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -2282,8 +2236,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "SECOND_PROBE_DRIVER",
+        "index": 5,
+        "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2388,8 +2342,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "SECOND_PROBE_DRIVER",
+        "index": 5,
+        "name": "DIGITAL_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2473,7 +2427,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "DRIVER_CONFIG",
         "method": 6,
         "zero_displacement": true
@@ -2495,8 +2449,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "FIRST_PROBE_DRIVER",
+        "index": 8,
+        "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2559,8 +2513,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "FIRST_PROBE_DRIVER",
+        "index": 8,
+        "name": "MIDI_DRIVER",
         "method": 6,
         "zero_displacement": true
       },
@@ -4584,7 +4538,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "REMOVE_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -6669,14 +6623,53 @@
       "CALLBACK_STACK_TOP",
       "SOUND_DGROUP",
       "INSTALL_TIMER_HOOK",
-      "FIRST_PROBE_DRIVER",
       "DRIVER_CONFIG",
-      "SECOND_PROBE_DRIVER",
-      "FIRST_PROBE_SEGMENT",
-      "SECOND_PROBE_SEGMENT",
+      "DIGITAL_DRIVER",
       "MIDI_MODE",
       "DIVIDE_TIMER_INTERVAL",
+      "MIDI_DRIVER",
       "REMOVE_TIMER_HOOK"
     ]
-  }
+  },
+  "placed_witnesses": [
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "f606852001",
+          "entry": "root:1e92:000c",
+          "image_offset": 125241,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 203
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "803e862000",
+          "entry": "root:0000:0af0",
+          "image_offset": 2801,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 204
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "38068720",
+          "entry": "overlay-2:255a:0135",
+          "image_offset": 1357,
+          "operand_offset": 2,
+          "space": "overlay-2"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 205
+    }
+  ]
 }

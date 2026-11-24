@@ -1,6 +1,8 @@
 .MODEL MEDIUM
 EXTRN DOS_DGROUP:BYTE
 .DATA
+; Unused driver entry points, still the failing stub.
+    DD INVALID_DRIVER_STUB, INVALID_DRIVER_STUB
 driver_allocation DD 0
 ; The file reader shares the entry, handle and low header words.
 driver_entry DD 0

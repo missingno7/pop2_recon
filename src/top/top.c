@@ -152,9 +152,9 @@ extern int input_enabled;                          /* ds:6266 */
 extern int Graf;                           /* ds:25c0 */
 extern int sound_enabled;                          /* ds:0228 */
 extern int special_sequence;                       /* ds:0a16 */
-extern int resource_index;                         /* ds:0902 */
-extern int last_sound;                             /* ds:08fe */
-extern int last_track;                             /* ds:0900 */
+extern int current_effect;                         /* ds:0902 */
+extern int pending_effect;                             /* ds:08fe */
+extern int pending_song;                             /* ds:0900 */
 extern int frame_diagnostics;                           /* ds:1142 */
 extern int nis_skip_requested;                           /* ds:1504 */
 extern int view_retry;                             /* ds:6296 */
@@ -388,7 +388,7 @@ int restart_level(signed char requested)
         init_level_specific();
         Room.number = 0;
         special_sequence = control_lock = transition_pending = collision_pending = 0;
-        last_track = last_sound = -1;
+        pending_song = pending_effect = -1;
         Kid.life_delta = 0;
         RoomOpp[0].direction = 0x56;
         start_kid();
@@ -580,8 +580,8 @@ int run_frames(void)
             if (restart_request) {
                 request = reset_level();
             } else if (LevelIdx != next_level && !is_leave_level_music_on() &&
-                       (!query_sound(resource_index + 10000) ||
-                        resource_index == 4 || resource_index == 7 || resource_index == 54)) {
+                       (!query_sound(current_effect + 10000) ||
+                        current_effect == 4 || current_effect == 7 || current_effect == 54)) {
                 if (next_level == -1 || (Level.level_number != 9 && Level.level_number != 5))
                     dispatch_sound(0);
                 starting_health = Kid.life_initial;
@@ -1122,3 +1122,4 @@ const int TopRowRect[4] = { 0, 0, 3, 320 };
 struct char_bounds message_rect = { 193, 98, 202, 235 };
 int special_sequence = 0;
 signed char LevelIdx = 0;
+int unused_flag = 1;                                /* never referenced */
