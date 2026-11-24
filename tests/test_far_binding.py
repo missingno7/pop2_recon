@@ -496,7 +496,7 @@ class AcceptedEntryTests(unittest.TestCase):
         self.assertEqual(self.ground("root:02dc:000c")["grounded_by"], "accepted exact entry")
 
     def test_reviewed_but_unaccepted_entry_needs_a_witness(self):
-        # Every reviewed direct-code entry of the image is accepted now, so the case removes one owner: __dos_open.
+        # Every reviewed direct-code entry of the image is accepted now, so the case hides one: `__dos_write`, the second public of d_rdwr.
         import far_binding
         real = far_binding._accepted_entry
         self.assertEqual(self.ground("root:1fef:1c45")["grounded_by"], "accepted exact entry")
