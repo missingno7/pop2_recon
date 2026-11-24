@@ -452,7 +452,7 @@ int far pascal main_menu_choice(void);
 void far pascal draw_save_slots(struct save_slot_table far *, int);
 int far pascal select_save_slot(struct save_slot_table far *, int);
 struct save_slot_table far * far pascal read_save_slot_table(void);
-int far pascal ResumeGame(int slot);
+int far pascal ResumeGame(int);
 int far pascal SaveGame(struct save_slot_table far *, int);
 void far pascal post_save_message(int);
 void far pascal show_dialog_notice(void);
@@ -779,8 +779,10 @@ struct save_slot_table far * far pascal read_save_slot_table(void)
         count = filelength(file) >= sizeof(*slots) ?
                 sizeof(*slots) : (int)filelength(file);
         slots = ALLOCATE_PINNED_PAYLOAD(count);
-        if (_dos_read(file, slots, count, &read_count) ||
-            read_count != count || slots->count > 10) {
+        if (_dos_read(file, slots, count, &read_count) || read_count != count) {
+            CLEAR_PAYLOAD_HEADER(slots);
+            slots = 0;
+        } else if (slots->count > 10) {
             CLEAR_PAYLOAD_HEADER(slots);
             slots = 0;
         }
@@ -952,9 +954,8 @@ void far pascal prepare_saved_room_objects(void)
 {
     unsigned char room = 0;
     signed char tile;
-    unsigned saved;
+    unsigned state, value;
     struct room_control *control;
-    unsigned value;
 
     if (Level.room_count != 0) {
         do {
@@ -962,27 +963,26 @@ void far pascal prepare_saved_room_objects(void)
             do {
                 switch (hRebirthSaved->rooms[room][tile]) {
                 case 4:
-                    saved = hRebirthSaved->room_links[room][tile].state;
-                    value = saved & 0xff;
+                    state = hRebirthSaved->room_links[room][tile].state;
+                    value = state & 0xff;
                     control = get_trob_room_cell(room + 1, tile);
                     if (control && control->state == 3)
                         value = 200;
                     else if (control)
                         value = 0;
-                    saved &= 0xff00;
-                    value |= saved;
+                    state &= 0xff00;
+                    state |= value;
+                    hRebirthSaved->room_links[room][tile].state = state;
                     break;
                 case 17:
-                    value = hRebirthSaved->room_links[room][tile].state;
-                    if (!(hRebirthSaved->room_links[room][tile].state & 0xff))
-                        continue;
-                    value &= 0xff00;
-                    value |= 42;
+                    state = hRebirthSaved->room_links[room][tile].state;
+                    if (state & 0xff) {
+                        state &= 0xff00;
+                        state |= 42;
+                        hRebirthSaved->room_links[room][tile].state = state;
+                    }
                     break;
-                default:
-                    continue;
                 }
-                hRebirthSaved->room_links[room][tile].state = value;
             } while (++tile < 30);
         } while (++room < Level.room_count);
     }

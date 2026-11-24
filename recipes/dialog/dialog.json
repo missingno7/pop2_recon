@@ -1,7 +1,37 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "43ba257bc50e095eb031bdfb337128deb9c8a8ec70b130a75b79b5712adbceb7",
+  "binding_sha256": "bc2d835be41f54f97cd005ccf372bcdba289394cfc19b583c76e62f9b5f1ae9c",
   "claims": [
+    {
+      "fixup_count": 10,
+      "public": "READ_SAVE_SLOT_TABLE",
+      "relocation_indices": [
+        469,
+        505,
+        506,
+        537,
+        572,
+        590,
+        591,
+        627,
+        666
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:053b:0c0c"
+    },
+    {
+      "fixup_count": 8,
+      "public": "PREPARE_SAVED_ROOM_OBJECTS",
+      "relocation_indices": [
+        485
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:053b:10b4"
+    },
     {
       "fixup_count": 32,
       "public": "SHOW_DIALOG_NOTICE",
@@ -766,16 +796,7 @@
       ]
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 3072,
-      "public": "READ_SAVE_SLOT_TABLE"
-    },
-    {
-      "object_offset": 4264,
-      "public": "PREPARE_SAVED_ROOM_OBJECTS"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 9542,
   "flags": [
     "/c",
@@ -790,12 +811,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "0de75bd5f43a6dff5bd97c20e2ba23f2dcc2a333b331d1056c03f7305d06db86",
+  "object_sha256": "ef7c5dd01e6c4e2654d5d0c78aa03cb853fca33166152bcdbead1e7164c881a4",
   "origin": 21436,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "40a725663c89917cfd54cca0d4c901329b9b10c5b063d0055d178932d804d66d",
+  "source_sha256": "f7bbe4d3c2ee48ab1c7e70d660b7c77b4f3b52b0de038cb4443aa004289eab42",
   "space": "root"
 }
