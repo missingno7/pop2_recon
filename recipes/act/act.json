@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/act/act.json",
-  "binding_sha256": "e5a6f9bafdea0f41a373942ece8cf33a74eed751e743a4e3d303760996effcc3",
+  "binding_sha256": "c7af012d6738bb947796f16439b4e8cc09b501cb0b52bfa2e0246bbcb6e2784d",
   "claims": [
     {
       "fixup_count": 1,
@@ -436,6 +436,25 @@
       "target_id": "overlay-3:27bc:139a"
     },
     {
+      "fixup_count": 26,
+      "public": "JUMP_HIGH",
+      "relocation_indices": [
+        222,
+        302,
+        331,
+        345,
+        361,
+        389,
+        393,
+        427
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:27bc:13ba"
+    },
+    {
       "fixup_count": 19,
       "public": "CONTROL_HANGING",
       "relocation_indices": [
@@ -734,12 +753,7 @@
       "target_id": "overlay-3:27bc:232a"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 5044,
-      "public": "JUMP_HIGH"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 9014,
   "flags": [
     "/c",
@@ -754,12 +768,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "act/act",
-  "object_sha256": "fcc9e2d6522fa3f32132a3ab6e27ca91089d5a55177f188568e81976e9f9ad86",
+  "object_sha256": "747bb32686ea0758ffe4e178c277691c272cf343ef3b81eb81765512f9f7a12c",
   "origin": 10774,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/act/act.c",
-  "source_sha256": "603c54fcdb3ff3893f5af9102f086dc482e5619e7efcc9af64ee79baeba87d75",
+  "source_sha256": "0eb8c5e4ca7306ae6f4615d5520810a639930e389200c24a5293628e506650b8",
   "space": "overlay-3"
 }

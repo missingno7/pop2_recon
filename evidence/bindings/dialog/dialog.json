@@ -260,6 +260,15 @@
         "type_index": 0
       },
       {
+        "name": "SETREBIRTHPTKIDSTATUS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 4638,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "DRAW_SAVE_SLOT_FRAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -273,15 +282,6 @@
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 4232,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "SETREBIRTHPTKIDSTATUS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 4638,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -628,21 +628,21 @@
       "LEVELIDX",
       "CONTROL_MODE",
       "KEYBOARD_MODE_MESSAGE",
+      "SETREBIRTHPTLEVELSTATUS",
       "__dos_creat",
       "LEVEL_TO_START",
       "DIALOG_WAIT",
       "JOYSTICK_MODE_MESSAGE",
       "__dos_write",
       "DEALLOCBACKPORT",
-      "SETREBIRTHPTLEVELSTATUS",
       "_lseek",
       "ALLOCBACKPORT",
+      "SETREBIRTHPTKIDSTATUS",
       "__fmemcpy",
       "DRAW_SAVE_SLOT_FRAME",
       "SET_DEFAULT_PALETTE",
       "REMOVEREBIRTHPT",
       "RESTORE_GAME_PLAY_PALETTE",
-      "SETREBIRTHPTKIDSTATUS",
       "CLEAR_ROW_HANDLES",
       "KID",
       "PREPCUT",
@@ -658,13 +658,13 @@
       "DIALOG_TIMER",
       "READ_QUEUED_KEY",
       "ALLOCATE_CLIPPED_PORT",
+      "REPLAY_INPUT",
       "DIALOG_TIMER_COPY",
       "WAIT_FOR_KEY",
       "DRAW_RECORD_BOUNDS",
       "CLEAR_PAYLOAD_HEADER",
       "ABORT_WITH_MESSAGE",
       "FREE_RECORD_PAIR",
-      "REPLAY_INPUT",
       "UNLOADCUSTOMROOMDATA",
       "MOVE",
       "DRAW_MENU_LABEL",
@@ -810,7 +810,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 82,
+          "index": 83,
           "name": "DIALOG_WAIT",
           "method": 6,
           "zero_displacement": true
@@ -818,7 +818,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 82,
+        "index": 83,
         "name": "DIALOG_WAIT",
         "method": 6,
         "zero_displacement": true
@@ -864,7 +864,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 82,
+          "index": 83,
           "name": "DIALOG_WAIT",
           "method": 6,
           "zero_displacement": true
@@ -872,7 +872,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 82,
+        "index": 83,
         "name": "DIALOG_WAIT",
         "method": 6,
         "zero_displacement": true
@@ -945,7 +945,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 93,
+          "index": 94,
           "name": "RESTORE_GAME_PLAY_PALETTE",
           "method": 6,
           "zero_displacement": true
@@ -953,7 +953,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 93,
+        "index": 94,
         "name": "RESTORE_GAME_PLAY_PALETTE",
         "method": 6,
         "zero_displacement": true
@@ -1242,7 +1242,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 91,
+          "index": 92,
           "name": "SET_DEFAULT_PALETTE",
           "method": 6,
           "zero_displacement": true
@@ -1250,7 +1250,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 91,
+        "index": 92,
         "name": "SET_DEFAULT_PALETTE",
         "method": 6,
         "zero_displacement": true
@@ -1539,7 +1539,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -1547,7 +1547,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -3078,7 +3078,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -3086,7 +3086,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -3537,7 +3537,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -3545,7 +3545,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -3645,7 +3645,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -3653,7 +3653,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -3915,7 +3915,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -3923,7 +3923,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -4077,7 +4077,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -4085,7 +4085,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -4158,7 +4158,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 81,
+          "index": 82,
           "name": "LEVEL_TO_START",
           "method": 6,
           "zero_displacement": true
@@ -4166,7 +4166,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 81,
+        "index": 82,
         "name": "LEVEL_TO_START",
         "method": 6,
         "zero_displacement": true
@@ -4293,7 +4293,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -4301,7 +4301,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -4833,7 +4833,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -4841,7 +4841,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -5049,7 +5049,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 82,
+          "index": 83,
           "name": "DIALOG_WAIT",
           "method": 6,
           "zero_displacement": true
@@ -5057,7 +5057,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 82,
+        "index": 83,
         "name": "DIALOG_WAIT",
         "method": 6,
         "zero_displacement": true
@@ -5103,7 +5103,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 82,
+          "index": 83,
           "name": "DIALOG_WAIT",
           "method": 6,
           "zero_displacement": true
@@ -5111,7 +5111,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 82,
+        "index": 83,
         "name": "DIALOG_WAIT",
         "method": 6,
         "zero_displacement": true
@@ -5562,7 +5562,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 111,
+          "index": 112,
           "name": "WAIT_FOR_KEY",
           "method": 6,
           "zero_displacement": true
@@ -5570,7 +5570,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 111,
+        "index": 112,
         "name": "WAIT_FOR_KEY",
         "method": 6,
         "zero_displacement": true
@@ -5616,7 +5616,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 114,
+          "index": 115,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -5624,7 +5624,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 114,
+        "index": 115,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -6202,7 +6202,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 110,
+          "index": 111,
           "name": "DIALOG_TIMER_COPY",
           "method": 6,
           "zero_displacement": true
@@ -6210,7 +6210,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 110,
+        "index": 111,
         "name": "DIALOG_TIMER_COPY",
         "method": 6,
         "zero_displacement": true
@@ -7036,7 +7036,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 90,
+          "index": 91,
           "name": "DRAW_SAVE_SLOT_FRAME",
           "method": 6,
           "zero_displacement": true
@@ -7044,7 +7044,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 90,
+        "index": 91,
         "name": "DRAW_SAVE_SLOT_FRAME",
         "method": 6,
         "zero_displacement": true
@@ -7090,7 +7090,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -7098,7 +7098,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -7252,7 +7252,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 81,
           "name": "__dos_creat",
           "method": 6,
           "zero_displacement": true
@@ -7260,7 +7260,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 81,
         "name": "__dos_creat",
         "method": 6,
         "zero_displacement": true
@@ -7377,7 +7377,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -7385,7 +7385,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -7404,7 +7404,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 84,
+          "index": 85,
           "name": "__dos_write",
           "method": 6,
           "zero_displacement": true
@@ -7412,7 +7412,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 84,
+        "index": 85,
         "name": "__dos_write",
         "method": 6,
         "zero_displacement": true
@@ -7755,7 +7755,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 92,
+          "index": 93,
           "name": "REMOVEREBIRTHPT",
           "method": 6,
           "zero_displacement": true
@@ -7763,7 +7763,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 92,
+        "index": 93,
         "name": "REMOVEREBIRTHPT",
         "method": 6,
         "zero_displacement": true
@@ -7782,7 +7782,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -7790,7 +7790,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -8290,7 +8290,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -8298,7 +8298,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -8501,7 +8501,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 114,
+          "index": 115,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -8509,7 +8509,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 114,
+        "index": 115,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -9053,7 +9053,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -9061,7 +9061,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -9161,7 +9161,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -9169,7 +9169,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -9269,7 +9269,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -9277,7 +9277,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -9377,7 +9377,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -9385,7 +9385,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -9809,7 +9809,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -9817,7 +9817,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -10241,7 +10241,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -10249,7 +10249,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -10349,7 +10349,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -10357,7 +10357,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -10457,7 +10457,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -10465,7 +10465,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -10565,7 +10565,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -10573,7 +10573,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -10862,7 +10862,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -10870,7 +10870,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -10889,7 +10889,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 84,
+          "index": 85,
           "name": "__dos_write",
           "method": 6,
           "zero_displacement": true
@@ -10897,7 +10897,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 84,
+        "index": 85,
         "name": "__dos_write",
         "method": 6,
         "zero_displacement": true
@@ -10943,7 +10943,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 84,
+          "index": 85,
           "name": "__dos_write",
           "method": 6,
           "zero_displacement": true
@@ -10951,7 +10951,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 84,
+        "index": 85,
         "name": "__dos_write",
         "method": 6,
         "zero_displacement": true
@@ -11240,7 +11240,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 114,
+          "index": 115,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -11248,7 +11248,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 114,
+        "index": 115,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -11971,7 +11971,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 114,
+          "index": 115,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -11979,7 +11979,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 114,
+        "index": 115,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -12101,7 +12101,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -12109,7 +12109,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -12528,7 +12528,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -12536,7 +12536,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -12766,7 +12766,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 116,
+          "index": 110,
           "name": "REPLAY_INPUT",
           "method": 6,
           "zero_displacement": true
@@ -12774,7 +12774,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 116,
+        "index": 110,
         "name": "REPLAY_INPUT",
         "method": 6,
         "zero_displacement": true
@@ -13085,7 +13085,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 90,
+          "index": 91,
           "name": "DRAW_SAVE_SLOT_FRAME",
           "method": 6,
           "zero_displacement": true
@@ -13093,7 +13093,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 90,
+        "index": 91,
         "name": "DRAW_SAVE_SLOT_FRAME",
         "method": 6,
         "zero_displacement": true
@@ -13372,7 +13372,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 90,
+          "index": 91,
           "name": "DRAW_SAVE_SLOT_FRAME",
           "method": 6,
           "zero_displacement": true
@@ -13380,7 +13380,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 90,
+        "index": 91,
         "name": "DRAW_SAVE_SLOT_FRAME",
         "method": 6,
         "zero_displacement": true
@@ -13524,7 +13524,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -13532,7 +13532,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -13578,7 +13578,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -13586,7 +13586,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -14334,7 +14334,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 84,
+          "index": 85,
           "name": "__dos_write",
           "method": 6,
           "zero_displacement": true
@@ -14342,7 +14342,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 84,
+        "index": 85,
         "name": "__dos_write",
         "method": 6,
         "zero_displacement": true
@@ -14361,7 +14361,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 81,
           "name": "__dos_creat",
           "method": 6,
           "zero_displacement": true
@@ -14369,7 +14369,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 81,
         "name": "__dos_creat",
         "method": 6,
         "zero_displacement": true
@@ -14410,7 +14410,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -14418,7 +14418,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -14491,7 +14491,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -14499,7 +14499,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -15004,7 +15004,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -15012,7 +15012,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -15237,7 +15237,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 113,
+          "index": 114,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -15245,7 +15245,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 113,
+        "index": 114,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -15264,7 +15264,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 89,
+          "index": 90,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -15272,7 +15272,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 89,
+        "index": 90,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -15372,7 +15372,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 80,
+          "index": 81,
           "name": "__dos_creat",
           "method": 6,
           "zero_displacement": true
@@ -15380,7 +15380,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 80,
+        "index": 81,
         "name": "__dos_creat",
         "method": 6,
         "zero_displacement": true
@@ -15833,7 +15833,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 83,
+          "index": 84,
           "name": "JOYSTICK_MODE_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -15841,7 +15841,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 83,
+        "index": 84,
         "name": "JOYSTICK_MODE_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -16637,7 +16637,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 114,
+          "index": 115,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -16645,7 +16645,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 114,
+        "index": 115,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -17336,7 +17336,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 85,
+          "index": 86,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -17344,7 +17344,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 85,
+        "index": 86,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -17606,7 +17606,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 115,
+          "index": 116,
           "name": "FREE_RECORD_PAIR",
           "method": 6,
           "zero_displacement": true
@@ -17614,7 +17614,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 115,
+        "index": 116,
         "name": "FREE_RECORD_PAIR",
         "method": 6,
         "zero_displacement": true
@@ -17736,7 +17736,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 112,
+          "index": 113,
           "name": "DRAW_RECORD_BOUNDS",
           "method": 6,
           "zero_displacement": true
@@ -17744,7 +17744,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 112,
+        "index": 113,
         "name": "DRAW_RECORD_BOUNDS",
         "method": 6,
         "zero_displacement": true
@@ -18418,7 +18418,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 114,
+          "index": 115,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -18426,7 +18426,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 114,
+        "index": 115,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -18872,7 +18872,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 84,
+          "index": 85,
           "name": "__dos_write",
           "method": 6,
           "zero_displacement": true
@@ -18880,7 +18880,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 84,
+        "index": 85,
         "name": "__dos_write",
         "method": 6,
         "zero_displacement": true

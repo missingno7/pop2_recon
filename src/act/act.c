@@ -1021,12 +1021,12 @@ void far pascal standing_jump(void)
     JumpSeq(3);
 }
 
-extern signed char far pascal get_above(void);
-extern signed char far pascal get_above_front(void);
-extern signed char far pascal get_above_behind(void);
 extern int far pascal FaceDx(int x);
 extern int far pascal get_base_x(void);
 extern signed char far pascal get_col(int x);
+extern signed char far pascal get_above(void);
+extern signed char far pascal get_above_front(void);
+extern signed char far pascal get_above_behind(void);
 extern int far _fastcall probe_jump_anchor(signed char room, signed char row);
 extern int abs(int);
 #pragma intrinsic(abs)
@@ -1099,15 +1099,13 @@ void far pascal jump_edge(void)
 void far pascal jump_high(void)
 {
     signed char column;
-    int edge, offset;
+    int edge;
 
     direction_up = ClrAll();
     edge = get_forward_distance();
     if (edge < 4 && running_collision == 1)
         Char.x = AddCharX(edge - 6);
-    offset = FaceDx(0);
-    offset += get_base_x();
-    column = get_col(offset - 6);
+    column = get_col((unsigned int)FaceDx(0) + get_base_x() - 6);
     if (is_six_kind(ReadCell(Char.room, column, Char.row - 1)) ||
         (Level.environment_kind == 5 && Char.room == 15) ||
         (Char.room == 7 && Level.environment_kind == 6 &&

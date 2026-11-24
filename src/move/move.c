@@ -1785,7 +1785,7 @@ extern void move_dart_to_tile(void);
 extern void ATMSpikes(void);
 extern void move_slide_rock(void);
 extern void move_trapdoor(void);
-extern void add_mob_kind_12(void);
+extern void update_fireball_view(void);
 extern MoveRect NullRect;
 extern void OFFSETRECT(MoveRect far *, MoveRect far *, int, int);
 extern FCHARREC FChar;
@@ -1846,7 +1846,7 @@ void add_mob_to_frame(void)
         animate_bridge_mob();
         return;
     case 12:
-        add_mob_kind_12();
+        update_fireball_view();
         return;
     }
 }

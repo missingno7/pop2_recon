@@ -952,10 +952,7 @@ void far pascal prepare_saved_room_objects(void)
 {
     unsigned char room = 0;
     signed char tile;
-    union {
-        unsigned word;
-        struct { unsigned char low, high; } bytes;
-    } saved;
+    unsigned saved;
     struct room_control *control;
     unsigned value;
 
@@ -965,15 +962,15 @@ void far pascal prepare_saved_room_objects(void)
             do {
                 switch (hRebirthSaved->rooms[room][tile]) {
                 case 4:
-                    saved.word = hRebirthSaved->room_links[room][tile].state;
-                    value = saved.word & 0xff;
+                    saved = hRebirthSaved->room_links[room][tile].state;
+                    value = saved & 0xff;
                     control = get_trob_room_cell(room + 1, tile);
                     if (control && control->state == 3)
                         value = 200;
                     else if (control)
                         value = 0;
-                    saved.bytes.low = 0;
-                    value |= saved.word;
+                    saved &= 0xff00;
+                    value |= saved;
                     break;
                 case 17:
                     value = hRebirthSaved->room_links[room][tile].state;
@@ -1030,7 +1027,7 @@ struct notice_record {
 };
 
 extern int replay_input;
-extern int far pascal HGETRSRC(unsigned long, int);
+extern int far pascal HGETRSRC(unsigned long resource, int index);
 extern unsigned far pascal Rnd(unsigned);
 
 void far pascal draw_notice_symbols(unsigned, DialogAsset, int);

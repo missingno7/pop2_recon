@@ -1535,7 +1535,7 @@ void far pascal trigger_fireball(void);
 void far pascal update_fireball_view(void)
 {
     int visible = 1;
-    volatile int y = Mob.y;
+    int y = Mob.y;
 
     if (Room.number == Mob.room) {
         if (Mob.x > 449 || Mob.x < 0)
@@ -1571,8 +1571,8 @@ void far pascal update_fireball_view(void)
             int x = Mob.x;
             Mob.x -= size[1] / 2;
             saved_y = y;
-            Mob.y = saved_y + size[0] / 2;
-            fireball_height = *(volatile int near *)&size[0];
+            Mob.y = (y += size[0] / 2);
+            fireball_height = size[0];
             fireball_half_width = size[1];
             add_mob_obj(Mob.y);
             mark_mob_redraw(1);
