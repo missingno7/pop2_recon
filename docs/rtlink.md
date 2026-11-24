@@ -70,6 +70,17 @@ The relocation tables also show the original's symbol numbers (evidence/rtlink-p
 resource module is a root file after DIAG, the THRONE vectors come from VECTORON at their section, and five ALWAYS names
 before the first object are unknown (placeholders in the plan).
 
+Relocation order, facts of 2026-11-24 (the symbol-number model against the original tables):
+- `step_in_progress` is a public of CTRL (the first word of its `_DATA`, 0174), not of CHECKNIS, and CTRL only references
+  `Offset`: its number lies between `FinishStartKid` and `Minus1` among CTRL's first references. With both, all 742 comparisons
+  up to CTRL agree (45 and 31 did not before). Which later file defines `Offset` is unknown (`link/offset.c`).
+- PUBDEF order is C1 symbol number modulo 64, and in DRAWCAVE (25 functions without parameters) the original order is the
+  alphabetical order of the names, rotated: all 25 positions agree, 22 of the names being those of the FM Towns symbols. The
+  original headers list a file's prototypes alphabetically. Where functions have parameters the numbers they take up are not
+  derived yet, so this is not applied to other files.
+- RTLink 6.10 registers a static function that is called before its definition (LEXTDEF, before the publics). DRAW has two
+  symbols fewer than the source here; which two is open, and every table behind DRAW depends on it.
+
 Open: the declaring module of the interrupt stacks and of the `link/` data, and the relocation order.
 
 ## The earlier build (tag oracle-dos-1565)

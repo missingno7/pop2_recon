@@ -83,6 +83,7 @@ extern void far pascal select_room_arrays(unsigned char room);
 char far pascal FirstInRow(signed char value);
 char far pascal GetUndefineCellId(signed char x, signed char y);
 
+int step_in_progress = 0;
 unsigned int far pascal Handler(void)
 {
     struct {
@@ -1042,7 +1043,7 @@ char far pascal get_behind(void)
                     character_row);
 }
 
-signed char Offset;
+extern signed char Offset;
 
 int far pascal get_base_x(void)
 {
