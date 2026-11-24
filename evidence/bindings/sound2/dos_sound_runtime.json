@@ -117,6 +117,12 @@
       "group": "DGROUP",
       "provider": "group:get_midi_driver_flag",
       "offset": 8106
+    },
+    "TIMER_CHAIN_OFFSET": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:timer_hooks",
+      "offset": 9448
     }
   },
   "fixups": [
@@ -6697,6 +6703,32 @@
       ],
       "segment": "_DATA",
       "addend": 205
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a19a20",
+          "entry": "root:1129:8118",
+          "image_offset": 103443,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 224
+    },
+    {
+      "witnesses": [
+        {
+          "bytes_hex": "a19c20",
+          "entry": "root:1129:8118",
+          "image_offset": 103940,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "segment": "_DATA",
+      "addend": 226
     }
   ]
 }

@@ -1,7 +1,33 @@
 {
   "binding": "evidence/bindings/shape/shape.json",
-  "binding_sha256": "5d22a1efc690f376b0af7d49c2bb5f2b4cf77dc4f0b808a98517672643003302",
+  "binding_sha256": "74e941d4397143fb8d8268152b087b13d50b3856b2c46717185102bd740c2825",
   "claims": [
+    {
+      "fixup_count": 17,
+      "public": "PRINCENEWSHPITEM",
+      "relocation_indices": [
+        1775,
+        1780,
+        1781,
+        1782,
+        1783,
+        1787,
+        1802,
+        1803,
+        1817,
+        1827,
+        1828,
+        1829,
+        1837,
+        1840,
+        1841
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1e99:040a"
+    },
     {
       "fixup_count": 1,
       "public": "FREESHPINFO",
@@ -238,12 +264,7 @@
       "target_id": "root:1e99:0916"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 1034,
-      "public": "PRINCENEWSHPITEM"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 2390,
   "flags": [
     "/c",
@@ -251,19 +272,20 @@
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 7833,
   "group_id": "group:shape/shape",
   "kind": "same_source_group",
   "language": "c",
   "name": "shape/shape",
-  "object_sha256": "5490e42a04a52ef5bd35ef3a5fbbc623063cacabee11c96130d01954a2456229",
+  "object_sha256": "7124c39ded06df09f15aeecff051f10f5a674a4c4981aa1df23ad6ca22ffec53",
   "origin": 125328,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/shape/shape.c",
-  "source_sha256": "4200ac0a434151debcc44d516b9e2db6fa1668671d409b66aa45a5c0993e8fce",
+  "source_sha256": "3b73abcb964bb0220087c66876f511c3719e87b40756f387f81a533e0dec2fe8",
   "space": "root"
 }

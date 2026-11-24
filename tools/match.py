@@ -99,8 +99,10 @@ def code_segment(module, placed=()):
     # (build/workers/reloc_order, docs/far-call-binding.md) needs /Zd LEDATA chunking.
     supported = {0x80, 0x82, 0x88, 0x8a, 0x8c, 0x90, 0x94, 0x96, 0x98, 0x9a, 0x9c, 0xa0, 0xb0}
     for record in module.records:
-        require(record["type"] in supported, "Unsupported OMF record at strict acceptance")
-        if record["type"] != 0xa0:
+        # LIDATA (a run of equal bytes, MSC's zero tail of a far initializer) only into a placed data segment:
+        # OmfReader expands it and refuses overlaps and fixups in it.
+        require(record["type"] in supported or record["type"] == 0xa2, "Unsupported OMF record at strict acceptance")
+        if record["type"] not in (0xa0, 0xa2):
             continue
         body = bytes.fromhex(record["body_hex"])
         index, at = OmfReader._index(body, 0)
@@ -112,6 +114,7 @@ def code_segment(module, placed=()):
         require(segment_name == name or segment_name in placed, "Initialized secondary segment is unowned")
         if segment_name != name:
             continue
+        require(record["type"] == 0xa0, "Iterated data in the CODE segment is not accepted")
         span = set(range(offset, offset + len(body) - at - 2))
         require(not span.intersection(initialized), "Overlapping initialized object data")
         initialized.update(span)

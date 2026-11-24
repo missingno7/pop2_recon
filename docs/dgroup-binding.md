@@ -537,6 +537,20 @@ DISSOLVE define the runs that no reference order explains; a variable first met 
 file, which the layout does not identify (chosen by use). The whole link then places every communal without a generated
 address.
 
+## Brackets (2026-11-24)
+
+An initialized segment whose bytes repeat (zero words) is not fixed by its content. `brackets: {"_DATA": {"below", "above"}}`
+names two other accepted groups whose contributions of that segment leave one place for it (`module_gate._bracketed`):
+- each neighbour's original bytes occur once in DGROUP, and validation requires that its fresh object fixes its placement by
+  that content, not by a bracket;
+- `[P, P+length)` is the only even place between the neighbour that ends at or below P and the one that starts at or above
+  its end; the segment is word-aligned and public, and its own bytes equal the original;
+- at least two of its offsets are each proven the ordinary way (two equal sites in exact claims), which puts the segment in
+  that gap.
+
+The placement then counts like one fixed by unique content. First use: the 144 zero bytes of `winlife/events` between
+`xlattxt4` (2500-257f) and `itemdlg` (2610-265f), for the two error words of `DOS_CRITICAL_ERROR` with one site each.
+
 ## Immediate witnesses (2026-11-23; refutation only)
 
 A MOV/PUSH imm16 witness proves an address only when the original code uses that value as one. Within straight-line

@@ -239,6 +239,19 @@ def _validate(run_tests=True):
         return seg if any(d["name"] == seg and d["combine"] == 6 for d in declared) else None
     overlaps = {f"{a[2]}|{b[2]}" for i, a in enumerate(placed) for b in placed[i + 1:]
                 if b[0] < a[1] and not (a[:2] == b[:2] and common(a[2]) and common(a[2]) == common(b[2]))}
+    # Own far data (docs/far-call-binding.md): paragraphs of different groups are disjoint too.
+    far = sorted((p["space"], p["paragraph"] * 16, p["paragraph"] * 16 + p["length"], f"{path}:{seg}")
+                 for path, g in groups.items() for seg, p in (g.get("far_placements") or {}).items())
+    require(not any(a[0] == b[0] and b[1] < a[2] for a, b in zip(far, far[1:])), "Own far data of different groups overlaps")
+    # Placement brackets (docs/dgroup-binding.md): each neighbour's own placement is fixed by its fresh content.
+    by_group = {recipe.get("group_id"): path for path, recipe in by_recipe.items()}
+    for path, report in groups.items():
+        for seg, bracket in ((read_json_shared(project_path((by_recipe.get(path) or read_json(project_path(path)))["binding"]))
+                              .get("brackets", {}) if report.get("placements") else {})).items():
+            for group in bracket.values():
+                piece = groups[by_group[group]]["placements"][seg]
+                require(piece["unique"] and piece["basis"].startswith("initialized content equals") and
+                        "bracketed" not in piece["basis"], f"Placement bracket {group} is not fixed by its own content")
     overlap_debt = set(read_json(ROOT / "evidence/placement-overlap-debt.json")["pairs"])
     require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
             f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")

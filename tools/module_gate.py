@@ -217,6 +217,57 @@ def _dgroup_home(binding, space, oracle):
     return space, (binding["frame"]["segment"] - space.link_segment) * 16
 
 
+def _far_placements(module, spec, obligations, oracle):
+    """The object's own FAR_DATA segments (docs/far-call-binding.md "Own far data"): {name: paragraph}, as a report.
+
+    A paragraph-aligned FAR_DATA segment outside every group, completely initialized and without fixups, whose bytes
+    occur exactly once in the whole original image, at a paragraph boundary and without a relocated word. The linker
+    starts such a contribution on a paragraph and frames its fields by it, so that content fixes the paragraph."""
+    report = {}
+    grouped = {i for g in module.groups for i in g["segments"]}
+    for index, seg in enumerate(module.segment_defs, 1):
+        if seg["name"] not in spec:
+            continue
+        paragraph, content = spec[seg["name"]], module.segments.get(seg["name"])
+        require(seg["class"] == "FAR_DATA" and seg["alignment"] == 3 and index not in grouped and
+                sum(s["name"] == seg["name"] for s in module.segment_defs) == 1,
+                "Own far data must be one paragraph-aligned FAR_DATA segment outside every group")
+        require(not any(p["segment"] == seg["name"] for p in module.publics) and
+                not any(f["segment"] == seg["name"] for f in obligations),
+                "Own far data with publics or fixups is not proven")
+        require(content is not None and len(content) == seg["length"] >= 16 and
+                _tiled(seg["length"], module.initialized_ranges.get(seg["name"], [])),
+                "Own far data must be completely initialized")
+        homes = [sp for sp in oracle.spaces.values() if type(paragraph) is int and
+                 0 <= (paragraph - sp.link_segment) * 16 <= sp.size - seg["length"] and
+                 sp.data[(paragraph - sp.link_segment) * 16:][:seg["length"]] == content]
+        require(len(homes) == 1 and sum(_count(sp.data, content) for sp in oracle.spaces.values()) == 1,
+                "Own far data is not the original content of that paragraph, or occurs elsewhere too")
+        start = (paragraph - homes[0].link_segment) * 16
+        require(not any(start - 1 <= r["image_offset"] < start + seg["length"] for r in homes[0].relocations),
+                "Own far data overlaps original relocated words")
+        report[seg["name"]] = {"paragraph": paragraph, "length": seg["length"], "space": homes[0].name}
+    require(set(report) == set(spec), "Far placement for a segment the object does not declare")
+    return report
+
+
+def _tiled(length, ranges):
+    """True when `ranges` cover [0, length) without hole or overlap."""
+    at = 0
+    for lo, hi in sorted(ranges):
+        if lo != at:
+            return False
+        at = hi
+    return at == length
+
+
+def _count(data, content):
+    hits, at = 0, data.find(content)
+    while at >= 0:
+        hits, at = hits + 1, data.find(content, at + 1)
+    return hits
+
+
 def _occurs_once(home, dgroup, content):
     hits, at = 0, home.data.find(content, dgroup)
     while at >= 0 and hits < 2:
@@ -432,9 +483,14 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
             exclusive = (not unique and seg["name"] == "CONST" and hull is not None and
                          sorted(relocated) == list(range(0, seg["length"], 2)) and
                          _exclusive_selectors(oracle, home, dgroup, p, content, space, hull))
-            unique = unique or exclusive
+            bracketed = not unique and not exclusive and seg["name"] in binding.get("brackets", {})
+            if bracketed:
+                _bracketed(seg, p, binding["brackets"][seg["name"]], home, dgroup, binding["target_id"])
+            unique = unique or exclusive or bracketed
             basis = (f"initialized content equals original {home.name}+{start:#x}" +
                      (", exclusive selector words" if exclusive else
+                      ", bracketed by " + " and ".join(binding["brackets"][seg["name"]][k] for k in ("below", "above"))
+                      if bracketed else
                       "" if unique else ", repeated content: per-field consensus"))
         else:
             # Uninitialized layout (array sizes, order) is chosen by the source, so distinct addends
@@ -445,7 +501,64 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
         if fields:
             report[seg["name"]]["pointer_fields"] = len(fields)
     require(set(report) == set(placements), "Placement for a segment the object does not declare")
+    require(set(binding.get("brackets", {})) <= set(report) and
+            all(", bracketed by " in report[n]["basis"] for n in binding.get("brackets", {})),
+            "Unused or unsupported placement bracket")
     return report
+
+
+def _bracketed(seg, p, bracket, home, dgroup, own_id):
+    """Repeated (zero) initialized content whose place two neighbours leave no choice (docs/dgroup-binding.md "Brackets").
+
+    Two other accepted groups place word-aligned contributions of the same segment whose bytes occur once in the
+    original DGROUP image: one ends at P (or one alignment byte below), the other starts at P + length (or one byte
+    above). A contiguous word-aligned contribution of that length has one place between them. That the segment lies in
+    that gap is the claims' own doing: `_bracket_located` keeps the ordinary per-field proof for two of its offsets."""
+    from binding import fits_once
+    require(set(bracket) == {"below", "above"} and own_id not in bracket.values() and
+            bracket["below"] != bracket["above"], "A placement bracket names two other groups")
+    require(seg["alignment"] == 2 and seg["combine"] == 2 and p % 2 == 0,
+            "A bracketed segment is word-aligned and public")
+    edges = {}
+    for side, group in bracket.items():
+        found = [r for _, r in _accepted_recipes() if r.get("group_id") == group and r.get("binding")]
+        require(len(found) == 1, f"Bracket {group} is not one accepted group")
+        edges[side] = _unique_piece(found[0], seg["name"], home, dgroup)
+    low, high = edges["below"][1], edges["above"][0]
+    require(low <= p and p + seg["length"] <= high and fits_once(p, seg["length"], low, high, True),
+            "Placement bracket leaves another position")
+
+
+def _bracket_located(segments, states, reports):
+    """A bracketed segment lies in its gap because two or more of its offsets are each addressed, equal to the
+    original, at two or more distinct instruction starts of exact claims (the ordinary `_placed_support` proof)."""
+    exact = {r["public"] for r in reports if r.get("exact")}
+    for name in segments:
+        sites = {}
+        for public, state in states.items():
+            for field in state["placed"] if public in exact else ():
+                if field["key"][0] == name and field["equal"]:
+                    sites.setdefault(field["key"], set()).add(field["insn"])
+        require(sum(len(v) >= 2 for v in sites.values()) >= 2,
+                f"Bracketed segment {name} is not located by two offsets with two equal sites each")
+
+
+def _unique_piece(recipe, name, home, dgroup):
+    """[lo, hi) of an accepted group's placed segment whose original bytes occur once in DGROUP. Validation compares
+    the freshly compiled segment with those bytes and requires content, not a bracket, to fix its placement."""
+    import json
+    from common import project_path
+    raw = project_path(recipe["binding"]).read_bytes()
+    require(sha(raw) == recipe["binding_sha256"], "Bracket binding changed without acceptance")
+    binding = json.loads(raw)
+    require(name in binding.get("placements", {}) and name not in binding.get("brackets", {}),
+            "Bracket group does not place that segment by its own content")
+    lo = binding["placements"][name]
+    length = next(d["length"] for d in binding["declarations"]["segments"] if d["name"] == name)
+    content = home.data[dgroup + lo:dgroup + lo + length]
+    require(length >= 2 and len(content) == length and _occurs_once(home, dgroup, content),
+            "Bracket content occurs more than once")
+    return lo, lo + length
 
 
 # Explicit segment placement of data (`_based(_segname(...))`) builds a DGROUP piece RTLink
@@ -1489,7 +1602,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     """Judge every claim; never raises for a claim-level mismatch, only for object-level refusal."""
     module = OmfReader().read(obj_data, "candidate")
     placements = (binding or {}).get("placements", {})
-    segment, name, actual = code_segment(module, placed=tuple(placements))
+    far_spec = (binding or {}).get("far_placements", {})
+    segment, name, actual = code_segment(module, placed=(*placements, *far_spec))
+    far_placements = _far_placements(module, far_spec, fixes(module), oracle)
     dgroup_members = {module.segment_defs[i - 1]["name"] for g in module.groups if g["name"] == "DGROUP"
                       for i in g["segments"] if 1 <= i <= len(module.segment_defs)}
     publics, data_publics = {}, _data_publics(module, placements, dgroup_members, name)
@@ -1654,7 +1769,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                        (f["displacement"] or 0)) & 0xFFFF
                  for f in code_fixes if _own_segment(f, name)}
     # Pass 1: extent, decoding, near equations. Pass 2: segment safety. Pass 3: data.
-    states, reports, placed_uses, used_near = {}, [], {}, set()
+    states, reports, placed_uses, used_near, far_used = {}, [], {}, set(), set()
     for claim, target, expected, start in resolved:
         later = [o for o in offsets if o > start]
         end = later[0] if later else len(actual)
@@ -1686,7 +1801,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 require(rows is not None or not mine, "Fixup-bearing claim does not decode completely")
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "own_base_labels": {}, "v4": [], "far_fields": [], "placed": [],
+                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "own_base_labels": {}, "far_bases": {}, "v4": [], "far_fields": [], "placed": [],
                      "proven_jumps": set(),
                      "fixups": len(mine), "frames": {row["frame"] for row in evidence},
                      "names": {f["target"].get("name") for f in mine if f["target"].get("kind") == "external"},
@@ -1722,6 +1837,24 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     addend = (publics[fix["target"]["name"]] + struct.unpack_from("<H", piece, at)[0] +
                               (fix["displacement"] or 0)) & 0xFFFF
                     state["own"].append({"offset": at, "addend": addend})
+                    state["occupied"].update((at, at+1))
+                elif (not fix["self_relative"] and fix["field_width"] == 2 and fix["loc_type"] in (1, 2) and
+                      fix["target"].get("kind") == "external" and fix["target"].get("name") in near_symbols and
+                      fix["target"]["name"] not in publics):
+                    # MASM `mov ax, OFFSET Near` / `mov ax, SEG Near` with `EXTRN Near:NEAR`: both framed by this
+                    # code segment, so the offset is the grounded entry's within the CS frame and the segment is
+                    # that frame's paragraph (checked below, as for the object's own code).
+                    require({k: fix["frame"].get(k) for k in ("kind", "name")} == {"kind": "segment", "name": name} and
+                            fix["displacement"] is None and piece[at:at+2] == bytes(2) and
+                            any(i.imm_size == 2 and i.address + i.imm_offset == at for i in rows or ()),
+                            "Unsupported near-code address field")
+                    used_near.add(fix["target"]["name"])
+                    if fix["loc_type"] == 1:
+                        callee_at = near_symbols[fix["target"]["name"]]["position"]
+                        state["own"].append({"offset": at, "addend": callee_at - origin, "target": callee_at})
+                    else:
+                        state["own_bases"].append(at)
+                        state["own_base_labels"][at] = fix["target"]["name"]
                     state["occupied"].update((at, at+1))
                 elif fix["self_relative"]:
                     kind, dest, (branch, insn_at, push_cs) = _self_relative(
@@ -1768,6 +1901,31 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     state["far"].append(dict(fix, segment_offset=at))
                     if far_symbols[fix["target"]["name"]].get("kind") not in ("segment-base", "far-data") and                             fix["loc_type"] == 3:
                         state["calls"][at - 1] = None  # a far callee, not a claim
+                elif fix["target"].get("kind") == "segment" and fix["target"].get("name") in far_placements:
+                    # The object's own far data at paragraph N: the offset half is A, the segment half N.
+                    require(fix["loc_type"] in (1, 2, 5) and not fix["self_relative"] and fix["field_width"] == 2 and
+                            fix["displacement"] is None and
+                            fix["frame"] == {"kind": "target_frame", "target": fix["target"]},
+                            "Unsupported own far data fixup shape")
+                    require(any(operand_field_of(i, at, candidate=True) for i in rows or ()),
+                            "Own far data fixup is not the address field of one decoded instruction")
+                    seg_name = fix["target"]["name"]
+                    encoded = struct.unpack_from("<H", piece, at)[0]
+                    if fix["loc_type"] == 2:
+                        require(encoded == 0, "Only zero encoded segment addends are proven")
+                        value = far_placements[seg_name]["paragraph"]
+                        state["far_bases"][at] = seg_name
+                    else:
+                        require(encoded < far_placements[seg_name]["length"], "Own far data offset leaves the segment")
+                        value = encoded
+                    observed = struct.unpack_from("<H", expected, at)[0]
+                    state["equations"].append({"offset": at, "kind": "own far data", "segment": seg_name,
+                                               "encoded_addend": encoded, "linked_value": value,
+                                               "original_value": observed, "equal": value == observed})
+                    if value != observed:
+                        state["differences"].append(at)
+                    state["occupied"].update((at, at+1))
+                    far_used.add(seg_name)
                 elif (fix["target"].get("kind") == "segment" and fix["target"].get("name") in placements and
                       fix["loc_type"] == 1 and not fix["self_relative"] and fix["field_width"] == 2):
                     # A field addressing this object's own placed DGROUP segment: P + A. Only
@@ -1847,7 +2005,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     require(fix["target"].get("name") not in data_publics,
                             "Data fixup target resolves to a data public of this object")
                     state["data"].append(dict(fix, segment_offset=at))
-            require(not state["relocations"] or state["far"] or state["group_bases"] or state["own_bases"],
+            require(not state["relocations"] or state["far"] or state["group_bases"] or state["own_bases"] or
+                    state["far_bases"],
                     "Original MZ relocations need far CALL fixups in the claim")
             states[claim["public"]] = state
         except ValueError as error:
@@ -1936,7 +2095,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                   if not all(in_window(n) for n in state["near"]) else
                   "Own-segment word lies outside the witnessed original CS window"
                   if state["own"] and not (window[0] <= position and
-                                           position + len(state["piece"]) <= window[1]) else None)
+                                           position + len(state["piece"]) <= window[1] and
+                                           all(window[0] <= o.get("target", position) < window[1]
+                                               for o in state["own"])) else None)
         if reason:
             state["report"].update(exact=False, state="REFUSED", reason=reason)
             del states[public]
@@ -2048,14 +2209,18 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP", "field": "base16"} for g in state["group_bases"]]
                 sites += [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g], "field": "base16"}
                           for g in state["own_bases"]]
+                sites += [{"site": state["position"] + g, "offset": g, "symbol": seg, "field": "base16"}
+                          for g, seg in state["far_bases"].items()]
                 relocation_proof = relocation_order(state["relocations"], sites,
                                                     [r["index"] for r in state["relocations"]])
-            if (state["group_bases"] or state["own_bases"]) and not state["far"]:
+            if (state["group_bases"] or state["own_bases"] or state["far_bases"]) and not state["far"]:
                 relocation_proof = relocation_order(
                     state["relocations"],
                     [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP", "field": "base16"} for g in state["group_bases"]] +
                     [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g], "field": "base16"}
-                          for g in state["own_bases"]],
+                          for g in state["own_bases"]] +
+                    [{"site": state["position"] + g, "offset": g, "symbol": seg, "field": "base16"}
+                     for g, seg in state["far_bases"].items()],
                     [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
@@ -2115,12 +2280,14 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
+        require(set(far_placements) == far_used, "Own far data that no claim addresses")
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle,
                                          data_fixes, far_symbols, symbols, (origin, origin + len(actual)),
                                          (name, origin - window[0], len(actual), next(iter(frames)),
                                           {p["name"]: p["offset"] for p in module.publics if p["segment"] == name})
                                          if frames and window is not None else None)
     _placed_support(placement_report, states, reports, placed_witnessed, placed_extents)
+    _bracket_located((binding or {}).get("brackets", {}), states, reports)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
                                unique=placement_report[d["segment"]]["unique"])
@@ -2140,6 +2307,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
             "placements": placement_report, "data_publics": data_public_report,
             **({"provider_span_aliases": span_aliases} if span_aliases else {}),
+            **({"far_placements": far_placements} if far_placements else {}),
             "space": space.name, "origin": origin, "emitted_size": len(actual),
             "frame": next(iter(frames)) if frames else None,
             "segment": segment, "claims": reports,

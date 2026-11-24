@@ -104,7 +104,8 @@ bytes compare literally, except for these fixup fields:
   `N` and a LOC1 offset field equals `O` with zero addend (symbol kind
   `far-data`). `N` is grounded like a segment base. `O` is grounded by reached
   original instructions whose address field equals `O`, each within 16 bytes of
-  a relocated word storing `N`.
+  a relocated word storing `N`. A file's own initialized far variable is instead fixed
+  by its content (far-call-binding.md "Own far data").
 
 - **DGROUP base (`mov ax, DGROUP`).** A LOC2 field to the DGROUP group equals the
   DGROUP paragraph, which the binding's startup DS-load frame witness grounds.
@@ -129,6 +130,8 @@ bytes compare literally, except for these fixup fields:
     other (as for v4). One exception (2026-11-24): an equal LDS/LES/CALL FAR/JMP FAR field at A is also a site
     of A+2, because that original instruction reads the dword at P+A as one far pointer. A claim with an unsupported field is refused. Data that another
     file also addresses is better bound as an extern v4 symbol with an outside witness.
+    Repeated content between two uniquely placed neighbours may be fixed by a bracket
+    (dgroup-binding.md "Brackets").
   - Placed segments of different accepted groups must be disjoint: two files cannot
     define the same original DGROUP bytes. Overlaps accepted before 2026-11-22 are listed
     in `evidence/placement-overlap-debt.json`; the list only shrinks.

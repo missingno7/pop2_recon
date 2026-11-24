@@ -17,11 +17,18 @@ typedef struct ShapeList {
     ShapeInfo items[1];
 } ShapeList;
 
+typedef struct PalInfo {
+    unsigned int banks;                 /* allocated palette banks, 0 before AllocBanks */
+    unsigned char colors;
+    unsigned char vga[16][3];
+    unsigned char cga[16];
+    unsigned char ega[32];
+} PalInfo;
+
 typedef struct ShapeListResource {
     int first_id;
     int count;
-    Handle mapping;
-    unsigned char mapping_id;
+    PalInfo palette;
 } ShapeListResource;
 
 typedef struct ShapeEncoding {
@@ -70,8 +77,17 @@ extern void cdecl _nfree(void *pointer);
 extern Handle hNewShpItem1(int group, int item, int mode);
 extern void MIRRORMCGABLOCK(unsigned char far *, int, int);
 
-extern const unsigned char far builtin_mapping[];
 extern unsigned int allocated_banks;
+
+static PalInfo far default_palette = {
+    0, 16,
+    {
+        { 0, 0, 0 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 },
+        { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 },
+        { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 },
+        { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }
+    }
+};
 
 static struct ShapeErrors {
     char missing_list[41];
@@ -108,13 +124,13 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
     }
     flags = SAVE_HANDLE_FLAGS(handle);
     resource = FETCH_LOCKED_SHAPE_LIST(handle);
-    if (!resource->mapping) {
+    if (!resource->palette.banks) {
         if (!mapping)
-            mapping = AllocBanks(resource->mapping_id);
-        resource->mapping = mapping;
+            mapping = AllocBanks(resource->palette.colors);
+        resource->palette.banks = mapping;
         allocated_banks |= mapping;
         if (prepare) {
-            Handle far *palette = &resource->mapping;
+            Handle far *palette = &resource->palette.banks;
             unsigned long address = (unsigned long)palette;
             MapPalInfo(address);
         }
@@ -250,7 +266,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     ShapeListResource far *resource;
     ShapeImage far *image;
     unsigned int format;
-    const void far *mapping;
+    const PalInfo far *palette;
     int list_flags;
     int image_flags;
     ShapeEncoding *format_bytes;
@@ -264,8 +280,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
         handle = info->image;
         reused = 1;
     } else {
-        if (info->image)
-            dispose_handle(info->image);
+        if (info->image) dispose_handle(info->image);
         handle = HGETRSRC(0x53484150UL, resource->first_id + index - 1);
         reused = 0;
     }
@@ -283,8 +298,8 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
             info->four_bit = 1;
         else
             info->four_bit = 0;
-        mapping = info->four_bit ? builtin_mapping : (const unsigned char far *)resource + 4;
-        info->image = convert_shape(image, mapping, mode);
+        palette = info->four_bit ? &default_palette : &resource->palette;
+        info->image = convert_shape(image, palette, mode);
         info->mode = (signed char)mode;
         info->flags = info->temporary = 0;
         RESTORE_HANDLE_FLAGS(handle, image_flags);

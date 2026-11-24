@@ -1,7 +1,20 @@
 {
   "binding": "evidence/bindings/sound2/dos_sound_runtime.json",
-  "binding_sha256": "0a98d48bec5ae5074f1f81eb20aa61825583a0b117fba48ffc49093ee6c9d285",
+  "binding_sha256": "cad958c7dc595dcdbe13fbefc94ff6d4a64a041cf7a9086069b6cfe6d354893f",
   "claims": [
+    {
+      "fixup_count": 27,
+      "public": "CONFIGURE_SOUND_DEVICES",
+      "relocation_indices": [
+        1587,
+        1633
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1129:31e2"
+    },
     {
       "fixup_count": 28,
       "public": "START_MIDI_SEQUENCE",
@@ -188,12 +201,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 1010,
-      "public": "CONFIGURE_SOUND_DEVICES"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 2719,
   "flags": [],
   "frame": 4393,

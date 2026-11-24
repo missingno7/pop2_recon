@@ -195,7 +195,8 @@ blocks or case labels). Fixups of one record are emitted in descending order, so
 same-target sites read descending inside one record and ascending across a boundary.
 Original facts: cross-function same-target pairs are 322 ascending to 18 descending,
 so the game modules were built with **`/Zi`**; DISSOLVE, SHAPE, LGRAF and INTRFACE
-match plain flags (non-debug modules). `/Zd` only imitates the 52-line flushes.
+match plain flags (non-debug modules; v1.0). In v1.1 the library files SHAPE, ANIM, FADE, INTRFACE and DLGHELP need `/Zi`:
+SHAPE's 13 same-symbol orders match only with it. `/Zd` only imitates the 52-line flushes.
 Line-event counts (code-generating lines before a point, mod 52) are file-wide; a
 draft-formatting change that satisfies them is a hypothesis about layout, not history.
 
@@ -268,6 +269,11 @@ as for same-object calls ([acceptance.md](acceptance.md)). External near callees
 are never assumed to preserve segment context. Limits: no overlay-to-root or
 cross-space near calls, no near jumps to external code, and no frame inferred
 for a component entered only by near calls.
+
+MASM's `mov ax, OFFSET Near` and `mov ax, SEG Near` of such a symbol (2026-11-24) are framed by the object's own code
+segment (F0). The offset must equal the grounded entry's offset in the claim's proven CS frame, inside its 64K window, and
+the segment that frame's paragraph; both are 16-bit immediates with a zero addend, and the segment word's MZ relocation
+joins the bijection under the symbol's name. First use: the timer callbacks in `CONFIGURE_SOUND_DEVICES`.
 
 ## RTLink vectors without an outside caller (2026-11-21)
 
@@ -580,6 +586,20 @@ pairs the offset with a relocated N:
 In a group, an offset or member with no outside witness may carry `"consensus": true`. It is then proven only by
 equal fields at two or more distinct original instruction starts in CODE_EXACT claims, as for v4 internal support.
 An arithmetic immediate alone, or a displacement whose ES load is not in the window, proves nothing.
+
+## Own far data (2026-11-24)
+
+A file's own initialized far variable (MSC `static T far x = {...}`) lies in the object's `NAME5_DATA` segment, class
+FAR_DATA. `far_placements: {"UNIT5_DATA": N}` places it at paragraph N (`module_gate._far_placements`) when the segment
+- is declared once, paragraph-aligned, in no group, without publics or fixups, and completely initialized (16+ bytes);
+- equals the original bytes at N:0000 with no relocated word, and those bytes occur exactly once in the whole original
+  image (all spaces).
+
+The linker starts the contribution on a paragraph, so the content fixes N, as unique `_DATA` content fixes a DGROUP
+placement. Fields use F5/T4 of that segment: the offset half equals A (inside the segment), the segment half equals N and
+its MZ relocation joins the claim's bijection. Placements of different groups must be disjoint, and a claim must use
+each one. An LIDATA record (MSC writes a zero tail as one) may fill such a data segment, never CODE. First use: SHAPE.C's
+default palette (99 bytes: banks, colour count, 16 RGB triples, CGA and EGA maps) in `PrinceNewShpItem`.
 
 ## Far callees called only by claims (2026-11-23)
 
