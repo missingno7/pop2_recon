@@ -23,6 +23,41 @@ is frozen at tag `oracle-dos-1565`; the text below this section describes that f
 Evidence carried over from the earlier build was translated by instruction alignment (1,654 of 1,683 reviewed targets
 located) and every binding, owner and runtime pin was proven again from the v1.1 bytes by the unchanged gates.
 
+## Trial link of v1.1 (2026-11-24)
+
+`build/workers/o20_trial` (worktree; `sh trial.sh`) links every accepted object, recompiled under its module basename,
+with pinned RTLink/Plus 6.10 and compares all 17 spaces with the original. It grants no ownership. Result at 3167a93:
+279,829 of 280,476 image bytes equal (99.77%).
+
+- The MZ header, the 16 descriptors (except the file positions after overlay 11), all link segments, section sizes,
+  relocation counts and relocation sets equal the original. The relocation order differs (symbol ids, o9/o11).
+- Overlays 2-10 and 12-16 and the preloaded section equal byte for byte, and the **compressed payloads** of overlays 2-10
+  and 12-15 are identical: `COMPRESS ON` inside each overlay section (not in the root, not for the preloaded section)
+  reproduces the original, including overlay 16 staying stored because it does not shrink.
+- All remaining differences are the three functions whose C is open: DUMP_HEAP, CONVERT_SOUND_HANDLE, HEAD_VISIBILITY.
+
+Facts the link settled:
+
+- `220d:0000` (16 bytes) is the C runtime's `EMULATOR_TEXT` (crt0dat.asm, 2 bytes, paragraph aligned); its word is the
+  empty far segment `EMULATOR_DATA`, whose paragraph is 313b.
+- The 16 zero bytes before `_TEXT` are the linker's DOSSEG padding (comment record in crt0.asm).
+- The unpinned part of `_TEXT` is 15 unmodified `mlibcr.lib` members: crt0, crt0dat, chkstk, nmsghdr, fclose, printf,
+  _flsbuf, _getbuf, _open, _sftbuf, fflush, stream, write, stackava, d_rdwr; with the data members _file, _cflush, txtmode,
+  cmiscdat and ctype they link to the original bytes.
+- DGROUP after `_DATA`: XIQC 26a4, DBDATA 26a6, CDATA 26b4, XP 26c2, CONST 26c6, HDR 26de, MSG 26e6, PAD, EPAD, `_BSS`
+  27c0, c_common 2b90, `_end` 6b74, 512 memory-only bytes of class STACK, then STACK 6d80 (1500h bytes).
+- `expand.asm` (7,317 bytes at root 23140) is pulled in by the compressed sections. The shipped 6.10 member differs in two
+  immediates (+1c27, +1c37), and `rtcommon` is 467 bytes instead of 495: the original was linked with another RTLUTILS.LIB
+  revision. Both stay labelled stand-ins.
+- A call goes through an overlay vector only when its external *name* is the vectored one, so a caller's descriptive alias
+  calls the overlay directly. Validation now refuses such aliases (`vector-alias`, and `data-alias` for data publics).
+  Example: PRINCE.C calls `show_init_message` (overlay 2) and TOP.C calls `reset_overlay_state` (overlay 3); both are
+  251b:0000.
+
+Still stand-ins (11.4 KB of the initialized image): FAR_BSS communals (5,200 zero bytes), the far table 306e (2,480), the
+built-in resources 3109-31a8 (2.8 KB), 623 bytes of `_DATA`, the two RTLUTILS members, and the DGROUP variable addresses
+(about 600 names that no accepted object defines yet).
+
 ## The earlier build (tag oracle-dos-1565)
 
 Direct byte inspection confirms that `assets/DOS/PRINCE.EXE` has a conventional MZ root image of 152,637 bytes, followed by 137,778 bytes of appended overlay material. The root ends at byte `0x2543d`; the first overlay relocation block begins at 152,640, after three zero padding bytes. The overlay descriptor table is located inside the root at decimal offset 150,347 (`0x24b4b`), and contains 16 records of 18 bytes, IDs 2 through 17. The earlier offset `0x24a8b` is 192 bytes before that table and is not its start.
