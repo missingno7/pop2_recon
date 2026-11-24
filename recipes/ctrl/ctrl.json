@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "4559146d03540da8fe7902d6d00d6c79f866bc920dad9634d9b1ede05ea67803",
+  "binding_sha256": "1243c9809622ce95a3180b1282b4ad91bd56d9b768587856ece7d9e2dec572f3",
   "claims": [
     {
       "fixup_count": 28,
@@ -41,6 +41,19 @@
       "fixup_count": 3,
       "public": "REREAD_BASE_CELL",
       "target_id": "root:02dc:029e"
+    },
+    {
+      "fixup_count": 28,
+      "public": "GET_FRAME_INFO",
+      "relocation_indices": [
+        315,
+        358
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02dc:02ac"
     },
     {
       "fixup_count": 2,
@@ -621,12 +634,7 @@
       "target_id": "root:02dc:1d60"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 672,
-      "public": "GET_FRAME_INFO"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 7526,
   "flags": [
     "/c",

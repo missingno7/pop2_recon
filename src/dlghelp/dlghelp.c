@@ -60,7 +60,7 @@ extern void far pascal CLEAR_PAYLOAD_HEADER(void far *block);
 extern void far * far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(Word);
 extern int far pascal MEASURE_CHARACTER(unsigned char);
 extern int far pascal MEASURE_NUL_TERMINATED_TEXT(char far *);
-extern void far pascal report_option(int);
+extern void far pascal play_sound(int);
 extern void far pascal CLAMP_POINT_TO_RECT(Point far *, void far *, Rect far *);
 extern EditField far * far pascal ALLOCATE_PINNED_PAYLOAD(long);
 extern void far pascal MOVE_HUGE_BYTES(void far *, const void far *, long);
@@ -233,7 +233,7 @@ dispatch:
     if (changed)
         redraw_edit_text(field);
     else if (rejected)
-        report_option(-2);
+        play_sound(-2);
 
     if (key)
         paint_edit_caret(field, 1);

@@ -5229,6 +5229,19 @@
       "offset": 11126,
       "witnesses": []
     },
+    "CARPET_DRAW_QUEUE": {
+      "kind": "far-data",
+      "offset": 0,
+      "offset_witnesses": [],
+      "segment": 12733,
+      "segment_witnesses": [
+        {
+          "space": "root",
+          "image_offset": 6468,
+          "relocation_index": 139
+        }
+      ]
+    },
     "CARPET_SOURCE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5330,6 +5343,39 @@
           "image_offset": 12034,
           "bytes_hex": "a22e61",
           "entry": "root:02dc:00fa"
+        }
+      ]
+    },
+    "CELL_OBJECTS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 11,
+          "unproven": "No independent original operand witness for this address.",
+          "witnesses": []
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 55332,
+              "bytes_hex": "89843c5d",
+              "entry": "root:0b52:22dc"
+            }
+          ]
+        }
+      ],
+      "offset": 23866,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 55325,
+          "bytes_hex": "89843a5d",
+          "entry": "root:0b52:22dc"
         }
       ]
     },
@@ -5466,6 +5512,20 @@
         }
       ]
     },
+    "CUSTOM_COUNT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24816,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 6188,
+          "bytes_hex": "8b36f060",
+          "entry": "root:0170:0124"
+        }
+      ]
+    },
     "DECREMENT_LIFE_POINTS": {
       "entry_sha256": "2220988fd62ecef2d64b01a9470925065961f337e007e4de093cb2260ac543e1",
       "entry_target_id": "root:02dc:095c",
@@ -5511,6 +5571,20 @@
         }
       ]
     },
+    "DRAWN_TILE_KIND": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27506,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 32258,
+          "bytes_hex": "a0726b",
+          "entry": "root:0790:0002"
+        }
+      ]
+    },
     "DRAW_COL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5521,6 +5595,20 @@
           "space": "root",
           "image_offset": 6114,
           "bytes_hex": "a06f6b",
+          "entry": "root:0170:0008"
+        }
+      ]
+    },
+    "DRAW_ROW": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27502,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 6121,
+          "bytes_hex": "a06e6b",
           "entry": "root:0170:0008"
         }
       ]
@@ -5763,8 +5851,216 @@
         }
       ]
     },
+    "MID_COUNT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24822,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 6880,
+          "bytes_hex": "833ef6601e",
+          "entry": "root:0170:03cc"
+        }
+      ]
+    },
     "MID_TABLE": {
       "kind": "far-data",
+      "members": [
+        {
+          "offset": 7,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b46082b46fa40268987fa118a46f2268887fc112689b7fd11068dbfff11be0361a5",
+              "entry": "root:0170:03cc",
+              "image_offset": 7012,
+              "kind": "selector-copy",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 5,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b46082b46fa40268987fa118a46f2268887fc112689b7fd11",
+              "entry": "root:0170:03cc",
+              "image_offset": 7012,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 4,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b46082b46fa40268987fa118a46f2268887fc11",
+              "entry": "root:0170:03cc",
+              "image_offset": 7012,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b46082b46fa40268987fa11",
+              "entry": "root:0170:03cc",
+              "image_offset": 7012,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 19,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b5ef826c6870a12008b5ef826c6870b12ff",
+              "entry": "root:0170:03cc",
+              "image_offset": 7104,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 18,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b5ef826c6870a1201",
+              "entry": "root:0170:03cc",
+              "image_offset": 7089,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 16,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b46082b46fa40268987fa118a46f2268887fc112689b7fd11068dbfff11be0361a5a5a5a5078a4606268887071226c78708120000",
+              "entry": "root:0170:03cc",
+              "image_offset": 7012,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 15,
+          "offset_witnesses": [
+            {
+              "bytes_hex": "8e06ca268b46082b46fa40268987fa118a46f2268887fc112689b7fd11068dbfff11be0361a5a5a5a5078a46062688870712",
+              "entry": "root:0170:03cc",
+              "image_offset": 7012,
+              "kind": "selector-access",
+              "relocation_index": 155,
+              "selector_offset": 9930,
+              "space": "root",
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
       "offset": 4600,
       "offset_witnesses": [
         {
@@ -5795,6 +6091,15 @@
           "relocation_index": 703
         }
       ]
+    },
+    "OFFSETRECT": {
+      "entry_sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
+      "entry_target_id": "root:1129:50ec",
+      "kind": "far-code-entry",
+      "offset": 20716,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
     },
     "PRINCEFREESHP": {
       "entry_sha256": "ecc4e0ef6467b507ed9bd3d6985900b79081e46146a39f5985f508871e73d27d",
@@ -5870,6 +6175,15 @@
       "kind": "far-code-entry",
       "offset": 7196,
       "segment": 732,
+      "space": "root",
+      "witnesses": []
+    },
+    "RESTOREKEEPCUSTOMPEEL": {
+      "entry_sha256": "638e9d942a1e1d2547c60d89da06001b1a7488dd7e8d925aa68838ecc1732987",
+      "entry_target_id": "root:04b3:0684",
+      "kind": "far-code-entry",
+      "offset": 1668,
+      "segment": 1203,
       "space": "root",
       "witnesses": []
     },

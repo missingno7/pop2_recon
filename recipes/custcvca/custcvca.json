@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custcvca/custcvca.json",
-  "binding_sha256": "0562fed15748882eafa613757ba342f5d5703afa8e6357299efc778503530779",
+  "binding_sha256": "51ca374582bb61cfa289c736a8e617c61b1073099abfa078312e6ab5e6e5df72",
   "claims": [
     {
       "fixup_count": 3,
@@ -41,6 +41,17 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-13:2fcd:002a"
+    },
+    {
+      "fixup_count": 14,
+      "public": "DRAW_CARPET",
+      "relocation_indices": [
+        7,
+        13
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-13:2fcd:012a"
     },
     {
       "fixup_count": 8,
@@ -204,16 +215,16 @@
       "target_id": "overlay-13:2fcd:0786"
     }
   ],
-  "drafts": [
+  "code_matches": [
     {
-      "object_offset": 298,
-      "public": "DRAW_CARPET"
-    },
-    {
-      "object_offset": 570,
-      "public": "DRAW_OBJ_CARPET"
+      "public": "DRAW_OBJ_CARPET",
+      "target_id": "overlay-13:2fcd:023a",
+      "unproven": [
+        "CELL_OBJECTS+0xb"
+      ]
     }
   ],
+  "drafts": [],
   "emitted_size": 1996,
   "flags": [
     "/c",
