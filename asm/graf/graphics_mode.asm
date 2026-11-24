@@ -13,7 +13,8 @@ CURSOR_X DW 0
 MOUSE_PRESENT DW 0
 ; Default mode record. Initialization replaces all fifteen words.
 PUBLIC SCREEN_WIDTH, PIXELS_PER_BYTE
-mode_snapshot DW 0
+PUBLIC GRAPHICS_MODE
+GRAPHICS_MODE DW 0
 SCREEN_WIDTH DW 320
     DW 0
 PIXELS_PER_BYTE LABEL BYTE
@@ -40,14 +41,15 @@ DEFAULT_PORT DW 0
 default_port_segment DW 0
     DW 0, 0
     DW 0, 0
-default_port_pitch DW 0
-default_port_row_table DW 0
+SURFACE_ROW_STRIDE DW 0
+SURFACE_SCANLINE_OFFSETS DW 0
     DW 0, 0
-default_port_mouse_max_y DW 0
+MOUSE_MAX_Y DW 0
 default_port_mouse_max_x DW 0
 default_port_clip DW 0, 0, 0, 0
-default_port_attributes DW 0
-default_port_origin_transform DW 0, 0, 0, 0fh
+BACKGROUND_INK DW 0
+default_port_origin_transform DW 0, 0, 0
+FOREGROUND_INK DW 0fh
 CURRENT_GRAPHICS_FONT DW 0
 
 .CODE
@@ -104,7 +106,7 @@ INITIALIZE_GRAPHICS_MODE PROC FAR
     push cs
     pop ds
     mov cx, 15
-    mov di, OFFSET mode_snapshot
+    mov di, OFFSET GRAPHICS_MODE
     push ss
     pop es
     rep movsw
@@ -140,7 +142,7 @@ PUBLIC SHUTDOWN_GRAPHICS_MODE, SELECT_GRAPHICS_MODE, CHECK_GRAPHICS_MODE
 
 SHUTDOWN_GRAPHICS_MODE PROC FAR
     sub cx, cx
-    xchg cx, mode_snapshot
+    xchg cx, GRAPHICS_MODE
     jcxz shutdown_done_4f10
     mov ax, OFFSET DEFAULT_PORT
     mov Graf, ax
@@ -154,9 +156,9 @@ SHUTDOWN_GRAPHICS_MODE PROC FAR
     push cs
     call SHUTDOWN_MOUSE_GRAPHICS
     push cs
-    call WORD PTR [mode_snapshot+12]
+    call WORD PTR [GRAPHICS_MODE+12]
     sub ax, ax
-    xchg ax, default_port_row_table
+    xchg ax, SURFACE_SCANLINE_OFFSETS
     push ax
     call __nfree
     add sp, 2
@@ -207,7 +209,7 @@ CHECK_GRAPHICS_MODE PROC NEAR
     mov bx, MODE_TABLE[bx]
     test bx, bx
     jz unavailable_4f10
-    mov ax, [mode_snapshot+2]
+    mov ax, [GRAPHICS_MODE+2]
     cmp ax, cs:[bx+2]
     jne unavailable_4f10
     push cs

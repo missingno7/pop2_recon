@@ -462,12 +462,14 @@ A field into the object's own placed segment without unique content (zero data) 
 original operand equal to P+A: `placed_witnesses` rows {segment, addend, witnesses}, grounded exactly as a v4 address
 (2026-11-24). A row may instead hold a `squeeze`: a bounds-checked index proves N bytes at P+A, a witnessed object with a
 base extent ends at P+A, and P+A+N is witnessed, so no other position is left (`KEY_DOWN`, 59h bytes between the joystick
-state and the installed flag). Two placed segments may coincide only when both are COMMON segments of one name (the
+state and the installed flag). A row may also hold an `extent` of the same kinds as a v4 symbol's: the object at P+A is
+proven to span that length, so a field inside it is as supported as its base, which still needs two equal claimed sites or
+its own row (MOVE's static `mobs`, copied whole as 13-byte records). Two placed segments may coincide only when both are COMMON segments of one name (the
 EMS/XMS workspace `BACKING_DATA`).
 
 For far data (docs/far-call-binding.md) a member O+k may carry `"record": {"base", "member"}`: one window steps through
 d-byte records at O, the other at O+k with |k| < d. Two such arrays would overlap, so both are the same array. Each window
-proves its own ES (a selector word, or a relocated `mov r16,N; mov es,r16`). First use: `MIDDLE_QUEUE[count - 1]` fields,
+proves its own ES (a selector word, or a relocated `mov r16,N; mov es,r16`). First use: `MIDTABLE[count - 1]` fields,
 which the compiler folds to O-1 and O-2.
 
 A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
@@ -477,25 +479,34 @@ segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocat
 
 Original anchors (C startup, root image): `_edata` = 27c0 (`mov di` at 0x1ffe7), `_end` = 6b74 (`mov cx` at
 0x1ffea), xontab = 2b88 (`mov si`/`mov di` at 0x20147/0x2014a; the onexit table is empty). RTLink 6.10 with MSC
-6.00 objects (probes in build/workers/o7_bss): each object's statics form its own `_BSS` piece in declaration
-order, pieces in link order inside the per-file block [27c0, 2b88); non-static uninitialized globals are near
+6.00 objects (probes in build/workers/o7_bss): each object's statics form its own `_BSS` piece, pieces in link order inside the per-file block [27c0, 2b88); non-static uninitialized globals are near
 COMDEF communals in `c_common` [2b90, 6b74): word-aligned multi-byte communals first, then one-byte communals in a
 tail from 6b6c (after the runtime's 512-byte `__bufin` at 696c). Consequently validation flags, per C group:
 a placed `_BSS` piece outside [27c0, 2b88) or at an odd start; a v4 symbol starting inside [27c0, 2b88) (an address
 there is some file's own static, never another C file's extern); a v4 symbol starting at an odd address in
 [2b90, 6b6c) (a member of a larger variable, not a variable). Existing cases are listed in
 evidence/bss-layout-debt.json, which validation keeps equal to the violations, so the list only shrinks: republish
-the group with the real static, communal or member-of-base model. The rule proves nothing; single-use BSS fields
+the group with the real static, communal or member-of-base model. Inside one object the statics declared before the same
+function follow the compiler's name hash, the sum of the upper-cased characters modulo 256 (equal hashes: the later
+declaration first), not their declaration order (2026-11-24, probe with MSC 6.00A); a name that breaks the original order
+cannot be the original one. The rule proves nothing; single-use BSS fields
 stay unproven (o7_bss: genuinely underdetermined without an original map), see CODE_MATCH in docs/acceptance.md.
 
-## Communal definitions (near COMDEF, 2026-11-23)
+## Communal definitions (COMDEF, 2026-11-23)
 
 MSC 6 emits a near COMDEF record (data type 0x62) for an uninitialized global that a file defines without
 `extern`. The linker allocates communals in `c_common`, so the object contributes no bytes. The strict parser
 accepts near COMDEFs in compiler output. They share the external index space, so every reference to a communal is
 an external fixup that the group binding must ground like any extern: a witnessed v4 symbol, members or provider.
-The communal names and lengths are pinned in the binding's `declarations` (`communals`). Far COMDEFs stay
-library-only. The BSS layout rule applies to their grounded addresses as to externs.
+The communal names and lengths are pinned in the binding's `declarations` (`communals`). Far COMDEFs (type 0x61, count times
+element size, allocated in FAR_BSS) are treated the same since 2026-11-24. The BSS layout rule applies to their grounded addresses as to externs.
+
+Which file defines a communal (2026-11-24): RTLink lays communals out per object in link order, first the object's own
+COMDEFs in record order (the order of first declaration), then the names it only references, in first-FIXUPP order. The
+original addresses follow that order throughout [2b90, 6b74), so PRINCE, ADD, CTRL, DRAW, MOVE, TOP, NIS, COLLIDE, ANIM and
+DISSOLVE define the runs that no reference order explains; a variable first met as a reference is defined by some later
+file, which the layout does not identify (chosen by use). The whole link then places every communal without a generated
+address.
 
 ## Immediate witnesses (2026-11-23; refutation only)
 

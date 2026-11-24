@@ -100,8 +100,9 @@ extern void ignore_window_action(void *, int);
 extern char *interface_buffer;
 extern void far *heap_state;
 extern int BPort, Graf, main_port, frame_diagnostics;
-extern int window_draw_ready;
-extern char ScreenPort[], ScreenPortRect[], joystick_state[];
+extern int dos_vectors_installed;
+char ScreenPort[44];
+extern char ScreenPortRect[], joystick_state[];
 
 typedef struct {
     unsigned char enabled;
@@ -210,7 +211,7 @@ void init_system(void)
     *(WindowAction *)((char *)main_port + 0x56) = ignore_window_action;
     update_message_display();
     install_dos_vectors();
-    window_draw_ready = 1;
+    dos_vectors_installed = 1;
     initialize_window_draw_port();
     open_level_resources(device_filenames);
     check_game_port();

@@ -202,8 +202,8 @@
       "BLINK_EDIT_CARET",
       "GRAF",
       "HANDLE_EDIT_KEY",
-      "CLOCK_TICKS",
-      "BLINK_INTERVAL",
+      "TIMEVAL",
+      "TIMER_RATE",
       "__ctype",
       "CREATE_EDIT_FIELD",
       "COPY_CURRENT_PORT_ORIGIN",
@@ -244,7 +244,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -252,7 +252,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -271,7 +271,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -279,7 +279,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -325,7 +325,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "BLINK_INTERVAL",
+          "name": "TIMER_RATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -333,7 +333,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "BLINK_INTERVAL",
+        "name": "TIMER_RATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -352,7 +352,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -360,7 +360,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -379,7 +379,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -387,7 +387,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -1775,7 +1775,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -1783,7 +1783,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -1802,7 +1802,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -1810,7 +1810,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2147,20 +2147,6 @@
         }
       ]
     },
-    "BLINK_INTERVAL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9434,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 102395,
-          "bytes_hex": "a3da24",
-          "entry": "root:1129:7d5a"
-        }
-      ]
-    },
     "CLAMP_POINT_TO_RECT": {
       "entry_sha256": "9512a42300c9bb15c033a6a7d1526222a55a67f1f56dbf8676c00d2e64d4b5a6",
       "entry_target_id": "root:1129:5120",
@@ -2184,34 +2170,6 @@
           "bytes_hex": "9aaa192911",
           "file_offset": 31092,
           "relocation_index": 570
-        }
-      ]
-    },
-    "CLOCK_TICKS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 68281,
-              "bytes_hex": "ff36e624",
-              "entry": "root:10a5:005c"
-            }
-          ]
-        }
-      ],
-      "offset": 9444,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 68285,
-          "bytes_hex": "ff36e424",
-          "entry": "root:10a5:005c"
         }
       ]
     },
@@ -2478,6 +2436,18 @@
       "segment": 8175,
       "space": "root",
       "witnesses": []
+    },
+    "TIMEVAL": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:timer_hooks",
+      "offset": 9444
+    },
+    "TIMER_RATE": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:timer_hooks",
+      "offset": 9434
     },
     "__ctype": {
       "kind": "dgroup-public",

@@ -135,9 +135,12 @@ typedef struct {
 
 extern LEVELREC Level;
 extern FRAMEREC Frame;
-extern unsigned char floor_mask;
-extern int bridge_wait, bridge_break;
-extern unsigned char falling_floors[];
+static unsigned char floor_mask;
+typedef struct {
+    int wait, broken;
+    unsigned char floors[8];
+} BRIDGEREC;
+BRIDGEREC Bridge;
 extern int Col2PixelX[13], Row2PixelY[5];
 Rect BridgeRect = {106, 35, 126, 314};
 static signed char bridge_y[] = {0, 1, 2, 3, 3, 2, 1, 0};
@@ -235,24 +238,24 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
 {
     signed char col;
 
-    if (bridge_break == 0) {
+    if (Bridge.broken == 0) {
         if (kid_on_bridge && opponent_on_bridge) {
             if (abs(Kid.column - RoomOpp[0].column) <= 3) {
-                ++bridge_wait;
-                if (bridge_wait >= 60 && Kid.column >= 4 && Kid.column <= 6 &&
+                ++Bridge.wait;
+                if (Bridge.wait >= 60 && Kid.column >= 4 && Kid.column <= 6 &&
                     RoomOpp[0].column >= 5 && RoomOpp[0].column <= 6 && Kid.sequence != 85)
-                    bridge_break = 1;
-            } else if (bridge_wait != 0) {
-                --bridge_wait;
+                    Bridge.broken = 1;
+            } else if (Bridge.wait != 0) {
+                --Bridge.wait;
             }
-        } else if (bridge_wait > 1) {
-            bridge_wait -= 2;
+        } else if (Bridge.wait > 1) {
+            Bridge.wait -= 2;
         }
-    } else if (bridge_break > 0) {
-        if (bridge_break == 3) {
+    } else if (Bridge.broken > 0) {
+        if (Bridge.broken == 3) {
             col = 7;
             do {
-                if (!falling_floors[col - 1]) {
+                if (!Bridge.floors[col - 1]) {
                     trigger_bridge_floor_mob(10, col + 10);
                     break;
                 }
@@ -262,14 +265,14 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
                 AddSong(66);
             }
             if (col < 3 || Kid.sequence == 85) {
-                bridge_break = -1;
+                Bridge.broken = -1;
                 copy_kid_to_char();
                 if (Char.column <= 4 && Char.direction == 0)
                     Char.x = AddCharX(10);
                 Kid = Char;
             }
         } else {
-            ++bridge_break;
+            ++Bridge.broken;
         }
     }
 }
@@ -433,7 +436,7 @@ void load_bridge_code(void)
     if (Level.level_number == 5 && ((signed char)Room.number) == 10)
         set_palette(3500, 64, 160, 1);
     floor_mask = 0;
-    bridge_wait = 0;
+    Bridge.wait = 0;
 }
 
 void mark_bridge_floors_for_chars(int kid_on_bridge, int opponent_on_bridge)
@@ -678,7 +681,7 @@ void trigger_bridge_floor_mob(unsigned char room, signed char cell)
         Mob.flags = 0;
         speed = 1;
     }
-    falling_floors[col - 1] = speed;
+    Bridge.floors[col - 1] = speed;
     Mob.flags |= speed << 4;
     Mob.room = room;
     Mob.row = row;

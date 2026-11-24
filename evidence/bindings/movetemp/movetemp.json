@@ -62,19 +62,19 @@
     ],
     "publics": [
       {
-        "name": "SLIDE_ROCK_COLLISION_ROW",
+        "name": "DRAW_OBJECT_TRAPDOOR",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1042,
+        "offset": 3934,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "DRAW_OBJECT_TRAPDOOR",
+        "name": "SLIDE_ROCK_COLLISION_ROW",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 3934,
+        "offset": 1042,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -98,19 +98,19 @@
         "type_index": 0
       },
       {
-        "name": "HIT_CHARACTER_WITH_ROCK",
+        "name": "LOAD_INSCRIPTION_ROOM",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1388,
+        "offset": 4018,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "@slide_rock_on_row",
+        "name": "HIT_CHARACTER_WITH_ROCK",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1318,
+        "offset": 1388,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -125,10 +125,10 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_INSCRIPTION_ROOM",
+        "name": "@slide_rock_on_row",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 4018,
+        "offset": 1318,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -224,19 +224,19 @@
         "type_index": 0
       },
       {
-        "name": "MOVE_SLIDE_BOLT",
+        "name": "MOVE_TRAPDOOR_RECORD",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 36,
+        "offset": 3600,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "MOVE_TRAPDOOR_RECORD",
+        "name": "MOVE_SLIDE_BOLT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 3600,
+        "offset": 36,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -260,19 +260,19 @@
         "type_index": 0
       },
       {
-        "name": "MOVE_SLIDE_ROCK",
+        "name": "SHAKE_TRAPDOOR",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 132,
+        "offset": 3726,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "SHAKE_TRAPDOOR",
+        "name": "MOVE_SLIDE_ROCK",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 3726,
+        "offset": 132,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -298,23 +298,19 @@
     ],
     "externals": [
       "FRAME",
-      "@add_middle_image",
-      "SLIDE_ROCK_COLLISION_ROW",
       "DRAW_OBJECT_TRAPDOOR",
+      "SLIDE_ROCK_COLLISION_ROW",
+      "@add_middle_image",
       "TRIGGER_SLIDE_ROCK",
       "PROBE_FLOORS_TOWARD_ROCK",
-      "HIT_CHARACTER_WITH_ROCK",
-      "@slide_rock_on_row",
-      "CAN_SLIDE_ROCK_STOP",
       "LOAD_INSCRIPTION_ROOM",
+      "HIT_CHARACTER_WITH_ROCK",
+      "CAN_SLIDE_ROCK_STOP",
+      "@slide_rock_on_row",
       "CHECK_TEMPLE_EVENT",
-      "FCHAR",
-      "SEQUENCE_A",
       "TEMPLE_FRAME",
       "COMPUTE_SLIDE_ROCK_RECT",
-      "SEQUENCE_B",
-      "ROCK_SPEED_A",
-      "ROCK_SPEED_B",
+      "FCHAR",
       "MOB_DIMENSIONS",
       "MOVE_TRAPDOOR",
       "CHECK_SLIDE_ROCK_CRUSH",
@@ -341,42 +337,42 @@
       "LEVEL",
       "ADDSOUND",
       "COLEDGEX",
-      "RND",
       "DISPATCH_SOUND",
       "CDLEFTEDGE",
       "ADD_MOB",
       "SETKIDDEATHMETHOD",
       "CDRIGHTEDGE",
-      "FIRSTINROW",
+      "RND",
       "ADDSONG",
       "RESET_CHAR_Y",
       "ALTAR_WATCH_KID",
       "JUMPSEQ",
-      "GET_CHAR_COL",
+      "FIRSTINROW",
       "CHOOSE_TRAPDOOR_DELAY",
       "ANIMCHAR",
-      "ISWALL",
+      "GET_CHAR_COL",
       "SLIDE_ROCK_BARRIER",
       "GET_SET_IMAGE_SIZE",
-      "ADD_MOB_OBJ",
+      "ISWALL",
+      "MOVE_TRAPDOOR_RECORD",
       "MOVE_SLIDE_BOLT",
       "COMPUTE_MOB_RECT",
+      "ADD_MOB_OBJ",
       "GETROW",
-      "MOVE_TRAPDOOR_RECORD",
       "MARK_FLOOR",
-      "INDEXCELL1",
       "CHECK_TRAPDOOR",
+      "INDEXCELL1",
       "@get_slide_rock_x",
-      "IS_VISIBLE_ROOM_CELL",
-      "MARK_BUFS_FOR_RECT",
-      "MARK_MOB_REDRAW",
-      "MOVE_SLIDE_ROCK",
       "SHAKE_TRAPDOOR",
-      "COPY_KID_TO_CHAR",
+      "MARK_BUFS_FOR_RECT",
+      "IS_VISIBLE_ROOM_CELL",
+      "MOVE_SLIDE_ROCK",
       "TRIGGER_TRAPDOOR",
       "COL2PIXELX",
+      "MARK_MOB_REDRAW",
       "ROW2PIXELY",
-      "MOVE_ROCK_RECORD"
+      "MOVE_ROCK_RECORD",
+      "COPY_KID_TO_CHAR"
     ]
   },
   "dgroup_segment": {
@@ -429,7 +425,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 54,
           "name": "GET_CHAR_COL",
           "method": 6,
           "zero_displacement": true
@@ -437,7 +433,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 54,
         "name": "GET_CHAR_COL",
         "method": 6,
         "zero_displacement": true
@@ -456,7 +452,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 10,
           "name": "@slide_rock_on_row",
           "method": 6,
           "zero_displacement": true
@@ -464,7 +460,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 10,
         "name": "@slide_rock_on_row",
         "method": 6,
         "zero_displacement": true
@@ -483,7 +479,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 4,
           "name": "@add_middle_image",
           "method": 6,
           "zero_displacement": true
@@ -491,7 +487,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 4,
         "name": "@add_middle_image",
         "method": 6,
         "zero_displacement": true
@@ -510,7 +506,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -518,7 +514,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -537,7 +533,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -545,7 +541,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -564,7 +560,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -572,7 +568,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -591,7 +587,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -599,7 +595,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -618,7 +614,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 10,
           "name": "@slide_rock_on_row",
           "method": 6,
           "zero_displacement": true
@@ -626,7 +622,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 10,
         "name": "@slide_rock_on_row",
         "method": 6,
         "zero_displacement": true
@@ -645,7 +641,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -653,7 +649,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -672,7 +668,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -680,7 +676,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -699,7 +695,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -707,7 +703,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -726,7 +722,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 18,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -734,7 +730,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 18,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -753,7 +749,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HIT_CHARACTER_WITH_ROCK",
           "method": 6,
           "zero_displacement": true
@@ -761,7 +757,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HIT_CHARACTER_WITH_ROCK",
         "method": 6,
         "zero_displacement": true
@@ -780,7 +776,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -788,7 +784,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -807,7 +803,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -815,7 +811,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -834,7 +830,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -842,7 +838,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -861,7 +857,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -869,7 +865,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -888,7 +884,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -896,7 +892,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -915,7 +911,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -923,7 +919,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -942,7 +938,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -950,7 +946,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -969,7 +965,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -977,7 +973,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -996,7 +992,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1004,7 +1000,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1050,7 +1046,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 10,
           "name": "@slide_rock_on_row",
           "method": 6,
           "zero_displacement": true
@@ -1058,7 +1054,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 10,
         "name": "@slide_rock_on_row",
         "method": 6,
         "zero_displacement": true
@@ -1131,16 +1127,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
-          "name": "SEQUENCE_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "SEQUENCE_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -1158,16 +1154,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
-          "name": "SEQUENCE_A",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 13,
-        "name": "SEQUENCE_A",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -1185,7 +1181,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1193,7 +1189,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1212,7 +1208,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1220,7 +1216,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1239,7 +1235,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1247,7 +1243,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1266,7 +1262,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 63,
+          "index": 59,
           "name": "MOVE_SLIDE_BOLT",
           "method": 6,
           "zero_displacement": true
@@ -1274,7 +1270,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 63,
+        "index": 59,
         "name": "MOVE_SLIDE_BOLT",
         "method": 6,
         "zero_displacement": true
@@ -1293,7 +1289,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1301,7 +1297,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1342,7 +1338,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1350,7 +1346,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1391,7 +1387,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 63,
+          "index": 59,
           "name": "MOVE_SLIDE_BOLT",
           "method": 6,
           "zero_displacement": true
@@ -1399,7 +1395,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 63,
+        "index": 59,
         "name": "MOVE_SLIDE_BOLT",
         "method": 6,
         "zero_displacement": true
@@ -1418,7 +1414,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1426,7 +1422,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1445,7 +1441,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1453,7 +1449,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1494,7 +1490,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1502,7 +1498,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1521,7 +1517,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1529,7 +1525,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1570,7 +1566,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 63,
+          "index": 59,
           "name": "MOVE_SLIDE_BOLT",
           "method": 6,
           "zero_displacement": true
@@ -1578,7 +1574,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 63,
+        "index": 59,
         "name": "MOVE_SLIDE_BOLT",
         "method": 6,
         "zero_displacement": true
@@ -1597,7 +1593,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1605,7 +1601,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1624,7 +1620,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1632,7 +1628,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1673,7 +1669,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1681,7 +1677,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1700,7 +1696,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1708,7 +1704,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1749,7 +1745,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 61,
           "name": "ADD_MOB_OBJ",
           "method": 6,
           "zero_displacement": true
@@ -1757,7 +1753,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 61,
         "name": "ADD_MOB_OBJ",
         "method": 6,
         "zero_displacement": true
@@ -1776,7 +1772,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1784,7 +1780,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1803,7 +1799,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1811,7 +1807,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1830,7 +1826,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1838,7 +1834,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1857,7 +1853,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -1865,7 +1861,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -1884,7 +1880,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1892,7 +1888,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1938,7 +1934,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1946,7 +1942,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1965,7 +1961,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -1973,7 +1969,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -1992,7 +1988,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2000,7 +1996,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2019,7 +2015,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2027,7 +2023,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2046,7 +2042,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2054,7 +2050,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2073,7 +2069,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 61,
           "name": "ADD_MOB_OBJ",
           "method": 6,
           "zero_displacement": true
@@ -2081,7 +2077,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 61,
         "name": "ADD_MOB_OBJ",
         "method": 6,
         "zero_displacement": true
@@ -2100,7 +2096,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2108,7 +2104,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2127,7 +2123,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2135,7 +2131,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2154,16 +2150,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
-          "name": "SEQUENCE_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "SEQUENCE_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2181,16 +2177,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
-          "name": "SEQUENCE_A",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 13,
-        "name": "SEQUENCE_A",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2208,16 +2204,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "ROCK_SPEED_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "ROCK_SPEED_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2235,16 +2231,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "ROCK_SPEED_A",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "ROCK_SPEED_A",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2262,7 +2258,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2270,7 +2266,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2289,7 +2285,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2297,7 +2293,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2343,16 +2339,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
-          "name": "SEQUENCE_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "SEQUENCE_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2370,16 +2366,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
-          "name": "SEQUENCE_A",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 13,
-        "name": "SEQUENCE_A",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2397,7 +2393,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2405,7 +2401,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2424,16 +2420,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "ROCK_SPEED_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "ROCK_SPEED_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2451,16 +2447,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "ROCK_SPEED_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "ROCK_SPEED_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2478,16 +2474,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "ROCK_SPEED_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "ROCK_SPEED_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2505,16 +2501,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "ROCK_SPEED_A",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "ROCK_SPEED_A",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2532,7 +2528,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2540,7 +2536,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2559,7 +2555,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2567,7 +2563,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2586,16 +2582,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "ROCK_SPEED_A",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "ROCK_SPEED_A",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2613,7 +2609,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2621,7 +2617,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2640,7 +2636,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2648,7 +2644,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2694,16 +2690,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
-          "name": "SEQUENCE_B",
+          "index": 15,
+          "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "SEQUENCE_B",
+        "index": 15,
+        "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2721,7 +2717,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 71,
+          "index": 69,
           "name": "IS_VISIBLE_ROOM_CELL",
           "method": 6,
           "zero_displacement": true
@@ -2729,7 +2725,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 71,
+        "index": 69,
         "name": "IS_VISIBLE_ROOM_CELL",
         "method": 6,
         "zero_displacement": true
@@ -2748,7 +2744,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -2756,7 +2752,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -2775,7 +2771,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2783,7 +2779,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2802,7 +2798,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -2810,7 +2806,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -2829,7 +2825,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 65,
           "name": "INDEXCELL1",
           "method": 6,
           "zero_displacement": true
@@ -2837,7 +2833,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 65,
         "name": "INDEXCELL1",
         "method": 6,
         "zero_displacement": true
@@ -2856,7 +2852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2864,7 +2860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2883,7 +2879,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 65,
+          "index": 62,
           "name": "GETROW",
           "method": 6,
           "zero_displacement": true
@@ -2891,7 +2887,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 65,
+        "index": 62,
         "name": "GETROW",
         "method": 6,
         "zero_displacement": true
@@ -2910,7 +2906,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2918,7 +2914,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2937,7 +2933,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2945,7 +2941,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2964,7 +2960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2972,7 +2968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -2991,7 +2987,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -2999,7 +2995,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3018,7 +3014,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 61,
           "name": "ADD_MOB_OBJ",
           "method": 6,
           "zero_displacement": true
@@ -3026,7 +3022,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 61,
         "name": "ADD_MOB_OBJ",
         "method": 6,
         "zero_displacement": true
@@ -3045,7 +3041,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3053,7 +3049,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3072,7 +3068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -3080,7 +3076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -3099,7 +3095,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3107,7 +3103,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3126,7 +3122,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -3134,7 +3130,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -3153,7 +3149,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3161,7 +3157,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3207,7 +3203,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3215,7 +3211,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3234,7 +3230,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3242,7 +3238,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3261,7 +3257,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3269,7 +3265,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3288,7 +3284,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 46,
           "name": "RND",
           "method": 6,
           "zero_displacement": true
@@ -3296,7 +3292,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 46,
         "name": "RND",
         "method": 6,
         "zero_displacement": true
@@ -3315,7 +3311,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3323,7 +3319,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3342,7 +3338,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3350,7 +3346,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3369,7 +3365,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3377,7 +3373,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3396,7 +3392,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 53,
           "name": "ANIMCHAR",
           "method": 6,
           "zero_displacement": true
@@ -3404,7 +3400,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 53,
         "name": "ANIMCHAR",
         "method": 6,
         "zero_displacement": true
@@ -3423,7 +3419,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 50,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -3431,7 +3427,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 50,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -3450,7 +3446,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3458,7 +3454,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3477,7 +3473,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 53,
+          "index": 48,
           "name": "RESET_CHAR_Y",
           "method": 6,
           "zero_displacement": true
@@ -3485,7 +3481,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 53,
+        "index": 48,
         "name": "RESET_CHAR_Y",
         "method": 6,
         "zero_displacement": true
@@ -3504,7 +3500,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3512,7 +3508,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3531,7 +3527,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 44,
           "name": "SETKIDDEATHMETHOD",
           "method": 6,
           "zero_displacement": true
@@ -3539,7 +3535,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 44,
         "name": "SETKIDDEATHMETHOD",
         "method": 6,
         "zero_displacement": true
@@ -3558,7 +3554,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -3566,7 +3562,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -3585,7 +3581,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 41,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -3593,7 +3589,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 41,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -3612,7 +3608,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3620,7 +3616,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3639,7 +3635,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -3647,7 +3643,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -3666,7 +3662,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 57,
           "name": "ISWALL",
           "method": 6,
           "zero_displacement": true
@@ -3674,7 +3670,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 57,
         "name": "ISWALL",
         "method": 6,
         "zero_displacement": true
@@ -3693,7 +3689,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -3701,7 +3697,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -3720,7 +3716,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3728,7 +3724,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3747,7 +3743,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3755,7 +3751,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3774,7 +3770,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3782,7 +3778,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3801,7 +3797,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 57,
           "name": "ISWALL",
           "method": 6,
           "zero_displacement": true
@@ -3809,7 +3805,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 57,
         "name": "ISWALL",
         "method": 6,
         "zero_displacement": true
@@ -3828,7 +3824,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -3836,7 +3832,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -3855,7 +3851,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3863,7 +3859,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3882,7 +3878,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3890,7 +3886,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3909,7 +3905,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -3917,7 +3913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -3936,7 +3932,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3944,7 +3940,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3963,7 +3959,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3971,7 +3967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3990,7 +3986,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 37,
           "name": "DECREMENT_LIFE_POINTS",
           "method": 6,
           "zero_displacement": true
@@ -3998,7 +3994,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 37,
         "name": "DECREMENT_LIFE_POINTS",
         "method": 6,
         "zero_displacement": true
@@ -4017,7 +4013,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4025,7 +4021,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4044,7 +4040,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4052,7 +4048,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4071,7 +4067,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -4079,7 +4075,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -4098,7 +4094,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4106,7 +4102,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4125,7 +4121,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4133,7 +4129,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4152,7 +4148,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4160,7 +4156,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4179,7 +4175,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 40,
           "name": "COLEDGEX",
           "method": 6,
           "zero_displacement": true
@@ -4187,7 +4183,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 40,
         "name": "COLEDGEX",
         "method": 6,
         "zero_displacement": true
@@ -4206,7 +4202,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4214,7 +4210,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4233,7 +4229,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4241,7 +4237,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4260,7 +4256,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4268,7 +4264,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4287,7 +4283,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4295,7 +4291,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4314,7 +4310,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4322,7 +4318,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4341,7 +4337,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 57,
           "name": "ISWALL",
           "method": 6,
           "zero_displacement": true
@@ -4349,7 +4345,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 57,
         "name": "ISWALL",
         "method": 6,
         "zero_displacement": true
@@ -4368,7 +4364,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -4376,7 +4372,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -4395,7 +4391,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4403,7 +4399,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4422,7 +4418,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4430,7 +4426,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4449,7 +4445,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 54,
           "name": "GET_CHAR_COL",
           "method": 6,
           "zero_displacement": true
@@ -4457,7 +4453,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 54,
         "name": "GET_CHAR_COL",
         "method": 6,
         "zero_displacement": true
@@ -4476,7 +4472,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4484,7 +4480,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4503,7 +4499,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4511,7 +4507,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4530,7 +4526,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4538,7 +4534,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4557,7 +4553,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4565,7 +4561,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4584,7 +4580,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4592,7 +4588,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4611,7 +4607,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -4619,7 +4615,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -4638,7 +4634,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -4646,7 +4642,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -4665,7 +4661,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4673,7 +4669,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4692,7 +4688,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4700,7 +4696,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4719,7 +4715,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 20,
           "name": "GET_MOB_TYPE_ITEM",
           "method": 6,
           "zero_displacement": true
@@ -4727,7 +4723,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 20,
         "name": "GET_MOB_TYPE_ITEM",
         "method": 6,
         "zero_displacement": true
@@ -4746,7 +4742,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 19,
           "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
@@ -4754,7 +4750,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 19,
         "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
@@ -4773,7 +4769,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 19,
           "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
@@ -4781,7 +4777,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 19,
         "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
@@ -4800,7 +4796,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 54,
           "name": "GET_CHAR_COL",
           "method": 6,
           "zero_displacement": true
@@ -4808,7 +4804,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 54,
         "name": "GET_CHAR_COL",
         "method": 6,
         "zero_displacement": true
@@ -4827,7 +4823,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4835,7 +4831,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4854,7 +4850,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 54,
           "name": "GET_CHAR_COL",
           "method": 6,
           "zero_displacement": true
@@ -4862,7 +4858,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 54,
         "name": "GET_CHAR_COL",
         "method": 6,
         "zero_displacement": true
@@ -4881,7 +4877,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 47,
+          "index": 42,
           "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
@@ -4889,7 +4885,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 47,
+        "index": 42,
         "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
@@ -4908,7 +4904,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 19,
           "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
@@ -4916,7 +4912,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 19,
         "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
@@ -4935,7 +4931,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 19,
           "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
@@ -4943,7 +4939,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 19,
         "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
@@ -4962,7 +4958,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 54,
           "name": "GET_CHAR_COL",
           "method": 6,
           "zero_displacement": true
@@ -4970,7 +4966,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 54,
         "name": "GET_CHAR_COL",
         "method": 6,
         "zero_displacement": true
@@ -4989,7 +4985,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4997,7 +4993,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5016,7 +5012,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 54,
           "name": "GET_CHAR_COL",
           "method": 6,
           "zero_displacement": true
@@ -5024,7 +5020,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 54,
         "name": "GET_CHAR_COL",
         "method": 6,
         "zero_displacement": true
@@ -5043,7 +5039,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 45,
           "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
@@ -5051,7 +5047,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 45,
         "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
@@ -5070,7 +5066,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 10,
           "name": "@slide_rock_on_row",
           "method": 6,
           "zero_displacement": true
@@ -5078,7 +5074,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 10,
         "name": "@slide_rock_on_row",
         "method": 6,
         "zero_displacement": true
@@ -5097,7 +5093,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -5105,7 +5101,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5124,7 +5120,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 40,
           "name": "COLEDGEX",
           "method": 6,
           "zero_displacement": true
@@ -5132,7 +5128,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 40,
         "name": "COLEDGEX",
         "method": 6,
         "zero_displacement": true
@@ -5151,7 +5147,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 47,
+          "index": 42,
           "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
@@ -5159,7 +5155,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 47,
+        "index": 42,
         "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
@@ -5178,7 +5174,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 45,
           "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
@@ -5186,7 +5182,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 45,
         "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
@@ -5205,7 +5201,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -5213,7 +5209,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5232,7 +5228,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 40,
           "name": "COLEDGEX",
           "method": 6,
           "zero_displacement": true
@@ -5240,7 +5236,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 40,
         "name": "COLEDGEX",
         "method": 6,
         "zero_displacement": true
@@ -5259,7 +5255,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 57,
           "name": "ISWALL",
           "method": 6,
           "zero_displacement": true
@@ -5267,7 +5263,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 57,
         "name": "ISWALL",
         "method": 6,
         "zero_displacement": true
@@ -5286,7 +5282,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 38,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5294,7 +5290,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 38,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5313,7 +5309,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 55,
           "name": "SLIDE_ROCK_BARRIER",
           "method": 6,
           "zero_displacement": true
@@ -5321,7 +5317,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 55,
         "name": "SLIDE_ROCK_BARRIER",
         "method": 6,
         "zero_displacement": true
@@ -5340,7 +5336,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5348,7 +5344,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5367,7 +5363,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5375,7 +5371,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5394,7 +5390,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5402,7 +5398,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5421,7 +5417,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 55,
           "name": "SLIDE_ROCK_BARRIER",
           "method": 6,
           "zero_displacement": true
@@ -5429,7 +5425,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 55,
         "name": "SLIDE_ROCK_BARRIER",
         "method": 6,
         "zero_displacement": true
@@ -5448,7 +5444,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5456,7 +5452,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5475,7 +5471,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5483,7 +5479,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5502,7 +5498,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5510,7 +5506,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5529,7 +5525,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 33,
           "name": "PROBE_CHAIN_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -5537,7 +5533,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 33,
         "name": "PROBE_CHAIN_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -5556,7 +5552,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -5564,7 +5560,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5583,7 +5579,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5591,7 +5587,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5610,7 +5606,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5618,7 +5614,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5637,7 +5633,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5645,7 +5641,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5664,7 +5660,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 33,
           "name": "PROBE_CHAIN_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -5672,7 +5668,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 33,
         "name": "PROBE_CHAIN_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -5691,7 +5687,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -5699,7 +5695,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5718,7 +5714,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5726,7 +5722,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5745,7 +5741,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5753,7 +5749,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5772,7 +5768,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5780,7 +5776,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5799,7 +5795,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5807,7 +5803,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5826,7 +5822,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 41,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -5834,7 +5830,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 41,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -5853,7 +5849,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -5861,7 +5857,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -5880,7 +5876,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -5888,7 +5884,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -5907,7 +5903,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -5915,7 +5911,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -5934,7 +5930,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -5942,7 +5938,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -5961,7 +5957,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -5969,7 +5965,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5988,7 +5984,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 18,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -5996,7 +5992,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 18,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -6015,7 +6011,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "CONTROL_DROP",
           "method": 6,
           "zero_displacement": true
@@ -6023,7 +6019,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "CONTROL_DROP",
         "method": 6,
         "zero_displacement": true
@@ -6042,7 +6038,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6050,7 +6046,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6069,7 +6065,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6077,7 +6073,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6096,7 +6092,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6104,7 +6100,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6123,7 +6119,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6131,7 +6127,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6150,7 +6146,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6158,7 +6154,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6204,7 +6200,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -6212,7 +6208,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -6231,7 +6227,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 25,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -6239,7 +6235,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 25,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -6258,7 +6254,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6266,7 +6262,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6285,7 +6281,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6293,7 +6289,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6312,7 +6308,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6320,7 +6316,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6339,7 +6335,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 57,
           "name": "ISWALL",
           "method": 6,
           "zero_displacement": true
@@ -6347,7 +6343,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 57,
         "name": "ISWALL",
         "method": 6,
         "zero_displacement": true
@@ -6366,7 +6362,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -6374,7 +6370,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -6393,7 +6389,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6401,7 +6397,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6420,7 +6416,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6428,7 +6424,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6447,7 +6443,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6455,7 +6451,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6474,7 +6470,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6482,7 +6478,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6501,7 +6497,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 27,
           "name": "DOIMPALE",
           "method": 6,
           "zero_displacement": true
@@ -6509,7 +6505,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 27,
         "name": "DOIMPALE",
         "method": 6,
         "zero_displacement": true
@@ -6555,7 +6551,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6563,7 +6559,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6582,7 +6578,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6590,7 +6586,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6609,7 +6605,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6617,7 +6613,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6636,7 +6632,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6644,7 +6640,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6663,7 +6659,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6671,7 +6667,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6690,7 +6686,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -6698,7 +6694,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -6717,7 +6713,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6725,7 +6721,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6744,7 +6740,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6752,7 +6748,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6771,7 +6767,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6779,7 +6775,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6798,7 +6794,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6806,7 +6802,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6825,7 +6821,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6833,7 +6829,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6852,7 +6848,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6860,7 +6856,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6879,7 +6875,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 38,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -6887,7 +6883,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 38,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -6906,7 +6902,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6914,7 +6910,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6933,7 +6929,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6941,7 +6937,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6960,7 +6956,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6968,7 +6964,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -6987,7 +6983,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -6995,7 +6991,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7014,7 +7010,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -7022,7 +7018,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -7068,7 +7064,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7076,7 +7072,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7095,7 +7091,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 26,
           "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
@@ -7103,7 +7099,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 26,
         "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
@@ -7122,7 +7118,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 26,
           "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
@@ -7130,7 +7126,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 26,
         "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
@@ -7149,7 +7145,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 41,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -7157,7 +7153,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 41,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -7176,7 +7172,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7184,7 +7180,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7203,7 +7199,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7211,7 +7207,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7257,7 +7253,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7265,7 +7261,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7284,7 +7280,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7292,7 +7288,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7311,7 +7307,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7319,7 +7315,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7338,7 +7334,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7346,7 +7342,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7365,7 +7361,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 31,
           "name": "IS_SIX_KIND",
           "method": 6,
           "zero_displacement": true
@@ -7373,7 +7369,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 31,
         "name": "IS_SIX_KIND",
         "method": 6,
         "zero_displacement": true
@@ -7392,7 +7388,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -7400,7 +7396,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -7419,7 +7415,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7427,7 +7423,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7446,7 +7442,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7454,7 +7450,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7473,7 +7469,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -7481,7 +7477,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -7500,7 +7496,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7508,7 +7504,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7527,7 +7523,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7535,7 +7531,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7554,7 +7550,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7562,7 +7558,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7581,7 +7577,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7589,7 +7585,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7608,7 +7604,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 23,
           "name": "BLUES",
           "method": 6,
           "zero_displacement": true
@@ -7616,7 +7612,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 23,
         "name": "BLUES",
         "method": 6,
         "zero_displacement": true
@@ -7635,7 +7631,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7643,7 +7639,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7662,7 +7658,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7670,7 +7666,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7689,7 +7685,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7697,7 +7693,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7716,7 +7712,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7724,7 +7720,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7743,7 +7739,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 77,
+          "index": 71,
           "name": "TRIGGER_TRAPDOOR",
           "method": 6,
           "zero_displacement": true
@@ -7751,7 +7747,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 77,
+        "index": 71,
         "name": "TRIGGER_TRAPDOOR",
         "method": 6,
         "zero_displacement": true
@@ -7770,7 +7766,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7778,7 +7774,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7797,7 +7793,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7805,7 +7801,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7824,7 +7820,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -7832,7 +7828,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -7851,7 +7847,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -7859,7 +7855,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -7878,7 +7874,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7886,7 +7882,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7905,7 +7901,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7913,7 +7909,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7932,7 +7928,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7940,7 +7936,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7959,7 +7955,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7967,7 +7963,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7986,7 +7982,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7994,7 +7990,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -8013,7 +8009,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -8021,7 +8017,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -8067,7 +8063,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -8075,7 +8071,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -8094,7 +8090,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 25,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -8102,7 +8098,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 25,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -8121,7 +8117,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 25,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -8129,7 +8125,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 25,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -8148,7 +8144,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8156,7 +8152,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8175,7 +8171,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8183,7 +8179,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8202,7 +8198,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8210,7 +8206,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8229,7 +8225,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8237,7 +8233,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8256,7 +8252,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8264,7 +8260,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8283,7 +8279,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 61,
           "name": "ADD_MOB_OBJ",
           "method": 6,
           "zero_displacement": true
@@ -8291,7 +8287,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 61,
         "name": "ADD_MOB_OBJ",
         "method": 6,
         "zero_displacement": true
@@ -8310,7 +8306,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 72,
+          "index": 68,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -8318,7 +8314,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 72,
+        "index": 68,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -8337,7 +8333,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 63,
           "name": "MARK_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -8345,7 +8341,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 63,
         "name": "MARK_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -8364,7 +8360,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 63,
           "name": "MARK_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -8372,7 +8368,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 63,
         "name": "MARK_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -8391,7 +8387,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 60,
           "name": "COMPUTE_MOB_RECT",
           "method": 6,
           "zero_displacement": true
@@ -8399,7 +8395,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 60,
         "name": "COMPUTE_MOB_RECT",
         "method": 6,
         "zero_displacement": true
@@ -8418,7 +8414,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8426,7 +8422,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8472,7 +8468,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 15,
           "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
@@ -8480,7 +8476,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 15,
         "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
@@ -8499,7 +8495,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8507,7 +8503,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8526,7 +8522,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 15,
           "name": "MOB_DIMENSIONS",
           "method": 6,
           "zero_displacement": true
@@ -8534,7 +8530,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 15,
         "name": "MOB_DIMENSIONS",
         "method": 6,
         "zero_displacement": true
@@ -8553,7 +8549,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 61,
+          "index": 56,
           "name": "GET_SET_IMAGE_SIZE",
           "method": 6,
           "zero_displacement": true
@@ -8561,7 +8557,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 61,
+        "index": 56,
         "name": "GET_SET_IMAGE_SIZE",
         "method": 6,
         "zero_displacement": true
@@ -8602,7 +8598,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 36,
           "name": "PICS",
           "method": 6,
           "zero_displacement": true
@@ -8610,7 +8606,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 36,
         "name": "PICS",
         "method": 6,
         "zero_displacement": true
@@ -8629,7 +8625,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8637,7 +8633,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8678,7 +8674,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8686,7 +8682,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8705,7 +8701,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8713,7 +8709,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8754,7 +8750,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8762,7 +8758,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8781,7 +8777,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 71,
+          "index": 69,
           "name": "IS_VISIBLE_ROOM_CELL",
           "method": 6,
           "zero_displacement": true
@@ -8789,7 +8785,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 71,
+        "index": 69,
         "name": "IS_VISIBLE_ROOM_CELL",
         "method": 6,
         "zero_displacement": true
@@ -8835,7 +8831,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -8843,7 +8839,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -8862,7 +8858,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -8870,7 +8866,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -8889,7 +8885,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 26,
           "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
@@ -8897,7 +8893,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 26,
         "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
@@ -8916,7 +8912,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 26,
           "name": "PENDING_EFFECT",
           "method": 6,
           "zero_displacement": true
@@ -8924,7 +8920,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 26,
         "name": "PENDING_EFFECT",
         "method": 6,
         "zero_displacement": true
@@ -8943,7 +8939,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 41,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -8951,7 +8947,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 41,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -8970,7 +8966,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 38,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -8978,7 +8974,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 38,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -8997,7 +8993,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9005,7 +9001,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9024,7 +9020,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 38,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -9032,7 +9028,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 38,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -9051,7 +9047,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9059,7 +9055,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9078,7 +9074,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9086,7 +9082,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9105,7 +9101,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9113,7 +9109,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9132,7 +9128,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9140,7 +9136,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9186,7 +9182,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9194,7 +9190,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9213,7 +9209,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -9221,7 +9217,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -9240,7 +9236,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -9248,7 +9244,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -9267,7 +9263,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -9275,7 +9271,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -9294,7 +9290,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -9302,7 +9298,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -9321,7 +9317,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 65,
           "name": "INDEXCELL1",
           "method": 6,
           "zero_displacement": true
@@ -9329,7 +9325,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 65,
         "name": "INDEXCELL1",
         "method": 6,
         "zero_displacement": true
@@ -9348,7 +9344,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9356,7 +9352,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9375,7 +9371,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9383,7 +9379,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9402,7 +9398,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9410,7 +9406,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9429,7 +9425,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9437,7 +9433,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9456,7 +9452,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9464,7 +9460,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9483,7 +9479,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9491,7 +9487,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9510,7 +9506,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9518,7 +9514,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9537,7 +9533,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9545,7 +9541,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9564,7 +9560,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9572,7 +9568,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9591,7 +9587,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9599,7 +9595,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9618,7 +9614,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9626,7 +9622,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9645,7 +9641,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9653,7 +9649,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9672,7 +9668,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9680,7 +9676,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9699,7 +9695,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 43,
           "name": "ADD_MOB",
           "method": 6,
           "zero_displacement": true
@@ -9707,7 +9703,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 43,
         "name": "ADD_MOB",
         "method": 6,
         "zero_displacement": true
@@ -9726,7 +9722,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9734,7 +9730,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9753,7 +9749,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9761,7 +9757,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9780,7 +9776,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9788,7 +9784,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9807,7 +9803,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 79,
+          "index": 74,
           "name": "ROW2PIXELY",
           "method": 6,
           "zero_displacement": true
@@ -9815,7 +9811,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 79,
+        "index": 74,
         "name": "ROW2PIXELY",
         "method": 6,
         "zero_displacement": true
@@ -9834,7 +9830,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -9842,7 +9838,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -9861,7 +9857,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9869,7 +9865,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9888,7 +9884,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9896,7 +9892,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9915,7 +9911,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -9923,7 +9919,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -9942,7 +9938,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9950,7 +9946,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9969,7 +9965,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -9977,7 +9973,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -9996,7 +9992,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 78,
+          "index": 72,
           "name": "COL2PIXELX",
           "method": 6,
           "zero_displacement": true
@@ -10004,7 +10000,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 78,
+        "index": 72,
         "name": "COL2PIXELX",
         "method": 6,
         "zero_displacement": true
@@ -10023,7 +10019,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -10031,7 +10027,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -10050,7 +10046,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10058,7 +10054,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10077,7 +10073,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10085,7 +10081,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10104,7 +10100,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 28,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -10112,7 +10108,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 28,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -10131,7 +10127,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 10,
           "name": "@slide_rock_on_row",
           "method": 6,
           "zero_displacement": true
@@ -10139,7 +10135,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 10,
         "name": "@slide_rock_on_row",
         "method": 6,
         "zero_displacement": true
@@ -10158,7 +10154,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 55,
           "name": "SLIDE_ROCK_BARRIER",
           "method": 6,
           "zero_displacement": true
@@ -10166,7 +10162,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 55,
         "name": "SLIDE_ROCK_BARRIER",
         "method": 6,
         "zero_displacement": true
@@ -10185,7 +10181,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 35,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -10193,7 +10189,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 35,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -10212,7 +10208,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 55,
           "name": "SLIDE_ROCK_BARRIER",
           "method": 6,
           "zero_displacement": true
@@ -10220,7 +10216,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 55,
         "name": "SLIDE_ROCK_BARRIER",
         "method": 6,
         "zero_displacement": true
@@ -10239,7 +10235,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 49,
           "name": "ALTAR_WATCH_KID",
           "method": 6,
           "zero_displacement": true
@@ -10247,7 +10243,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 49,
         "name": "ALTAR_WATCH_KID",
         "method": 6,
         "zero_displacement": true
@@ -10266,7 +10262,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 38,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -10274,7 +10270,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 38,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -10293,7 +10289,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 29,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -10301,7 +10297,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 29,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -10320,7 +10316,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 47,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -10328,7 +10324,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 47,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -10347,7 +10343,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 18,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -10355,7 +10351,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 18,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -10374,7 +10370,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 4,
           "name": "@add_middle_image",
           "method": 6,
           "zero_displacement": true
@@ -10382,7 +10378,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 4,
         "name": "@add_middle_image",
         "method": 6,
         "zero_displacement": true
@@ -10401,7 +10397,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -10409,7 +10405,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -10428,7 +10424,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -10436,7 +10432,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -10455,7 +10451,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -10463,7 +10459,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -10482,7 +10478,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 4,
           "name": "@add_middle_image",
           "method": 6,
           "zero_displacement": true
@@ -10490,7 +10486,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 4,
         "name": "@add_middle_image",
         "method": 6,
         "zero_displacement": true
@@ -10509,7 +10505,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -10517,7 +10513,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -10536,7 +10532,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -10544,7 +10540,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -10585,7 +10581,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "FCHAR",
           "method": 6,
           "zero_displacement": true
@@ -10593,7 +10589,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "FCHAR",
         "method": 6,
         "zero_displacement": true
@@ -10639,7 +10635,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 39,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -10647,7 +10643,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 39,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -10666,7 +10662,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 43,
           "name": "ADD_MOB",
           "method": 6,
           "zero_displacement": true
@@ -10674,7 +10670,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 43,
         "name": "ADD_MOB",
         "method": 6,
         "zero_displacement": true
@@ -10693,7 +10689,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10701,7 +10697,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10720,7 +10716,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10728,7 +10724,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10747,7 +10743,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10755,7 +10751,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10774,7 +10770,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 79,
+          "index": 74,
           "name": "ROW2PIXELY",
           "method": 6,
           "zero_displacement": true
@@ -10782,7 +10778,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 79,
+        "index": 74,
         "name": "ROW2PIXELY",
         "method": 6,
         "zero_displacement": true
@@ -10801,7 +10797,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -10809,7 +10805,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -10828,7 +10824,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10836,7 +10832,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10855,7 +10851,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10863,7 +10859,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10882,7 +10878,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 22,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -10890,7 +10886,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 22,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -10909,7 +10905,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10917,7 +10913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10936,7 +10932,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 78,
+          "index": 72,
           "name": "COL2PIXELX",
           "method": 6,
           "zero_displacement": true
@@ -10944,7 +10940,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 78,
+        "index": 72,
         "name": "COL2PIXELX",
         "method": 6,
         "zero_displacement": true
@@ -10963,7 +10959,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10971,7 +10967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -10990,7 +10986,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 32,
           "name": "MOB",
           "method": 6,
           "zero_displacement": true
@@ -10998,7 +10994,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 32,
         "name": "MOB",
         "method": 6,
         "zero_displacement": true
@@ -11017,7 +11013,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 24,
           "name": "BLUET",
           "method": 6,
           "zero_displacement": true
@@ -11025,7 +11021,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 24,
         "name": "BLUET",
         "method": 6,
         "zero_displacement": true
@@ -11044,7 +11040,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 38,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -11052,7 +11048,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 38,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -11071,7 +11067,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 77,
+          "index": 71,
           "name": "TRIGGER_TRAPDOOR",
           "method": 6,
           "zero_displacement": true
@@ -11079,7 +11075,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 77,
+        "index": 71,
         "name": "TRIGGER_TRAPDOOR",
         "method": 6,
         "zero_displacement": true
@@ -12141,18 +12137,6 @@
         }
       ]
     },
-    "ROCK_SPEED_A": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2102,
-      "witnesses": []
-    },
-    "ROCK_SPEED_B": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2104,
-      "witnesses": []
-    },
     "ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -12222,18 +12206,6 @@
       "kind": "dgroup-public",
       "offset": 3390,
       "provider": "group:tables/tables"
-    },
-    "SEQUENCE_A": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2076,
-      "witnesses": []
-    },
-    "SEQUENCE_B": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2078,
-      "witnesses": []
     },
     "ADD_MOB_OBJ": {
       "entry_sha256": "b9aeab5ef69cd12a7b8cd03422125cd9b87f3bc869a04ff78e811a3315a42d08",

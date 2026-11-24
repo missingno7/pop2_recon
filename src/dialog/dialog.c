@@ -30,7 +30,7 @@ static struct dialog_rect save_description = {167, 16, 183, 304};
 static const struct dialog_point symbol_heading = {28, 47};
 static const struct dialog_point symbol_caption = {44, 72};
 static struct dialog_rect notice_port[1] = {{32, 73, 50, 266}};
-static struct { int done; } notice_state = {0};
+struct { int done; } notice_state = {0};
 static const struct dialog_point hall_name_caption = {53, 25};
 static const struct dialog_point hall_score_caption = {53, 260};
 static struct dialog_rect hall_box = {38, 20, 57, 300};
@@ -835,8 +835,12 @@ struct rebirth_record {
 
 extern struct rebirth_record far *hRebirthSaved;
 extern CHARREC Char;
-extern signed char CutRoom, OrigLifePts, start_facing;
-extern signed char cutscene_flags, quote_index;
+extern struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KidInfo;
+extern signed char CutRoom, OrigLifePts;
+extern signed char quote_index;
 extern int Resume, Invert;
 extern unsigned far cdecl _dos_creat(const char *, unsigned, int *);
 extern unsigned far cdecl _dos_write(int, const void far *, unsigned, unsigned *);
@@ -870,8 +874,8 @@ int far pascal ResumeGame(int slot)
             SixtiethsCtr = saved->disabled;
             LevelIdx = saved->level;
             Kid.life_initial = Kid.life_points = OrigLifePts = saved->health;
-            cutscene_flags = saved->saved_flags;
-            start_facing = saved->facing;
+            KidInfo.entrance_mode = saved->saved_flags;
+            KidInfo.sword_kind = saved->facing;
             Invert = saved->Invert;
             quote_index = saved->room_state;
             Resume = 1;
@@ -906,8 +910,8 @@ int far pascal SaveGame(struct save_slot_table far *slots, int slot)
         }
         saved->menu = Minutes;
         saved->disabled = SixtiethsCtr;
-        saved->saved_flags = cutscene_flags;
-        saved->facing = start_facing;
+        saved->saved_flags = KidInfo.entrance_mode;
+        saved->facing = KidInfo.sword_kind;
         saved->Invert = Invert;
         saved->room_state = quote_index;
         size = sizeof(*slots);
@@ -938,7 +942,7 @@ void far pascal SaveRebirthPtStatus(int point_id)
     hRebirthSaved->health = Kid.life_initial;
     hRebirthSaved->direction = Kid.direction;
     hRebirthSaved->Invert = Invert;
-    hRebirthSaved->facing = start_facing;
+    hRebirthSaved->facing = KidInfo.sword_kind;
     prepare_saved_room_objects();
 }
 
@@ -1019,7 +1023,7 @@ int far pascal SetRebirthPtKidStatus(void)
         Char.row = point->cell / 10;
         OrigLifePts = hRebirthSaved->health;
         Char.direction = hRebirthSaved->direction;
-        start_facing = hRebirthSaved->facing;
+        KidInfo.sword_kind = hRebirthSaved->facing;
         result = 2;
     } else {
         result = -1;
@@ -1564,7 +1568,12 @@ void far pascal draw_main_menu(void)
     draw_menu_icon(0, 1);
 }
 
-extern unsigned char sound_volume, menu_music;
+extern unsigned char sound_volume;
+extern struct {
+    unsigned char enabled;
+    signed char cue;
+    int song, delay, reserved[2];
+} ambient_state;
 extern char sound_on_message[], sound_off_message[], ambient_on_message[], ambient_off_message[], keyboard_mode_message[], joystick_mode_message[];
 
 struct menu_text_10 { char value[10]; };
@@ -1586,7 +1595,7 @@ void far pascal draw_menu_label(int index, int selected)
                                  : sound_off_message;
             break;
         case 1:
-            label = menu_music ? ambient_on_message
+            label = ambient_state.enabled ? ambient_on_message
                                : ambient_off_message;
             break;
         case 2:
@@ -1656,7 +1665,7 @@ void far pascal SaveOptionsToDisk(void)
     int file;
 
     options.sound = sound_volume == 15 ? 1 : 0;
-    options.music = menu_music;
+    options.music = ambient_state.enabled;
     if (!_dos_open(options_path, 1, &file) || !_dos_creat(options_path, 0, &file)) {
         _dos_write(file, &options, sizeof(options), &written);
         _dos_close(file);
@@ -1676,7 +1685,7 @@ void far pascal SetOptionsFromDisk(void)
             if (!options.sound)
                 SET_SOUND_LEVEL(0);
             if (!options.music)
-                menu_music = 0;
+                ambient_state.enabled = 0;
         }
         _dos_close(file);
     }
@@ -1694,9 +1703,9 @@ int far pascal change_menu_option(int option)
         SET_SOUND_LEVEL((unsigned char)(!sound_volume * 15));
         break;
     case 1:
-        changed = menu_music;
+        changed = ambient_state.enabled;
         toggle_ambient();
-        changed = menu_music != changed;
+        changed = ambient_state.enabled != changed;
         break;
     case 2:
         if (GameState.control_mode == 2)
@@ -1715,7 +1724,7 @@ int far pascal change_menu_option(int option)
 }
 
 extern int far pascal dissolve_do_all(int, int, const struct dialog_rect far *, long);
-extern int credits_timer;
+extern volatile int Timer[4];
 extern int far pascal find_option(const char far *);
 extern int far pascal allocate_clipped_port(const struct dialog_rect far *);
 extern void far pascal draw_record_bounds(int);
@@ -1752,9 +1761,9 @@ int far pascal show_credits(void)
         if (!key) {
             if (!page && find_option(credits_blink_key)) {
                 int port;
-                credits_timer = 480;
+                Timer[0] = 480;
                 port = allocate_clipped_port(&credits_blink_box);
-                while (!key && credits_timer) {
+                while (!key && Timer[0]) {
                     draw_record_bounds(port);
                     key = wait_ticks(1, 15);
                     if (!key) {

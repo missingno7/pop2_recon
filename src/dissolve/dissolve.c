@@ -25,14 +25,14 @@ typedef struct
 
 extern int Graf;
 extern volatile int DITHER_SEED;
-extern volatile long clock_ticks;
+extern volatile long TimeVal;
 extern char ScreenPort[];
 static const char dissolve_option[] = "NODIS";
 typedef struct {
     int mode;
     long area, time;
 } DISSOLVEENV;
-extern DISSOLVEENV DissolveEnv;
+DISSOLVEENV DissolveEnv;
 typedef union
 {
     long value;
@@ -128,7 +128,7 @@ void dissolve_set_inc_amt(Dissolve *record)
     if (DissolveEnv.mode == record->mode && DissolveEnv.area == area) {
         elapsed = DissolveEnv.time;
     } else {
-        start = clock_ticks;
+        start = TimeVal;
         saved_destination = record->destination;
         record->destination = record->source;
         record->level = 255;
@@ -139,7 +139,7 @@ void dissolve_set_inc_amt(Dissolve *record)
         }
         record->destination = saved_destination;
         record->level = 0;
-        elapsed = clock_ticks - start;
+        elapsed = TimeVal - start;
         if (!elapsed)
             elapsed = 1;
         DissolveEnv.mode = record->mode;
@@ -178,10 +178,10 @@ int dissolve_step(Dissolve *record)
 
     finished = 0;
     if (record->level == finished) {
-        record->start = clock_ticks;
+        record->start = TimeVal;
         record->level = record->increment;
     } else {
-        scratch.value = clock_ticks - record->start;
+        scratch.value = TimeVal - record->start;
         if (record->duration - record->half_step_time / 2 >= scratch.value) {
             record->level = (int)((unsigned long)(255L * scratch.value) / record->duration);
             if (!record->level)

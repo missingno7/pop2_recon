@@ -10,7 +10,7 @@ typedef struct SoundSettings {
     unsigned char midi_parameters[6];
 } SoundSettings;
 
-extern volatile int sound_startup_finished;
+static volatile int sound_startup_finished;
 
 extern SoundDriver far cdecl load_sound_driver(const char far *path);
 extern void far *far cdecl read_dos_file_to_buffer(const char far *path);
@@ -76,7 +76,7 @@ void far cdecl initialize_sound_drivers(int wait_for_sound)
 }
 
 extern void far *startup_presets;
-extern volatile int sound_startup_finished;
+static volatile int sound_startup_finished;
 
 extern void far cdecl release_driver_payload(void far *payload);
 

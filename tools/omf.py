@@ -39,12 +39,12 @@ class OmfReader:
 
     `library_records=True` (pinned runtime members only) also decodes the library
     records compiler output never contains here: LEXTDEF/LPUBDEF (module-local
-    names, marked `local`), far COMDEF communals and a MODEND start address
-    (recorded, never resolved). Near COMDEF communals (MSC's uninitialized
-    globals defined without `extern`, data type 0x62) are decoded always
-    (2026-11-23): they share the external index space, so a reference to one is
-    an external fixup that a binding must ground like any extern; `communals`
-    lists name and length."""
+    names, marked `local`) and a MODEND start address
+    (recorded, never resolved). COMDEF communals (MSC's uninitialized globals
+    defined without `extern`; near 0x62 since 2026-11-23, far 0x61 since
+    2026-11-24) are decoded always: they share the external index space, so a
+    reference to one is an external fixup that a binding must ground like any
+    extern; `communals` lists name, kind and length."""
 
     def __init__(self, *, overwrite_ledata=False, library_records=False):
         self.overwrite_ledata = overwrite_ledata
@@ -197,7 +197,7 @@ class OmfReader:
                         if at + width > len(body): raise OmfError("truncated COMDEF length")
                         lengths_.append(int.from_bytes(body[at:at+width], "little") if width else lead)
                         at += width
-                    if data_type not in (0x61, 0x62) or (data_type == 0x61 and not self.library_records):
+                    if data_type not in (0x61, 0x62):
                         raise OmfError("unsupported COMDEF data type")
                     externals.append(name)
                     communals.append({"name": name, "kind": "far" if data_type == 0x61 else "near",

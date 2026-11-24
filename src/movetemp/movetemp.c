@@ -50,7 +50,7 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 
-extern int Rnd(int);
+extern int Rnd(int maximum);
 extern signed char FirstInRow(signed char row);
 extern signed char get_char_col(int x);
 extern int IsWall(unsigned char kind);
@@ -86,7 +86,7 @@ typedef struct {
 #pragma pack()
 
 extern FCHARREC FChar;
-extern int sequence_a, sequence_b, rock_speed_a, rock_speed_b;
+extern struct { int heights[13], widths[13]; } mob_dimensions;
 static struct {
     int bolt_y_2, bolt_x_2;
     int bolt_y_3, bolt_x_3;
@@ -198,17 +198,17 @@ void move_slide_rock(void)
     if (Mob.velocity != -1) {
         row = GetRow(Mob.y); FChar.index = IndexCell1(Mob.x / 32, row);
         if (is_visible_room_cell(Mob.room, (unsigned char)FChar.index)) {
-            sequence = sequence_b;
+            sequence = mob_dimensions.heights[7];
             if (!probe_floors_toward_rock(-1, 52)) {
-                y = Mob.y; Mob.y -= 59; old_speed = rock_speed_a;
-                rock_speed_a = (int)(Mob.flags - Mob.x) <= old_speed ? (int)(Mob.flags - Mob.x) : old_speed;
-                rock_speed_b = (int)(Mob.flags - Mob.x) <= rock_speed_b ? (int)(Mob.flags - Mob.x) : rock_speed_b;
+                y = Mob.y; Mob.y -= 59; old_speed = mob_dimensions.widths[6];
+                mob_dimensions.widths[6] = (int)(Mob.flags - Mob.x) <= old_speed ? (int)(Mob.flags - Mob.x) : old_speed;
+                mob_dimensions.widths[7] = (int)(Mob.flags - Mob.x) <= mob_dimensions.widths[7] ? (int)(Mob.flags - Mob.x) : mob_dimensions.widths[7];
                 Mob.x += 5;
-                sequence_b = sequence_a = 9; mark_mob_redraw(2);
-                Mob.y = y; Mob.x -= 5; rock_speed_b = rock_speed_a = old_speed;
-                sequence_b = sequence_a = sequence;
+                mob_dimensions.heights[7] = mob_dimensions.heights[6] = 9; mark_mob_redraw(2);
+                Mob.y = y; Mob.x -= 5; mob_dimensions.widths[7] = mob_dimensions.widths[6] = old_speed;
+                mob_dimensions.heights[7] = mob_dimensions.heights[6] = sequence;
             } else
-                sequence_b = sequence_a = 58;
+                mob_dimensions.heights[7] = mob_dimensions.heights[6] = 58;
             Mob.kind = 7; add_mob_obj(Mob.y);
             x = Mob.x; Mob.x += 32; y = Mob.y;
             if (Mob.flags > (unsigned int)Mob.x) {
@@ -228,7 +228,7 @@ void move_slide_rock(void)
                 move_slide_bolt();
             }
             Mob.x = x; Mob.y = y;
-            Mob.kind = 6; sequence_b = sequence_a = sequence;
+            Mob.kind = 6; mob_dimensions.heights[7] = mob_dimensions.heights[6] = sequence;
         }
     }
 }
@@ -665,7 +665,6 @@ void trigger_slide_rock(unsigned char room, signed char cell, unsigned char acti
     }
 }
 
-extern struct { int heights[13], widths[13]; } mob_dimensions;
 
 void move_trapdoor(void)
 {

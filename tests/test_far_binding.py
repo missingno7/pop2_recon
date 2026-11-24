@@ -430,7 +430,7 @@ class FarWindowTests(unittest.TestCase):
     def test_record_member_needs_an_overlapping_stride_and_a_witnessed_base(self):
         import copy
         from far_binding import _ground_far_data
-        symbol = json.loads((ROOT / "evidence/bindings/draw/draw.json").read_text())["symbols"]["MIDDLE_QUEUE"]
+        symbol = json.loads((ROOT / "evidence/bindings/draw/draw.json").read_text())["symbols"]["MIDTABLE"]
         row = next(m for m in symbol["members"] if "record" in m)
         self.assertEqual(row["offset"], 0xFFFF)
         target = {"space": "root", "segment": 0x790, "offset": 0, "size": 1}

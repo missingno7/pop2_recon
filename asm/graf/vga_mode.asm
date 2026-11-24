@@ -3,8 +3,8 @@
 .DATA
 EXTRN Graf:WORD
 EXTRN default_port:BYTE
-EXTRN surface_row_stride:WORD
-EXTRN surface_scanline_offsets:WORD
+SURFACE_ROW_STRIDE EQU WORD PTR DEFAULT_PORT+0Ch
+SURFACE_SCANLINE_OFFSETS EQU WORD PTR DEFAULT_PORT+0Eh
 .CODE
 EXTRN show_mouse_graphics:NEAR
 EXTRN check_cursor_overlap:NEAR

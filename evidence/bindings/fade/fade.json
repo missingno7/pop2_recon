@@ -167,7 +167,7 @@
       "__fmemset",
       "__fmemcpy",
       "__fmemcmp",
-      "FADE_DELAY",
+      "TIMER",
       "GRAF",
       "SCREENPORTRECT",
       "INIT_FADE_IN",
@@ -398,7 +398,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FADE_DELAY",
+          "name": "TIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -406,7 +406,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FADE_DELAY",
+        "name": "TIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -425,7 +425,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FADE_DELAY",
+          "name": "TIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -433,7 +433,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FADE_DELAY",
+        "name": "TIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -452,7 +452,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FADE_DELAY",
+          "name": "TIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -460,7 +460,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FADE_DELAY",
+        "name": "TIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -830,7 +830,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FADE_DELAY",
+          "name": "TIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -838,7 +838,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FADE_DELAY",
+        "name": "TIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -857,7 +857,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FADE_DELAY",
+          "name": "TIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -865,7 +865,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FADE_DELAY",
+        "name": "TIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -911,7 +911,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FADE_DELAY",
+          "name": "TIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -919,7 +919,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FADE_DELAY",
+        "name": "TIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -1744,12 +1744,6 @@
         }
       ]
     },
-    "FADE_DELAY": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9442,
-      "witnesses": []
-    },
     "GRAF": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -1898,6 +1892,12 @@
       "segment": 4393,
       "space": "root",
       "witnesses": []
+    },
+    "TIMER": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:timer_hooks",
+      "offset": 9436
     },
     "WAIT_FUNCTION": {
       "kind": "dgroup-public",

@@ -62,9 +62,9 @@ extern union {
     struct {
         unsigned int low, high;
     } words;
-} clock_ticks;
-extern unsigned char midi_play_time;
-extern unsigned long music_deadline;
+} TimeVal;
+extern unsigned char midi_cue;
+static unsigned long music_deadline;
 extern void play_sound(int sound);
 extern int wait_sound(int sound);
 extern int (far *wait_function)(void);
@@ -74,7 +74,7 @@ void start_timed_music(int sound, unsigned int duration)
 {
     if (active_sound_channels & 1) play_sound(sound);
     else
-        music_deadline = clock_ticks.count + duration;
+        music_deadline = TimeVal.count + duration;
 }
 
 int await_timed_music(int sound);
@@ -94,7 +94,7 @@ int await_timed_music(int sound)
     } else {
         do {
             if (check_wait_function()) interrupted = 1;
-        } while (!interrupted && clock_ticks.count < music_deadline);
+        } while (!interrupted && TimeVal.count < music_deadline);
     }
     return interrupted;
 }
@@ -109,25 +109,41 @@ int WaitMidiPlayTime(unsigned char time)
             return 0;
         if ((interrupted = check_wait_function()) != 0)
             return 1;
-    } while (time > midi_play_time);
+    } while (time > midi_cue);
     return 0;
 }
 
-extern Handle hBorderSL, dialog_font, title_font;
+typedef struct {
+    char private_fields[16];
+    Rect clip;
+} ImagePort;
+
+/* NIS.C's own variables, in RTLink's order from DGROUP 68fa. */
+Handle hTranSL, hRuinsSL, hTitleShp1, hTitleShp2;
+ImagePort *SkyMS;
+Handle hDiscSL, hNISPal;
+int (far *SaveWaitFunc)(void);
+Handle hFont, hWitchShp, hFontHilite, hHappySL;
+void far *pFont;
+Handle hFlyingPal, hBorderSL, hRosyPal, hIrisPal, hWitchPal, hTreePal;
+int WhichTree, NISButtonDown;
+Handle hTransPalP, hTransPalS;
+int pending_decoration, decoration_shape, decoration_x, decoration_y;
+
 extern Handle hGetFont(int resource_id);
 extern void dispose_handle(Handle handle);
 
 void GetDialog(void)
 {
     hBorderSL = hGetSL(25000, 1);
-    dialog_font = hGetFont(10);
-    title_font = hGetFont(11);
+    hFont = hGetFont(10);
+    hFontHilite = hGetFont(11);
 }
 
 void FreeDialog(void)
 {
-    dispose_handle(title_font);
-    dispose_handle(dialog_font);
+    dispose_handle(hFontHilite);
+    dispose_handle(hFont);
     dispose_handle(hBorderSL);
 }
 
@@ -137,14 +153,8 @@ typedef struct {
     char private_tail[2];
 } DrawPort;
 
-typedef struct {
-    char private_fields[16];
-    Rect clip;
-} ImagePort;
-
 extern DrawPort *Graf;
-extern ImagePort *alternate_port, *extended_port;
-extern int pending_decoration, decoration_shape, decoration_x, decoration_y;
+static ImagePort *alternate_port, *extended_port;
 
 extern const char far *lookup_prefixed_string(const char far *list, unsigned char line);
 extern char far *cdecl _fstrcpy(char far *to, const char far *from);
@@ -202,13 +212,13 @@ void draw_nis_text(int resource_id, int line)
         pending_decoration = 0;
     }
 
-    hSetFont(dialog_font);
+    hSetFont(hFont);
     Graf->color = 0;
     AlterRect(&lines, &box, 0, 3, 0, 0);
     DRAW_NUL_TEXT_IN_RECT(OFFSETRECT(&title_bounds, &lines, 1, 0), 0, 0, text_line);
     Graf->color = body_color;
     DRAW_NUL_TEXT_IN_RECT(&lines, 0, 0, text_line);
-    hSetFont(title_font);
+    hSetFont(hFontHilite);
     Graf->color = title_color;
     DRAW_NUL_TEXT_IN_RECT(&lines, 0, 0, text_line);
 
@@ -274,8 +284,6 @@ void flip_kid(const Handle *shapes)
 }
 
 extern DrawPort ScreenPort;
-extern Handle hTreePal;
-extern int WhichTree;
 enum {
     TREE_RESOURCE = 26000,
     TREE_PALETTE_BASE = 26001,
@@ -291,7 +299,7 @@ int tree_callback(void *playback, int frame)
 {
     int interrupted;
 
-    midi_play_time = 0;
+    midi_cue = 0;
     play_sound(TREE_VOICE_BASE + WhichTree);
     interrupted = fade_to(hTreePal, -1, 0);
     if (!interrupted) {
@@ -312,7 +320,6 @@ int tree_callback(void *playback, int frame)
 typedef int (far *AnimationCallback)(void *playback, int frame);
 typedef struct TitleAnimationState TitleAnimationState;
 
-extern int (far *SaveWaitFunc)(void);
 extern void open_level_resources(char **files);
 extern void install_nis_input(void);
 extern void open_verified_resource(const char *name);
@@ -377,12 +384,9 @@ void tree_check(int scene)
 }
 
 extern Rect ScreenPortRect, GamePlayRect;
-extern int transition_animation_state;
-extern ImagePort *SkyMS;
+extern int high_color_shape_boundary;
 extern int ForceFuncParam;
 enum { TRANSITION_RESOURCE = 25000, PRINCESS_MUSIC = 31030, PRINCESS_CUE = 31031 };
-extern Handle hTranSL, hRuinsSL, hTransPalP;
-extern Handle hTitleShp1, hTitleShp2, hTransPalS;
 extern void SET_RECORD_RANGE(const Rect far *bounds, int color);
 extern int query_sound(int sound);
 extern Handle hNewShpItem1(Handle shapes, int item, int flags);
@@ -420,7 +424,7 @@ int Transition(int scene)
     int interrupted;
 
     open_level_resources(nis_data_files);
-    transition_animation_state = 265;
+    high_color_shape_boundary = 265;
     if (scene != 5)
         open_verified_resource(transition_file);
     if (scene != 6) {
@@ -599,7 +603,7 @@ int Transition(int scene)
         close_resource_file(transition_file);
     if (scene != 6)
         close_resource_file(ruins_file);
-    transition_animation_state = 0; close_level_resources(nis_data_files);
+    high_color_shape_boundary = 0; close_level_resources(nis_data_files);
     return interrupted;
 }
 
@@ -611,7 +615,7 @@ int trans_princess_room(Handle shapes)
     int interrupted;
     Handle shadow;
 
-    transition_animation_state = 265;
+    high_color_shape_boundary = 265;
     draw_princess_room(shapes);
     shadow = hGetSL(TRANSITION_RESOURCE + 1, 2);
     PaintShapeItem(shadow, 249, princess_shadow.x, princess_shadow.y, 10, 1);
@@ -629,7 +633,7 @@ int trans_princess_room(Handle shapes)
         interrupted = play_anim(shapes, TRANSITION_RESOURCE, 1, 1, princess_room_callback, 0, 0, 1);
         STROKE_PORT_RECT(&ScreenPortRect);
     }
-    transition_animation_state = 0;
+    high_color_shape_boundary = 0;
     return interrupted;
 }
 
@@ -673,8 +677,8 @@ int trans_throne_room(Handle shapes)
 
     extended_dialog = 1;
     extended_port = 0;
-    dialog_font = hGetFont(10);
-    title_font = hGetFont(11);
+    hFont = hGetFont(10);
+    hFontHilite = hGetFont(11);
     port = AllocBackPort(&GamePlayRect);
     Graf = port;
     tile_sheet = hGetSL(3500, -16);
@@ -767,8 +771,8 @@ int trans_throne_room(Handle shapes)
     Graf = &ScreenPort;
     dispose_handle(hGetSL(3500, -16));
     dispose_handle(HGETRSRC(0x5354524cUL, 4210));
-    dispose_handle(title_font);
-    dispose_handle(dialog_font);
+    dispose_handle(hFontHilite);
+    dispose_handle(hFont);
     if (!query_sound(10255))
         play_sound(10255);
     extended_dialog = 0;
@@ -969,8 +973,7 @@ void erase_static_jaffar(DrawPort *port)
 
 extern void *cdecl memset(void *destination, int value, unsigned int length);
 
-extern Handle hNISPal;
-extern int delay_count;
+extern volatile int Timer[4];
 extern int wait_timer(int timer);
 void clear_nis(DrawPort *port, int color);
 void add_nis(DrawPort *port, Handle shapes, int item, int x, int y, int mode);
@@ -1132,7 +1135,7 @@ int aboard_ship(void)
     }
     if (!aborted) {
         WRITE_DAC_BLOCK(16, 240, white, 1);
-        delay_count = 12;
+        Timer[0] = 12;
         aborted = wait_ticks(0, 12);
     }
     if (!aborted) {
@@ -1208,7 +1211,7 @@ int opening_one(void)
     Handle shapes_handle;
     Rect bounds;
     NisTemporaryPort game_port;
-    midi_play_time = 0;
+    midi_cue = 0;
     play_sound(25010);
     create_port(&game_port, &nis_clip);
     hBorderSL = hGetSL(25000, 1);
@@ -1262,17 +1265,17 @@ int opening_one(void)
         interrupted = await_timed_music(OPENING_SCENE + 1);
     }
     if (!interrupted) {
-        delay_count = 45;
+        Timer[0] = 45;
         hGetSnd(OPENING_SCENE + 2);
         interrupted = wait_timer(0);
         if (!interrupted) interrupted = run_nis_dialog(OPENING_SCENE, 3, 2, 184);
     }
     if (!interrupted) {
-        delay_count = 85;
+        Timer[0] = 85;
         hGetSnd(OPENING_SCENE + 3);
         wait_timer(0);
         start_timed_music(OPENING_SCENE + 3, 254);
-        delay_count = 170;
+        Timer[0] = 170;
         draw_nis_text(OPENING_SCENE, 4);
         dispose_handle(hNISPal);
         hNISPal = HGETRSRC(0x50414c54UL, OPENING_SCENE + 2);
@@ -1338,7 +1341,7 @@ int opening_one(void)
         if (!interrupted) {
             draw_nis_text(0, 0);
             interrupted = fade_nis(&game_port, 0);
-            midi_play_time = 0;
+            midi_cue = 0;
             if (!interrupted) {
                 play_sound(25011);
             }
@@ -1413,7 +1416,7 @@ int opening_two(void)
             was_interrupted = wait_sound(25011);
         }
         if (!was_interrupted) {
-            midi_play_time = 0;
+            midi_cue = 0;
             play_sound(25012);
             was_interrupted = fade_to(hNISPal, -1, 0);
         }
@@ -1459,7 +1462,7 @@ int opening_two(void)
         play_sound(30503);
         for (slide_step = 1; slide_step < 17; ++slide_step) {
             if (!was_interrupted) {
-                delay_count = 14 - slide_step < 0 ? 0 : 14 - slide_step;
+                Timer[0] = 14 - slide_step < 0 ? 0 : 14 - slide_step;
                 Graf = &temporary_port;
                 PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(background), 39, 32, 0);
                 PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(left_actor), 9 - (slide_step << 3), 31, 0);
@@ -1477,7 +1480,7 @@ int opening_two(void)
         if (!was_interrupted) was_interrupted = wait_sound(30503);
     }
     if (!was_interrupted) {
-        midi_play_time = 0; play_sound(25013);
+        midi_cue = 0; play_sound(25013);
         start_timed_music(OPENING_SCENE + 17, 240);
         draw_nis_text(OPENING_SCENE, 20);
     }
@@ -1613,7 +1616,7 @@ int opening_two(void)
         clear_nis(&temporary_port, 0);
         add_nis(&temporary_port, anim_table, 35, 40, 32, 0);
         copy_nis(&temporary_port);
-        midi_play_time = 0;
+        midi_cue = 0;
         play_sound(25014);
         was_interrupted = run_nis_dialog(OPENING_SCENE, 25, 21, 174);
     }
@@ -1625,7 +1628,7 @@ int opening_two(void)
         copy_nis(&temporary_port);
     }
     if (!was_interrupted) {
-        delay_count = 12;
+        Timer[0] = 12;
         clear_nis(&temporary_port, 0);
         add_nis(&temporary_port, anim_table, 33, 39, 32, 0);
         add_nis(&temporary_port, anim_table, 37, 46, 38, 10);
@@ -1676,7 +1679,7 @@ int opening_two(void)
         add_nis(&temporary_port, anim_table, 43, 40, 32, 0);
         add_nis(&temporary_port, anim_table, 41, 125, 28, 10);
         get_shape_rect(&next_rect, anim_table, 41, 125, 28);
-        midi_play_time = 0;
+        midi_cue = 0;
         play_sound(25015);
         start_timed_music(OPENING_SCENE + 26, 93);
         draw_nis_text(OPENING_SCENE, 30);
@@ -1724,7 +1727,6 @@ int opening_two(void)
 
 
 
-extern Handle hNISPal;
 extern void PAINTRLESHAPE_ASM(const void far *shape, int x, int y, int mode);
 
 void clear_nis(DrawPort *port, int color)
@@ -1859,9 +1861,6 @@ extern void POP_PORT_CLIP(void);
 extern void DISPOSE_BITMAP_PORT(ImagePort *patch);
 extern Handle MARK_PURGEABLE(Handle shape);
 extern Rect ending_patch_bounds;
-extern Handle hHappySL, hWitchShp;
-extern Handle ending_palette_one, ending_palette_two, ending_palette_three, ending_palette_four;
-extern Handle hDiscSL;
 
 extern const char nis_music_file[];
 int animate_ending(void);
@@ -1917,7 +1916,7 @@ int ending(void)
         portrait_patch = allocate_clipped_port(&bounds);
         hGetSnd(ENDING_SCENE + 2);
         PaintRLEShapeItem(hHappySL, 44, 161, 64, 10);
-        delay_count = 6; interrupted = wait_timer(0);
+        Timer[0] = 6; interrupted = wait_timer(0);
         DISPOSE_BITMAP_PORT(portrait_patch);
         if (!interrupted) interrupted = wait_ticks(0, 60);
         if (!interrupted) interrupted = fade_nis(&game_port, 0);
@@ -1942,10 +1941,10 @@ int ending(void)
         SET_RECORD_RANGE(&ending_fill_bounds, 48);
         PaintRLEShapeItem(hHappySL, 8, 0, 6, 0);
         alternate_port = allocate_clipped_port(&dialog_rect);
-        ending_palette_one = HGETRSRC(0x50414c54UL, ENDING_SCENE + 2);
-        ending_palette_two = HGETRSRC(0x50414c54UL, ENDING_SCENE + 3);
-        ending_palette_three = HGETRSRC(0x50414c54UL, ENDING_SCENE + 4);
-        ending_palette_four = HGETRSRC(0x50414c54UL, ENDING_SCENE + 5);
+        hFlyingPal = HGETRSRC(0x50414c54UL, ENDING_SCENE + 2);
+        hRosyPal = HGETRSRC(0x50414c54UL, ENDING_SCENE + 3);
+        hIrisPal = HGETRSRC(0x50414c54UL, ENDING_SCENE + 4);
+        hWitchPal = HGETRSRC(0x50414c54UL, ENDING_SCENE + 5);
         hGetSnd(ENDING_SCENE + 4);
         hGetSnd(ENDING_SCENE + 5);
         hGetSnd(ENDING_SCENE + 6);
@@ -1954,9 +1953,9 @@ int ending(void)
         hWitchShp = MARK_PURGEABLE(hNewShpItem1(hHappySL, 10, 1));
         interrupted = play_anim(hHappySL, ENDING_SCENE, 1, 1, ending_callback, 0, 0, 1);
         dispose_handle(hWitchShp);
-        dispose_handle(ending_palette_four);
-        dispose_handle(ending_palette_three);
-        dispose_handle(ending_palette_two); dispose_handle(ending_palette_one);
+        dispose_handle(hWitchPal);
+        dispose_handle(hIrisPal);
+        dispose_handle(hRosyPal); dispose_handle(hFlyingPal);
         DISPOSE_BITMAP_PORT(alternate_port);
     }
     fade_out_and_restore_palette();
@@ -1992,8 +1991,8 @@ int animate_ending(void)
 }
 
 extern void draw_happy_dialog(int resource, int line, int voice);
-extern void swap_record_pairs(AnimationState *playback);
-extern void far *MATERIALIZE_HANDLE(Handle handle);
+extern void swap_record_pairs(AnimationState *);
+extern void far *MATERIALIZE_HANDLE(Handle);
 
 int ending_callback(AnimationState *playback, int frame)
 {
@@ -2005,17 +2004,17 @@ int ending_callback(AnimationState *playback, int frame)
     if (frame == 0) {
         aborted = WaitMidiPlayTime(101);
         if (!aborted) {
-            playback->fade = init_fade_to(ending_palette_one, -1, 1);
+            playback->fade = init_fade_to(hFlyingPal, -1, 1);
             draw_happy_dialog(ENDING_SCENE, 4, 4);
         }
     } else if (frame == 1) {
-        playback->fade = init_fade_to(ending_palette_two, 7, 1);
+        playback->fade = init_fade_to(hRosyPal, 7, 1);
     } else if (frame == 2) {
         saved_port = Graf;
         MEASURE_TEXT(Graf = &ScreenPort, alternate_port,
                   &alternate_port->clip, &alternate_port->clip, 0);
         Graf = saved_port;
-        playback->fade = init_fade_to(ending_palette_three, -8, 2);
+        playback->fade = init_fade_to(hIrisPal, -8, 2);
     } else if (frame == 3) {
         if (!MATERIALIZE_HANDLE(hWitchShp)) {
             dispose_handle(hWitchShp);
@@ -2032,7 +2031,7 @@ int ending_callback(AnimationState *playback, int frame)
         PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(hWitchShp), 0, 8, 10);
         Graf = saved_port;
         play_sound(ENDING_SCENE + 20);
-        playback->fade = init_fade_to(ending_palette_four, -1, 1);
+        playback->fade = init_fade_to(hWitchPal, -1, 1);
     } else if (frame == 4) {
         init_fade_to_black(playback, 1);
     } else if (frame == 5) {
@@ -2054,8 +2053,8 @@ int ending_callback(AnimationState *playback, int frame)
         get_shape_rect(&bounds, hHappySL, 44, 161, 64);
         patch = allocate_clipped_port(&bounds);
         PaintRLEShapeItem(hHappySL, 44, 161, 64, 10);
-        delay_count = 6;
-        while (delay_count)
+        Timer[0] = 6;
+        while (Timer[0])
             ;
         DISPOSE_BITMAP_PORT(patch);
         Graf = saved_port;
@@ -2078,8 +2077,7 @@ void draw_happy_dialog(int resource, int line, int voice)
 extern int POLL_DOS_KEY(void);
 extern void toggle_sound(void);
 extern void read_controls(void);
-extern int NISButtonDown;
-extern unsigned char nis_button_held;
+extern struct { int y, x, center_y, center_x; unsigned char button; } joystick_state;
 
 int check_nis_input(void)
 {
@@ -2097,7 +2095,7 @@ int check_nis_input(void)
         return 1;
     } else {
         read_controls();
-        if (nis_button_held) {
+        if (joystick_state.button) {
             if (!NISButtonDown)
                 return 1;
         } else {
@@ -2112,7 +2110,7 @@ void install_nis_input(void)
     SaveWaitFunc = wait_function;
     wait_function = check_nis_input;
     read_controls();
-    NISButtonDown = nis_button_held != 0;
+    NISButtonDown = joystick_state.button != 0;
 }
 
 int discovery(void)
@@ -2295,7 +2293,6 @@ int discovery(void)
 
 
 extern void swap_record_pairs(AnimationState *);
-extern Handle hDiscSL;
 
 int discovery_callback(AnimationState *playback, int frame)
 {
@@ -2317,7 +2314,6 @@ struct TitleAnimationState {
     unsigned long frame_clock;
 };
 
-extern ImagePort *SkyMS;
 extern int ForceFuncParam;
 extern void draw_frame(TitleAnimationState *playback);
 extern void *cdecl memcpy(void *destination, const void *source, unsigned int length);
@@ -2341,19 +2337,19 @@ int title_callback(TitleAnimationState *playback, int frame)
         init_fade_to_primary((AnimationState *)playback, 1);
         interrupted = WaitMidiPlayTime(100);
     } else if (frame == 2) {
-        switch (midi_play_time) {
+        switch (midi_cue) {
         case 101:
             Graf = &ScreenPort;
             PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(hTitleShp1), 43, 68, 10);
             Graf = saved_port;
-            midi_play_time = 114;
+            midi_cue = 114;
         case 114:
             PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(hTitleShp1), 43 - playback->port.clip.left,
                       68 - playback->port.clip.top, 10);
             break;
         case 102:
         case 104:
-            while ((clock_ticks.words.low | ((unsigned long)clock_ticks.words.high << 16)) <
+            while ((TimeVal.words.low | ((unsigned long)TimeVal.words.high << 16)) <
                    playback->frame_clock + playback->frame_delay)
                 ;
             MEASURE_TEXT(Graf = &ScreenPort, SkyMS,
@@ -2364,24 +2360,24 @@ int title_callback(TitleAnimationState *playback, int frame)
             ForceFuncParam = 0;
             draw_frame(playback);
             ForceFuncParam = old_frame_suppression;
-            midi_play_time = 120;
+            midi_cue = 120;
             break;
         case 103:
             Graf = &ScreenPort;
             PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(hTitleShp2), 58, 53, 10);
             Graf = saved_port;
-            midi_play_time = 115;
+            midi_cue = 115;
         case 115:
             PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(hTitleShp2), 58 - playback->port.clip.left,
                       53 - playback->port.clip.top, 10);
             break;
         case 105:
             init_fade_to_black((AnimationState *)playback, 1);
-            midi_play_time = 98;
+            midi_cue = 98;
             break;
         }
     }
-    if (midi_play_time == 98 && !((AnimationState *)playback)->fade)
+    if (midi_cue == 98 && !((AnimationState *)playback)->fade)
         interrupted = 1;
     return interrupted;
 }

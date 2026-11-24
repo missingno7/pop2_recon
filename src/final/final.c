@@ -321,17 +321,21 @@ extern struct {
 extern unsigned int current_song;
 extern sbyte LevelIdx;
 extern int NextLevel;
-extern byte ambient_state;
+extern struct {
+    unsigned char enabled;
+    signed char cue;
+    int song, delay, reserved[2];
+} ambient_state;
 extern struct {
     int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
     int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
 } GameState;
 extern void far pascal ClrAll(void);
 extern int far pascal query_sound(int);
-extern void far pascal AddSong(int tune);
-extern void far pascal play_nis(int mode);
+extern void far pascal AddSong(int);
+extern void far pascal play_nis(int);
 extern void far pascal reset_level_overlays(void);
-extern void far pascal load_level(sbyte room);
+extern void far pascal load_level(sbyte);
 extern void far pascal set_palette(int ticks, int speed, byte color, byte direction);
 extern void far pascal set_kid_palette(sbyte room);
 
@@ -362,7 +366,7 @@ void far pascal run_final_frame(void)
     FinlWatchKid();
     FinlWatchOpps();
 
-    if (ambient_state && !query_sound(current_song + 10000) &&
+    if (ambient_state.enabled && !query_sound(current_song + 10000) &&
         Kid.alive < 0 && LevelIdx == NextLevel) {
         int tune = -1;
 
@@ -426,7 +430,7 @@ typedef struct {
 } RoomImageTable;
 
 extern RoomImageTable near *custom_room;
-extern ForegroundImage far fore_queue[];
+extern ForegroundImage far ForeTable[];
 extern int Ct[5];
 extern void far cdecl _fmemmove(void far *dst, const void far *src, unsigned int size);
 
@@ -438,13 +442,13 @@ void far pascal sort_foreground(void)
     index = Ct[1] - 1;
     out = index;
     for (; index >= 0; --index) {
-        int shape = custom_room->images[fore_queue[index].shape - custom_room->first_shape].shape_delta
+        int shape = custom_room->images[ForeTable[index].shape - custom_room->first_shape].shape_delta
                   + custom_room->first_shape;
         if ((shape >= 0x1021 && shape <= 0x1024) || (shape >= 0x1058 && shape <= 0x105c)) {
             if (index != out) {
-                saved = fore_queue[index];
-                _fmemmove(&fore_queue[index], &fore_queue[index + 1], (out - index) * sizeof(ForegroundImage));
-                fore_queue[out] = saved;
+                saved = ForeTable[index];
+                _fmemmove(&ForeTable[index], &ForeTable[index + 1], (out - index) * sizeof(ForegroundImage));
+                ForeTable[out] = saved;
             }
             --out;
         }
@@ -959,7 +963,10 @@ void far pascal finish_casting_at_kid(void)
     load_shadow_with_opponent(slot);
 }
 
-extern int battle_progress;
+extern struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KidInfo;
 
 extern int far pascal get_opp_dist(void);
 extern sbyte far pascal index_cell(sbyte column, sbyte row);
@@ -1047,7 +1054,7 @@ void far pascal run_jaffar_in_escher(void)
                 Kid = Char;
                 load_actor_slot(slot);
             }
-        } else if (Char.row == Opp.row && battle_progress >= 4) {
+        } else if (Char.row == Opp.row && KidInfo.shadow_timer >= 4) {
             if (Opp.life_points <= 2 && Opp.sequence != 242)
                 flee = 0;
             else
@@ -1316,16 +1323,16 @@ void far pascal animate_spider(void)
     Trob.state = (byte)-1;
 }
 
-extern int sprite_vertical_origin;
+extern struct { int top, left, bottom, right; } CellClipRect;
 
 void far pascal draw_spider(FinalObject near *object)
 {
     if (object->kind == 11) {
-        int previous = sprite_vertical_origin;
+        int previous = CellClipRect.left;
 
-        sprite_vertical_origin -= 6;
+        CellClipRect.left -= 6;
         draw_custom_room_image((object->animation & 7) + 6, 11);
-        sprite_vertical_origin = previous;
+        CellClipRect.left = previous;
     }
 }
 
@@ -1536,7 +1543,7 @@ typedef struct {
 } MiddleEntry;
 
 extern FireballSlot near *far pascal get_mob_type_item(byte kind, int index);
-extern MiddleEntry far middle_queue[];
+extern MiddleEntry far MidTable[];
 int far _fastcall get_fireball_image(unsigned int state);
 void far pascal trigger_fireball(void);
 
@@ -1662,8 +1669,8 @@ void far pascal draw_fireball_object(FinalObject near *object)
     int image = get_fireball_image(FChar.image);
 
     add_middle_image(2, image + 1, FChar.x, FChar.y, 10);
-    middle_queue[Ct[3] - 1].mode = 8;
-    middle_queue[Ct[3] - 1].palette = 0;
+    MidTable[Ct[3] - 1].mode = 8;
+    MidTable[Ct[3] - 1].palette = 0;
 }
 
 int far _fastcall get_fireball_image(unsigned int state)

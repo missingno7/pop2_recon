@@ -1286,7 +1286,11 @@ extern hit_action_record far frame_table[];
 
 extern signed char hit_actor_motion;
 
-extern unsigned char actor_stage;
+typedef struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KIDINFO;
+extern KIDINFO KidInfo;
 extern unsigned char actor_counterface;
 static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
@@ -1379,7 +1383,7 @@ void far pascal stab_actor(void)
         } else {
             if (Char.character_kind == 7 || Char.character_kind == 8) {
                 next_action = 153;
-                damage = actor_stage == 2 ? 1 : 2;
+                damage = KidInfo.sword_kind == 2 ? 1 : 2;
                 if (damage < Char.life_points)
                     head_set_to_flee_mode();
             } else if (Char.character_kind == 11 || Opp.character_kind == 11) {
@@ -1689,7 +1693,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
             if (Opp.character_kind == 4)
                 *maximum += 2;
         }
-        if (actor_stage == 2)
+        if (KidInfo.sword_kind == 2)
             *maximum -= 5;
     }
 }

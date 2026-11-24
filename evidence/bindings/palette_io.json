@@ -91,7 +91,7 @@
       }
     ],
     "externals": [
-      "VIDEO_ADAPTER"
+      "GRAPHICS_MODE"
     ]
   },
   "fixups": [
@@ -174,7 +174,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "VIDEO_ADAPTER",
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -239,19 +239,11 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "VIDEO_ADAPTER": {
+    "GRAPHICS_MODE": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9312,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 73225,
-          "bytes_hex": "833e602406",
-          "entry": "root:1129:0afe"
-        }
-      ]
+      "provider": "group:graf/graphics_mode",
+      "offset": 9312
     }
   },
   "target_id": "group:palette_io",

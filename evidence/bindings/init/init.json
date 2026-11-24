@@ -195,7 +195,7 @@
       "MAIN_PORT",
       "FRAME_DIAGNOSTICS",
       "_initialize_sound_drivers",
-      "WINDOW_DRAW_READY",
+      "DOS_VECTORS_INSTALLED",
       "SCREENPORT",
       "SHOW_INIT_MESSAGE",
       "SCREENPORTRECT",
@@ -206,6 +206,13 @@
       "GET_SOUND_STARTUP_FLAG",
       "AMBIENT_STATE",
       "INITIALIZE_DOS_HEAP"
+    ],
+    "communals": [
+      {
+        "name": "SCREENPORT",
+        "kind": "near",
+        "length": 44
+      }
     ]
   },
   "dgroup_segment": {
@@ -745,7 +752,7 @@
         "target": {
           "kind": "external",
           "index": 70,
-          "name": "WINDOW_DRAW_READY",
+          "name": "DOS_VECTORS_INSTALLED",
           "method": 6,
           "zero_displacement": true
         }
@@ -753,7 +760,7 @@
       "target": {
         "kind": "external",
         "index": 70,
-        "name": "WINDOW_DRAW_READY",
+        "name": "DOS_VECTORS_INSTALLED",
         "method": 6,
         "zero_displacement": true
       },
@@ -4885,7 +4892,7 @@
         }
       ]
     },
-    "WINDOW_DRAW_READY": {
+    "DOS_VECTORS_INSTALLED": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
       "offset": 26868,

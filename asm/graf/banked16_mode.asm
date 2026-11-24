@@ -1,11 +1,11 @@
 ; DOS banked 16-color adapter hooks and scanline raster operations.
 .MODEL MEDIUM
 .DATA
-EXTRN near_heap_segment:WORD
+EXTRN __psp:WORD
 EXTRN Graf:WORD
 EXTRN default_port:BYTE
-EXTRN surface_row_stride:WORD
-EXTRN surface_scanline_offsets:WORD
+SURFACE_ROW_STRIDE EQU WORD PTR DEFAULT_PORT+0Ch
+SURFACE_SCANLINE_OFFSETS EQU WORD PTR DEFAULT_PORT+0Eh
 .CODE
 EXTRN show_mouse_graphics:NEAR
 EXTRN check_cursor_overlap:NEAR
@@ -770,7 +770,7 @@ initialize_banked16 PROC FAR
     push di
     push si
     mov dx, 400h
-    mov ax, WORD PTR [near_heap_segment]
+    mov ax, WORD PTR [__psp]
     mov bx, ax
     dec ax
 

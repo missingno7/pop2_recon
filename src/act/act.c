@@ -436,7 +436,6 @@ typedef struct {
 } CELLREC;
 #pragma pack()
 extern CELLREC Cell;
-extern int gate_override;
 extern unsigned char far pascal ClrAll(void);
 extern signed char far pascal ReadCell(signed char room, signed char column, signed char row);
 extern signed char far pascal GetCellCol(void);
@@ -531,7 +530,7 @@ void far pascal control_crouching(void)
 
     sequence = -1;
     if (Dir.down == 0) {
-        if (!gate_blocks_standing() && (!gate_override || !ScytheBarrToStandUp()))
+        if (!gate_blocks_standing() && (!Level.background_overlays[3] || !ScytheBarrToStandUp()))
             sequence = 49;
         else if (Dir.forward < 0)
             sequence = 79;
@@ -597,6 +596,7 @@ void far pascal control_dead(void)
     }
 }
 
+extern int far pascal get_opp_dist(void);
 extern signed char ledge_input, actor_health_slot;
 extern CHARREC Opp;
 #pragma pack(1)
@@ -609,8 +609,6 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern ROOMREC Room;
-extern int gate_override;
-extern int far pascal get_opp_dist(void);
 extern void far pascal CheckTurnSeqs(void);
 extern void far pascal engage_weapon(void);
 extern void far pascal turn_actor(void);
@@ -835,14 +833,14 @@ void far pascal turn_actor(void)
         JumpSeq(5);
 }
 
-extern signed char running_collision;
+extern signed char StepTo;
 extern int far pascal get_forward_distance(void);
 
 /* 25da:0eba */
 void far pascal start_running(void)
 {
     int distance = get_forward_distance();
-    if (running_collision == 1 && distance < 18) {
+    if (StepTo == 1 && distance < 18) {
         if (Dir.forward < 0)
             step_forward(0);
     } else {
@@ -885,7 +883,7 @@ void far pascal step_forward(int distance)
     edge_marker = 1; Dir.forward = edge_marker; Dir.action = edge_marker;
     if (!distance)
         distance = get_forward_distance();
-    if (running_collision == 1)
+    if (StepTo == 1)
         distance--;
     if (distance > 0) {
         Char.field_0f = edge_marker;
@@ -904,7 +902,7 @@ void far pascal step_forward(int distance)
             distance = 42;
         }
     } else if (Char.field_0f &&
-               (running_collision != 1 || Cell.kind == 12 || Cell.kind == 13)) {
+               (StepTo != 1 || Cell.kind == 12 || Cell.kind == 13)) {
         Char.field_0f = 0; distance = 44;
     } else {
         distance = 42;
@@ -920,7 +918,10 @@ extern int far pascal pick_it_up(void);
 extern void far pascal RemoveObj(int portion);
 extern void far pascal AddSong(int song);
 extern void far pascal load_sword_set(unsigned char type);
-extern unsigned char start_facing;
+extern struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KidInfo;
 extern struct {
     int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
     int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
@@ -988,7 +989,7 @@ int far pascal pick_it_up(void)
                 JumpSeq(91);
                 RemoveObj(-1);
                 load_sword_set(type);
-                start_facing = type;
+                KidInfo.sword_kind = type;
                 if (Char.room != 9 || Level.level_number != 8)
                     AddSong(151);
             }
@@ -1111,7 +1112,7 @@ void far pascal jump_high(void)
 
     Dir.up = ClrAll();
     edge = get_forward_distance();
-    if (edge < 4 && running_collision == 1)
+    if (edge < 4 && StepTo == 1)
         Char.x = AddCharX(edge - 6);
     column = get_col((unsigned int)FaceDx(0) + get_base_x() - 6);
     if (is_six_kind(ReadCell(Char.room, column, Char.row - 1)) ||
@@ -1256,7 +1257,7 @@ void far pascal jump_hang(int back)
 
     if (back && edge == 32)
         edge = 0;
-    if (edge < 4 && get_forward_distance() < 4 && running_collision != 1) {
+    if (edge < 4 && get_forward_distance() < 4 && StepTo != 1) {
         Char.x = AddCharX(edge);
         JumpSeq(8);
     } else {
@@ -1437,7 +1438,11 @@ int far pascal choose_weapon_draw(void)
 }
 
 extern unsigned int Player;
-extern int bridge_break;
+typedef struct {
+    int wait, broken;
+    unsigned char floors[8];
+} BRIDGEREC;
+extern BRIDGEREC Bridge;
 extern int far pascal bridge_skeleton_must_advance(void);
 
 extern void far pascal load_kid_with_opponent(signed char slot);
@@ -1494,7 +1499,7 @@ void far pascal control_fighting(void)
         }
         if (Char.slot == 10 && Dir.back < 0 &&
             (Dir.action == -1 || Dir.action == 1) &&
-            (Level.level_number != 5 || Char.room != 10 || bridge_break <= 0)) {
+            (Level.level_number != 5 || Char.room != 10 || Bridge.broken <= 0)) {
             turn_engarde();
             Dir.action = 2;
             Dir.back = ClrAll();

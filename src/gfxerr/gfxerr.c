@@ -16,8 +16,10 @@ struct window {
 typedef int (far pascal *dialog_proc)(int, int, int);
 
 extern void *Graf;
-extern int foreground_ink;
-extern int background_ink;
+extern struct {
+    char surface[32];
+    int background, private_words[3], foreground;
+} DEFAULT_PORT;
 extern char ScreenPort[];
 extern struct window *window_head;
 extern int graphics_mode;
@@ -91,12 +93,12 @@ int far pascal run_dialog_preserving_directory(dialog_proc show, int first, int 
     int result;
 
     get_current_dos_directory(directory);
-    foreground_ink = 0;
-    background_ink = 15;
+    DEFAULT_PORT.foreground = 0;
+    DEFAULT_PORT.background = 15;
     result = show(first, second, third);
     set_current_dos_directory(directory);
-    foreground_ink = 15;
-    background_ink = 0;
+    DEFAULT_PORT.foreground = 15;
+    DEFAULT_PORT.background = 0;
     discard_queued_events(12);
     return result;
 }

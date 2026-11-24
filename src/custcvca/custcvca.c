@@ -31,7 +31,7 @@ typedef struct { int dy, dx; } CarpetStep;
 typedef struct { Byte kind; Byte row; Byte unknown[2]; Byte modifier; } TileAnim;
 #pragma pack()
 
-extern Carpet *carpet;                /* DS:2cdc */
+static Carpet *carpet;                /* DS:2cdc */
 extern unsigned int *Pics[5];
 #define CARPET_SHAPE_ID 0x62d7
 int carpet_x = 0xb0, carpet_y = 0x55;
@@ -61,8 +61,8 @@ typedef struct {
 #pragma pack()
 extern FCHARREC FChar;
 extern Byte ColNo, RowNo, ObjId;       /* DS:6ccf,6cce,6cd2 */
-extern CarpetDraw far carpet_draw_queue[];       /* 2fae:0000 */
-extern MidItem far mid_table[];
+extern CarpetDraw far BackTable[];       /* 2fae:0000 */
+extern MidItem far MidTable[];
 #pragma pack(1)
 typedef struct {
     int x, y;
@@ -270,7 +270,7 @@ void draw_carpet(Byte *tile)
     Shape far *shape;
 
     if (carpet && !carpet->frame && !*tile && NewRoom) {
-        entry = &carpet_draw_queue[Ct[0]];
+        entry = &BackTable[Ct[0]];
         ++Ct[0];
         entry->y = carpet_x;
         entry->x = carpet_y;
@@ -307,12 +307,12 @@ void draw_obj_carpet(Byte *unused)
     Byte palette;
 
     if (carpet && carpet->frame) {
-        slot = Ct[3]; mid_table[slot].x = FChar.x;
+        slot = Ct[3]; MidTable[slot].x = FChar.x;
         frame = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
-        mid_table[slot].y = FChar.y - shape->height; mid_table[slot].sheet = 4;
-        mid_table[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; mid_table[slot].clip = *(Rect *)&FChar.clip_top;
-        mid_table[slot].order = 10;
-        mid_table[slot].reserved = 0; mid_table[slot].invisible = 0; mid_table[slot].depth = 255;
+        MidTable[slot].y = FChar.y - shape->height; MidTable[slot].sheet = 4;
+        MidTable[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; MidTable[slot].clip = *(Rect *)&FChar.clip_top;
+        MidTable[slot].order = 10;
+        MidTable[slot].reserved = 0; MidTable[slot].invisible = 0; MidTable[slot].depth = 255;
         if (carpet_animation.scroll[frame]) {
             scroll = carpet_animation.scroll[frame];
             ObjTable[0].y += scroll; OFFSETRECT(&ObjTable[0].clip, &ObjTable[0].clip, 0, scroll);

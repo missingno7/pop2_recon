@@ -157,8 +157,8 @@ extern SoundRule Snd[];
 extern AmbientState ambient_state;
 extern ROOMREC Room;
 
-extern int WeightlessTimer, ambient_last_song;
-extern SoundHandle sound_handles[];
+extern int WeightlessTimer;
+SoundHandle sound_handles[273];
 extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
 extern int query_sound(int resource);
@@ -184,6 +184,7 @@ extern void *memset(void *, int, unsigned int);
 void AddSong(int song);
 void AddSound(int effect);
 int GetLeaveLevelSongId(void);
+int special_no_ambient_case(void);
 SoundData load_song(int song);
 void release_song_range(int first, int last);
 void load_song_range(int first, int last);
@@ -519,8 +520,8 @@ char *toggle_ambient(void)
     if (active_sound_channels & 2) {
         ambient_state.enabled = !ambient_state.enabled;
         message = ambient_state.enabled ? ambient_on_message : ambient_off_message;
-        if (!ambient_state.enabled && ambient_last_song && pending_song != ambient_last_song)
-            dispatch_sound(ambient_last_song + 10000);
+        if (!ambient_state.enabled && ambient_state.song && pending_song != ambient_state.song)
+            dispatch_sound(ambient_state.song + 10000);
         SaveOptionsToDisk();
     } else {
         message = music_unavailable_message;

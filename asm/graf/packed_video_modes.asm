@@ -3,8 +3,8 @@
 .MODEL MEDIUM
 .DATA
 EXTRN DEFAULT_PORT:BYTE
-EXTRN mode_bytes_per_row:WORD
-EXTRN mode_scanline_offsets:WORD
+SURFACE_ROW_STRIDE EQU WORD PTR DEFAULT_PORT+0Ch
+SURFACE_SCANLINE_OFFSETS EQU WORD PTR DEFAULT_PORT+0Eh
 
 PUBLIC screen_bits, Graf, screen_row_origin, screen_x_origin
 screen_bits DD packed_pattern_bank
@@ -823,7 +823,7 @@ initialize_cga PROC FAR
     push ax
     call __nmalloc
     add sp, 2
-    mov WORD PTR [mode_scanline_offsets], ax
+    mov WORD PTR [SURFACE_SCANLINE_OFFSETS], ax
     test ax, ax
     je loc_3fc4
     xchg di, ax
@@ -835,7 +835,7 @@ initialize_cga PROC FAR
 loc_3faa:
     mov ax, si
     shr ax, 1
-    mul WORD PTR [mode_bytes_per_row]
+    mul WORD PTR [SURFACE_ROW_STRIDE]
     test si, 1
     je loc_3fbb
     add ax, 2000h
@@ -2343,7 +2343,7 @@ initialize_hercules PROC FAR
     push ax
     call __nmalloc
     add sp, 2
-    mov WORD PTR [mode_scanline_offsets], ax
+    mov WORD PTR [SURFACE_SCANLINE_OFFSETS], ax
     test ax, ax
     jne loc_4ba4
 
@@ -2361,7 +2361,7 @@ loc_4bab:
     mov ax, si
     shr ax, 1
     shr ax, 1
-    mul WORD PTR [mode_bytes_per_row]
+    mul WORD PTR [SURFACE_ROW_STRIDE]
     mov WORD PTR [di], ax
     mov ax, si
     and ax, 3

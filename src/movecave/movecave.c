@@ -195,8 +195,8 @@ extern int ColEdgeX[20];
 extern int Col2PixelX[13];
 extern ROOMREC Room;
 extern int Row2PixelY[5];
-extern struct list *lava_slots[4];
-extern sbyte gate_offsets[];
+static struct list *lava_slots[4];
+extern sbyte GateInc[];
 /* 16-bit bubble coordinates are copied together through the legacy input
    record by TriggerLavaBubble. */
 struct BubbleSeed {
@@ -232,8 +232,11 @@ static struct {
 
 static sbyte lava_sequence_0[] = {0, 1, 2, 3, 4, 5, 6, 14, 13, -1};
 static sbyte lava_sequence_1[] = {0, 1, 2, 3, -2, 4, 16, 12, -1};
-extern int bridge_break;
-extern ubyte falling_floors[8];
+typedef struct {
+    int wait, broken;
+    unsigned char floors[8];
+} BRIDGEREC;
+extern BRIDGEREC Bridge;
 
 #define dart_redraw_type cave_motion.dart_redraw[0]
 #define lava_redraw_type cave_motion.lava_redraw[0]
@@ -807,7 +810,7 @@ int move_cave_gate(int sequence)
             sequence = 12;
             add_gate_sound(9);
         } else if (Kid.frame == 264) {
-            sequence -= gate_offsets[animation_code] + 2;
+            sequence -= GateInc[animation_code] + 2;
         } else if (Kid.frame == 265) {
             sequence = 36;
         } else if (Kid.frame == 266) {
@@ -844,6 +847,6 @@ void cave_frame(void)
 void initialize_bridge(void)
 {
     set_palette(3500, 64, 160, 0);
-    bridge_break = 0;
-    memset(falling_floors, 0, sizeof(falling_floors));
+    Bridge.broken = 0;
+    memset(Bridge.floors, 0, sizeof(Bridge.floors));
 }

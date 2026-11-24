@@ -8,13 +8,25 @@ typedef struct {
     byte kind;
 } TrobRecord;
 
-extern int TrobCt;
-extern TrobRecord Trob;
-extern TrobRecord trobs[20];
+#pragma pack(1)
+typedef struct {
+    int x, y;                                         /* 00,02 */
+    unsigned char room;                               /* 04 */
+    int velocity, auxiliary;                          /* 05,07 */
+    signed char kind, row;                             /* 09-0a */
+    unsigned int flags;                               /* 0b */
+} MOBREC;
+#pragma pack()
+
+MOBREC Mob;
+int TrobCt;
+TrobRecord Trob;
+TrobRecord Trobs[20];
+int MobI;
 
 static sbyte exit_close_speed[] = {5, 17, 99, 0};
 static sbyte gate_close_speed[] = {0, 0, 0, 20, 40, 60, 80, 100, 120, 0};
-static sbyte gate_open_speed[] = {-1, -4, 4, 4};
+sbyte GateInc[] = {-1, -4, 4, 4};
 
 #pragma pack(1)
 typedef struct {
@@ -75,9 +87,9 @@ typedef struct {
     unsigned extra;
 } RoomObject;
 
-extern RoomObject *BlueS;
+RoomObject *BlueS;
 extern RoomObject BlueSpec;
-extern byte *BlueT;
+byte *BlueT;
 extern byte ObjId;
 
 #define TrobStateOffset ((unsigned)&((TrobRecord *)0)->state)
@@ -99,16 +111,16 @@ void AnimTrobs(void)
     if (TrobCt) {
         pass.removed = 0;
         for (i = 0; i < TrobCt; ++i) {
-            Trob = trobs[i];
+            Trob = Trobs[i];
             AnimTrob(i);
-            if ((trobs[i].state = Trob.state) < 0)
+            if ((Trobs[i].state = Trob.state) < 0)
                 pass.removed = 1;
         }
         if (pass.removed) {
             compact.kept = i = 0;
             if (i < TrobCt) {
-                sbyte *state = &trobs[0].state;
-                pass.next = trobs;
+                sbyte *state = &Trobs[0].state;
+                pass.next = Trobs;
                 do {
                     if (*state >= 0) {
                         TrobRecord *dst = pass.next;
@@ -125,11 +137,11 @@ void AnimTrobs(void)
 }
 
 extern void select_room_arrays(byte room);
-void select_trob_cell(int cell);
+void select_trob_cell(int);
 void animate_flask(void);
 void animate_loose_floor(void);
 void animate_exit(void);
-void animate_torch(int index);
+void animate_torch(int);
 void animate_gate(void);
 void animate_plate(void);
 extern void animate_desert_exit(void);
@@ -251,8 +263,8 @@ static MoveRect loose_rect_templates[] = {
     {{52, 0, 72, 50}}, {{48, 0, 69, 57}}
 };
 static MoveRect plate_rect = {{49, 0, 67, 57}};
-static MoveRect torch_rect = {{3, 32, 31, 51}};
-static MoveRect cave_torch_rect = {{-4, 25, 18, 57}};
+MoveRect CaveTorchRect = {{3, 32, 31, 51}};
+MoveRect TempTorchRect = {{-4, 25, 18, 57}};
 static MoveRect temple_plate_rect = {{51, 11, 63, 43}};
 static MoveRect clip_char_rect_templates[] = {
     {{9, -32, 192, 46}}, {{6, -32, 192, 48}}, {{6, -32, 192, 50}}
@@ -299,7 +311,7 @@ void redraw_torch(void)
     struct { MoveRect rect; union { int cave; struct { byte pad; sbyte cell; } bytes; } tail; } work;
     work.tail.cave = (Level.environment_kind == 2);
 
-    work.rect = *(work.tail.cave ? &cave_torch_rect : &torch_rect);
+    work.rect = *(work.tail.cave ? &TempTorchRect : &CaveTorchRect);
     if (compute_trob_move_rect(&work.rect, &work.rect)) {
         if (work.tail.cave) {
             mark_move(Trob.cell, &work.rect);
@@ -699,9 +711,9 @@ void animate_torch(int index)
 }
 
 extern struct {
-    sbyte facing;
-    byte death_countdown;
-} player_start;
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KidInfo;
 extern byte active_sound_channels;
 
 extern void AddSound(int value), dispatch_sound(int);
@@ -744,7 +756,7 @@ void animate_gate(void)
                     sound = Level.environment_kind != 3 ? 15 : 9;
                     check_gate_fingers();
                     if (did_player_escape_guard())
-                        player_start.death_countdown = 4;
+                        KidInfo.death_countdown = 4;
                 }
                 add_gate_sound(sound);
                 Trob.state = -1;
@@ -753,7 +765,7 @@ void animate_gate(void)
             if (height == 255)
                 stop_gate(255);
             else {
-                height += gate_open_speed[phase];
+                height += GateInc[phase];
                 if (phase == 0 || phase == 1) {
                     if (height <= 0) {
                         height = 0;
@@ -765,7 +777,7 @@ void animate_gate(void)
                         if (Level.environment_kind == 3)
                             height = move_cave_gate(height);
                     } else if (Level.level_number == 5 && Trob.room == 7)
-                        height -= gate_open_speed[phase];
+                        height -= GateInc[phase];
                 } else if (height < 200) {
                     if (Level.environment_kind != 3) {
                         if (height % 8 == 0)
@@ -912,8 +924,11 @@ typedef struct {
     MoveRect rect;
 } MarkedRect;
 
-extern MarkedRect TopBuf[10], MoveBuf[30], FloorBuf[30], FRedrawBuf[30];
-extern int HalfBuf[30];
+MarkedRect TopBuf[10];
+MarkedRect MoveBuf[30];
+MarkedRect FloorBuf[30];
+MarkedRect FRedrawBuf[30];
+int HalfBuf[30];
 
 extern void ComputeClipRect(MoveRect far *out, int column, int row);
 extern int SECTRECT(MoveRect far *out, MoveRect far *a, MoveRect far *b);
@@ -1151,7 +1166,7 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
     return state;
 }
 
-extern int query_sound(int);
+extern int query_sound(int id);
 extern void AddSong(int sound);
 extern void trigger_slide_rock(byte room, sbyte cell, sbyte state);
 extern sbyte trigger_cave_bars(byte, sbyte);
@@ -1166,7 +1181,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
         state = trigger_gate(room, cell, action);
         break;
     case 17:
-        if ((sbyte)room != Level.entry_room && Level.level_number == 8 && player_start.facing != 1) {
+        if ((sbyte)room != Level.entry_room && Level.level_number == 8 && KidInfo.sword_kind != 1) {
             state = -1;
         } else {
             int height = BlueS[cell].state & 255;
@@ -1215,7 +1230,7 @@ void add_trob(byte room, sbyte cell, sbyte state, byte kind)
             Trob.cell = cell;
             Trob.state = state;
             Trob.kind = kind;
-            trobs[TrobCt] = Trob;
+            Trobs[TrobCt] = Trob;
             ++TrobCt;
         }
     } else {
@@ -1226,8 +1241,8 @@ void add_trob(byte room, sbyte cell, sbyte state, byte kind)
 void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
-extern unsigned int RedrawBuf[30];
-extern unsigned char ObjBuf[30];
+unsigned int RedrawBuf[30];
+unsigned char ObjBuf[30];
 
 void ZeroBuffers(void)
 {
@@ -1359,17 +1374,6 @@ void animate_plate(void)
     }
 }
 
-#pragma pack(1)
-typedef struct {
-    int x, y;                                         /* 00,02 */
-    unsigned char room;                               /* 04 */
-    int velocity, auxiliary;                          /* 05,07 */
-    signed char kind, row;                             /* 09-0a */
-    unsigned int flags;                               /* 0b */
-} MOBREC;
-#pragma pack()
-
-
 void close_exit(byte room, sbyte cell)
 {
     if (Level.environment_kind != 1) {
@@ -1381,14 +1385,12 @@ void close_exit(byte room, sbyte cell)
 
 void make_space(byte room, sbyte cell);
 void add_mob(void);
-extern int MobI;
 void PassThru(void);
 void mark_mob_redraw(sbyte layer);
 extern sbyte IndexCell1(sbyte column, sbyte row);
-extern MOBREC Mob;
-extern MOBREC mobs[];
-extern int MobCt;
-extern sbyte GetRow(int);
+static MOBREC mobs[30];
+int MobCt;
+extern sbyte GetRow(int value);
 
 void animate_loose_floor(void)
 {
@@ -2083,8 +2085,8 @@ TrobRecord *get_trob_room_cell(byte room, int cell)
     int i;
 
     for (i = 0; i < TrobCt && !result; ++i) {
-        if (trobs[i].room == room && trobs[i].cell == cell)
-            result = &trobs[i];
+        if (Trobs[i].room == room && Trobs[i].cell == cell)
+            result = &Trobs[i];
     }
     return result;
 }
@@ -2096,8 +2098,8 @@ TrobRecord *get_trob_by_id(byte kind, sbyte id)
     int i;
 
     for (i = 0; i < TrobCt && !result; ++i) {
-        if (trobs[i].kind == kind && trobs[i].state != -1 && ++found == id)
-            result = &trobs[i];
+        if (Trobs[i].kind == kind && Trobs[i].state != -1 && ++found == id)
+            result = &Trobs[i];
     }
     return result;
 }

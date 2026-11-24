@@ -14,7 +14,8 @@ _DATA SEGMENT WORD PUBLIC 'DATA'
 ASSUME DS:DGROUP
 EXTRN Graf:WORD
 EXTRN window_draw_port:WORD
-EXTRN item_state_2618:WORD
+EXTRN DEFAULT_PORT:BYTE
+CURRENT_GRAPHICS_FONT EQU WORD PTR DEFAULT_PORT+02Ah
 
 PUBLIC menu_list, menu_bounds_top
 menu_list DW 0
@@ -1924,7 +1925,7 @@ grid_item_callback LABEL NEAR
     cmp si, 0
     je loc_a59b
     mov bx, word ptr [di + 2]
-    mov ax, word ptr [item_state_2618]
+    mov ax, word ptr [CURRENT_GRAPHICS_FONT]
     xchg word ptr [bx + 02ah], ax
     xchg word ptr [Graf], bx
     push ax
@@ -2327,7 +2328,7 @@ loc_a83a:
 loc_a83c:
     xchg bx, ax
     mov word ptr [bx + 018h], 0
-    mov ax, word ptr [item_state_2618]
+    mov ax, word ptr [CURRENT_GRAPHICS_FONT]
     mov word ptr [bx + 2], ax
     mov ax, word ptr [di + 016h]
     mov word ptr [bx + 4], ax
@@ -3002,7 +3003,7 @@ text_item_callback LABEL NEAR
     cmp si, 0
     je loc_ad92
     mov bx, word ptr [di + 2]
-    mov ax, word ptr [item_state_2618]
+    mov ax, word ptr [CURRENT_GRAPHICS_FONT]
     xchg word ptr [bx + 02ah], ax
     xchg word ptr [Graf], bx
     push ax

@@ -95,7 +95,7 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 
-extern sbyte desert_column, previous_column;
+static sbyte current_column, previous_column;
 extern CHARREC Char;
 #pragma pack(1)
 typedef struct {
@@ -164,7 +164,11 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern ROOMREC Room;
-extern int sound_room;
+extern struct {
+    unsigned char enabled;
+    signed char cue;
+    int song, delay, reserved[2];
+} ambient_state;
 extern CHARREC Kid;
 extern int NextLevel, pending_effect;
 typedef struct {
@@ -184,7 +188,7 @@ typedef struct {
     unsigned char field_3;
 } TrobRecord;
 extern TrobRecord Trob;
-extern PeelRecord peel_records[];
+extern PeelRecord Peels[];
 
 extern void AddSong(int), AddSound(int);
 extern void CycleColors(int, int, int);
@@ -249,12 +253,12 @@ void check_desert_exit(void)
     if ((flags & 31) != 0)
         return;
     frame = (flags >> 8) & 31;
-    keep_open = desert_column - previous_column != -2; cell = 0;
+    keep_open = current_column - previous_column != -2; cell = 0;
     if (keep_open) {
         while (cell < 6) {
             int state = Level.cell_info[0][cell + 12].modifier & 15;
-            if ((state && desert_column != cell) ||
-                (!state && desert_column == cell && frame < 10))
+            if ((state && current_column != cell) ||
+                (!state && current_column == cell && frame < 10))
                 keep_open = 0;
             ++cell;
             if (!keep_open)
@@ -271,7 +275,7 @@ void check_desert_exit(void)
             else if (frame == 9)
                 AddSound(45);
             else if (frame == 10)
-                sink_desert_stone(desert_column + 12);
+                sink_desert_stone(current_column + 12);
             ++frame;
             flags &= 0xe0ff;
             frame <<= 8;
@@ -306,7 +310,7 @@ void desert_frame(void)
         if (query_sound(10038))
             dispatch_sound(10038);
     } else if (Kid.sequence_group != 7 && Kid.alive < 0 &&
-               !query_sound(sound_room + 10000) &&
+               !query_sound(ambient_state.song + 10000) &&
                !get_trob_by_id(30, 1) && !is_desert_exit_open()) {
         add_desert_ambient();
     }
@@ -321,7 +325,7 @@ void watch_desert_kid(void)
                 if (previous_column >= 2) {
                     if (previous_column <= 7) {
                         if (sink_desert_stone(previous_column + 10) &&
-                            desert_column - previous_column == -2)
+                            current_column - previous_column == -2)
                             AddSong(41);
                     }
                 }
@@ -383,7 +387,7 @@ void LoadDsrtCode(void)
         if (custom_room->template_id == 6) {
             if (desert_variant == -1) {
                 desert_variant = (sbyte)Rnd(2);
-                desert_column = (sbyte)Rnd(4) + 1;
+                current_column = (sbyte)Rnd(4) + 1;
             }
             if (desert_variant != 2) {
                 archive = FETCH_LOCKED_SHAPE_LIST(*Pics[4]);
@@ -596,7 +600,7 @@ void draw_desert_stone(Piece *piece)
         frame = piece_state(piece) & 15;
         if (frame) {
             DrawCustomRoomImgAtInfo(frame + 4, piece);
-            if (frame > 7 && (sbyte)piece->x - desert_column == 2)
+            if (frame > 7 && (sbyte)piece->x - current_column == 2)
                 DrawCustomRoomImgAtInfo(16, piece);
         }
     }
@@ -625,14 +629,14 @@ void remove_last_stone_peel(sbyte column)
     do {
         slot = find_character_peel(114, occurrence);
         if (slot != -1) {
-            bounds = &peel_records[slot].peel->bounds;
+            bounds = &Peels[slot].peel->bounds;
             if (bounds->top == x || bounds->bottom == x) {
-                peel_records[slot].active = 0;
+                Peels[slot].active = 0;
                 if (++matches == 2)
                     slot = -1;
             } else if (bounds->top < x && bounds->bottom > x &&
                        bounds->left == 114 && bounds->right == 127) {
-                peel_records[slot].active = 0;
+                Peels[slot].active = 0;
                 slot = -1;
             }
         }

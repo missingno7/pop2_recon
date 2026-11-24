@@ -119,7 +119,12 @@ typedef struct {
 } FCHARREC;
 #pragma pack()
 extern FCHARREC FChar;
-extern int shadow_timer, Pause, ImWidth;
+typedef struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KIDINFO;
+extern KIDINFO KidInfo;
+extern int Pause, ImWidth;
 extern unsigned long FrameNum;
 
 int abs(int value);
@@ -186,8 +191,8 @@ int far pascal CheckShadowmanBackIntoKid(void)
 void far pascal CheckShadowmanCreate(void)
 {
     if (Char.character_kind == 0 && Char.sequence == 5) {
-        if (++shadow_timer >= 4) {
-            if (shadow_timer == 4) {
+        if (++KidInfo.shadow_timer >= 4) {
+            if (KidInfo.shadow_timer == 4) {
                 set_palette(2000, 48, 16, IsShadowImbued() != 0);
                 HGetSnd(10261);
             }
@@ -195,7 +200,7 @@ void far pascal CheckShadowmanCreate(void)
                 --Char.life_initial;
             else
                 JumpSeq(71);
-            if (shadow_timer == 8) {
+            if (KidInfo.shadow_timer == 8) {
                 if (Char.life_points > 4) {
                     CreateKidAsOpp();
                     Char.character_kind = 1;
@@ -207,12 +212,12 @@ void far pascal CheckShadowmanCreate(void)
                     JumpSeq(71);
                     decrement_life_points(100);
                 }
-                shadow_timer = 0;
+                KidInfo.shadow_timer = 0;
             }
             AddSound(93);
         }
     } else {
-        shadow_timer = 1;
+        KidInfo.shadow_timer = 1;
     }
 }
 
@@ -244,14 +249,14 @@ void far pascal CheckShadowPaletteChange(void)
 void far pascal CheckTurnSeqs(void)
 {
     if (Char.frame == 15)
-        shadow_timer = 0;
+        KidInfo.shadow_timer = 0;
     else if (Char.frame >= 45 && Char.frame <= 52 &&
              !((Char.room == 1 || Char.room == 2) && Level.level_number == 14)) {
-        if (shadow_timer >= 4)
-            Char.field_34 = IsShadowBlinkOn(Char.frame, shadow_timer) ? 8 : 0;
-    } else if (Char.sequence != 5 && shadow_timer != 0) {
+        if (KidInfo.shadow_timer >= 4)
+            Char.field_34 = IsShadowBlinkOn(Char.frame, KidInfo.shadow_timer) ? 8 : 0;
+    } else if (Char.sequence != 5 && KidInfo.shadow_timer != 0) {
         set_kid_palette((signed char)Level.environment_kind);
-        shadow_timer = 0;
+        KidInfo.shadow_timer = 0;
     }
 }
 

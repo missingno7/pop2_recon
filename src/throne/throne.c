@@ -52,8 +52,12 @@ typedef struct {
 } GAMESTATE;
 extern GAMESTATE GameState;
 extern int CDLeftEdge;
-extern int ambient_state;
-extern RoomState room_state;                 /* DS:2d02 */
+extern struct {
+    unsigned char enabled;
+    signed char cue;
+    int song, delay, reserved[2];
+} ambient_state;
+extern RoomState Level;                 /* DS:2d02 */
 extern Byte Room;                   /* DS:5e34 */
 extern CHARREC Char;
 extern Byte CutRoom;                     /* DS:6ccd */
@@ -118,7 +122,7 @@ void play_throne_room_nis(void)
 
     saved_handle = ALLOCATE_PAYLOAD_HANDLE(sizeof(RoomState));
     saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
-    *saved = room_state;
+    *saved = Level;
     nis_result = play_nis(6);
     if (nis_result == 2)
         Room = 0;
@@ -132,7 +136,7 @@ void play_throne_room_nis(void)
     Char.life_delta = Char.life_points;
     load_level(LevelIdx = 8);
     saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
-    room_state = *saved;
+    Level = *saved;
     DISPOSE_HANDLE(saved_handle);
     GameState.throne_nis_played = 1;
     if (nis_result != 2)

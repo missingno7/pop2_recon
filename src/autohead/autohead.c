@@ -69,11 +69,9 @@ typedef struct {
 } FCHARREC;
 #pragma pack()
 extern FCHARREC FChar;
-extern int sprite_x;
 extern CHARREC Kid;
 extern CHARREC Opp;
 extern CHARREC Char;
-extern int sprite_y;
 extern void near *Pics[5];
 extern unsigned int opponent_effect_frames;
 
@@ -266,11 +264,14 @@ void far pascal align_head_on_kid_neck(void)
         neck_x += 6;
     if (Char.direction == 0)
         neck_x = -neck_x;
-    sprite_x = body->x + neck_x;
-    sprite_y = body->y + ((signed char far *)neck)[body->frame * 2];
+    FChar.x = body->x + neck_x;
+    FChar.y = body->y + ((signed char far *)neck)[body->frame * 2];
     clear_handle_owned(opponent_effect_frames);
-    Char.x = sprite_x + 130;
+    Char.x = FChar.x + 130;
 }
+
+int far pascal head_blocked(void);
+void far pascal head_prog(void);
 
 int far pascal head_visibility(void)
 {

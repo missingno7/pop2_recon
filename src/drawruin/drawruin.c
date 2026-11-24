@@ -401,7 +401,7 @@ typedef struct DrawEntry {
     Byte flip, attributes;
 } DrawEntry;
 #pragma pack()
-extern DrawEntry far fore_queue[];
+extern DrawEntry far ForeTable[];
 
 
 void draw_ruin_flaw(RuinCell *cell)
@@ -435,7 +435,7 @@ void draw_ruin_flaw(RuinCell *cell)
                 else
                     emitted = AddBFImgToFTable(18, -2, cell->column, cell->row, 10, 0);
                 if (emitted && flaw == 4)
-                    fore_queue[Ct[1] - 1].clip = GamePlayRect;
+                    ForeTable[Ct[1] - 1].clip = GamePlayRect;
             }
         }
     }

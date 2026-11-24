@@ -48,8 +48,8 @@ typedef struct {
 } ShapeSet;
 
 extern ShapeSet *Pics[5];
-extern int image_y_offsets[];
-extern int image_x_offsets[];
+extern int Row2PixelY[5];
+extern int Col2PixelX[13];
 extern Rect CellClipRect;
 extern Byte ColNo;
 extern Byte RowNo;
@@ -107,10 +107,10 @@ extern void DISPOSE_HANDLE(unsigned int handle);
 extern int far *MATERIALIZE_HANDLE(unsigned int handle);
 extern void PrinceNewShpItem(unsigned int list, int index, ShapeItem far *info, int resource);
 extern void MARK_PURGEABLE(unsigned int handle);
-extern void PrinceFreeShp(int);
+extern void PrinceFreeShp(int id);
 extern TileImages *pieces;
-extern BFItem far back_table[];
-extern BFItem far front_table[];
+extern BFItem far BackTable[];
+extern BFItem far ForeTable[];
 
 extern void check_background_shape(int index);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
@@ -137,8 +137,8 @@ int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
     shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(((ShapeItem *)Pics[set])[image].handle);
     if (shape == 0 || *shape == 0) return 0;
 
-    item->placement.y += image_y_offsets[y] - *shape;
-    item->placement.x += image_x_offsets[x];
+    item->placement.y += Row2PixelY[y + 1] - *shape;
+    item->placement.x += Col2PixelX[x + 1];
     MAKESHAPERECT(&bounds, item->placement.y, item->placement.x, shape);
 
     if (SECTRECT(&bounds, &bounds, &CellClipRect)) {
@@ -162,9 +162,9 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
 
     if (i >= 130) return 0;
     added = add_image_info(4, &pieces[tile].background, image,
-                           &back_table[i], x, y, order, layer);
+                           &BackTable[i], x, y, order, layer);
     if (added) {
-        back_table[i].mode = pieces[tile].mode;
+        BackTable[i].mode = pieces[tile].mode;
         ++Ct[0];
     }
     return added;
@@ -181,9 +181,9 @@ int AddBFImgToBTable(Byte tile, int image, Offset x, Offset y,
         i = Ct[0];
         if (i >= 130) return 0;
         added = add_image_info(4, &pieces[tile].background_foreground, image,
-                               &back_table[i], x, y, order, layer);
+                               &BackTable[i], x, y, order, layer);
         if (added) {
-            back_table[i].mode = pieces[tile].mode;
+            BackTable[i].mode = pieces[tile].mode;
             ++Ct[0];
         }
     }
@@ -198,9 +198,9 @@ int AddBFImgToFTable(Byte tile, int image, Offset x, Offset y,
 
     if (i >= 100) return 0;
     added = add_image_info(4, &pieces[tile].background_foreground, image,
-                           &front_table[i], x, y, order, layer);
+                           &ForeTable[i], x, y, order, layer);
     if (added) {
-        front_table[i].mode = pieces[tile].mode;
+        ForeTable[i].mode = pieces[tile].mode;
         ++Ct[1];
     }
     return added;
@@ -234,7 +234,7 @@ typedef struct {
     Byte object_type;
 } CharacterObject;
 
-extern CharacterObject ObjTable[];
+CharacterObject ObjTable[30];
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
     int x, y, image;                                   /* 02,04,06 */
@@ -331,9 +331,9 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
     i = Ct[1];
     if (i >= 100) return 0;
     added = add_image_info(set, &pieces[tile].foreground, image,
-                           &front_table[i], x, y, order, layer);
+                           &ForeTable[i], x, y, order, layer);
     if (added) {
-        front_table[i].mode = pieces[tile].mode;
+        ForeTable[i].mode = pieces[tile].mode;
         ++Ct[1];
     }
     return added;
@@ -356,7 +356,7 @@ typedef struct {
     int width;
 } ImageSize;
 
-extern MidItem far mid_table[];
+extern MidItem far MidTable[];
 typedef struct {
     int left, top, right, bottom;
 } CustomRect;
@@ -395,7 +395,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
     if (image != 0 && Ct[3] < 30) {
         image_index = image - 1;
         index = Ct[3];
-        mid_table[index].x = x;
+        MidTable[index].x = x;
         if ((Byte)Level.level_number == 5 && Room.number == 10 &&
             set == 4 && custom_room->count > image_index) {
             GetCustomPieceSize(image_index, &size);
@@ -403,15 +403,15 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
             if (!get_set_image_size(Pics[set], image_index, &size) || !size.height) return 0;
         }
 
-        mid_table[index].y = y - size.height + 1;
-        mid_table[index].set = set;
-        mid_table[index].image = image_index;
-        mid_table[index].clip = FChar.clip;
-        mid_table[index].order = order;
-        mid_table[index].reserved = 0;
-        if (FChar.flipped == 0 && (set != 4 || (signed char)FChar.object_type >= 0)) mid_table[index].visible = 1;
-        else mid_table[index].visible = 0;
-        mid_table[index].depth = 255;
+        MidTable[index].y = y - size.height + 1;
+        MidTable[index].set = set;
+        MidTable[index].image = image_index;
+        MidTable[index].clip = FChar.clip;
+        MidTable[index].order = order;
+        MidTable[index].reserved = 0;
+        if (FChar.flipped == 0 && (set != 4 || (signed char)FChar.object_type >= 0)) MidTable[index].visible = 1;
+        else MidTable[index].visible = 0;
+        MidTable[index].depth = 255;
         ++Ct[3];
         added = 1;
     } else {
@@ -430,10 +430,10 @@ typedef struct {
     unsigned int handle;
     PeelDetails details;
 } PeelEntry;
-extern PeelEntry peel_entries[];
+int PeelCt;
+PeelEntry Peels[40];
 extern void free_record_pair(unsigned int handle);
 
-extern int peel_count;
 extern int EMPTYRECT(Rect far *rect);
 extern unsigned int ALLOCATE_CLIPPED_PORT(Rect far *rect);
 
@@ -451,37 +451,37 @@ void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, O
 {
     Rect rect;
 
-    if (peel_count >= 40) return;
+    if (PeelCt >= 40) return;
     rect.left = y; rect.right = bottom;
     rect.top = x;
     rect.bottom = x + width;
     if (EMPTYRECT(&rect)) return;
 
-    peel_entries[peel_count].handle = ALLOCATE_CLIPPED_PORT(&rect);
+    Peels[PeelCt].handle = ALLOCATE_CLIPPED_PORT(&rect);
     {
-        Offset *character = &peel_entries[peel_count].details.character;
+        Offset *character = &Peels[PeelCt].details.character;
         *character = actor;
     }
     {
-        Offset *peel_mode = &peel_entries[peel_count].details.mode;
+        Offset *peel_mode = &Peels[PeelCt].details.mode;
         *peel_mode = mode;
     }
-    if (mode != 2 && mode != 3) peel_entries[peel_count].details.retain = 0;
-    else peel_entries[peel_count].details.retain = 1;
-    ++peel_count;
+    if (mode != 2 && mode != 3) Peels[PeelCt].details.retain = 0;
+    else Peels[PeelCt].details.retain = 1;
+    ++PeelCt;
 }
 
 void save_character_peel(Offset actor, Offset occurrence)
 {
     int index = find_character_peel(actor, occurrence);
     if (index != -1)
-        peel_entries[index].details.retain = 1;
+        Peels[index].details.retain = 1;
 }
 
 void mark_peel_front_buffers(void)
 {
-    int remaining = peel_count;
-    PeelDetails *details = &peel_entries[remaining].details;
+    int remaining = PeelCt;
+    PeelDetails *details = &Peels[remaining].details;
 
     for (; details = (PeelDetails *)((char *)details - sizeof(PeelEntry)),
            remaining--; ) {
@@ -507,15 +507,15 @@ int find_character_peel(Offset actor, int occurrence)
     int index, occurrences;
 
     index = occurrences = 0;
-    if (index < peel_count) {
+    if (index < PeelCt) {
         do {
             if (found != -1) break;
-            if (actor == peel_entries[index].details.character) {
+            if (actor == Peels[index].details.character) {
                 ++occurrences;
                 if (occurrence == occurrences) found = index;
             }
             ++index;
-        } while (index < peel_count);
+        } while (index < PeelCt);
     }
     return found;
 }
@@ -525,8 +525,8 @@ extern void add_dirty_rectangle(unsigned int handle);
 void restore_peels(void)
 {
     int keep[40];
-    int index = peel_count;
-    int *retain = &peel_entries[index].details.retain;
+    int index = PeelCt;
+    int *retain = &Peels[index].details.retain;
     int *saved = &keep[index];
     int remaining;
 
@@ -543,31 +543,31 @@ void restore_peels(void)
         }
     }
     index = remaining = 0;
-    if (index < peel_count) {
+    if (index < PeelCt) {
         do {
             if (keep[index]) {
-                PeelEntry *source = &peel_entries[index];
-                peel_entries[remaining] = *source;
-                if (peel_entries[remaining].details.character < 100)
-                    peel_entries[remaining].details.retain = 0;
+                PeelEntry *source = &Peels[index];
+                Peels[remaining] = *source;
+                if (Peels[remaining].details.character < 100)
+                    Peels[remaining].details.retain = 0;
                 ++remaining;
             }
-        } while (++index < peel_count);
+        } while (++index < PeelCt);
     }
-    peel_count = remaining;
+    PeelCt = remaining;
 }
 
 void clear_peels(void)
 {
-    int count = peel_count;
+    int count = PeelCt;
     PeelEntry *entry;
     if (count > 0) {
-        entry = peel_entries + count;
+        entry = Peels + count;
         do {
             free_record_pair((--entry)->handle);
         } while (--count > 0);
     }
-    peel_count = 0;
+    PeelCt = 0;
 }
 
 BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte palette)
@@ -578,9 +578,9 @@ BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte p
     if (index < Ct[0]) {
         do {
             if (result) break;
-            if (back_table[index].placement.image == image &&
-                back_table[index].palette == palette && back_table[index].flags == flags)
-                result = &back_table[index];
+            if (BackTable[index].placement.image == image &&
+                BackTable[index].palette == palette && BackTable[index].flags == flags)
+                result = &BackTable[index];
         } while (++index < Ct[0]);
     }
     return result;

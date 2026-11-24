@@ -308,11 +308,9 @@
     ],
     "externals": [
       "DEFAULT_PORT",
-      "MODE_BYTES_PER_ROW",
       "SHOW_MOUSE_GRAPHICS",
       "CHECK_CURSOR_OVERLAP",
-      "__NMALLOC",
-      "MODE_SCANLINE_OFFSETS"
+      "__NMALLOC"
     ]
   },
   "fixups": [
@@ -709,7 +707,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -731,7 +729,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -816,7 +814,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -838,7 +836,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -1297,12 +1295,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "__NMALLOC"
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "__NMALLOC",
         "method": 6,
         "zero_displacement": true
@@ -1324,12 +1322,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "MODE_SCANLINE_OFFSETS",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 14
     },
     {
       "kind": "fixup",
@@ -1367,12 +1364,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "MODE_BYTES_PER_ROW",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -1705,7 +1701,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -1748,7 +1744,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -1917,7 +1913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -2003,7 +1999,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -2256,7 +2252,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -2342,7 +2338,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -2511,7 +2507,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -2638,7 +2634,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -2992,12 +2988,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "__NMALLOC"
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "__NMALLOC",
         "method": 6,
         "zero_displacement": true
@@ -3019,12 +3015,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
-        "name": "MODE_SCANLINE_OFFSETS",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 14
     },
     {
       "kind": "fixup",
@@ -3062,12 +3057,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "MODE_BYTES_PER_ROW",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -3120,34 +3114,6 @@
           "image_offset": 71661,
           "bytes_hex": "e8fcfe",
           "entry": "root:1129:04ba"
-        }
-      ]
-    },
-    "MODE_BYTES_PER_ROW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9354,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 93261,
-          "bytes_hex": "f7268a24",
-          "entry": "root:1129:593a"
-        }
-      ]
-    },
-    "MODE_SCANLINE_OFFSETS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9356,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 90341,
-          "bytes_hex": "a18c24",
-          "entry": "root:1129:4e36"
         }
       ]
     },

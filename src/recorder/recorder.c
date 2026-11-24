@@ -24,7 +24,7 @@ typedef struct {
     PackedDirection direction;
 } RecordedInput;
 
-extern struct {
+static struct {
     int mode;
     int offset;
     int input_index;
@@ -151,7 +151,7 @@ RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recordin
     return frame;
 }
 
-extern unsigned int DEFAULT_HANDLE_TAG;
+static unsigned int DEFAULT_HANDLE_TAG;
 extern unsigned int far pascal HGETRSRC(void far *value, unsigned int tag);
 
 unsigned int far pascal ALLOCATE_DEFAULT_HANDLE(void)

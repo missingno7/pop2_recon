@@ -160,7 +160,7 @@ int far pascal IsLevelStartWithNISScreen(void)
 }
 
 extern signed char StartLevel;
-extern int intro_played;
+extern struct { int done; } notice_state;
 extern unsigned int Minutes;
 extern int frame_diagnostics;
 extern int level_resource_files[];
@@ -178,7 +178,7 @@ int IsTimeForNIS(int level, int previous_level)
         signed char quote;
     } options;
 
-    if (StartLevel > 2 && !intro_played) {
+    if (StartLevel > 2 && !notice_state.done) {
         sequence = 100;
     } else if (StartLevel) {
         if (level == 0 || (previous_level != level && previous_level != -1)) {

@@ -334,7 +334,7 @@
       "CHAR",
       "LEFTEDGE",
       "RIGHTEDGE",
-      "TICK_COUNT",
+      "TIMEVAL",
       "SNAPSHOT_NULL_AREA",
       "SCREENPORT",
       "GRAF",
@@ -2198,7 +2198,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "TICK_COUNT",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2206,7 +2206,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "TICK_COUNT",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2225,7 +2225,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "TICK_COUNT",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2233,7 +2233,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "TICK_COUNT",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -4554,34 +4554,6 @@
         }
       ]
     },
-    "TICK_COUNT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 102792,
-              "bytes_hex": "ff06e624",
-              "entry": "root:1129:7ee7"
-            }
-          ]
-        }
-      ],
-      "offset": 9444,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 102786,
-          "bytes_hex": "ff06e424",
-          "entry": "root:1129:7ee7"
-        }
-      ]
-    },
     "WAIT_KEY": {
       "entry_sha256": "711d72dc05355c91ed3195c9f5b5d67c8d920d29e6ce06f3a158e10d7f8e5d23",
       "entry_target_id": "root:1f74:01a8",
@@ -4710,6 +4682,12 @@
           "space": "overlay-3"
         }
       ]
+    },
+    "TIMEVAL": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:timer_hooks",
+      "offset": 9444
     }
   },
   "target_id": "group:diag/diag",

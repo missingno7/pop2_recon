@@ -58,8 +58,13 @@ Facts the link settled:
   immediates (+1c27, +1c37) and `rtcommon` is 467 bytes instead of 495: the original used another RTLUTILS.LIB revision.
   The plan's `rtlutils` patches are labelled stand-ins for those two members.
 
-Open: 473 variables no accepted source defines (the generated `VARIABLES` module gives them their accepted addresses), the
-plan's `fills` (statics of five modules and 14 missing bytes of the CONVERT_SOUND_HANDLE draft), the declaring module of
+Every variable is placed by the link itself (2026-11-24): the modules define their statics, communals and initialized data,
+RTLink orders the communals (docs/dgroup-binding.md "Communal definitions"), and all 188 grounded DGROUP addresses come out
+at their original values without a generated module. `cp` (ANIM.C) and `pFont` (NIS.C) are unreferenced: FM Towns has both
+names with these sizes and neighbours, and the DOS layout has exactly their gaps. `ExitEdge` (CTRL.C) is the same case.
+MSC writes COMDEF records in symbol-number order modulo 64, so the declarations before a block of communals matter.
+
+Open: the plan's one `fills` entry (14 missing bytes of the CONVERT_SOUND_HANDLE draft), the declaring module of
 the interrupt stacks and of the `link/` data, the two RTLUTILS members, and the relocation order.
 
 ## The earlier build (tag oracle-dos-1565)

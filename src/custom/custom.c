@@ -121,11 +121,14 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern ROOMREC Room;
-extern ShapeHandle room_specific_handle;
+extern struct {
+    unsigned char kind, reserved, separate_mask, palette;
+    ShapeHandle handle;
+} HorseShpInfo;
 /* Rectangle passed to StrokePortRect for the style-4 border. */
 extern const int TopRowRect[4];
 extern AboveCell Above[];
-extern PeelRecord peel_records[];
+extern PeelRecord Peels[];
 extern void far pascal LoadCarpetCode(void);
 extern void far pascal UnloadCarpetCode(void);
 extern void far pascal load_bridge_code(void);
@@ -253,9 +256,9 @@ void CheckRoomSpecific(void)
         check_roof_room();
         break;
     }
-    if (room_specific_handle) {
-        DISPOSE_HANDLE(room_specific_handle);
-        room_specific_handle = 0;
+    if (HorseShpInfo.handle) {
+        DISPOSE_HANDLE(HorseShpInfo.handle);
+        HorseShpInfo.handle = 0;
     }
 }
 
@@ -495,7 +498,7 @@ int RestoreKeepCustomPeel(unsigned char id)
 {
     int peel = find_character_peel((unsigned char)(id + 100), 1);
     if (peel != -1)
-        peel_records[peel].keep = 0;
+        Peels[peel].keep = 0;
     return peel;
 }
 

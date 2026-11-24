@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound2/dos_sound_runtime.json",
-  "binding_sha256": "08744ded4803be18b946a9a32242ca9a8d60e3b4f757cc024f2d1bf7918a9462",
+  "binding_sha256": "43bf49620b5b69094f58030f2d351dcc2cc7832c10071577928660fd82f91d31",
   "claims": [
     {
       "fixup_count": 28,
@@ -156,6 +156,30 @@
   ],
   "data_publics": [
     {
+      "address": 8325,
+      "name": "ACTIVE_SOUND_CHANNELS",
+      "offset": 203,
+      "segment": "_DATA",
+      "span": 1,
+      "unique": true
+    },
+    {
+      "address": 8326,
+      "name": "SOUND_VOLUME",
+      "offset": 204,
+      "segment": "_DATA",
+      "span": 1,
+      "unique": true
+    },
+    {
+      "address": 8327,
+      "name": "MIDI_CUE",
+      "offset": 205,
+      "segment": "_DATA",
+      "span": 19,
+      "unique": true
+    },
+    {
       "address": 8346,
       "name": "DIGITAL_RATE",
       "offset": 224,
@@ -185,12 +209,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "sound2/dos_sound_runtime",
-  "object_sha256": "9092aed48072e8a4398c17202bda31e72c943dc7231bae4a71556772622deea7",
+  "object_sha256": "d0ad6beda708adf33ba58b7d1559eefe05f063394fea65afb7fa696407d34d6a",
   "origin": 82048,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/sound2/dos_sound_runtime.asm",
-  "source_sha256": "8b0399fc085b8781742e450876dde62dd64fae7eb6968cbb84d8421eae0ab71b",
+  "source_sha256": "8c8a425f62ccd84436a61b507491ed9582cf1be99873cedcda9174f75b107919",
   "space": "root"
 }

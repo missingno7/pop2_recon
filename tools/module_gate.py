@@ -416,7 +416,7 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
         if initialized:
             require("dgroup_segment" in binding,
                     "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
-            require(_initialized_with_alignment_holes(initialized, seg["length"]) and seg["length"] >= 2,
+            require(_initialized_with_alignment_holes(initialized, seg["length"]),
                     f"Placed segment {seg['name']} must be completely initialized")
             start = dgroup + p
             require(start + seg["length"] <= home.size and home.data[start:start + seg["length"]] == content,
@@ -428,7 +428,7 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
             # Content found once in the whole DGROUP image fixes P independently of any one field;
             # repeated content (zero words, short constants) fixes nothing, so each field then needs
             # its own support (_placed_support), like an unwitnessed v4 address.
-            unique = _occurs_once(home, dgroup, content)
+            unique = seg["length"] >= 2 and _occurs_once(home, dgroup, content)  # one byte fixes nothing
             exclusive = (not unique and seg["name"] == "CONST" and hull is not None and
                          sorted(relocated) == list(range(0, seg["length"], 2)) and
                          _exclusive_selectors(oracle, home, dgroup, p, content, space, hull))
@@ -492,7 +492,7 @@ def require_no_case_alias(source_bytes, key, language="c"):
 PLACEMENT_DEBT = set(read_json_shared(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
 
 
-def _placed_support(placement_report, states, reports, witnessed=frozenset()):
+def _placed_support(placement_report, states, reports, witnessed=frozenset(), extents=()):
     """Fields into a placed segment without unique initialized content are proven only by
     internal consensus: the same (segment, addend) at two or more distinct original instruction
     starts inside CODE_EXACT claims (as _internal_support for v4). Different addends never support
@@ -503,6 +503,8 @@ def _placed_support(placement_report, states, reports, witnessed=frozenset()):
 
     `witnessed` (segment, addend) keys have an independent original operand equal to P+A outside the claims
     (`placed_witnesses`, grounded exactly as a v4 address), so a field there needs no second site (2026-11-24).
+    `extents` (segment, base, length): the original shows that [P+base, P+base+length) is one object, as a v4
+    symbol's aggregate extent does; a field inside it is then as supported as its base (2026-11-24).
 
     Claims accepted under the earlier rule (content equality alone, or two distinct uninitialized
     addends) are listed in evidence/placement-debt.json; they keep their state but report the
@@ -529,10 +531,15 @@ def _placed_support(placement_report, states, reports, witnessed=frozenset()):
                     sites.setdefault(field["key"], set()).add(field["insn"])
                     if field.get("pointer"):  # LDS/LES/CALL FAR [P+A]: the original reads [P+A, P+A+4) as one far pointer
                         sites.setdefault((field["key"][0], field["key"][1] + 2), set()).add(field["insn"])
+
+        def supported(key):
+            return key in witnessed or len(sites.get(key, ())) >= 2
+        covered = [(seg, base, length) for seg, base, length in extents if supported((seg, base))]
         for public in exact:
             lacking = sorted({f["key"] for f in states[public]["placed"]
-                              if f["key"][0] in weak and f["key"] not in witnessed and
-                              len(sites.get(f["key"], ())) < 2})
+                              if f["key"][0] in weak and not supported(f["key"]) and
+                              not any(f["key"][0] == seg and base < f["key"][1] < base + length
+                                      for seg, base, length in covered)})
             if lacking and by_public[public]["target_id"] in PLACEMENT_DEBT:
                 by_public[public]["placement_debt"] = [f"{n}+{k}" for n, k in lacking]
             elif lacking:
@@ -1574,9 +1581,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             symbols, mode = {}, binding["mode"]
 
     # Independent witnesses of addresses inside the object's own placed segments: the operand equals P + A.
-    placed_witnessed = set()
+    placed_witnessed, placed_extents = set(), []
     for row in (binding or {}).get("placed_witnesses", []):
-        require(set(row) in ({"segment", "addend", "witnesses"}, {"segment", "addend", "squeeze"}) and
+        require(set(row) in ({"segment", "addend", "witnesses"}, {"segment", "addend", "squeeze"},
+                             {"segment", "addend", "extent"}) and
                 row["segment"] in placements and type(row["addend"]) is int and 0 <= row["addend"],
                 "Unsupported placed witness")
         key = (row["segment"], row["addend"])
@@ -1599,6 +1607,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             require(count and s["below"]["witnesses"] and s["above"] and
                     s["below"]["offset"] + s["below"]["extent"]["length"] == address, "Squeeze leaves another position")
             proven({"BELOW": dict(v4, **s["below"]), "ABOVE": dict(v4, offset=address + count, witnesses=s["above"])})
+        elif "extent" in row:
+            # The object that starts at P+A; its base still needs two equal claimed sites or its own row.
+            proven({"PLACED": dict(v4, offset=address, witnesses=[], extent=row["extent"])})
+            placed_extents.append((*key, row["extent"]["length"]))
+            continue
         else:
             require(row["witnesses"], "Placed witness without witnesses")
             proven({"PLACED": dict(v4, offset=address, witnesses=row["witnesses"])})
@@ -2074,7 +2087,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                          (name, origin - window[0], len(actual), next(iter(frames)),
                                           {p["name"]: p["offset"] for p in module.publics if p["segment"] == name})
                                          if frames and window is not None else None)
-    _placed_support(placement_report, states, reports, placed_witnessed)
+    _placed_support(placement_report, states, reports, placed_witnessed, placed_extents)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
                                unique=placement_report[d["segment"]]["unique"])

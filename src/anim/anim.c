@@ -76,7 +76,7 @@ extern union {
     struct {
         unsigned int low, high;
     } words;
-} clock_ticks;
+} TimeVal;
 extern void MEASURE_TEXT(int, int, const Rect far *, const Rect far *, int);
 extern void QuitFadeTo(unsigned long);
 extern int fade_to_step(unsigned long);
@@ -118,17 +118,18 @@ void near paint_element(Animation *animation, Element *element);
 void near accumulate_element_bounds(Animation *animation, Element *element);
 void near reset_element(Element *element);
 
-extern void play_sound(int);
+extern void play_sound(int id);
 extern void dispatch_sound(int);
 extern int query_sound(int);
-extern unsigned char animation_wait_level;
+extern unsigned char midi_cue;
+int high_color_shape_boundary = 0;
 
 /* Byte-offset access for scanning an unparsed animation resource. */
 #define WORD_AT(p, n) (((const int far *)&(p)[(n)])[0])
 /* Command operands begin immediately after the opcode. */
 #define EVENT_WORD(p, i) (((const int far *)((p) + 1))[(i)])
 #define EVENT_LONG(p, i) (((const long far *)((p) + 1))[(i)])
-#define CLOCK_WORDS() (clock_ticks.words.low | ((unsigned long)clock_ticks.words.high << 16))
+#define CLOCK_WORDS() (TimeVal.words.low | ((unsigned long)TimeVal.words.high << 16))
 
 
 int anim_idle(Animation *animation)
@@ -166,7 +167,7 @@ int anim_idle(Animation *animation)
                 animation->timing.deadline = ((long)EVENT_WORD(event, 0) << 16 >> 16) + CLOCK_WORDS();
                 if (animation->deadline_base)
                     animation->deadline_base += EVENT_WORD(event, 0);
-            } else if (animation->timing.deadline <= clock_ticks.count) {
+            } else if (animation->timing.deadline <= TimeVal.count) {
                 animation->timing.deadline = 0;
                 animation->commands += 3;
             }
@@ -188,7 +189,7 @@ int anim_idle(Animation *animation)
         case 6:
             if (!animation->timing.wait_level)
                 animation->timing.wait_level = event[1];
-            if (!animation_wait_level || animation->timing.wait_level <= animation_wait_level) {
+            if (!midi_cue || animation->timing.wait_level <= midi_cue) {
                 animation->timing.wait_level = 0;
                 animation->commands += 2;
             }
@@ -322,8 +323,8 @@ static unsigned char animation_command_codes[] = {
 static unsigned char animation_operand_lengths[] = {
     0, 4, 2, 2, 2, 2, 1, 0, 2, 4, 4, 4, 4, 4, 8, 8, 1
 };
-extern int ForceShapes;
-extern int TGAMode;
+char *cp;
+int TGAMode, ForceShapes;
 extern int cdecl sprintf(char *, const char *, ...);
 extern void abort_with_message(int, const char far *);
 
@@ -438,7 +439,7 @@ extern Rect far *OFFSETRECT(Rect far *, const Rect far *, int, int);
 extern void PUSH_PORT_CLIP(Rect far *);
 extern void SET_RECORD_RANGE(Rect far *, int);
 extern void POP_PORT_CLIP(void);
-extern int ForceFuncParam;
+int ForceFuncParam;
 
 Animation *near advance_animation_frame(Animation *animation)
 {
@@ -448,7 +449,7 @@ Animation *near advance_animation_frame(Animation *animation)
     int count;
     signed char tick;
 
-    ++animation->frame_index; animation->deadline_base = clock_ticks.count;
+    ++animation->frame_index; animation->deadline_base = TimeVal.count;
     if (!animation->skip_draw)
         draw_frame(animation);
     animation->skip_draw = 0;
@@ -518,7 +519,6 @@ Animation *draw_frame(Animation *animation)
     return animation;
 }
 
-extern int high_color_shape_boundary;
 extern void PAINTRLESHAPE_ASM(const ShapeHeader far *, int, int, int);
 extern void PAINT_PLAIN(const ShapeHeader far *, int, int, int);
 

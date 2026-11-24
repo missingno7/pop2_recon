@@ -36,7 +36,7 @@ extern void far *far cdecl _fmemset(void far *buffer, int value, unsigned count)
 extern void far *far cdecl _fmemcpy(void far *dest, const void far *src, unsigned count);
 extern int far cdecl _fmemcmp(const void far *left, const void far *right, unsigned count);
 
-extern int fade_delay;
+extern volatile int Timer[4];
 extern int Graf;
 extern Rect ScreenPortRect;
 
@@ -71,7 +71,7 @@ fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsig
     set_dac_blocks(blocks, 0);
     _fmemset(state->work, 0, sizeof(palette));
     MEASURE_TEXT(Graf, port, state, state, 0);
-    fade_delay = 0;
+    Timer[3] = 0;
     return state;
 }
 int far pascal fade_in_step(fade_state far *state)
@@ -83,8 +83,8 @@ int far pascal fade_in_step(fade_state far *state)
     RGB far *dst;
     int done = 0;
 
-    if (!fade_delay) {
-        fade_delay = state->delay;
+    if (!Timer[3]) {
+        Timer[3] = state->delay;
         elapsed = ++state->elapsed;
         bit = 1;
         for (bank = 0; bank < 16; ++bank, bit <<= 1) {
@@ -199,7 +199,7 @@ fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int 
         _fmemcpy(state->first, RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), sizeof(palette));
     else
         _fmemset(state->first, 0, sizeof(palette));
-    fade_delay = 0;
+    Timer[3] = 0;
     return state;
 }
 
@@ -220,8 +220,8 @@ int far pascal fade_to_step(fade_state far *state)
     RGB far *target;
     int done = 0;
 
-    if (!fade_delay) {
-        fade_delay = state->delay;
+    if (!Timer[3]) {
+        Timer[3] = state->delay;
         elapsed = ++state->elapsed;
         bit = 1;
         for (bank = 0; bank < 16; ++bank, bit <<= 1) {

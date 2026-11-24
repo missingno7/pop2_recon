@@ -1,7 +1,9 @@
 .MODEL MEDIUM
 .DATA
+PUBLIC timer_rate, Timer, TimeVal
 timer_rate DW 0
-timer_countdowns DW 0, 0, 0, 0
+Timer DW 0, 0, 0, 0
+TimeVal LABEL DWORD
 timer_ticks_low DW 0
 timer_ticks_high DW 0
 PUBLIC timer_chain_offset

@@ -94,8 +94,14 @@ static const int kid_image_first[9] = { 15, 44, 99, 120, 133, 160, 219, 222, -1 
 static const int kid_image_last[8] = { 32, 79, 111, 129, 144, 215, 220, 299 };
 static const char map_option[] = "GAMEPLAY\0%s%s";
 
-extern SByte sword_kind;
-extern Handle Pieces, SwordFrames, opponent_frames, opponent_effect_frames;
+typedef struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KIDINFO;
+extern KIDINFO KidInfo;
+extern Handle Pieces;
+Handle SwordFrames;
+extern Handle opponent_frames, opponent_effect_frames;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -378,7 +384,7 @@ void far pascal load_level(SByte number)
     load_kid_set_overlays();
     load_opponent_set(Level.preferred_opponent);
     set_kid_sword_kind();
-    load_sword_set(sword_kind);
+    load_sword_set(KidInfo.sword_kind);
     load_song_range(0, 26);
     load_pieces_data();
     if (previous != Level.environment_kind) {
@@ -405,7 +411,7 @@ void far pascal load_minimum_level(SByte number)
 {
     load_level_map(number);
     set_kid_sword_kind();
-    load_sword_set(sword_kind);
+    load_sword_set(KidInfo.sword_kind);
     save_game_play_palette();
     Graf = ScreenPort;
     STROKE_PORT_RECT(&ScreenPortRect);
@@ -704,7 +710,7 @@ void far pascal load_opponent_set(SByte kind)
     loaded_opponent = kind;
 }
 
-extern signed char OppBank[2];
+signed char OppBank[2];
 void far pascal load_opponent_overlays(SByte kind)
 {
     int *last_base = opponent_overlay_last[kind];
@@ -833,13 +839,13 @@ extern KidRecord far *hRebirthSaved;
 void far pascal set_kid_sword_kind(void)
 {
     if (hRebirthSaved)
-        sword_kind = hRebirthSaved->sword_kind;
+        KidInfo.sword_kind = hRebirthSaved->sword_kind;
     else if (Level.level_number == 6)
-        sword_kind = -1;
+        KidInfo.sword_kind = -1;
     else if (Level.level_number == 7 || Level.level_number == 8)
-        sword_kind = 2;
+        KidInfo.sword_kind = 2;
     else
-        sword_kind = 1;
+        KidInfo.sword_kind = 1;
 }
 
 void far pascal unload_from(int first)

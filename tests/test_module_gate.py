@@ -947,6 +947,24 @@ class PlacedSupportTests(unittest.TestCase):
                 module_gate._placed_support({"_BSS": {"unique": False}}, states, reports, witnessed)
             self.assertEqual(reports[0]["state"], state)
 
+    def test_extent_supports_members_only_of_a_supported_base(self):
+        import module_gate
+
+        def run(keys, extents):
+            states = {f"P{i}": {"placed": [{"key": ("_BSS", k), "equal": True, "insn": 0x100 * i + 4, "offset": 5}],
+                                "equations": []} for i, k in enumerate(keys)}
+            reports = [{"public": f"P{i}", "target_id": f"t{i}", "exact": True, "state": "CODE_EXACT"}
+                       for i in range(len(keys))]
+            with patch.object(module_gate, "PLACEMENT_DEBT", set()):
+                module_gate._placed_support({"_BSS": {"unique": False}}, states, reports, frozenset(), extents)
+            return [r["state"] for r in reports]
+        exact, refused = "CODE_EXACT", "REFUSED"
+        mobs = [("_BSS", 0, 13)]
+        self.assertEqual(run([0, 0, 9], mobs), [exact] * 3)
+        self.assertEqual(run([0, 0, 13], mobs), [exact, exact, refused])  # past the object
+        self.assertEqual(run([0, 9], mobs), [refused, refused])  # the base itself has one site
+        self.assertEqual(run([0, 0, 9], [("CONST", 0, 13)]), [exact, exact, refused])
+
     def test_squeezed_index_array_of_the_keyboard_interrupt(self):
         """KEY_DOWN: 59h indexed bytes between the joystick state and the installed flag, both witnessed."""
         import copy

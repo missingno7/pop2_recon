@@ -41,8 +41,8 @@ struct EditField {
 };
 
 extern Port *Graf;
-extern unsigned long clock_ticks;
-extern Word blink_interval;
+extern unsigned long TimeVal;
+extern Word timer_rate;
 extern unsigned char near cdecl _ctype[];
 #define isprint(c) ((_ctype + 1)[(c)] & 0x57)
 extern void far pascal COPY_CURRENT_PORT_ORIGIN(Pen far *);
@@ -139,9 +139,9 @@ void far pascal CLEAR_FLAGS_OF_FAR_BLOCK(void far *block)
 
 void far pascal blink_edit_caret(EditField far *field)
 {
-    if ((blink_interval >> 1) < clock_ticks - field->last_blink) {
+    if ((timer_rate >> 1) < TimeVal - field->last_blink) {
         paint_edit_caret(field, field->visible = !field->visible);
-        field->last_blink = clock_ticks;
+        field->last_blink = TimeVal;
     }
 }
 
@@ -297,7 +297,7 @@ EditField far * far pascal create_edit_field(Rect far *bounds, Rect far *clip,
     field->x = bounds->left - 1;
     field->y = clip->top;
     field->visible = zero;
-    field->last_blink = clock_ticks;
+    field->last_blink = TimeVal;
     field->paint = 0;
     replace_edit_text(field, text);
     return field;

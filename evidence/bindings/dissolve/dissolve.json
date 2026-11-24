@@ -131,13 +131,20 @@
       "__aFlmul",
       "GRAF",
       "DITHER_SEED",
-      "CLOCK_TICKS",
+      "TIMEVAL",
       "SCREENPORT",
       "DISSOLVEENV",
       "CHECK_WAIT_FUNCTION",
       "MEASURE_TEXT",
       "RELEASE_PORT",
       "CREATE_PORT"
+    ],
+    "communals": [
+      {
+        "name": "DISSOLVEENV",
+        "kind": "near",
+        "length": 10
+      }
     ]
   },
   "dgroup_segment": {
@@ -277,7 +284,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -285,7 +292,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -304,7 +311,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -312,7 +319,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -331,7 +338,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -339,7 +346,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -358,7 +365,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -366,7 +373,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -574,7 +581,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -582,7 +589,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -601,7 +608,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -609,7 +616,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -682,7 +689,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -690,7 +697,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -709,7 +716,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CLOCK_TICKS",
+          "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
         }
@@ -717,7 +724,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CLOCK_TICKS",
+        "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
       },
@@ -1565,34 +1572,6 @@
         }
       ]
     },
-    "CLOCK_TICKS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "operand_offset": 2,
-              "space": "root",
-              "image_offset": 102792,
-              "bytes_hex": "ff06e624",
-              "entry": "root:1129:7ee7"
-            }
-          ]
-        }
-      ],
-      "offset": 9444,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 102786,
-          "bytes_hex": "ff06e424",
-          "entry": "root:1129:7ee7"
-        }
-      ]
-    },
     "COPY_DITHERED_PORT_REGION": {
       "entry_sha256": "c2f9d211e49e9979f46ca790b73e0e4246a310d3b6657e4f9e0ef0bcf3438cd7",
       "entry_target_id": "root:1129:13e6",
@@ -1772,6 +1751,12 @@
           "relocation_index": 1
         }
       ]
+    },
+    "TIMEVAL": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:timer_hooks",
+      "offset": 9444
     },
     "DISSOLVEENV": {
       "kind": "dgroup-offset",

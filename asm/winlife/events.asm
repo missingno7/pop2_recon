@@ -19,7 +19,7 @@ EVENT_COUNT DW 0
 EXTRN Graf:WORD
 EXTRN MOUSE_PRESENT:WORD
 EXTRN SCREEN_WIDTH:WORD
-EXTRN TIMER_TICKS:DWORD
+EXTRN TimeVal:DWORD
 EXTRN WINDOW_DRAW_PORT:WORD
 EXTRN WINDOW_HEAD:WORD
 EXTRN WINDOW_LIST:BYTE
@@ -220,7 +220,7 @@ poll_event_sources:
     mov [di+0ch], cx
     test ax, 8
     jz poll_windows
-    mov ax, WORD PTR TIMER_TICKS
+    mov ax, WORD PTR TimeVal
     xchg LAST_INPUT_TICK, ax
     cmp ax, LAST_INPUT_TICK
     je poll_windows
@@ -252,7 +252,7 @@ check_pending_window:
 no_event:
     mov WORD PTR [di], 0
 finish_polled_event:
-    les ax, TIMER_TICKS
+    les ax, TimeVal
     mov [di+8], es
     mov [di+6], ax
     lea ax, [di+2]
@@ -385,7 +385,7 @@ POST_POINTER_EVENT PROC FAR
     les ax, DWORD PTR [bp+6]
     push es
     push ax
-    les ax, TIMER_TICKS
+    les ax, TimeVal
     push es
     push ax
     sub sp, 4
@@ -805,7 +805,7 @@ enqueue_mouse_event:
     sub ax, ax
     push ax
     push bx
-    les ax, TIMER_TICKS
+    les ax, TimeVal
     push es
     push ax
     cmp SCREEN_WIDTH, 140h

@@ -22,8 +22,5 @@ ALERT_40 LABEL BYTE
     DB 'Yes'
     DB 0, 0FFh, 0FFh, 030h, 0, 0A5h, 0, 041h, 0, 0CDh, 0, 04Eh, 0, 04Eh, 06Fh, 0
     DB 0FBh, 0FFh, 2, 0, 5, 0, 02Fh, 0, 0DAh, 0, 0
-EVEN
-PUBLIC high_color_shape_boundary
-high_color_shape_boundary DW 0
 _DATA ENDS
 END

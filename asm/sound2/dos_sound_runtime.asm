@@ -48,9 +48,10 @@ channel_map DB 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 ; Playback state shared by the three device routes.
 EVEN
 driver_status DB 0
+PUBLIC ACTIVE_SOUND_CHANNELS, SOUND_VOLUME, MIDI_CUE
 ACTIVE_SOUND_CHANNELS DB 0
-SOUND_LEVEL DB 0
-SECOND_SOUND_BUSY DB 0
+SOUND_VOLUME DB 0
+MIDI_CUE DB 0
 FIRST_SOUND_STATUS DW 0
 FIRST_SOUND_FLAG LABEL WORD
 DIGITAL_LOOP DW 0
@@ -578,7 +579,7 @@ set_sequence_flag:
     call READ_SOUND_DELTA
     xchg dx, ax
     mov al, es:[si]
-    mov SECOND_SOUND_BUSY, al
+    mov MIDI_CUE, al
     add si, dx
     jmp next_delta
 end_track:
@@ -870,8 +871,8 @@ SET_SOUND_LEVEL PROC FAR
     jle level_ready
     mov al, 15
 level_ready:
-    cmp al, SOUND_LEVEL
-    mov SOUND_LEVEL, al
+    cmp al, SOUND_VOLUME
+    mov SOUND_VOLUME, al
     je level_done
     test ACTIVE_SOUND_CHANNELS, 1
     jz second_driver
@@ -881,7 +882,7 @@ level_ready:
 second_driver:
     test ACTIVE_SOUND_CHANNELS, 2
     jz update_speaker
-    mov ah, SOUND_LEVEL
+    mov ah, SOUND_VOLUME
     mov al, 5
     call SECOND_SOUND_DRIVER
 update_speaker:
@@ -889,7 +890,7 @@ update_speaker:
     jcxz level_done
     in al, 61h
     and al, 0fch
-    cmp SOUND_LEVEL, 0
+    cmp SOUND_VOLUME, 0
     je speaker_write
     or al, 3
 speaker_write:
@@ -1146,7 +1147,7 @@ stop_second:
     sub cx, cx
     xchg cx, SECOND_SOUND_STATUS
     jcxz second_done
-    mov SECOND_SOUND_BUSY, 0
+    mov MIDI_CUE, 0
     push cs
     call NEAR PTR STOP_DRIVER_TIMER
     mov ax, 1
@@ -1171,7 +1172,7 @@ stop_speaker:
     sub cx, cx
     xchg cx, SPEAKER_ACTIVE
     jcxz speaker_done
-    mov SECOND_SOUND_BUSY, 0
+    mov MIDI_CUE, 0
     mov ax, OFFSET speaker_timer_state
     push ds
     push ax
@@ -1259,7 +1260,7 @@ START_MIDI_PAYLOAD PROC NEAR
     mov si, OFFSET sequence_marker
     repe cmpsb
     je control_sequence
-    mov SECOND_SOUND_BUSY, 0
+    mov MIDI_CUE, 0
     push es
     push bx
     sub ax, ax
@@ -1441,7 +1442,7 @@ speaker_read_event:
 
     in al, 61h
     and al, 0fch
-    cmp SOUND_LEVEL, 0
+    cmp SOUND_VOLUME, 0
     je write_control
     or al, 3
 write_control:
@@ -1508,7 +1509,7 @@ set_sweep:
     mov sweep_length, al
     jmp speaker_read_event
 set_continuation:
-    mov SECOND_SOUND_BUSY, al
+    mov MIDI_CUE, al
     jmp speaker_read_event
 SPEAKER_TIMER_INTERRUPT ENDP
 END

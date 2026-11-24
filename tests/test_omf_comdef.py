@@ -1,4 +1,4 @@
-"""Near COMDEF communals (MSC uninitialized globals) parse in compiler output; far ones stay library-only."""
+"""COMDEF communals (MSC uninitialized globals) parse in compiler output, near and far."""
 import sys
 import unittest
 from pathlib import Path
@@ -23,12 +23,14 @@ class ComdefTests(unittest.TestCase):
         self.assertEqual(obj.externals, ["PREV", "RANDOM_STATE"])
         self.assertEqual(obj.communals, [{"name": "RANDOM_STATE", "kind": "near", "length": 4}])
 
-    def test_far_communal_is_refused_outside_library_members(self):
-        far = module(b"\x03BIG\x00\x61\x02\x10")
+    def test_far_communal_is_an_external_with_its_element_count(self):
+        obj = OmfReader().read(module(b"\x03BIG\x00\x61\x64\x12"))
+        self.assertEqual(obj.externals, ["PREV", "BIG"])
+        self.assertEqual(obj.communals, [{"name": "BIG", "kind": "far", "length": 1800}])
+
+    def test_other_communal_types_are_refused(self):
         with self.assertRaisesRegex(OmfError, "unsupported COMDEF data type"):
-            OmfReader().read(far)
-        self.assertEqual(OmfReader(library_records=True).read(far).communals,
-                         [{"name": "BIG", "kind": "far", "length": 32}])
+            OmfReader(library_records=True).read(module(b"\x03BIG\x00\x60\x04"))
 
 
 if __name__ == "__main__":

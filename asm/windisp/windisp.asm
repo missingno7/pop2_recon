@@ -6,9 +6,10 @@
 EXTRN Graf:WORD
 EXTRN screen_row_origin:WORD
 EXTRN screen_x_origin:WORD
-EXTRN CURRENT_GRAPHICS_FONT:WORD
-EXTRN TIMER_RELOAD:WORD
-EXTRN TIMER_TICKS:WORD
+EXTRN DEFAULT_PORT:BYTE
+CURRENT_GRAPHICS_FONT EQU WORD PTR DEFAULT_PORT+02Ah
+EXTRN timer_rate:WORD
+EXTRN TimeVal:WORD
 EXTRN WINDOW_HEAD:WORD
 EXTRN window_draw_port:WORD
 
@@ -1671,9 +1672,9 @@ repaint_list_command:
     call NEAR PTR REPAINT_LIST_ITEM
     jmp SHORT ignore_list_command
 blink_list_cursor:
-    mov ax, TIMER_TICKS
+    mov ax, TimeVal
     sub ax, word ptr [di+24h]
-    mov dx, TIMER_RELOAD
+    mov dx, timer_rate
     shr dx, 1
     cmp ax, dx
     jb loc_9247
@@ -1951,7 +1952,7 @@ TOGGLE_LIST_CURSOR PROC NEAR
     push word ptr [di+2eh]
     push cs
     call DRAW_AXIS_SEGMENT
-    mov ax, TIMER_TICKS
+    mov ax, TimeVal
     mov word ptr [di+24h], ax
     sub ax, ax
     cmp word ptr [di+22h], ax

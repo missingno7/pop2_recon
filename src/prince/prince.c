@@ -56,23 +56,84 @@ typedef struct {
 } LEVELREC;
 #pragma pack()
 
-/* Resident PRINCE.C, DOS root [0000,1340). */
-
-extern const char *resource_files[3];
-extern LEVELREC Level;
-extern char StartLevel;
-extern char LevelIdx;
-extern int frame_diagnostics;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
 typedef struct {
     int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
     int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
 } GAMESTATE;
-extern GAMESTATE GameState;
+typedef struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KIDINFO;
+
+
+/* Resident PRINCE.C, DOS root [0000,1340). */
+
+extern const char *resource_files[3];
+extern char StartLevel;
+extern char LevelIdx;
+extern int frame_diagnostics;
 
 extern int demo_level;
 extern int RestartLevel;
 extern int nis_skip_requested;
 extern int Minutes;
+/* The state of the game. RTLink lays these out first, in this order, at DGROUP 2b90. */
+int DoBlackOut, BlackOut, main_port, Pause;
+struct {
+    unsigned char enabled;
+    signed char cue;
+    int song, delay, reserved[2];
+} ambient_state;
+GAMESTATE GameState;
+LEVELREC Level;
+int far *hRebirthSaved;
+CHARREC Char, Opp, Kid, RoomOpp[5];
+int Resume;
+KIDINFO KidInfo;
+int LastResume;
+unsigned int BPort, Player;
+struct {
+    int image, equipment_image;                       /* 00,02 */
+    signed char x, y;                                 /* 04-05 */
+    unsigned char flags;                              /* 06 */
+} Frame;
+unsigned int RedrawFlag;
 static char title[] = "PRINCE OF PERSIA 2 v1.1";
 /* FM Towns names these adjacent lookup tables OppCharId and CharOppId. */
 unsigned char OppCharId[11] = { 2, 10, 4, 6, 1, 7, 8, 2, 11, 12, 0 };
@@ -103,24 +164,23 @@ extern void far pascal check_null_area(const char near *message);
 extern void far pascal dump_heap(const char near *title, const char far *message, int flags);
 extern char far pascal start_game(char level);
 extern int far pascal play_nis(int sequence);
-extern void far pascal enter_hall_record(int level);
+extern void far pascal enter_hall_record(int);
 extern void far pascal CheckPlayNIS(int status, int flags);
-extern void far pascal RECLAIM_HEAP_BLOCKS(long color);
-extern void far pascal COMPACT_HEAP_BLOCKS(long color);
+extern void far pascal RECLAIM_HEAP_BLOCKS(long);
+extern void far pascal COMPACT_HEAP_BLOCKS(long);
 extern int far pascal show_credits(void);
-extern int far pascal show_hall_records(int mode);
+extern int far pascal show_hall_records(int);
 extern void far pascal TurnRecordedGamePlayerOff(void);
 extern void far pascal TurnRecordedGamePlayerOn(void);
 extern void far pascal reset_level_overlays(void);
 extern int far pascal load_game_dialog(void);
-extern void far pascal dispatch_sound(int mode);
-extern int far pascal init_port(void near *port, void far *buffer);
+extern void far pascal dispatch_sound(int);
+extern int far pascal init_port(void near *, void far *);
 extern void far pascal clear_peels(void);
 
 extern unsigned char ScreenPort[];
 extern unsigned char ScreenPortRect[];
 extern int Graf;
-extern int LastResume;
 
 void far pascal ResetGame(void);
 void far pascal read_start_level(void);
@@ -254,44 +314,6 @@ next_opening_clip:
 }
 
 
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
-extern CHARREC Char;
-extern CHARREC Kid;
 
 extern ROOMREC Room;
 extern signed char Joy[3];
@@ -299,7 +321,6 @@ extern signed char Joy[3];
 #define joystick_x (Joy[1])
 #define joystick_button (Joy[2])
 extern signed char quote_index;
-extern int Pause;
 extern int Minutes, TimeRequest, BackToLife;
 extern int NextLevel, MsgTimer, MsgTimerStart;
 extern unsigned int SixtiethsCtr;
@@ -393,13 +414,11 @@ unsigned int far pascal prince_poll(void)
 
 
 
-extern CHARREC RoomOpp[5];
 
 extern int Minutes, MsgTimer, MsgTimerStart, TimeRequest;
-extern int BlackOut, DoBlackOut;
 extern int pause_on_frame, show_actor_position, show_reference_position;
 extern int show_ruler, debug_show_door_links, debug_show_meters;
-extern int debug_kid_x, debug_kid_y, player_input_disabled;
+extern int debug_kid_x, debug_kid_y;
 
 
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
@@ -490,7 +509,7 @@ void far pascal handle_debug_input(unsigned int key)
         MsgTimer = MsgTimerStart = 24; break;
     case 'S':
         if (Level.environment_kind == 2 || Level.environment_kind == 6) {
-            player_input_disabled = 7; Char.sequence = 5;
+            KidInfo.shadow_timer = 7; Char.sequence = 5;
             CheckShadowmanCreate();
             if (Level.environment_kind == 6) set_palette(2000, 48, 16, 1);
             else
@@ -827,7 +846,7 @@ void far pascal add_room_trobs(void)
 extern signed char quote_index;
 extern int Minutes, TimeRequest;
 extern unsigned int SixtiethsCtr;
-extern int MsgTimer, MsgTimerStart, Resume, LastResume;
+extern int MsgTimer, MsgTimerStart;
 extern void far pascal draw_message(const char *message);
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern char *cdecl strcpy(char *destination, const char *source);
@@ -996,7 +1015,6 @@ void far pascal ChangeMeters(void)
 
 
 extern signed char Joy[3];
-extern int Pause;
 extern char paused_message[];
 
 extern void far pascal read_controls(void);
@@ -1131,10 +1149,8 @@ extern unsigned char ScreenPort[];
 extern unsigned char ScreenPortRect[];
 extern int Graf;
 extern char LevelIdx;
-extern int LastResume;
 
 extern unsigned int Invert;
-extern unsigned int RedrawFlag;
 
 typedef struct {
     int top, left, bottom, right;
@@ -1142,7 +1158,6 @@ typedef struct {
 
 
 extern unsigned char ScreenPort[];
-extern unsigned int BPort;
 extern void far pascal MEASURE_TEXT(void near *port, unsigned int source,
                                      const Rectangle far *source_rect,
                                      const Rectangle far *dest_rect, int flags);

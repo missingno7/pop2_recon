@@ -80,15 +80,6 @@
         "type_index": 0
       },
       {
-        "name": "BACKGROUND_SCENE_GROUP",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 88,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
         "name": "ADDSONG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -98,10 +89,10 @@
         "type_index": 0
       },
       {
-        "name": "BACKGROUND_SCENE_NUMBER",
+        "name": "BACKGROUND_SCENE_GROUP",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 102,
+        "offset": 88,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -112,6 +103,15 @@
         "segment_index": 1,
         "offset": 2002,
         "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "BACKGROUND_SCENE_NUMBER",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 102,
+        "group_index": 1,
         "frame": null,
         "type_index": 0
       },
@@ -129,6 +129,15 @@
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 642,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "SPECIAL_NO_AMBIENT_CASE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1684,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -296,15 +305,6 @@
         "type_index": 0
       },
       {
-        "name": "SPECIAL_NO_AMBIENT_CASE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1684,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
         "name": "PLAY_AMBIENT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -342,13 +342,13 @@
       }
     ],
     "externals": [
-      "PROCESS_HANDLE",
       "ISEXITCHASINGSKEL",
       "SAVEOPTIONSTODISK",
       "ADDSONG",
       "TOGGLE_AMBIENT",
       "ADDSOUND",
       "GETLEAVELEVELSONGID",
+      "SPECIAL_NO_AMBIENT_CASE",
       "PLAY_SOUNDS",
       "LOAD_SONG",
       "RELEASE_SONG_RANGE",
@@ -367,14 +367,13 @@
       "ROOM",
       "REMEMBER_AMBIENT_SONG",
       "WEIGHTLESSTIMER",
-      "AMBIENT_LAST_SONG",
       "ADDKIDDEATHSONG",
       "SOUND_HANDLES",
       "AMBIENT_ON_MESSAGE",
-      "ADDLEAVELEVELSONG",
       "AMBIENT_OFF_MESSAGE",
-      "CHANGE_SONG_RANGE",
+      "ADDLEAVELEVELSONG",
       "MUSIC_UNAVAILABLE_MESSAGE",
+      "CHANGE_SONG_RANGE",
       "LOADED_OPPONENT",
       "QUERY_SOUND",
       "OPPTOFIGHT",
@@ -382,21 +381,28 @@
       "FIND_ACTIVE_GENERATOR",
       "LOAD_ACTOR_SLOT",
       "ADD_OPPONENT_DEATH_SONG",
-      "SPECIAL_NO_AMBIENT_CASE",
       "MATERIALIZE_HANDLE",
       "DISPOSE_HANDLE",
       "HGETSND",
       "MARK_PURGEABLE",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "FIND_OPTION",
-      "PLAY_AMBIENT",
       "COPY_KID_TO_CHAR",
-      "LEVEL",
+      "PLAY_AMBIENT",
       "RND",
+      "LEVEL",
       "ACTIVE_SOUND_CHANNELS",
-      "ADD_ACTOR_SFX",
       "FIRSTINROW",
-      "DISPATCH_SOUND"
+      "ADD_ACTOR_SFX",
+      "DISPATCH_SOUND",
+      "PROCESS_HANDLE"
+    ],
+    "communals": [
+      {
+        "name": "SOUND_HANDLES",
+        "kind": "near",
+        "length": 546
+      }
     ]
   },
   "dgroup_segment": {
@@ -422,7 +428,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 42,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -430,7 +436,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 42,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true
@@ -449,7 +455,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 41,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -457,7 +463,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 41,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -476,7 +482,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 40,
           "name": "MATERIALIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -484,7 +490,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 40,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -503,7 +509,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 40,
           "name": "MATERIALIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -511,7 +517,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 40,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -530,7 +536,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 27,
           "name": "SOUND_HANDLES",
           "method": 6,
           "zero_displacement": true
@@ -538,7 +544,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 27,
         "name": "SOUND_HANDLES",
         "method": 6,
         "zero_displacement": true
@@ -557,7 +563,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 47,
+          "index": 45,
           "name": "FIND_OPTION",
           "method": 6,
           "zero_displacement": true
@@ -565,7 +571,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 47,
+        "index": 45,
         "name": "FIND_OPTION",
         "method": 6,
         "zero_displacement": true
@@ -792,7 +798,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 33,
           "name": "LOADED_OPPONENT",
           "method": 6,
           "zero_displacement": true
@@ -800,7 +806,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 33,
         "name": "LOADED_OPPONENT",
         "method": 6,
         "zero_displacement": true
@@ -819,7 +825,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -827,7 +833,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -846,7 +852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 6,
           "name": "GETLEAVELEVELSONGID",
           "method": 6,
           "zero_displacement": true
@@ -854,7 +860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 6,
         "name": "GETLEAVELEVELSONGID",
         "method": 6,
         "zero_displacement": true
@@ -873,7 +879,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 50,
           "name": "ACTIVE_SOUND_CHANNELS",
           "method": 6,
           "zero_displacement": true
@@ -881,7 +887,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 50,
         "name": "ACTIVE_SOUND_CHANNELS",
         "method": 6,
         "zero_displacement": true
@@ -900,7 +906,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -908,7 +914,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -927,7 +933,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 44,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -935,7 +941,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 44,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -954,7 +960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 43,
           "name": "MARK_PURGEABLE",
           "method": 6,
           "zero_displacement": true
@@ -962,7 +968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 43,
         "name": "MARK_PURGEABLE",
         "method": 6,
         "zero_displacement": true
@@ -981,7 +987,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 42,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -989,7 +995,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 42,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true
@@ -1008,7 +1014,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 41,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -1016,7 +1022,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 41,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -1035,7 +1041,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 40,
           "name": "MATERIALIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -1043,7 +1049,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 40,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -1062,7 +1068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 27,
           "name": "SOUND_HANDLES",
           "method": 6,
           "zero_displacement": true
@@ -1070,7 +1076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 27,
         "name": "SOUND_HANDLES",
         "method": 6,
         "zero_displacement": true
@@ -1334,7 +1340,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 5,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -1342,7 +1348,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -1469,7 +1475,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LOAD_ACTOR_SLOT",
           "method": 6,
           "zero_displacement": true
@@ -1477,7 +1483,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LOAD_ACTOR_SLOT",
         "method": 6,
         "zero_displacement": true
@@ -1550,7 +1556,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 3,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -1558,7 +1564,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -1577,7 +1583,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -1585,7 +1591,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -1604,7 +1610,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 37,
           "name": "FIND_ACTIVE_GENERATOR",
           "method": 6,
           "zero_displacement": true
@@ -1612,7 +1618,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 37,
         "name": "FIND_ACTIVE_GENERATOR",
         "method": 6,
         "zero_displacement": true
@@ -1685,7 +1691,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 35,
           "name": "OPPTOFIGHT",
           "method": 6,
           "zero_displacement": true
@@ -1693,7 +1699,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "OPPTOFIGHT",
         "method": 6,
         "zero_displacement": true
@@ -1739,7 +1745,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1747,7 +1753,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1766,7 +1772,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1774,7 +1780,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1793,7 +1799,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1801,7 +1807,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1928,7 +1934,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1936,7 +1942,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1955,7 +1961,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1963,7 +1969,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -2310,7 +2316,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 5,
           "name": "ADDSOUND",
           "method": 6,
           "zero_displacement": true
@@ -2318,7 +2324,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "ADDSOUND",
         "method": 6,
         "zero_displacement": true
@@ -2337,7 +2343,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2345,7 +2351,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2364,7 +2370,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2372,7 +2378,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2418,7 +2424,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 3,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -2426,7 +2432,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -2445,7 +2451,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 6,
           "name": "GETLEAVELEVELSONGID",
           "method": 6,
           "zero_displacement": true
@@ -2453,7 +2459,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 6,
         "name": "GETLEAVELEVELSONGID",
         "method": 6,
         "zero_displacement": true
@@ -2472,7 +2478,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 3,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -2480,7 +2486,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -2521,7 +2527,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 35,
           "name": "OPPTOFIGHT",
           "method": 6,
           "zero_displacement": true
@@ -2529,7 +2535,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "OPPTOFIGHT",
         "method": 6,
         "zero_displacement": true
@@ -2548,7 +2554,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -2556,7 +2562,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -2575,7 +2581,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2583,7 +2589,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2602,7 +2608,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -2610,7 +2616,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -2629,7 +2635,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 7,
           "name": "SPECIAL_NO_AMBIENT_CASE",
           "method": 6,
           "zero_displacement": true
@@ -2637,7 +2643,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 7,
         "name": "SPECIAL_NO_AMBIENT_CASE",
         "method": 6,
         "zero_displacement": true
@@ -2710,7 +2716,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2718,7 +2724,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2764,7 +2770,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2772,7 +2778,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2899,7 +2905,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 1,
           "name": "ISEXITCHASINGSKEL",
           "method": 6,
           "zero_displacement": true
@@ -2907,7 +2913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "ISEXITCHASINGSKEL",
         "method": 6,
         "zero_displacement": true
@@ -2953,7 +2959,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2961,7 +2967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3088,7 +3094,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3096,7 +3102,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3304,7 +3310,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3312,7 +3318,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3439,7 +3445,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -3447,7 +3453,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -3466,7 +3472,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -3474,7 +3480,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -3537,7 +3543,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 50,
           "name": "ACTIVE_SOUND_CHANNELS",
           "method": 6,
           "zero_displacement": true
@@ -3545,7 +3551,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 50,
         "name": "ACTIVE_SOUND_CHANNELS",
         "method": 6,
         "zero_displacement": true
@@ -3564,7 +3570,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 54,
           "name": "PROCESS_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -3572,7 +3578,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 54,
         "name": "PROCESS_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -3591,7 +3597,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 42,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -3599,7 +3605,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 42,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true
@@ -3618,7 +3624,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 40,
           "name": "MATERIALIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -3626,7 +3632,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 40,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -3645,7 +3651,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 27,
           "name": "SOUND_HANDLES",
           "method": 6,
           "zero_displacement": true
@@ -3653,7 +3659,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 27,
         "name": "SOUND_HANDLES",
         "method": 6,
         "zero_displacement": true
@@ -3841,7 +3847,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 53,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -3849,7 +3855,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 53,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -4005,7 +4011,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 53,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -4013,7 +4019,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 53,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -4125,7 +4131,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 47,
+          "index": 45,
           "name": "FIND_OPTION",
           "method": 6,
           "zero_displacement": true
@@ -4133,7 +4139,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 47,
+        "index": 45,
         "name": "FIND_OPTION",
         "method": 6,
         "zero_displacement": true
@@ -4201,7 +4207,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 48,
           "name": "RND",
           "method": 6,
           "zero_displacement": true
@@ -4209,7 +4215,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 48,
         "name": "RND",
         "method": 6,
         "zero_displacement": true
@@ -4272,7 +4278,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -4280,7 +4286,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -4321,7 +4327,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -4329,7 +4335,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -4348,7 +4354,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -4356,7 +4362,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -4429,7 +4435,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 51,
           "name": "FIRSTINROW",
           "method": 6,
           "zero_displacement": true
@@ -4437,7 +4443,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 51,
         "name": "FIRSTINROW",
         "method": 6,
         "zero_displacement": true
@@ -4532,7 +4538,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -4540,7 +4546,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -4559,7 +4565,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 35,
           "name": "OPPTOFIGHT",
           "method": 6,
           "zero_displacement": true
@@ -4567,7 +4573,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "OPPTOFIGHT",
         "method": 6,
         "zero_displacement": true
@@ -4608,7 +4614,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -4616,7 +4622,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -4662,7 +4668,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 46,
           "name": "COPY_KID_TO_CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4670,7 +4676,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 46,
         "name": "COPY_KID_TO_CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4716,7 +4722,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 43,
           "name": "MARK_PURGEABLE",
           "method": 6,
           "zero_displacement": true
@@ -4724,7 +4730,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 43,
         "name": "MARK_PURGEABLE",
         "method": 6,
         "zero_displacement": true
@@ -4743,7 +4749,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 41,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -4751,7 +4757,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 41,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -4770,7 +4776,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -4778,7 +4784,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -4797,7 +4803,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 27,
           "name": "SOUND_HANDLES",
           "method": 6,
           "zero_displacement": true
@@ -4805,7 +4811,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 27,
         "name": "SOUND_HANDLES",
         "method": 6,
         "zero_displacement": true
@@ -4851,7 +4857,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 31,
           "name": "MUSIC_UNAVAILABLE_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -4859,7 +4865,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 31,
         "name": "MUSIC_UNAVAILABLE_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -4878,7 +4884,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 2,
           "name": "SAVEOPTIONSTODISK",
           "method": 6,
           "zero_displacement": true
@@ -4886,7 +4892,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SAVEOPTIONSTODISK",
         "method": 6,
         "zero_displacement": true
@@ -4905,7 +4911,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 53,
           "name": "DISPATCH_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -4913,7 +4919,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 53,
         "name": "DISPATCH_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -4954,16 +4960,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
-          "name": "AMBIENT_LAST_SONG",
+          "index": 22,
+          "name": "AMBIENT_STATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 26,
-        "name": "AMBIENT_LAST_SONG",
+        "index": 22,
+        "name": "AMBIENT_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4981,16 +4987,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
-          "name": "AMBIENT_LAST_SONG",
+          "index": 22,
+          "name": "AMBIENT_STATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 26,
-        "name": "AMBIENT_LAST_SONG",
+        "index": 22,
+        "name": "AMBIENT_STATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5035,7 +5041,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 29,
           "name": "AMBIENT_OFF_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -5043,7 +5049,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 29,
         "name": "AMBIENT_OFF_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -5062,7 +5068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "AMBIENT_ON_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -5070,7 +5076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "AMBIENT_ON_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -5143,7 +5149,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 50,
           "name": "ACTIVE_SOUND_CHANNELS",
           "method": 6,
           "zero_displacement": true
@@ -5151,7 +5157,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 50,
         "name": "ACTIVE_SOUND_CHANNELS",
         "method": 6,
         "zero_displacement": true
@@ -5170,7 +5176,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -5178,7 +5184,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -5197,7 +5203,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5205,7 +5211,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5224,7 +5230,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 37,
           "name": "FIND_ACTIVE_GENERATOR",
           "method": 6,
           "zero_displacement": true
@@ -5232,7 +5238,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 37,
         "name": "FIND_ACTIVE_GENERATOR",
         "method": 6,
         "zero_displacement": true
@@ -5327,7 +5333,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5335,7 +5341,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5376,7 +5382,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5384,7 +5390,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5425,7 +5431,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 49,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -5433,7 +5439,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 49,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -5650,20 +5656,6 @@
         }
       ]
     },
-    "AMBIENT_LAST_SONG": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 11162,
-      "witnesses": [
-        {
-          "bytes_hex": "8a809a2b",
-          "entry": "root:0f9e:01ba",
-          "image_offset": 65104,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "AMBIENT_OFF_MESSAGE": {
       "group": "DGROUP",
       "kind": "dgroup-public",
@@ -5687,6 +5679,20 @@
           "image_offset": 29883,
           "operand_offset": 1,
           "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "8a809a2b",
+              "entry": "root:0f9e:01ba",
+              "image_offset": 65104,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
         }
       ]
     },

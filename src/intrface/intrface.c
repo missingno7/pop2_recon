@@ -21,13 +21,13 @@ extern char far *cdecl _fstrstr(FarName, FarName);
 extern int cdecl open(const char *, int, ...);
 extern int cdecl close(int);
 
-extern void *interface_buffer;
-extern unsigned long clock_ticks;
-extern int dos_vectors_installed;
+int dos_vectors_installed;
+void *interface_buffer;
+extern unsigned long TimeVal;
 extern int interrupt_vectors_installed;
 extern int graphics_mode;
-extern int backing_driver_active;
-extern volatile int timers[];
+int backing_driver_active;
+extern volatile int Timer[4];
 extern ResourceMap SHAPE_METADATA_LIST;
 extern unsigned char active_sound_channels;
 extern struct LevelState *configuration;
@@ -74,7 +74,7 @@ void abort_with_message(int status, FarName message)
 
 void reset_interface(void)
 {
-    if (clock_ticks) {
+    if (TimeVal) {
         dispatch_resource_pointer(0L);
         reset_sound_drivers();
         reset_timer_hook();
@@ -124,19 +124,19 @@ int wait_timer(int timer)
     int key;
     do {
         key = check_wait_function();
-    } while (timers[timer] && !key);
+    } while (Timer[timer] && !key);
     return key;
 }
 
 void wait_timer_no_poll(int timer)
 {
-    while (timers[timer])
+    while (Timer[timer])
         ;
 }
 
 void wait_ticks(int timer, int ticks)
 {
-    timers[timer] = ticks;
+    Timer[timer] = ticks;
     wait_timer(timer);
 }
 

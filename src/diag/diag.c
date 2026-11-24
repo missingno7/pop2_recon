@@ -67,7 +67,7 @@ extern CHARREC Kid;
 extern CHARREC Char;
 extern int LeftEdge, RightEdge;
 
-extern long tick_count;
+extern long TimeVal;
 extern drawing_context ScreenPort, *Graf;
 extern int Row2PixelY[5];
 extern heap_block far *far *heap_state;
@@ -169,7 +169,7 @@ void report_ticks(const char *label)
     char message[100];
 
     if (log_ticks) {
-        sprintf(message, "%s. Ticks = %ld", label, tick_count);
+        sprintf(message, "%s. Ticks = %ld", label, TimeVal);
         dump_heap(0, message, 1);
     }
 }

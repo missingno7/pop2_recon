@@ -217,14 +217,12 @@
       }
     ],
     "externals": [
-      "SURFACE_SCANLINE_OFFSETS",
       "DEFAULT_PORT",
-      "SURFACE_ROW_STRIDE",
       "SHOW_MOUSE_GRAPHICS",
       "CHECK_CURSOR_OVERLAP",
       "__NMALLOC",
       "GRAF",
-      "NEAR_HEAP_SEGMENT"
+      "__PSP"
     ]
   },
   "fixups": [
@@ -411,7 +409,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -433,7 +431,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -455,7 +453,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -540,7 +538,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -562,7 +560,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -920,8 +918,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "NEAR_HEAP_SEGMENT",
+        "index": 6,
+        "name": "__PSP",
         "method": 6,
         "zero_displacement": true
       },
@@ -963,7 +961,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "DEFAULT_PORT",
         "method": 6,
         "zero_displacement": true
@@ -985,7 +983,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "DEFAULT_PORT",
         "method": 2
       },
@@ -1001,12 +999,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 6,
+        "index": 4,
         "name": "__NMALLOC"
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 4,
         "name": "__NMALLOC",
         "method": 6,
         "zero_displacement": true
@@ -1029,11 +1027,10 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "SURFACE_SCANLINE_OFFSETS",
-        "method": 6,
-        "zero_displacement": true
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 14
     },
     {
       "kind": "fixup",
@@ -1050,7 +1047,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "DEFAULT_PORT",
         "method": 2
       },
@@ -1071,12 +1068,11 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
-        "name": "SURFACE_ROW_STRIDE",
-        "method": 6,
-        "zero_displacement": true
+        "index": 1,
+        "name": "DEFAULT_PORT",
+        "method": 2
       },
-      "displacement": null
+      "displacement": 12
     },
     {
       "kind": "fixup",
@@ -1115,7 +1111,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1368,7 +1364,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -1390,7 +1386,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -1517,7 +1513,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1539,7 +1535,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -1603,7 +1599,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -1772,7 +1768,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1794,7 +1790,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -1858,7 +1854,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -1985,7 +1981,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2007,7 +2003,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 3,
         "name": "CHECK_CURSOR_OVERLAP",
         "method": 6,
         "zero_displacement": true
@@ -2134,7 +2130,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "SHOW_MOUSE_GRAPHICS",
         "method": 6,
         "zero_displacement": true
@@ -2451,6 +2447,30 @@
               "space": "root"
             }
           ]
+        },
+        {
+          "offset": 12,
+          "witnesses": [
+            {
+              "bytes_hex": "f7268a24",
+              "entry": "root:1129:3f5b",
+              "image_offset": 86560,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 14,
+          "witnesses": [
+            {
+              "bytes_hex": "a18c24",
+              "entry": "root:1129:4e36",
+              "image_offset": 90341,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
         }
       ]
     },
@@ -2465,20 +2485,6 @@
           "image_offset": 5116,
           "bytes_hex": "a35024",
           "entry": "root:0000:0000"
-        }
-      ]
-    },
-    "NEAR_HEAP_SEGMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8486,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 136306,
-          "bytes_hex": "8b1e2621",
-          "entry": "root:1fef:003b"
         }
       ]
     },
@@ -2498,34 +2504,6 @@
         }
       ]
     },
-    "SURFACE_ROW_STRIDE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9354,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 86560,
-          "bytes_hex": "f7268a24",
-          "entry": "root:1129:3f5b"
-        }
-      ]
-    },
-    "SURFACE_SCANLINE_OFFSETS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9356,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 86540,
-          "bytes_hex": "a38c24",
-          "entry": "root:1129:3f5b"
-        }
-      ]
-    },
     "__NMALLOC": {
       "entry_sha256": "abd19e80ca3aabcf3263efabd0fa607a10f569effe3df9dbb140ef8d3f06a1e7",
       "entry_target_id": "root:1fef:003b",
@@ -2534,6 +2512,20 @@
       "segment": 8175,
       "space": "root",
       "witnesses": []
+    },
+    "__PSP": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8486,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1e2621",
+          "entry": "root:1fef:003b",
+          "image_offset": 136306,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:graf/banked16_mode",

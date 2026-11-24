@@ -86,8 +86,8 @@
       "__dos_close",
       "__nfree",
       "LOAD_SOUND_SETTINGS",
-      "ARGUMENT_COUNT",
-      "ARGUMENTS",
+      "___argc",
+      "___argv",
       "__fstrlen",
       "__fstrnicmp",
       "FIND_OPTION",
@@ -299,7 +299,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "ARGUMENTS",
+          "name": "___argv",
           "method": 6,
           "zero_displacement": true
         }
@@ -307,7 +307,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "ARGUMENTS",
+        "name": "___argv",
         "method": 6,
         "zero_displacement": true
       },
@@ -326,7 +326,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "ARGUMENT_COUNT",
+          "name": "___argc",
           "method": 6,
           "zero_displacement": true
         }
@@ -334,7 +334,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "ARGUMENT_COUNT",
+        "name": "___argc",
         "method": 6,
         "zero_displacement": true
       },
@@ -380,7 +380,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "ARGUMENTS",
+          "name": "___argv",
           "method": 6,
           "zero_displacement": true
         }
@@ -388,7 +388,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "ARGUMENTS",
+        "name": "___argv",
         "method": 6,
         "zero_displacement": true
       },
@@ -434,7 +434,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "ARGUMENT_COUNT",
+          "name": "___argc",
           "method": 6,
           "zero_displacement": true
         }
@@ -442,7 +442,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "ARGUMENT_COUNT",
+        "name": "___argc",
         "method": 6,
         "zero_displacement": true
       },
@@ -465,18 +465,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "ARGUMENTS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8517,
-      "witnesses": []
-    },
-    "ARGUMENT_COUNT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8515,
-      "witnesses": []
-    },
     "CONFIGURATION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -592,6 +580,18 @@
       "offset": 7206,
       "segment": 8175,
       "space": "root",
+      "witnesses": []
+    },
+    "___argv": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8517,
+      "witnesses": []
+    },
+    "___argc": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8515,
       "witnesses": []
     }
   },

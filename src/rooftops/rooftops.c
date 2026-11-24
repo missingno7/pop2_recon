@@ -90,8 +90,8 @@ typedef struct {
     int x;
     unsigned char low;
 } WATERSTATE;
-extern WATERSTATE InWater;
-extern sbyte palette_bank;
+WATERSTATE InWater;
+static sbyte palette_bank;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -183,15 +183,14 @@ typedef struct {
 extern FCHARREC FChar;
 extern int NewRoom;
 extern int ImWidth;
-extern int delay_count, active_sound_channels;
+extern int Timer[4], active_sound_channels;
 extern CHARREC Kid;
 extern Rect CellClipRect, NullRect, GamePlayRect;
 static SplashImage splash_images[] = {
-    {0, 0}, {29, 0}, {30, 0}, {31, 0},
+    {29, 0}, {30, 0}, {31, 0},
     {29, 0}, {32, 0}, {33, 0}, {29, 0}
 };
-extern PeelSlot custom_peels[];
-extern char quit_prompt[], restart_prompt[];
+extern PeelSlot Peels[];
 
 extern DrawList near *custom_room;
 typedef void (far pascal *RedrawCallback)(void);
@@ -201,11 +200,11 @@ extern void far pascal mark_bufs_for_rect(RedrawCallback, Rect near *, sbyte);
 extern void far pascal decrement_life_points(sbyte), SetKidDeathMethod(sbyte);
 extern int far pascal set_palette(uword, int, ubyte, sbyte);
 extern void far pascal CycleColors(int, int, int);
-extern int far pascal query_sound(char near *);
+extern int far pascal query_sound(int);
 extern void far pascal AddSound(int), AddLeaveLevelSong(void), play_song(int);
 extern void far pascal wait_sound(int), wait_timer(int), ChangeMeters(void);
 extern void far pascal CheckMeters(void), copy_kid_to_char(void);
-extern void far pascal reset_char_y(void), JumpSeq(int), flag_sound_resource(char near *);
+extern void far pascal reset_char_y(void), JumpSeq(int), flag_sound_resource(int);
 extern void far pascal load_actor_slot(sbyte), save_actor_slot(void);
 extern int far pascal check_trob_visibility(void);
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
@@ -259,7 +258,7 @@ void far pascal check_character_water(void)
         if (InWater.frame < 7) {
             if (custom_room->bank != 18 && custom_room->bank != 19)
                 return;
-            mark_bufs_for_rect(mark_move, &custom_room->pieces[splash_images[InWater.frame].index].bounds, -1);
+            mark_bufs_for_rect(mark_move, &custom_room->pieces[splash_images[InWater.frame - 1].index].bounds, -1);
         } else if (InWater.frame >= 8) {
             InWater.frame = 0;
             InWater.character = -1;
@@ -328,18 +327,18 @@ void far pascal kill_kid_on_wharf(void)
     int hp;
 
     if (Char.x > 513) {
-        if ((active_sound_channels & 1) && !query_sound(quit_prompt) && !query_sound(restart_prompt)) {
+        if ((active_sound_channels & 1) && !query_sound(10032) && !query_sound(10047)) {
             AddSound(32);
             return;
         }
-        wait_sound((int)quit_prompt);
-        delay_count = 30;
+        wait_sound(10032);
+        Timer[0] = 30;
         wait_timer(0);
         play_song(47);
         hp = Char.life_points;
         if (hp > 0) {
             do {
-                delay_count = 48;
+                Timer[0] = 48;
                 decrement_life_points(1);
                 Kid = Char;
                 ChangeMeters();
@@ -350,8 +349,8 @@ void far pascal kill_kid_on_wharf(void)
         }
         reset_char_y();
         JumpSeq(71);
-        flag_sound_resource(restart_prompt);
-        wait_sound((int)restart_prompt);
+        flag_sound_resource(10047);
+        wait_sound(10047);
     }
 }
 
@@ -428,7 +427,7 @@ void far pascal setup_splash(void)
     if (Char.slot == InWater.character && InWater.frame != 0 && InWater.frame < 7 &&
         (custom_room->bank == 18 || custom_room->bank == 19)) {
         clip = CellClipRect;
-        image = splash_images[InWater.frame].index;
+        image = splash_images[InWater.frame - 1].index;
         piece = &custom_room->pieces[image];
         piece->y = piece->bounds.top - piece->bounds.bottom + 176;
         if (Char.action == 9)
@@ -662,7 +661,7 @@ void far pascal update_ship_peel(sbyte slot, int bottom)
     Peel near *peel;
 
     if (slot >= 0) {
-        peel = custom_peels[slot].peel;
+        peel = Peels[slot].peel;
         if (peel->top < bottom && peel->bottom > bottom)
             peel->bottom = bottom;
     }

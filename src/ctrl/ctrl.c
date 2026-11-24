@@ -368,10 +368,15 @@ int far pascal AddFCharX(int value)
 extern int ShakeFloor;
 extern int WeightlessTimer;
 
-extern unsigned char animation_variant;
+typedef struct {
+    signed char argument, entrance_mode, sword_kind, death_countdown;
+    int field_4, shadow_timer;
+} KIDINFO;
+extern KIDINFO KidInfo;
 extern int NextLevel;
-extern int animation_portion;
-extern int sound_steps;
+static int animation_portion;
+static int sound_steps;
+static FCHARREC saved_fchar;
 extern int AlertGuard;
 
 
@@ -451,7 +456,7 @@ void far pascal AnimChar(void)
         case -16:
             ++NextLevel;
             if (((unsigned char)Level.level_number) == 6)
-                animation_variant = Char.column >= 6 ? 2 : 1;
+                KidInfo.entrance_mode = Char.column >= 6 ? 2 : 1;
             break;
         case -15:
             anim_char_tap(GetSeqOp(sequence));
@@ -586,12 +591,11 @@ void far pascal anim_char_tap(int sound)
 }
 
 
-extern unsigned char STATE_ARGUMENT;
 
 void far pascal SetKidDeathMethod(unsigned char value)
 {
     if (Char.character_kind == 0 || Char.character_kind == 1)
-        STATE_ARGUMENT = value;
+        KidInfo.argument = value;
 }
 
 int far pascal reset_char_y(void)
@@ -742,14 +746,14 @@ struct CopyRecord {
     char bytes[5];
 };
 
-extern struct CopyRecord SelDir;
-extern struct CopyRecord Dir;
 extern int DroppedOut;
 extern unsigned int Stunned;
 extern unsigned int Screamed;
 extern void far pascal update_shadow_gameplay_palette(void);
 extern int far pascal IsWall(char kind);
 extern int far pascal IS_SIX_KIND(char kind);
+int ImHeight, ImWidth, CDLeftEdge, CDRightEdge, LeftEdge, RightEdge, TopEdge, ExitEdge;
+struct CopyRecord Dir, SelDir;
 extern int far pascal tile_is_ledge(char kind);
 extern int far pascal RoofClimbingIntoShip(void);
 extern void far pascal trigger_all_stones_down(void);
@@ -1038,7 +1042,7 @@ char far pascal get_behind(void)
                     character_row);
 }
 
-extern signed char Offset;
+signed char Offset;
 
 int far pascal get_base_x(void)
 {
@@ -1139,7 +1143,7 @@ extern signed char LevelIdx;
 typedef struct {
     signed char x, y, button;
 } JoyState;
-extern JoyState Joy;
+JoyState Joy;
 
 int far pascal ctrl_player(void)
 {
@@ -1169,7 +1173,7 @@ int far pascal ctrl_player(void)
     TimeRequest = 0;
     if (Char.alive < 0 || Char.alive >= 6) {
         if (Char.alive == 6) {
-            AddKidDeathSong(STATE_ARGUMENT);
+            AddKidDeathSong(KidInfo.argument);
         } else {
             if (Char.alive != 7 || query_sound(current_effect + 10000))
                 return result;
@@ -1289,8 +1293,6 @@ void SaveSelect(void)
 }
 
 /* LoadSelect: restore the remembered selection before input polling (FM Towns CTRL.C). */
-extern struct CopyRecord Dir;
-extern struct CopyRecord SelDir;
 
 void LoadSelect(void)
 {
@@ -1416,7 +1418,6 @@ extern void far pascal clip_desert_character(void);
 extern void far pascal clip_ruins_actor(void);
 extern void far pascal clip_final_character(void);
 extern int far _fastcall IsRoundCaveBlock(unsigned int modifier);
-extern int TopEdge;
 void far pascal MakeFCharClipRect(void);
 int far pascal is_char_non_viewable(void);
 
@@ -1515,7 +1516,7 @@ void far pascal uneven_floor(void)
         Char.y = (signed char)63 * character_row + 57;
 }
 
-extern FCHARREC saved_fchar;
+
 
 void far pascal IndexChar(void)
 {

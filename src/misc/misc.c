@@ -83,13 +83,12 @@ extern TileInfo BlueSpec;
 extern byte ObjId;
 extern byte *custom_room;
 extern int NewRoom;
-extern byte room_tiles[][30];
 extern byte *BlueT;
 extern TileInfo *BlueS;
 
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern int is_open_tile(byte);
+extern int is_open_tile(byte kind);
 extern int IsWall(byte);
 extern sbyte FirstInRow(sbyte);
 extern void * _cdecl memset(void *, int, unsigned int);
@@ -98,7 +97,7 @@ extern void * _cdecl memset(void *, int, unsigned int);
 void select_room_arrays(byte room)
 {
     if (room) {
-        BlueT = room_tiles[room];
+        BlueT = Level.cell_kinds[room - 1];
         BlueS = (TileInfo *) &Level.cell_info[room - 1][0];
     }
 }
@@ -189,7 +188,7 @@ void GetAboveAry(void)
             GetObject(room, col - 1, row, &Above[col].tile,
                       info = &Above[col].info, missing);
             if (Room.custom && RowNo == 0 && Level.environment_kind == 3 &&
-                is_open_tile(room_tiles[Room.number][col - 1])) {
+                is_open_tile(Level.cell_kinds[Room.number - 1][col - 1])) {
                 Above[col].info.modifier = (Above[col].info.modifier & 0x3fff) | 0x4000;
             }
         }
@@ -244,7 +243,7 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
     } else {
         *tile = missing;
         if (Level.environment_kind == 3 && (missing == 1 || missing == 20) && Room.below) {
-            if (!IsWall(room_tiles[Room.below][col])) {
+            if (!IsWall(Level.cell_kinds[Room.below - 1][col])) {
                 info->modifier = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
                 info->extra = 0;
             } else {
@@ -283,7 +282,7 @@ byte PieceAboveId(sbyte col, sbyte row)
         col -= 10;
     }
     if (room)
-        tile = room_tiles[room][FirstInRow(row) + col];
+        tile = Level.cell_kinds[room - 1][FirstInRow(row) + col];
     else
         tile = 1;
     return tile;
@@ -310,7 +309,7 @@ byte PieceAboveRightId(sbyte col, sbyte row)
         ++col;
     }
     if (room)
-        tile = room_tiles[room][FirstInRow(row) + col];
+        tile = Level.cell_kinds[room - 1][FirstInRow(row) + col];
     else
         tile = 1;
     return tile;
@@ -335,7 +334,7 @@ byte PieceBelowId(sbyte col, sbyte row)
         col -= 10;
     }
     if (room)
-        tile = room_tiles[room][FirstInRow(row) + col];
+        tile = Level.cell_kinds[room - 1][FirstInRow(row) + col];
     else
         tile = 20;
     return tile;
@@ -353,7 +352,7 @@ byte PieceLeftId(sbyte col, sbyte row)
         col = 9;
     }
     if (room)
-        tile = room_tiles[room][FirstInRow(row) + col];
+        tile = Level.cell_kinds[room - 1][FirstInRow(row) + col];
     else
         tile = 20;
     return tile;
@@ -375,7 +374,7 @@ byte PieceRightId(sbyte col, sbyte row)
         row = 0;
     }
     if (room)
-        tile = room_tiles[room][FirstInRow(row) + col];
+        tile = Level.cell_kinds[room - 1][FirstInRow(row) + col];
     else
         tile = 20;
     return tile;
