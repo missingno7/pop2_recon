@@ -945,29 +945,26 @@ void far pascal transfer_room_actors(void)
             actor_follows_to_adjacent_room() ||
             (Char.row && Level.level_number == 5 &&
              (actor_room == 10 || actor_room == 7 || actor_room == 12)) ||
-            Char.character_kind == 0 ||
-            (Char.character_kind == 6 && (actor_room == 7 || actor_room == 8) &&
-             Level.environment_kind == 6 && (CutRoom == 7 || CutRoom == 8) &&
-             Level.environment_kind == 6)) {
+            Char.character_kind == 0) {
             stay = 0;
-        } else if (Char.alive < 0 && can_actor_follow()) {
+        } else if (Char.character_kind == 6 &&
+                   (actor_room == 7 || actor_room == 8) &&
+                   Level.environment_kind == 6 &&
+                   (CutRoom == 7 || CutRoom == 8) &&
+                   Level.environment_kind == 6) {
+            stay = 0;
+        } else if (Char.alive >= 0 || !can_actor_follow()) {
+            stay = 1;
+        } else {
             if (previous_actor == 0) {
                 stay = Char.x >= 208;
+            } else if (previous_actor == 1) {
+                stay = Char.x < 371;
+            } else if (previous_actor == 2) {
+                stay = Char.row >= 0;
             } else {
-                switch (previous_actor) {
-                  case 1:
-                    stay = Char.x < 371;
-                    break;
-                  case 2:
-                    stay = Char.row >= 0;
-                    break;
-                  default:
-                    stay = Char.row < 3;
-                    break;
-                }
+                stay = Char.row < 3;
             }
-        } else {
-            stay = 1;
         }
 
         if (stay) {

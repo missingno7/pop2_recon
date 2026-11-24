@@ -405,13 +405,14 @@ void load_altar_room(void)
     copy->size = custom_room->palette;
     i = 11;
     do {
-        piece = &custom_room->pieces[(signed char)i];
+        unsigned index = i;
+        piece = &custom_room->pieces[index];
         dispose_handle(piece->shape);
         ref.handle = 0;
         load_set_shape(handle, piece->type + 1, &ref, 1);
         piece->shape = ref.handle;
         PrinceFreeShp(piece->type + custom_room->palette);
-    } while ((signed char)++i <= 38);
+    } while (++i <= 38);
     dispose_handle(handle);
     set_palette(custom_room->palette, 224, 16, 0);
     set_palette(2000, 48, 16, 0);
