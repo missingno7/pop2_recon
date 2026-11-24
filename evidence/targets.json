@@ -68294,6 +68294,186 @@
       "size": 45,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fef:0652",
+      "space": "root",
+      "segment": 8175,
+      "offset": 1618,
+      "size": 186,
+      "sha256": "80d95b3752c51e9036609be9ec0a5d4d68c447854a9b6b781935b5bcfe3287f0",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "MSC 6.00 mlibcr.lib member at 10608 with SHA-256 8f552b6e06074b8be218529ce69feac8b2f54f22e35236dd13abd84ac2e16433 declares this sole CODE public at offset zero and its complete code extent of 186 bytes. The original's instructions and epilogue agree with this boundary; the member is unpinned.",
+        "An original relocated CALL FAR in DUMP_HEAP names this entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69759,
+          "file_offset": 77951,
+          "relocated_segment_site": 69762
+        }
+      ],
+      "semantic_name_hypothesis": "_fclose",
+      "abi": "Far MSC runtime entry with one near FILE pointer; caller cleanup and RETF.",
+      "classification": "RUNTIME",
+      "classification_status": "Reviewed CRT archive and original bytes",
+      "classification_evidence": [
+        "Independent MSC 6.00 mlibcr.lib member at archive offset 10608 exports _fclose."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fef:0738",
+      "space": "root",
+      "segment": 8175,
+      "offset": 1848,
+      "size": 22,
+      "sha256": "f9397640c4a93523a05ab271a34d9322cd351ebc9fe97cd02ec7d459580fc2fe",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Pinned CRT recipe recipes/runtime/crt_fopen_medium.json and the hashed MSC 6.00 mlibcr.lib member's CODE/PUBDEF delimit the public at +0x2c.",
+        "An original relocated CALL FAR in DUMP_HEAP names this entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69217,
+          "file_offset": 77409,
+          "relocated_segment_site": 69220
+        }
+      ],
+      "semantic_name_hypothesis": "_fopen",
+      "abi": "Far MSC runtime entry with two near string pointers; caller cleanup and RETF.",
+      "classification": "RUNTIME",
+      "classification_status": "Reviewed CRT archive and original bytes",
+      "classification_evidence": [
+        "Independent MSC 6.00 mlibcr.lib member at archive offset 11152 exports _fopen."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fef:074e",
+      "space": "root",
+      "segment": 8175,
+      "offset": 1870,
+      "size": 56,
+      "sha256": "f69da418775cfc13b077ce6cec0847e9b25da984b8b90ab25559187485e2b991",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Pinned CRT recipe recipes/runtime/crt_fprintf_medium.json and the hashed MSC 6.00 mlibcr.lib member's CODE/PUBDEF delimit the public at +0x0.",
+        "An original relocated CALL FAR in DUMP_HEAP names this entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69750,
+          "file_offset": 77942,
+          "relocated_segment_site": 69753
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69731,
+          "file_offset": 77923,
+          "relocated_segment_site": 69734
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69711,
+          "file_offset": 77903,
+          "relocated_segment_site": 69714
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69692,
+          "file_offset": 77884,
+          "relocated_segment_site": 69695
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69610,
+          "file_offset": 77802,
+          "relocated_segment_site": 69613
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69563,
+          "file_offset": 77755,
+          "relocated_segment_site": 69566
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69531,
+          "file_offset": 77723,
+          "relocated_segment_site": 69534
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69264,
+          "file_offset": 77456,
+          "relocated_segment_site": 69267
+        },
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69245,
+          "file_offset": 77437,
+          "relocated_segment_site": 69248
+        }
+      ],
+      "semantic_name_hypothesis": "_fprintf",
+      "abi": "Far MSC runtime entry with near FILE and format pointers followed by variadic arguments; caller cleanup and RETF.",
+      "classification": "RUNTIME",
+      "classification_status": "Reviewed CRT archive and original bytes",
+      "classification_evidence": [
+        "Independent MSC 6.00 mlibcr.lib member at archive offset 11504 exports _fprintf."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fef:18f8",
+      "space": "root",
+      "segment": 8175,
+      "offset": 6392,
+      "size": 45,
+      "sha256": "f33e435aa306a837682586685aae6b897f2f9f2f0231278249be8b2fc54f292b",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Pinned CRT recipe recipes/runtime/crt_nmemmax_medium.json and the hashed MSC 6.00 mlibcr.lib member's CODE/PUBDEF delimit the public at +0x0.",
+        "An original relocated CALL FAR in DUMP_HEAP names this entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69739,
+          "file_offset": 77931,
+          "relocated_segment_site": 69742
+        }
+      ],
+      "semantic_name_hypothesis": "__memmax",
+      "abi": "Far MSC runtime entry with no arguments; caller cleanup and RETF.",
+      "classification": "RUNTIME",
+      "classification_status": "Reviewed CRT archive and original bytes",
+      "classification_evidence": [
+        "Independent MSC 6.00 mlibcr.lib member at archive offset 55760 exports __memmax."
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

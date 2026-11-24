@@ -270,13 +270,12 @@ void far pascal align_head_on_kid_neck(void)
     Char.x = FChar.x + 130;
 }
 
-int far pascal head_blocked(void);
-void far pascal head_prog(void);
+/* FM Towns CharCanSeeOpp: the same statements and the same order of locals. */
+#define ABS(x) ((x) < 0 ? -(x) : (x))
 
 int far pascal head_visibility(void)
 {
-    signed char row, column, end_row, end_column, rows, columns, error;
-    signed char step_column, step_row, straight_error, diagonal;
+    signed char end_column, end_row, column, row, columns, rows, step_column, step_row, straight_error, diagonal, error, tile;
     int clear = 1;
     int result;
 
@@ -292,32 +291,22 @@ int far pascal head_visibility(void)
         if ((Opp.x - 130) % 32 > 16)
             ++end_column;
 
-        {
-            int delta = end_row - row;
-            rows = delta < 0 ? -delta : delta;
-        }
-        if (column < end_column)
-            step_column = 1;
-        else
-            step_column = -1;
-        if (row < end_row)
-            step_row = 1;
-        else
-            step_row = -1;
-        {
-            int delta = end_column - column;
-            columns = delta < 0 ? -delta : delta;
-        }
+        columns = ABS(end_column - column);
+        rows = ABS(end_row - row);
+        step_column = end_column > column ? 1 : -1;
+        step_row = end_row > row ? 1 : -1;
 
-        if (rows < columns) {
+        if (columns > rows) {
             error = rows * 2 - columns;
             straight_error = rows * 2;
             diagonal = (rows - columns) * 2;
             do {
                 column += step_column;
                 if ((step_column > 0 && column % 2 == 0) ||
-                    (step_column < 0 && column % 2 != 0))
-                    clear = !IsWall(ReadCell(Char.room, column / 2, row / 2));
+                    (step_column < 0 && column % 2 != 0)) {
+                    tile = ReadCell(Char.room, column / 2, row / 2);
+                    clear = !IsWall(tile);
+                }
                 if (clear) {
                     if (error < 0)
                         error += straight_error;
@@ -325,9 +314,10 @@ int far pascal head_visibility(void)
                         if ((step_row > 0 && row % 2 != 0) ||
                             (step_row < 0 && row % 2 == 0)) {
                             if (step_row < 0)
-                                clear = IS_SIX_KIND(ReadCell(Char.room, column / 2, (row - 1) / 2));
+                                tile = ReadCell(Char.room, column / 2, (row - 1) / 2);
                             else
-                                clear = IS_SIX_KIND(ReadCell(Char.room, column / 2, row / 2));
+                                tile = ReadCell(Char.room, column / 2, row / 2);
+                            clear = IS_SIX_KIND(tile);
                         }
                         row += step_row;
                         error += diagonal;
@@ -342,9 +332,10 @@ int far pascal head_visibility(void)
                 if ((step_row > 0 && row % 2 != 0) ||
                     (step_row < 0 && row % 2 == 0)) {
                     if (step_row < 0)
-                        clear = IS_SIX_KIND(ReadCell(Char.room, column / 2, (row - 1) / 2));
+                        tile = ReadCell(Char.room, column / 2, (row - 1) / 2);
                     else
-                        clear = IS_SIX_KIND(ReadCell(Char.room, column / 2, row / 2));
+                        tile = ReadCell(Char.room, column / 2, row / 2);
+                    clear = IS_SIX_KIND(tile);
                 }
                 if (clear) {
                     row += step_row;
@@ -353,8 +344,10 @@ int far pascal head_visibility(void)
                     else {
                         column += step_column;
                         if ((step_column > 0 && column % 2 == 0) ||
-                            (step_column < 0 && column % 2 != 0))
-                            clear = !IsWall(ReadCell(Char.room, column / 2, row / 2));
+                            (step_column < 0 && column % 2 != 0)) {
+                            tile = ReadCell(Char.room, column / 2, row / 2);
+                            clear = !IsWall(tile);
+                        }
                         error += diagonal;
                     }
                 }

@@ -288,18 +288,23 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
     struct { resource_type code; char end; } type;
     file_handle *out;
     heap_block far *block;
-    int size, flags;
+    int size;
     unsigned descriptor;
     long used = 0;
-    /* The per-block preview decision queries the option again. */
-    volatile int preview = find_option("SPECIAL") ? -1 : 0;
+    /* Every released version selects zero with and without the option. */
+    int preview_size;
+
+    if (!find_option("SPECIAL"))
+        preview_size = 0;
+    else
+        preview_size = 0;
 
     reclaim_heap_blocks(0x00ffffffL);
     COMPACT_HEAP_BLOCKS(0x00ffffffL);
     if (name)
         strcpy(filename, name);
     else {
-        char number[6];
+        char number[5];
         strcpy(filename, "dump");
         itoa(dump_number++, number, 10);
         strcat(filename, number);
@@ -316,11 +321,10 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
         if ((block->size_and_flags & 0xc000) != 0x4000) {
             do {
                 size = banked_pointer_capacity(block);
-                flags = block->size_and_flags & 0xc000;
-                if (flags) {
+                if (block->size_and_flags & 0xc000) {
                     used += (unsigned)size;
                     if (!summary_only) {
-                        if (flags == 0xc000) {
+                        if ((block->size_and_flags & 0xc000) == 0xc000) {
                             const char *resource_label, *lock_label, *purge_label;
                             descriptor = *(unsigned near *)block->handle;
                             resource_label = (descriptor & 0x1000) ? yes_text : no_text;
@@ -344,13 +348,13 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
                                         movable_text, size, purge_label, lock_label,
                                         resource_label);
                             }
-                        } else if (flags == 0x8000)
+                        } else if ((block->size_and_flags & 0xc000) == 0x8000)
                             fprintf(out, "%s\t%5.u\n", fixed_text, size);
                     }
                 } else if (!summary_only)
                     fprintf(out, "%s\t%5.u\n", free_text, size);
 
-                if (!size && find_option("SPECIAL"))
+                if (size == preview_size && find_option("SPECIAL"))
                     preview_resource(block->handle);
                 block = normalize_banked_pointer(block);
             } while ((block->size_and_flags & 0xc000) != 0x4000);

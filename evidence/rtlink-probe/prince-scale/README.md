@@ -71,7 +71,7 @@ Later the same day:
 - Eight names are registered between DIAG and INIT: the eight publics of the resident resource module, which is therefore
   a root file after DIAG (identical image when linked that way).
 - DIAG has nine more publics: exactly its nine debug integers.
-- With the counts below, the FIXUP-registered symbols of all 34 C files (1,287 table groups against each other) fit with
+- With the counts below, the FIXUP-registered symbols of all 40 C files (1,287 comparisons of neighbouring table groups) fit with
   one descent, and for all but four files an order of the file's publics exists that satisfies every table.
 
 Counts the source does not reproduce yet (fit): CHECKNIS, MOVESPIK, AUTO one public less, DRAW two, NIS eleven (probably

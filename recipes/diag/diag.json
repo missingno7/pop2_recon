@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "92832079f9e7dad01e6caf73ed331877c3760042683c37e18f2f760b7dae3eb7",
+  "binding_sha256": "3263ed8efb51769556a4102ff78c9f23fc4d571a0f7e842e84c8ae62429d4872",
   "claims": [
     {
       "fixup_count": 12,
@@ -162,6 +162,15 @@
       "target_id": "root:10a5:0800"
     }
   ],
+  "code_matches": [
+    {
+      "public": "DUMP_HEAP",
+      "target_id": "root:10a5:033c",
+      "unproven": [
+        "_fclose"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 4290,
@@ -308,12 +317,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 820,
-      "public": "DUMP_HEAP"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 2104,
   "flags": [
     "/c",
@@ -328,12 +332,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "diag/diag",
-  "object_sha256": "154c9bba91689d21545526791addb93a21989c88f3df1e7673af67c512d21363",
+  "object_sha256": "c83dda7d07b9131c9d4540265c9a2d21e80bf42bfb27541ec0d69dcbc4f24d84",
   "origin": 68184,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/diag/diag.c",
-  "source_sha256": "15532a67cf884a427fd6ffe806548d8b1e425da4859b289ed5ea6d03c454a429",
+  "source_sha256": "fb72a82431078be7e77b18ad51caf89974874fa2193e7db920c6b2e7f3ce8e93",
   "space": "root"
 }

@@ -31,10 +31,11 @@ described by `layout/link-plan.json`. It compares the result with the original p
 `--check` fails when the result is worse than `evidence/whole-link.json`; the integrating writer updates that record with
 `--record`. A new or renamed component must also be added to the plan (`tests/test_whole_link.py`).
 
-Result: 279,812 of 280,476 image bytes equal. The MZ header, the descriptors (except file positions after overlay 11), all
-link segments, section sizes, relocation counts and relocation sets equal the original, and the compressed payloads of
-overlays 2-10 and 12-15 are identical. All differences lie in three functions whose C is open (DUMP_HEAP,
-CONVERT_SOUND_HANDLE, HEAD_VISIBILITY). The order of the relocation records still differs (symbol ids, o9/o11).
+Result: all 280,476 image bytes equal, with no generated variable and no filler, and the linked file has the original's
+259,583 bytes. The MZ header, every descriptor and every (compressed) payload are identical; the relocation sets are equal
+and only the order of the records differs (8,222 file bytes, all inside the MZ table and the 16 overlay tables; 482 records
+in place; symbol ids, o9/o11). This is image equality, not ownership: two RTLUTILS members are patched stand-ins, and
+functions recorded as CODE_MATCH are byte-equal while some of their bindings have no independent witness.
 
 Facts the link settled:
 
@@ -68,8 +69,7 @@ The relocation tables also show the original's symbol numbers (evidence/rtlink-p
 resource module is a root file after DIAG, the THRONE vectors come from VECTORON at their section, and five ALWAYS names
 before the first object are unknown (placeholders in the plan).
 
-Open: the plan's one `fills` entry (14 missing bytes of the CONVERT_SOUND_HANDLE draft), the declaring module of
-the interrupt stacks and of the `link/` data, the two RTLUTILS members, and the relocation order.
+Open: the declaring module of the interrupt stacks and of the `link/` data, the two RTLUTILS members, and the relocation order.
 
 ## The earlier build (tag oracle-dos-1565)
 

@@ -107,19 +107,19 @@
         "type_index": 0
       },
       {
-        "name": "CHECK_NULL_AREA",
+        "name": "CHECK_NEAR_HEAP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1914,
+        "offset": 1832,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "CHECK_NEAR_HEAP",
+        "name": "CHECK_NULL_AREA",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1832,
+        "offset": 1914,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -215,19 +215,19 @@
         "type_index": 0
       },
       {
-        "name": "VOLUME_FORMAT",
+        "name": "SHOW_ACTOR_POSITION",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 424,
+        "offset": 52,
         "group_index": 1,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "SHOW_ACTOR_POSITION",
+        "name": "VOLUME_FORMAT",
         "segment": "_DATA",
         "segment_index": 2,
-        "offset": 52,
+        "offset": 424,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -365,8 +365,8 @@
       "DUMP_HEAP",
       "PLOT_POSITION",
       "CHECK_FAR_HEAP",
-      "CHECK_NULL_AREA",
       "CHECK_NEAR_HEAP",
+      "CHECK_NULL_AREA",
       "NULL_AREA_MATCHES",
       "LIMIT_FRAME_RATE",
       "REPORT_TICKS",
@@ -399,8 +399,8 @@
       "NORMALIZE_BANKED_POINTER",
       "EXPAND_MEMORY_LIMITS",
       "CHECK_HEAP_CHAIN",
-      "CHECK_HEAPS",
       "ABORT_WITH_MESSAGE",
+      "CHECK_HEAPS",
       "_sprintf",
       "KID",
       "PREVIEW_RESOURCE",
@@ -2747,7 +2747,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 40,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -2755,7 +2755,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 40,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -2796,7 +2796,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 6,
           "name": "CHECK_NEAR_HEAP",
           "method": 6,
           "zero_displacement": true
@@ -2804,7 +2804,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 6,
         "name": "CHECK_NEAR_HEAP",
         "method": 6,
         "zero_displacement": true
@@ -2823,7 +2823,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 40,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -2831,7 +2831,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 40,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -4146,7 +4146,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 40,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -4154,7 +4154,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 40,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -4703,6 +4703,33 @@
         }
       ]
     },
+    "COMPACT_HEAP_BLOCKS": {
+      "entry_sha256": "26f3e6745782276cf4d2b7784d0e192c7d42177d44c02d5b24c677737521afd3",
+      "entry_target_id": "root:1129:1a0a",
+      "kind": "far-code-entry",
+      "offset": 6666,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "RECLAIM_HEAP_BLOCKS": {
+      "entry_sha256": "497b27c5c6c7208c77821357a965d7cbffe85c906db6a62f011b0ad741b2c83b",
+      "entry_target_id": "root:1129:1d56",
+      "kind": "far-code-entry",
+      "offset": 7510,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "FIND_OPTION": {
+      "entry_sha256": "146f6eb413a71912174bde1a89b732451d806e553aa74db5605cd6dbea444af1",
+      "entry_target_id": "root:1129:2cea",
+      "kind": "far-code-entry",
+      "offset": 11498,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
     "PAINTRLESHAPE_ASM": {
       "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
       "entry_target_id": "root:1d60:0006",
@@ -4718,6 +4745,79 @@
       "kind": "far-code-entry",
       "offset": 21200,
       "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "_fclose": {
+      "entry_sha256": "80d95b3752c51e9036609be9ec0a5d4d68c447854a9b6b781935b5bcfe3287f0",
+      "entry_target_id": "root:1fef:0652",
+      "kind": "far-code-entry",
+      "offset": 1618,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": [],
+      "unproven": "No independent original witness; Far address lacks a second equal claimed site: _fclose+0"
+    },
+    "_fprintf": {
+      "entry_sha256": "f69da418775cfc13b077ce6cec0847e9b25da984b8b90ab25559187485e2b991",
+      "entry_target_id": "root:1fef:074e",
+      "kind": "far-code-entry",
+      "offset": 1870,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
+    },
+    "__memmax": {
+      "entry_sha256": "f33e435aa306a837682586685aae6b897f2f9f2f0231278249be8b2fc54f292b",
+      "entry_target_id": "root:1fef:18f8",
+      "kind": "far-code-entry",
+      "offset": 6392,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": []
+    },
+    "EXPAND_MEMORY_LIMITS": {
+      "entry_sha256": "da472d047665eec5fa8df60b0afe2a0434979ddcd1578ce40508c9320b1ef61c",
+      "entry_target_id": "root:1f2e:0070",
+      "kind": "far-code-entry",
+      "offset": 112,
+      "segment": 7982,
+      "space": "root",
+      "witnesses": []
+    },
+    "NORMALIZE_BANKED_POINTER": {
+      "entry_sha256": "22f2cd94c1556f050427fe15777ae101b8671d370e24e9ef25bcb1a8b7dcbc46",
+      "entry_target_id": "root:1129:0000",
+      "kind": "far-code-entry",
+      "offset": 0,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOOKUP_SHAPE_METADATA": {
+      "entry_sha256": "423c22bffb5edf441ea2451248791d3b17812dd3e7211390a9a2749929c408f8",
+      "entry_target_id": "root:1129:0054",
+      "kind": "far-code-entry",
+      "offset": 84,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "BANKED_POINTER_CAPACITY": {
+      "entry_sha256": "dc993dfcd5da2ba5450f0f43b6b67bcd76c578ed564aa71a171aa298ce4a475d",
+      "entry_target_id": "root:1129:002e",
+      "kind": "far-code-entry",
+      "offset": 46,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "_fopen": {
+      "entry_sha256": "f9397640c4a93523a05ab271a34d9322cd351ebc9fe97cd02ec7d459580fc2fe",
+      "entry_target_id": "root:1fef:0738",
+      "kind": "far-code-entry",
+      "offset": 1848,
+      "segment": 8175,
       "space": "root",
       "witnesses": []
     },
@@ -4760,6 +4860,20 @@
       "group": "DGROUP",
       "provider": "group:timer_hooks",
       "offset": 9444
+    },
+    "HEAP_STATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 8028,
+      "witnesses": [
+        {
+          "bytes_hex": "36c5365c1f",
+          "entry": "root:1129:6f4c",
+          "image_offset": 76340,
+          "operand_offset": 3,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:diag/diag",
