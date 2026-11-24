@@ -34,7 +34,7 @@ typedef struct { Byte kind; Byte row; Byte unknown[2]; Byte modifier; } TileAnim
 extern Carpet *carpet;                /* DS:2cdc */
 extern unsigned int *carpet_source;             /* DS:6242 */
 #define CARPET_SHAPE_ID 0x62d7
-extern int carpet_y, carpet_x;                   /* DS:1d9c,1d9a */
+int carpet_x = 0xb0, carpet_y = 0x55;
 static struct {
     int images[10];
     signed char scroll[10];

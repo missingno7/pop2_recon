@@ -1119,3 +1119,6 @@ void lose_game(void)
 }
 
 const int TopRowRect[4] = { 0, 0, 3, 320 };
+struct char_bounds message_rect = { 193, 98, 202, 235 };
+int special_sequence = 0;
+signed char LevelIdx = 0;

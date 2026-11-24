@@ -71,7 +71,7 @@ extern CHARREC Kid;
 extern CHARREC Char;
 extern CHARREC RoomOpp[5];
 extern Byte scene_flag;                       /* DS:6290 */
-extern int spawn_flag;                        /* DS:0a16 */
+extern int special_sequence;                        /* DS:0a16 */
 extern RoomData *custom_room;
 #pragma pack(1)
 typedef struct {
@@ -125,7 +125,7 @@ typedef struct {
 extern LEVELREC Level;
 extern unsigned int BlueSpec;            /* DS:5e48 */
 extern signed char tile_animation;            /* DS:67d0 */
-extern Byte flame_image_map[];                 /* DS:1e2e */
+Byte flame_image_map[6] = {0x24, 0x24, 0x25, 0x26, 0x26, 0x24};
 extern Rect clip_rect, GamePlayRect;
 extern Handle *kid_shapes;
 extern Handle flame_steps_handle;             /* DS:6268 */
@@ -276,9 +276,9 @@ void altar_watch_kid(void)
         } else if (Char.x <= 236 && !query_sound(10061)) {
             AddSong(61);
         } else if (Char.frame == 185 && Char.row == 1 &&
-                   Char.sequence_group != 12 && spawn_flag == 1) {
+                   Char.sequence_group != 12 && special_sequence == 1) {
             create_shadowman();
-            spawn_flag = -1;
+            special_sequence = -1;
         }
     }
     Kid = Char;

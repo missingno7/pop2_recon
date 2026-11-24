@@ -17,7 +17,7 @@
         "name": "_DATA",
         "class": "DATA",
         "overlay": "",
-        "length": 78,
+        "length": 82,
         "alignment": 2,
         "combine": 2,
         "big": false,
@@ -231,6 +231,24 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "CARPET_X",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CARPET_Y",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 2,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
@@ -297,9 +315,7 @@
       "CARPET_SOURCE",
       "TRIGGER_CAVE_BARS",
       "MARK_FOREGROUND",
-      "CARPET_Y",
       "MARK_BUFS_FOR_RECT",
-      "CARPET_X",
       "READCELL",
       "MAKE_SPACE",
       "JUMPSEQ",
@@ -382,20 +398,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 66,
-          "name": "CARPET_X",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 66,
-        "name": "CARPET_X",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -409,20 +420,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "CARPET_Y",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "CARPET_Y",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -436,20 +442,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "CARPET_Y",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "CARPET_Y",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -679,20 +680,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "CARPET_Y",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "CARPET_Y",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -706,20 +702,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 66,
-          "name": "CARPET_X",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 66,
-        "name": "CARPET_X",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -736,7 +727,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 72,
+          "index": 70,
           "name": "CUSTOM_COUNT",
           "method": 6,
           "zero_displacement": true
@@ -744,7 +735,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 72,
+        "index": 70,
         "name": "CUSTOM_COUNT",
         "method": 6,
         "zero_displacement": true
@@ -817,7 +808,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 72,
+          "index": 70,
           "name": "CUSTOM_COUNT",
           "method": 6,
           "zero_displacement": true
@@ -825,7 +816,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 72,
+        "index": 70,
         "name": "CUSTOM_COUNT",
         "method": 6,
         "zero_displacement": true
@@ -844,7 +835,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 68,
           "name": "CARPET_VIEW_ENABLED",
           "method": 6,
           "zero_displacement": true
@@ -852,7 +843,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 68,
         "name": "CARPET_VIEW_ENABLED",
         "method": 6,
         "zero_displacement": true
@@ -1600,7 +1591,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 71,
+          "index": 69,
           "name": "DECREMENT_LIFE_POINTS",
           "method": 6,
           "zero_displacement": true
@@ -1608,7 +1599,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 71,
+        "index": 69,
         "name": "DECREMENT_LIFE_POINTS",
         "method": 6,
         "zero_displacement": true
@@ -1681,7 +1672,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 69,
+          "index": 67,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -1689,7 +1680,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 69,
+        "index": 67,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -1870,7 +1861,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 65,
+          "index": 64,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -1878,7 +1869,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 65,
+        "index": 64,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -1975,20 +1966,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "CARPET_Y",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "CARPET_Y",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -2002,20 +1988,15 @@
       "field_width": 2,
       "self_relative": false,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 66,
-          "name": "CARPET_X",
-          "method": 6,
-          "zero_displacement": true
-        }
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
       },
       "target": {
-        "kind": "external",
-        "index": 66,
-        "name": "CARPET_X",
-        "method": 6,
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
       },
       "displacement": null
@@ -2059,7 +2040,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 68,
+          "index": 66,
           "name": "MAKE_SPACE",
           "method": 6,
           "zero_displacement": true
@@ -2067,7 +2048,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 68,
+        "index": 66,
         "name": "MAKE_SPACE",
         "method": 6,
         "zero_displacement": true
@@ -2140,7 +2121,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 65,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -2148,7 +2129,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 65,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -2275,7 +2256,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 65,
+          "index": 64,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2283,7 +2264,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 65,
+        "index": 64,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -4098,7 +4079,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 65,
+          "index": 64,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -4106,7 +4087,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 65,
+        "index": 64,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -4255,7 +4236,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 68,
           "name": "CARPET_VIEW_ENABLED",
           "method": 6,
           "zero_displacement": true
@@ -4263,7 +4244,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 68,
         "name": "CARPET_VIEW_ENABLED",
         "method": 6,
         "zero_displacement": true
@@ -4390,7 +4371,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 70,
+          "index": 68,
           "name": "CARPET_VIEW_ENABLED",
           "method": 6,
           "zero_displacement": true
@@ -4398,7 +4379,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 70,
+        "index": 68,
         "name": "CARPET_VIEW_ENABLED",
         "method": 6,
         "zero_displacement": true
@@ -4471,7 +4452,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 67,
+          "index": 65,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -4479,7 +4460,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 67,
+        "index": 65,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5065,7 +5046,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 69,
+          "index": 67,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -5073,7 +5054,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 69,
+        "index": 67,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -5097,7 +5078,7 @@
   "mode": "external-dgroup-offset16-v4",
   "placements": {
     "CONST": 9948,
-    "_DATA": 7218
+    "_DATA": 7214
   },
   "schema": 1,
   "symbols": {
@@ -5252,18 +5233,6 @@
           "entry": "root:0170:029a"
         }
       ]
-    },
-    "CARPET_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7214,
-      "witnesses": []
-    },
-    "CARPET_Y": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 7216,
-      "witnesses": []
     },
     "CELL": {
       "group": "DGROUP",
