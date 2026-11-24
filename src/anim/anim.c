@@ -1,4 +1,5 @@
-/* ANIM.C, overlay 2. Definitions follow DOS code order. */
+/* ANIM.C, overlay 2. Definitions follow DOS code order. Built with line numbers (/Zd) like the other
+   library modules: the original relocation order fixes where its line records end. */
 typedef struct
 {
     int top, left, bottom, right;
@@ -12,10 +13,20 @@ typedef struct
     int flags;
 } Port;
 
+typedef union {
+    unsigned int word;
+    struct {
+        unsigned int ink : 4;
+        unsigned int move_rate : 4;
+        unsigned int frame_rate : 4;
+        unsigned int playback : 4;
+    } bits;
+} ElementFlags;
+
 typedef struct
 {
     int shape, first, last;
-    unsigned int flags;
+    ElementFlags flags;
     signed char move_ticks, frame_ticks;
     long x, y;
     long dx, dy;
@@ -60,7 +71,12 @@ typedef struct
 
 extern int Graf;
 extern unsigned int active_animation_flags;
-extern unsigned long clock_ticks;
+extern union {
+    unsigned long count;
+    struct {
+        unsigned int low, high;
+    } words;
+} clock_ticks;
 extern void MEASURE_TEXT(int, int, const Rect far *, const Rect far *, int);
 extern void QuitFadeTo(unsigned long);
 extern int fade_to_step(unsigned long);
@@ -102,177 +118,183 @@ void near paint_element(Animation *animation, Element *element);
 void near accumulate_element_bounds(Animation *animation, Element *element);
 void near reset_element(Element *element);
 
-extern void play_animation_sound(int);
-extern void start_animation_fade(int);
-extern int animation_fade_pending(int);
+extern void play_sound(int);
+extern void dispatch_sound(int);
+extern int query_sound(int);
 extern unsigned char animation_wait_level;
 
-/* Read the command operands at their byte offsets in the animation resource. */
+/* Byte-offset access for scanning an unparsed animation resource. */
 #define WORD_AT(p, n) (((const int far *)&(p)[(n)])[0])
-#define LONG_AT(p, n) (((const long far *)&(p)[(n)])[0])
+/* Command operands begin immediately after the opcode. */
+#define EVENT_WORD(p, i) (((const int far *)((p) + 1))[(i)])
+#define EVENT_LONG(p, i) (((const long far *)((p) + 1))[(i)])
+#define CLOCK_WORDS() (clock_ticks.words.low | ((unsigned long)clock_ticks.words.high << 16))
+
 
 int anim_idle(Animation *animation)
 {
-    int previous_port;
     int status = 0;
+    int previous_port = Graf;
     const unsigned char far *event;
-    int idx, saved_flags, opcode;
-    int effect_id;
+    int idx;
+    ElementFlags saved_flags;
     void far *saved_pixels;
     Element *current_element;
 
-    previous_port = Graf;
     Graf = (int)animation;
 
-next_command:
-    event = (*animation).commands;
-    switch (*event) {
-    case 0:
-        if ((*animation).deadline_base + (*animation).delay <= clock_ticks)
-            status = 1;
-        break;
-    case 1:
-        if ((*animation).deadline_base + (*animation).delay <= clock_ticks) {
-            advance_animation_frame(animation);
-            if (!(*animation).timing.repeats) {
-                (*animation).timing.repeats = WORD_AT(event, 1);
-                (*animation).delay = WORD_AT(event, 3);
+    for (;;) {
+        event = animation->commands;
+        switch (*event) {
+        case 0:
+            if (animation->deadline_base + animation->delay <= CLOCK_WORDS())
+                status = 1;
+            break;
+        case 1:
+            if (animation->deadline_base + animation->delay <= CLOCK_WORDS()) {
+                advance_animation_frame(animation);
+                if (!animation->timing.repeats) {
+                    animation->timing.repeats = EVENT_WORD(event, 0);
+                    animation->delay = EVENT_WORD(event, 1);
+                }
+                if (!--animation->timing.repeats)
+                    animation->commands += 5;
             }
-            if (!--(*animation).timing.repeats) (*animation).commands += 5;
-        }
-        break;
-    case 2:
-        if (!(*animation).timing.deadline) {
-            (*animation).timing.deadline = WORD_AT(event, 1) + clock_ticks;
-            if ((*animation).deadline_base) (*animation).deadline_base += WORD_AT(event, 1);
-        } else if ((*animation).timing.deadline <= clock_ticks) {
-            (*animation).timing.deadline = 0;
-            (*animation).commands += 3;
-        }
-        break;
-    case 3:
-        if ((*animation).deadline_base + (*animation).delay <= clock_ticks) {
-            effect_id = WORD_AT(event, 1);
-            play_animation_sound(effect_id);
-            (*animation).commands += 3;
-        }
-        break;
-    case 4:
-        start_animation_fade(WORD_AT(event, 1));
-        (*animation).commands += 3;
-        break;
-    case 5:
-        if (!animation_fade_pending(WORD_AT(event, 1))) (*animation).commands += 3;
-        break;
-    case 6: {
-        Animation *state = animation;
-        if (!state->timing.wait_level) state->timing.wait_level = event[1];
-        if (!animation_wait_level || state->timing.wait_level <= animation_wait_level) {
-            state->timing.wait_level = 0;
-            state->commands += 2;
-        }
-        break;
-    }
-    case 7:
-        draw_frame(animation);
-        (*animation).skip_draw = 1;
-        ++(*animation).commands;
-        break;
-    default:
-        opcode = *event;
-        if ((opcode & ~3) == 0x10) {
-            idx = *event & 3;
-            if ((*animation).callbacks[idx] &&
-                (*animation).callbacks[idx](animation, WORD_AT(event, 1)))
-                status = 2;
-            (*animation).commands += 3;
-            goto next_command;
-        }
-        if ((opcode & ~3) == 0x14) {
-            idx = *event & 3;
-            if ((*animation).loops[idx]) {
-                if (!--(*animation).loops[idx])
-                    goto next_element_command;
-                goto continue_loop;
+            break;
+        case 2:
+            if (!animation->timing.deadline) {
+                animation->timing.deadline = ((long)EVENT_WORD(event, 0) << 16 >> 16) + CLOCK_WORDS();
+                if (animation->deadline_base)
+                    animation->deadline_base += EVENT_WORD(event, 0);
+            } else if (animation->timing.deadline <= clock_ticks.count) {
+                animation->timing.deadline = 0;
+                animation->commands += 3;
             }
-            (*animation).loops[idx] = WORD_AT(event, 1);
-        continue_loop:
-            (*animation).commands = event + WORD_AT(event, 3) + 3;
-            goto next_command;
-        }
-        idx = *event & 31;
-        current_element = &(*animation).elements[idx];
-        switch (opcode & ~31) {
-        case 0x20:
-            saved_flags = current_element->flags;
-            current_element->flags &= WORD_AT(event, 1);
-            current_element->flags |= WORD_AT(event, 3);
-            if ((current_element->flags ^ saved_flags) & 0x00f0)
-                current_element->move_ticks = 0;
-            if ((current_element->flags ^ saved_flags) & 0x0f00)
-                current_element->frame_ticks = 0;
-        next_element_command:
-            (*animation).commands += 5;
-            goto next_command;
-        case 0x40:
-            accumulate_element_bounds(animation, current_element);
-            current_element->x += (long)WORD_AT(event, 1) << 16;
-            current_element->y += (long)WORD_AT(event, 3) << 16;
-            accumulate_element_bounds(animation, current_element);
-            goto next_element_command;
-        case 0x60:
-            accumulate_element_bounds(animation, current_element);
-            current_element->x = (long)WORD_AT(event, 1) << 16;
-            current_element->y = (long)WORD_AT(event, 3) << 16;
-            accumulate_element_bounds(animation, current_element);
-            goto next_element_command;
-        case 0x80:
-            accumulate_element_bounds(animation, current_element);
-            current_element->last = WORD_AT(event, 3);
-            current_element->shape = current_element->first = WORD_AT(event, 1);
-            if (current_element->shape)
-                accumulate_element_bounds(animation, current_element);
-            else
-                reset_element(current_element);
-            goto next_element_command;
-        case 0xa0:
-            current_element->dx = LONG_AT(event, 1);
-            current_element->dy = LONG_AT(event, 5);
-            (*animation).commands += 9;
-            goto next_command;
-        case 0xc0:
-            current_element->ddx = LONG_AT(event, 1);
-            current_element->ddy = LONG_AT(event, 5);
-            (*animation).commands += 9;
-            goto next_command;
-        case 0xe0:
-            if ((signed char)event[1] > 0) {
-                Graf = (*animation).destination;
-                ((int *)&current_element->x)[1] += (*animation).bounds.left;
-                ((int *)&current_element->y)[1] += (*animation).bounds.top;
-                paint_element(animation, current_element);
-                ((int *)&current_element->x)[1] -= (*animation).bounds.left;
-                ((int *)&current_element->y)[1] -= (*animation).bounds.top;
-                Graf = (int)animation;
+            break;
+        case 3:
+            if (animation->deadline_base + animation->delay <= CLOCK_WORDS()) {
+                play_sound(EVENT_WORD(event, 0));
+                animation->commands += 3;
             }
-            if (!event[1]) {
-                paint_element(animation, current_element);
-            } else {
-                saved_pixels = (*animation).port.pixels;
-                (*animation).port.pixels = (*animation).background.pixels;
-                if ((*animation).port.pixels)
-                    paint_element(animation, current_element);
-                (*animation).port.pixels = saved_pixels;
+            break;
+        case 4:
+            dispatch_sound(EVENT_WORD(event, 0));
+            animation->commands += 3;
+            break;
+        case 5:
+            if (!query_sound(EVENT_WORD(event, 0)))
+                animation->commands += 3;
+            break;
+        case 6:
+            if (!animation->timing.wait_level)
+                animation->timing.wait_level = event[1];
+            if (!animation_wait_level || animation->timing.wait_level <= animation_wait_level) {
+                animation->timing.wait_level = 0;
+                animation->commands += 2;
             }
-            (*animation).commands += 2;
-            goto next_command;
+            break;
+        case 7:
+            draw_frame(animation);
+            animation->skip_draw = 1;
+            ++animation->commands;
+            break;
         default:
-            status = 1;
-            goto finish;
+            if ((*event & ~3) == 0x10) {
+                idx = *event & 3;
+                if (animation->callbacks[idx] && animation->callbacks[idx](animation, EVENT_WORD(event, 0)))
+                    status = 2;
+                animation->commands += 3;
+                continue;
+            }
+            if ((*event & ~3) == 0x14) {
+                idx = *event & 3;
+                if (animation->loops[idx]) {
+                    if (--animation->loops[idx])
+                        *(unsigned *)&animation->commands = (unsigned)event + EVENT_WORD(event, 1) + 3;
+                    else
+                        animation->commands += 5;
+                } else {
+                    animation->loops[idx] = EVENT_WORD(event, 0);
+                    *(unsigned *)&animation->commands = (unsigned)event + EVENT_WORD(event, 1) + 3;
+                }
+                continue;
+            }
+            current_element = &animation->elements[*event & 31];
+            switch (*event & ~31) {
+            case 0x20:
+                saved_flags = current_element->flags;
+                current_element->flags.word &= EVENT_WORD(event, 0);
+                current_element->flags.word |= EVENT_WORD(event, 1);
+                if (current_element->flags.bits.move_rate != saved_flags.bits.move_rate)
+                    current_element->move_ticks = 0;
+                if (current_element->flags.bits.frame_rate != saved_flags.bits.frame_rate)
+                    current_element->frame_ticks = 0;
+                animation->commands += 5;
+                continue;
+            case 0x40:
+                accumulate_element_bounds(animation, current_element);
+                current_element->x += (long)EVENT_WORD(event, 0) << 16;
+                current_element->y += (long)EVENT_WORD(event, 1) << 16;
+                accumulate_element_bounds(animation, current_element);
+                animation->commands += 5;
+                continue;
+            case 0x60:
+                accumulate_element_bounds(animation, current_element);
+                current_element->x = (long)EVENT_WORD(event, 0) << 16;
+                current_element->y = (long)EVENT_WORD(event, 1) << 16;
+                accumulate_element_bounds(animation, current_element);
+                animation->commands += 5;
+                continue;
+            case 0x80:
+                accumulate_element_bounds(animation, current_element);
+                current_element->last = EVENT_WORD(event, 1);
+                current_element->shape = current_element->first = EVENT_WORD(event, 0);
+                if (current_element->shape)
+                    accumulate_element_bounds(animation, current_element);
+                else
+                    reset_element(current_element);
+                animation->commands += 5;
+                continue;
+            case 0xa0:
+                current_element->dx = EVENT_LONG(event, 0);
+                current_element->dy = EVENT_LONG(event, 1);
+                animation->commands += 9;
+                continue;
+            case 0xc0:
+                current_element->ddx = EVENT_LONG(event, 0);
+                current_element->ddy = EVENT_LONG(event, 1);
+                animation->commands += 9;
+                continue;
+            case 0xe0:
+                if ((signed char)event[1] > 0) {
+                    Graf = animation->destination;
+                    ((int *)&current_element->x)[1] += animation->bounds.left;
+                    ((int *)&current_element->y)[1] += animation->bounds.top;
+                    paint_element(animation, current_element);
+                    ((int *)&current_element->x)[1] -= animation->bounds.left;
+                    ((int *)&current_element->y)[1] -= animation->bounds.top;
+                    Graf = (int)animation;
+                }
+                if (!event[1]) {
+                    paint_element(animation, current_element);
+                } else {
+                    saved_pixels = animation->port.pixels;
+                    animation->port.pixels = animation->background.pixels;
+                    if (animation->port.pixels)
+                        paint_element(animation, current_element);
+                    animation->port.pixels = saved_pixels;
+                }
+                animation->commands += 2;
+                continue;
+            default:
+                status = 1;
+                break;
+            }
+            break;
         }
+        break;
     }
 
-finish:
     Graf = previous_port;
     return status;
 }
@@ -426,53 +448,44 @@ Animation *near advance_animation_frame(Animation *animation)
     int count;
     signed char tick;
 
-    ++animation->frame_index;
-    animation->deadline_base = clock_ticks;
+    ++animation->frame_index; animation->deadline_base = clock_ticks.count;
     if (!animation->skip_draw)
         draw_frame(animation);
     animation->skip_draw = 0;
     OFFSETRECT(&region.box, &animation->dirty, animation->bounds.left, animation->bounds.top);
     MEASURE_TEXT(animation->destination, (int)animation, &region.box, &animation->dirty, 0);
     memset(&animation->dirty, 0, sizeof(Rect));
-    cursor = animation->elements;
-    count = 32;
+    cursor = animation->elements; count = 32;
     do {
         element = cursor;
         if (!element->shape)
             goto next_element;
         if (element->first != element->last) {
             tick = element->frame_ticks++;
-            if (((element->flags >> 8) & 15) <= tick) {
-                element->frame_ticks = 0;
-                accumulate_element_bounds(animation, element);
-                element->shape += (element->flags & 0x1000) ? -1 : 1;
-                if (element->flags & 0x2000) {
+            if (((element->flags.word >> 8) & 15) <= tick) {
+                element->frame_ticks = 0; accumulate_element_bounds(animation, element);
+                element->shape += (element->flags.word & 0x1000) ? -1 : 1;
+                if (element->flags.word & 0x2000) {
                     if (element->shape < element->first) {
-                        element->shape = element->first + 1;
-                        element->flags &= ~0x1000;
+                        element->shape = element->first + 1; element->flags.word &= ~0x1000;
                     } else if (element->shape > element->last) {
-                        element->shape = element->last - 1;
-                        element->flags |= 0x1000;
+                        element->shape = element->last - 1; element->flags.word |= 0x1000;
                     }
-                } else if (element->shape < element->first) {
-                    element->shape = element->last;
-                } else if (element->shape > element->last) {
-                    element->shape = element->first;
+                } else if (element->shape < element->first) { element->shape = element->last;
+                } else if (element->shape > element->last) { element->shape = element->first;
                 }
                 accumulate_element_bounds(animation, element);
             }
         }
         tick = element->move_ticks++;
-        if (((element->flags >> 4) & 15) <= tick) {
+        if (((element->flags.word >> 4) & 15) <= tick) {
             element->move_ticks = 0;
             if (element->dx || element->dy) {
                 accumulate_element_bounds(animation, element);
-                element->x += element->dx;
-                element->y += element->dy;
+                element->x += element->dx; element->y += element->dy;
                 accumulate_element_bounds(animation, element);
             }
-            element->dx += element->ddx;
-            element->dy += element->ddy;
+            element->dx += element->ddx; element->dy += element->ddy;
         }
 next_element:
         ++cursor;
@@ -492,16 +505,13 @@ Animation *draw_frame(Animation *animation)
     } else {
         SET_RECORD_RANGE(&animation->source, *(int *)((char *)animation->destination + 0x20));
     }
-    i = 0;
-    element = animation->elements;
+    i = 0; element = animation->elements;
     do {
         paint_element(animation, element);
         if (i && animation->frame_index > 1 && animation->fade && fade_to_step(animation->fade)) {
-            QuitFadeTo(animation->fade);
-            animation->fade = 0;
+            QuitFadeTo(animation->fade); animation->fade = 0;
         }
-        ++element;
-    } while (++i < 32);
+        ++element; } while (++i < 32);
     POP_PORT_CLIP();
     if (animation_callback_argument && animation->callbacks[0])
         animation->callbacks[0](animation, animation_callback_argument);
@@ -520,13 +530,13 @@ void near paint_element(Animation *animation, Element *element)
         goto high_color;
     PAINTRLESHAPE_ASM(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
                           (int)(element->x >> 16), (int)(element->y >> 16),
-                          element->flags & 15);
+                          element->flags.word & 15);
     goto done;
 
 high_color:
     PAINT_PLAIN(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
                 (int)(element->x >> 16), (int)(element->y >> 16),
-                element->flags & 15);
+                element->flags.word & 15);
 done:
     return;
 }
@@ -558,7 +568,7 @@ void near accumulate_element_bounds(Animation *animation, Element *element)
 void near reset_element(Element *element)
 {
     memset(element, 0, sizeof(*element));
-    element->flags = (element->flags & 0xfff2) | 2;
+    element->flags.word = (element->flags.word & 0xfff2) | 2;
     element->y = 0x80000000UL;
     element->x = 0x80000000UL;
 }

@@ -336,7 +336,9 @@ A claim may end in data it addresses itself, for example a literal after the
 final RET reached by `mov si, OFFSET lit`. The tail from the lowest own-segment
 field target T counts as data when the code before T decodes completely and
 ends in a return or JMP, and no own-segment field lies inside the tail. The
-tail bytes are compared exactly as ordinary bytes.
+tail bytes are compared exactly as ordinary bytes. T may also come from another function of the same
+object (the EMS driver's `EMMXXXX0` signature, read by the procedure after it); a jump-table entry names code
+and never a tail. Jump tables are found from the whole addend, LEDATA word plus FIXUPP displacement.
 A claim may take the address of a public of its own object (a callback). The
 offset half (`mov ax, offset F`, LOC1/LOC5 immediates only; a DS memory operand
 naming code stays refused) uses the own-segment offset16 equation with
