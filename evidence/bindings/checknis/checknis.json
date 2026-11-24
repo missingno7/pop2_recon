@@ -157,24 +157,23 @@
       "DRAW_DEAD_KID",
       "LEVELIDX",
       "ROOM",
-      "ROOM_TO_DRAW_WORD",
+      "NEXTLEVEL",
       "GRAF",
       "RESET_LEVEL_OVERLAYS",
       "LOAD_LEVEL_MAP",
-      "LEVEL",
       "LOAD_BACKGROUND_SET",
-      "HREBIRTHSAVED",
+      "LEVEL",
       "LOAD_PIECES_DATA",
-      "RESUME_MODE",
+      "HREBIRTHSAVED",
+      "RESUME",
       "LOAD_CODE_OVERLAYS",
-      "PLAYING_NIS",
-      "KID",
       "SET_LEVEL_SPEC_PTRS",
-      "PENDING_SOUND",
-      "CUTROOM",
+      "BPORT",
+      "KID",
       "SCREENPORTRECT",
-      "ISLEVELSTARTWITHNISSCREEN",
+      "CUTROOM",
       "PREPCUT",
+      "ISLEVELSTARTWITHNISSCREEN",
       "CLEAN_CUT",
       "UNLOAD_LEVEL",
       "REMOVEREBIRTHPT",
@@ -184,29 +183,29 @@
       "NIS_NOOP",
       "DRAW_ROOM_FROM_NIS",
       "WRITE_DAC_BLOCK",
-      "GAME_REQUEST",
       "STROKE_PORT_RECT",
-      "INTRO_PLAYED",
+      "STARTLEVEL",
       "SHOW_DIALOG_NOTICE",
-      "REMAINING_MINUTES",
-      "FRAME_DIAGNOSTICS",
+      "INTRO_PLAYED",
+      "MINUTES",
       "TREE_CHECK",
+      "FRAME_DIAGNOSTICS",
       "LEVEL_RESOURCE_FILES",
-      "TRANSITION",
-      "FIND_OPTION",
       "ISTIMEFORNIS",
+      "TRANSITION",
       "HGETSL",
-      "DISPATCH_NIS",
-      "_atoi",
+      "FIND_OPTION",
       "PLAY_NIS",
+      "DISPATCH_NIS",
       "SET_DEFAULT_PALETTE",
-      "NIS_ROOM_RESTORED",
-      "OPEN_VERIFIED_RESOURCE",
+      "_atoi",
+      "GAMESTATE",
       "HNEWSHPITEM1",
       "SET_KID_PALETTE",
+      "OPEN_VERIFIED_RESOURCE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "CLOSE_RESOURCE_FILE",
       "CHECKPLAYNIS",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "PLAY_SOUND",
       "MIRROR4BITBLOCK",
       "ERASESCREENAFTERNIS",
@@ -265,7 +264,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 50,
           "name": "OPEN_VERIFIED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -273,7 +272,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 50,
         "name": "OPEN_VERIFIED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -292,7 +291,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LEVEL_RESOURCE_FILES",
           "method": 6,
           "zero_displacement": true
@@ -300,7 +299,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LEVEL_RESOURCE_FILES",
         "method": 6,
         "zero_displacement": true
@@ -319,7 +318,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -327,7 +326,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -373,16 +372,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "PENDING_SOUND",
+          "index": 16,
+          "name": "BPORT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PENDING_SOUND",
+        "index": 16,
+        "name": "BPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -427,16 +426,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "PENDING_SOUND",
+          "index": 16,
+          "name": "BPORT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PENDING_SOUND",
+        "index": 16,
+        "name": "BPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -455,7 +454,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "ROOM_TO_DRAW_WORD",
+          "name": "NEXTLEVEL",
           "method": 6,
           "zero_displacement": true
         }
@@ -463,7 +462,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "ROOM_TO_DRAW_WORD",
+        "name": "NEXTLEVEL",
         "method": 6,
         "zero_displacement": true
       },
@@ -508,7 +507,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -516,7 +515,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -562,16 +561,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
-          "name": "PLAYING_NIS",
+          "index": 47,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 15,
-        "name": "PLAYING_NIS",
+        "index": 47,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -589,7 +588,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 49,
           "name": "SET_KID_PALETTE",
           "method": 6,
           "zero_displacement": true
@@ -597,7 +596,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 49,
         "name": "SET_KID_PALETTE",
         "method": 6,
         "zero_displacement": true
@@ -616,7 +615,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 47,
+          "index": 45,
           "name": "SET_DEFAULT_PALETTE",
           "method": 6,
           "zero_displacement": true
@@ -624,7 +623,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 47,
+        "index": 45,
         "name": "SET_DEFAULT_PALETTE",
         "method": 6,
         "zero_displacement": true
@@ -643,7 +642,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 31,
           "name": "STROKE_PORT_RECT",
           "method": 6,
           "zero_displacement": true
@@ -651,7 +650,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 31,
         "name": "STROKE_PORT_RECT",
         "method": 6,
         "zero_displacement": true
@@ -670,7 +669,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 18,
           "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
@@ -678,7 +677,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 18,
         "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
@@ -697,7 +696,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 56,
           "name": "ERASESCREENAFTERNIS",
           "method": 6,
           "zero_displacement": true
@@ -705,7 +704,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 56,
         "name": "ERASESCREENAFTERNIS",
         "method": 6,
         "zero_displacement": true
@@ -778,7 +777,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 36,
           "name": "TREE_CHECK",
           "method": 6,
           "zero_displacement": true
@@ -786,7 +785,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 36,
         "name": "TREE_CHECK",
         "method": 6,
         "zero_displacement": true
@@ -805,7 +804,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 33,
           "name": "SHOW_DIALOG_NOTICE",
           "method": 6,
           "zero_displacement": true
@@ -813,7 +812,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 33,
         "name": "SHOW_DIALOG_NOTICE",
         "method": 6,
         "zero_displacement": true
@@ -832,7 +831,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 31,
           "name": "STROKE_PORT_RECT",
           "method": 6,
           "zero_displacement": true
@@ -840,7 +839,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 31,
         "name": "STROKE_PORT_RECT",
         "method": 6,
         "zero_displacement": true
@@ -859,7 +858,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 18,
           "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
@@ -867,7 +866,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 18,
         "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
@@ -886,7 +885,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "WRITE_DAC_BLOCK",
           "method": 6,
           "zero_displacement": true
@@ -894,7 +893,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "WRITE_DAC_BLOCK",
         "method": 6,
         "zero_displacement": true
@@ -913,7 +912,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 59,
           "name": "ERASESCREENBEFORENIS",
           "method": 6,
           "zero_displacement": true
@@ -921,7 +920,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 59,
         "name": "ERASESCREENBEFORENIS",
         "method": 6,
         "zero_displacement": true
@@ -940,16 +939,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "PENDING_SOUND",
+          "index": 16,
+          "name": "BPORT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PENDING_SOUND",
+        "index": 16,
+        "name": "BPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -967,7 +966,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 27,
           "name": "DEALLOCBACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -975,7 +974,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 27,
         "name": "DEALLOCBACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -994,16 +993,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "PENDING_SOUND",
+          "index": 16,
+          "name": "BPORT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PENDING_SOUND",
+        "index": 16,
+        "name": "BPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1021,16 +1020,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "PENDING_SOUND",
+          "index": 16,
+          "name": "BPORT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PENDING_SOUND",
+        "index": 16,
+        "name": "BPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1048,7 +1047,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "REMOVEREBIRTHPT",
           "method": 6,
           "zero_displacement": true
@@ -1056,7 +1055,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "REMOVEREBIRTHPT",
         "method": 6,
         "zero_displacement": true
@@ -1075,7 +1074,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 23,
           "name": "UNLOAD_LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -1083,7 +1082,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 23,
         "name": "UNLOAD_LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -1102,7 +1101,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -1110,7 +1109,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -1129,16 +1128,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
-          "name": "PLAYING_NIS",
+          "index": 47,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 15,
-        "name": "PLAYING_NIS",
+        "index": 47,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1178,7 +1177,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 46,
           "name": "_atoi",
           "method": 6,
           "zero_displacement": true
@@ -1186,7 +1185,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 46,
         "name": "_atoi",
         "method": 6,
         "zero_displacement": true
@@ -1205,7 +1204,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 42,
           "name": "FIND_OPTION",
           "method": 6,
           "zero_displacement": true
@@ -1213,7 +1212,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 42,
         "name": "FIND_OPTION",
         "method": 6,
         "zero_displacement": true
@@ -1254,7 +1253,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LEVEL_RESOURCE_FILES",
           "method": 6,
           "zero_displacement": true
@@ -1262,7 +1261,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LEVEL_RESOURCE_FILES",
         "method": 6,
         "zero_displacement": true
@@ -1308,7 +1307,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LEVEL_RESOURCE_FILES",
           "method": 6,
           "zero_displacement": true
@@ -1316,7 +1315,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LEVEL_RESOURCE_FILES",
         "method": 6,
         "zero_displacement": true
@@ -1335,7 +1334,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 50,
           "name": "OPEN_VERIFIED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -1343,7 +1342,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 50,
         "name": "OPEN_VERIFIED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -1362,7 +1361,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LEVEL_RESOURCE_FILES",
           "method": 6,
           "zero_displacement": true
@@ -1370,7 +1369,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LEVEL_RESOURCE_FILES",
         "method": 6,
         "zero_displacement": true
@@ -1389,7 +1388,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "PLAY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1397,7 +1396,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "PLAY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1416,7 +1415,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 50,
           "name": "OPEN_VERIFIED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -1424,7 +1423,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 50,
         "name": "OPEN_VERIFIED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -1443,7 +1442,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LEVEL_RESOURCE_FILES",
           "method": 6,
           "zero_displacement": true
@@ -1451,7 +1450,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LEVEL_RESOURCE_FILES",
         "method": 6,
         "zero_displacement": true
@@ -1470,7 +1469,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 46,
           "name": "_atoi",
           "method": 6,
           "zero_displacement": true
@@ -1478,7 +1477,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 46,
         "name": "_atoi",
         "method": 6,
         "zero_displacement": true
@@ -1497,7 +1496,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 42,
           "name": "FIND_OPTION",
           "method": 6,
           "zero_displacement": true
@@ -1505,7 +1504,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 42,
         "name": "FIND_OPTION",
         "method": 6,
         "zero_displacement": true
@@ -1617,16 +1616,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
-          "name": "REMAINING_MINUTES",
+          "index": 35,
+          "name": "MINUTES",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 36,
-        "name": "REMAINING_MINUTES",
+        "index": 35,
+        "name": "MINUTES",
         "method": 6,
         "zero_displacement": true
       },
@@ -2002,7 +2001,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "GAME_REQUEST",
+          "name": "STARTLEVEL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2010,7 +2009,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "GAME_REQUEST",
+        "name": "STARTLEVEL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2056,7 +2055,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "GAME_REQUEST",
+          "name": "STARTLEVEL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2064,7 +2063,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "GAME_REQUEST",
+        "name": "STARTLEVEL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2082,7 +2081,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2090,7 +2089,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2109,7 +2108,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -2117,7 +2116,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -2136,16 +2135,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "NIS_ROOM_RESTORED",
+          "index": 47,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "NIS_ROOM_RESTORED",
+        "index": 47,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2164,7 +2163,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "RESUME_MODE",
+          "name": "RESUME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2172,7 +2171,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "RESUME_MODE",
+        "name": "RESUME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2190,7 +2189,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "HREBIRTHSAVED",
           "method": 6,
           "zero_displacement": true
@@ -2198,7 +2197,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "HREBIRTHSAVED",
         "method": 6,
         "zero_displacement": true
@@ -2217,7 +2216,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "HREBIRTHSAVED",
           "method": 6,
           "zero_displacement": true
@@ -2225,7 +2224,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "HREBIRTHSAVED",
         "method": 6,
         "zero_displacement": true
@@ -2271,7 +2270,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2279,7 +2278,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2298,7 +2297,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2306,7 +2305,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2325,7 +2324,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2333,7 +2332,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2352,7 +2351,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2360,7 +2359,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2379,7 +2378,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2387,7 +2386,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2406,7 +2405,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -2414,7 +2413,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -2433,16 +2432,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "NIS_ROOM_RESTORED",
+          "index": 47,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "NIS_ROOM_RESTORED",
+        "index": 47,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2461,7 +2460,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "RESUME_MODE",
+          "name": "RESUME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2469,7 +2468,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "RESUME_MODE",
+        "name": "RESUME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2487,7 +2486,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "HREBIRTHSAVED",
           "method": 6,
           "zero_displacement": true
@@ -2495,7 +2494,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "HREBIRTHSAVED",
         "method": 6,
         "zero_displacement": true
@@ -2514,7 +2513,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "HREBIRTHSAVED",
           "method": 6,
           "zero_displacement": true
@@ -2522,7 +2521,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "HREBIRTHSAVED",
         "method": 6,
         "zero_displacement": true
@@ -2541,16 +2540,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "NIS_ROOM_RESTORED",
+          "index": 47,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "NIS_ROOM_RESTORED",
+        "index": 47,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2568,7 +2567,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 43,
           "name": "PLAY_NIS",
           "method": 6,
           "zero_displacement": true
@@ -2576,7 +2575,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 43,
         "name": "PLAY_NIS",
         "method": 6,
         "zero_displacement": true
@@ -2595,7 +2594,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 39,
           "name": "ISTIMEFORNIS",
           "method": 6,
           "zero_displacement": true
@@ -2603,7 +2602,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 39,
         "name": "ISTIMEFORNIS",
         "method": 6,
         "zero_displacement": true
@@ -2649,7 +2648,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2657,7 +2656,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2676,7 +2675,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2684,7 +2683,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2703,7 +2702,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 57,
           "name": "PAINT_INDEXED_SHAPE",
           "method": 6,
           "zero_displacement": true
@@ -2711,7 +2710,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 57,
         "name": "PAINT_INDEXED_SHAPE",
         "method": 6,
         "zero_displacement": true
@@ -2730,7 +2729,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 51,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -2738,7 +2737,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 51,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -2757,7 +2756,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 48,
           "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
@@ -2765,7 +2764,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 48,
         "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
@@ -2784,7 +2783,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 41,
           "name": "HGETSL",
           "method": 6,
           "zero_displacement": true
@@ -2792,7 +2791,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 41,
         "name": "HGETSL",
         "method": 6,
         "zero_displacement": true
@@ -2811,7 +2810,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2819,7 +2818,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2838,7 +2837,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2846,7 +2845,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2865,7 +2864,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 57,
           "name": "PAINT_INDEXED_SHAPE",
           "method": 6,
           "zero_displacement": true
@@ -2873,7 +2872,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 57,
         "name": "PAINT_INDEXED_SHAPE",
         "method": 6,
         "zero_displacement": true
@@ -2892,7 +2891,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -2900,7 +2899,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -2919,7 +2918,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 55,
           "name": "MIRROR4BITBLOCK",
           "method": 6,
           "zero_displacement": true
@@ -2927,7 +2926,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 55,
         "name": "MIRROR4BITBLOCK",
         "method": 6,
         "zero_displacement": true
@@ -2946,7 +2945,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -2954,7 +2953,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -2973,7 +2972,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 51,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -2981,7 +2980,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 51,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -3000,7 +2999,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -3008,7 +3007,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -3027,7 +3026,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 48,
           "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
@@ -3035,7 +3034,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 48,
         "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
@@ -3054,7 +3053,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 41,
           "name": "HGETSL",
           "method": 6,
           "zero_displacement": true
@@ -3062,7 +3061,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 41,
         "name": "HGETSL",
         "method": 6,
         "zero_displacement": true
@@ -3081,7 +3080,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "NIS_NOOP",
           "method": 6,
           "zero_displacement": true
@@ -3089,7 +3088,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "NIS_NOOP",
         "method": 6,
         "zero_displacement": true
@@ -3108,16 +3107,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
-          "name": "PENDING_SOUND",
+          "index": 16,
+          "name": "BPORT",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PENDING_SOUND",
+        "index": 16,
+        "name": "BPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3135,7 +3134,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3143,7 +3142,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3189,7 +3188,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "LEVEL_RESOURCE_FILES",
           "method": 6,
           "zero_displacement": true
@@ -3197,7 +3196,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "LEVEL_RESOURCE_FILES",
         "method": 6,
         "zero_displacement": true
@@ -3216,7 +3215,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3224,7 +3223,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3243,7 +3242,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 26,
           "name": "UNLOAD_PIECES_DATA",
           "method": 6,
           "zero_displacement": true
@@ -3251,7 +3250,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 26,
         "name": "UNLOAD_PIECES_DATA",
         "method": 6,
         "zero_displacement": true
@@ -3270,7 +3269,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "UNLOAD_SET",
           "method": 6,
           "zero_displacement": true
@@ -3278,7 +3277,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "UNLOAD_SET",
         "method": 6,
         "zero_displacement": true
@@ -3297,7 +3296,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "UNLOAD_SET",
           "method": 6,
           "zero_displacement": true
@@ -3305,7 +3304,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "UNLOAD_SET",
         "method": 6,
         "zero_displacement": true
@@ -3324,7 +3323,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 22,
           "name": "CLEAN_CUT",
           "method": 6,
           "zero_displacement": true
@@ -3332,7 +3331,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 22,
         "name": "CLEAN_CUT",
         "method": 6,
         "zero_displacement": true
@@ -3351,7 +3350,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 20,
           "name": "PREPCUT",
           "method": 6,
           "zero_displacement": true
@@ -3359,7 +3358,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 20,
         "name": "PREPCUT",
         "method": 6,
         "zero_displacement": true
@@ -3432,7 +3431,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "SET_LEVEL_SPEC_PTRS",
           "method": 6,
           "zero_displacement": true
@@ -3440,7 +3439,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "SET_LEVEL_SPEC_PTRS",
         "method": 6,
         "zero_displacement": true
@@ -3459,7 +3458,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3467,7 +3466,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3513,7 +3512,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3521,7 +3520,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3540,7 +3539,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3548,7 +3547,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3567,7 +3566,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 11,
           "name": "LOAD_PIECES_DATA",
           "method": 6,
           "zero_displacement": true
@@ -3575,7 +3574,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 11,
         "name": "LOAD_PIECES_DATA",
         "method": 6,
         "zero_displacement": true
@@ -3594,7 +3593,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3602,7 +3601,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3621,7 +3620,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 9,
           "name": "LOAD_BACKGROUND_SET",
           "method": 6,
           "zero_displacement": true
@@ -3629,7 +3628,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 9,
         "name": "LOAD_BACKGROUND_SET",
         "method": 6,
         "zero_displacement": true
@@ -3736,20 +3735,6 @@
           "bytes_hex": "9aea2c2911",
           "file_offset": 8394,
           "relocation_index": 99
-        }
-      ]
-    },
-    "GAME_REQUEST": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27500,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 184,
-          "bytes_hex": "a06c6b",
-          "entry": "root:0000:0000"
         }
       ]
     },
@@ -4067,34 +4052,6 @@
         }
       ]
     },
-    "PENDING_SOUND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23746,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 4993,
-          "bytes_hex": "ff36c25c",
-          "entry": "root:0000:1326"
-        }
-      ]
-    },
-    "PLAYING_NIS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 11174,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 39866,
-          "bytes_hex": "3916a62b",
-          "entry": "root:0790:0002"
-        }
-      ]
-    },
     "PREPCUT": {
       "entry_sha256": "71e98be3ce4b3f9934f32b71af0bc483e245cc41ad38c548d89e7a309f007e69",
       "entry_target_id": "root:0000:0e72",
@@ -4109,20 +4066,6 @@
           "bytes_hex": "9a720e0000",
           "file_offset": 30485,
           "relocation_index": 663
-        }
-      ]
-    },
-    "REMAINING_MINUTES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23762,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 321,
-          "bytes_hex": "833ed25c00",
-          "entry": "root:0000:0000"
         }
       ]
     },
@@ -4194,20 +4137,6 @@
           "image_offset": 2948,
           "bytes_hex": "a0de5c",
           "entry": "root:0000:0e72"
-        }
-      ]
-    },
-    "ROOM_TO_DRAW_WORD": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23788,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 16356,
-          "bytes_hex": "3b06ec5c",
-          "entry": "root:02dc:10e8"
         }
       ]
     },
@@ -4381,6 +4310,66 @@
       "offset": 3331,
       "witnesses": []
     },
+    "BPORT": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23746,
+      "witnesses": [
+        {
+          "bytes_hex": "a1c25c",
+          "entry": "root:053b:0544",
+          "image_offset": 26338,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "NEXTLEVEL": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23788,
+      "witnesses": [
+        {
+          "bytes_hex": "a3ec5c",
+          "entry": "root:053b:0544",
+          "image_offset": 22877,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "GAMESTATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 11170,
+      "witnesses": [
+        {
+          "bytes_hex": "833ea22b02",
+          "entry": "root:0000:10fa",
+          "image_offset": 4346,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "3916a62b",
+              "entry": "root:0790:0002",
+              "image_offset": 39866,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 20,
+          "witnesses": []
+        }
+      ]
+    },
     "SCREENPORTRECT": {
       "kind": "dgroup-public",
       "group": "DGROUP",
@@ -4392,6 +4381,34 @@
       "group": "DGROUP",
       "provider": "group:diag/diag",
       "offset": 4290
+    },
+    "MINUTES": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23762,
+      "witnesses": [
+        {
+          "bytes_hex": "a3d25c",
+          "entry": "root:053b:0544",
+          "image_offset": 24953,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "STARTLEVEL": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 27500,
+      "witnesses": [
+        {
+          "bytes_hex": "a26c6b",
+          "entry": "root:0000:028c",
+          "image_offset": 676,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
     },
     "INTRO_PLAYED": {
       "kind": "dgroup-offset",
@@ -4407,13 +4424,7 @@
         }
       ]
     },
-    "NIS_ROOM_RESTORED": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 11190,
-      "witnesses": []
-    },
-    "RESUME_MODE": {
+    "RESUME": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
       "offset": 23734,

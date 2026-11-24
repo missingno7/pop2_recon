@@ -94,8 +94,8 @@
       "ADDBFIMGTOBTABLE",
       "PIECES",
       "SCYTHEIMG",
-      "DRAW_PASS_MODE",
-      "REDRAW_COLUMN",
+      "NEWROOM",
+      "COLNO",
       "CHECKSCYTHEFORRUBBLE",
       "DRAWSCYTHE1",
       "DRAWSCYTHE2",
@@ -553,7 +553,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "REDRAW_COLUMN",
+          "name": "COLNO",
           "method": 6,
           "zero_displacement": true
         }
@@ -561,7 +561,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "REDRAW_COLUMN",
+        "name": "COLNO",
         "method": 6,
         "zero_displacement": true
       },
@@ -580,7 +580,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "DRAW_PASS_MODE",
+          "name": "NEWROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -588,7 +588,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "DRAW_PASS_MODE",
+        "name": "NEWROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -1441,20 +1441,6 @@
       "space": "root",
       "witnesses": []
     },
-    "DRAW_PASS_MODE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24846,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 10359,
-          "bytes_hex": "a10e61",
-          "entry": "root:0170:029a"
-        }
-      ]
-    },
     "DRAW_RUIN_FLOOR": {
       "kind": "far-data",
       "offset": 2158,
@@ -1498,20 +1484,6 @@
       "segment": 11606,
       "space": "overlay-9",
       "witnesses": []
-    },
-    "REDRAW_COLUMN": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27503,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 6114,
-          "bytes_hex": "a06f6b",
-          "entry": "root:0170:0008"
-        }
-      ]
     },
     "SCYTHEIMG": {
       "group": "DGROUP",
@@ -1561,6 +1533,34 @@
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 4240
+    },
+    "COLNO": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 27503,
+      "witnesses": [
+        {
+          "bytes_hex": "a06f6b",
+          "entry": "root:0f9e:07d4",
+          "image_offset": 66078,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "NEWROOM": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24846,
+      "witnesses": [
+        {
+          "bytes_hex": "833e0e6100",
+          "entry": "root:0f9e:07d4",
+          "image_offset": 65987,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:drawscyt/drawscyt",

@@ -97,7 +97,7 @@ typedef struct {
 } LEVELREC;
 #pragma pack()
 extern LEVELREC Level;
-extern signed char shadow_direction_offsets[];
+extern signed char Minus1[2];
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -119,7 +119,7 @@ typedef struct {
 } FCHARREC;
 #pragma pack()
 extern FCHARREC FChar;
-extern int shadow_timer, Pause, flame_y;
+extern int shadow_timer, Pause, ImWidth;
 extern unsigned long FrameNum;
 
 int abs(int value);
@@ -334,7 +334,7 @@ int far pascal GetShadowToKidDist(void)
     if (Opp.row == Char.row) {
         distance = Char.x - Opp.x;
         if (Opp.direction == Char.direction && Char.frame != 185)
-            distance += 6 * shadow_direction_offsets[Char.direction];
+            distance += 6 * Minus1[Char.direction + 1];
     } else {
         distance = 999;
     }
@@ -401,7 +401,7 @@ void far pascal SetupShadowFlame(void)
     if (IsShadowImbued()) {
         SaveFChar();
         FChar.image = FrameNum % 9 + 290;
-        AddFCharX(13 - flame_y / 2);
+        AddFCharX(13 - ImWidth / 2);
         MakeFCharClipRect();
         add_char_object(14);
         mark_bufs_for_rect(mark_foreground, (char *)&FChar.clip_top, Char.slot);

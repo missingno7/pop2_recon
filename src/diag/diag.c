@@ -65,7 +65,7 @@ typedef struct {
 #pragma pack()
 extern CHARREC Kid;
 extern CHARREC Char;
-extern int left_edge_x, right_edge_x;
+extern int LeftEdge, RightEdge;
 
 extern long tick_count;
 extern drawing_context ScreenPort, *Graf;
@@ -179,9 +179,9 @@ void plot_edge_offset(int distance)
     int x;
 
     if (Char.direction == 0)
-        x = right_edge_x + distance - 130;
+        x = RightEdge + distance - 130;
     else
-        x = left_edge_x - distance - 130;
+        x = LeftEdge - distance - 130;
     plot_position(x, 14);
 }
 

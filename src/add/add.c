@@ -47,17 +47,13 @@ typedef struct {
     ShapeItem images[1];
 } ShapeSet;
 
-extern ShapeItem *sprite_sets[];
-extern ShapeSet *kid_shapes;
-extern ShapeSet *opponent_shapes;
+extern ShapeSet *Pics[5];
 extern int image_y_offsets[];
 extern int image_x_offsets[];
-extern Rect visible_region;
-extern Byte item_flags;
-extern Byte item_palette;
-extern int back_count;
-extern int front_count;
-extern ShapeSet *background_shapes;
+extern Rect CellClipRect;
+extern Byte ColNo;
+extern Byte RowNo;
+extern int Ct[5];
 typedef struct {
     unsigned int modifier, unknown_02;
 } LEVELCELL;
@@ -109,7 +105,7 @@ extern LEVELREC Level;
 extern int background_image_limits[];
 extern void DISPOSE_HANDLE(unsigned int handle);
 extern int far *MATERIALIZE_HANDLE(unsigned int handle);
-extern void PrinceNewShpItem(unsigned int, int, ShapeItem far *, int);
+extern void PrinceNewShpItem(unsigned int list, int index, ShapeItem far *info, int resource);
 extern void MARK_PURGEABLE(unsigned int handle);
 extern void PrinceFreeShp(int);
 extern TileImages *pieces;
@@ -138,17 +134,17 @@ int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
 
     if (set == 4) check_background_shape(image - 1);
 
-    shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sprite_sets[set][image].handle);
+    shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(((ShapeItem *)Pics[set])[image].handle);
     if (shape == 0 || *shape == 0) return 0;
 
     item->placement.y += image_y_offsets[y] - *shape;
     item->placement.x += image_x_offsets[x];
     MAKESHAPERECT(&bounds, item->placement.y, item->placement.x, shape);
 
-    if (SECTRECT(&bounds, &bounds, &visible_region)) {
+    if (SECTRECT(&bounds, &bounds, &CellClipRect)) {
         item->set = set;
-        item->flags = item_flags;
-        item->palette = item_palette;
+        item->flags = ColNo;
+        item->palette = RowNo;
         item->clip = bounds;
         item->order = order;
         item->layer = layer;
@@ -161,7 +157,7 @@ int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
 
 int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte layer)
 {
-    int i = back_count;
+    int i = Ct[0];
     int added;
 
     if (i >= 130) return 0;
@@ -169,7 +165,7 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
                            &back_table[i], x, y, order, layer);
     if (added) {
         back_table[i].mode = pieces[tile].mode;
-        ++back_count;
+        ++Ct[0];
     }
     return added;
 }
@@ -182,13 +178,13 @@ int AddBFImgToBTable(Byte tile, int image, Offset x, Offset y,
     int added = 0;
 
     if (image) {
-        i = back_count;
+        i = Ct[0];
         if (i >= 130) return 0;
         added = add_image_info(4, &pieces[tile].background_foreground, image,
                                &back_table[i], x, y, order, layer);
         if (added) {
             back_table[i].mode = pieces[tile].mode;
-            ++back_count;
+            ++Ct[0];
         }
     }
     return added;
@@ -197,7 +193,7 @@ int AddBFImgToBTable(Byte tile, int image, Offset x, Offset y,
 int AddBFImgToFTable(Byte tile, int image, Offset x, Offset y,
                      Byte order, Byte layer)
 {
-    int i = front_count;
+    int i = Ct[1];
     int added;
 
     if (i >= 100) return 0;
@@ -205,7 +201,7 @@ int AddBFImgToFTable(Byte tile, int image, Offset x, Offset y,
                            &front_table[i], x, y, order, layer);
     if (added) {
         front_table[i].mode = pieces[tile].mode;
-        ++front_count;
+        ++Ct[1];
     }
     return added;
 }
@@ -238,8 +234,7 @@ typedef struct {
     Byte object_type;
 } CharacterObject;
 
-extern CharacterObject character_objects[];
-extern int character_object_count;
+extern CharacterObject ObjTable[];
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
     int x, y, image;                                   /* 02,04,06 */
@@ -306,9 +301,9 @@ void far _fastcall add_char_object(Byte kind)
     int index;
     CharacterObject *object;
 
-    if (character_object_count < 30) {
-        index = character_object_count++;
-        object = &character_objects[index];
+    if (Ct[4] < 30) {
+        index = Ct[4]++;
+        object = &ObjTable[index];
         object->kind = kind;
         ConvertX(FChar.x, &object->x);
         object->y = FChar.y;
@@ -333,13 +328,13 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
     if (tile == 10 || tile == 60) set = 1;
     else set = tile == 22 ? 0 : 4;
 
-    i = front_count;
+    i = Ct[1];
     if (i >= 100) return 0;
     added = add_image_info(set, &pieces[tile].foreground, image,
                            &front_table[i], x, y, order, layer);
     if (added) {
         front_table[i].mode = pieces[tile].mode;
-        ++front_count;
+        ++Ct[1];
     }
     return added;
 }
@@ -361,7 +356,6 @@ typedef struct {
     int width;
 } ImageSize;
 
-extern int mid_count;
 extern MidItem far mid_table[];
 typedef struct {
     int left, top, right, bottom;
@@ -398,15 +392,15 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
     ImageSize size;
     int added;
 
-    if (image != 0 && mid_count < 30) {
+    if (image != 0 && Ct[3] < 30) {
         image_index = image - 1;
-        index = mid_count;
+        index = Ct[3];
         mid_table[index].x = x;
         if ((Byte)Level.level_number == 5 && Room.number == 10 &&
             set == 4 && custom_room->count > image_index) {
             GetCustomPieceSize(image_index, &size);
         } else {
-            if (!get_set_image_size((ShapeSet *)sprite_sets[set], image_index, &size) || !size.height) return 0;
+            if (!get_set_image_size(Pics[set], image_index, &size) || !size.height) return 0;
         }
 
         mid_table[index].y = y - size.height + 1;
@@ -418,7 +412,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         if (FChar.flipped == 0 && (set != 4 || (signed char)FChar.object_type >= 0)) mid_table[index].visible = 1;
         else mid_table[index].visible = 0;
         mid_table[index].depth = 255;
-        ++mid_count;
+        ++Ct[3];
         added = 1;
     } else {
         added = 0;
@@ -451,7 +445,7 @@ extern void far mark_foreground(void);
 extern void mark_bufs_for_rect(void (far *callback)(void), unsigned int handle, Offset actor);
 extern void draw_record_bounds(unsigned int handle);
 extern void DISPOSE_BITMAP_PORT(unsigned int handle);
-extern int peel_restore_mode;
+extern int NewRoom;
 
 void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, Offset mode)
 {
@@ -540,7 +534,7 @@ void restore_peels(void)
         unsigned int handle;
         if ((*saved = *retain) != 0) continue;
         handle = ((unsigned int *)retain)[-2];
-        if (peel_restore_mode == 0) add_dirty_rectangle(handle + 16);
+        if (NewRoom == 0) add_dirty_rectangle(handle + 16);
         if (((Offset *)retain)[-1] == 2) {
             draw_record_bounds(handle);
             *saved = *retain = 1;
@@ -581,13 +575,13 @@ BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte p
     int index = 0;
     BFItem far *result = 0;
 
-    if (index < back_count) {
+    if (index < Ct[0]) {
         do {
             if (result) break;
             if (back_table[index].placement.image == image &&
                 back_table[index].palette == palette && back_table[index].flags == flags)
                 result = &back_table[index];
-        } while (++index < back_count);
+        } while (++index < Ct[0]);
     }
     return result;
 }
@@ -610,7 +604,7 @@ extern Offset actor_clip_mode;
 
 
 
-extern unsigned int object_position_handle;
+extern unsigned int SwordFrames;
 
 extern void copy_kid_to_char(void);
 extern void ClipChar(void);
@@ -817,7 +811,7 @@ void setup_fireball(void)
     SaveFChar();
     if ((unsigned int)Frame.equipment_image) {
         unsigned int frame = (unsigned int)Frame.equipment_image;
-        EquipmentPlacement far *entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
+        EquipmentPlacement far *entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
         FChar.image = entries[frame].image;
         AddFCharX(entries[frame].x);
         FChar.y += entries[frame].y;
@@ -860,7 +854,7 @@ void far _fastcall setup_sword(Byte kind)
         return;
 
     frame = (unsigned int)Frame.equipment_image;
-    entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
+    entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
     FChar.image = entries[frame].image;
     if (FChar.image == -1)
         return;
@@ -883,7 +877,7 @@ void setup_flask(void)
     if ((unsigned int)Frame.equipment_image < 145 || (unsigned int)Frame.equipment_image > 168)
         return;
     frame = (unsigned int)Frame.equipment_image;
-    entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
+    entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
     if (entries[frame].image == -1)
         return;
     FChar.image = entries[frame].image;
@@ -901,19 +895,19 @@ void check_background_shape(int index)
 
     if (index < 0)
         return;
-    if ((image = background_shapes->images[index].handle) &&
-        MATERIALIZE_HANDLE(background_shapes->images[index].handle))
+    if ((image = Pics[4]->images[index].handle) &&
+        MATERIALIZE_HANDLE(Pics[4]->images[index].handle))
         return;
-    if ((image = background_shapes->images[index].handle) != 0) {
-        DISPOSE_HANDLE(background_shapes->images[index].handle);
-        background_shapes->images[index].handle = 0;
+    if ((image = Pics[4]->images[index].handle) != 0) {
+        DISPOSE_HANDLE(Pics[4]->images[index].handle);
+        Pics[4]->images[index].handle = 0;
     }
     image = index + 1;
     if (index >= background_image_limits[Level.environment_kind])
         image += 200;
-    PrinceNewShpItem(background_shapes->resource, image,
-                   &background_shapes->images[index], 1);
-    MARK_PURGEABLE(background_shapes->images[index].handle);
+    PrinceNewShpItem(Pics[4]->resource, image,
+                   &Pics[4]->images[index], 1);
+    MARK_PURGEABLE(Pics[4]->images[index].handle);
     PrinceFreeShp(image + 3500);
 }
 
@@ -929,20 +923,20 @@ void check_kid_shape(int index)
 
     if (index < 0)
         return;
-    if (kid_shapes->images[index].handle && MATERIALIZE_HANDLE(kid_shapes->images[index].handle))
+    if (Pics[2]->images[index].handle && MATERIALIZE_HANDLE(Pics[2]->images[index].handle))
         return;
-    if (kid_shapes->images[index].handle) {
-        DISPOSE_HANDLE(kid_shapes->images[index].handle);
-        kid_shapes->images[index].handle = 0;
+    if (Pics[2]->images[index].handle) {
+        DISPOSE_HANDLE(Pics[2]->images[index].handle);
+        Pics[2]->images[index].handle = 0;
     }
-    image = kid_shapes->first_image + index + 1;
+    image = Pics[2]->first_image + index + 1;
     if (index >= 222)
         image -= 400;
     if ((index >= 131 && index <= 132) || (index >= 216 && index <= 218))
-        PrinceNewShpItem(kid_shapes->resource, image, &kid_shapes->images[index], 1);
+        PrinceNewShpItem(Pics[2]->resource, image, &Pics[2]->images[index], 1);
     else
-        kid_shapes->images[index].handle = HGETRSRC(0x53484150UL, image);
-    MARK_PURGEABLE(kid_shapes->images[index].handle);
+        Pics[2]->images[index].handle = HGETRSRC(0x53484150UL, image);
+    MARK_PURGEABLE(Pics[2]->images[index].handle);
 }
 
 void check_opponent_shape(int index)
@@ -952,7 +946,7 @@ void check_opponent_shape(int index)
 
     if (index < 0)
         return;
-    if (!opponent_shapes->images[index].handle || MATERIALIZE_HANDLE(opponent_shapes->images[index].handle))
+    if (!Pics[3]->images[index].handle || MATERIALIZE_HANDLE(Pics[3]->images[index].handle))
         return;
     image = index + 1;
     outfit = (Char.character_kind == 10 || Char.character_kind == 12)
@@ -960,18 +954,18 @@ void check_opponent_shape(int index)
     if (outfit != 5 && outfit != 6 && opponent_overlay_first[outfit] &&
         *opponent_overlay_first[outfit] <= index)
         image += 100;
-    PrinceNewShpItem(opponent_shapes->resource, image, &opponent_shapes->images[index], 2);
-    MARK_PURGEABLE(opponent_shapes->images[index].handle);
+    PrinceNewShpItem(Pics[3]->resource, image, &Pics[3]->images[index], 2);
+    MARK_PURGEABLE(Pics[3]->images[index].handle);
     PrinceFreeShp(image + 750);
 }
 
 int far *get_set_image_size(ShapeSet *set, int index, ImageSize far *size)
 {
-    if (set == kid_shapes)
+    if (set == Pics[2])
         check_kid_shape(index);
-    else if (set == opponent_shapes)
+    else if (set == Pics[3])
         check_opponent_shape(index);
-    else if (set == background_shapes)
+    else if (set == Pics[4])
         check_background_shape(index);
 
     size = (ImageSize far *)PrinceGetnShapeItemSize(set, index + 1, size);
@@ -980,11 +974,11 @@ int far *get_set_image_size(ShapeSet *set, int index, ImageSize far *size)
 
 ShapeItem far *get_set_shape_item(ShapeSet *set, int image, ImageSize far *size)
 {
-    if (set == kid_shapes)
+    if (set == Pics[2])
         check_kid_shape(image - 1);
-    else if (set == opponent_shapes)
+    else if (set == Pics[3])
         check_opponent_shape(image - 1);
-    else if (set == background_shapes)
+    else if (set == Pics[4])
         check_background_shape(image - 1);
 
     size = (ImageSize far *)get_list_item(set, image, size);
@@ -1025,7 +1019,7 @@ int far _fastcall setup_opponent(void)
     add_char_object(kind);
     Char.previous_x = Char.x;
     Char.previous_y = Char.y;
-    Char.previous_mode = peel_restore_mode;
+    Char.previous_mode = NewRoom;
     save_actor_slot();
     added = 1;
 done:

@@ -74,7 +74,7 @@ extern CHARREC Kid;
 extern CHARREC Opp;
 extern CHARREC Char;
 extern int sprite_y;
-extern void near *opponent_shapes;
+extern void near *Pics[5];
 extern unsigned int opponent_effect_frames;
 
 extern HeadSprite near *far pascal get_gate_image(char kind, unsigned char index);
@@ -121,7 +121,7 @@ typedef struct {
 } FRAMEREC;
 #pragma pack()
 extern FRAMEREC Frame;
-extern int snake_distance;
+extern int ImWidth;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -183,7 +183,8 @@ static const int flee_length[12] = {
 };
 typedef int COL_EDGE_X[20];                           /* DS:0d7c */
 extern COL_EDGE_X ColEdgeX;
-extern signed char move_with_facing[], move_against_facing[];
+extern signed char Plus1[2];
+extern signed char Minus1[2];
 
 extern signed char far pascal ReadCell(unsigned char room, signed char column, signed char row);
 extern int far pascal IsWall(signed char tile);
@@ -258,7 +259,7 @@ void far pascal align_head_on_kid_neck(void)
     if (Kid.direction != Char.direction)
         neck_x = neck[body->frame].y;
     else {
-        get_set_image_size(opponent_shapes, FChar.image, &bounds);
+        get_set_image_size(Pics[3], FChar.image, &bounds);
         neck_x = -((Char.character_kind == 7 ? 10 : 16) + neck[body->frame].y + (signed char)bounds.width);
     }
     if (Char.character_kind == 8)
@@ -575,7 +576,7 @@ int far pascal head_enemy_collide(int minimum_gap)
 
     if (Char.sequence_group != 1) {
         gap = barrier_distance_from_face((unsigned char)Cell.kind, Cell.room, (unsigned char)Cell.column);
-        if (gap < 5 && minimum_gap <= gap && gap < 5 && -snake_distance <= gap) {
+        if (gap < 5 && minimum_gap <= gap && gap < 5 && -ImWidth <= gap) {
             Char.x = AddCharX(-(gap + 14));
             if (Char.alive < 0 && Char.sequence != 153)
                 sequence = 157;
@@ -864,14 +865,14 @@ int far pascal head_set_to_flee_mode(void)
             skill = ReadCell(Char.room, column, Char.row);
             if (GetBarrCode(skill) && (skill != 4 || gate_blocks_passage()))
                 clear = 0;
-            column += move_against_facing[Char.direction];
+            column += Minus1[Char.direction + 1];
         } while (column != edge);
     if (!clear) {
-        column += move_with_facing[Char.direction] * 2;
+        column += Plus1[Char.direction + 1] * 2;
         if (abs(column - Char.column) >= 3)
             clear = 1;
     } else
-        column += move_with_facing[Char.direction];
+        column += Plus1[Char.direction + 1];
     if (clear) {
         Char.stance = 0;
         Char.alert_delay = 1;

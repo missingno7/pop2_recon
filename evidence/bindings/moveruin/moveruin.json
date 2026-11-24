@@ -128,11 +128,11 @@
     "externals": [
       "ROOM",
       "MOB",
-      "PLATEAU_INTRO",
+      "DIR",
       "CUTROOM",
       "COLEDGEX",
-      "PLATEAU_ROOM_LOADED",
-      "RUINS_START_LOADED",
+      "GAMESTATE",
+      "MINUTES",
       "GET_COL",
       "READCELL",
       "ISWALL",
@@ -149,17 +149,17 @@
       "ADDSONG",
       "CLIP_RUINS_ACTOR",
       "FALL_SPIKES",
-      "CUT_KID_INSIDE_LEVEL6",
       "CELL",
       "CHAR",
+      "CUT_KID_INSIDE_LEVEL6",
       "LOAD_RUINS_START_PALETTE",
       "UNLOAD_RUINS_START_PALETTE",
       "LOADRUINSMOVECODE",
       "LOAD_PLATEAU_ROOM",
       "LEVEL",
       "KID",
-      "PREVIOUS_ACTOR_X",
-      "CURRENT_ACTOR_X",
+      "CDLEFTEDGE",
+      "CDRIGHTEDGE",
       "FCHAR"
     ]
   },
@@ -187,7 +187,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "PLATEAU_ROOM_LOADED",
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -195,7 +195,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "PLATEAU_ROOM_LOADED",
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -268,7 +268,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "PLATEAU_ROOM_LOADED",
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -276,7 +276,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "PLATEAU_ROOM_LOADED",
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -484,7 +484,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "RUINS_START_LOADED",
+          "name": "MINUTES",
           "method": 6,
           "zero_displacement": true
         }
@@ -492,7 +492,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "RUINS_START_LOADED",
+        "name": "MINUTES",
         "method": 6,
         "zero_displacement": true
       },
@@ -565,7 +565,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "PLATEAU_INTRO",
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
@@ -573,7 +573,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "PLATEAU_INTRO",
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -645,7 +645,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -653,7 +653,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -753,7 +753,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -761,7 +761,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -780,7 +780,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -788,7 +788,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -834,7 +834,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -842,7 +842,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -888,7 +888,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -896,7 +896,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -942,7 +942,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -950,7 +950,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1158,7 +1158,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1166,7 +1166,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1185,7 +1185,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1193,7 +1193,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1293,7 +1293,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1301,7 +1301,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1428,7 +1428,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1436,7 +1436,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1482,7 +1482,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1490,7 +1490,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1536,7 +1536,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1544,7 +1544,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1590,7 +1590,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1598,7 +1598,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1671,7 +1671,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -1679,7 +1679,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -1698,7 +1698,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1706,7 +1706,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1726,7 +1726,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "CURRENT_ACTOR_X",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1734,7 +1734,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "CURRENT_ACTOR_X",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1753,7 +1753,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "PREVIOUS_ACTOR_X",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1761,7 +1761,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "PREVIOUS_ACTOR_X",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1807,7 +1807,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "CURRENT_ACTOR_X",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1815,7 +1815,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "CURRENT_ACTOR_X",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1861,7 +1861,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "PREVIOUS_ACTOR_X",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1869,7 +1869,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "PREVIOUS_ACTOR_X",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1887,7 +1887,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1895,7 +1895,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1914,7 +1914,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1922,7 +1922,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1941,7 +1941,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1949,7 +1949,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1968,7 +1968,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1976,7 +1976,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1995,7 +1995,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2003,7 +2003,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2022,7 +2022,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2030,7 +2030,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2076,7 +2076,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -2084,7 +2084,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -2103,7 +2103,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2111,7 +2111,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2130,7 +2130,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -2138,7 +2138,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -2211,7 +2211,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -2219,7 +2219,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -2238,7 +2238,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2246,7 +2246,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2319,7 +2319,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2327,7 +2327,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2346,7 +2346,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2354,7 +2354,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2401,7 +2401,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "CURRENT_ACTOR_X",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2409,7 +2409,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "CURRENT_ACTOR_X",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2427,7 +2427,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2435,7 +2435,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2454,7 +2454,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2462,7 +2462,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2748,20 +2748,6 @@
           "bytes_hex": "9a7613dc02",
           "file_offset": 191508,
           "relocation_index": 312
-        }
-      ]
-    },
-    "CURRENT_ACTOR_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24856,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "overlay-3",
-          "image_offset": 22413,
-          "bytes_hex": "a31861",
-          "entry": "overlay-3:29ef:09be"
         }
       ]
     },
@@ -3134,48 +3120,6 @@
       "space": "root",
       "witnesses": []
     },
-    "PLATEAU_INTRO": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24870,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15337,
-          "bytes_hex": "803e266100",
-          "entry": "root:02dc:0e28"
-        }
-      ]
-    },
-    "PLATEAU_ROOM_LOADED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 11182,
-      "witnesses": [
-        {
-          "bytes_hex": "a3ae2b",
-          "entry": "root:0e78:0006",
-          "image_offset": 63319,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "PREVIOUS_ACTOR_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24854,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 66964,
-          "bytes_hex": "3b161661",
-          "entry": "root:1047:009c"
-        }
-      ]
-    },
     "READCELL": {
       "entry_sha256": "4107c34d016a5821a3bc36599ce6d8d1e0d1342c9b3c3fe1d645dce061650c7b",
       "entry_target_id": "root:02dc:00fa",
@@ -3238,20 +3182,6 @@
         }
       ]
     },
-    "RUINS_START_LOADED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23762,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 321,
-          "bytes_hex": "833ed25c00",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
     "SET_PALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",
       "entry_target_id": "root:0790:2b1c",
@@ -3261,11 +3191,109 @@
       "space": "root",
       "witnesses": []
     },
+    "GAMESTATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 11170,
+      "witnesses": [
+        {
+          "bytes_hex": "833ea22b02",
+          "entry": "root:0000:10fa",
+          "image_offset": 4346,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 12,
+          "witnesses": [
+            {
+              "bytes_hex": "a3ae2b",
+              "entry": "root:0e78:0006",
+              "image_offset": 63319,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        }
+      ]
+    },
+    "MINUTES": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23762,
+      "witnesses": [
+        {
+          "bytes_hex": "a3d25c",
+          "entry": "root:053b:0544",
+          "image_offset": 24953,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "DIR": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24866,
+      "witnesses": [
+        {
+          "bytes_hex": "a22261",
+          "entry": "root:02dc:1376",
+          "image_offset": 16702,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "a22661",
+              "entry": "overlay-12:2e49:0042",
+              "image_offset": 75,
+              "operand_offset": 1,
+              "space": "overlay-12"
+            }
+          ]
+        }
+      ]
+    },
     "COLEDGEX": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3324
+    },
+    "CDRIGHTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24856,
+      "witnesses": [
+        {
+          "bytes_hex": "a11861",
+          "entry": "overlay-9:2c59:0a80",
+          "image_offset": 992,
+          "operand_offset": 1,
+          "space": "overlay-9"
+        }
+      ]
+    },
+    "CDLEFTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24854,
+      "witnesses": [
+        {
+          "bytes_hex": "3b161661",
+          "entry": "root:1047:009c",
+          "image_offset": 66964,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:moveruin/moveruin",

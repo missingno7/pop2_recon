@@ -7,7 +7,7 @@ typedef unsigned int uword;
 typedef struct {
     int sequence;
     ubyte action;
-} Trob;
+} TrobRecord;
 
 typedef struct {
     uword state;
@@ -49,7 +49,7 @@ struct input {
 #pragma pack()
 
 extern CellState *BlueS;
-extern int current_tile_number;
+extern int BlueT;
 #pragma pack(1)
 typedef struct {
     signed char kind;                                 /* 00 */
@@ -170,8 +170,8 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern MOBREC Mob;
-extern LavaTrob current_lava;
-#define animation_code current_lava.slot
+extern LavaTrob Trob;
+#define animation_code Trob.slot
 #pragma pack(1)
 typedef struct {
     int image, equipment_image;                       /* 00,02 */
@@ -240,7 +240,7 @@ extern ubyte falling_floors[8];
 #define lava_bubbles ((struct input *)cave_motion.bubbles)
 
 extern int is_loose_pushing_plate(void);
-extern Trob *get_trob_room_cell(sbyte, int);
+extern TrobRecord *get_trob_room_cell(sbyte, int);
 extern ubyte ReadCell(sbyte, sbyte, sbyte);
 extern void add_trob(sbyte, sbyte, sbyte, sbyte);
 extern int check_trob_visibility(void);
@@ -300,7 +300,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
     uword low, high, flags, state;
     CellState *previous_cells;
     int previous_number;
-    Trob *trob;
+    TrobRecord *trob;
 
     result = -1;
     cell_index = cell;
@@ -315,12 +315,12 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
                 flags = Cell.modifier;
             else {
                 previous_tile = Cell;
-                previous_number = current_tile_number;
+                previous_number = BlueT;
                 previous_cells = BlueS;
                 flags = ReadCell((ubyte)Char.room, Char.column, Char.row) == 34
                     ? Cell.modifier : 0;
                 BlueS = previous_cells;
-                current_tile_number = previous_number;
+                BlueT = previous_number;
                 Cell = previous_tile;
             }
             if (flags & 0x0800) {
@@ -502,7 +502,7 @@ void trigger_dart(sbyte room, sbyte cell)
         AddSound(80);
         Mob.auxiliary = 18;
         Mob.velocity = -11;
-        x = Col2PixelX[current_lava.cell % (sbyte)10 + 1] + 30;
+        x = Col2PixelX[Trob.cell % (sbyte)10 + 1] + 30;
         if (x > 320) {
             if (Room.left == (ubyte)room) {
                 room = Room.number;
@@ -513,9 +513,9 @@ void trigger_dart(sbyte room, sbyte cell)
         if (Mob.velocity != -1) {
             Mob.x = x;
             Mob.room = room;
-            Mob.y = Row2PixelY[current_lava.cell / (sbyte)10 + 1] - 15;
+            Mob.y = Row2PixelY[Trob.cell / (sbyte)10 + 1] - 15;
             Mob.kind = 2;
-            Mob.row = current_lava.cell / (sbyte)10;
+            Mob.row = Trob.cell / (sbyte)10;
             add_mob();
         }
     }
@@ -631,7 +631,7 @@ void do_lava_boil(void)
         AnimChar();
         trob = get_lava_trob((ubyte)Char.room, Char.column, Char.row);
         if (trob) {
-            current_lava = *trob;
+            Trob = *trob;
             redraw_lava();
         }
     }
@@ -704,12 +704,12 @@ void redraw_lava(void)
     else
         lava_redraw_type = 48;
     if (compute_trob_move_rect((struct char_bounds *)redraw.bounds, &lava_redraw_type)) {
-        mark_move(current_lava.cell, (struct char_bounds *)redraw.bounds);
+        mark_move(Trob.cell, (struct char_bounds *)redraw.bounds);
         mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);
-        if (current_lava.cell % (sbyte)10 < 8) {
-            ++current_lava.cell;
+        if (Trob.cell % (sbyte)10 < 8) {
+            ++Trob.cell;
             mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);
-            --current_lava.cell;
+            --Trob.cell;
         }
     }
 }
@@ -794,15 +794,15 @@ int move_cave_gate(int sequence)
     sbyte cell;
 
     cell = FirstInRow(Kid.row) + Kid.column;
-    if (Kid.room != current_lava.room) {
-        if (((signed char)Room.left) == current_lava.room)
+    if (Kid.room != Trob.room) {
+        if (((signed char)Room.left) == Trob.room)
             cell += 10;
-        else if (((signed char)Room.right) == current_lava.room)
+        else if (((signed char)Room.right) == Trob.room)
             cell -= 10;
         else
             cell = 30;
     }
-    if (cell == current_lava.cell || current_lava.cell - cell + 1 == 0) {
+    if (cell == Trob.cell || Trob.cell - cell + 1 == 0) {
         if (Kid.sequence_group == 3) {
             sequence = 12;
             add_gate_sound(9);

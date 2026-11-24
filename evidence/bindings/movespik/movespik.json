@@ -167,9 +167,9 @@
       "GETSPIKEIDX",
       "CELL",
       "FCHAR",
-      "RENDER_CONTEXT",
-      "SCREEN_EDGE",
-      "SIDE_OFFSET",
+      "XCO",
+      "CDLEFTEDGE",
+      "IMWIDTH",
       "COLEDGEX",
       "BLUES",
       "FIRSTINROW",
@@ -1496,7 +1496,7 @@
         "target": {
           "kind": "external",
           "index": 8,
-          "name": "SIDE_OFFSET",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -1504,7 +1504,7 @@
       "target": {
         "kind": "external",
         "index": 8,
-        "name": "SIDE_OFFSET",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -2252,7 +2252,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "SCREEN_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2260,7 +2260,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "SCREEN_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4088,7 +4088,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "RENDER_CONTEXT",
+          "name": "XCO",
           "method": 6,
           "zero_displacement": true
         }
@@ -4096,7 +4096,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "RENDER_CONTEXT",
+        "name": "XCO",
         "method": 6,
         "zero_displacement": true
       },
@@ -4914,20 +4914,6 @@
         }
       ]
     },
-    "RENDER_CONTEXT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25058,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 38349,
-          "bytes_hex": "8b1ee261",
-          "entry": "root:0790:01e4"
-        }
-      ]
-    },
     "RESET_CHAR_Y": {
       "entry_sha256": "518e529aa9667b379871347e5ff9f1ce313cf7f83a38425bfd009f0d134bfd29",
       "entry_target_id": "root:02dc:07b0",
@@ -4973,34 +4959,6 @@
         }
       ]
     },
-    "SCREEN_EDGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24854,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "overlay-3",
-          "image_offset": 22399,
-          "bytes_hex": "a31661",
-          "entry": "overlay-3:29ef:09be"
-        }
-      ]
-    },
-    "SIDE_OFFSET": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24852,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "overlay-3",
-          "image_offset": 22353,
-          "bytes_hex": "a31461",
-          "entry": "overlay-3:29ef:09be"
-        }
-      ]
-    },
     "SLIDE_ROCK_NEAR_SPIKES": {
       "entry_sha256": "9d30ce5bdc15ee0e9c6a1b340cc8f4bb820df85ecbdab1f8184cdf8492d65268",
       "entry_target_id": "overlay-9:2c59:0a0e",
@@ -5017,22 +4975,7 @@
       "offset": 8924,
       "segment": 2898,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "overlay-6",
-          "image_offset": 489,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 46,
-          "file_offset": 201129
-        },
-        {
-          "space": "overlay-9",
-          "image_offset": 416,
-          "bytes_hex": "9adc22520b",
-          "relocation_index": 41,
-          "file_offset": 211712
-        }
-      ]
+      "witnesses": []
     },
     "SELECT_ROOM_ARRAYS": {
       "entry_sha256": "d045ec88ddd750c76ed5869ba105f12cae1767771e3af69ed6045b702fbc9e7e",
@@ -5048,6 +4991,48 @@
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3324
+    },
+    "IMWIDTH": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24852,
+      "witnesses": [
+        {
+          "bytes_hex": "a31461",
+          "entry": "overlay-3:29ef:09be",
+          "image_offset": 22353,
+          "operand_offset": 1,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "CDLEFTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24854,
+      "witnesses": [
+        {
+          "bytes_hex": "2b061661",
+          "entry": "overlay-9:2c59:0a80",
+          "image_offset": 995,
+          "operand_offset": 2,
+          "space": "overlay-9"
+        }
+      ]
+    },
+    "XCO": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 25058,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1ee261",
+          "entry": "root:0790:01e4",
+          "image_offset": 38349,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:movespik/movespik",

@@ -28,14 +28,16 @@ extern volatile int DITHER_SEED;
 extern volatile long clock_ticks;
 extern char ScreenPort[];
 static const char dissolve_option[] = "NODIS";
-extern int cached_mode;
+typedef struct {
+    int mode;
+    long area, time;
+} DISSOLVEENV;
+extern DISSOLVEENV DissolveEnv;
 typedef union
 {
     long value;
     struct { unsigned int low; int high; } words;
 } LongWords;
-extern long cached_area;
-extern unsigned long cached_time;
 
 extern int check_wait_function(void);
 extern void MEASURE_TEXT(int source, int destination, const Rect far *source_rect,
@@ -123,8 +125,8 @@ void dissolve_set_inc_amt(Dissolve *record)
 
     area = (record->rect.bottom - record->rect.top) *
            (record->rect.right - record->rect.left);
-    if (cached_mode == record->mode && cached_area == area) {
-        elapsed = cached_time;
+    if (DissolveEnv.mode == record->mode && DissolveEnv.area == area) {
+        elapsed = DissolveEnv.time;
     } else {
         start = clock_ticks;
         saved_destination = record->destination;
@@ -140,9 +142,9 @@ void dissolve_set_inc_amt(Dissolve *record)
         elapsed = clock_ticks - start;
         if (!elapsed)
             elapsed = 1;
-        cached_mode = record->mode;
-        cached_area = area;
-        cached_time = elapsed;
+        DissolveEnv.mode = record->mode;
+        DissolveEnv.area = area;
+        DissolveEnv.time = elapsed;
     }
     steps = (int)((record->duration << 1) / elapsed);
     if (steps <= 5)

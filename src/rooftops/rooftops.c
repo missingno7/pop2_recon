@@ -85,9 +85,12 @@ typedef struct {
 } SplashImage;
 #pragma pack()
 
-extern sbyte splash_frame;
-extern int splash_x;
-extern ubyte splash_low;
+typedef struct {
+    signed char character, frame;
+    int x;
+    unsigned char low;
+} WATERSTATE;
+extern WATERSTATE InWater;
 extern sbyte palette_bank;
 #pragma pack(1)
 typedef struct {
@@ -150,14 +153,22 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 
-extern sbyte water_character;
 extern CHARREC Char;
 extern ROOMREC Room;
-extern ubyte animation_room;
-extern int fade_active;
+typedef struct {
+    signed char tile;
+    unsigned char room;
+    signed char state;
+    unsigned char field_3;
+} TrobRecord;
+extern TrobRecord Trob;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 extern unsigned long FrameNum;
 extern uword BlueSpec;
-extern sbyte animation_tile, animation_remove;
 #pragma pack(1)
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -170,11 +181,11 @@ typedef struct {
 #pragma pack()
 
 extern FCHARREC FChar;
-extern int draw_pass_mode;
-extern int character_width;
+extern int NewRoom;
+extern int ImWidth;
 extern int delay_count, active_sound_channels;
 extern CHARREC Kid;
-extern Rect clip_rect, NullRect, GamePlayRect;
+extern Rect CellClipRect, NullRect, GamePlayRect;
 static SplashImage splash_images[] = {
     {0, 0}, {29, 0}, {30, 0}, {31, 0},
     {29, 0}, {32, 0}, {33, 0}, {29, 0}
@@ -233,25 +244,25 @@ void far pascal LoadRoofCode(void)
 {
     sbyte inactive = -1;
 
-    splash_frame = 0;
+    InWater.frame = 0;
     palette_bank = inactive;
-    water_character = inactive;
+    InWater.character = inactive;
 }
 
 void far pascal check_character_water(void)
 {
-    if (water_character == -1) {
+    if (InWater.character == -1) {
         if (Char.y >= 172 && (int)Char.sequence != 68 && (int)Char.sequence != 15 &&
             (int)Char.sequence != 59 && Char.action != 2)
             trigger_character_water();
-    } else if (Char.slot == water_character) {
-        if (splash_frame < 7) {
+    } else if (Char.slot == InWater.character) {
+        if (InWater.frame < 7) {
             if (custom_room->bank != 18 && custom_room->bank != 19)
                 return;
-            mark_bufs_for_rect(mark_move, &custom_room->pieces[splash_images[splash_frame].index].bounds, -1);
-        } else if (splash_frame >= 8) {
-            splash_frame = 0;
-            water_character = -1;
+            mark_bufs_for_rect(mark_move, &custom_room->pieces[splash_images[InWater.frame].index].bounds, -1);
+        } else if (InWater.frame >= 8) {
+            InWater.frame = 0;
+            InWater.character = -1;
             if (Char.row >= 2) {
                 Char.frame = 185;
                 decrement_life_points(100);
@@ -259,7 +270,7 @@ void far pascal check_character_water(void)
             }
             return;
         }
-        ++splash_frame;
+        ++InWater.frame;
     }
 }
 
@@ -286,7 +297,7 @@ void far pascal clip_character_at_water(void)
 {
     int limit;
 
-    if ((Char.room == 19 || Char.room == 16) && Char.slot == water_character) {
+    if ((Char.room == 19 || Char.room == 16) && Char.slot == InWater.character) {
         limit = 172;
         if (Char.action == 9) limit = 186;
         FChar.clip_bottom = limit > FChar.clip_bottom ? FChar.clip_bottom : limit;
@@ -297,7 +308,7 @@ void far pascal clip_character_at_water(void)
 
 void far pascal cycle_roof_colors(void)
 {
-    if (!fade_active && (Room.number == 19 || Room.number == 16 || Room.number == 15) &&
+    if (!GameState.fade_active && (Room.number == 19 || Room.number == 16 || Room.number == 15) &&
         FrameNum % 3 == 0) {
         CycleColors(230, 3, 0);
         CycleColors(233, 3, 0);
@@ -346,14 +357,14 @@ void far pascal kill_kid_on_wharf(void)
 
 Rect near *far pascal make_water_test_rect(Rect near *rect)
 {
-    if (splash_frame && splash_frame <= 7) {
-        if (splash_low == 1)
+    if (InWater.frame && InWater.frame <= 7) {
+        if (InWater.low == 1)
             *(unsigned int *)&rect->top = 186;
         else
             rect->top = 172;
-        rect->left = splash_x - 16;
+        rect->left = InWater.x - 16;
         rect->bottom = rect->top + 1;
-        rect->right = splash_x + 16;
+        rect->right = InWater.x + 16;
     } else {
         *rect = NullRect;
     }
@@ -362,22 +373,22 @@ Rect near *far pascal make_water_test_rect(Rect near *rect)
 
 void far pascal trigger_character_water(void)
 {
-    if (!splash_frame) {
-        water_character = Char.slot;
-        splash_frame = 1;
-        splash_low = (Char.action == 9) ? 1 : 0;
-        splash_x = Char.x - 130;
+    if (!InWater.frame) {
+        InWater.character = Char.slot;
+        InWater.frame = 1;
+        InWater.low = (Char.action == 9) ? 1 : 0;
+        InWater.x = Char.x - 130;
         if (Char.direction == 0)
-            splash_x -= character_width / 2;
+            InWater.x -= ImWidth / 2;
         else
-            splash_x += character_width / 2;
+            InWater.x += ImWidth / 2;
         AddSound(48);
     }
 }
 
 void far pascal watch_kid(void)
 {
-    if (Kid.room == 19 || Kid.room == 16 || water_character == 10) {
+    if (Kid.room == 19 || Kid.room == 16 || InWater.character == 10) {
         copy_kid_to_char();
         check_character_water();
         if (Kid.room == 19 && (RoofHangingFromShip() || RoofClimbingIntoShip())) {
@@ -399,7 +410,7 @@ void far pascal watch_opponents(void)
         if (count > 0) {
             do {
                 load_actor_slot(index);
-                if (Char.room == 19 || Char.room == 16 || index == water_character) {
+                if (Char.room == 19 || Char.room == 16 || index == InWater.character) {
                     check_character_water();
                     save_actor_slot();
                 }
@@ -414,30 +425,30 @@ void far pascal setup_splash(void)
     DrawPiece near *piece;
     ubyte image;
 
-    if (Char.slot == water_character && splash_frame != 0 && splash_frame < 7 &&
+    if (Char.slot == InWater.character && InWater.frame != 0 && InWater.frame < 7 &&
         (custom_room->bank == 18 || custom_room->bank == 19)) {
-        clip = clip_rect;
-        image = splash_images[splash_frame].index;
+        clip = CellClipRect;
+        image = splash_images[InWater.frame].index;
         piece = &custom_room->pieces[image];
         piece->y = piece->bounds.top - piece->bounds.bottom + 176;
         if (Char.action == 9)
             piece->y += 14;
-        piece->x = (piece->bounds.left - piece->bounds.right) / 2 + splash_x;
+        piece->x = (piece->bounds.left - piece->bounds.right) / 2 + InWater.x;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
-        clip_rect = piece->bounds;
+        CellClipRect = piece->bounds;
         piece->pass = 1;
         draw_custom_room_image(image, piece->pass);
         piece->pass = 11;
         if (Char.action != 9)
             mark_bufs_for_rect(mark_foreground, &piece->bounds, -1);
-        clip_rect = clip;
+        CellClipRect = clip;
     }
 }
 
 void far pascal animate_roof_glass(void)
 {
     if (BlueSpec >= 11) {
-        animation_remove = -1;
+        Trob.state = -1;
         return;
     }
     ++BlueSpec;
@@ -452,13 +463,13 @@ void far pascal draw_roof_glass(RoofAnimation near *animation)
     ubyte image;
 
     if (animation->kind == 11 && animation->frame < 11) {
-        clip = clip_rect;
-        clip_rect = GamePlayRect;
+        clip = CellClipRect;
+        CellClipRect = GamePlayRect;
         image = (ubyte)(animation->frame + 31);
         draw_custom_room_image(image, 11);
         if (image + 1 < custom_room->piece_count)
             mark_bufs_for_rect(mark_foreground, &custom_room->pieces[image + 1].bounds, -1);
-        clip_rect = clip;
+        CellClipRect = clip;
     }
 }
 
@@ -486,8 +497,8 @@ void far pascal AnimRoofPillar(void)
         piece = &custom_room->pieces[25];
         bounds = piece->bounds;
         position = *(long *)&piece->y;
-        piece = offset_custom_piece(piece, animation_tile % 10, animation_tile / 10);
-        if (!splash_frame || !SECTRECT(&water, &water, &piece->bounds)) {
+        piece = offset_custom_piece(piece, Trob.tile % 10, Trob.tile / 10);
+        if (!InWater.frame || !SECTRECT(&water, &water, &piece->bounds)) {
             mark_bufs_for_rect(mark_move, &piece->bounds, -1);
             offset_roof_pillar(piece);
             mark_bufs_for_rect(mark_move, &piece->bounds, -1);
@@ -507,7 +518,7 @@ void far pascal draw_roof_pillar(RoofAnimation near *animation)
     } saved;
     Rect bounds;
 
-    if (animation->kind == 11 || (animation->kind == 0 && draw_pass_mode)) {
+    if (animation->kind == 11 || (animation->kind == 0 && NewRoom)) {
         saved.kind = animation->kind;
         animation->kind = 0;
         saved.image = ((animation->frame >> 1) & 7) + 25;
@@ -533,7 +544,7 @@ int far pascal draw_pillar_in_back(DrawPiece near *piece)
     Rect water;
     int result = 0;
 
-    if (splash_frame && splash_low == 1 && piece->kind >= 6 && piece->kind <= 11) {
+    if (InWater.frame && InWater.low == 1 && piece->kind >= 6 && piece->kind <= 11) {
         make_water_test_rect(&water);
         if (SECTRECT(&water, &water, &piece->bounds))
             result = 1;
@@ -557,10 +568,10 @@ void far pascal animate_roof_ship(void)
 
     ++BlueSpec;
     if (BlueSpec > 176) {
-        animation_remove = -1;
+        Trob.state = -1;
         return;
     }
-    if (Room.number == animation_room) {
+    if (Room.number == Trob.room) {
         piece = &custom_room->pieces[19];
         piece->x = -BlueSpec;
         MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
@@ -586,8 +597,8 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
     sbyte image;
 
     if (animation->kind == 11 && animation->frame <= 176) {
-        clip = clip_rect;
-        clip_rect = GamePlayRect;
+        clip = CellClipRect;
+        CellClipRect = GamePlayRect;
         position = animation->frame;
         piece = &custom_room->pieces[19];
         piece->x = -position;
@@ -607,7 +618,7 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
         piece->x = -ship_x;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_custom_room_image(image, 11);
-        clip_rect = clip;
+        CellClipRect = clip;
     }
 }
 

@@ -24,7 +24,7 @@ typedef struct {
 } CELLREC;
 #pragma pack()
 extern CELLREC Cell;
-extern unsigned char *room_kinds;
+extern unsigned char *BlueT;
 /* Each modifier entry occupies two words. ReadCell uses its first word. */
 extern unsigned int (*BlueS)[2];
 
@@ -147,7 +147,7 @@ char far pascal ReadCell(unsigned char room, signed char column, signed char row
     Cell.index = FirstInRow(Cell.row) + Cell.column;
     if (Cell.room) {
         select_room_arrays(Cell.room);
-        Cell.kind = room_kinds[Cell.index];
+        Cell.kind = BlueT[Cell.index];
         Cell.modifier = BlueS[Cell.index][0];
     } else {
         Cell.modifier = 0;
@@ -365,14 +365,14 @@ int far pascal AddFCharX(int value)
 }
 
 
-extern int animation_advance;
-extern int restricted_step;
+extern int ShakeFloor;
+extern int WeightlessTimer;
 
 extern unsigned char animation_variant;
-extern int animation_items;
+extern int NextLevel;
 extern int animation_portion;
 extern int sound_steps;
-extern int kid_step;
+extern int AlertGuard;
 
 
 typedef int far * near * SequenceHandle;
@@ -449,7 +449,7 @@ void far pascal AnimChar(void)
             reading = 0;
             break;
         case -16:
-            ++animation_items;
+            ++NextLevel;
             if (((unsigned char)Level.level_number) == 6)
                 animation_variant = Char.column >= 6 ? 2 : 1;
             break;
@@ -472,16 +472,16 @@ void far pascal AnimChar(void)
             }
             break;
         case -13:
-            animation_advance = -1;
+            ShakeFloor = -1;
             break;
         case -12:
-            animation_advance = 1;
+            ShakeFloor = 1;
             break;
         case -11:
             SetKidDeathMethod(GetSeqOp(sequence));
             break;
         case -10:
-            if (restricted_step)
+            if (WeightlessTimer)
                 goto change_sequence;
             GetSeqOp(sequence);
             break;
@@ -572,7 +572,7 @@ void far pascal anim_char_tap(int sound)
         /* Fall through. */
     case 0:
         if (!Char.character_kind)
-            kid_step = 1;
+            AlertGuard = 1;
         break;
     default:
         if (sound <= 273) {
@@ -669,12 +669,12 @@ void far pascal ConvertX(int value, int near *value_out) {
 /* Names and qualifiers are reconstruction hypotheses. */
 
 
-extern int restricted_step;
+extern int WeightlessTimer;
 
 void far pascal Gravity(void)
 {
     if (Char.action == 4 || Char.action == 9) {
-        if (restricted_step) {
+        if (WeightlessTimer) {
             ++Char.vertical_step;
             if (Char.vertical_step > 4)
                 Char.vertical_step = 4;
@@ -733,21 +733,20 @@ char far pascal get_under_foot(void)
     return ReadCell(character_room, Char.column, character_row);
 }
 
-extern int restricted_step;
+extern int WeightlessTimer;
 
-extern signed char front_offsets[];
-extern signed char behind_offsets[];
+extern signed char Plus1[2];
+extern signed char Minus1[2];
 
-extern unsigned char grab_enabled;
 struct CopyRecord {
     char bytes[5];
 };
 
 extern struct CopyRecord SelDir;
 extern struct CopyRecord Dir;
-extern int action_timer;
-extern unsigned int grab_delay;
-extern unsigned int ledge_hold;
+extern int DroppedOut;
+extern unsigned int Stunned;
+extern unsigned int Screamed;
 extern void far pascal update_shadow_gameplay_palette(void);
 extern int far pascal IsWall(char kind);
 extern int far pascal IS_SIX_KIND(char kind);
@@ -847,13 +846,13 @@ void far pascal start_fall(void)
                 sequence = 19;
             } else if (old_frame >= 150U && old_frame < 180U) {
                 if (!Char.character_kind) {
-                    action_timer = adjust_clearance;
+                    DroppedOut = adjust_clearance;
                     if (old_frame == 153 || Char.sequence == 56)
                         sequence = 95;
                     else
                         sequence = 81;
                 } else {
-                    action_timer = 0;
+                    DroppedOut = 0;
                     if (Char.sequence == 86 || Char.sequence == 67 ||
                         Char.sequence == 108)
                         sequence = 83;
@@ -893,7 +892,7 @@ void far pascal start_fall(void)
         SetKidDeathMethod(8);
     }
     else if (Char.character_kind == 0 &&
-             restricted_step && Char.sequence != 228)
+             WeightlessTimer && Char.sequence != 228)
     {
         sequence = 228;
     }
@@ -969,7 +968,7 @@ int far pascal is_undefined_room(void)
 void far pascal FallOn(void)
 {
     int position;
-    if (grab_enabled && Char.vertical_step < 32 && Char.alive < 0 &&
+    if (Dir.bytes[4] && Char.vertical_step < 32 && Char.alive < 0 &&
         (signed char)63 * character_row + 56 <= Char.y + 25) {
         position = char_x;
         char_x = AddCharX(-16);
@@ -990,8 +989,8 @@ void far pascal FallOn(void)
         JumpSeq(15);
         AnimChar();
         AddSound(11);
-        grab_delay = 12;
-        ledge_hold = 0;
+        Stunned = 12;
+        Screamed = 0;
     }
 }
 
@@ -1029,17 +1028,17 @@ char far pascal inside_cell(void)
 char far pascal get_cells_ahead(signed char distance)
 {
     return ReadCell(character_room,
-                    (unsigned char)Char.column + front_offsets[Char.direction] * distance,
+                    (unsigned char)Char.column + Plus1[Char.direction + 1] * distance,
                     character_row);
 }
 
 char far pascal get_behind(void)
 {
-    return ReadCell(character_room, (unsigned char)Char.column + behind_offsets[Char.direction],
+    return ReadCell(character_room, (unsigned char)Char.column + Minus1[Char.direction + 1],
                     character_row);
 }
 
-extern signed char column_remainder;
+extern signed char Offset;
 
 int far pascal get_base_x(void)
 {
@@ -1056,9 +1055,9 @@ int far pascal get_edge_distance_at(int x)
     int distance;
     get_char_col(x);
     if (!char_direction)
-        distance = 31 - column_remainder;
+        distance = 31 - Offset;
     else
-        distance = column_remainder;
+        distance = Offset;
     return distance;
 }
 
@@ -1072,7 +1071,7 @@ char far pascal get_col(int x)
     int shifted = x - 4;
     char col;
 
-    column_remainder = shifted % 32;
+    Offset = shifted % 32;
     col = shifted / 32 - 4;
     if (x < 0)
         --col;
@@ -1127,12 +1126,20 @@ extern void far pascal update_automatic_actor(void);
 extern void far pascal CheckRecordedDirForChar(void);
 extern void far pascal apply_input(void);
 extern void far pascal play_throne_room_nis(void);
-extern unsigned int prefer_kid_state;
+extern unsigned int BackToLife;
 extern unsigned int current_effect, current_song;
-extern unsigned int pending_death_sound, death_timer, death_timer_limit;
-extern unsigned int delayed_death, replay_input, Invert;
+extern unsigned int TimeRequest, MsgTimer, MsgTimerStart;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
+extern unsigned int Minutes, Invert;
 extern signed char LevelIdx;
-extern signed char state_byte_5e30, state_byte_5e31, state_byte_5e32;
+typedef struct {
+    signed char x, y, button;
+} JoyState;
+extern JoyState Joy;
 
 int far pascal ctrl_player(void)
 {
@@ -1141,7 +1148,7 @@ int far pascal ctrl_player(void)
     if (result != -2 || Char.alive < 0 || !is_dead_pos(Char.frame))
         return result;
 
-    if (prefer_kid_state) {
+    if (BackToLife) {
         dispatch_sound(0);
         Kid.life_delta = Kid.life_initial;
         copy_kid_to_char();
@@ -1159,7 +1166,7 @@ int far pascal ctrl_player(void)
         current_effect != 54)
         return result;
 
-    pending_death_sound = 0;
+    TimeRequest = 0;
     if (Char.alive < 0 || Char.alive >= 6) {
         if (Char.alive == 6) {
             AddKidDeathSong(STATE_ARGUMENT);
@@ -1168,11 +1175,11 @@ int far pascal ctrl_player(void)
                 return result;
             if (query_sound(current_song + 10000))
                 return result;
-            if (!delayed_death) {
+            if (!Minutes) {
                 lose_game();
                 result = -1;
-            } else if (death_timer_limit != 600) {
-                death_timer = death_timer_limit = 600;
+            } else if (MsgTimerStart != 600) {
+                MsgTimer = MsgTimerStart = 600;
                 draw_restart_message();
             }
         }
@@ -1186,12 +1193,12 @@ int far pascal PlayerCtrl(void)
     int result;
     if (Char.alive < 0 && !Char.life_points)
         Char.alive = 0;
-    if (grab_delay)
-        --grab_delay;
+    if (Stunned)
+        --Stunned;
     LoadSelect();
     Input();
-    if (LevelIdx != animation_items || !character_room || Char.sequence == 59)
-        state_byte_5e31 = state_byte_5e30 = 0;
+    if (LevelIdx != NextLevel || !character_room || Char.sequence == 59)
+        Joy.y = Joy.x = 0;
     ClrJoystick();
     UserCtrl();
     result = CheckForEndOfRecording();
@@ -1216,7 +1223,7 @@ void far pascal shad_ctrl(void)
         Char.alive = 0;
     }
     update_automatic_actor();
-    if (replay_input)
+    if (GameState.recording_mode)
         CheckRecordedDirForChar();
     if (Char.character_kind != 1 && Char.character_kind != 12)
         apply_input();
@@ -1229,7 +1236,7 @@ void far pascal UserCtrl(void)
         FaceJoystick();
     if (Invert)
         InvertJoystick();
-    if (replay_input)
+    if (GameState.recording_mode)
         CheckRecordedDirForChar();
     apply_input();
     if (!direction)
@@ -1241,23 +1248,21 @@ void far pascal UserCtrl(void)
         play_throne_room_nis();
 }
 
-extern signed char state_byte_5e30;
 
 void far pascal FaceJoystick(void)
 {
     char temporary;
-    state_byte_5e30 = -state_byte_5e30;
+    Joy.x = -Joy.x;
     temporary = Dir.bytes[0];
     Dir.bytes[0] = Dir.bytes[1];
     Dir.bytes[1] = temporary;
 }
 
-extern signed char state_byte_5e31;
 
 void far pascal InvertJoystick(void)
 {
     char temporary;
-    state_byte_5e31 = -state_byte_5e31;
+    Joy.y = -Joy.y;
     temporary = Dir.bytes[2];
     Dir.bytes[2] = Dir.bytes[3];
     Dir.bytes[3] = temporary;
@@ -1299,41 +1304,41 @@ void InitInput(void) { memset(SelDir.bytes, 0, sizeof(SelDir.bytes)); }
 void far pascal ClrJoystick(void)
 {
     if ((signed char)Dir.bytes[0] >= 0) {
-        if (state_byte_5e30 == -1) {
+        if (Joy.x == -1) {
             if (!Dir.bytes[0])
                 Dir.bytes[0] = -1;
         } else
             Dir.bytes[0] = 0;
     }
     if ((signed char)Dir.bytes[1] >= 0) {
-        if (state_byte_5e30 == 1) {
+        if (Joy.x == 1) {
             if (!Dir.bytes[1])
                 Dir.bytes[1] = -1;
         } else
             Dir.bytes[1] = 0;
     }
     if ((signed char)Dir.bytes[2] >= 0) {
-        if (state_byte_5e31 == -1) {
+        if (Joy.y == -1) {
             if (!Dir.bytes[2])
                 Dir.bytes[2] = -1;
         } else
             Dir.bytes[2] = 0;
     }
     if ((signed char)Dir.bytes[3] >= 0) {
-        if (state_byte_5e31 == 1) {
+        if (Joy.y == 1) {
             if (!Dir.bytes[3])
                 Dir.bytes[3] = -1;
         } else
             Dir.bytes[3] = 0;
     }
-    if (state_byte_5e32 == -1) {
-        if (grab_enabled != 1)
-            grab_enabled = -1;
-    } else if (state_byte_5e32 == -2) {
-        if (grab_enabled != 2)
-            grab_enabled = -2;
+    if (Joy.button == -1) {
+        if (Dir.bytes[4] != 1)
+            Dir.bytes[4] = -1;
+    } else if (Joy.button == -2) {
+        if (Dir.bytes[4] != 2)
+            Dir.bytes[4] = -2;
     } else
-        grab_enabled = 0;
+        Dir.bytes[4] = 0;
 }
 
 extern int far pascal is_open_tile(char kind);
@@ -1360,13 +1365,13 @@ char far pascal get_above(void)
 
 char far pascal get_above_behind(void)
 {
-    return ReadCell(character_room, (unsigned char)Char.column + behind_offsets[Char.direction],
+    return ReadCell(character_room, (unsigned char)Char.column + Minus1[Char.direction + 1],
                     character_row - 1);
 }
 
 char far pascal get_above_front(void)
 {
-    return ReadCell(character_room, (unsigned char)Char.column + front_offsets[Char.direction],
+    return ReadCell(character_room, (unsigned char)Char.column + Plus1[Char.direction + 1],
                     character_row - 1);
 }
 
@@ -1388,7 +1393,7 @@ void far pascal RemoveObj(int portion)
     unsigned int modifier;
     int index;
     animation_portion = portion;
-    grab_enabled = 1;
+    Dir.bytes[4] = 1;
     if (Level.environment_kind == 3)
         modifier = Cell.modifier & 0x3f00;
     else if (Level.environment_kind == 4)
@@ -1411,7 +1416,7 @@ extern void far pascal clip_desert_character(void);
 extern void far pascal clip_ruins_actor(void);
 extern void far pascal clip_final_character(void);
 extern int far _fastcall IsRoundCaveBlock(unsigned int modifier);
-extern int clip_top_cache;
+extern int TopEdge;
 void far pascal MakeFCharClipRect(void);
 int far pascal is_char_non_viewable(void);
 
@@ -1467,11 +1472,11 @@ void far pascal ClipChar(void)
         !(character_room == 6 && Level.environment_kind == 6)) {
         if ((signed char)((tile = row + 1) - 1)) {
             int height = (signed char)63 * tile - 60;
-            clearance = height >= FChar.y ? 0 : height - 15 >= clip_top_cache ? 0 : clearance;
+            clearance = height >= FChar.y ? 0 : height - 15 >= TopEdge ? 0 : clearance;
         }
         if (clearance && !flying) {
             if ((workspace.top = (signed char)63 * tile - 60) > FChar.clip.top)
-                FChar.clip.top = clip_top_cache = workspace.top;
+                FChar.clip.top = TopEdge = workspace.top;
         }
     }
     switch (Level.environment_kind) {
@@ -1482,13 +1487,13 @@ void far pascal ClipChar(void)
     }
 }
 
-extern unsigned int sprite_tables[];
+extern unsigned int Pics[];
 extern void far *far pascal get_set_image_size(unsigned int, int, int far *);
 
 void far pascal MakeFCharClipRect(void)
 {
     int size[2];
-    if (FChar.image != -1 && get_set_image_size(sprite_tables[FChar.image_set], FChar.image, size)) {
+    if (FChar.image != -1 && get_set_image_size(Pics[FChar.image_set], FChar.image, size)) {
         FChar.clip.top = FChar.y - size[0];
         FChar.clip.bottom = FChar.y + 1;
         if (!FChar.flipped) {
@@ -1524,7 +1529,7 @@ void far pascal IndexChar(void)
         Cell.column = Char.column;
     }
     if ((frame >= 135 && frame < 149) || action == 2 || action == 3 || action == 4 || action == 6)
-        Cell.column += behind_offsets[Char.direction];
+        Cell.column += Minus1[Char.direction + 1];
     FChar.index = IndexCell1(Cell.column, Cell.row);
 }
 

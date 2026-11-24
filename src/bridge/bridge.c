@@ -187,7 +187,13 @@ typedef struct {
 
 extern FCHARREC FChar;
 extern unsigned int BlueSpec;
-extern signed char animation_cell, animation_active;
+typedef struct {
+    signed char tile;
+    unsigned char room;
+    signed char state;
+    unsigned char field_3;
+} TrobRecord;
+extern TrobRecord Trob;
 typedef struct {
     int x, y;                                         /* 00,02 */
     unsigned char room;                               /* 04 */
@@ -495,7 +501,7 @@ void animate_bridge_floor(void)
     if (Level.level_number == 5 && ((signed char)Room.number) == 10) {
         old_phase = BlueSpec & 15;
         BlueSpec &= 0xfff0;
-        if (!(floor_mask & (1 << (animation_cell % (signed char)10 - 1)))) {
+        if (!(floor_mask & (1 << (Trob.tile % (signed char)10 - 1)))) {
             phase = 0;
         } else {
             phase = Rnd(3);
@@ -510,9 +516,9 @@ void animate_bridge_floor(void)
                 phase = old_phase;
             }
         }
-        redraw_bridge_floor(phase, animation_cell);
+        redraw_bridge_floor(phase, Trob.tile);
     } else {
-        animation_active = -1;
+        Trob.state = -1;
     }
 }
 

@@ -46,17 +46,22 @@ typedef struct {
 #pragma pack()
 
 extern CHARREC Kid;
-extern int throne_song_added;                /* DS:2bb0 */
-extern int throne_room_nis_played;           /* DS:2bb2 */
-extern int left_edge;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
+extern int CDLeftEdge;
 extern int ambient_state;
-extern int throne_running;                   /* DS:2cf8 */
 extern RoomState room_state;                 /* DS:2d02 */
-extern Byte viewed_room;                   /* DS:5e34 */
+extern Byte Room;                   /* DS:5e34 */
 extern CHARREC Char;
 extern Byte CutRoom;                     /* DS:6ccd */
 extern Byte LevelIdx;                    /* DS:0a18 */
-extern Byte scene_flag;                      /* DS:6290 */
+typedef struct {
+    signed char forward, back, up, down, action;
+} Directions;
+extern Directions Dir;
 
 extern void far _fastcall draw_custom_room_image(Byte, Byte);
 extern void set_palette(int, unsigned int, Byte, Byte), AddSong(int);
@@ -89,19 +94,19 @@ void draw_throne_room_gate_in_fore(void)
 void load_throne_room(void)
 {
     set_palette(3500, 64, 160, 2);
-    if (!throne_room_nis_played) {
+    if (!GameState.throne_nis_played) {
         if (Kid.column < 9)
             AddSong(253);
-        else if (!throne_song_added) {
+        else if (!GameState.throne_song_added) {
             AddSong(152);
-            throne_song_added = 1;
+            GameState.throne_song_added = 1;
         }
     }
 }
 
 void unload_throne_room(void)
 {
-    if (!throne_running)
+    if (!GameState.playing_nis)
         set_palette(3500, 64, 160, 0);
 }
 
@@ -116,7 +121,7 @@ void play_throne_room_nis(void)
     *saved = room_state;
     nis_result = play_nis(6);
     if (nis_result == 2)
-        viewed_room = 0;
+        Room = 0;
     reset_level_overlays();
     load_code_overlays(4, 5);
     copy_kid_to_char();
@@ -129,7 +134,7 @@ void play_throne_room_nis(void)
     saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
     room_state = *saved;
     DISPOSE_HANDLE(saved_handle);
-    throne_room_nis_played = 1;
+    GameState.throne_nis_played = 1;
     if (nis_result != 2)
         LoadCustomRoomData(9);
     mark_bufs_for_rect(mark_move, (Rect *)&Kid.bounds, 10);
@@ -137,7 +142,7 @@ void play_throne_room_nis(void)
     AnimChar();
     Kid = Char;
     ClrAll();
-    scene_flag = 0;
+    Dir.action = 0;
     if (!query_sound(10255))
         AddSong(255);
     else
@@ -146,6 +151,6 @@ void play_throne_room_nis(void)
 
 void offset_throne_rect(Rect *rect, int font)
 {
-    OffsetRect(rect, rect, left_edge - rect->left - 135, -4);
+    OffsetRect(rect, rect, CDLeftEdge - rect->left - 135, -4);
     store_scene_rect(font, rect);
 }

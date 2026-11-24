@@ -23,8 +23,8 @@ typedef struct BackImage {
 
 typedef int (far pascal *AddImage)(Byte, int, CellCoord, CellCoord, Byte, Byte);
 
-extern int draw_pass_mode;
-extern DrawRect clip_rect;
+extern int NewRoom;
+extern DrawRect CellClipRect;
 extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte column, Byte row);
 extern int SECTRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
 extern void UNIONRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
@@ -47,15 +47,15 @@ void draw_ruin_back_wall(RuinCell *cell)
     background_modifier = cell->background_modifier & 15;
     image = (*(unsigned int *)&cell->background) & 31;
     if (image) {
-        if (!draw_pass_mode) {
+        if (!NewRoom) {
             shape = get_back_table_image_row(image, cell->column - 1, cell->row);
-            if (shape && SECTRECT(&overlap, &shape->clip, &clip_rect)) {
+            if (shape && SECTRECT(&overlap, &shape->clip, &CellClipRect)) {
                 fallback = 0;
-                UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
+                UNIONRECT(&shape->clip, &shape->clip, &CellClipRect);
                 if (image >= 1 && image <= 5) {
                     shape = get_back_table_image_row(7, cell->column - 1, cell->row);
-                    if (shape && SECTRECT(&overlap, &shape->clip, &clip_rect))
-                        UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
+                    if (shape && SECTRECT(&overlap, &shape->clip, &CellClipRect))
+                        UNIONRECT(&shape->clip, &shape->clip, &CellClipRect);
                 }
             } else {
                 shape = 0;
@@ -74,7 +74,7 @@ void draw_ruin_back_wall(RuinCell *cell)
                      ? background_modifier - 2 : background_modifier;
                 tile += 36;
                 AddBImgToBTable(tile, 7, cell->column, cell->row, 0, 0);
-                if (image == 5 && draw_pass_mode)
+                if (image == 5 && NewRoom)
                     AddBImgToBTable(tile, 7, cell->column + 2, cell->row, 0, 0);
                 layer = 10;
             } else {
@@ -92,7 +92,7 @@ void draw_ruin_block(RuinCell *cell)
 
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode)
+        if (NewRoom)
             draw_ruin_back_wall(cell);
         break;
     case 5:
@@ -189,7 +189,7 @@ void draw_ruin_crevice(RuinCell *cell)
     revealed = cell->modifier & 0x80;
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode)
+        if (NewRoom)
             draw_ruin_back_wall(cell);
         break;
     case 1:
@@ -227,7 +227,7 @@ void draw_ruin_exit_left(RuinCell *cell)
 
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode) {
+        if (NewRoom) {
             draw_ruin_back_wall(cell);
             add_image = AddBImgToBTable;
         }
@@ -335,7 +335,7 @@ void draw_ruin_exit_right(RuinCell *cell)
 
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode) {
+        if (NewRoom) {
             draw_ruin_back_wall(cell);
         } else {
             Pieces->exit = exit_positions[0];
@@ -352,7 +352,7 @@ void draw_ruin_exit_right(RuinCell *cell)
         add_image = AddBFImgToFTable;
         break;
     case 5:
-        if (!draw_pass_mode)
+        if (!NewRoom)
             add_image = AddBFImgToBTable;
         flaw = 1;
         break;
@@ -372,10 +372,10 @@ void draw_ruin_exit_movable(RuinCell *cell)
     DrawRect saved_clip, door_clip;
 
     if (cell->pass == 0) {
-        saved_clip = clip_rect;
+        saved_clip = CellClipRect;
         door_clip = GamePlayRect;
         door_clip.top = cell->row * 63 - 5;
-        if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
+        if (SECTRECT(&CellClipRect, &CellClipRect, &door_clip)) {
             moving = get_trob_room_cell(cell->column + FirstInRow(Room.number, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
@@ -385,12 +385,12 @@ void draw_ruin_exit_movable(RuinCell *cell)
             Pieces->exit = exit_positions[1];
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
-        clip_rect = saved_clip;
+        CellClipRect = saved_clip;
     }
 }
 
-extern CellCoord hidden_flaw_column, hidden_flaw_row;
-extern int last_front_table_slot;
+extern CellCoord ColNo, RowNo;
+extern int Ct[5];
 
 #pragma pack(1)
 typedef struct DrawEntry {
@@ -426,16 +426,16 @@ void draw_ruin_flaw(RuinCell *cell)
         flags = cell->modifier & 0xf00;
         if (flags && (unsigned)flags < 0xb00) {
             flaw = ((Byte *)&flags)[1];
-            if (flaw != 2 || !draw_pass_mode) {
+            if (flaw != 2 || !NewRoom) {
                 int emitted;
                 Pieces->back_flaw = ruin_tables.rows.flaw_positions[flaw + 1];
-                if (flaw == 3 && !draw_pass_mode &&
-                    hidden_flaw_column == cell->column && hidden_flaw_row == cell->row)
+                if (flaw == 3 && !NewRoom &&
+                    ColNo == cell->column && RowNo == cell->row)
                     emitted = 0;
                 else
                     emitted = AddBFImgToFTable(18, -2, cell->column, cell->row, 10, 0);
                 if (emitted && flaw == 4)
-                    fore_queue[last_front_table_slot - 1].clip = GamePlayRect;
+                    fore_queue[Ct[1] - 1].clip = GamePlayRect;
             }
         }
     }
@@ -547,10 +547,10 @@ void draw_ruin_gate_movable(RuinCell *cell)
     AddImage add_image;
     DrawRect gate_clip, saved_clip;
 
-    saved_clip = clip_rect;
+    saved_clip = CellClipRect;
     gate_clip = GamePlayRect;
     gate_clip.top = cell->row * 63 - 10;
-    if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
+    if (SECTRECT(&CellClipRect, &CellClipRect, &gate_clip)) {
         unsigned int height = (cell->modifier & 0xfc) >> 2;
         Pieces->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
@@ -573,7 +573,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
             }
         }
     }
-    clip_rect = saved_clip;
+    CellClipRect = saved_clip;
 }
 
 void draw_ruin_loose(RuinCell *cell)
@@ -822,7 +822,7 @@ void draw_ruin_rubble_pieces(RuinCell *cell)
     }
 }
 
-extern Byte drawn_tile_kind;
+extern Byte ObjId;
 extern int visible_above_piece(CellCoord, CellCoord);
 extern int is_six_kind(Byte);
 extern int Pause;
@@ -833,11 +833,11 @@ void draw_ruin_space(RuinCell *cell)
 
     if (cell->pass == 0) {
         back_wall = 0;
-        if (cell->row == hidden_flaw_row)
+        if (cell->row == RowNo)
             back_wall = 1;
-        else if (cell->row - hidden_flaw_row == 1)
+        else if (cell->row - RowNo == 1)
             back_wall = visible_above_piece(cell->column, cell->row);
-        if (!back_wall && hidden_flaw_row == -1 && is_six_kind(drawn_tile_kind))
+        if (!back_wall && RowNo == -1 && is_six_kind(ObjId))
             back_wall = 1;
         if (back_wall)
             draw_ruin_back_wall(cell);

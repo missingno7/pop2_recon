@@ -13,7 +13,11 @@ typedef int (far pascal *InputPoll)(void);
 
 extern Configuration *configuration;
 extern unsigned char active_sound_channels;
-extern int control_mode;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 extern int backing_driver_active;
 extern InputPoll wait_function;
 extern int poll_user(void);
@@ -23,7 +27,7 @@ extern void frame_rect(Rect far *);
 extern void INSETRECT(Rect far *, Rect far *, int, int);
 extern void DRAW_NUL_TEXT_IN_RECT(Rect far *, int, int, const char far *);
 extern void wait_key(void);
-extern int cdecl initialize_sound_drivers(int);
+extern int cdecl initialize_sound_drivers(int wait_for_sound);
 extern void show_init_message(const char *message);
 extern void init_graphics(void);
 extern unsigned long choose_memory_pool(int *memory_class);
@@ -78,7 +82,7 @@ void init_sound(void)
 
 void save_initial_setting(void)
 {
-    control_mode = configuration->video;
+    GameState.control_mode = configuration->video;
 }
 
 extern char config_filename[];
@@ -95,7 +99,7 @@ extern void report_resource_path(const char far *);
 extern void ignore_window_action(void *, int);
 extern char *interface_buffer;
 extern void far *heap_state;
-extern int source_port, Graf, main_port, frame_diagnostics;
+extern int BPort, Graf, main_port, frame_diagnostics;
 extern int window_draw_ready;
 extern char ScreenPort[], ScreenPortRect[], joystick_state[];
 
@@ -190,7 +194,7 @@ void init_system(void)
     *(InputPoll far *)((char far *)heap_state + 0x12) = release_discardable_images;
     resource_error = report_resource_path;
     wait_function = Input;
-    source_port = 0;
+    BPort = 0;
     snapshot_null_area();
     open_verified_resource("PRINCE.DAT");
     init_graphics();
@@ -210,9 +214,9 @@ void init_system(void)
     initialize_window_draw_port();
     open_level_resources(device_filenames);
     check_game_port();
-    if (control_mode != configuration->video)
-        control_mode = 0;
-    if (control_mode != 2)
+    if (configuration->video != GameState.control_mode)
+        GameState.control_mode = 0;
+    if (GameState.control_mode != 2)
         memset(joystick_state, 0, 9);
     init_ambient(&ambient_state);
     set_default_palette();

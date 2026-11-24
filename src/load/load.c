@@ -37,11 +37,11 @@ static const int *background_image_last[7] = {
 };
 
 
-extern void near *back_port;
+extern void near *BPort;
 extern Rect GamePlayRect;
 extern int background_intro_group[], background_intro_number[];
 extern unsigned overlay_output;
-extern Handle sprite_sets[];
+extern Handle Pics[];
 extern int custom_room;
 extern Rect ScreenPortRect;
 extern char background_overlay_file[];
@@ -95,7 +95,7 @@ static const int kid_image_last[8] = { 32, 79, 111, 129, 144, 215, 220, 299 };
 static const char map_option[] = "GAMEPLAY\0%s%s";
 
 extern SByte sword_kind;
-extern Handle Pieces, sword_frames, opponent_frames, opponent_effect_frames;
+extern Handle Pieces, SwordFrames, opponent_frames, opponent_effect_frames;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -134,14 +134,13 @@ typedef struct {
 #pragma pack()
 extern int *level_start_table[];
 extern void far *level_sequence_table[];
-extern int *level_starts;
-extern void far *level_sequences;
+extern int *DrawFunc;
+extern void far *DrawGateMoveFunc;
 extern SByte LevelIdx;
 extern int *BlueS;
-extern Byte *sequence_opcodes;
+extern Byte *BlueT;
 extern int *Graf;
 extern int ScreenPort[];
-extern Byte opponent_overlay_one, opponent_overlay_two;
 extern int saved_background_set;
 extern char resource_path_format[];
 
@@ -237,8 +236,8 @@ void far pascal report_resource_path(const char far *path);
 
 void far pascal CheckBPort(void)
 {
-    if (back_port == 0)
-        back_port = AllocBackPort(&GamePlayRect);
+    if (BPort == 0)
+        BPort = AllocBackPort(&GamePlayRect);
 }
 
 #pragma pack(1)
@@ -314,7 +313,7 @@ void far pascal load_background_set(int palette)
     check_background_overlays();
     background_image_count = 0;
     if (background_image_first[Level.environment_kind])
-        PrinceMarkRangesPurgeable(sprite_sets[4], background_image_first[Level.environment_kind],
+        PrinceMarkRangesPurgeable(Pics[4], background_image_first[Level.environment_kind],
                              background_image_last[Level.environment_kind]);
 }
 
@@ -325,7 +324,7 @@ void far pascal check_background_overlays(void)
     for (i = 0; i < 8; ++i) {
         if (Level.background_overlays[i]) {
             if (background_overlay_first[i] != -1)
-                overlay_shape_list(sprite_sets[4], 3700, background_overlay_first[i] - 1,
+                overlay_shape_list(Pics[4], 3700, background_overlay_first[i] - 1,
                                    background_overlay_last[i] - 1, 1);
             if (background_intro_group[i] != -1)
                 load_song_range(background_intro_group[i], background_intro_number[i]);
@@ -351,7 +350,7 @@ void far pascal load_flask_set(void)
     }
 }
 
-extern int active_map, resume_mode;
+extern int NextLevel, Resume;
 void far pascal load_level(SByte number)
 {
     int starts_with_nis;
@@ -361,12 +360,12 @@ void far pascal load_level(SByte number)
     previous = Level.environment_kind;
     if (number != -2 && number != -1) {
         if (LevelIdx != number) {
-            if (resume_mode == 0)
+            if (Resume == 0)
                 RemoveRebirthPt();
             LevelIdx = number;
         }
     }
-    active_map = LevelIdx;
+    NextLevel = LevelIdx;
     CheckBPort();
     load_level_map(LevelIdx);
     starts_with_nis = IsLevelStartWithNISScreen();
@@ -477,14 +476,14 @@ void far pascal load_sword_set(SByte kind)
     SByte i;
 
     if (loaded_sword != kind) {
-        if (sword_frames) {
-            DISPOSE_HANDLE(sword_frames);
-            sword_frames = 0;
+        if (SwordFrames) {
+            DISPOSE_HANDLE(SwordFrames);
+            SwordFrames = 0;
         }
         unload_set(0);
     }
-    if (sword_frames == 0)
-        sword_frames = load_sword_frames(kind);
+    if (SwordFrames == 0)
+        SwordFrames = load_sword_frames(kind);
 
     id = 1000;
     if (kind == 2)
@@ -494,11 +493,11 @@ void far pascal load_sword_set(SByte kind)
     if (kind == 1) {
         for (i = 0; i < 1; ++i) {
             if (need_sword_overlay(i)) {
-                if (!IsOverlayLoaded(sprite_sets[0], sword_overlay_first[i]))
-                    overlay_shape_list(sprite_sets[0], 1100, sword_overlay_first[i],
+                if (!IsOverlayLoaded(Pics[0], sword_overlay_first[i]))
+                    overlay_shape_list(Pics[0], 1100, sword_overlay_first[i],
                                        sword_overlay_last[i], 2);
             } else {
-                unload_overlay(sprite_sets[0], sword_overlay_first[i], sword_overlay_last[i]);
+                unload_overlay(Pics[0], sword_overlay_first[i], sword_overlay_last[i]);
             }
         }
     }
@@ -518,7 +517,7 @@ int far _fastcall get_sword_frame_image(unsigned index)
     int image;
 
     if (index)
-        image = (int)resolve_handle_to_far_payload(sword_frames)[index];
+        image = (int)resolve_handle_to_far_payload(SwordFrames)[index];
     else
         image = -1;
     return image;
@@ -526,14 +525,14 @@ int far _fastcall get_sword_frame_image(unsigned index)
 
 void far pascal set_level_spec_ptrs(Byte kind)
 {
-    level_starts = level_start_table[kind];
-    level_sequences = level_sequence_table[kind];
+    DrawFunc = level_start_table[kind];
+    DrawGateMoveFunc = level_sequence_table[kind];
 }
 
 void far _fastcall clear_special_sequence_flag(int i)
 {
     int *flags = &BlueS[2 * i];
-    switch ((unsigned)sequence_opcodes[i]) {
+    switch ((unsigned)BlueT[i]) {
     case 7:
         *flags &= ~0x80;
         break;
@@ -555,8 +554,8 @@ void far pascal set_initial_room_state(void)
 
 void far pascal load_set(int set, unsigned id, unsigned limit, int count, int mode)
 {
-    if (sprite_sets[set] == 0)
-        sprite_sets[set] = load_shape_list(id, limit, count, mode);
+    if (Pics[set] == 0)
+        Pics[set] = load_shape_list(id, limit, count, mode);
 }
 
 void far pascal load_kid_set(void)
@@ -574,7 +573,7 @@ void far pascal load_kid_set(void)
         entries[j] = 1;
     load_set(2, 25001U, 2, (int)entries, 0);
     _nfree(entries);
-    PrinceMarkRangesPurgeable(sprite_sets[2], kid_image_first, kid_image_last);
+    PrinceMarkRangesPurgeable(Pics[2], kid_image_first, kid_image_last);
 }
 
 void far pascal load_kid_set_overlays(void)
@@ -582,11 +581,11 @@ void far pascal load_kid_set_overlays(void)
     int i;
     for (i = 0; i < 11; ++i) {
         if (need_kid_overlay(i)) {
-            if (!IsOverlayLoaded(sprite_sets[2], kid_overlay_first[i]))
-                overlay_shape_list(sprite_sets[2], 24601, kid_overlay_first[i],
+            if (!IsOverlayLoaded(Pics[2], kid_overlay_first[i]))
+                overlay_shape_list(Pics[2], 24601, kid_overlay_first[i],
                                    kid_overlay_last[i], 0);
         } else {
-            unload_overlay(sprite_sets[2], kid_overlay_first[i], kid_overlay_last[i]);
+            unload_overlay(Pics[2], kid_overlay_first[i], kid_overlay_last[i]);
         }
     }
 }
@@ -667,7 +666,7 @@ int far pascal need_sword_overlay(SByte index)
 
 void far pascal load_opponent_set(SByte kind)
 {
-    if (kind == -1 || kind != loaded_opponent || sprite_sets[3] == 0) {
+    if (kind == -1 || kind != loaded_opponent || Pics[3] == 0) {
         unload_set(3);
         if (opponent_frames) {
             DISPOSE_HANDLE(opponent_frames);
@@ -684,7 +683,7 @@ void far pascal load_opponent_set(SByte kind)
         unload_opponent_overlays(loaded_opponent, kind);
 
     if (kind != -1) {
-        if (kind == loaded_opponent && sprite_sets[3]) {
+        if (kind == loaded_opponent && Pics[3]) {
             if (kind == loaded_opponent)
                 load_opponent_overlays(kind);
         } else {
@@ -693,7 +692,7 @@ void far pascal load_opponent_set(SByte kind)
             set_palette(750, 32, 16, 0);
             if (opponent_overlay_first[kind]) {
                 load_opponent_overlays(kind);
-                PrinceMarkRangesPurgeable(sprite_sets[3], opponent_overlay_first[kind],
+                PrinceMarkRangesPurgeable(Pics[3], opponent_overlay_first[kind],
                                      opponent_overlay_last[kind]);
             }
             change_song_range(kind);
@@ -705,6 +704,7 @@ void far pascal load_opponent_set(SByte kind)
     loaded_opponent = kind;
 }
 
+extern signed char OppBank[2];
 void far pascal load_opponent_overlays(SByte kind)
 {
     int *last_base = opponent_overlay_last[kind];
@@ -715,16 +715,16 @@ void far pascal load_opponent_overlays(SByte kind)
             return;
         do {
             if (need_opponent_overlay(kind, i)) {
-                if (!IsOverlayLoaded(sprite_sets[3], first_base[i]))
-                    overlay_shape_list(sprite_sets[3], 850, first_base[i], last_base[i], 2);
+                if (!IsOverlayLoaded(Pics[3], first_base[i]))
+                    overlay_shape_list(Pics[3], 850, first_base[i], last_base[i], 2);
                 if (i == 0 && (kind == 0 || kind == 5 || kind == 6)) {
-                    if (!opponent_overlay_one)
+                    if (!(Byte)OppBank[0])
                         reserve_opponent_bank(1);
-                    if (!opponent_overlay_two)
+                    if (!(Byte)OppBank[1])
                         reserve_opponent_bank(2);
                 }
             } else {
-                unload_overlay(sprite_sets[3], first_base[i], last_base[i]);
+                unload_overlay(Pics[3], first_base[i], last_base[i]);
             }
             ++i;
         } while (first_base[i] != -1);
@@ -874,9 +874,9 @@ void far pascal unload_level(int first)
             loaded_opponent = -1;
         }
     }
-    if (first <= 0 && sword_frames) {
-        DISPOSE_HANDLE(sword_frames);
-        sword_frames = 0;
+    if (first <= 0 && SwordFrames) {
+        DISPOSE_HANDLE(SwordFrames);
+        SwordFrames = 0;
         loaded_sword = 0;
     }
     unload_pieces_data();
@@ -885,7 +885,7 @@ void far pascal unload_level(int first)
 
 void far pascal unload_opponent_overlays(SByte previous, SByte current)
 {
-    if (sprite_sets[3] && Level.preferred_opponent != 5 && Level.preferred_opponent != 6) {
+    if (Pics[3] && Level.preferred_opponent != 5 && Level.preferred_opponent != 6) {
         int *last_base = opponent_overlay_last[previous];
         int *first_base = opponent_overlay_first[previous];
         if (first_base) {
@@ -894,7 +894,7 @@ void far pascal unload_opponent_overlays(SByte previous, SByte current)
                 return;
             do {
                 if (current != previous || !need_opponent_overlay(current, i))
-                    unload_overlay(sprite_sets[3], first_base[i], last_base[i]);
+                    unload_overlay(Pics[3], first_base[i], last_base[i]);
                 ++i;
             } while (first_base[i] != -1);
         }
@@ -911,8 +911,8 @@ void far pascal unload_pieces_data(void)
 
 void far pascal unload_set(int set)
 {
-    if (sprite_sets[set]) {
-        UnloadShapeList(sprite_sets[set]);
-        sprite_sets[set] = 0;
+    if (Pics[set]) {
+        UnloadShapeList(Pics[set]);
+        Pics[set] = 0;
     }
 }

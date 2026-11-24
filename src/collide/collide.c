@@ -7,7 +7,7 @@ struct collision_row {
 };
 
 extern unsigned char current_rooms[10], prev_rooms[10], below_rooms[10], above_rooms[10];
-extern unsigned char prev_edges[10], current_edges[10], below_edges[10], above_edges[10];
+extern unsigned char ColDetLastFrame[10], ColDetThisFrame[10], below_edges[10], above_edges[10];
 extern signed char current_row, first_col, last_col;
 extern signed char previous_row;
 extern signed char left_barrier_col;
@@ -122,8 +122,8 @@ typedef struct {
 } LEVELREC;
 #pragma pack()
 extern LEVELREC Level;
-extern int ledge_check, right_edge, left_edge, ImHeight;
-extern int bump_pending;
+extern int WeightlessTimer, CDRightEdge, CDLeftEdge, ImHeight;
+extern int AlertGuard;
 
 extern int far _fastcall slide_rock_on_row(unsigned char room, signed char row);
 extern CHARREC Char;
@@ -207,32 +207,32 @@ void CheckBarr(void)
     current_row = Char.row;
     InitColDetBufs();
     previous_row = current_row;
-    if (get_char_col(right_edge) + 4 <= 11)
-        last_col = get_char_col(right_edge) + 4;
+    if (get_char_col(CDRightEdge) + 4 <= 11)
+        last_col = get_char_col(CDRightEdge) + 4;
     else
         last_col = 11;
-    first_col = get_char_col(left_edge) - 2;
-    GetColDetData(current_row, current_rooms, current_edges);
+    first_col = get_char_col(CDLeftEdge) - 2;
+    GetColDetData(current_row, current_rooms, ColDetThisFrame);
     GetColDetData(current_row + 1, below_rooms, below_edges);
     GetColDetData(current_row - 1, above_rooms, above_edges);
     if (Level.background_overlays[5]) {
-        slide_rock_collision_row(current_row, current_rooms, current_edges);
+        slide_rock_collision_row(current_row, current_rooms, ColDetThisFrame);
         slide_rock_collision_row(current_row + 1, below_rooms, below_edges);
         slide_rock_collision_row(current_row - 1, above_rooms, above_edges);
     }
     col = 9;
     do {
         if (current_rooms[col] != 255 && current_rooms[col] == prev_rooms[col]) {
-            if (!(prev_edges[col] & 0x0f) && (current_edges[col] & 0x0f))
+            if (!(ColDetLastFrame[col] & 0x0f) && (ColDetThisFrame[col] & 0x0f))
                 right_barrier_col = col;
-            if (!(prev_edges[col] & 0xf0) && (current_edges[col] & 0xf0))
+            if (!(ColDetLastFrame[col] & 0xf0) && (ColDetThisFrame[col] & 0xf0))
                 left_barrier_col = col;
         }
     } while (--col >= 0);
 
 weightless:
     if (Char.character_kind == 0 && right_barrier_col == -1 && left_barrier_col == -1 &&
-        ledge_check && (unsigned char)Char.action == 4)
+        WeightlessTimer && (unsigned char)Char.action == 4)
         CheckWeightlessBarr();
 }
 
@@ -252,7 +252,7 @@ void InitColDetBufs(void)
 
     if (current_row == previous_row || (current_row - previous_row) == -3 || (current_row - previous_row) == 3) {
         rooms = (struct collision_row *)current_rooms;
-        edges = (struct collision_row *)current_edges;
+        edges = (struct collision_row *)ColDetThisFrame;
     } else if ((current_row - previous_row) == -1 || (current_row - previous_row) == 2) {
         rooms = (struct collision_row *)above_rooms;
         edges = (struct collision_row *)above_edges;
@@ -261,7 +261,7 @@ void InitColDetBufs(void)
         edges = (struct collision_row *)below_edges;
     }
     *(struct collision_row *)prev_rooms = *rooms;
-    *(struct collision_row *)prev_edges = *edges;
+    *(struct collision_row *)ColDetLastFrame = *edges;
     memset(current_rooms, 255, sizeof(current_rooms));
     memset(above_rooms, 255, sizeof(above_rooms));
     memset(below_rooms, 255, sizeof(below_rooms));
@@ -318,8 +318,8 @@ void GetColDetData(signed char row, unsigned char *rooms, unsigned char *edges)
     if (col <= last_col) do {
         left = GetLeftBarr(Char.room, col, row);
         right = GetRightBarr(Char.room, col, row);
-        flags = right_edge > left ? 0x0f : 0;
-        if (right > left_edge)
+        flags = CDRightEdge > left ? 0x0f : 0;
+        if (right > CDLeftEdge)
             flags |= 0xf0;
         edges[Cell.column] = flags;
         rooms[Cell.column] = Cell.room;
@@ -369,7 +369,7 @@ void right_collision(void)
         barrier = GetRightBarr(Cell.room, Cell.column, ((unsigned char)Cell.row));
         if (barrier <= 0 && Level.background_overlays[5])
             barrier = slide_rock_barrier(0, Cell.room, ((unsigned char)Cell.row));
-        barrier -= left_edge;
+        barrier -= CDLeftEdge;
         apply_collision(barrier, 0);
     }
 }
@@ -382,7 +382,7 @@ void left_collision(void)
         barrier = GetLeftBarr(Cell.room, Cell.column, ((unsigned char)Cell.row));
         if (ColEdgeX[19] <= barrier && Level.background_overlays[5])
             barrier = slide_rock_barrier(-1, Cell.room, ((unsigned char)Cell.row));
-        barrier -= right_edge;
+        barrier -= CDRightEdge;
         apply_collision(barrier, -1);
     }
 }
@@ -540,7 +540,7 @@ void apply_ground_bump(signed char direction)
 void BumpSound(void)
 {
     if (Char.character_kind != 1)
-        bump_pending = 1;
+        AlertGuard = 1;
 }
 
 void InitCollisionDetection(void)
@@ -626,7 +626,7 @@ int scythe_blocks_passage(void)
     return blocked;
 }
 
-extern int sword_table_id;
+extern int SwordFrames;
 struct sprite_size {
     int height, width;
 };
@@ -637,7 +637,8 @@ struct sword_frame {
 };
 
 extern struct char_bounds NullRect;
-extern int sprite_tables[], sprite_width, LeftEdge, sprite_right, sprite_top;
+extern int Pics[];
+extern int ImWidth, LeftEdge, RightEdge, TopEdge;
 extern void far *get_set_image_size(int table, int index, struct sprite_size far *size);
 extern int get_sword_width(void);
 extern signed char get_col(int x);
@@ -653,20 +654,20 @@ void get_char_edges(void)
 
     previous = Char.bounds;
     Char.bounds = NullRect;
-    if (FChar.image == -1 || !get_set_image_size(sprite_tables[FChar.image_set], FChar.image, &size))
+    if (FChar.image == -1 || !get_set_image_size(Pics[FChar.image_set], FChar.image, &size))
         return;
-    sprite_width = size.width + 1;
+    ImWidth = size.width + 1;
     ImHeight = size.height;
     sword_width = get_sword_width();
     LeftEdge = FChar.x + 130;
-    LeftEdge -= Char.direction == 0 ? sprite_width : sword_width;
-    left_edge = LeftEdge;
-    sprite_width += sword_width;
-    right_edge = sprite_right = LeftEdge + sprite_width;
-    sprite_top = FChar.y - ImHeight + 1;
-    if (sprite_top >= 192)
-        sprite_top = 0;
-    bounds.top = sprite_top;
+    LeftEdge -= Char.direction == 0 ? ImWidth : sword_width;
+    CDLeftEdge = LeftEdge;
+    ImWidth += sword_width;
+    CDRightEdge = RightEdge = LeftEdge + ImWidth;
+    TopEdge = FChar.y - ImHeight + 1;
+    if (TopEdge >= 192)
+        TopEdge = 0;
+    bounds.top = TopEdge;
     bounds.bottom = FChar.y + 1;
     if (Char.direction == -1) {
         bounds.left = FChar.x;
@@ -676,7 +677,7 @@ void get_char_edges(void)
         bounds.right = FChar.x;
     }
     Char.bounds = bounds;
-    Cell.top_row = GetRow(sprite_top);
+    Cell.top_row = GetRow(TopEdge);
     Cell.bottom_row = GetRow(FChar.y);
     if (Cell.bottom_row == 255)
         Cell.bottom_row = 3;
@@ -684,13 +685,13 @@ void get_char_edges(void)
         (*(unsigned char *)&Cell.first_col) = 0;
     else
         (*(unsigned char *)&Cell.first_col) = get_col(LeftEdge);
-    if (get_col(sprite_right) <= 9)
-        (*(unsigned char *)&Cell.last_col) = get_col(sprite_right);
+    if (get_col(RightEdge) <= 9)
+        (*(unsigned char *)&Cell.last_col) = get_col(RightEdge);
     else
         (*(unsigned char *)&Cell.last_col) = 9;
     if (Frame.flags & 32) {
-        left_edge += 9;
-        right_edge -= 9;
+        CDLeftEdge += 9;
+        CDRightEdge -= 9;
     }
 }
 
@@ -702,7 +703,7 @@ int get_sword_width(void)
     if (Char.stance == 1 && Char.character_kind != 7 && Char.character_kind != 8) {
         get_frame_info();
         if (Frame.equipment_image != width) {
-            frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sword_table_id);
+            frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
             width = frames[Frame.equipment_image].width;
             width = width - 2 < 0 ? 0 : width - 2;
         }
@@ -715,7 +716,7 @@ extern int barrier_distance_from_back(unsigned char cell, unsigned char room, si
 extern unsigned char get_under_foot(void);
 extern void setup_char(void);
 extern void reread_base_cell(void);
-extern signed char facing_col_step[];
+extern signed char Plus1[2];
 extern unsigned char forward_barrier_kind;
 extern int get_edge_distance(void);
 extern int IsImpassable(unsigned char cell);
@@ -740,7 +741,7 @@ int get_forward_distance(void)
         goto facing_left;
     cell = get_cells_ahead(1);
     if (GetBarrCode(cell)) {
-        distance = barrier_distance_from_face(cell, Char.room, Char.column + facing_col_step[Char.direction]);
+        distance = barrier_distance_from_face(cell, Char.room, Char.column + Plus1[Char.direction + 1]);
         if (distance >= 0)
             goto barrier;
     }
@@ -812,7 +813,7 @@ void check_gate_for_opponent(void)
             right = 0;
         }
     }
-    if (left < right_edge && right > left_edge)
+    if (left < CDRightEdge && right > CDLeftEdge)
         push_away_from_gate();
 }
 
@@ -826,7 +827,7 @@ void check_gate_for_player(void)
         return;
     if (Cell.room == 9 && ((unsigned char)Level.level_number) == 8)
         return;
-    if ((current_edges[Cell.column] & prev_edges[Cell.column]) != 255 || !gate_blocks_passage())
+    if ((ColDetThisFrame[Cell.column] & ColDetLastFrame[Cell.column]) != 255 || !gate_blocks_passage())
         return;
     if (Char.frame != 109 && Cell.modifier != 0 && Char.stance != 1) {
         if (Char.sequence != 50)
@@ -886,7 +887,7 @@ void collide_enemy_with_barrier(void)
     distance = abs(front) < abs(back) ? front : back;
     if (airborne)
         sequence = head_enemy_collide(front);
-    if (sequence == -1 && distance < 5 && -sprite_width <= distance) {
+    if (sequence == -1 && distance < 5 && -ImWidth <= distance) {
         if (cell == 4 && distance > 0)
             distance = -distance;
         Char.x = AddCharX(-distance);
@@ -914,9 +915,9 @@ int barrier_distance_from_face(unsigned char cell, unsigned char room, signed ch
         if (!code)
             distance = -1;
         else if (Char.direction != 0)
-            distance = BarR[code] - collision_x + left_edge - 31;
+            distance = BarR[code] - collision_x + CDLeftEdge - 31;
         else
-            distance = BarL[code] - right_edge + collision_x;
+            distance = BarL[code] - CDRightEdge + collision_x;
     }
     return distance;
 }
@@ -930,9 +931,9 @@ int barrier_distance_from_back(unsigned char cell, unsigned char room, signed ch
     if (!code)
         distance = 99;
     else if (Char.direction >= 0)
-        distance = BarR[code] - collision_x + left_edge - 31;
+        distance = BarR[code] - collision_x + CDLeftEdge - 31;
     else
-        distance = BarL[code] - right_edge + collision_x;
+        distance = BarL[code] - CDRightEdge + collision_x;
     return distance;
 }
 

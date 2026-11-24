@@ -105,8 +105,8 @@ typedef struct {
 
 extern LEVELREC Level;
 extern CHARREC Kid;
-extern int previous_actor_x;
-extern int current_actor_x;
+extern int CDLeftEdge;
+extern int CDRightEdge;
 #pragma pack(1)
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -141,12 +141,19 @@ typedef struct {
 
 extern ROOMREC Room;
 extern MOBREC Mob;
-extern Byte plateau_intro;
+typedef struct {
+    signed char forward, back, up, down, action;
+} Directions;
+extern Directions Dir;
 extern CellCoord CutRoom;
 extern Byte *ruins_start_actor;
 extern int ColEdgeX[20];
-extern int plateau_room_loaded;
-extern int ruins_start_loaded;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
+extern int Minutes;
 
 extern CellCoord get_col(int);
 extern Byte ReadCell(CellCoord, CellCoord, CellCoord);
@@ -170,7 +177,7 @@ void clip_ruins_actor(void)
     int previous_cell_remaining, current_cell_offset;
 
     clip_lower = Char.character_kind == 7 || Char.character_kind == 8;
-    column = get_col(current_actor_x);
+    column = get_col(CDRightEdge);
     if (IsWall(ReadCell(Char.room, column, Char.row))) {
         left_column = ReadCell(Char.room, column, ((CellCoord)Cell.top_row));
         if (IsWall(left_column) && left_column != 7 && Char.room == ((CellCoord)Cell.room))
@@ -179,10 +186,10 @@ void clip_ruins_actor(void)
     if (clip_lower && (int)Char.sequence != 137 && (int)Char.sequence != 138 &&
         (int)Char.sequence != 143 && (int)Char.sequence > 144 &&
         (int)Char.sequence != 143 && (int)Char.sequence != 144) {
-        left_column = get_col(previous_actor_x);
-        if (get_col(current_actor_x) != left_column) {
-            previous_cell_remaining = 32 - (previous_actor_x - 130) % 32;
-            current_cell_offset = (current_actor_x - 32) % 32;
+        left_column = get_col(CDLeftEdge);
+        if (get_col(CDRightEdge) != left_column) {
+            previous_cell_remaining = 32 - (CDLeftEdge - 130) % 32;
+            current_cell_offset = (CDRightEdge - 32) % 32;
             if (previous_cell_remaining > current_cell_offset)
                 --column;
         }
@@ -228,7 +235,7 @@ void cut_kid_inside_level6(void)
     Kid = Char;
     open_start_gate();
     ClrAll();
-    plateau_intro = 0;
+    Dir.action = 0;
 }
 
 
@@ -239,7 +246,7 @@ void load_ruins_start_palette(void)
 
 void unload_ruins_start_palette(void)
 {
-    if (Kid.alive < 0 && ruins_start_loaded)
+    if (Kid.alive < 0 && Minutes)
         set_palette(3500, 64, 160, 0);
 }
 
@@ -254,9 +261,9 @@ void load_plateau_room(void)
             AddSong(92);
             return;
         }
-    } else if (Room.number == 2 && ((Byte)Level.level_number) == 9 && !plateau_room_loaded
+    } else if (Room.number == 2 && ((Byte)Level.level_number) == 9 && !GameState.plateau_loaded
                && Kid.column < 5) {
         AddSong(91);
-        plateau_room_loaded = 1;
+        GameState.plateau_loaded = 1;
     }
 }

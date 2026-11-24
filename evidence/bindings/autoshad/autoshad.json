@@ -192,7 +192,7 @@
       "FCHAR",
       "SHADOW_TIMER",
       "PAUSE",
-      "FLAME_Y",
+      "IMWIDTH",
       "FRAMENUM",
       "CHECKSHADOWMANCREATE",
       "ADDCHARX",
@@ -241,7 +241,7 @@
       "CREATEKIDASOPP",
       "GETKIDIDXASOPP",
       "LEVEL",
-      "SHADOW_DIRECTION_OFFSETS",
+      "MINUS1",
       "ISSHADOWBLINKON",
       "ROOM",
       "CHECKSHADOWMANBACKINTOKID"
@@ -3582,7 +3582,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "FLAME_Y",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -3590,7 +3590,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "FLAME_Y",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -4257,7 +4257,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "SHADOW_DIRECTION_OFFSETS",
+          "name": "MINUS1",
           "method": 6,
           "zero_displacement": true
         }
@@ -4265,7 +4265,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "SHADOW_DIRECTION_OFFSETS",
+        "name": "MINUS1",
         "method": 6,
         "zero_displacement": true
       },
@@ -5136,20 +5136,6 @@
         }
       ]
     },
-    "FLAME_Y": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24852,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 67189,
-          "bytes_hex": "03361461",
-          "entry": "root:1047:01aa"
-        }
-      ]
-    },
     "GETOPPINFOIDX": {
       "entry_sha256": "9b78491b0055ebd3f1ba361bbac0093d2bd7bc47b472c676ea4969d75365194c",
       "entry_target_id": "overlay-3:251b:08ac",
@@ -5728,20 +5714,6 @@
         }
       ]
     },
-    "SHADOW_DIRECTION_OFFSETS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3323,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15710,
-          "bytes_hex": "8a87fb0c",
-          "entry": "root:02dc:09f8"
-        }
-      ]
-    },
     "SHADOW_TIMER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5792,6 +5764,20 @@
       "space": "root",
       "witnesses": []
     },
+    "IMWIDTH": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24852,
+      "witnesses": [
+        {
+          "bytes_hex": "03361461",
+          "entry": "root:1047:01aa",
+          "image_offset": 67189,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "FRAMENUM": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -5819,6 +5805,12 @@
           ]
         }
       ]
+    },
+    "MINUS1": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3322
     }
   },
   "target_id": "group:autoshad/autoshad",

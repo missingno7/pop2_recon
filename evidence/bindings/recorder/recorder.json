@@ -171,22 +171,17 @@
       "CHECKRECORDEDDIRFORCHAR",
       "CHECKRECORDEDGAMEPLAYER",
       "CONVERTDIRTORECDIR",
-      "PLAYBACK",
       "DEFAULT_HANDLE_TAG",
+      "PLAYBACK",
       "FRAMENUM",
-      "CURRENT_CHARACTER",
-      "LEVELIDX",
+      "CHAR",
       "HGETRSRC",
-      "MOVE_X",
+      "LEVELIDX",
       "ALLOCATE_DEFAULT_HANDLE",
-      "MOVE_Y",
-      "MOVE_HORIZONTAL",
       "RESET_RECORDED_PLAYBACK",
-      "MOVE_VERTICAL",
-      "MOVE_ACTION",
-      "RECORDING_PLAYER_ENABLED",
-      "RECORDING_PLAYER_STARTED",
-      "RECORDING_START_LEVEL",
+      "DIR",
+      "GAMESTATE",
+      "STARTLEVEL",
       "TOGGLE_RECORDING_PLAYER",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "TURNRECORDEDGAMEPLAYEROFF",
@@ -218,7 +213,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 24,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -226,7 +221,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 24,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -245,16 +240,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
-          "name": "RECORDING_START_LEVEL",
+          "index": 20,
+          "name": "STARTLEVEL",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 25,
-        "name": "RECORDING_START_LEVEL",
+        "index": 20,
+        "name": "STARTLEVEL",
         "method": 6,
         "zero_displacement": true
       },
@@ -272,16 +267,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
-          "name": "RECORDING_PLAYER_STARTED",
+          "index": 19,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 24,
-        "name": "RECORDING_PLAYER_STARTED",
+        "index": 19,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -299,16 +294,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
-          "name": "RECORDING_PLAYER_ENABLED",
+          "index": 19,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 23,
-        "name": "RECORDING_PLAYER_ENABLED",
+        "index": 19,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -326,7 +321,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 22,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -334,7 +329,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 22,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -353,7 +348,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 16,
           "name": "ALLOCATE_DEFAULT_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -361,7 +356,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 16,
         "name": "ALLOCATE_DEFAULT_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -380,7 +375,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 10,
           "name": "DEFAULT_HANDLE_TAG",
           "method": 6,
           "zero_displacement": true
@@ -388,7 +383,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "DEFAULT_HANDLE_TAG",
         "method": 6,
         "zero_displacement": true
@@ -407,7 +402,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 10,
           "name": "DEFAULT_HANDLE_TAG",
           "method": 6,
           "zero_displacement": true
@@ -415,7 +410,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "DEFAULT_HANDLE_TAG",
         "method": 6,
         "zero_displacement": true
@@ -434,7 +429,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 10,
           "name": "DEFAULT_HANDLE_TAG",
           "method": 6,
           "zero_displacement": true
@@ -442,7 +437,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "DEFAULT_HANDLE_TAG",
         "method": 6,
         "zero_displacement": true
@@ -461,7 +456,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 10,
           "name": "DEFAULT_HANDLE_TAG",
           "method": 6,
           "zero_displacement": true
@@ -469,7 +464,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "DEFAULT_HANDLE_TAG",
         "method": 6,
         "zero_displacement": true
@@ -488,7 +483,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -496,7 +491,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -515,7 +510,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -523,7 +518,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -542,7 +537,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 24,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -550,7 +545,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 24,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -569,7 +564,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -577,7 +572,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -596,7 +591,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -604,7 +599,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -623,7 +618,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -631,7 +626,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -650,16 +645,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
-          "name": "RECORDING_PLAYER_ENABLED",
+          "index": 19,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 23,
-        "name": "RECORDING_PLAYER_ENABLED",
+        "index": 19,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -677,7 +672,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -685,7 +680,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -704,7 +699,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -712,7 +707,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -866,7 +861,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -874,7 +869,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -893,7 +888,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 16,
           "name": "ALLOCATE_DEFAULT_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -901,7 +896,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 16,
         "name": "ALLOCATE_DEFAULT_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -920,16 +915,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
-          "name": "RECORDING_PLAYER_ENABLED",
+          "index": 19,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 23,
-        "name": "RECORDING_PLAYER_ENABLED",
+        "index": 19,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -947,7 +942,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 24,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -955,7 +950,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 24,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -974,7 +969,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -982,7 +977,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1001,7 +996,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1009,7 +1004,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1028,7 +1023,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1036,7 +1031,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1055,7 +1050,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1063,7 +1058,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1082,7 +1077,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1090,7 +1085,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1109,7 +1104,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1117,7 +1112,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1136,7 +1131,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1144,7 +1139,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1163,7 +1158,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1171,7 +1166,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1190,7 +1185,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 14,
           "name": "HGETRSRC",
           "method": 6,
           "zero_displacement": true
@@ -1198,7 +1193,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 14,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -1217,7 +1212,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 10,
           "name": "DEFAULT_HANDLE_TAG",
           "method": 6,
           "zero_displacement": true
@@ -1225,7 +1220,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "DEFAULT_HANDLE_TAG",
         "method": 6,
         "zero_displacement": true
@@ -1244,7 +1239,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 26,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -1252,7 +1247,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 26,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -1293,7 +1288,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1301,7 +1296,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1320,7 +1315,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1328,7 +1323,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1347,7 +1342,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1355,7 +1350,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1374,7 +1369,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1382,7 +1377,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1401,7 +1396,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1409,7 +1404,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1428,7 +1423,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1436,7 +1431,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1455,16 +1450,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
-          "name": "MOVE_ACTION",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 22,
-        "name": "MOVE_ACTION",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1482,16 +1477,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
-          "name": "MOVE_VERTICAL",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 21,
-        "name": "MOVE_VERTICAL",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1509,16 +1504,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
-          "name": "MOVE_HORIZONTAL",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 19,
-        "name": "MOVE_HORIZONTAL",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1537,7 +1532,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MOVE_Y",
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
@@ -1545,7 +1540,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MOVE_Y",
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1563,16 +1558,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
-          "name": "MOVE_X",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "MOVE_X",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1612,16 +1607,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
-          "name": "MOVE_ACTION",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 22,
-        "name": "MOVE_ACTION",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1639,16 +1634,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
-          "name": "MOVE_VERTICAL",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 21,
-        "name": "MOVE_VERTICAL",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1666,16 +1661,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
-          "name": "MOVE_HORIZONTAL",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 19,
-        "name": "MOVE_HORIZONTAL",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1694,7 +1689,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MOVE_Y",
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
@@ -1702,7 +1697,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MOVE_Y",
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1720,16 +1715,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
-          "name": "MOVE_X",
+          "index": 18,
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "MOVE_X",
+        "index": 18,
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -1747,7 +1742,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 15,
           "name": "LEVELIDX",
           "method": 6,
           "zero_displacement": true
@@ -1755,7 +1750,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 15,
         "name": "LEVELIDX",
         "method": 6,
         "zero_displacement": true
@@ -1774,7 +1769,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1782,7 +1777,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1828,7 +1823,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1836,7 +1831,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1855,7 +1850,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1863,7 +1858,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1882,7 +1877,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1890,7 +1885,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1936,7 +1931,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1944,7 +1939,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -1963,7 +1958,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -1971,7 +1966,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2125,7 +2120,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2133,7 +2128,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2152,7 +2147,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 22,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -2160,7 +2155,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 22,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -2179,7 +2174,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2187,7 +2182,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2207,7 +2202,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -2215,7 +2210,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -2234,7 +2229,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -2242,7 +2237,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -2260,7 +2255,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2268,7 +2263,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2287,7 +2282,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2295,7 +2290,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2314,7 +2309,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2322,7 +2317,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2341,7 +2336,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 24,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2349,7 +2344,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 24,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2368,7 +2363,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2376,7 +2371,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2395,7 +2390,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2403,7 +2398,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2422,7 +2417,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2430,7 +2425,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2503,7 +2498,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 22,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -2511,7 +2506,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 22,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -2530,7 +2525,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2538,7 +2533,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2557,7 +2552,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2565,7 +2560,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2584,7 +2579,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "PLAYBACK",
           "method": 6,
           "zero_displacement": true
@@ -2592,7 +2587,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "PLAYBACK",
         "method": 6,
         "zero_displacement": true
@@ -2690,76 +2685,6 @@
         }
       ]
     },
-    "MOVE_ACTION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24870,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15337,
-          "bytes_hex": "803e266100",
-          "entry": "root:02dc:0e28"
-        }
-      ]
-    },
-    "MOVE_HORIZONTAL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24868,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 16672,
-          "bytes_hex": "a02461",
-          "entry": "root:0000:4116"
-        }
-      ]
-    },
-    "MOVE_VERTICAL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24869,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 16678,
-          "bytes_hex": "a02561",
-          "entry": "root:0000:4116"
-        }
-      ]
-    },
-    "MOVE_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24866,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 16640,
-          "bytes_hex": "a02261",
-          "entry": "root:0000:40f6"
-        }
-      ]
-    },
-    "MOVE_Y": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24867,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 16646,
-          "bytes_hex": "a02361",
-          "entry": "root:0000:40f6"
-        }
-      ]
-    },
     "PLAYBACK": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -2783,48 +2708,6 @@
       ],
       "offset": 10948,
       "witnesses": []
-    },
-    "RECORDING_PLAYER_ENABLED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 11176,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 306,
-          "bytes_hex": "833ea82b00",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
-    "RECORDING_PLAYER_STARTED": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 11178,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 501,
-          "bytes_hex": "833eaa2b00",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
-    "RECORDING_START_LEVEL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27500,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 184,
-          "bytes_hex": "a06c6b",
-          "entry": "root:0000:0000"
-        }
-      ]
     },
     "REMOVEREBIRTHPT": {
       "entry_sha256": "72789a001714c4dbfd34d77d3c799318ea0342b881286b37ecec8331f58e63e0",
@@ -2886,17 +2769,57 @@
       "space": "root",
       "witnesses": []
     },
-    "CURRENT_CHARACTER": {
+    "STARTLEVEL": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
-      "offset": 23222,
+      "offset": 27500,
       "witnesses": [
         {
+          "bytes_hex": "a26c6b",
+          "entry": "root:0000:028c",
+          "image_offset": 676,
           "operand_offset": 1,
-          "space": "root",
-          "image_offset": 19234,
-          "bytes_hex": "bfb65a",
-          "entry": "root:02dc:1d60"
+          "space": "root"
+        }
+      ]
+    },
+    "GAMESTATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 11170,
+      "witnesses": [
+        {
+          "bytes_hex": "833ea22b02",
+          "entry": "root:0000:10fa",
+          "image_offset": 4346,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 8,
+          "witnesses": [
+            {
+              "bytes_hex": "833eaa2b00",
+              "entry": "root:0000:00b2",
+              "image_offset": 501,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "833ea82b00",
+              "entry": "root:053b:0544",
+              "image_offset": 26189,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
         }
       ]
     },
@@ -2925,6 +2848,84 @@
               "space": "root"
             }
           ]
+        }
+      ]
+    },
+    "DIR": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24866,
+      "witnesses": [
+        {
+          "bytes_hex": "a22261",
+          "entry": "root:02dc:1376",
+          "image_offset": 16702,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a22361",
+              "entry": "root:02dc:1376",
+              "image_offset": 16705,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "a22461",
+              "entry": "root:02dc:1376",
+              "image_offset": 16699,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 3,
+          "witnesses": [
+            {
+              "bytes_hex": "a22561",
+              "entry": "root:02dc:1376",
+              "image_offset": 16696,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "a22661",
+              "entry": "overlay-12:2e49:0042",
+              "image_offset": 75,
+              "operand_offset": 1,
+              "space": "overlay-12"
+            }
+          ]
+        }
+      ]
+    },
+    "CHAR": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23222,
+      "witnesses": [
+        {
+          "bytes_hex": "bfb65a",
+          "entry": "root:02dc:1d60",
+          "image_offset": 19234,
+          "operand_offset": 1,
+          "space": "root"
         }
       ]
     }

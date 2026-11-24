@@ -3,7 +3,11 @@
 signed char quote_index = -1;
 extern int IsTimeForNIS(int level, int previous_level);
 extern int play_nis(int sequence);
-extern int nis_room_restored;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 
 int CheckPlayNIS(int level, int previous_level)
 {
@@ -16,7 +20,7 @@ int CheckPlayNIS(int level, int previous_level)
     } else {
         result = 0;
     }
-    nis_room_restored = result == 2 ? 1 : 0;
+    GameState.nis_room_restored = result == 2 ? 1 : 0;
     return result;
 }
 
@@ -97,7 +101,7 @@ typedef struct {
 #pragma pack()
 extern LEVELREC Level;
 extern unsigned long hRebirthSaved;
-extern unsigned int resume_mode;
+extern unsigned int Resume;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -142,22 +146,22 @@ extern signed char CutRoom;
 int far pascal IsLevelStartWithNISScreen(void)
 {
     int result = 0;
-    if (hRebirthSaved == 0L && resume_mode == 0 && nis_room_restored == 0) {
+    if (hRebirthSaved == 0L && Resume == 0 && GameState.nis_room_restored == 0) {
         if ((Level.entry_room == 27 && Level.level_number == 6) ||
             (Level.entry_room == 22 && Level.level_number == 10) ||
             (Level.entry_room == 1 && Level.level_number == 14) ||
             (CutRoom == 9 && Level.level_number == 8))
             result = 1;
-    } else if (hRebirthSaved != 0L && resume_mode == 0 && nis_room_restored == 0 &&
+    } else if (hRebirthSaved != 0L && Resume == 0 && GameState.nis_room_restored == 0 &&
                Kid.room == 9 && Level.level_number == 8) {
         result = 1;
     }
     return result;
 }
 
-extern signed char game_request;
+extern signed char StartLevel;
 extern int intro_played;
-extern unsigned int remaining_minutes;
+extern unsigned int Minutes;
 extern int frame_diagnostics;
 extern int level_resource_files[];
 extern char *find_option(const char far *option);
@@ -174,9 +178,9 @@ int IsTimeForNIS(int level, int previous_level)
         signed char quote;
     } options;
 
-    if (game_request > 2 && !intro_played) {
+    if (StartLevel > 2 && !intro_played) {
         sequence = 100;
-    } else if (game_request) {
+    } else if (StartLevel) {
         if (level == 0 || (previous_level != level && previous_level != -1)) {
             switch (level) {
             case 1:
@@ -194,7 +198,7 @@ int IsTimeForNIS(int level, int previous_level)
                 sequence = 20;
                 quote_index = 0;
             } else {
-                options.quote = (1 - (int)remaining_minutes) / 9 + 7;
+                options.quote = (1 - (int)Minutes) / 9 + 7;
                 if (options.quote > quote_index) {
                     sequence = options.quote + 20;
                     quote_index = options.quote;
@@ -223,7 +227,7 @@ int IsTimeForNIS(int level, int previous_level)
     return sequence;
 }
 
-extern int playing_nis, pending_sound;
+extern int BPort;
 extern char ScreenPortRect[];
 extern void unload_level(int mode);
 extern void RemoveRebirthPt(void);
@@ -243,15 +247,15 @@ int play_nis(int sequence)
     int result = 1;
     unsigned char room;
 
-    playing_nis = result;
+    GameState.playing_nis = result;
     room = Level.environment_kind;
     if (sequence != 100) {
         unload_level(0);
         if (sequence < 20 && sequence != 6)
             RemoveRebirthPt();
-        if (pending_sound != 0) {
-            DeallocBackPort(pending_sound);
-            pending_sound = 0;
+        if (BPort != 0) {
+            DeallocBackPort(BPort);
+            BPort = 0;
         }
     }
     if (EraseScreenBeforeNIS(sequence)) {
@@ -278,7 +282,7 @@ int play_nis(int sequence)
         STROKE_PORT_RECT(ScreenPortRect);
     set_default_palette();
     set_kid_palette(room);
-    playing_nis = 0;
+    GameState.playing_nis = 0;
     return result;
 }
 
@@ -293,7 +297,7 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern ROOMREC Room;
-extern int room_to_draw_word, Graf;
+extern int NextLevel, Graf;
 extern void reset_level_overlays(void);
 extern void load_level_map(signed char room);
 extern void load_background_set(int visible);
@@ -314,9 +318,9 @@ void draw_room_from_nis(signed char room, signed char level)
     reset_level_overlays();
     old_room = Level.environment_kind;
     LevelIdx = room;
-    room_to_draw_word = room;
-    saved_sound = pending_sound;
-    pending_sound = Graf;
+    NextLevel = room;
+    saved_sound = BPort;
+    BPort = Graf;
     load_level_map(room);
     open_verified_resource(level_resource_files[Level.environment_kind]);
     load_background_set(!IsLevelStartWithNISScreen());
@@ -333,7 +337,7 @@ void draw_room_from_nis(signed char room, signed char level)
     unload_pieces_data();
     close_resource_file(level_resource_files[Level.environment_kind]);
     Level.environment_kind = 0;
-    pending_sound = saved_sound;
+    BPort = saved_sound;
     nis_noop();
 }
 

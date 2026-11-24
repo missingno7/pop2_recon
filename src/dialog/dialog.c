@@ -175,7 +175,7 @@ void far pascal DialogDrawStrId(int string_id, int font, int style,
 
 extern struct ScreenPort ScreenPort;
 extern struct dialog_rect ScreenPortRect;
-extern int dialog_port_handle;
+extern int BPort;
 
 int far pascal DialogFadeIn(void)
 {
@@ -183,7 +183,7 @@ int far pascal DialogFadeIn(void)
 
     READ_DAC_BLOCK(0, 32, RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle = ALLOCATE_PAYLOAD_HANDLE(96UL)));
     WRITE_DAC_BLOCK(0, 32, 0, 1);
-    MEASURE_TEXT(&ScreenPort, dialog_port_handle, &ScreenPortRect, &ScreenPortRect, 0);
+    MEASURE_TEXT(&ScreenPort, BPort, &ScreenPortRect, &ScreenPortRect, 0);
     result = fade_to((PaletteHandle)handle, 3, 0);
     if (result)
         WRITE_DAC_BLOCK(0, 32, RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), 1);
@@ -200,7 +200,7 @@ int far pascal DialogFadeOut(void)
     return result;
 }
 extern struct dialog_rect GamePlayRect;
-extern int gameplay_dialog_active;
+extern int RedrawFlag;
 extern int nis_skip_requested;
 #pragma pack(1)
 typedef struct {
@@ -252,13 +252,20 @@ typedef struct {
 } LEVELREC;
 #pragma pack()
 extern LEVELREC Level;
-extern int active_menu, menu_disabled, dialog_blocked;
-extern signed char pending_key;
-extern int control_mode;
+extern int Minutes, SixtiethsCtr, MobCt;
+typedef struct {
+    signed char x, y, button;
+} JoyState;
+extern JoyState Joy;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 extern int (far pascal *wait_function)(void);
 
-extern void far pascal DeallocBackPort(int);
-extern int far pascal AllocBackPort(struct ScreenPort far *);
+extern void far pascal DeallocBackPort(int record);
+extern int far pascal AllocBackPort(struct ScreenPort far *bounds);
 extern void far pascal set_default_palette(void);
 extern void far pascal restore_game_play_palette(void);
 extern void far pascal clear_row_handles(void);
@@ -283,9 +290,9 @@ extern DialogAsset far pascal hGetNMapShpList(int, int, int);
 
 void far pascal DialogResetToGamePlay(int restart_input)
 {
-    if (dialog_port_handle)
-        DeallocBackPort(dialog_port_handle);
-    dialog_port_handle = AllocBackPort((struct ScreenPort far *)&GamePlayRect);
+    if (BPort)
+        DeallocBackPort(BPort);
+    BPort = AllocBackPort((struct ScreenPort far *)&GamePlayRect);
     Graf = &ScreenPort;
     SetFont(0);
     Graf->mode = 0;
@@ -298,7 +305,7 @@ void far pascal DialogResetToGamePlay(int restart_input)
     if (restart_input && !nis_skip_requested) {
         clear_row_handles();
         PrepCut(0);
-        gameplay_dialog_active = 1;
+        RedrawFlag = 1;
     }
     restore_game_play_palette();
     set_kid_palette((signed char)Level.environment_kind);
@@ -322,9 +329,9 @@ acknowledge:
 empty:
         return key;
     }
-    if (control_mode == 2) {
+    if (GameState.control_mode == 2) {
         POLL_GAME_PORT();
-        key = pending_key;
+        key = Joy.button;
     }
 done:
     return key;
@@ -369,9 +376,9 @@ void far pascal InitDialog(void)
     clear_life_bar();
     SetFont(11);
     Graf->mode = 14;
-    DeallocBackPort(dialog_port_handle);
-    dialog_port_handle = AllocBackPort((struct ScreenPort far *)&ScreenPortRect);
-    Graf = (struct ScreenPort *)dialog_port_handle;
+    DeallocBackPort(BPort);
+    BPort = AllocBackPort((struct ScreenPort far *)&ScreenPortRect);
+    Graf = (struct ScreenPort *)BPort;
     SetFont(11);
     STROKE_PORT_RECT(&ScreenPortRect);
 }
@@ -380,7 +387,7 @@ int far pascal IsValidTimeForDialog(void)
 {
     int result = 1;
 
-    if ((!active_menu && !menu_disabled) || dialog_blocked)
+    if ((!Minutes && !SixtiethsCtr) || MobCt)
         result = 0;
     return result;
 }
@@ -394,7 +401,7 @@ struct save_slot_table {
     char initials[10][25];
 };
 
-extern signed char LevelIdx, level_to_start, main_theme, sound_effect;
+extern signed char LevelIdx, StartLevel, main_theme, sound_effect;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -433,7 +440,7 @@ typedef struct {
 #pragma pack()
 
 extern CHARREC Kid;
-extern int requested_level, resume_selected, dialog_timer, dialog_timer_copy;
+extern int NextLevel, RestartLevel, MsgTimer, MsgTimerStart;
 extern void far pascal CLEAR_PAYLOAD_HEADER(void far *);
 extern void far pascal UnloadCustomRoomData(void);
 extern int far pascal find_shape_list(int);
@@ -472,15 +479,15 @@ int far pascal load_game_dialog(void)
         draw_save_slots(slots, 0);
         Graf = &ScreenPort;
         DialogFadeIn();
-        DeallocBackPort(dialog_port_handle);
-        *(volatile int *)&dialog_port_handle = selection;
+        DeallocBackPort(BPort);
+        *(volatile int *)&BPort = selection;
         selection = select_save_slot(slots, 0);
         if (selection != -1) {
             loaded = ResumeGame(selection);
             if (loaded) {
-                level_to_start = LevelIdx;
-                requested_level = LevelIdx;
-                resume_selected = 1;
+                StartLevel = LevelIdx;
+                NextLevel = LevelIdx;
+                RestartLevel = 1;
             }
             selection = loaded;
         } else {
@@ -492,9 +499,9 @@ int far pascal load_game_dialog(void)
     DialogResetToGamePlay(selection == -1 ? 1 : 0);
     if (selection > 0)
         show_dialog_notice();
-    if (selection != -1 && dialog_port_handle) {
-        DeallocBackPort(dialog_port_handle);
-        dialog_port_handle = 0;
+    if (selection != -1 && BPort) {
+        DeallocBackPort(BPort);
+        BPort = 0;
     }
     return selection;
 }
@@ -512,8 +519,8 @@ int far pascal save_game_dialog(void)
         draw_save_slots(slots, 1);
         Graf = &ScreenPort;
         DialogFadeIn();
-        DeallocBackPort(dialog_port_handle);
-        dialog_port_handle = selection;
+        DeallocBackPort(BPort);
+        BPort = selection;
         chosen = select_save_slot(slots, 1);
         if (chosen != -1)
             selection = SaveGame(slots, chosen);
@@ -544,8 +551,8 @@ void far pascal main_menu_dialog(void)
     draw_main_menu();
     Graf = &ScreenPort;
     DialogFadeIn();
-    DeallocBackPort(dialog_port_handle);
-    dialog_port_handle = 0;
+    DeallocBackPort(BPort);
+    BPort = 0;
     selection = main_menu_choice();
     DialogFadeOut();
     DISPOSE_HANDLE(find_shape_list(1000));
@@ -556,7 +563,7 @@ void far pascal main_menu_dialog(void)
         load_game_dialog();
     SaveOptionsToDisk();
     set_kid_palette((signed char)Level.environment_kind);
-    gameplay_dialog_active = 1;
+    RedrawFlag = 1;
 }
 
 struct dialog_rect far * far pascal compute_save_slot_rect(struct dialog_rect far *rect, int index)
@@ -646,7 +653,7 @@ void far pascal post_save_message(int selection)
             draw_message(nosave_message);
             play_song(-1);
         }
-        dialog_timer = dialog_timer_copy = 24;
+        MsgTimer = MsgTimerStart = 24;
     }
 }
 
@@ -828,9 +835,9 @@ struct rebirth_record {
 
 extern struct rebirth_record far *hRebirthSaved;
 extern CHARREC Char;
-extern signed char CutRoom, starting_health, start_facing;
+extern signed char CutRoom, OrigLifePts, start_facing;
 extern signed char cutscene_flags, quote_index;
-extern int saved_game_active, Invert;
+extern int Resume, Invert;
 extern unsigned far cdecl _dos_creat(const char *, unsigned, int *);
 extern unsigned far cdecl _dos_write(int, const void far *, unsigned, unsigned *);
 extern long far cdecl lseek(int, long, int);
@@ -859,15 +866,15 @@ int far pascal ResumeGame(int slot)
             } else {
                 RemoveRebirthPt();
             }
-            active_menu = saved->menu;
-            menu_disabled = saved->disabled;
+            Minutes = saved->menu;
+            SixtiethsCtr = saved->disabled;
             LevelIdx = saved->level;
-            Kid.life_initial = Kid.life_points = starting_health = saved->health;
+            Kid.life_initial = Kid.life_points = OrigLifePts = saved->health;
             cutscene_flags = saved->saved_flags;
             start_facing = saved->facing;
             Invert = saved->Invert;
             quote_index = saved->room_state;
-            saved_game_active = 1;
+            Resume = 1;
             lseek(file, offset, 0);
             _dos_write(file, saved, sizeof(*saved), &bytes_read);
             result = 1;
@@ -894,11 +901,11 @@ int far pascal SaveGame(struct save_slot_table far *slots, int slot)
         else {
             _fmemset(saved, 0, sizeof(*saved));
             saved->level = LevelIdx;
-            saved->health = starting_health;
+            saved->health = OrigLifePts;
             saved->direction = Level.entry_facing;
         }
-        saved->menu = active_menu;
-        saved->disabled = menu_disabled;
+        saved->menu = Minutes;
+        saved->disabled = SixtiethsCtr;
         saved->saved_flags = cutscene_flags;
         saved->facing = start_facing;
         saved->Invert = Invert;
@@ -1010,7 +1017,7 @@ int far pascal SetRebirthPtKidStatus(void)
         CutRoom = Char.room = point->room;
         Char.column = point->cell % 10;
         Char.row = point->cell / 10;
-        starting_health = hRebirthSaved->health;
+        OrigLifePts = hRebirthSaved->health;
         Char.direction = hRebirthSaved->direction;
         start_facing = hRebirthSaved->facing;
         result = 2;
@@ -1026,7 +1033,6 @@ struct notice_record {
     unsigned symbol, detail;
 };
 
-extern int replay_input;
 extern int far pascal HGETRSRC(unsigned long resource, int index);
 extern unsigned far pascal Rnd(unsigned);
 
@@ -1045,7 +1051,7 @@ void far pascal show_dialog_notice(void)
     unsigned far *table;
     struct notice_record prompt;
 
-    if (!notice_state.done && !replay_input) {
+    if (!notice_state.done && !GameState.recording_mode) {
         notice_state.done = passed;
         InitDialog();
         asset = load_frame_asset();
@@ -1062,21 +1068,21 @@ void far pascal show_dialog_notice(void)
             previous = index;
             index = index * 2 + 1;
             _fmemcpy(&prompt, &table[index], sizeof(prompt));
-            Graf = (struct ScreenPort *)dialog_port_handle;
+            Graf = (struct ScreenPort *)BPort;
             draw_notice_symbols(prompt.symbol, asset, attempt);
             Graf = &ScreenPort;
             if (!attempt)
                 DialogFadeIn();
             else
-                MEASURE_TEXT(&ScreenPort, dialog_port_handle, notice_port, notice_port, 0);
+                MEASURE_TEXT(&ScreenPort, BPort, notice_port, notice_port, 0);
             index = read_notice_selection();
             passed = index == prompt.detail || index == (unsigned)-2;
         } while (!passed && ++attempt != 3);
         DISPOSE_HANDLE(table_handle);
         release_shape_list(asset);
-        if (dialog_port_handle) {
-            DeallocBackPort(dialog_port_handle);
-            dialog_port_handle = 0;
+        if (BPort) {
+            DeallocBackPort(BPort);
+            BPort = 0;
         }
         DialogFadeOut();
         DialogResetToGamePlay(0);
@@ -1247,7 +1253,7 @@ void far pascal enter_hall_record(int score)
         Graf = &ScreenPort;
         DialogFadeIn();
         edit_hall_name(entries, index);
-        Graf = (struct ScreenPort *)dialog_port_handle;
+        Graf = (struct ScreenPort *)BPort;
         ComputeHallPlayerRect((int far *)&rect, index);
         InsetRect(&rect, &rect, -2, 0);
         SET_RECORD_RANGE(&rect, 12);
@@ -1255,14 +1261,14 @@ void far pascal enter_hall_record(int score)
         table = entries;
         DialogDrawStr(table->records[index].name, 10, 0, 0, &rect, 0);
         InsetRect(&rect, &rect, -2, 0);
-        MEASURE_TEXT(Graf = &ScreenPort, dialog_port_handle, &rect, &rect, 0);
+        MEASURE_TEXT(Graf = &ScreenPort, BPort, &rect, &rect, 0);
         write_hall_file(table);
         wait_ticks(0, 900);
         DialogFadeOut();
         DialogResetToGamePlay(0);
-        if (dialog_port_handle) {
-            DeallocBackPort(dialog_port_handle);
-            dialog_port_handle = 0;
+        if (BPort) {
+            DeallocBackPort(BPort);
+            BPort = 0;
         }
         if (entries)
             CLEAR_PAYLOAD_HEADER(entries);
@@ -1423,9 +1429,9 @@ int far pascal show_hall_records(int hold)
         else
             key = DialogFadeOut();
         DialogResetToGamePlay(hold);
-        if (dialog_port_handle && !hold) {
-            DeallocBackPort(dialog_port_handle);
-            dialog_port_handle = 0;
+        if (BPort && !hold) {
+            DeallocBackPort(BPort);
+            BPort = 0;
         }
         dispatch_sound(10253);
     }
@@ -1585,7 +1591,7 @@ void far pascal draw_menu_label(int index, int selected)
             break;
         case 2:
             /* The keyboard label immediately follows the joystick strings in DGROUP. */
-            label = control_mode == 0 ? keyboard_mode_message
+            label = GameState.control_mode == 0 ? keyboard_mode_message
                                       : joystick_mode_message;
             break;
         case 3:
@@ -1693,11 +1699,11 @@ int far pascal change_menu_option(int option)
         changed = menu_music != changed;
         break;
     case 2:
-        if (control_mode == 2)
-            control_mode = 0;
+        if (GameState.control_mode == 2)
+            GameState.control_mode = 0;
         else {
             joystick_status();
-            if (control_mode != 2)
+            if (GameState.control_mode != 2)
                 changed = 0;
         }
         break;
@@ -1727,7 +1733,7 @@ int far pascal show_credits(void)
     int key, page;
 
     InitDialog();
-    Graf = (struct ScreenPort *)dialog_port_handle;
+    Graf = (struct ScreenPort *)BPort;
     DrawDialogFrame(0);
     play_song(268);
     InsetRect(&clip, &ScreenPortRect, 9, 9);
@@ -1735,12 +1741,12 @@ int far pascal show_credits(void)
     do {
         if (key)
             break;
-        Graf = (struct ScreenPort *)dialog_port_handle;
+        Graf = (struct ScreenPort *)BPort;
         SET_RECORD_RANGE(&clip, 12);
         draw_credits_page(credits_first[page], credits_last[page]);
         Graf = &ScreenPort;
         if (page)
-            key = dissolve_do_all(1, dialog_port_handle, &ScreenPortRect, 90);
+            key = dissolve_do_all(1, BPort, &ScreenPortRect, 90);
         else
             key = DialogFadeIn();
         if (!key) {
@@ -1766,9 +1772,9 @@ int far pascal show_credits(void)
     DialogFadeOut();
     DISPOSE_HANDLE(hGetFont(10));
     DialogResetToGamePlay(0);
-    if (dialog_port_handle) {
-        DeallocBackPort(dialog_port_handle);
-        dialog_port_handle = 0;
+    if (BPort) {
+        DeallocBackPort(BPort);
+        BPort = 0;
     }
     dispatch_sound(10268);
     return key;

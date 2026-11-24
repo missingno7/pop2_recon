@@ -364,16 +364,16 @@
       "PUSH_AWAY_FROM_GATE",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "LEFT_COLLISION",
-      "LEDGE_CHECK",
+      "WEIGHTLESSTIMER",
       "SQUISHCHAR",
       "GET_CHAR_EDGES",
-      "RIGHT_EDGE",
+      "CDRIGHTEDGE",
       "CHECK_GATE_FOR_OPPONENT",
       "CHECK_COLLISION_COL",
-      "LEFT_EDGE",
+      "CDLEFTEDGE",
       "INITCOLLISIONDETECTION",
       "IMHEIGHT",
-      "BUMP_PENDING",
+      "ALERTGUARD",
       "CHECK_COLLISION_TILE",
       "ADJUSTROOM",
       "@slide_rock_on_row",
@@ -414,9 +414,9 @@
       "GETBARRCODE",
       "ABOVE_ROOMS",
       "REREAD_BASE_CELL",
-      "PREV_EDGES",
-      "FACING_COL_STEP",
-      "CURRENT_EDGES",
+      "COLDETLASTFRAME",
+      "PLUS1",
+      "COLDETTHISFRAME",
       "FORWARD_BARRIER_KIND",
       "BELOW_EDGES",
       "GET_EDGE_DISTANCE",
@@ -438,18 +438,18 @@
       "COLEDGEX",
       "RIGHT_BARRIER_COL",
       "BARL",
-      "SWORD_TABLE_ID",
+      "SWORDFRAMES",
       "BARR",
       "ROOM",
       "NULLRECT",
       "CELL",
-      "SPRITE_TABLES",
+      "PICS",
       "SLIDE_ROCK_BARRIER",
-      "SPRITE_WIDTH",
+      "IMWIDTH",
       "LEFTEDGE",
       "PROBE_CHAIN_FLOOR",
-      "SPRITE_RIGHT",
-      "SPRITE_TOP",
+      "RIGHTEDGE",
+      "TOPEDGE",
       "ISWALL",
       "ANIMCHAR",
       "REREAD_CELLS",
@@ -740,7 +740,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -748,7 +748,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -767,7 +767,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -775,7 +775,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1280,7 +1280,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "PREV_EDGES",
+          "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -1288,7 +1288,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "PREV_EDGES",
+        "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -1334,7 +1334,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "CURRENT_EDGES",
+          "name": "COLDETTHISFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -1342,7 +1342,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "CURRENT_EDGES",
+        "name": "COLDETTHISFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -1982,7 +1982,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "LEDGE_CHECK",
+          "name": "WEIGHTLESSTIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -1990,7 +1990,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "LEDGE_CHECK",
+        "name": "WEIGHTLESSTIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -2117,7 +2117,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "CURRENT_EDGES",
+          "name": "COLDETTHISFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2125,7 +2125,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "CURRENT_EDGES",
+        "name": "COLDETTHISFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2144,7 +2144,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "PREV_EDGES",
+          "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2152,7 +2152,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "PREV_EDGES",
+        "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2198,7 +2198,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "CURRENT_EDGES",
+          "name": "COLDETTHISFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2206,7 +2206,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "CURRENT_EDGES",
+        "name": "COLDETTHISFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2225,7 +2225,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "PREV_EDGES",
+          "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2233,7 +2233,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "PREV_EDGES",
+        "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2576,7 +2576,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "CURRENT_EDGES",
+          "name": "COLDETTHISFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2584,7 +2584,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "CURRENT_EDGES",
+        "name": "COLDETTHISFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2927,7 +2927,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "CURRENT_EDGES",
+          "name": "COLDETTHISFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2935,7 +2935,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "CURRENT_EDGES",
+        "name": "COLDETTHISFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -3062,7 +3062,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3070,7 +3070,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3143,7 +3143,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3151,7 +3151,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3197,7 +3197,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3205,7 +3205,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5681,7 +5681,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5689,7 +5689,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6086,7 +6086,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6094,7 +6094,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6788,7 +6788,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6796,7 +6796,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6815,7 +6815,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6823,7 +6823,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6923,7 +6923,7 @@
         "target": {
           "kind": "external",
           "index": 98,
-          "name": "SPRITE_RIGHT",
+          "name": "RIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6931,7 +6931,7 @@
       "target": {
         "kind": "external",
         "index": 98,
-        "name": "SPRITE_RIGHT",
+        "name": "RIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6977,7 +6977,7 @@
         "target": {
           "kind": "external",
           "index": 98,
-          "name": "SPRITE_RIGHT",
+          "name": "RIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6985,7 +6985,7 @@
       "target": {
         "kind": "external",
         "index": 98,
-        "name": "SPRITE_RIGHT",
+        "name": "RIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7301,7 +7301,7 @@
         "target": {
           "kind": "external",
           "index": 99,
-          "name": "SPRITE_TOP",
+          "name": "TOPEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7309,7 +7309,7 @@
       "target": {
         "kind": "external",
         "index": 99,
-        "name": "SPRITE_TOP",
+        "name": "TOPEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7490,7 +7490,7 @@
         "target": {
           "kind": "external",
           "index": 99,
-          "name": "SPRITE_TOP",
+          "name": "TOPEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7498,7 +7498,7 @@
       "target": {
         "kind": "external",
         "index": 99,
-        "name": "SPRITE_TOP",
+        "name": "TOPEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7517,7 +7517,7 @@
         "target": {
           "kind": "external",
           "index": 99,
-          "name": "SPRITE_TOP",
+          "name": "TOPEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7525,7 +7525,7 @@
       "target": {
         "kind": "external",
         "index": 99,
-        "name": "SPRITE_TOP",
+        "name": "TOPEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7544,7 +7544,7 @@
         "target": {
           "kind": "external",
           "index": 99,
-          "name": "SPRITE_TOP",
+          "name": "TOPEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7552,7 +7552,7 @@
       "target": {
         "kind": "external",
         "index": 99,
-        "name": "SPRITE_TOP",
+        "name": "TOPEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7625,7 +7625,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7633,7 +7633,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7652,7 +7652,7 @@
         "target": {
           "kind": "external",
           "index": 98,
-          "name": "SPRITE_RIGHT",
+          "name": "RIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7660,7 +7660,7 @@
       "target": {
         "kind": "external",
         "index": 98,
-        "name": "SPRITE_RIGHT",
+        "name": "RIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7679,7 +7679,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "SPRITE_WIDTH",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -7687,7 +7687,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "SPRITE_WIDTH",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -7706,7 +7706,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "SPRITE_WIDTH",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -7714,7 +7714,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "SPRITE_WIDTH",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -7733,7 +7733,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7741,7 +7741,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -7814,7 +7814,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "SPRITE_WIDTH",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -7822,7 +7822,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "SPRITE_WIDTH",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -7976,7 +7976,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "SPRITE_WIDTH",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -7984,7 +7984,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "SPRITE_WIDTH",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -8057,7 +8057,7 @@
         "target": {
           "kind": "external",
           "index": 93,
-          "name": "SPRITE_TABLES",
+          "name": "PICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -8065,7 +8065,7 @@
       "target": {
         "kind": "external",
         "index": 93,
-        "name": "SPRITE_TABLES",
+        "name": "PICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -9218,7 +9218,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "BUMP_PENDING",
+          "name": "ALERTGUARD",
           "method": 6,
           "zero_displacement": true
         }
@@ -9226,7 +9226,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "BUMP_PENDING",
+        "name": "ALERTGUARD",
         "method": 6,
         "zero_displacement": true
       },
@@ -10730,7 +10730,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "PREV_EDGES",
+          "name": "COLDETLASTFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -10738,7 +10738,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "PREV_EDGES",
+        "name": "COLDETLASTFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -10757,7 +10757,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "CURRENT_EDGES",
+          "name": "COLDETTHISFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -10765,7 +10765,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "CURRENT_EDGES",
+        "name": "COLDETTHISFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -11027,7 +11027,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11035,7 +11035,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -11054,7 +11054,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11062,7 +11062,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12134,7 +12134,7 @@
         "target": {
           "kind": "external",
           "index": 65,
-          "name": "FACING_COL_STEP",
+          "name": "PLUS1",
           "method": 6,
           "zero_displacement": true
         }
@@ -12142,7 +12142,7 @@
       "target": {
         "kind": "external",
         "index": 65,
-        "name": "FACING_COL_STEP",
+        "name": "PLUS1",
         "method": 6,
         "zero_displacement": true
       },
@@ -12539,7 +12539,7 @@
         "target": {
           "kind": "external",
           "index": 88,
-          "name": "SWORD_TABLE_ID",
+          "name": "SWORDFRAMES",
           "method": 6,
           "zero_displacement": true
         }
@@ -12547,7 +12547,7 @@
       "target": {
         "kind": "external",
         "index": 88,
-        "name": "SWORD_TABLE_ID",
+        "name": "SWORDFRAMES",
         "method": 6,
         "zero_displacement": true
       },
@@ -12728,7 +12728,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -12736,7 +12736,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12782,7 +12782,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -12790,7 +12790,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13025,7 +13025,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "RIGHT_EDGE",
+          "name": "CDRIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13033,7 +13033,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "RIGHT_EDGE",
+        "name": "CDRIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13079,7 +13079,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "LEFT_EDGE",
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13087,7 +13087,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "LEFT_EDGE",
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13592,7 +13592,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "SPRITE_WIDTH",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -13600,7 +13600,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "SPRITE_WIDTH",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -14330,19 +14330,6 @@
       "offset": 11080,
       "witnesses": []
     },
-    "BUMP_PENDING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24896,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 48476,
-          "bytes_hex": "c70640610100"
-        }
-      ]
-    },
     "CELL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14824,12 +14811,6 @@
       "offset": 11110,
       "witnesses": []
     },
-    "CURRENT_EDGES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26962,
-      "witnesses": []
-    },
     "CURRENT_ROOMS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14841,20 +14822,6 @@
       "kind": "dgroup-offset",
       "offset": 11055,
       "witnesses": []
-    },
-    "FACING_COL_STEP": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3321,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15673,
-          "bytes_hex": "8a87f90c",
-          "entry": "root:02dc:09f8"
-        }
-      ]
     },
     "FCHAR": {
       "group": "DGROUP",
@@ -15287,20 +15254,6 @@
       "offset": 11067,
       "witnesses": []
     },
-    "LEDGE_CHECK": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23862,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 5060,
-          "bytes_hex": "c706365de400",
-          "entry": "root:0000:10a0"
-        }
-      ]
-    },
     "LEFTEDGE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -15320,20 +15273,6 @@
       "kind": "dgroup-offset",
       "offset": 11069,
       "witnesses": []
-    },
-    "LEFT_EDGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24854,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 66964,
-          "bytes_hex": "3b161661",
-          "entry": "root:1047:009c"
-        }
-      ]
     },
     "LEVEL": {
       "group": "DGROUP",
@@ -15463,20 +15402,6 @@
       "offset": 11054,
       "witnesses": []
     },
-    "PREV_EDGES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26952,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "overlay-9",
-          "image_offset": 1170,
-          "bytes_hex": "088f4869",
-          "entry": "overlay-9:2c59:0412"
-        }
-      ]
-    },
     "PREV_ROOMS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -15558,20 +15483,6 @@
       "kind": "dgroup-offset",
       "offset": 11068,
       "witnesses": []
-    },
-    "RIGHT_EDGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24856,
-      "witnesses": [
-        {
-          "bytes_hex": "a11861",
-          "entry": "overlay-9:2c59:0a80",
-          "image_offset": 992,
-          "operand_offset": 1,
-          "space": "overlay-9"
-        }
-      ]
     },
     "ROOM": {
       "group": "DGROUP",
@@ -15709,62 +15620,6 @@
       "space": "overlay-9",
       "witnesses": []
     },
-    "SPRITE_RIGHT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24860,
-      "witnesses": [
-        {
-          "bytes_hex": "813e1c61c601",
-          "entry": "overlay-3:251b:108a",
-          "image_offset": 5819,
-          "operand_offset": 2,
-          "space": "overlay-3"
-        }
-      ]
-    },
-    "SPRITE_TABLES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24806,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 5986,
-          "bytes_hex": "8b9fe660",
-          "entry": "root:0170:0008"
-        }
-      ]
-    },
-    "SPRITE_TOP": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24862,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 17820,
-          "bytes_hex": "3b061e61",
-          "entry": "root:02dc:15ae"
-        }
-      ]
-    },
-    "SPRITE_WIDTH": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24852,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 67189,
-          "bytes_hex": "03361461",
-          "entry": "root:1047:01aa"
-        }
-      ]
-    },
     "SQUISHCHAR": {
       "entry_sha256": "685b50da7443838a2bf9638c2e225a06d8e7c96b0eb168adc0fd6984e34bc351",
       "entry_target_id": "overlay-3:27bc:232a",
@@ -15773,20 +15628,6 @@
       "segment": 10172,
       "space": "overlay-3",
       "witnesses": []
-    },
-    "SWORD_TABLE_ID": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24848,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 8874,
-          "bytes_hex": "ff361061",
-          "entry": "root:0170:029a"
-        }
-      ]
     },
     "COLEDGEX": {
       "kind": "dgroup-public",
@@ -15800,17 +15641,169 @@
       "provider": "group:tables/tables",
       "offset": 3400
     },
+    "CDLEFTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24854,
+      "witnesses": [
+        {
+          "bytes_hex": "3b161661",
+          "entry": "root:1047:009c",
+          "image_offset": 66964,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "CDRIGHTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24856,
+      "witnesses": [
+        {
+          "bytes_hex": "a11861",
+          "entry": "overlay-9:2c59:0a80",
+          "image_offset": 992,
+          "operand_offset": 1,
+          "space": "overlay-9"
+        }
+      ]
+    },
     "STEP_IN_PROGRESS": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:checknis/checknis",
       "offset": 372
     },
+    "COLDETLASTFRAME": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26952,
+      "witnesses": [
+        {
+          "bytes_hex": "088f4869",
+          "entry": "overlay-9:2c59:0412",
+          "image_offset": 1170,
+          "operand_offset": 2,
+          "space": "overlay-9"
+        }
+      ]
+    },
+    "COLDETTHISFRAME": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26962,
+      "witnesses": []
+    },
+    "WEIGHTLESSTIMER": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23862,
+      "witnesses": [
+        {
+          "bytes_hex": "833e365d00",
+          "entry": "root:02dc:08e4",
+          "image_offset": 14002,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "BARR": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3410
+    },
+    "RIGHTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24860,
+      "witnesses": [
+        {
+          "bytes_hex": "813e1c61c601",
+          "entry": "overlay-3:251b:108a",
+          "image_offset": 5819,
+          "operand_offset": 2,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "TOPEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24862,
+      "witnesses": [
+        {
+          "bytes_hex": "3b061e61",
+          "entry": "root:02dc:15ae",
+          "image_offset": 17820,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "IMWIDTH": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24852,
+      "witnesses": [
+        {
+          "bytes_hex": "03361461",
+          "entry": "root:1047:01aa",
+          "image_offset": 67189,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "PICS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24806,
+      "witnesses": [
+        {
+          "bytes_hex": "ffb7e660",
+          "entry": "root:0170:03cc",
+          "image_offset": 6971,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "ALERTGUARD": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24896,
+      "witnesses": [
+        {
+          "bytes_hex": "c70640610100",
+          "entry": "root:02dc:0e28",
+          "image_offset": 13639,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "PLUS1": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3320
+    },
+    "SWORDFRAMES": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24848,
+      "witnesses": [
+        {
+          "bytes_hex": "ff361061",
+          "entry": "root:0170:029a",
+          "image_offset": 8874,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:collide/collide",

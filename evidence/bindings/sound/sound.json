@@ -366,7 +366,7 @@
       "AMBIENT_STATE",
       "ROOM",
       "REMEMBER_AMBIENT_SONG",
-      "SOUND_INHIBIT",
+      "WEIGHTLESSTIMER",
       "AMBIENT_LAST_SONG",
       "ADDKIDDEATHSONG",
       "SOUND_HANDLES",
@@ -1139,7 +1139,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "SOUND_INHIBIT",
+          "name": "WEIGHTLESSTIMER",
           "method": 6,
           "zero_displacement": true
         }
@@ -1147,7 +1147,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "SOUND_INHIBIT",
+        "name": "WEIGHTLESSTIMER",
         "method": 6,
         "zero_displacement": true
       },
@@ -6251,20 +6251,6 @@
       "offset": 26312,
       "witnesses": []
     },
-    "SOUND_INHIBIT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23862,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 5060,
-          "bytes_hex": "c706365de400",
-          "entry": "root:0000:02be"
-        }
-      ]
-    },
     "PROCESS_HANDLE": {
       "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
       "entry_target_id": "root:1129:8092",
@@ -6306,6 +6292,20 @@
       "group": "DGROUP",
       "provider": "group:load/load",
       "offset": 1648
+    },
+    "WEIGHTLESSTIMER": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 23862,
+      "witnesses": [
+        {
+          "bytes_hex": "833e365d00",
+          "entry": "root:02dc:08e4",
+          "image_offset": 14002,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "SND": {
       "kind": "dgroup-public",

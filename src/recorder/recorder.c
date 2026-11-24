@@ -33,11 +33,18 @@ extern struct {
 } playback;
 
 extern unsigned long FrameNum;
-extern signed char current_character;
+extern signed char Char;
 extern signed char LevelIdx;
-extern signed char move_x, move_y, move_horizontal, move_vertical, move_action;
-extern int recording_player_enabled, recording_player_started;
-extern signed char recording_start_level;
+typedef struct {
+    signed char forward, back, up, down, action;
+} Directions;
+extern Directions Dir;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
+extern signed char StartLevel;
 
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 extern void far pascal dispose_handle(unsigned int handle);
@@ -81,10 +88,10 @@ void far pascal CheckRecordedDirForChar(void)
     signed char character;
 
     if (playback.mode == 3 && playback.handle) {
-        if (current_character == 10)
+        if (Char == 10)
             character = 5;
         else
-            character = current_character;
+            character = Char;
         recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
         if (playback.offset < recording->data_size) {
             frame = (RecordedFrame far *)(recording->data + playback.offset);
@@ -112,20 +119,20 @@ void far pascal CheckRecordedGamePlayer(void)
 
 void far pascal ConvertDirToRecDir(PackedDirection far *direction)
 {
-    direction->x = move_x + 1;
-    direction->y = move_y + 1;
-    direction->horizontal = move_horizontal + 1;
-    direction->vertical = move_vertical + 1;
-    direction->action = move_action + 2;
+    direction->x = Dir.forward + 1;
+    direction->y = Dir.back + 1;
+    direction->horizontal = Dir.up + 1;
+    direction->vertical = Dir.down + 1;
+    direction->action = Dir.action + 2;
 }
 
 void far pascal ConvertRecDirToDir(PackedDirection far *direction)
 {
-    move_x = direction->x - 1;
-    move_y = direction->y - 1;
-    move_horizontal = direction->horizontal - 1;
-    move_vertical = direction->vertical - 1;
-    move_action = direction->action - 2;
+    Dir.forward = direction->x - 1;
+    Dir.back = direction->y - 1;
+    Dir.up = direction->horizontal - 1;
+    Dir.down = direction->vertical - 1;
+    Dir.action = direction->action - 2;
 }
 
 RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recording)
@@ -161,7 +168,7 @@ void far pascal reset_recorded_playback(void)
         memset(playback.saved_directions, 0, sizeof(playback.saved_directions));
         if (playback.handle)
             dispose_handle(playback.handle);
-        if (recording_player_enabled)
+        if (GameState.recording_mode)
             playback.handle = ALLOCATE_DEFAULT_HANDLE();
         FrameNum = 0;
         SetRndSeed(1);
@@ -178,7 +185,7 @@ int far pascal toggle_recording_player(void)
 
 void far pascal TurnRecordedGamePlayerOff(void)
 {
-    recording_player_enabled = 0;
+    GameState.recording_mode = 0;
     playback.mode = 0;
     if (playback.handle) {
         dispose_handle(playback.handle);
@@ -196,8 +203,8 @@ void far pascal TurnRecordedGamePlayerOn(void)
         DEFAULT_HANDLE_TAG = 25;
     handle = ALLOCATE_DEFAULT_HANDLE();
     recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
-    recording_player_enabled = 1;
-    recording_player_started = 0;
-    recording_start_level = recording->level;
+    GameState.recording_mode = 1;
+    GameState.skip_opening = 0;
+    StartLevel = recording->level;
     dispose_handle(handle);
 }

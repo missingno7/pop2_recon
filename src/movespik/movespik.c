@@ -163,9 +163,9 @@ typedef struct {
 
 extern CELLREC Cell;
 extern FCHARREC FChar;
-extern int render_context;
-extern int screen_edge;
-extern int side_offset;
+extern int XCo;
+extern int CDLeftEdge;
+extern int ImWidth;
 extern int ColEdgeX[20];
 static const int spike_images_a[] = {0, 116, 117, 118, 119, 120, 117, 116, 120};
 static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
@@ -243,7 +243,7 @@ void CheckImpale(void)
                     x += 14;
                 else
                     x += 10;
-                if ((x > screen_edge
+                if ((x > CDLeftEdge
                         && Char.row * 63 + 26 <= Char.y
                         && (Char.frame < 0x79 || Char.frame > 0x84)
                         && Char.frame != 0x0f)
@@ -274,7 +274,7 @@ void CheckSpikes(void)
         x = ColEdgeX[GetCellCol() + 6] + 14;
         x += Char.stance == 0 ? 16 : 2;
         if (Char.direction == 0) {
-            x += side_offset;
+            x += ImWidth;
             x -= get_sword_width();
         }
         if (x >= Char.x)
@@ -368,7 +368,7 @@ void DrawObjSpikes(Byte object)
         return;
 
     if (image)
-        add_middle_image(4, image, render_context, FChar.y, 10);
+        add_middle_image(4, image, XCo, FChar.y, 10);
 }
 
 /* GetSpikeIdx */

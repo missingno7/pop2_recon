@@ -108,6 +108,8 @@
       }
     ],
     "externals": [
+      "ADDSONG",
+      "ALLOCATE_PAYLOAD_HANDLE",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "DISPOSE_HANDLE",
       "PLAY_NIS",
@@ -131,24 +133,20 @@
       "LOAD_THRONE_ROOM",
       "UNLOAD_THRONE_ROOM",
       "PLAY_THRONE_ROOM_NIS",
-      "OFFSET_THRONE_RECT",
       "CUSTOM_ROOM",
+      "OFFSET_THRONE_RECT",
       "KID",
-      "THRONE_SONG_ADDED",
-      "THRONE_ROOM_NIS_PLAYED",
-      "LEFT_EDGE",
+      "GAMESTATE",
+      "CDLEFTEDGE",
       "AMBIENT_STATE",
-      "THRONE_RUNNING",
       "ROOM_STATE",
-      "VIEWED_ROOM",
+      "ROOM",
       "CHAR",
       "CUTROOM",
       "LEVELIDX",
-      "SCENE_FLAG",
+      "DIR",
       "@draw_custom_room_image",
-      "SET_PALETTE",
-      "ADDSONG",
-      "ALLOCATE_PAYLOAD_HANDLE"
+      "SET_PALETTE"
     ]
   },
   "fixups": [
@@ -164,7 +162,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 21,
           "name": "STORE_SCENE_RECT",
           "method": 6,
           "zero_displacement": true
@@ -172,7 +170,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 21,
         "name": "STORE_SCENE_RECT",
         "method": 6,
         "zero_displacement": true
@@ -191,7 +189,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 20,
           "name": "OFFSETRECT",
           "method": 6,
           "zero_displacement": true
@@ -199,7 +197,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 20,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -218,16 +216,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
-          "name": "LEFT_EDGE",
+          "index": 30,
+          "name": "CDLEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 29,
-        "name": "LEFT_EDGE",
+        "index": 30,
+        "name": "CDLEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -245,7 +243,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 19,
           "name": "REMEMBER_AMBIENT_SONG",
           "method": 6,
           "zero_displacement": true
@@ -253,7 +251,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 19,
         "name": "REMEMBER_AMBIENT_SONG",
         "method": 6,
         "zero_displacement": true
@@ -272,7 +270,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 31,
           "name": "AMBIENT_STATE",
           "method": 6,
           "zero_displacement": true
@@ -280,7 +278,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 31,
         "name": "AMBIENT_STATE",
         "method": 6,
         "zero_displacement": true
@@ -299,7 +297,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 1,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -307,7 +305,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 1,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -326,7 +324,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 18,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -334,7 +332,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 18,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -354,7 +352,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "SCENE_FLAG",
+          "name": "DIR",
           "method": 6,
           "zero_displacement": true
         }
@@ -362,7 +360,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "SCENE_FLAG",
+        "name": "DIR",
         "method": 6,
         "zero_displacement": true
       },
@@ -380,7 +378,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 15,
           "name": "CLRALL",
           "method": 6,
           "zero_displacement": true
@@ -388,7 +386,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 15,
         "name": "CLRALL",
         "method": 6,
         "zero_displacement": true
@@ -434,7 +432,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 28,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -442,7 +440,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 28,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -461,7 +459,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "ANIMCHAR",
           "method": 6,
           "zero_displacement": true
@@ -469,7 +467,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "ANIMCHAR",
         "method": 6,
         "zero_displacement": true
@@ -488,7 +486,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 17,
           "name": "MARK_REDRAW",
           "method": 6,
           "zero_displacement": true
@@ -496,7 +494,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 17,
         "name": "MARK_REDRAW",
         "method": 6,
         "zero_displacement": true
@@ -515,7 +513,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 13,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -523,7 +521,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 13,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -542,7 +540,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 28,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -550,7 +548,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 28,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -569,7 +567,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 12,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -577,7 +575,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 12,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -596,7 +594,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 12,
           "name": "MARK_MOVE",
           "method": 6,
           "zero_displacement": true
@@ -604,7 +602,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 12,
         "name": "MARK_MOVE",
         "method": 6,
         "zero_displacement": true
@@ -623,7 +621,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 11,
           "name": "LOADCUSTOMROOMDATA",
           "method": 6,
           "zero_displacement": true
@@ -631,7 +629,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 11,
         "name": "LOADCUSTOMROOMDATA",
         "method": 6,
         "zero_displacement": true
@@ -650,16 +648,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
-          "name": "THRONE_ROOM_NIS_PLAYED",
+          "index": 29,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 28,
-        "name": "THRONE_ROOM_NIS_PLAYED",
+        "index": 29,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -677,7 +675,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 4,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -685,7 +683,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 4,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -731,7 +729,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 3,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -739,7 +737,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 3,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -758,7 +756,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 10,
           "name": "LOAD_LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -766,7 +764,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 10,
         "name": "LOAD_LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -866,7 +864,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 8,
           "name": "RESET_CHAR_Y",
           "method": 6,
           "zero_displacement": true
@@ -874,7 +872,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 8,
         "name": "RESET_CHAR_Y",
         "method": 6,
         "zero_displacement": true
@@ -947,7 +945,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 9,
           "name": "JUMPSEQ",
           "method": 6,
           "zero_displacement": true
@@ -955,7 +953,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 9,
         "name": "JUMPSEQ",
         "method": 6,
         "zero_displacement": true
@@ -1001,7 +999,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 7,
           "name": "COPY_KID_TO_CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1009,7 +1007,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 7,
         "name": "COPY_KID_TO_CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1028,7 +1026,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 16,
           "name": "LOAD_CODE_OVERLAYS",
           "method": 6,
           "zero_displacement": true
@@ -1036,7 +1034,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 16,
         "name": "LOAD_CODE_OVERLAYS",
         "method": 6,
         "zero_displacement": true
@@ -1055,7 +1053,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 6,
           "name": "RESET_LEVEL_OVERLAYS",
           "method": 6,
           "zero_displacement": true
@@ -1063,7 +1061,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 6,
         "name": "RESET_LEVEL_OVERLAYS",
         "method": 6,
         "zero_displacement": true
@@ -1083,7 +1081,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "VIEWED_ROOM",
+          "name": "ROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -1091,7 +1089,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "VIEWED_ROOM",
+        "name": "ROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -1109,7 +1107,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 5,
           "name": "PLAY_NIS",
           "method": 6,
           "zero_displacement": true
@@ -1117,7 +1115,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 5,
         "name": "PLAY_NIS",
         "method": 6,
         "zero_displacement": true
@@ -1163,7 +1161,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 3,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -1171,7 +1169,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 3,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -1190,7 +1188,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 2,
           "name": "ALLOCATE_PAYLOAD_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -1198,7 +1196,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 2,
         "name": "ALLOCATE_PAYLOAD_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -1244,16 +1242,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
-          "name": "THRONE_RUNNING",
+          "index": 29,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 31,
-        "name": "THRONE_RUNNING",
+        "index": 29,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1271,16 +1269,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
-          "name": "THRONE_SONG_ADDED",
+          "index": 29,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 27,
-        "name": "THRONE_SONG_ADDED",
+        "index": 29,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1298,7 +1296,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 1,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -1306,7 +1304,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 1,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -1325,16 +1323,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
-          "name": "THRONE_SONG_ADDED",
+          "index": 29,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 27,
-        "name": "THRONE_SONG_ADDED",
+        "index": 29,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1352,7 +1350,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 1,
           "name": "ADDSONG",
           "method": 6,
           "zero_displacement": true
@@ -1360,7 +1358,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 1,
         "name": "ADDSONG",
         "method": 6,
         "zero_displacement": true
@@ -1379,7 +1377,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 28,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -1387,7 +1385,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 28,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -1406,16 +1404,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
-          "name": "THRONE_ROOM_NIS_PLAYED",
+          "index": 29,
+          "name": "GAMESTATE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 28,
-        "name": "THRONE_ROOM_NIS_PLAYED",
+        "index": 29,
+        "name": "GAMESTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1487,7 +1485,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 26,
           "name": "CUSTOM_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -1495,7 +1493,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 26,
         "name": "CUSTOM_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -1939,48 +1937,6 @@
         }
       }
     },
-    "SCENE_FLAG": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24870,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15337,
-          "bytes_hex": "803e266100",
-          "entry": "root:02dc:0e28"
-        }
-      ]
-    },
-    "THRONE_RUNNING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 11174,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 11026,
-          "bytes_hex": "893ea62b",
-          "entry": "root:0289:000e"
-        }
-      ]
-    },
-    "VIEWED_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23774,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "root",
-          "image_offset": 2948,
-          "bytes_hex": "a0de5c",
-          "entry": "root:0000:0e72"
-        }
-      ]
-    },
     "STORE_SCENE_RECT": {
       "entry_sha256": "f6f308493d7c91da56ba37ee26b16d878e81e2f1265eeed37d650c42a6edad22",
       "entry_target_id": "root:1f2e:0104",
@@ -2044,7 +2000,7 @@
       "space": "root",
       "witnesses": []
     },
-    "LEFT_EDGE": {
+    "CDLEFTEDGE": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
       "offset": 24854,
@@ -2072,6 +2028,34 @@
         }
       ]
     },
+    "DIR": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24866,
+      "witnesses": [
+        {
+          "bytes_hex": "a22261",
+          "entry": "root:02dc:1376",
+          "image_offset": 16702,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "a22661",
+              "entry": "overlay-12:2e49:0042",
+              "image_offset": 75,
+              "operand_offset": 1,
+              "space": "overlay-12"
+            }
+          ]
+        }
+      ]
+    },
     "MARK_MOVE": {
       "entry_sha256": "ddd684a1accd8dfe0ff7c80b4f632f6e57cc3b91cccf6654d07df72b5e0f23ac",
       "entry_target_id": "root:0b52:0dc6",
@@ -2081,31 +2065,69 @@
       "space": "root",
       "witnesses": []
     },
-    "THRONE_ROOM_NIS_PLAYED": {
+    "GAMESTATE": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
-      "offset": 11186,
+      "offset": 11170,
       "witnesses": [
         {
-          "bytes_hex": "a3b22b",
-          "entry": "root:0e78:0006",
-          "image_offset": 63325,
-          "operand_offset": 1,
+          "bytes_hex": "833ea22b02",
+          "entry": "root:0000:10fa",
+          "image_offset": 4346,
+          "operand_offset": 2,
           "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 16,
+          "witnesses": [
+            {
+              "bytes_hex": "a3b22b",
+              "entry": "root:0e78:0006",
+              "image_offset": 63325,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "893ea62b",
+              "entry": "root:0289:0274",
+              "image_offset": 11026,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 14,
+          "witnesses": [
+            {
+              "bytes_hex": "a3b02b",
+              "entry": "root:0e78:0006",
+              "image_offset": 63322,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
         }
       ]
     },
-    "THRONE_SONG_ADDED": {
+    "ROOM": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
-      "offset": 11184,
+      "offset": 23774,
       "witnesses": [
         {
-          "bytes_hex": "a3b02b",
-          "entry": "root:0e78:0006",
-          "image_offset": 63322,
+          "bytes_hex": "a0de5c",
+          "entry": "overlay-3:251b:52c2",
+          "image_offset": 21189,
           "operand_offset": 1,
-          "space": "root"
+          "space": "overlay-3"
         }
       ]
     },

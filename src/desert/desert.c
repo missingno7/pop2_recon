@@ -148,7 +148,11 @@ typedef struct {
 #pragma pack()
 extern LEVELREC Level;
 extern uword BlueSpec;
-extern int fade_active;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 extern unsigned long FrameNum;
 #pragma pack(1)
 typedef struct {
@@ -162,15 +166,24 @@ typedef struct {
 extern ROOMREC Room;
 extern int sound_room;
 extern CHARREC Kid;
-extern int next_level, pending_effect;
-extern sbyte move_up, move_down, move_forward, move_action;
+extern int NextLevel, pending_effect;
+typedef struct {
+    signed char forward, back, up, down, action;
+} Directions;
+extern Directions Dir;
 static Rect stone_bounds = {49, 11, 70, 54};
 static sbyte desert_variant = -1;
 extern DesertRoom *custom_room;
-extern uword *background_shapes;
-extern Rect clip_rect, GamePlayRect;
-extern int sprite_width;
-extern sbyte animation_tile, animation_remove;
+extern uword *Pics[5];
+extern Rect CellClipRect, GamePlayRect;
+extern int ImWidth;
+typedef struct {
+    signed char tile;
+    unsigned char room;
+    signed char state;
+    unsigned char field_3;
+} TrobRecord;
+extern TrobRecord Trob;
 extern PeelRecord peel_records[];
 
 extern void AddSong(int), AddSound(int);
@@ -272,7 +285,7 @@ void check_desert_exit(void)
 
 void cycle_desert_colors(void)
 {
-    if (!fade_active && Room.number != 1 && FrameNum % 3 == 0) {
+    if (!GameState.fade_active && Room.number != 1 && FrameNum % 3 == 0) {
         CycleColors(176, 13, 0);
         CycleColors(196, 4, 0);
         CycleColors(191, 5, 0);
@@ -317,8 +330,8 @@ void watch_desert_kid(void)
         if (is_selected_code(Char.frame))
             previous_column = Char.column;
         if (Char.x < 130) {
-            if (Level.level_number == next_level) {
-                ++next_level;
+            if (Level.level_number == NextLevel) {
+                ++NextLevel;
                 JumpSeq(2);
             } else {
                 JumpSeq(2);
@@ -327,11 +340,11 @@ void watch_desert_kid(void)
         }
     } else if (Char.room == 3) {
         if (Char.x >= 489) {
-            if (move_up || move_down || (!Char.direction && move_forward)) {
+            if (Dir.up || Dir.down || (!Char.direction && Dir.forward)) {
                 JumpSeq(2);
                 reset_char_y();
             }
-            if (!query_sound(10046) && (move_action < 0 || !Rnd(20)))
+            if (!query_sound(10046) && (Dir.action < 0 || !Rnd(20)))
                 AddSound(46);
         }
     }
@@ -373,7 +386,7 @@ void LoadDsrtCode(void)
                 desert_column = (sbyte)Rnd(4) + 1;
             }
             if (desert_variant != 2) {
-                archive = FETCH_LOCKED_SHAPE_LIST(*background_shapes);
+                archive = FETCH_LOCKED_SHAPE_LIST(*Pics[4]);
                 piece = &custom_room->pieces[15];
                 DISPOSE_HANDLE(piece->handle);
                 resource = desert_variant + custom_room->shape_base + 15;
@@ -383,7 +396,7 @@ void LoadDsrtCode(void)
                 DISPOSE_HANDLE(piece->handle);
                 piece->handle = HGETRSRC(0x53484150UL, resource + 3);
                 piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
-                CLEAR_HANDLE_OWNED(*background_shapes);
+                CLEAR_HANDLE_OWNED(*Pics[4]);
             }
             }
     }
@@ -397,20 +410,20 @@ void setup_sand(void)
     Rect *bounds;
 
     if (Char.sequence == 27) {
-        saved_clip = clip_rect;
+        saved_clip = CellClipRect;
         index = (ubyte)(FrameNum & 1) + 3;
         piece = &custom_room->pieces[index];
         piece->x = 119;
         piece->y = FChar.x;
         if (!((ubyte)FChar.flipped))
-            piece->y -= sprite_width;
+            piece->y -= ImWidth;
         bounds = &piece->rect;
         MAKESHAPERECT(bounds, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle));
         mark_bufs_for_rect(mark_move, bounds, -1);
-        clip_rect = *bounds;
+        CellClipRect = *bounds;
         draw_custom_room_image(index, piece->pass = 1);
         piece->pass = 11;
-        clip_rect = saved_clip;
+        CellClipRect = saved_clip;
     }
 }
 
@@ -422,7 +435,7 @@ void animate_desert_exit(void)
 
     frame = BlueSpec & 31;
     if (frame == 20) {
-        animation_remove = -1;
+        Trob.state = -1;
         dispatch_sound(10007);
     } else {
         ++frame;
@@ -434,10 +447,10 @@ void animate_desert_exit(void)
     piece = &custom_room->pieces[2];
     piece->rect.top -= 2;
     bounds = &piece->rect;
-    mark_move(animation_tile, bounds);
-    mark_move(animation_tile + 1, bounds);
-    mark_move(animation_tile - 10, bounds);
-    mark_move(animation_tile - 9, bounds);
+    mark_move(Trob.tile, bounds);
+    mark_move(Trob.tile + 1, bounds);
+    mark_move(Trob.tile - 10, bounds);
+    mark_move(Trob.tile - 9, bounds);
     RestoreKeepCustomPeel(piece->shape);
 }
 
@@ -480,7 +493,7 @@ void animate_desert_planks(void)
             ++frame;
         BlueSpec &= ~15;
         BlueSpec |= frame;
-        mark_move(animation_tile, &custom_room->pieces[1].rect);
+        mark_move(Trob.tile, &custom_room->pieces[1].rect);
     }
 }
 
@@ -491,10 +504,10 @@ void draw_desert_planks(Piece *piece)
 
     if (piece->shape == 11) {
         index = ((piece_state(piece) >> 1) & 7) + 1;
-        saved_clip = clip_rect;
-        clip_rect = GamePlayRect;
+        saved_clip = CellClipRect;
+        CellClipRect = GamePlayRect;
         draw_custom_room_image(index, 11);
-        clip_rect = saved_clip;
+        CellClipRect = saved_clip;
     }
 }
 
@@ -510,7 +523,7 @@ void animate_desert_rocks(void)
             ++frame;
         BlueSpec &= ~15;
         BlueSpec |= frame;
-        mark_move(animation_tile, &custom_room->pieces[1].rect);
+        mark_move(Trob.tile, &custom_room->pieces[1].rect);
     }
 }
 
@@ -521,10 +534,10 @@ void draw_desert_rocks(Piece *piece)
 
     if (piece->shape == 11) {
         index = ((piece_state(piece) >> 1) & 7) + 1;
-        saved_clip = clip_rect;
-        clip_rect = GamePlayRect;
+        saved_clip = CellClipRect;
+        CellClipRect = GamePlayRect;
         draw_custom_room_image(index, 11);
-        clip_rect = saved_clip;
+        CellClipRect = saved_clip;
     }
 }
 
@@ -554,20 +567,20 @@ void animate_desert_stone(void)
 
     if (delay == 0) {
         frame = BlueSpec & 15;
-        if (animation_remove == 3 && frame == 0)
+        if (Trob.state == 3 && frame == 0)
             AddSound(42);
 
-        if ((frame == 10 && animation_remove == 3) ||
-            (frame == 0 && animation_remove == 1)) {
-            if (animation_remove == 3 && !get_trob_by_id(30, 2))
+        if ((frame == 10 && Trob.state == 3) ||
+            (frame == 0 && Trob.state == 1)) {
+            if (Trob.state == 3 && !get_trob_by_id(30, 2))
                 add_desert_ambient();
-            animation_remove = -1;
+            Trob.state = -1;
         } else {
             BlueSpec &= ~15;
-            BlueSpec |= frame + animation_remove - 2;
+            BlueSpec |= frame + Trob.state - 2;
         }
 
-        if (animation_remove > 0)
+        if (Trob.state > 0)
             redraw_stone();
     } else if (Kid.sequence != 27 && Kid.alive < 0) {
         BlueSpec &= ~0x1f0;
@@ -594,7 +607,7 @@ void redraw_stone(void)
     Rect bounds;
 
     if (compute_trob_move_rect(&bounds, &stone_bounds)) {
-        mark_move(animation_tile, &bounds);
+        mark_move(Trob.tile, &bounds);
         mark_move(check_trob_right(), &bounds);
         mark_move(check_trob_below(), &bounds);
     }

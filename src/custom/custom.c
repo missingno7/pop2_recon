@@ -124,7 +124,7 @@ extern ROOMREC Room;
 extern ShapeHandle room_specific_handle;
 /* Rectangle passed to StrokePortRect for the style-4 border. */
 extern const int TopRowRect[4];
-extern AboveCell custom_above[];
+extern AboveCell Above[];
 extern PeelRecord peel_records[];
 extern void far pascal LoadCarpetCode(void);
 extern void far pascal UnloadCarpetCode(void);
@@ -194,7 +194,7 @@ static RoomTemplate *template_table[] = {
 };
 
 RoomTemplate *room_template = &templates[TEMPLATE_DEFAULT];
-extern unsigned int *background_shapes;
+extern unsigned int *Pics[5];
 extern CustomRect NullRect;
 extern struct Rect {
     int top, left, bottom, right;
@@ -295,9 +295,9 @@ void GetCustomAboveAry(void)
 {
     signed char i = 0;
     do {
-        custom_above[i].flags = 0;
-        custom_above[i].background = 0xC000;
-        custom_above[i].foreground = 0;
+        Above[i].flags = 0;
+        Above[i].background = 0xC000;
+        Above[i].foreground = 0;
         ++i;
     } while (i < 11);
 }
@@ -316,8 +316,8 @@ void far *GetCustomPieceShape(CustomPiece *piece)
         piece->handle = PrinceUnpackShape(
             lookup.resource = HGETRSRC(0x53484150UL,
                                             piece->shape + custom_room->shape_base),
-            2, FETCH_LOCKED_SHAPE_LIST(*background_shapes));
-        CLEAR_HANDLE_OWNED(*background_shapes);
+            2, FETCH_LOCKED_SHAPE_LIST(*Pics[4]));
+        CLEAR_HANDLE_OWNED(*Pics[4]);
     }
     return RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle);
 }
@@ -432,9 +432,9 @@ void LoadCustomRoomShapes(CustomRoom *room)
     }
 
     shape_base = room->shape_base;
-    position = SAVE_HANDLE_FLAGS(*background_shapes);
-    RELOCATE_HANDLE_PAYLOAD(*background_shapes);
-    archive = FETCH_LOCKED_SHAPE_LIST(*background_shapes);
+    position = SAVE_HANDLE_FLAGS(*Pics[4]);
+    RELOCATE_HANDLE_PAYLOAD(*Pics[4]);
+    archive = FETCH_LOCKED_SHAPE_LIST(*Pics[4]);
     bytes = (room->last_shape + 1) * sizeof(ShapeHandle);
     new_shapes = _nmalloc(bytes);
     memset(new_shapes, 0, bytes);
@@ -469,7 +469,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
             }
         } while (++i < room->count);
     }
-    RESTORE_HANDLE_FLAGS(*background_shapes, position);
+    RESTORE_HANDLE_FLAGS(*Pics[4], position);
     if (old_shapes) {
         for (i = 0; i < old_count; ++i) {
             if (old_shapes[i])

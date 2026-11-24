@@ -32,7 +32,7 @@ typedef struct { Byte kind; Byte row; Byte unknown[2]; Byte modifier; } TileAnim
 #pragma pack()
 
 extern Carpet *carpet;                /* DS:2cdc */
-extern unsigned int *carpet_source;             /* DS:6242 */
+extern unsigned int *Pics[5];
 #define CARPET_SHAPE_ID 0x62d7
 int carpet_x = 0xb0, carpet_y = 0x55;
 static struct {
@@ -47,8 +47,8 @@ static struct {
      {7, -39}, {5, -43}, {7, -42}, {8, -46}, {8, -46}},
     {5, -88, 26, 7}
 };
-extern int carpet_view_enabled;                 /* DS:6266 */
-extern int custom_count, mid_count;              /* DS:6248,624e */
+extern int NewRoom;                 /* DS:6266 */
+extern int Ct[5];
 #pragma pack(1)
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -60,7 +60,7 @@ typedef struct {
 } FCHARREC;
 #pragma pack()
 extern FCHARREC FChar;
-extern Byte draw_col, draw_row, drawn_tile_kind;       /* DS:6ccf,6cce,6cd2 */
+extern Byte ColNo, RowNo, ObjId;       /* DS:6ccf,6cce,6cd2 */
 extern CarpetDraw far carpet_draw_queue[];       /* 2fae:0000 */
 extern MidItem far mid_table[];
 #pragma pack(1)
@@ -73,7 +73,7 @@ typedef struct {
     unsigned char state;
 } DrawObject;
 #pragma pack()
-extern DrawObject cell_objects[];                /* DS:5e92 */
+extern DrawObject ObjTable[];                /* DS:5e92 */
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -125,8 +125,14 @@ typedef struct {
 #pragma pack()
 extern CELLREC Cell;
 extern unsigned int BlueSpec;               /* DS:5e48 */
-extern signed char bar_direction;                /* DS:67d0 */
-extern Rect current_clip, GamePlayRect;         /* DS:6236,09fe */
+typedef struct {
+    signed char tile;
+    unsigned char room;
+    signed char state;
+    unsigned char field_3;
+} TrobRecord;
+extern TrobRecord Trob;
+extern Rect CellClipRect, GamePlayRect;         /* DS:6236,09fe */
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -242,7 +248,7 @@ int check_carpet_image(int index)
             ENTRY->handle = 0;
         }
         copy_handle = ALLOCATE_PAYLOAD_HANDLE(sizeof(Shape));
-        source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*carpet_source);
+        source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*Pics[2]);
         copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(copy_handle);
         *copy = *source;
         copy->flags |= 4;
@@ -263,19 +269,19 @@ void draw_carpet(Byte *tile)
     ShapeRef ref;
     Shape far *shape;
 
-    if (carpet && !carpet->frame && !*tile && carpet_view_enabled) {
-        entry = &carpet_draw_queue[custom_count];
-        ++custom_count;
+    if (carpet && !carpet->frame && !*tile && NewRoom) {
+        entry = &carpet_draw_queue[Ct[0]];
+        ++Ct[0];
         entry->y = carpet_x;
         entry->x = carpet_y;
         entry->colors = CARPET_SHAPE_ID;
         entry->sheet = 4;
-        entry->col = draw_col;
-        entry->row = draw_row;
+        entry->col = ColNo;
+        entry->row = RowNo;
         shape = get_carpet_shape_info(&ref, 0);
         MAKESHAPERECT(&entry->bounds, entry->y, entry->x, shape);
         entry->order = 10;
-        entry->flags = drawn_tile_kind;
+        entry->flags = ObjId;
     }
 }
 
@@ -301,7 +307,7 @@ void draw_obj_carpet(Byte *unused)
     Byte palette;
 
     if (carpet && carpet->frame) {
-        slot = mid_count; mid_table[slot].x = FChar.x;
+        slot = Ct[3]; mid_table[slot].x = FChar.x;
         frame = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
         mid_table[slot].y = FChar.y - shape->height; mid_table[slot].sheet = 4;
         mid_table[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; mid_table[slot].clip = *(Rect *)&FChar.clip_top;
@@ -309,13 +315,13 @@ void draw_obj_carpet(Byte *unused)
         mid_table[slot].reserved = 0; mid_table[slot].invisible = 0; mid_table[slot].depth = 255;
         if (carpet_animation.scroll[frame]) {
             scroll = carpet_animation.scroll[frame];
-            cell_objects[0].y += scroll; OFFSETRECT(&cell_objects[0].clip, &cell_objects[0].clip, 0, scroll);
+            ObjTable[0].y += scroll; OFFSETRECT(&ObjTable[0].clip, &ObjTable[0].clip, 0, scroll);
         }
         if (carpet->sitting) {
             palette = carpet->frame - 4;
             if (palette < 8) set_palette(CARPET_SHAPE_ID, 16, 32, palette);
         }
-        ++mid_count; ++carpet->frame;
+        ++Ct[3]; ++carpet->frame;
         if (carpet->saved) {
             RestoreKeepCustomPeel(1); carpet->saved = 0;
         }
@@ -455,7 +461,7 @@ void unload_carpet_data(void)
 void animate_cave_bars(void)
 {
     unsigned int phase = BlueSpec & 7;
-    if (!bar_direction) {
+    if (!Trob.state) {
         if (phase < 3) {
             if (!phase)
                 AddSound(78);
@@ -472,7 +478,7 @@ void animate_cave_bars(void)
         redraw_cave_bars();
         return;
     }
-    bar_direction = -1;
+    Trob.state = -1;
 }
 
 int cave_bars_open(void)
@@ -486,14 +492,14 @@ int cave_bars_open(void)
 void draw_cave_bars(TileAnim *tile)
 {
     Rect saved;
-    if (tile->kind == 11 && tile->row == draw_col) {
-        if (!carpet_view_enabled) {
-            saved = current_clip;
-            current_clip = GamePlayRect;
+    if (tile->kind == 11 && tile->row == ColNo) {
+        if (!NewRoom) {
+            saved = CellClipRect;
+            CellClipRect = GamePlayRect;
         }
         draw_custom_room_image((tile->modifier & 7) + 2, 11);
-        if (!carpet_view_enabled)
-            current_clip = saved;
+        if (!NewRoom)
+            CellClipRect = saved;
     }
 }
 

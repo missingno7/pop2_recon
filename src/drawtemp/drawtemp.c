@@ -46,11 +46,11 @@ typedef struct MovingExit {
     signed char height;
 } MovingExit;
 
-extern int draw_pass_mode;
-extern DrawRect clip_rect, GamePlayRect;
+extern int NewRoom;
+extern DrawRect CellClipRect, GamePlayRect;
 extern int Row2PixelY[];
 extern ShapeOffsets *Pieces;
-extern Byte viewed_room;
+extern Byte Room;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -107,8 +107,8 @@ extern MovingExit *get_trob_room_cell(int tile);
 
 static int loose_odd[12] = { 0, 1, 0, 2, 2, 0, 0, 0, 1, 1, 1, 0 };
 static int loose_even[12] = { 0, 2, 2, 0, 1, 1, 0, 2, 2, 2, 0, 1 };
-extern signed char redraw_row;
-extern Byte drawn_tile_kind;
+extern signed char RowNo;
+extern Byte ObjId;
 extern int is_six_kind(Byte);
 extern DrawRect TempTorchRect;
 extern DrawRect *ComputeOffsetCellRect(DrawRect *, const DrawRect *, int, int);
@@ -140,16 +140,16 @@ void draw_temple_back_wall(TempleCell *cell)
             paired = 0;
         }
 
-        if (!draw_pass_mode) {
+        if (!NewRoom) {
             shape = get_back_table_image_row(image, cell->column - 1, cell->row);
-            if (shape && SECTRECT(&overlap, &shape->clip, &clip_rect)) {
+            if (shape && SECTRECT(&overlap, &shape->clip, &CellClipRect)) {
                 fallback = 0;
-                UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
+                UNIONRECT(&shape->clip, &shape->clip, &CellClipRect);
                 if (paired) {
                     shape = get_back_table_image_row(image + 1, cell->column - 1, cell->row);
                     if (shape) {
-                        if (SECTRECT(&overlap, &shape->clip, &clip_rect))
-                            UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
+                        if (SECTRECT(&overlap, &shape->clip, &CellClipRect))
+                            UNIONRECT(&shape->clip, &shape->clip, &CellClipRect);
                     }
                 }
             } else {
@@ -164,11 +164,11 @@ void draw_temple_back_wall(TempleCell *cell)
         if (!shape && (fallback || !modifier ||
                        (cell->column == -1 && modifier <= 3) || cell->row == 3)) {
             fallback = 1;
-            saved_top = clip_rect.top;
+            saved_top = CellClipRect.top;
             if (cell->row >= 0 && !visible_above_piece(cell->column, cell->row)) {
-                if (Row2PixelY[cell->row] > clip_rect.left) {
-                    clip_rect.top = Row2PixelY[cell->row] < saved_top ? saved_top : Row2PixelY[cell->row];
-                    if (EMPTYRECT(&clip_rect))
+                if (Row2PixelY[cell->row] > CellClipRect.left) {
+                    CellClipRect.top = Row2PixelY[cell->row] < saved_top ? saved_top : Row2PixelY[cell->row];
+                    if (EMPTYRECT(&CellClipRect))
                         fallback = 0;
                 }
             }
@@ -178,7 +178,7 @@ void draw_temple_back_wall(TempleCell *cell)
                 if (paired)
                     AddBFImgToBTable(modifier, -2, cell->column, cell->row, 0, 0);
             }
-            clip_rect.top = saved_top;
+            CellClipRect.top = saved_top;
         }
     }
 }
@@ -191,13 +191,13 @@ void draw_temple_block(TempleCell *cell)
 
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode)
+        if (NewRoom)
             draw_temple_back_wall(cell);
         break;
     case 1:
         image = (cell->modifier & 7) + 24;
         if (image > 25) {
-            if (!draw_pass_mode) {
+            if (!NewRoom) {
                 Pieces->block_y = -32;
                 image -= 2;
             } else {
@@ -237,7 +237,7 @@ void draw_temple_exit_left(TempleCell *cell)
     AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode)
+        if (NewRoom)
             draw_temple_back_wall(cell);
         break;
     case 1:
@@ -263,7 +263,7 @@ void draw_temple_exit_right(TempleCell *cell)
     AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
-        if (draw_pass_mode) {
+        if (NewRoom) {
             draw_temple_back_wall(cell);
             draw_temple_exit_movable(cell);
         }
@@ -294,11 +294,11 @@ void draw_temple_exit_movable(TempleCell *cell)
     DrawRect door_clip, saved_clip;
     MovingExit *moving;
     if (cell->pass == 5) {
-        saved_clip = clip_rect;
+        saved_clip = CellClipRect;
         door_clip = GamePlayRect;
         door_clip.top = cell->row * 63 - 5;
-        if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
-            moving = get_trob_room_cell(cell->column + FirstInRow(viewed_room, cell->row));
+        if (SECTRECT(&CellClipRect, &CellClipRect, &door_clip)) {
+            moving = get_trob_room_cell(cell->column + FirstInRow(Room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 0, 0);
             Pieces->exit_y = -(19 + ((CELL_INFO_WORD(cell, 0) & 255) < 42 ? (CELL_INFO_WORD(cell, 0) & 255) : 42));
@@ -306,7 +306,7 @@ void draw_temple_exit_movable(TempleCell *cell)
             add_image = Kid.frame >= 217 && Kid.frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
-        clip_rect = saved_clip;
+        CellClipRect = saved_clip;
     }
 }
 
@@ -388,10 +388,10 @@ void draw_temple_gate_movable(TempleCell *cell)
     DrawRect gate_clip, saved_clip;
     unsigned int height;
 
-    saved_clip = clip_rect;
+    saved_clip = CellClipRect;
     gate_clip = GamePlayRect;
     gate_clip.top = cell->row * 63 - 10;
-    if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
+    if (SECTRECT(&CellClipRect, &CellClipRect, &gate_clip)) {
         height = (CELL_INFO_WORD(cell, 0) & 252) >> 2;
         Pieces->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
@@ -408,7 +408,7 @@ void draw_temple_gate_movable(TempleCell *cell)
         if (draw)
             draw(55, -2, cell->column, cell->row, 10, 0);
     }
-    clip_rect = saved_clip;
+    CellClipRect = saved_clip;
 }
 
 void draw_temple_loose(TempleCell *cell)
@@ -557,7 +557,7 @@ void draw_temple_posts(TempleCell *cell)
         break;
     case 1:
         if (!image) { draw = add_middle_item; image = 44; }
-        else if (!draw_pass_mode || image == 1) {
+        else if (!NewRoom || image == 1) {
             draw = add_middle_item;
             Pieces->posts_y = 0;
             if (image == 2)
@@ -627,11 +627,11 @@ void draw_temple_space(TempleCell *cell)
     int draw;
     if (cell->pass == 0) {
         draw = 0;
-        if (cell->row == redraw_row)
+        if (cell->row == RowNo)
             draw = 1;
-        else if (cell->row - redraw_row == 1)
+        else if (cell->row - RowNo == 1)
             draw = visible_above_piece(cell->column, cell->row);
-        if (!draw && redraw_row == -1 && is_six_kind(drawn_tile_kind))
+        if (!draw && RowNo == -1 && is_six_kind(ObjId))
             draw = 1;
         if (draw)
             draw_temple_back_wall(cell);
@@ -673,7 +673,7 @@ void draw_temple_torch(TempleCell *cell)
     switch (cell->pass) {
     case 0:
         ComputeOffsetCellRect(&torch_clip, &TempTorchRect, cell->column, cell->row);
-        if (!EncloseRect(&torch_clip, &clip_rect)) {
+        if (!EncloseRect(&torch_clip, &CellClipRect)) {
             draw_temple_floor(&floor_cell);
             AddBImgToBTable(19, -2, cell->column, cell->row, 0, 0);
         }

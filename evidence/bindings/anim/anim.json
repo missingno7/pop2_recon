@@ -196,8 +196,8 @@
       "SET_ORIGIN",
       "ALLOCATE_BUFFER",
       "SWAP_RECORD_PAIRS",
-      "LOAD_ALL_ANIMATION_SHAPES",
-      "ANIMATION_COLOR_MODE",
+      "FORCESHAPES",
+      "TGAMODE",
       "OFFSETRECT",
       "_sprintf",
       "PUSH_PORT_CLIP",
@@ -208,7 +208,7 @@
       "CHECK_WAIT_FUNCTION",
       "POP_PORT_CLIP",
       "FADE_OUT_AND_RESTORE_PALETTE",
-      "ANIMATION_CALLBACK_ARGUMENT",
+      "FORCEFUNCPARAM",
       "DISPATCH_RESOURCE_POINTER",
       "CLOCK_TICKS",
       "WAIT_SOUND",
@@ -1657,7 +1657,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "LOAD_ALL_ANIMATION_SHAPES",
+          "name": "FORCESHAPES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1665,7 +1665,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "LOAD_ALL_ANIMATION_SHAPES",
+        "name": "FORCESHAPES",
         "method": 6,
         "zero_displacement": true
       },
@@ -1684,7 +1684,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "LOAD_ALL_ANIMATION_SHAPES",
+          "name": "FORCESHAPES",
           "method": 6,
           "zero_displacement": true
         }
@@ -1692,7 +1692,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "LOAD_ALL_ANIMATION_SHAPES",
+        "name": "FORCESHAPES",
         "method": 6,
         "zero_displacement": true
       },
@@ -2683,7 +2683,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "ANIMATION_COLOR_MODE",
+          "name": "TGAMODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2691,7 +2691,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "ANIMATION_COLOR_MODE",
+        "name": "TGAMODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2737,7 +2737,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "ANIMATION_COLOR_MODE",
+          "name": "TGAMODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2745,7 +2745,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "ANIMATION_COLOR_MODE",
+        "name": "TGAMODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3024,7 +3024,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "ANIMATION_COLOR_MODE",
+          "name": "TGAMODE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3032,7 +3032,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "ANIMATION_COLOR_MODE",
+        "name": "TGAMODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3051,7 +3051,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "ANIMATION_CALLBACK_ARGUMENT",
+          "name": "FORCEFUNCPARAM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3059,7 +3059,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "ANIMATION_CALLBACK_ARGUMENT",
+        "name": "FORCEFUNCPARAM",
         "method": 6,
         "zero_displacement": true
       },
@@ -3078,7 +3078,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "ANIMATION_CALLBACK_ARGUMENT",
+          "name": "FORCEFUNCPARAM",
           "method": 6,
           "zero_displacement": true
         }
@@ -3086,7 +3086,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "ANIMATION_CALLBACK_ARGUMENT",
+        "name": "FORCEFUNCPARAM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4023,7 +4023,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "LOAD_ALL_ANIMATION_SHAPES",
+          "name": "FORCESHAPES",
           "method": 6,
           "zero_displacement": true
         }
@@ -4031,7 +4031,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "LOAD_ALL_ANIMATION_SHAPES",
+        "name": "FORCESHAPES",
         "method": 6,
         "zero_displacement": true
       },
@@ -4366,26 +4366,6 @@
         }
       ]
     },
-    "ANIMATION_CALLBACK_ARGUMENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26932,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "overlay-2",
-          "image_offset": 3088,
-          "bytes_hex": "c70634690200",
-          "entry": "overlay-2:255a:0708"
-        }
-      ]
-    },
-    "ANIMATION_COLOR_MODE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26974,
-      "witnesses": []
-    },
     "CHECK_WAIT_FUNCTION": {
       "entry_sha256": "0f338eb53c7eec670bf5f09086347e27f91d1ac376ded11671eb3816d8e4a628",
       "entry_target_id": "root:1f74:009c",
@@ -4602,12 +4582,6 @@
           "entry": "overlay-2:255a:0708"
         }
       ]
-    },
-    "LOAD_ALL_ANIMATION_SHAPES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26976,
-      "witnesses": []
     },
     "LOAD_RESOURCE_PINNED": {
       "entry_sha256": "40105024e40c273dc6f06ef20d80dd2dd91a177b552c225b96ef37be6c76ff64",
@@ -5111,6 +5085,12 @@
         }
       ]
     },
+    "FORCESHAPES": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26976,
+      "witnesses": []
+    },
     "ANIMATION_WAIT_LEVEL": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -5122,6 +5102,26 @@
           "image_offset": 84005,
           "operand_offset": 2,
           "space": "root"
+        }
+      ]
+    },
+    "TGAMODE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26974,
+      "witnesses": []
+    },
+    "FORCEFUNCPARAM": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26932,
+      "witnesses": [
+        {
+          "bytes_hex": "c70634690200",
+          "entry": "overlay-2:255a:0708",
+          "image_offset": 3088,
+          "operand_offset": 2,
+          "space": "overlay-2"
         }
       ]
     }

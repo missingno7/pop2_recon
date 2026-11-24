@@ -857,6 +857,47 @@ class SolvedFrameTests(unittest.TestCase):
         self.assertIsNone(self.solve([(0x100, 0x10, 0x0400), (0x104, 0x12, 0x0404)], frames=(0x101,)))
 
 
+class InlineDataTests(unittest.TestCase):
+    """A CS: variable between two code runs is excluded from decoding only with a return before and a branch behind it."""
+
+    def found(self, code, targets):
+        import module_gate
+        return module_gate._inline_data(bytes.fromhex(code), targets, [], 0)
+
+    def test_byte_behind_a_return_with_a_branch_target_after_it(self):
+        # cmp byte cs:[8],0; jg 9; retf; DB 0; inc ax; retf
+        code = "2e803e0900007f02cb0040cb"
+        self.assertEqual(self.found(code, {3: 9}), [(9, 10)])
+
+    def test_every_condition_is_required(self):
+        self.assertEqual(self.found("2e803e0900007f02900040cb", {3: 9}), [])   # no return before it
+        self.assertEqual(self.found("2e803e0900007f03cb0040cb", {3: 9}), [])   # no branch behind it
+        self.assertEqual(self.found("26803e0900007f02cb0040cb", {3: 9}), [])   # ES operand
+        self.assertEqual(self.found("2e803e0900007f02cb0040cb", {3: 8}), [])   # another target
+
+
+class LinkerSymbolTests(unittest.TestCase):
+    """`_end` is the value every `_end` fixup of the pinned crt0.asm reads in the original."""
+
+    def symbol(self, **changes):
+        from common import ROOT, read_json
+        binding = read_json(ROOT / "evidence/bindings/timer_hooks.json")
+        symbol = next(s for s in binding["symbols"].values() if s.get("provider") == "linker")
+        return dict(symbol, **changes)
+
+    def test_startup_code_grounds_the_end_symbol(self):
+        import module_gate
+        from oracle import Oracle
+        oracle = Oracle.load()
+        good = module_gate._linker_public("_END", self.symbol(), oracle)
+        self.assertEqual((good["offset"], good["provider"]), (0x6B74, "linker"))
+        for name, symbol in (("_END", self.symbol(offset=0x6B76)), ("_main", self.symbol()),
+                             ("_EDATA", self.symbol()),
+                             ("_END", self.symbol(archive=dict(self.symbol()["archive"], archive_offset=1232)))):
+            with self.assertRaises(ValueError):
+                module_gate._linker_public(name, symbol, oracle)
+
+
 class PlacedSupportTests(unittest.TestCase):
     """Fields into a placed segment without unique content need two equal claimed sites."""
 

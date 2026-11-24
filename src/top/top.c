@@ -93,22 +93,22 @@ typedef struct {
 #pragma pack()
 
 extern frame_proc level_frame_procs[];             /* ds:06d4 */
-extern int far *rebirth_data;                      /* ds:5bfc */
-extern signed char game_request;                   /* ds:6ccc */
+extern int far *hRebirthSaved;                      /* ds:5bfc */
+extern signed char StartLevel;                   /* ds:6ccc */
 extern signed char CutRoom;                   /* ds:6ccd */
-extern signed char starting_health;                /* ds:6cd1 */
-extern int resume_mode;                            /* ds:5e00 */
+extern signed char OrigLifePts;                /* ds:6cd1 */
+extern int Resume;                            /* ds:5e00 */
 extern struct { signed char argument, entrance_mode; } entrance_state;
 extern struct {
     signed char facing;
     signed char death_countdown;
 } player_start;
 extern int mirror_state;                           /* ds:5e08 */
-extern int room_sound_offset;                      /* ds:5e0c */
-extern int room_changed;                           /* ds:5e0e */
-extern int gameplay_dialog_active;                            /* ds:5e18 */
-extern int debug_reload_room;                           /* ds:5e1a */
-extern int draw_interlude;                         /* ds:5e1c */
+extern int BPort;                      /* ds:5e0c */
+extern int Player;                           /* ds:5e0e */
+extern int RedrawFlag;                            /* ds:5e18 */
+extern int DoBlackOut;                           /* ds:5e1a */
+extern int BlackOut;                         /* ds:5e1c */
 typedef struct {
     unsigned char enabled;
     signed char cue;
@@ -117,9 +117,9 @@ typedef struct {
     int reserved;
 } AmbientState;
 extern AmbientState ambient_state;                           /* ds:5e22 */
-extern unsigned remaining_minutes;                 /* ds:5e2a */
-extern int restart_request;                        /* ds:5e2c */
-extern int skip_frame;                             /* ds:5e2e */
+extern unsigned Minutes;                 /* ds:5e2a */
+extern int RestartLevel;                        /* ds:5e2c */
+extern int TimeRequest;                             /* ds:5e2e */
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -131,24 +131,23 @@ typedef struct {
 #pragma pack()
 extern ROOMREC Room;
 extern LEVELREC Level;
-extern int freeze_ticks;                           /* ds:5e3e */
-extern int sequence_delay;                    /* ds:5e40 */
-extern int pending_sequence;                       /* ds:5e42 */
-extern int remaining_ticks;                        /* ds:5e44 */
-extern int next_level;                             /* ds:5e46 */
-extern int cut_required;                           /* ds:5e5e */
+extern int BackToLife;                           /* ds:5e3e */
+extern int MsgTimer;                    /* ds:5e40 */
+extern int MsgTimerStart;                       /* ds:5e42 */
+extern int SixtiethsCtr;                        /* ds:5e44 */
+extern int NextLevel;                             /* ds:5e46 */
+extern int CutPlan;                           /* ds:5e5e */
 extern unsigned long FrameNum;                             /* ds:5e60 */
 extern int Invert;                         /* ds:5e8e */
-extern int block_ticks;                       /* ds:5e90 */
+extern int WeightlessTimer;                       /* ds:5e90 */
 extern volatile int tick_delay;                             /* ds:264e */
-extern int fade_active;
-extern int recording_mode;                         /* ds:2cfa */
-extern int plateau_room_loaded;
-extern int plateau_state_1;
-extern int plateau_state_2;
-extern unsigned int escher_room_eight_seen;
-extern int draw_pass;                              /* ds:6a4a */
-extern int input_enabled;                          /* ds:6266 */
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
+extern int CutTimer;                              /* ds:6a4a */
+extern int NewRoom;                          /* ds:6266 */
 extern int Graf;                           /* ds:25c0 */
 extern int custom_room;                          /* ds:0228 */
 extern int special_sequence;                       /* ds:0a16 */
@@ -157,13 +156,13 @@ extern int pending_effect;                             /* ds:08fe */
 extern int pending_song;                             /* ds:0900 */
 extern int frame_diagnostics;                           /* ds:1142 */
 extern int nis_skip_requested;                           /* ds:1504 */
-extern int view_retry;                             /* ds:6296 */
-extern int kid_step;                      /* ds:6298 */
-extern int action_timer;                           /* ds:629a */
-extern int guard_timer;                            /* ds:629c */
-extern int control_lock;                           /* ds:629e */
-extern int collision_pending;                      /* ds:62de */
-extern int transition_pending;                     /* ds:67cc */
+extern int ShakeFloor;                             /* ds:6296 */
+extern int AlertGuard;                      /* ds:6298 */
+extern int DroppedOut;                           /* ds:629a */
+extern int Screamed;                            /* ds:629c */
+extern int Stunned;                           /* ds:629e */
+extern int MobCt;                      /* ds:62de */
+extern int TrobCt;                     /* ds:67cc */
 extern char quote_index;                            /* ds:01d6 */
 #pragma pack(1)
 typedef struct {
@@ -178,15 +177,15 @@ typedef struct {
 #pragma pack()
 extern CELLREC Cell;
 extern int ColEdgeX[20];
-extern char room_render_flags[10];                  /* ds:6248 */
-extern unsigned char *room_kinds;                   /* ds:6294 */
+extern char Ct[10];
+extern unsigned char *BlueT;                   /* ds:6294 */
 static char level_option[] = "LEVEL";
 struct char_bounds GamePlayRect = { 0, 0, 192, 320 };
 extern char ScreenPortRect[];                         /* ds:1fe0 */
 
 extern void CheckBPort(void);              /* far:0a5c:004e */
-extern int find_option(char far *);                  /* far:1101:29aa */
-extern int CheckPlayNIS(int, int);             /* far:0284:000e */
+extern int find_option(char far *name);                  /* far:1101:29aa */
+extern int CheckPlayNIS(int level, int previous_level);             /* far:0284:000e */
 extern char poll_and_clear_pending_state(void);             /* far:0000:0210 */
 extern void load_level(char value);                       /* far:0a5c:01b4 */
 extern void load_minimum_level(char);               /* far:0a5c:02f4 */
@@ -339,15 +338,15 @@ int start_game(signed char requested)
 {
     CheckBPort();
     reset_level_overlays();
-    skip_frame = freeze_ticks = sequence_delay = pending_sequence = 0;
-    if (!resume_mode) {
-        remaining_minutes = 75;
-        remaining_ticks = 719;
-        starting_health = 3;
+    TimeRequest = BackToLife = MsgTimer = MsgTimerStart = 0;
+    if (!Resume) {
+        Minutes = 75;
+        SixtiethsCtr = 719;
+        OrigLifePts = 3;
         if (frame_diagnostics && find_option(level_option)) {
             signed char health = Level.level_number;
             health = health < 3 ? 3 : health;
-            starting_health = health > 12 ? 12 : health;
+            OrigLifePts = health > 12 ? 12 : health;
         }
     }
     return requested = restart_level(requested);
@@ -361,13 +360,13 @@ int restart_level(signed char requested)
     if (requested) do {
         if (requested == -1 || requested > 14)
             break;
-        if (!resume_mode) {
+        if (!Resume) {
             reload = CheckPlayNIS(LevelIdx, requested);
             if (nis_skip_requested) {
-                previous_request = game_request;
-                game_request = requested;
+                previous_request = StartLevel;
+                StartLevel = requested;
                 requested = poll_and_clear_pending_state();
-                game_request = previous_request;
+                StartLevel = previous_request;
                 reload = 1;
             }
             if (requested != LevelIdx)
@@ -387,7 +386,7 @@ int restart_level(signed char requested)
         InitInput();
         init_level_specific();
         Room.number = 0;
-        special_sequence = control_lock = transition_pending = collision_pending = 0;
+        special_sequence = Stunned = TrobCt = MobCt = 0;
         pending_song = pending_effect = -1;
         Kid.life_delta = 0;
         RoomOpp[0].direction = 0x56;
@@ -395,15 +394,15 @@ int restart_level(signed char requested)
         open_start_gate();
         requested = first_frame(requested);
         if (requested != -1) {
-            if (recording_mode)
+            if (GameState.recording_mode)
                 reset_recorded_playback();
             requested = run_frames();
             if (requested != -1)
                 clear_peels();
-            if (recording_mode) {
+            if (GameState.recording_mode) {
                 CheckRecordedGamePlayer();
                 requested = LevelIdx = 0;
-                next_level = 0;
+                NextLevel = 0;
             }
         }
     } while (requested);
@@ -432,7 +431,7 @@ void start_kid(void)
     Char.direction = ~Level.entry_facing;
     seq = SetRebirthPtKidStatus();
     Char.x = ColEdgeX[Char.column + 5] + 14;
-    Char.life_initial = Char.life_points = starting_health;
+    Char.life_initial = Char.life_points = OrigLifePts;
     repeat = 0;
     if (seq == -1) {
         if (Level.environment_kind == 5 && Level.entry_room == 4) {
@@ -462,7 +461,7 @@ void start_kid(void)
     finish_start_kid();
     player_start.death_countdown = -1;
     mirror_state = 0;
-    room_changed = 1;
+    Player = 1;
 }
 
 void finish_start_kid(void)
@@ -475,7 +474,7 @@ void finish_start_kid(void)
     Char.opponent_index = Char.alive = -1;
     reset_char_y();
     ClearCharVel();
-    action_timer = guard_timer = block_ticks = view_retry = 0;
+    DroppedOut = Screamed = WeightlessTimer = ShakeFloor = 0;
     Char.stance = player_start.facing == -1 ? -1 : 0;
     AnimChar();
     Kid = Char;
@@ -501,7 +500,7 @@ void open_start_gate(void)
     if (Kid.room == Level.entry_room || Level.level_number == 7 || Level.level_number == 6) {
         select_room_arrays(Kid.room);
         cell = 0;
-        while (room_kinds[cell] != 17) {
+        while (BlueT[cell] != 17) {
             if (++cell >= 30)
                 return;
         }
@@ -520,7 +519,7 @@ int first_frame(signed char requested)
             STROKE_PORT_RECT(ScreenPortRect);
         else
             clear_message(1);
-        sequence_delay = pending_sequence = 0;
+        MsgTimer = MsgTimerStart = 0;
         clean_cut();
         DrawKidMeter(Kid.life_points, Kid.life_initial);
         tick_delay = 5;
@@ -535,38 +534,38 @@ int first_frame(signed char requested)
 
 void clean_cut(void)
 {
-    cut_required = 0;
-    if (draw_interlude) {
+    CutPlan = 0;
+    if (BlackOut) {
         SET_RECORD_RANGE((char *)&GamePlayRect, 12);
     } else {
-        input_enabled = 1;
+        NewRoom = 1;
         clear_keyboard();
         full_redraw();
         clear_keyboard();
-        Graf = room_sound_offset;
+        Graf = BPort;
         CheckRoomSpecific(); draw_all();
         clear_keyboard();
         if (custom_room)
             UnloadCustomRoomShapes(0);
         clear_keyboard();
-        draw_interlude = input_enabled = 0;
-        memset(room_render_flags, 0, sizeof(room_render_flags));
+        BlackOut = NewRoom = 0;
+        memset(Ct, 0, sizeof(Ct));
         full_redraw_fast();
         clear_keyboard();
         draw_all();
         clear_keyboard();
         if (Invert)
-            InvertBitMap((char *)room_sound_offset);
+            InvertBitMap((char *)BPort);
         clear_keyboard();
         load_opponent_banks();
         PrinceCopy((char *)&GamePlayRect);
         restore_game_play_palette();
         clear_keyboard();
         if (Invert)
-            InvertBitMap((char *)room_sound_offset);
+            InvertBitMap((char *)BPort);
         clear_keyboard();
     }
-    draw_pass = 2;
+    CutTimer = 2;
 }
 
 int run_frames(void)
@@ -577,25 +576,25 @@ int run_frames(void)
         reset_frame_vars();
         request = next_frame();
         if (request == -2) {
-            if (restart_request) {
+            if (RestartLevel) {
                 request = reset_level();
-            } else if (LevelIdx != next_level && !is_leave_level_music_on() &&
+            } else if (LevelIdx != NextLevel && !is_leave_level_music_on() &&
                        (!query_sound(current_effect + 10000) ||
                         current_effect == 4 || current_effect == 7 || current_effect == 54)) {
-                if (next_level == -1 || (Level.level_number != 9 && Level.level_number != 5))
+                if (NextLevel == -1 || (Level.level_number != 9 && Level.level_number != 5))
                     dispatch_sound(0);
-                starting_health = Kid.life_initial;
-                request = next_level;
+                OrigLifePts = Kid.life_initial;
+                request = NextLevel;
                 RemoveRebirthPt();
             } else {
                 request = advance_frame();
                 if (request == -2) {
                     if (tick_delay) {
-                        if (fade_active)
-                            --fade_active;
+                        if (GameState.fade_active)
+                            --GameState.fade_active;
                         wait_timer_no_poll(1);
-                    } else if (fade_active < 20) {
-                        ++fade_active;
+                    } else if (GameState.fade_active < 20) {
+                        ++GameState.fade_active;
                     }
                 }
             }
@@ -618,7 +617,7 @@ int next_frame(void)
     result = run_kid();
     if (!result) {
         run_shadows();
-        if (!freeze_ticks && Room.number) {
+        if (!BackToLife && Room.number) {
             dispatch_guard_reaction();
             check_stab();
         }
@@ -631,9 +630,9 @@ int next_frame(void)
         if (result == -2) {
             cut_room_opponents();
             KeepTime();
-            if (!remaining_minutes) {
+            if (!Minutes) {
                 lose_game();
-                game_request = 0;
+                StartLevel = 0;
                 result = -1;
             }
             return result;
@@ -664,7 +663,7 @@ int run_kid(void)
         reread_cells();
         result = ctrl_player();
         if (result != -1) {
-            if (!restart_request) {
+            if (!RestartLevel) {
                 AnimChar();
                 if (!Char.frame)
                     goto normal_result;
@@ -683,12 +682,12 @@ int run_kid(void)
                 case 2:
                     CheckSpikes();
                     check_trapdoor();
-                    if (!freeze_ticks)
+                    if (!BackToLife)
                         CheckImpale();
                     /* fall through */
                 case 4:
                     CheckScythe();
-                    if (!freeze_ticks)
+                    if (!BackToLife)
                         CheckScytheHit();
                     break;
                 case 3:
@@ -701,7 +700,7 @@ normal_result:
                 goto save_result;
 room_set_c:
                 CheckSpikes();
-                if (!freeze_ticks) {
+                if (!BackToLife) {
                     check_dart_hit();
                     CheckImpale();
                     check_lava_boil();
@@ -818,7 +817,7 @@ void run_shadows(void)
             --count;
         }
     } while (++index < count);
-    kid_step = 0;
+    AlertGuard = 0;
 }
 
 int advance_frame(void)
@@ -827,25 +826,25 @@ int advance_frame(void)
 
     ++FrameNum;
     result = -2;
-    if (debug_reload_room) {
+    if (DoBlackOut) {
         clean_cut();
-        debug_reload_room = 0;
-    } else if (cut_required) {
+        DoBlackOut = 0;
+    } else if (CutPlan) {
         Room.number = CutRoom;
         clean_cut();
-    } else if (gameplay_dialog_active) {
-        gameplay_dialog_active = 0;
+    } else if (RedrawFlag) {
+        RedrawFlag = 0;
         LoadCustomRoomData(Room.number);
         clean_cut();
         draw_meters();
     } else {
-        memset(room_render_flags, 0, sizeof(room_render_flags)); full_redraw_fast(); draw_all();
-        if (draw_interlude) STROKE_PORT_RECT((char *)&GamePlayRect);
+        memset(Ct, 0, sizeof(Ct)); full_redraw_fast(); draw_all();
+        if (BlackOut) STROKE_PORT_RECT((char *)&GamePlayRect);
         if (Invert)
-            InvertBitMap((char *)room_sound_offset);
+            InvertBitMap((char *)BPort);
         copy_dirty_rectangles();
         if (Invert) {
-            InvertBitMap((char *)room_sound_offset);
+            InvertBitMap((char *)BPort);
             if (Invert == 1)
                 ToggleInvertState();
             else if (Kid.alive < 0)
@@ -854,21 +853,21 @@ int advance_frame(void)
     }
     play_sounds();
     play_ambient(&ambient_state);
-    if (sequence_delay == 1) {
-        if (pending_sequence == 36 || pending_sequence == 600) {
-            game_request = 0;
+    if (MsgTimer == 1) {
+        if (MsgTimerStart == 36 || MsgTimerStart == 600) {
+            StartLevel = 0;
             result = -1;
         } else {
             clear_message(1);
         }
-    } else if (sequence_delay && pending_sequence != 1188) {
+    } else if (MsgTimer && MsgTimerStart != 1188) {
         if (special_sequence != -1)
-            --sequence_delay;
-        if (pending_sequence == 600) {
+            --MsgTimer;
+        if (MsgTimerStart == 600) {
             if (Room.number == 4 && Level.level_number == 13 && !special_sequence)
                 special_sequence = 1;
-            if ((unsigned)sequence_delay < 120) {
-                phase = (unsigned)sequence_delay % 12;
+            if ((unsigned)MsgTimer < 120) {
+                phase = (unsigned)MsgTimer % 12;
                 if (phase > 3) {
                     clear_message(0);
                 } else if (phase == 3) {
@@ -952,7 +951,7 @@ void check_rebirth_points(void)
         Kid.character_kind != 1 && (Kid.room != 9 || Level.level_number != 8 || player_start.facing == 1)) {
         for (index = 0; index < 2; ++index) {
             if (Kid.room == Level.rebirth_points[index].room && FirstInRow(Kid.row) + Kid.column == Level.rebirth_points[index].cell &&
-                (!rebirth_data || *rebirth_data - index != 1))
+                (!hRebirthSaved || *hRebirthSaved - index != 1))
                 SaveRebirthPtStatus(index + 1);
         }
     }
@@ -960,18 +959,18 @@ void check_rebirth_points(void)
 
 void adjust_guard_view(void)
 {
-    if (view_retry) {
-        shake_row(Char.room, (signed char)(Char.row - (view_retry >= 1 ? 1 : 0)));
-        view_retry = 0;
+    if (ShakeFloor) {
+        shake_row(Char.room, (signed char)(Char.row - (ShakeFloor >= 1 ? 1 : 0)));
+        ShakeFloor = 0;
     }
 }
 
 void tick_misc_timers(void)
 {
-    if (freeze_ticks > 0)
-        --freeze_ticks;
-    if (block_ticks)
-        --block_ticks;
+    if (BackToLife > 0)
+        --BackToLife;
+    if (WeightlessTimer)
+        --WeightlessTimer;
 }
 
 void face_first_guard(void)
@@ -1022,9 +1021,9 @@ void init_level_specific(void)
         if (Level.level_number == 5)
             initialize_bridge();
     } else if (Level.environment_kind == 4) {
-        plateau_state_2 = plateau_state_1 = plateau_room_loaded = 0;
+        GameState.throne_nis_played = GameState.throne_song_added = GameState.plateau_loaded = 0;
     } else if (Level.environment_kind == 6) {
-        escher_room_eight_seen = 0;
+        GameState.escher_room_eight_seen = 0;
     }
 }
 
@@ -1093,15 +1092,15 @@ void call_level_frame_proc(void)
 
 signed char reset_level(void)
 {
-    restart_request = 0;
-    if (LevelIdx == next_level) {
+    RestartLevel = 0;
+    if (LevelIdx == NextLevel) {
         save_game_play_palette();
         STROKE_PORT_RECT((char *)&GamePlayRect);
-        if (game_request)
+        if (StartLevel)
             return LevelIdx;
         return 0;
     }
-    return next_level;
+    return NextLevel;
 }
 
 extern int play_nis(int);                   /* far:0284:0226 */
@@ -1112,7 +1111,7 @@ void lose_game(void)
 
     dispatch_sound(0);
     result = play_nis(28);
-    remaining_minutes = 0;
+    Minutes = 0;
     quote_index = 8;
     if (result == 2)
         reset_level_overlays();

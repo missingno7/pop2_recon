@@ -322,8 +322,8 @@ static unsigned char animation_command_codes[] = {
 static unsigned char animation_operand_lengths[] = {
     0, 4, 2, 2, 2, 2, 1, 0, 2, 4, 4, 4, 4, 4, 8, 8, 1
 };
-extern int load_all_animation_shapes;
-extern int animation_color_mode;
+extern int ForceShapes;
+extern int TGAMode;
 extern int cdecl sprintf(char *, const char *, ...);
 extern void abort_with_message(int, const char far *);
 
@@ -352,9 +352,9 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         }
         idx = 0;
         do {
-            used_entries[idx] = (unsigned char)load_all_animation_shapes;
+            used_entries[idx] = (unsigned char)ForceShapes;
         } while (++idx < (int)sizeof(used_entries));
-        if (!load_all_animation_shapes) {
+        if (!ForceShapes) {
             command_cursor = commands + sizeof(Rect);
             while ((operation = *command_cursor) != 0) {
                 for (idx = 0; idx < 8; ++idx) {
@@ -386,7 +386,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         anim_record->handle_count = count;
         sheet_info = fetch_locked_shape_list(sheet);
         if (sheet_info) {
-            animation_color_mode = sheet_info->depth <= 16;
+            TGAMode = sheet_info->depth <= 16;
             if (sheet_info->sound == 0) {
                 load_shape_list_banks(sheet);
                 anim_record->sound_flag = sheet_info->sound;
@@ -394,7 +394,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             for (count = 0; count < anim_record->handle_count; ++count) {
                 if (used_entries[count]) {
                     if (!(anim_record->handles[count] = hNewShpItem1(sheet, count + first_shape,
-                            animation_color_mode == 0 ? 1 : 2))) {
+                            TGAMode == 0 ? 1 : 2))) {
                         if (anim_record->sound_flag != 0) sheet_info->sound = 0;
                         goto fail;
                     }
@@ -438,7 +438,7 @@ extern Rect far *OFFSETRECT(Rect far *, const Rect far *, int, int);
 extern void PUSH_PORT_CLIP(Rect far *);
 extern void SET_RECORD_RANGE(Rect far *, int);
 extern void POP_PORT_CLIP(void);
-extern int animation_callback_argument;
+extern int ForceFuncParam;
 
 Animation *near advance_animation_frame(Animation *animation)
 {
@@ -513,8 +513,8 @@ Animation *draw_frame(Animation *animation)
         }
         ++element; } while (++i < 32);
     POP_PORT_CLIP();
-    if (animation_callback_argument && animation->callbacks[0])
-        animation->callbacks[0](animation, animation_callback_argument);
+    if (ForceFuncParam && animation->callbacks[0])
+        animation->callbacks[0](animation, ForceFuncParam);
     return animation;
 }
 
@@ -526,7 +526,7 @@ void near paint_element(Animation *animation, Element *element)
 {
     if (!element->shape)
         goto done;
-    if (animation_color_mode || !(high_color_shape_boundary < element->shape))
+    if (TGAMode || !(high_color_shape_boundary < element->shape))
         goto high_color;
     PAINTRLESHAPE_ASM(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
                           (int)(element->x >> 16), (int)(element->y >> 16),
@@ -606,7 +606,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     sprintf(message, "AnimNew(%d)", scene);
     if (!animation) abort_with_message(1, message);
 
-    load_all_animation_shapes = 0;
+    ForceShapes = 0;
     palette_list = HGETRSRC(0x0050534cUL, scene_id);
     count = *(int far *)resolve_handle_to_far_payload(palette_list);
     for (result = 0; result < count; ++result)

@@ -22,8 +22,8 @@ typedef struct {
     unsigned char below_left, below_right;             /* 07-08 */
     unsigned char custom;                             /* 09 */
 } ROOMREC;
-extern sbyte view_row, view_col;
-extern Rect GamePlayRect, cell_clip;
+extern sbyte RowNo, ColNo;
+extern Rect GamePlayRect, CellClipRect;
 typedef struct {
     unsigned int modifier, unknown_02;
 } LEVELCELL;
@@ -77,14 +77,14 @@ typedef int COL_TO_PIXEL_X[13];                       /* DS:0da4 */
 extern COL_TO_PIXEL_X Col2PixelX;
 typedef int ROW_TO_PIXEL_Y[5];                        /* DS:0dbe */
 extern ROW_TO_PIXEL_Y Row2PixelY;
-extern Tile above_tiles[], below_tiles[], left_tiles[], right_tiles[];
+extern Tile Above[], Below[], ScrLeft[], ScrRight[];
 extern Tile CellLeft, CellRight;
 extern TileInfo BlueSpec;
-extern byte drawn_tile_kind;
+extern byte ObjId;
 extern byte *custom_room;
-extern int force_full_clip;
+extern int NewRoom;
 extern byte room_tiles[][30];
-extern byte *room_kinds;
+extern byte *BlueT;
 extern TileInfo *BlueS;
 
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
@@ -98,7 +98,7 @@ extern void * _cdecl memset(void *, int, unsigned int);
 void select_room_arrays(byte room)
 {
     if (room) {
-        room_kinds = room_tiles[room];
+        BlueT = room_tiles[room];
         BlueS = (TileInfo *) &Level.cell_info[room - 1][0];
     }
 }
@@ -172,9 +172,9 @@ void GetAboveAry(void)
     } query;
     TileInfo *info;
 
-    if (view_row != -1) {
+    if (RowNo != -1) {
         query.saved_below = Room.below;
-        if (view_row == 0) {
+        if (RowNo == 0) {
             room = Room.above;
             query.side_room = Room.above_left;
             Room.below = Room.number;
@@ -182,21 +182,21 @@ void GetAboveAry(void)
             room = Room.number;
             query.side_room = Room.left;
         }
-        row = view_row - 1;
+        row = RowNo - 1;
         missing = (!Room.custom && Level.environment_kind != 4 && Level.environment_kind != 5) ? 1 : 0;
         select_room_arrays(room);
         for (col = 1; col < 11; ++col) {
-            GetObject(room, col - 1, row, &above_tiles[col].tile,
-                      info = &above_tiles[col].info, missing);
-            if (Room.custom && view_row == 0 && Level.environment_kind == 3 &&
+            GetObject(room, col - 1, row, &Above[col].tile,
+                      info = &Above[col].info, missing);
+            if (Room.custom && RowNo == 0 && Level.environment_kind == 3 &&
                 is_open_tile(room_tiles[Room.number][col - 1])) {
-                above_tiles[col].info.modifier = (above_tiles[col].info.modifier & 0x3fff) | 0x4000;
+                Above[col].info.modifier = (Above[col].info.modifier & 0x3fff) | 0x4000;
             }
         }
         select_room_arrays(query.side_room);
-        GetObject(query.side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
-        if (custom_room && view_row == 0)
-            above_tiles[0].info.modifier = above_tiles[col].info.modifier | 0xc000;
+        GetObject(query.side_room, 9, row, &Above[0].tile, &Above[0].info, missing);
+        if (custom_room && RowNo == 0)
+            Above[0].info.modifier = Above[col].info.modifier | 0xc000;
         select_room_arrays(Room.number);
         Room.below = query.saved_below;
     }
@@ -207,20 +207,20 @@ void GetBelowAry(void)
     sbyte col, row;
     byte room, side_room;
 
-    if (view_row == 2) {
+    if (RowNo == 2) {
         room = Room.below;
         side_room = Room.below_left;
         row = 0;
     } else {
         room = Room.number;
         side_room = Room.left;
-        row = view_row + 1;
+        row = RowNo + 1;
     }
     select_room_arrays(room);
     for (col = 1; col < 11; ++col)
-        GetObject(room, col - 1, row, &below_tiles[col].tile, &below_tiles[col].info, 0);
+        GetObject(room, col - 1, row, &Below[col].tile, &Below[col].info, 0);
     select_room_arrays(side_room);
-    GetObject(side_room, 9, row, &below_tiles[0].tile, &below_tiles[0].info,
+    GetObject(side_room, 9, row, &Below[0].tile, &Below[0].info,
               room ? 20 : 0);
     select_room_arrays(Room.number);
 }
@@ -232,14 +232,14 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
     if (row == -1)
         row = 2;
     if (col == -1) {
-        *tile = left_tiles[row].tile;
-        *info = left_tiles[row].info;
+        *tile = ScrLeft[row].tile;
+        *info = ScrLeft[row].info;
     } else if (col == 10) {
-        *tile = right_tiles[row].tile;
-        *info = right_tiles[row].info;
+        *tile = ScrRight[row].tile;
+        *info = ScrRight[row].info;
     } else if (room) {
         cell = FirstInRow(row) + col;
-        *tile = room_kinds[cell];
+        *tile = BlueT[cell];
         *info = BlueS[cell];
     } else {
         *tile = missing;
@@ -321,7 +321,7 @@ byte PieceBelowId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row < 2) {
-        room = (row == 0 && view_row == -1) ? Room.below : Room.number;
+        room = (row == 0 && RowNo == -1) ? Room.below : Room.number;
         ++row;
     } else {
         row = 0;
@@ -346,10 +346,10 @@ byte PieceLeftId(sbyte col, sbyte row)
     byte tile, room;
 
     if (col != 0) {
-        room = (row == 0 && view_row == -1) ? Room.below : Room.number;
+        room = (row == 0 && RowNo == -1) ? Room.below : Room.number;
         --col;
     } else {
-        room = (row == -1 && view_row == -1) ? Room.above_left : Room.left;
+        room = (row == -1 && RowNo == -1) ? Room.above_left : Room.left;
         col = 9;
     }
     if (room)
@@ -364,10 +364,10 @@ byte PieceRightId(sbyte col, sbyte row)
     byte room, tile;
 
     if (col != 9) {
-        room = (row == 0 && view_row == -1) ? Room.below : Room.number;
+        room = (row == 0 && RowNo == -1) ? Room.below : Room.number;
         ++col;
     } else {
-        room = (row == -1 && view_row == -1) ? Room.above_right : Room.right;
+        room = (row == -1 && RowNo == -1) ? Room.above_right : Room.right;
         col = 0;
     }
     if (row == 3) {
@@ -385,20 +385,20 @@ void SetLocVars(void)
 {
     byte missing;
 
-    if ((view_row != 2 || force_full_clip) && view_row != -1)
+    if ((RowNo != 2 || NewRoom) && RowNo != -1)
         missing = 20;
     else if (Level.environment_kind != 4 && Level.environment_kind != 5)
         missing = 1;
     else
         missing = 0;
-    if (force_full_clip == 0)
-        ComputeClipRect(&cell_clip, view_col, view_row);
+    if (NewRoom == 0)
+        ComputeClipRect(&CellClipRect, ColNo, RowNo);
     else
-        cell_clip = GamePlayRect;
-    GetObject(Room.number, view_col, view_row, &drawn_tile_kind, &BlueSpec, missing);
-    GetObject(Room.number, view_col - 1, view_row, &CellLeft.tile, &CellLeft.info, missing);
-    GetObject(Room.number, view_col + 1, view_row, &CellRight.tile, &CellRight.info, missing);
-    if (view_row == -1 && custom_room) {
+        CellClipRect = GamePlayRect;
+    GetObject(Room.number, ColNo, RowNo, &ObjId, &BlueSpec, missing);
+    GetObject(Room.number, ColNo - 1, RowNo, &CellLeft.tile, &CellLeft.info, missing);
+    GetObject(Room.number, ColNo + 1, RowNo, &CellRight.tile, &CellRight.info, missing);
+    if (RowNo == -1 && custom_room) {
         BlueSpec.modifier |= 0xc000;
         CellLeft.info.modifier |= 0xc000;
         CellRight.info.modifier |= 0xc000;
@@ -416,8 +416,8 @@ void SetSideRoomInfo(void)
 
     select_room_arrays(Room.left);
     for (row = 0; row < 3; ++row) {
-        GetObject(Room.left, 9, row, &left_tiles[row].tile,
-                  state.info = &left_tiles[row].info, state.missing);
+        GetObject(Room.left, 9, row, &ScrLeft[row].tile,
+                  state.info = &ScrLeft[row].info, state.missing);
         if (custom_room && (custom_room[1] != 31 || row != 2))
             state.info->modifier |= 0xc000;
         else
@@ -425,7 +425,7 @@ void SetSideRoomInfo(void)
     }
     select_room_arrays(Room.right);
     for (row = 0; row < 3; ++row)
-        GetObject(Room.right, 0, row, &right_tiles[row].tile, &right_tiles[row].info, state.missing);
+        GetObject(Room.right, 0, row, &ScrRight[row].tile, &ScrRight[row].info, state.missing);
     select_room_arrays(Room.number);
 }
 
@@ -443,9 +443,7 @@ typedef struct {
     ImageEntry image[219];
 } ImageTable;
 
-extern ImageTable *first_image_table;
-extern ImageTable *second_image_table;
-extern ImageTable *background_shapes;
+extern ImageTable *Pics[5];
 extern int background_image_count;
 extern const char OutOfFarMem[];
 unsigned int opponent_frames = 0;
@@ -464,18 +462,18 @@ int release_discardable_images(void)
 
     if (query_sound(0)) {
         dispatch_sound(0);
-    } else if (first_image_table && !(*first_image_table->image[0].handle & 0x4000)) {
-        PrinceMarkImgsPurgeable(first_image_table, 0, first_image_table->count - 1);
-    } else if (second_image_table && !(*second_image_table->image[0].handle & 0x4000)) {
-        PrinceMarkImgsPurgeable(second_image_table, 0, second_image_table->count - 1);
+    } else if (Pics[3] && !(*Pics[3]->image[0].handle & 0x4000)) {
+        PrinceMarkImgsPurgeable(Pics[3], 0, Pics[3]->count - 1);
+    } else if (Pics[2] && !(*Pics[2]->image[0].handle & 0x4000)) {
+        PrinceMarkImgsPurgeable(Pics[2], 0, Pics[2]->count - 1);
         for (i = 131; i <= 132; ++i)
-            if (second_image_table->image[i].handle)
-                MARK_FIXED(second_image_table->image[i].handle);
+            if (Pics[2]->image[i].handle)
+                MARK_FIXED(Pics[2]->image[i].handle);
         for (i = 216; i <= 218; ++i)
-            if (second_image_table->image[i].handle)
-                MARK_FIXED(second_image_table->image[i].handle);
-    } else if (background_shapes && !background_image_count) {
-        PrinceMarkImgsPurgeable(background_shapes, 0, background_shapes->count - 1);
+            if (Pics[2]->image[i].handle)
+                MARK_FIXED(Pics[2]->image[i].handle);
+    } else if (Pics[4] && !background_image_count) {
+        PrinceMarkImgsPurgeable(Pics[4], 0, Pics[4]->count - 1);
         background_image_count = 1;
     } else {
         dump_heap(0, OutOfFarMem, (void *)0);

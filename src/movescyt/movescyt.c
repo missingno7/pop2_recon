@@ -51,9 +51,13 @@ typedef struct {
 } RoomCell;
 
 extern uword BlueSpec;
-extern sbyte trob_index;
-extern ubyte trob_room;
-extern sbyte trob_mode;
+typedef struct {
+    signed char tile;
+    unsigned char room;
+    signed char state;
+    unsigned char field_3;
+} TrobRecord;
+extern TrobRecord Trob;
 extern CHARREC Char;
 #pragma pack(1)
 typedef struct {
@@ -168,9 +172,9 @@ void far pascal AnimScythe(void)
         }
     } else {
         BlueSpec &= ~31;
-        trob_mode = -1;
+        Trob.state = -1;
     }
-    ReadCell(trob_room, trob_index % 10 - 1, trob_index / 10);
+    ReadCell(Trob.room, Trob.tile % 10 - 1, Trob.tile / 10);
     *(ubyte near *)&Cell.modifier = 0;
     Level.cell_info[Cell.room - 1][Cell.index].modifier =
         (Cell.modifier |= (ubyte)BlueSpec);
@@ -271,7 +275,7 @@ void far pascal RedrawScythe(int bloody)
         if (compute_trob_move_rect(&bounds, &bounds))
             mark_bufs_for_rect(mark_move, &bounds, -1);
     } else {
-        trob_mode = 1;
+        Trob.state = 1;
     }
 }
 

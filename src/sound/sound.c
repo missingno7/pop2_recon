@@ -157,7 +157,7 @@ extern SoundRule Snd[];
 extern AmbientState ambient_state;
 extern ROOMREC Room;
 
-extern int sound_inhibit, ambient_last_song;
+extern int WeightlessTimer, ambient_last_song;
 extern SoundHandle sound_handles[];
 extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
@@ -275,7 +275,7 @@ void AddSong(int song)
 void AddSound(int effect)
 {
     if ((pending_effect == -1 || Snd[effect].priority <= Snd[pending_effect].priority) &&
-        !sound_inhibit && Char.character_kind != 1)
+        !WeightlessTimer && Char.character_kind != 1)
         pending_effect = effect;
 }
 

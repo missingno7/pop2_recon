@@ -101,7 +101,7 @@ static struct {
     { 0, 91, 91, 92, 92, 92, 92, 93, 93, 94, 21, 91, 92, 93, 94, 21, 91, 21 }
 };
 extern CHARREC Kid;
-extern unsigned char slide_det_flags[];
+extern unsigned char ColDetLastFrame[];
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -167,7 +167,7 @@ extern MOBREC Mob;
 extern CHARREC Char;
 extern LEVELREC Level;
 extern int ColEdgeX[20];
-extern int screen_left, screen_right;
+extern int CDLeftEdge, CDRightEdge;
 
 
 int choose_trapdoor_delay(int active)
@@ -299,7 +299,7 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
                                     (signed char)(FirstInRow(rock->row) + column)];
             if (IsWall(tile) || tile == 4) {
                 right = ColEdgeX[column + 6] + 24;
-                if (Char.direction == 0) right += screen_right - screen_left;
+                if (Char.direction == 0) right += CDRightEdge - CDLeftEdge;
                 barrier = right >= barrier ? right : barrier;
             }
         } else
@@ -323,7 +323,7 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
     rock = (struct moving_rock *)slide_rock_on_row((unsigned char)Char.room, row);
     if (rock) {
         left = rock->x + 137;
-        if (left < screen_right) {
+        if (left < CDRightEdge) {
             column = get_char_col(left);
             if (column >= 0 && column < 10) {
                 flags[column] |= 0x0f; rooms[column] = rock->room;
@@ -331,14 +331,14 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
             if (rock->mode != 100 && row == Char.row) {
                 signed char neighbor = get_char_col(left + 1);
                 if (neighbor != column) {
-                    edge.neighbor_flags = &slide_det_flags[neighbor];
-                    slide_det_flags[column] |= *edge.neighbor_flags & 0x0f;
+                    edge.neighbor_flags = &ColDetLastFrame[neighbor];
+                    ColDetLastFrame[column] |= *edge.neighbor_flags & 0x0f;
                     if (!(flags[neighbor] & 0x0f)) *edge.neighbor_flags &= 0xf0;
                 }
             }
         }
         edge.right = left + 38;
-        if (edge.right > screen_left) {
+        if (edge.right > CDLeftEdge) {
             column = get_char_col(edge.right);
             if (column >= 0 && column < 10) {
                 flags[column] |= 0xf0; rooms[column] = rock->room;
@@ -346,8 +346,8 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
             if (rock->mode != 100 && row == Char.row) {
                 signed char neighbor = get_char_col(edge.right + 1);
                 if (neighbor != column) {
-                    edge.neighbor_flags = &slide_det_flags[neighbor];
-                    slide_det_flags[column] |= *edge.neighbor_flags & 0xf0;
+                    edge.neighbor_flags = &ColDetLastFrame[neighbor];
+                    ColDetLastFrame[column] |= *edge.neighbor_flags & 0xf0;
                     if (!(flags[neighbor] & 0xf0)) *edge.neighbor_flags &= 0x0f;
                 }
             }
@@ -493,13 +493,13 @@ typedef struct {
 
 extern CELLREC Cell;
 extern struct tile_animation *BlueS;
-extern unsigned char *room_trapdoor_flags;
+extern unsigned char *BlueT;
 extern int query_sound(int);
 extern int pending_effect;
 extern void DoImpale(void);
 extern void control_drop(void);
 extern int probe_chain_floor(int);
-extern int background_shapes;
+extern int Pics[5];
 extern int trapdoor_top, trapdoor_left;
 extern void add_mob(void);
 extern void AddSong(int);
@@ -722,7 +722,7 @@ void move_trapdoor(void)
         saved_x = Mob.x;
         x += temple_draw_offsets.trapdoor_x[step];
         Mob.x = x;
-        if (get_set_image_size(background_shapes, temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
+        if (get_set_image_size(Pics[4], temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
             int left_edge;
             mob_dimensions.heights[10] = bounds.top + 1;
             left_edge = column * 32 - Mob.x + 57;
@@ -778,7 +778,7 @@ void shake_trapdoor(void)
 void trigger_trapdoor(unsigned char room, signed char cell)
 {
     Level.cell_info[room - 1][cell].modifier = 0x81;
-    room_trapdoor_flags[cell] = 0;
+    BlueT[cell] = 0;
     Mob.velocity = Mob.auxiliary = 0;
     Mob.x = Col2PixelX[cell % (signed char)10 + 1];
     Mob.flags = (Cell.modifier & 0x40) ? 75 : 1;

@@ -378,7 +378,7 @@
       "HEAD_VISIBILITY",
       "FRAME",
       "LOAD_ACTOR_SLOT",
-      "SNAKE_DISTANCE",
+      "IMWIDTH",
       "CHOMP_AGAIN",
       "GETOPPINFOIDX",
       "LOAD_SHADOW_WITH_OPPONENT",
@@ -395,8 +395,8 @@
       "GET_UNDER_FOOT",
       "COLEDGEX",
       "GET_EDGE_DISTANCE",
-      "MOVE_WITH_FACING",
-      "MOVE_AGAINST_FACING",
+      "PLUS1",
+      "MINUS1",
       "HEAD_ATTACK_PROG",
       "HEAD_CLEAR_IN_DIR",
       "HEAD_GO_TO_DEST",
@@ -430,7 +430,7 @@
       "SPRITE_Y",
       "ADDSONG",
       "YWITHINMIDDLEOFCELL",
-      "OPPONENT_SHAPES",
+      "PICS",
       "SNAKE_SLITHERING_TOWARD_OPP",
       "SNAKE_ATTACK",
       "QUERY_SOUND",
@@ -1518,7 +1518,7 @@
         "target": {
           "kind": "external",
           "index": 71,
-          "name": "OPPONENT_SHAPES",
+          "name": "PICS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1526,7 +1526,7 @@
       "target": {
         "kind": "external",
         "index": 71,
-        "name": "OPPONENT_SHAPES",
+        "name": "PICS",
         "method": 6,
         "zero_displacement": true
       },
@@ -5764,7 +5764,7 @@
         "target": {
           "kind": "external",
           "index": 19,
-          "name": "SNAKE_DISTANCE",
+          "name": "IMWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -5772,7 +5772,7 @@
       "target": {
         "kind": "external",
         "index": 19,
-        "name": "SNAKE_DISTANCE",
+        "name": "IMWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -10300,7 +10300,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "MOVE_WITH_FACING",
+          "name": "PLUS1",
           "method": 6,
           "zero_displacement": true
         }
@@ -10308,7 +10308,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "MOVE_WITH_FACING",
+        "name": "PLUS1",
         "method": 6,
         "zero_displacement": true
       },
@@ -10354,7 +10354,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "MOVE_WITH_FACING",
+          "name": "PLUS1",
           "method": 6,
           "zero_displacement": true
         }
@@ -10362,7 +10362,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "MOVE_WITH_FACING",
+        "name": "PLUS1",
         "method": 6,
         "zero_displacement": true
       },
@@ -10435,7 +10435,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "MOVE_AGAINST_FACING",
+          "name": "MINUS1",
           "method": 6,
           "zero_displacement": true
         }
@@ -10443,7 +10443,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "MOVE_AGAINST_FACING",
+        "name": "MINUS1",
         "method": 6,
         "zero_displacement": true
       },
@@ -15204,34 +15204,6 @@
         }
       ]
     },
-    "MOVE_AGAINST_FACING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3323,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15710,
-          "bytes_hex": "8a87fb0c",
-          "entry": "root:02dc:09f8"
-        }
-      ]
-    },
-    "MOVE_WITH_FACING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3321,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 15673,
-          "bytes_hex": "8a87f90c",
-          "entry": "root:02dc:09f8"
-        }
-      ]
-    },
     "OPP": {
       "extent": {
         "length": 64,
@@ -15383,20 +15355,6 @@
       "offset": 150,
       "provider": "group:prince/prince"
     },
-    "OPPONENT_SHAPES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24812,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 9811,
-          "bytes_hex": "8b1eec60",
-          "entry": "root:0170:03cc"
-        }
-      ]
-    },
     "QUERY_SOUND": {
       "entry_sha256": "dc9c287bd1478d9e000bc3c5d4749a7216087f6ddaa636e57d3abaf1f983cfed",
       "entry_target_id": "root:1129:8426",
@@ -15499,20 +15457,6 @@
         }
       ]
     },
-    "SNAKE_DISTANCE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24852,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 67189,
-          "bytes_hex": "03361461",
-          "entry": "root:1047:01aa"
-        }
-      ]
-    },
     "SPRITE_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -15550,11 +15494,65 @@
       "space": "root",
       "witnesses": []
     },
+    "PICS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24806,
+      "witnesses": [
+        {
+          "bytes_hex": "ffb7e660",
+          "entry": "root:0170:03cc",
+          "image_offset": 6971,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "8b1eec60",
+              "entry": "root:0170:03cc",
+              "image_offset": 9811,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ]
+    },
     "COLEDGEX": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3324
+    },
+    "IMWIDTH": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24852,
+      "witnesses": [
+        {
+          "bytes_hex": "03361461",
+          "entry": "root:1047:01aa",
+          "image_offset": 67189,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "PLUS1": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3320
+    },
+    "MINUS1": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:tables/tables",
+      "offset": 3322
     }
   },
   "target_id": "group:autohead/autohead",

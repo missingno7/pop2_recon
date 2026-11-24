@@ -70,7 +70,10 @@ typedef struct {
 extern CHARREC Kid;
 extern CHARREC Char;
 extern CHARREC RoomOpp[5];
-extern Byte scene_flag;                       /* DS:6290 */
+typedef struct {
+    signed char forward, back, up, down, action;
+} Directions;
+extern Directions Dir;
 extern int special_sequence;                        /* DS:0a16 */
 extern RoomData *custom_room;
 #pragma pack(1)
@@ -124,11 +127,17 @@ typedef struct {
 #pragma pack()
 extern LEVELREC Level;
 extern unsigned int BlueSpec;            /* DS:5e48 */
-extern signed char tile_animation;            /* DS:67d0 */
+typedef struct {
+    signed char tile;
+    unsigned char room;
+    signed char state;
+    unsigned char field_3;
+} TrobRecord;
+extern TrobRecord Trob;
 Byte flame_image_map[6] = {0x24, 0x24, 0x25, 0x26, 0x26, 0x24};
-extern Rect clip_rect, GamePlayRect;
-extern Handle *kid_shapes;
-extern Handle flame_steps_handle;             /* DS:6268 */
+extern Rect CellClipRect, GamePlayRect;
+extern Handle *Pics[5];
+extern Handle SwordFrames;             /* DS:6268 */
 #pragma pack(1)
 typedef struct {
     int image, equipment_image;                       /* 00,02 */
@@ -238,7 +247,7 @@ void altar_shadow_progress(void)
                Char.column >= 6) {
         run_jump(4);
     } else if (Char.frame >= 103 && Char.frame <= 106) {
-        scene_flag = 255;
+        Dir.action = 255;
         FallOn();
     } else if (Char.frame == 91 && !IsCharSwingingFwd()) {
         climb_up();
@@ -364,7 +373,7 @@ void animate_sacred_flame(void)
         mark_bufs_for_rect(mark_move, &custom_room->pieces[image].rect, -1);
         BlueSpec = phase;
     } else {
-        tile_animation = -1;
+        Trob.state = -1;
     }
 }
 
@@ -373,8 +382,8 @@ void draw_temp_sacred_flame(TileAnim *tile)
     struct { Rect saved; Byte align, image; unsigned int modifier; } draw;
     RoomPiece *piece;
     if (tile->type == 11) {
-        draw.saved = clip_rect;
-        clip_rect = GamePlayRect;
+        draw.saved = CellClipRect;
+        CellClipRect = GamePlayRect;
         draw.modifier = tile->modifier;
         if (draw.modifier & 0x80) {
             draw.image = flame_image_map[draw.modifier & 0xff7f];
@@ -385,7 +394,7 @@ void draw_temp_sacred_flame(TileAnim *tile)
         } else {
             draw_custom_room_image((Byte)draw.modifier + 11, 11);
         }
-        clip_rect = draw.saved;
+        CellClipRect = draw.saved;
     }
 }
 
@@ -398,7 +407,7 @@ void load_altar_room(void)
     ShapeRef ref;
 
     handle = allocate_payload_handle(sizeof(Shape));
-    source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*kid_shapes);
+    source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*Pics[2]);
     copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
     *copy = *source;
     copy->flags = 0x4000;
@@ -426,18 +435,18 @@ void setup_flame(void)
     RoomPiece *piece;
     if (Char.room == 4 && ((Byte)Level.level_number) == 13) {
         SaveFChar();
-        saved = clip_rect;
-        steps = RESOLVE_HANDLE_TO_FAR_PAYLOAD(flame_steps_handle);
+        saved = CellClipRect;
+        steps = RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
         image = steps[Frame.equipment_image].frame + 23;
         piece = &custom_room->pieces[image];
         piece->y = AddFCharX(steps[Frame.equipment_image].col);
         piece->x = steps[Frame.equipment_image].dy + FChar.y;
         MAKESHAPERECT(&piece->rect, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->shape));
-        clip_rect = piece->rect;
+        CellClipRect = piece->rect;
         piece->pass = 0;
         draw_custom_room_image(image, 0);
         piece->pass = 11;
-        clip_rect = saved;
+        CellClipRect = saved;
         RestoreFChar();
     }
 }

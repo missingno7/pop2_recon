@@ -6,11 +6,11 @@ typedef struct {
     byte room;
     sbyte state;
     byte kind;
-} Trob;
+} TrobRecord;
 
-extern int trob_count;
-extern Trob current_trob;
-extern Trob trobs[20];
+extern int TrobCt;
+extern TrobRecord Trob;
+extern TrobRecord trobs[20];
 
 static sbyte exit_close_speed[] = {5, 17, 99, 0};
 static sbyte gate_close_speed[] = {0, 0, 0, 20, 40, 60, 80, 100, 120, 0};
@@ -77,10 +77,10 @@ typedef struct {
 
 extern RoomObject *BlueS;
 extern RoomObject BlueSpec;
-extern byte *room_kinds;
-extern byte drawn_tile_kind;
+extern byte *BlueT;
+extern byte ObjId;
 
-#define TrobStateOffset ((unsigned)&((Trob *)0)->state)
+#define TrobStateOffset ((unsigned)&((TrobRecord *)0)->state)
 
 void AnimTrob(int index);
 
@@ -90,36 +90,36 @@ void AnimTrobs(void)
     /* This work word holds the removal flag until compaction starts. */
     union {
         int removed;
-        Trob *next;
+        TrobRecord *next;
     } pass;
     struct {
         int kept;
     } compact;
 
-    if (trob_count) {
+    if (TrobCt) {
         pass.removed = 0;
-        for (i = 0; i < trob_count; ++i) {
-            current_trob = trobs[i];
+        for (i = 0; i < TrobCt; ++i) {
+            Trob = trobs[i];
             AnimTrob(i);
-            if ((trobs[i].state = current_trob.state) < 0)
+            if ((trobs[i].state = Trob.state) < 0)
                 pass.removed = 1;
         }
         if (pass.removed) {
             compact.kept = i = 0;
-            if (i < trob_count) {
+            if (i < TrobCt) {
                 sbyte *state = &trobs[0].state;
                 pass.next = trobs;
                 do {
                     if (*state >= 0) {
-                        Trob *dst = pass.next;
-                        ++*(Trob * volatile *)&pass.next;
+                        TrobRecord *dst = pass.next;
+                        ++*(TrobRecord * volatile *)&pass.next;
                         ++compact.kept;
-                        *dst = *(Trob *)(state - TrobStateOffset);
+                        *dst = *(TrobRecord *)(state - TrobStateOffset);
                     }
-                    state += sizeof(Trob);
-                } while (++i < *(volatile int *)&trob_count);
+                    state += sizeof(TrobRecord);
+                } while (++i < *(volatile int *)&TrobCt);
             }
-            trob_count = compact.kept;
+            TrobCt = compact.kept;
         }
     }
 }
@@ -153,11 +153,11 @@ extern void animate_bridge_floor(void);
 /* Draft. External provider names and same-file prototypes remain provisional. */
 void AnimTrob(int index)
 {
-    select_room_arrays(current_trob.room);
-    select_trob_cell(current_trob.cell);
-    switch (current_trob.kind) {
+    select_room_arrays(Trob.room);
+    select_trob_cell(Trob.cell);
+    switch (Trob.kind) {
     default:
-        current_trob.state = -1;
+        Trob.state = -1;
         break;
     case 4:
         if (Level.environment_kind == 1)
@@ -232,7 +232,7 @@ void AnimTrob(int index)
         animate_bridge_floor();
         break;
     }
-    BlueS[current_trob.cell].state = BlueSpec.state;
+    BlueS[Trob.cell].state = BlueSpec.state;
 }
 
 typedef struct {
@@ -302,7 +302,7 @@ void redraw_torch(void)
     work.rect = *(work.tail.cave ? &cave_torch_rect : &torch_rect);
     if (compute_trob_move_rect(&work.rect, &work.rect)) {
         if (work.tail.cave) {
-            mark_move(current_trob.cell, &work.rect);
+            mark_move(Trob.cell, &work.rect);
             work.tail.bytes.cell = check_trob_above(); mark_move(work.tail.bytes.cell, &work.rect);
             mark_move(check_trob_above_right(), &work.rect);
         }
@@ -315,7 +315,7 @@ void redraw_exit(void)
     struct { MoveRect rect; byte pad; sbyte cell; } work;
 
     if (compute_trob_move_rect(&work.rect, exit_rects[Level.environment_kind])) {
-        mark_move(current_trob.cell, &work.rect);
+        mark_move(Trob.cell, &work.rect);
         work.cell = check_trob_right(); mark_move(work.cell, &work.rect);
         work.cell = check_trob_above(); mark_move(work.cell, &work.rect);
         mark_move(check_trob_above_right(), &work.rect);
@@ -367,7 +367,7 @@ void redraw_gate(void)
     if (work.cell != 30 && work.cell >= 0 && !IS_SIX_KIND((&Level.cell_kinds[0][0])[30 * Room.number - 30 + work.cell]))
         work.rect.edges[0] = 0;
     if (compute_trob_move_rect(&work.rect, &work.rect)) {
-        mark_move(current_trob.cell, &work.rect);
+        mark_move(Trob.cell, &work.rect);
         work.cell = check_trob_right(); mark_move(work.cell, &work.rect);
         mark_move(check_trob_above_right(), &work.rect);
     }
@@ -386,44 +386,44 @@ void redraw_trob(MoveRect *base)
 MoveRect *compute_trob_move_rect(MoveRect *out, MoveRect *base)
 {
     MoveRect *result = out;
-    sbyte column = CellToCol(current_trob.room, current_trob.cell);
+    sbyte column = CellToCol(Trob.room, Trob.cell);
     out = result;
     return ComputeOffsetCellRect(out, base, column,
-                                 CellToRow(current_trob.room, current_trob.cell));
+                                 CellToRow(Trob.room, Trob.cell));
 }
 
 sbyte check_trob(void)
 {
-    sbyte cell = current_trob.cell;
+    sbyte cell = Trob.cell;
 
-    if (Room.above == current_trob.room) {
+    if (Room.above == Trob.room) {
         if (cell >= 20 && cell < 30)
             cell = 19 - cell;
         else
             cell = 30;
-    } else if (Room.number != current_trob.room)
+    } else if (Room.number != Trob.room)
         cell = 30;
     return cell;
 }
 
 int check_trob_visibility(void)
 {
-    int visible = is_visible_room_cell(current_trob.room, current_trob.cell);
+    int visible = is_visible_room_cell(Trob.room, Trob.cell);
     if (!visible)
-        current_trob.state = -1;
+        Trob.state = -1;
     return visible;
 }
 
 sbyte check_trob_left(void)
 {
-    sbyte cell = current_trob.cell;
+    sbyte cell = Trob.cell;
 
-    if (Room.number == current_trob.room) {
+    if (Room.number == Trob.room) {
         if (cell % 10 == 0)
             cell = 30;
         else
             --cell;
-    } else if (Room.right == current_trob.room && cell % 10 == 0)
+    } else if (Room.right == Trob.room && cell % 10 == 0)
         cell += 9;
     else
         cell = 30;
@@ -432,24 +432,24 @@ sbyte check_trob_left(void)
 
 sbyte check_trob_right(void)
 {
-    sbyte cell = current_trob.cell;
+    sbyte cell = Trob.cell;
 
-    if (Room.number == current_trob.room) {
+    if (Room.number == Trob.room) {
         if (cell % 10 == 9)
             cell = 30;
         else
             ++cell;
-    } else if (Room.left == current_trob.room) {
+    } else if (Room.left == Trob.room) {
         if (cell % 10 == 9)
             cell -= 9;
         else
             cell = 30;
-    } else if (Room.above == current_trob.room) {
+    } else if (Room.above == Trob.room) {
         if (cell >= 20 && cell < 29)
             cell = 18 - cell;
         else
             cell = 30;
-    } else if (Room.above_left == current_trob.room)
+    } else if (Room.above_left == Trob.room)
         cell = cell == 29 ? -1 : 30;
     else
         cell = 30;
@@ -458,14 +458,14 @@ sbyte check_trob_right(void)
 
 sbyte check_trob_above(void)
 {
-    sbyte cell = current_trob.cell;
+    sbyte cell = Trob.cell;
 
-    if (Room.number == current_trob.room) {
+    if (Room.number == Trob.room) {
         if (cell < 10)
             cell = -1 - cell;
         else
             cell -= 10;
-    } else if (Room.below == current_trob.room && cell < 10)
+    } else if (Room.below == Trob.room && cell < 10)
         cell += 20;
     else
         cell = 30;
@@ -474,28 +474,28 @@ sbyte check_trob_above(void)
 
 sbyte check_trob_above_right(void)
 {
-    sbyte cell = current_trob.cell;
+    sbyte cell = Trob.cell;
 
-    if (Room.number == current_trob.room) {
+    if (Room.number == Trob.room) {
         if (cell % 10 == 9)
             cell = 30;
         else if (cell < 10)
             cell = -2 - cell;
         else
             cell -= 9;
-    } else if (Room.left == current_trob.room) {
+    } else if (Room.left == Trob.room) {
         if (cell == 9)
             cell = -1;
         else if (cell % 10 == 9)
             cell -= 19;
         else
             cell = 30;
-    } else if (Room.below == current_trob.room) {
+    } else if (Room.below == Trob.room) {
         if (cell < 9)
             cell += 21;
         else
             cell = 30;
-    } else if (Room.below_left == current_trob.room)
+    } else if (Room.below_left == Trob.room)
         cell = cell == 9 ? 20 : 30;
     else
         cell = 30;
@@ -504,14 +504,14 @@ sbyte check_trob_above_right(void)
 
 sbyte check_trob_below(void)
 {
-    sbyte cell = current_trob.cell;
+    sbyte cell = Trob.cell;
 
-    if (Room.number == current_trob.room) {
+    if (Room.number == Trob.room) {
         if (cell < 20)
             cell += 10;
         else
             cell = 30;
-    } else if (Room.above == current_trob.room && cell >= 20)
+    } else if (Room.above == Trob.room && cell >= 20)
         cell %= 10;
     else
         cell = 30;
@@ -554,7 +554,7 @@ typedef struct {
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
 #pragma pack()
-extern int floor_override, drew_pressed_tile;
+extern int WeightlessTimer, AlertGuard;
 #pragma pack(1)
 typedef struct {
     int image, equipment_image;                       /* 00,02 */
@@ -572,7 +572,7 @@ extern byte CutRoom;
 extern CHARREC Char;
 void break_loose_floor(sbyte);
 void jam_plate(void);
-void push_plate(sbyte sound, int link);
+void push_plate(sbyte, int);
 
 void check_floor(void)
 {
@@ -619,7 +619,7 @@ void check_press(void)
     unsigned frame;
     sbyte kind;
 
-    if (Char.character_kind == 11 || Char.character_kind == 10 || (Char.character_kind == 0 && floor_override)
+    if (Char.character_kind == 11 || Char.character_kind == 10 || (Char.character_kind == 0 && WeightlessTimer)
             || (Char.character_kind == 1 && (int)Char.sequence >= 29 && (int)Char.sequence <= 42))
         return;
 
@@ -648,7 +648,7 @@ void check_press(void)
         }
         push_plate(0, -1);
     } else if (kind == 11 || kind == 15) {
-        drew_pressed_tile = 1;
+        AlertGuard = 1;
         if (kind == 11) {
             break_loose_floor(0);
             return;
@@ -660,14 +660,18 @@ void check_press(void)
 
 extern int FrameNum;
 
-extern int skip_alternate_torches;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 extern CHARREC Kid;
 int get_torch_frame(int frame);
 
 void animate_flask(void)
 {
-    if (drawn_tile_kind == 10) {
-        if (current_trob.state < 0 || !check_trob_visibility())
+    if (ObjId == 10) {
+        if (Trob.state < 0 || !check_trob_visibility())
             return;
         {
             unsigned state = BlueSpec.state & ~31U;
@@ -681,7 +685,7 @@ void animate_flask(void)
         }
         return;
     }
-    current_trob.state = -1;
+    Trob.state = -1;
 }
 
 void animate_torch(int index)
@@ -689,7 +693,7 @@ void animate_torch(int index)
     if (check_trob_visibility()) {
         int frame = get_torch_frame((byte)BlueSpec.state);
         BlueSpec.state = (BlueSpec.state & 0xff00U) + frame;
-        if (!skip_alternate_torches || ((FrameNum + index) & 1))
+        if (!GameState.fade_active || ((FrameNum + index) & 1))
             redraw_torch();
     }
 }
@@ -711,23 +715,23 @@ void animate_gate(void)
 {
     unsigned modifier = BlueSpec.state;
     int height = modifier & 255;
-    sbyte phase = current_trob.state;
+    sbyte phase = Trob.state;
     int sound;
 
     if (phase >= 0) {
         if (phase >= 4) {
             if (phase < 8)
-                current_trob.state = ++phase;
+                Trob.state = ++phase;
             height -= gate_close_speed[phase];
             if (height <= 0) {
                 sbyte col, row;
                 if (Level.environment_kind == 3) {
-                    row = current_trob.cell / 10;
-                    col = current_trob.cell % 10;
-                    if (current_trob.room != (byte)Kid.room) {
-                        if (current_trob.room == Room.left)
+                    row = Trob.cell / 10;
+                    col = Trob.cell % 10;
+                    if (Trob.room != (byte)Kid.room) {
+                        if (Trob.room == Room.left)
                             col -= 10;
-                        else if (current_trob.room == Room.right)
+                        else if (Trob.room == Room.right)
                             col += 10;
                     }
                 }
@@ -743,7 +747,7 @@ void animate_gate(void)
                         player_start.death_countdown = 4;
                 }
                 add_gate_sound(sound);
-                current_trob.state = -1;
+                Trob.state = -1;
             }
         } else {
             if (height == 255)
@@ -757,10 +761,10 @@ void animate_gate(void)
                         check_gate_fingers();
                     } else if (height < 200) {
                         add_gate_sound(Level.environment_kind != 3 ? 4 : 7);
-                        current_trob.state = 1;
+                        Trob.state = 1;
                         if (Level.environment_kind == 3)
                             height = move_cave_gate(height);
-                    } else if (Level.level_number == 5 && current_trob.room == 7)
+                    } else if (Level.level_number == 5 && Trob.room == 7)
                         height -= gate_open_speed[phase];
                 } else if (height < 200) {
                     if (Level.environment_kind != 3) {
@@ -771,7 +775,7 @@ void animate_gate(void)
                 } else if (phase < 3) {
                     redraw_gate();
                     height = 250;
-                    current_trob.state = 0;
+                    Trob.state = 0;
                     add_gate_sound(Level.environment_kind != 3 ? 5 : 8);
                 } else {
                     height = 255;
@@ -793,11 +797,11 @@ void stop_gate(int height)
 {
     int actor_cell;
 
-    current_trob.state = -1;
+    Trob.state = -1;
     add_gate_sound(Level.environment_kind != 3 ? 6 : 8);
     copy_kid_to_char();
     actor_cell = FirstInRow(Char.row - 1) + Char.column;
-    if (current_trob.cell == actor_cell && Char.direction == -1
+    if (Trob.cell == actor_cell && Char.direction == -1
             && Char.action == 2 && height == 0) {
         JumpSeq(47);
         Kid = Char;
@@ -806,9 +810,9 @@ void stop_gate(int height)
 
 void check_gate_fingers(void)
 {
-    if (current_trob.room == (byte)Kid.room && (Kid.action == 2 || Kid.action == 6)) {
+    if (Trob.room == (byte)Kid.room && (Kid.action == 2 || Kid.action == 6)) {
         sbyte actor_cell = FirstInRow(Kid.row) + Kid.column;
-        if (current_trob.cell - actor_cell == -10 || current_trob.cell - actor_cell == -11)
+        if (Trob.cell - actor_cell == -10 || Trob.cell - actor_cell == -11)
             AddSound(31);
     }
 }
@@ -819,11 +823,11 @@ extern CHARREC RoomOpp[5];
 int did_player_escape_guard(void)
 {
     int escaped = 0;
-    sbyte count = Level.room_objects[current_trob.room - 1].opponent_count;
-    sbyte row = current_trob.cell / 10;
-    sbyte col = current_trob.cell % 10;
+    sbyte count = Level.room_objects[Trob.room - 1].opponent_count;
+    sbyte row = Trob.cell / 10;
+    sbyte col = Trob.cell % 10;
     sbyte i;
-    if (count && (byte)Kid.room == current_trob.room && Kid.row == row
+    if (count && (byte)Kid.room == Trob.room && Kid.row == row
             && abs(col - Kid.column) < 5) {
         for (i = 0; i < count; ++i) {
             if (RoomOpp[i].row == row && RoomOpp[i].alive < 0 && RoomOpp[i].room == Kid.room) {
@@ -843,20 +847,20 @@ void animate_exit(void)
 {
     int height = BlueSpec.state & 255;
 
-    if (current_trob.state >= 0) {
-        if (current_trob.state >= 4) {
-            ++current_trob.state;
-            height -= exit_close_speed[current_trob.state - 4];
+    if (Trob.state >= 0) {
+        if (Trob.state >= 4) {
+            ++Trob.state;
+            height -= exit_close_speed[Trob.state - 4];
             if (height < 0) {
                 height = 0;
-                current_trob.state = -1;
+                Trob.state = -1;
                 AddSound(9);
-            } else if (current_trob.state == 4 && (active_sound_channels & 1))
+            } else if (Trob.state == 4 && (active_sound_channels & 1))
                 AddSound(7);
         } else {
             ++height;
             if (height >= 42) {
-                current_trob.state = -1;
+                Trob.state = -1;
                 if (Room.number != 4 || Level.level_number != 13) {
                     dispatch_sound(0);
                     AddSound(8);
@@ -908,8 +912,8 @@ typedef struct {
     MoveRect rect;
 } MarkedRect;
 
-extern MarkedRect top_marks[10], move_marks[30], floor_marks[30], foreground_marks[30];
-extern int half_marks[30];
+extern MarkedRect TopBuf[10], MoveBuf[30], FloorBuf[30], FRedrawBuf[30];
+extern int HalfBuf[30];
 
 extern void ComputeClipRect(MoveRect far *out, int column, int row);
 extern int SECTRECT(MoveRect far *out, MoveRect far *a, MoveRect far *b);
@@ -927,11 +931,11 @@ void mark_top(int cell, MoveRect *clip)
         if (!clip || SECTRECT(&rect, &rect, clip)) {
             ++cell;
             cell = -cell;
-            if (top_marks[cell].dirty)
-                UNIONRECT(&top_marks[cell].rect, &top_marks[cell].rect, &rect);
+            if (TopBuf[cell].dirty)
+                UNIONRECT(&TopBuf[cell].rect, &TopBuf[cell].rect, &rect);
             else {
-                top_marks[cell].dirty = 1;
-                top_marks[cell].rect = rect;
+                TopBuf[cell].dirty = 1;
+                TopBuf[cell].rect = rect;
             }
         }
     }
@@ -941,7 +945,7 @@ void mark_move(sbyte cell, MoveRect *clip)
 {
     if (cell < 30) {
         if (cell >= 0)
-            mark_rect_buf(&move_marks[cell], cell, clip);
+            mark_rect_buf(&MoveBuf[cell], cell, clip);
         else
             mark_top(cell, clip);
         mark_guard_updates(clip, -1);
@@ -952,7 +956,7 @@ void mark_floor(sbyte cell, MoveRect *clip)
 {
     if (cell < 30) {
         if (cell >= 0) {
-            mark_rect_buf(&floor_marks[cell], cell, clip);
+            mark_rect_buf(&FloorBuf[cell], cell, clip);
             return;
         }
         mark_top(cell, clip);
@@ -963,7 +967,7 @@ void mark_half(sbyte cell)
 {
     if (cell < 30) {
         if (cell >= 0) {
-            half_marks[cell] = 1;
+            HalfBuf[cell] = 1;
             return;
         }
         mark_top(cell, 0);
@@ -1003,7 +1007,7 @@ void mark_foreground(sbyte cell, MoveRect *clip)
 {
     if (cell < 30) {
         if (cell >= 0) {
-            mark_rect_buf(&foreground_marks[cell], cell, clip);
+            mark_rect_buf(&FRedrawBuf[cell], cell, clip);
             return;
         }
         mark_top(cell, clip);
@@ -1066,7 +1070,7 @@ void mark_rect_buf(MarkedRect *mark, int cell, MoveRect *clip)
 int get_link_next(int link);
 int get_link_cell(int link);
 byte get_link_room(int link);
-Trob *get_trob_room_cell(byte room, int cell);
+TrobRecord *get_trob_room_cell(byte room, int cell);
 void add_trob(byte room, sbyte cell, sbyte state, byte kind);
 sbyte trigger_object(byte kind, byte room, sbyte cell, int action);
 extern unsigned Rnd(unsigned limit);
@@ -1081,7 +1085,7 @@ void trigger_link(int link, int action)
             room = get_link_room(link);
             select_room_arrays(room);
             cell = (sbyte)get_link_cell(link);
-            kind = room_kinds[cell];
+            kind = BlueT[cell];
             state = trigger_object(kind, room, cell, action);
             if (state >= 0)
                 add_trob(room, cell, state, kind);
@@ -1127,7 +1131,7 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
         }
         break;
     case 6: {
-        Trob *trob = get_trob_room_cell(room, cell);
+        TrobRecord *trob = get_trob_room_cell(room, cell);
         if (is_dead_pos(Char.frame) && Char.alive >= 2)
             break;
         if ((!trob && height) || (trob && trob->state != 4))
@@ -1203,16 +1207,16 @@ void trigger_torch(byte room, sbyte cell)
 
 void add_trob(byte room, sbyte cell, sbyte state, byte kind)
 {
-    Trob *found = get_trob_room_cell(room, cell);
+    TrobRecord *found = get_trob_room_cell(room, cell);
 
     if (!found) {
-        if (trob_count < 20) {
-            current_trob.room = room;
-            current_trob.cell = cell;
-            current_trob.state = state;
-            current_trob.kind = kind;
-            trobs[trob_count] = current_trob;
-            ++trob_count;
+        if (TrobCt < 20) {
+            Trob.room = room;
+            Trob.cell = cell;
+            Trob.state = state;
+            Trob.kind = kind;
+            trobs[TrobCt] = Trob;
+            ++TrobCt;
         }
     } else {
         found->state = state;
@@ -1223,12 +1227,7 @@ void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
 extern unsigned int RedrawBuf[30];
-#define MoveBuf move_marks
-#define FRedrawBuf foreground_marks
-#define FloorBuf floor_marks
-#define HalfBuf half_marks
 extern unsigned char ObjBuf[30];
-#define TopBuf top_marks
 
 void ZeroBuffers(void)
 {
@@ -1327,7 +1326,7 @@ void push_plate(sbyte kind, int link)
             AddSound(3);
         redraw_plate();
         trigger_link(link, (byte)kind);
-        drew_pressed_tile = 1;
+        AlertGuard = 1;
     } else {
         trigger_link(link, (byte)kind);
     }
@@ -1344,19 +1343,19 @@ void jam_plate(void)
 
 void animate_plate(void)
 {
-    if (current_trob.state >= 0) {
+    if (Trob.state >= 0) {
         int link = BlueSpec.state & 255;
         sbyte timer = GetLinkTimer(link);
         if (timer < 31) {
             ChangeLinkTimer(link, timer - 1);
             if (timer < 2) {
-                current_trob.state = -1;
+                Trob.state = -1;
                 redraw_plate();
                 BlueSpec.state &= ~0x0800U;
                 return;
             }
         } else
-            current_trob.state = -1;
+            Trob.state = -1;
     }
 }
 
@@ -1388,7 +1387,7 @@ void mark_mob_redraw(sbyte layer);
 extern sbyte IndexCell1(sbyte column, sbyte row);
 extern MOBREC Mob;
 extern MOBREC mobs[];
-extern int mob_count;
+extern int MobCt;
 extern sbyte GetRow(int);
 
 void animate_loose_floor(void)
@@ -1399,27 +1398,27 @@ void animate_loose_floor(void)
 
     ++BlueSpec.state;
     frame = BlueSpec.state & 15;
-    if (current_trob.state != -1) {
+    if (Trob.state != -1) {
         if (BlueSpec.state & 0x40) {
             if (frame >= 4) {
-                current_trob.state = -1;
+                Trob.state = -1;
                 BlueSpec.state = (BlueSpec.state & 0xff00U) | (BlueSpec.state & 0xb0U);
             }
         } else if (frame >= 12) {
             kind = Level.environment_kind == 3 ? (BlueSpec.state & 0x80) >> 7 : 3;
-            make_space(current_trob.room, current_trob.cell);
+            make_space(Trob.room, Trob.cell);
             BlueSpec.state = kind + 3;
-            Mob.x = (current_trob.cell % 10) * 32;
-            row = current_trob.cell / 10;
+            Mob.x = (Trob.cell % 10) * 32;
+            row = Trob.cell / 10;
             Mob.y = row * 63 + 66;
-            Mob.room = current_trob.room;
+            Mob.room = Trob.room;
             Mob.auxiliary = 0;
-            Mob.velocity = current_trob.state;
+            Mob.velocity = Trob.state;
             Mob.kind = kind;
             Mob.row = row;
             Mob.flags = 0;
             add_mob();
-            current_trob.state = -1;
+            Trob.state = -1;
         }
     }
     redraw_loose();
@@ -1430,7 +1429,7 @@ void make_space(unsigned char room, signed char cell)
     int index = cell;
     unsigned state;
 
-    room_kinds[index] = 0;
+    BlueT[index] = 0;
     if (Level.level_number == 5 && room == 3)
         state = 0xc000;
     else
@@ -1514,8 +1513,8 @@ void shake_row(byte room, sbyte row)
 
 void add_mob(void)
 {
-    if (mob_count < 30)
-        mobs[mob_count++] = Mob;
+    if (MobCt < 30)
+        mobs[MobCt++] = Mob;
 }
 
 extern void move_dart_mob(void);
@@ -1535,7 +1534,7 @@ MOBREC *get_mob_type_item(byte kind, int occurrence)
     MOBREC *found = 0;
     int index, count;
 
-    for (count = index = 0; index < mob_count && found == 0; ++index) {
+    for (count = index = 0; index < MobCt && found == 0; ++index) {
         if ((byte)mobs[index].kind == kind && mobs[index].velocity != -1) {
             if (++count == occurrence)
                 found = &mobs[index];
@@ -1548,7 +1547,7 @@ MOBREC *get_mob_type_item(byte kind, int occurrence)
 void select_trob_cell(int cell)
 {
     BlueSpec = BlueS[cell];
-    drawn_tile_kind = room_kinds[cell];
+    ObjId = BlueT[cell];
 }
 
 struct {
@@ -1571,7 +1570,7 @@ void anim_mobs(void)
     } work;
 
     {
-        int count = mob_count;
+        int count = MobCt;
         for (MobI = 0; MobI < count; ++MobI) {
             Mob = mobs[MobI];
             animate_mob();
@@ -1580,7 +1579,7 @@ void anim_mobs(void)
     }
 
     work.index = work.kept = 0;
-    if (work.index < mob_count) {
+    if (work.index < MobCt) {
         int *speed = &mobs[0].velocity;
 
         work.destination = mobs;
@@ -1591,9 +1590,9 @@ void anim_mobs(void)
                 *next = *(MOBREC *)((byte *)speed - (unsigned)&((MOBREC *)0)->velocity);
             }
             speed = (int *)((byte *)speed + sizeof(MOBREC));
-        } while (++work.index < mob_count);
+        } while (++work.index < MobCt);
     }
-    mob_count = work.kept;
+    MobCt = work.kept;
 }
 
 extern void step_bridge_mob(void);
@@ -1704,9 +1703,9 @@ void make_rubble(void)
     case 10:
     case 36:
         if (work.kind == 10) {
-            Trob *flask = get_trob_room_cell(Cell.room, Cell.index);
+            TrobRecord *flask = get_trob_room_cell(Cell.room, Cell.index);
             if (flask) {
-                current_trob = *flask;
+                Trob = *flask;
                 redraw_flask();
             }
         }
@@ -1811,14 +1810,14 @@ void add_mobs(void)
     int index = 0;
     MOBREC *entry;
 
-    if (index < mob_count) {
+    if (index < MobCt) {
         entry = mobs;
         do {
             Mob = *entry;
             add_mob_to_frame();
             *entry = Mob;
             ++entry;
-        } while (++index < mob_count);
+        } while (++index < MobCt);
     }
 }
 
@@ -1958,25 +1957,25 @@ typedef struct {
 } MobDraw;
 #pragma pack()
 
-extern int mob_draw_count;
-extern MobDraw mob_draw_list[];
+extern int Ct[5];
+extern MobDraw ObjTable[];
 extern void set_object_cell(sbyte index);
 
 void add_mob_obj(int y)
 {
-    int index = mob_draw_count++;
+    int index = Ct[4]++;
     int zero;
 
-    mob_draw_list[index].image = (byte)Mob.kind | 0x80;
-    mob_draw_list[index].x = Mob.x;
-    mob_draw_list[index].y = y;
-    mob_draw_list[index].bank = 4;
-    mob_draw_list[index].flags = Mob.flags;
-    compute_mob_rect(&mob_draw_list[index].rect);
+    ObjTable[index].image = (byte)Mob.kind | 0x80;
+    ObjTable[index].x = Mob.x;
+    ObjTable[index].y = y;
+    ObjTable[index].bank = 4;
+    ObjTable[index].flags = Mob.flags;
+    compute_mob_rect(&ObjTable[index].rect);
     zero = 0;
-    mob_draw_list[index].sequence = zero;
-    mob_draw_list[index].scratch = zero;
-    mob_draw_list[index].order = -1;
+    ObjTable[index].sequence = zero;
+    ObjTable[index].scratch = zero;
+    ObjTable[index].order = -1;
     set_object_cell(index);
 }
 
@@ -1985,7 +1984,8 @@ extern void load_actor_slot(sbyte index);
 extern void save_actor_slot(void);
 extern OpponentPosition *GetOppInfoIdx(int room, int index);
 extern void CrushOppInfo(OpponentPosition *opp, byte room);
-extern sbyte near_crush_offset[], far_crush_offset[];
+extern signed char Plus1[2];
+extern signed char Minus1[2];
 extern int get_edge_distance(void);
 
 void check_loose_crush(void)
@@ -2039,10 +2039,10 @@ int loose_hits_actor(void)
             int reach = get_edge_distance();
             int edge;
 
-            edge = Char.column + far_crush_offset[Char.direction];
+            edge = Char.column + Minus1[Char.direction + 1];
             if (edge == column) {
                 hit = reach > 8;
-            } else if (column == Char.column + near_crush_offset[Char.direction]) {
+            } else if (column == Char.column + Plus1[Char.direction + 1]) {
                 hit = reach < 4;
             }
         }
@@ -2070,32 +2070,32 @@ int opp_under_mob(OpponentPosition *opp)
 void add_gate_sound(int sound)
 {
     AddSound(sound);
-    if (sound == 9 && Level.level_number == 5 && current_trob.room == 7
+    if (sound == 9 && Level.level_number == 5 && Trob.room == 7
             && !query_sound(10065)) {
         if (Level.level_number != 5 || (byte)Kid.room != 7 || Kid.column >= 3)
             AddSong(65);
     }
 }
 
-Trob *get_trob_room_cell(byte room, int cell)
+TrobRecord *get_trob_room_cell(byte room, int cell)
 {
-    Trob *result = 0;
+    TrobRecord *result = 0;
     int i;
 
-    for (i = 0; i < trob_count && !result; ++i) {
+    for (i = 0; i < TrobCt && !result; ++i) {
         if (trobs[i].room == room && trobs[i].cell == cell)
             result = &trobs[i];
     }
     return result;
 }
 
-Trob *get_trob_by_id(byte kind, sbyte id)
+TrobRecord *get_trob_by_id(byte kind, sbyte id)
 {
     sbyte found = 0;
-    Trob *result = 0;
+    TrobRecord *result = 0;
     int i;
 
-    for (i = 0; i < trob_count && !result; ++i) {
+    for (i = 0; i < TrobCt && !result; ++i) {
         if (trobs[i].kind == kind && trobs[i].state != -1 && ++found == id)
             result = &trobs[i];
     }

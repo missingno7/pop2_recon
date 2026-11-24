@@ -332,8 +332,8 @@
       "__heapchk",
       "KID",
       "CHAR",
-      "LEFT_EDGE_X",
-      "RIGHT_EDGE_X",
+      "LEFTEDGE",
+      "RIGHTEDGE",
       "TICK_COUNT",
       "SNAPSHOT_NULL_AREA",
       "SCREENPORT",
@@ -2041,7 +2041,7 @@
         "target": {
           "kind": "external",
           "index": 45,
-          "name": "LEFT_EDGE_X",
+          "name": "LEFTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2049,7 +2049,7 @@
       "target": {
         "kind": "external",
         "index": 45,
-        "name": "LEFT_EDGE_X",
+        "name": "LEFTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2068,7 +2068,7 @@
         "target": {
           "kind": "external",
           "index": 46,
-          "name": "RIGHT_EDGE_X",
+          "name": "RIGHTEDGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2076,7 +2076,7 @@
       "target": {
         "kind": "external",
         "index": 46,
-        "name": "RIGHT_EDGE_X",
+        "name": "RIGHTEDGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4407,20 +4407,6 @@
         }
       ]
     },
-    "LEFT_EDGE_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24858,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "overlay-3",
-          "image_offset": 22374,
-          "bytes_hex": "a31a61",
-          "entry": "overlay-3:29ef:09be"
-        }
-      ]
-    },
     "MOVETO": {
       "entry_sha256": "68d48a13885f5226ebbcce7d42a079531b8c61541d9391a793686c865f10c22e",
       "entry_target_id": "root:1129:50d8",
@@ -4486,20 +4472,6 @@
           "bytes_hex": "9ab2152911",
           "file_offset": 14187,
           "relocation_index": 177
-        }
-      ]
-    },
-    "RIGHT_EDGE_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24860,
-      "witnesses": [
-        {
-          "operand_offset": 1,
-          "space": "overlay-3",
-          "image_offset": 22410,
-          "bytes_hex": "a31c61",
-          "entry": "overlay-3:29ef:09be"
         }
       ]
     },
@@ -4710,6 +4682,34 @@
       "group": "DGROUP",
       "provider": "group:intrface/intrface",
       "offset": 7978
+    },
+    "LEFTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24858,
+      "witnesses": [
+        {
+          "bytes_hex": "ff361a61",
+          "entry": "overlay-3:29ef:09be",
+          "image_offset": 22532,
+          "operand_offset": 2,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "RIGHTEDGE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24860,
+      "witnesses": [
+        {
+          "bytes_hex": "ff361c61",
+          "entry": "overlay-3:29ef:09be",
+          "image_offset": 22562,
+          "operand_offset": 2,
+          "space": "overlay-3"
+        }
+      ]
     }
   },
   "target_id": "group:diag/diag",

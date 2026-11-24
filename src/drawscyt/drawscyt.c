@@ -94,8 +94,8 @@ static ScythePosition scythe_positions[] = {
     {103, 15, -23}, {104, 48, -23}, {105, 42, -29}
 };
 extern int ScytheImg[];
-extern int draw_pass_mode;
-extern CellCoord redraw_column;
+extern int NewRoom;
+extern CellCoord ColNo;
 
 void CheckScytheForRubble(ScytheCell *cell)
 {
@@ -194,7 +194,7 @@ void DrawScythe2(ScytheCell *cell)
     switch (cell->pass) {
     case 0:
         draw_base(&base);
-        if (!draw_pass_mode && cell->column - redraw_column + 1 == 0) {
+        if (!NewRoom && cell->column - ColNo + 1 == 0) {
             int open_frame;
 
             if (cell->modifier & 0x80)

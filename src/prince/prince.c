@@ -60,16 +60,19 @@ typedef struct {
 
 extern const char *resource_files[3];
 extern LEVELREC Level;
-extern char selected_level;
+extern char StartLevel;
 extern char LevelIdx;
 extern int frame_diagnostics;
-extern int skip_opening;
-extern int restart_from_demo;
+typedef struct {
+    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
+    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
+} GAMESTATE;
+extern GAMESTATE GameState;
 
 extern int demo_level;
-extern int demo_changed;
+extern int RestartLevel;
 extern int nis_skip_requested;
-extern int minutes_remaining;
+extern int Minutes;
 static char title[] = "PRINCE OF PERSIA 2 v1.1";
 /* FM Towns names these adjacent lookup tables OppCharId and CharOppId. */
 unsigned char OppCharId[11] = { 2, 10, 4, 6, 1, 7, 8, 2, 11, 12, 0 };
@@ -152,7 +155,7 @@ void far pascal ResetData(void);
 
 /* 0036 */ void far pascal ResetGame(void)
 {
-    char level = selected_level;
+    char level = StartLevel;
 
     for (;;) {
         if (frame_diagnostics) {
@@ -166,20 +169,20 @@ void far pascal ResetData(void);
                 break;
         }
         ResetData();
-        if (selected_level == 0) {
+        if (StartLevel == 0) {
             level = PlayOpeningSequence();
         } else {
             level = start_game(level);
-            if (restart_from_demo)
+            if (GameState.recording_mode)
                 Level.level_number = level = 0;
-            if (minutes_remaining == 0) {
-                selected_level = level = 0;
+            if (Minutes == 0) {
+                StartLevel = level = 0;
             } else if (level > 14) {
                 play_nis(11);
-                enter_hall_record(minutes_remaining);
-                selected_level = level = 0;
-            } else if (selected_level != 0 && level == 0) {
-                selected_level = level = Level.level_number;
+                enter_hall_record(Minutes);
+                StartLevel = level = 0;
+            } else if (StartLevel != 0 && level == 0) {
+                StartLevel = level = Level.level_number;
             }
         }
     }
@@ -191,14 +194,14 @@ void far pascal ResetData(void);
 {
     char near *option;
 
-    selected_level = 0;
+    StartLevel = 0;
     if (frame_diagnostics) {
         option = find_option("LEVEL");
         if (option == 0)
             return;
-        selected_level = (char)atoi(&option[5]);
-        if (selected_level < 1 || selected_level > 14)
-            selected_level = 1;
+        StartLevel = (char)atoi(&option[5]);
+        if (StartLevel < 1 || StartLevel > 14)
+            StartLevel = 1;
     }
 }
 
@@ -212,7 +215,7 @@ static int skip_intro = 1;
     RECLAIM_HEAP_BLOCKS(0x00ffffffL); COMPACT_HEAP_BLOCKS(0x00ffffffL);
     result = 1;
     if (!skip_intro) {
-        if (skip_opening)
+        if (GameState.skip_opening)
             result = 2;
         else if (show_credits() || show_hall_records(0))
             result = 2;
@@ -225,13 +228,13 @@ next_opening_clip:
     if (result != 2) result = play_nis(4);
     if (result != 2) result = play_nis(8);
     if (result == 2) {
-        selected_level = 1;
+        StartLevel = 1;
         skip_intro = 1;
         TurnRecordedGamePlayerOff();
     } else {
         TurnRecordedGamePlayerOn();
     }
-    level = selected_level;
+    level = StartLevel;
     reset_level_overlays();
     if (nis_skip_requested)
         level = poll_and_clear_pending_state();
@@ -240,11 +243,11 @@ next_opening_clip:
 
 /* 0210 */ char far pascal poll_and_clear_pending_state(void)
 {
-    char level = selected_level;
+    char level = StartLevel;
 
     if (load_game_dialog() > 0) {
-        level = selected_level = LevelIdx;
-        demo_changed = 0;
+        level = StartLevel = LevelIdx;
+        RestartLevel = 0;
     }
     nis_skip_requested = 0;
     return level;
@@ -291,15 +294,15 @@ extern CHARREC Char;
 extern CHARREC Kid;
 
 extern ROOMREC Room;
-extern signed char joystick[3];
-#define joystick_y (joystick[0])
-#define joystick_x (joystick[1])
-#define joystick_button (joystick[2])
+extern signed char Joy[3];
+#define joystick_y (Joy[0])
+#define joystick_x (Joy[1])
+#define joystick_button (Joy[2])
 extern signed char quote_index;
 extern int Pause;
-extern int minutes_remaining, countdown_pending, restart_blocked;
-extern int requested_level, control_mode, message_ticks, message_duration;
-extern unsigned int ticks_remaining;
+extern int Minutes, TimeRequest, BackToLife;
+extern int NextLevel, MsgTimer, MsgTimerStart;
+extern unsigned int SixtiethsCtr;
 extern char sound_on_message[], sound_off_message[], joystick_unavailable_message[], joystick_mode_message[], joystick_missing_message[], keyboard_mode_message[];
 
 extern unsigned int far pascal poll_user(void);
@@ -325,20 +328,20 @@ unsigned int far pascal prince_poll(void)
     const char *message = 0; int restart = 0; unsigned int key = poll_user();
 
     if (joystick_button || key) {
-        if ((minutes_remaining && Kid.alive > 6) || restart_from_demo) { restart = 1;
-            if (restart_from_demo) skip_opening = 1;
+        if ((Minutes && Kid.alive > 6) || GameState.recording_mode) { restart = 1;
+            if (GameState.recording_mode) GameState.skip_opening = 1;
         }
     }
 
     if (key) {
         clear_keyboard(); switch (key) {
         case 0x1b: Pause = 1; break;
-        case 0x20: if (quote_index >= 0) countdown_pending = 1; break;
+        case 0x20: if (quote_index >= 0) TimeRequest = 1; break;
         case 0x1300:
-            selected_level = 0; quote_index = -1;
+            StartLevel = 0; quote_index = -1;
         case 0x1e00:
             if (!is_leave_level_music_on()) restart = 1; break;
-        case 0x1800: if (IsValidTimeForDialog() && !restart_from_demo) {
+        case 0x1800: if (IsValidTimeForDialog() && !GameState.recording_mode) {
                 main_menu_dialog();
                 copy_kid_to_char();
             } break;
@@ -353,10 +356,10 @@ unsigned int far pascal prince_poll(void)
             if (IsValidTimeForDialog()) show_hall_records(1); break;
         case 0x2400: message = joystick_status(); break;
         case 0x2500:
-            /* The keyboard label follows the audio and joystick strings. */
-            message = keyboard_mode_message; control_mode = 0; break;
+            /* The keyboard label follows the audio and Joy strings. */
+            message = keyboard_mode_message; GameState.control_mode = 0; break;
         case 0x2600:
-            if (!restart_from_demo) {
+            if (!GameState.recording_mode) {
                 if (IsValidTimeForDialog()) load_game_dialog();
                 copy_kid_to_char();
             } else {
@@ -366,11 +369,11 @@ unsigned int far pascal prince_poll(void)
         case 0x2f00: message = title; break;
         case 0x3100:
             if (LevelIdx <= 3 || frame_diagnostics) { if (LevelIdx == 14 && frame_diagnostics) {
-                    requested_level = 1;
+                    NextLevel = 1;
                 } else {
-                    requested_level = LevelIdx + 1;
-                    if (!frame_diagnostics && minutes_remaining > 15) {
-                        minutes_remaining = 15; ticks_remaining = 719; }
+                    NextLevel = LevelIdx + 1;
+                    if (!frame_diagnostics && Minutes > 15) {
+                        Minutes = 15; SixtiethsCtr = 719; }
                 }
                 dispatch_sound(0);
             } break;
@@ -378,12 +381,12 @@ unsigned int far pascal prince_poll(void)
         }
 
         if (frame_diagnostics) handle_debug_input(key);
-        if (message) { draw_message(message); message_ticks = message_duration = 24;
+        if (message) { draw_message(message); MsgTimer = MsgTimerStart = 24;
         }
     }
-    if (restart && restart_blocked == 0 &&
+    if (restart && BackToLife == 0 &&
         (Room.number != 4 || Level.level_number != 13 || !altar_shadow_active())) {
-        demo_changed = 1; dispatch_sound(0);
+        RestartLevel = 1; dispatch_sound(0);
     }
     return key;
 }
@@ -392,8 +395,8 @@ unsigned int far pascal prince_poll(void)
 
 extern CHARREC RoomOpp[5];
 
-extern int minutes_remaining, message_ticks, message_duration, countdown_pending;
-extern int debug_alt_view, debug_reload_room;
+extern int Minutes, MsgTimer, MsgTimerStart, TimeRequest;
+extern int BlackOut, DoBlackOut;
 extern int pause_on_frame, show_actor_position, show_reference_position;
 extern int show_ruler, debug_show_door_links, debug_show_meters;
 extern int debug_kid_x, debug_kid_y, player_input_disabled;
@@ -458,17 +461,17 @@ void far pascal handle_debug_input(unsigned int key)
 
     switch (key) {
     case '+':
-        ++minutes_remaining; message_ticks = message_duration = 0;
-        countdown_pending = 1; break;
+        ++Minutes; MsgTimer = MsgTimerStart = 0;
+        TimeRequest = 1; break;
     case '-':
-        if (minutes_remaining > 1) --minutes_remaining;
-        message_ticks = message_duration = 0;
-        countdown_pending = 1; break;
+        if (Minutes > 1) --Minutes;
+        MsgTimer = MsgTimerStart = 0;
+        TimeRequest = 1; break;
     case 'B':
-        debug_alt_view = !debug_alt_view;
-        if (debug_alt_view) STROKE_PORT_RECT(GamePlayRect);
+        BlackOut = !BlackOut;
+        if (BlackOut) STROKE_PORT_RECT(GamePlayRect);
         else {
-            debug_reload_room = 1; LoadCustomRoomData(Room.number);
+            DoBlackOut = 1; LoadCustomRoomData(Room.number);
         }
         index = 0; count = Level.room_objects[Room.number - 1].opponent_count;
         if (index < count) do {
@@ -484,7 +487,7 @@ void far pascal handle_debug_input(unsigned int key)
         Char.life_delta = 0; break;
     case 'R':
         sprintf(text, debug_messages.room_number_format, (unsigned)Room.number); draw_message(text);
-        message_ticks = message_duration = 24; break;
+        MsgTimer = MsgTimerStart = 24; break;
     case 'S':
         if (Level.environment_kind == 2 || Level.environment_kind == 6) {
             player_input_disabled = 7; Char.sequence = 5;
@@ -524,7 +527,7 @@ void far pascal handle_debug_input(unsigned int key)
         copy_kid_to_char(); break;
     case 'r':
         if (Kid.alive > 0) {
-            restart_blocked = 20;
+            BackToLife = 20;
             Kid.alive = -1;
             clear_message(1);
         }
@@ -569,7 +572,7 @@ void far pascal handle_debug_input(unsigned int key)
             DrawOppMeter(-1, 0, 8);
     }
 
-    if (control_mode) {
+    if (GameState.control_mode) {
         switch (key) {
         case '1':
             copy_kid_to_char();
@@ -651,7 +654,7 @@ void far pascal handle_debug_input(unsigned int key)
     }
     if (message) {
         draw_message(message);
-        message_ticks = message_duration = 24;
+        MsgTimer = MsgTimerStart = 24;
     }
 }
 
@@ -679,7 +682,6 @@ int far pascal toggle_sound(void)
     return enabled;
 }
 
-extern int control_mode;
 #pragma pack(1)
 typedef struct {
     int x, y;
@@ -701,10 +703,10 @@ char *far pascal joystick_status(void)
         configuration->control_mode = 2;
         if (check_game_port()) {
             message = joystick_mode_message;
-            configuration->control_mode = control_mode = 2;
+            configuration->control_mode = GameState.control_mode = 2;
         } else {
             message = joystick_missing_message;
-            configuration->control_mode = control_mode = 0;
+            configuration->control_mode = GameState.control_mode = 0;
             memset(&joystick_state, 0, sizeof(joystick_state));
         }
     }
@@ -736,7 +738,7 @@ typedef struct {
 } Tile;
 #pragma pack()
 extern TileInfo BlueSpec;
-extern Tile left_tiles[];
+extern Tile ScrLeft[];
 
 void far pascal add_room_trobs(void)
 {
@@ -769,7 +771,7 @@ void far pascal add_room_trobs(void)
             }
             if (index < 33) {
                 tile = FirstInRow(index - 30) + 9;
-                kind = left_tiles[index - 30].tile;
+                kind = ScrLeft[index - 30].tile;
             } else {
                 tile = index - 33;
                 kind = select_trob_cell(tile);
@@ -823,9 +825,9 @@ void far pascal add_room_trobs(void)
 }
 
 extern signed char quote_index;
-extern int minutes_remaining, countdown_pending;
-extern unsigned int ticks_remaining;
-extern int message_ticks, message_duration, deferred_room, LastResume;
+extern int Minutes, TimeRequest;
+extern unsigned int SixtiethsCtr;
+extern int MsgTimer, MsgTimerStart, Resume, LastResume;
 extern void far pascal draw_message(const char *message);
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern char *cdecl strcpy(char *destination, const char *source);
@@ -836,47 +838,47 @@ void far pascal KeepTime(void)
     char text[40];
     unsigned int seconds;
 
-    if (quote_index >= 0 && Kid.alive < 0 && minutes_remaining != 0) {
-        if (--ticks_remaining == 0) {
-            ticks_remaining = 719;
-            if (--minutes_remaining != 0 &&
-                (minutes_remaining < 5 || minutes_remaining % 5 == 0))
-                countdown_pending = 1;
-        } else if (minutes_remaining == 1 && ticks_remaining % 12 == 0) {
-            countdown_pending = 1;
-            message_ticks = message_duration = 0;
+    if (quote_index >= 0 && Kid.alive < 0 && Minutes != 0) {
+        if (--SixtiethsCtr == 0) {
+            SixtiethsCtr = 719;
+            if (--Minutes != 0 &&
+                (Minutes < 5 || Minutes % 5 == 0))
+                TimeRequest = 1;
+        } else if (Minutes == 1 && SixtiethsCtr % 12 == 0) {
+            TimeRequest = 1;
+            MsgTimer = MsgTimerStart = 0;
         }
     }
 
-    if (message_ticks)
+    if (MsgTimer)
         return;
-    if (deferred_room) {
-        LastResume = deferred_room;
-        deferred_room = 0;
+    if (Resume) {
+        LastResume = Resume;
+        Resume = 0;
         return;
     }
-    if (countdown_pending) {
-        if (minutes_remaining > 0) {
-            if (minutes_remaining == 1) {
-                seconds = (ticks_remaining + 1) / 12;
+    if (TimeRequest) {
+        if (Minutes > 0) {
+            if (Minutes == 1) {
+                seconds = (SixtiethsCtr + 1) / 12;
                 if (seconds == 1)
                     strcpy(text, one_second_left);
                 else
                     sprintf(text, seconds_left, seconds);
             } else {
-                sprintf(text, minutes_left, minutes_remaining);
+                sprintf(text, minutes_left, Minutes);
             }
             draw_message(text);
         } else {
             draw_message(time_expired);
         }
-        message_ticks = message_duration = 24;
-        countdown_pending = 0;
+        MsgTimer = MsgTimerStart = 24;
+        TimeRequest = 0;
     }
 }
 
-extern int cut_required;
-extern unsigned char bank_opponents[2];
+extern int CutPlan;
+extern unsigned char OppBank[2];
 
 extern void far pascal get_rooms(void);
 extern int far pascal IsLevelStartWithNISScreen(void);
@@ -899,10 +901,10 @@ int far pascal PrepCut(int keep_screen)
         if (!keep_screen || !IsLevelStartWithNISScreen())
             save_game_play_palette();
         LoadCustomRoomData(Room.number);
-        cut_required = 1;
+        CutPlan = 1;
         copy_kid_to_char();
         add_room_trobs();
-        memset(bank_opponents, 0, sizeof(bank_opponents));
+        memset(OppBank, 0, sizeof(OppBank));
         preload_room_data(Room.number);
         initialize_room_actors();
         if (!Level.room_objects[Room.number - 1].opponent_count)
@@ -916,7 +918,7 @@ int far pascal PrepCut(int keep_screen)
 extern void far pascal copy_kid_to_char(void);
 extern void far pascal DrawKidMeter(int previous, int current);
 extern unsigned long FrameNum;
-extern unsigned int ticks_remaining;
+extern unsigned int SixtiethsCtr;
 
 
 /* Increment the signed state byte up to 12, then refresh the step delta. */
@@ -952,7 +954,7 @@ void far pascal CheckMeters(void)
         if (Char.life_delta && !((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 2))
             DrawOppMeter(Char.slot, (signed char)Char.life_points, (signed char)Char.life_initial);
         if (Char.life_points == 1 && !((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 2)) {
-            if (ticks_remaining & 1)
+            if (SixtiethsCtr & 1)
                 DrawOppMeter(Char.slot, 1, (signed char)Char.life_initial);
             else
                 DrawOppMeter(Char.slot, 0, (signed char)Char.life_initial);
@@ -993,7 +995,7 @@ void far pascal ChangeMeters(void)
 }
 
 
-extern signed char joystick[3];
+extern signed char Joy[3];
 extern int Pause;
 extern char paused_message[];
 
@@ -1011,7 +1013,7 @@ int far pascal Input(void)
     int result;
 
     CutRoom = 0;
-    memset(joystick, 0, sizeof(joystick));
+    memset(Joy, 0, sizeof(Joy));
     read_controls();
     result = prince_poll();
     if (Pause) {
@@ -1022,12 +1024,11 @@ int far pascal Input(void)
         clear_message(1);
     }
     if (result == 0)
-        result = joystick[2];
+        result = Joy[2];
     return result;
 }
 
 
-extern int control_mode;
 extern unsigned char key_down[];
 extern void far pascal POLL_GAME_PORT(void);
 
@@ -1038,7 +1039,7 @@ void far pascal read_keyboard_controls(void);
 
 /* 105a */ void far pascal read_controls(void)
 {
-    if (control_mode == 2)
+    if (GameState.control_mode == 2)
         read_gameport_controls();
     else
         read_keyboard_controls();
@@ -1113,7 +1114,7 @@ void far pascal clear_keyboard(void)
 {
     int key;
 
-    if (control_mode == 0) {
+    if (GameState.control_mode == 0) {
         do {
             key = POLL_DOS_KEY();
             if (key)
@@ -1133,7 +1134,7 @@ extern char LevelIdx;
 extern int LastResume;
 
 extern unsigned int Invert;
-extern unsigned int MODE_CHANGED;
+extern unsigned int RedrawFlag;
 
 typedef struct {
     int top, left, bottom, right;
@@ -1141,7 +1142,7 @@ typedef struct {
 
 
 extern unsigned char ScreenPort[];
-extern unsigned int source_port;
+extern unsigned int BPort;
 extern void far pascal MEASURE_TEXT(void near *port, unsigned int source,
                                      const Rectangle far *source_rect,
                                      const Rectangle far *dest_rect, int flags);
@@ -1160,7 +1161,7 @@ void far pascal PrinceCopy(const Rectangle far *rect)
         copy_rect = (Rectangle far *)rect;
     }
 
-    MEASURE_TEXT(ScreenPort, source_port, copy_rect, copy_rect, 0);
+    MEASURE_TEXT(ScreenPort, BPort, copy_rect, copy_rect, 0);
 }
 
 void far pascal ToggleInvertState(void)
@@ -1172,17 +1173,17 @@ void far pascal ToggleInvertState(void)
         Invert = 1080;
         AddSong(153);
     }
-    MODE_CHANGED = 1;
+    RedrawFlag = 1;
 }
 
 /* Restrict the step value, then request mode 105 unless already pending. */
-extern unsigned int RESTRICTED_STEP;
+extern unsigned int WeightlessTimer;
 extern unsigned int current_effect;
 extern int pending_effect;
 
 void far pascal GoWeightless(void)
 {
-    RESTRICTED_STEP = 228;
+    WeightlessTimer = 228;
     AddSong(105);
     dispatch_sound(current_effect + 10000);
     pending_effect = -1;
