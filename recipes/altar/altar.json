@@ -1,7 +1,27 @@
 {
   "binding": "evidence/bindings/altar/altar.json",
-  "binding_sha256": "9c31e6d1d1289f157bd26beeaec580dfc0d2eaf26911d657d9175be0b3c1ec20",
+  "binding_sha256": "df1240a5b22e846921ec4d3b5d55b719c446046f3d8e63357bf4b7e137ab8e1c",
   "claims": [
+    {
+      "fixup_count": 14,
+      "public": "LOAD_ALTAR_ROOM",
+      "relocation_indices": [
+        9,
+        10,
+        15,
+        16,
+        19,
+        31,
+        32,
+        48,
+        52
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-15:2fcd:0510"
+    },
     {
       "fixup_count": 18,
       "public": "ALTAR_KID_RISES_FROM_DEATH",
@@ -139,12 +159,7 @@
       "target_id": "overlay-15:2fcd:06e0"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 1296,
-      "public": "LOAD_ALTAR_ROOM"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 1780,
   "flags": [
     "/c",
@@ -159,12 +174,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "altar/altar",
-  "object_sha256": "dd4bb50d5f87fcde18cbf57be59c810423af48887e269e995c590d559aa98ec7",
+  "object_sha256": "02be451cdd16414b21e4f18b201b54991edba3b4f41feea42ea3f3dba13f1b99",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/altar/altar.c",
-  "source_sha256": "0b36eb0771aa3fe79fe507d36288093d2abd58ff97c020efc8affdc48a7789d0",
+  "source_sha256": "d1daba9c183f71110a4cf1682126554afea331e88e5c4bb3bd6150d6a7371bd2",
   "space": "overlay-15"
 }
