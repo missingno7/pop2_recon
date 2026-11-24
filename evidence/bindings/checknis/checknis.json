@@ -193,13 +193,13 @@
       "SET_DEFAULT_PALETTE",
       "NIS_ROOM_RESTORED",
       "OPEN_VERIFIED_RESOURCE",
-      "LOAD_NIS_IMAGE",
+      "HNEWSHPITEM1",
       "SET_KID_PALETTE",
       "CLOSE_RESOURCE_FILE",
       "CHECKPLAYNIS",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "PLAY_SOUND",
-      "FLIP_IMAGE",
+      "MIRROR4BITBLOCK",
       "ERASESCREENAFTERNIS",
       "PAINT_INDEXED_SHAPE",
       "DISPOSE_HANDLE",
@@ -2749,7 +2749,7 @@
         "target": {
           "kind": "external",
           "index": 50,
-          "name": "LOAD_NIS_IMAGE",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -2757,7 +2757,7 @@
       "target": {
         "kind": "external",
         "index": 50,
-        "name": "LOAD_NIS_IMAGE",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -2911,7 +2911,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "FLIP_IMAGE",
+          "name": "MIRROR4BITBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -2919,7 +2919,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "FLIP_IMAGE",
+        "name": "MIRROR4BITBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -3019,7 +3019,7 @@
         "target": {
           "kind": "external",
           "index": 50,
-          "name": "LOAD_NIS_IMAGE",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -3027,7 +3027,7 @@
       "target": {
         "kind": "external",
         "index": 50,
-        "name": "LOAD_NIS_IMAGE",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -3730,23 +3730,6 @@
         }
       ]
     },
-    "FLIP_IMAGE": {
-      "entry_sha256": "04ab3e9e259d4fa97d601ec7aceb984cb9c4771b41de6ae71f2e2dd7f7204ee4",
-      "entry_target_id": "root:0000:14db",
-      "kind": "far-code-entry",
-      "offset": 5339,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 34527,
-          "bytes_hex": "9adb140000",
-          "file_offset": 42719,
-          "relocation_index": 731
-        }
-      ]
-    },
     "GAME_REQUEST": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4031,23 +4014,6 @@
       "segment": 2659,
       "space": "root",
       "witnesses": []
-    },
-    "LOAD_NIS_IMAGE": {
-      "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
-      "entry_target_id": "root:1d7e:00fa",
-      "kind": "far-code-entry",
-      "offset": 250,
-      "segment": 7550,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22482,
-          "bytes_hex": "9afa007e1d",
-          "file_offset": 30674,
-          "relocation_index": 601
-        }
-      ]
     },
     "LOAD_PIECES_DATA": {
       "entry_sha256": "711046be9f65e21e467b0d23adac81d629b72429b6e6e90c231dd92ce74865de",
@@ -4392,6 +4358,24 @@
       "kind": "far-code-entry",
       "offset": 11036,
       "segment": 1936,
+      "space": "root",
+      "witnesses": []
+    },
+    "HNEWSHPITEM1": {
+      "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
+      "entry_target_id": "root:1d7e:00fa",
+      "kind": "far-code-entry",
+      "offset": 250,
+      "segment": 7550,
+      "space": "root",
+      "witnesses": []
+    },
+    "MIRROR4BITBLOCK": {
+      "entry_sha256": "04ab3e9e259d4fa97d601ec7aceb984cb9c4771b41de6ae71f2e2dd7f7204ee4",
+      "entry_target_id": "root:0000:14db",
+      "kind": "far-code-entry",
+      "offset": 5339,
+      "segment": 0,
       "space": "root",
       "witnesses": []
     },

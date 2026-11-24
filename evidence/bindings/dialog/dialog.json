@@ -659,7 +659,7 @@
       "ALLOCATE_CLIPPED_PORT",
       "REPLAY_INPUT",
       "DIALOG_TIMER_COPY",
-      "WAIT_FOR_KEY",
+      "POLL_GAME_PORT",
       "DRAW_RECORD_BOUNDS",
       "CLEAR_PAYLOAD_HEADER",
       "ABORT_WITH_MESSAGE",
@@ -673,7 +673,7 @@
       "DRAW_MENU_ICON",
       "RND",
       "SAVED_MESSAGE",
-      "CREATE_FRAME_ASSET",
+      "HNEWSHPITEM1",
       "DRAW_CREDITS_PAGE",
       "CHANGE_MENU_OPTION",
       "DRAW_NOTICE_SYMBOLS",
@@ -682,9 +682,9 @@
       "DRAW_CREDIT_CATEGORY",
       "READ_NOTICE_SELECTION",
       "DRAW_MESSAGE",
-      "FILL_FRAME_BUFFER",
+      "PAINTRLESHAPE_ASM",
       "PLAY_SONG",
-      "SET_FRAME_DIMENSIONS",
+      "MIRRORRLEBLOCK",
       "SHOW_CREDITS",
       "__fstrlen",
       "INSETRECT",
@@ -697,7 +697,7 @@
       "INSERT_HALL_RECORD",
       "LOAD_GAME_DIALOG",
       "SAVE_GAME_PLAY_PALETTE",
-      "ACQUIRE_FRAME_SHAPE",
+      "HNEWSHPITEM",
       "SAVE_GAME_DIALOG",
       "CLEAR_LIFE_BAR",
       "MIRRORMCGABLOCK",
@@ -5320,7 +5320,7 @@
         "target": {
           "kind": "external",
           "index": 134,
-          "name": "FILL_FRAME_BUFFER",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -5328,7 +5328,7 @@
       "target": {
         "kind": "external",
         "index": 134,
-        "name": "FILL_FRAME_BUFFER",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -5347,7 +5347,7 @@
         "target": {
           "kind": "external",
           "index": 136,
-          "name": "SET_FRAME_DIMENSIONS",
+          "name": "MIRRORRLEBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -5355,7 +5355,7 @@
       "target": {
         "kind": "external",
         "index": 136,
-        "name": "SET_FRAME_DIMENSIONS",
+        "name": "MIRRORRLEBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -5374,7 +5374,7 @@
         "target": {
           "kind": "external",
           "index": 134,
-          "name": "FILL_FRAME_BUFFER",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -5382,7 +5382,7 @@
       "target": {
         "kind": "external",
         "index": 134,
-        "name": "FILL_FRAME_BUFFER",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -5428,7 +5428,7 @@
         "target": {
           "kind": "external",
           "index": 125,
-          "name": "CREATE_FRAME_ASSET",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -5436,7 +5436,7 @@
       "target": {
         "kind": "external",
         "index": 125,
-        "name": "CREATE_FRAME_ASSET",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -5563,7 +5563,7 @@
         "target": {
           "kind": "external",
           "index": 111,
-          "name": "WAIT_FOR_KEY",
+          "name": "POLL_GAME_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -5571,7 +5571,7 @@
       "target": {
         "kind": "external",
         "index": 111,
-        "name": "WAIT_FOR_KEY",
+        "name": "POLL_GAME_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -15633,7 +15633,7 @@
         "target": {
           "kind": "external",
           "index": 149,
-          "name": "ACQUIRE_FRAME_SHAPE",
+          "name": "HNEWSHPITEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -15641,7 +15641,7 @@
       "target": {
         "kind": "external",
         "index": 149,
-        "name": "ACQUIRE_FRAME_SHAPE",
+        "name": "HNEWSHPITEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -19059,16 +19059,6 @@
         }
       ]
     },
-    "ACQUIRE_FRAME_SHAPE": {
-      "entry_sha256": "b47b7e207f2b21285edd0bd74b800ea6b22d06df01dfbeaf23081985ea92ead9",
-      "entry_target_id": "root:1d7e:0004",
-      "kind": "far-code-entry",
-      "offset": 4,
-      "segment": 7550,
-      "space": "root",
-      "witnesses": [],
-      "unproven": "No independent original witness; Far address lacks a second equal claimed site: ACQUIRE_FRAME_SHAPE+0"
-    },
     "ACTIVE_MENU": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -19286,23 +19276,6 @@
       "segment": 7580,
       "space": "root",
       "witnesses": []
-    },
-    "CREATE_FRAME_ASSET": {
-      "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
-      "entry_target_id": "root:1d7e:00fa",
-      "kind": "far-code-entry",
-      "offset": 250,
-      "segment": 7550,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 11507,
-          "bytes_hex": "9afa007e1d",
-          "file_offset": 19699,
-          "relocation_index": 271
-        }
-      ]
     },
     "CREDITS_TIMER": {
       "group": "DGROUP",
@@ -19600,23 +19573,6 @@
         }
       ]
     },
-    "FILL_FRAME_BUFFER": {
-      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
-      "entry_target_id": "root:1d60:0006",
-      "kind": "far-code-entry",
-      "offset": 6,
-      "segment": 7520,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 35643,
-          "bytes_hex": "9a0600601d",
-          "file_offset": 43835,
-          "relocation_index": 866
-        }
-      ]
-    },
     "FIND_OPTION": {
       "entry_sha256": "146f6eb413a71912174bde1a89b732451d806e553aa74db5605cd6dbea444af1",
       "entry_target_id": "root:1129:2cea",
@@ -19719,8 +19675,7 @@
       "offset": 566,
       "segment": 7580,
       "space": "root",
-      "witnesses": [],
-      "consensus": true
+      "witnesses": []
     },
     "HGETFONT": {
       "entry_sha256": "dfac26a78c9928121e3873aeb2d31e78bf500dfeb292fc7793b202c43833efd1",
@@ -20426,23 +20381,6 @@
         }
       ]
     },
-    "SET_FRAME_DIMENSIONS": {
-      "entry_sha256": "fc7de4acc5032ced5e572e36658823004545e411343fada2df45ad1c01583042",
-      "entry_target_id": "root:0000:1447",
-      "kind": "far-code-entry",
-      "offset": 5191,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 34561,
-          "bytes_hex": "9a47140000",
-          "file_offset": 42753,
-          "relocation_index": 801
-        }
-      ]
-    },
     "SET_KID_PALETTE": {
       "entry_sha256": "f7d881d92790bfaea4746394d86220ca54113fc62886cd76dbb2bbe21b46adf6",
       "entry_target_id": "root:0a63:07ce",
@@ -20619,23 +20557,6 @@
           "bytes_hex": "9a3a07b304",
           "file_offset": 54175,
           "relocation_index": 920
-        }
-      ]
-    },
-    "WAIT_FOR_KEY": {
-      "entry_sha256": "f9787565e227ea42567abf5cbdccd7556f6e8ec766feea5a66263840866a07ff",
-      "entry_target_id": "root:0000:164b",
-      "kind": "far-code-entry",
-      "offset": 5707,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 4366,
-          "bytes_hex": "9a4b160000",
-          "file_offset": 12558,
-          "relocation_index": 24
         }
       ]
     },
@@ -20891,6 +20812,42 @@
       "space": "root",
       "witnesses": []
     },
+    "PAINTRLESHAPE_ASM": {
+      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
+      "entry_target_id": "root:1d60:0006",
+      "kind": "far-code-entry",
+      "offset": 6,
+      "segment": 7520,
+      "space": "root",
+      "witnesses": []
+    },
+    "MIRRORRLEBLOCK": {
+      "entry_sha256": "fc7de4acc5032ced5e572e36658823004545e411343fada2df45ad1c01583042",
+      "entry_target_id": "root:0000:1447",
+      "kind": "far-code-entry",
+      "offset": 5191,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
+    "HNEWSHPITEM1": {
+      "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
+      "entry_target_id": "root:1d7e:00fa",
+      "kind": "far-code-entry",
+      "offset": 250,
+      "segment": 7550,
+      "space": "root",
+      "witnesses": []
+    },
+    "POLL_GAME_PORT": {
+      "entry_sha256": "f9787565e227ea42567abf5cbdccd7556f6e8ec766feea5a66263840866a07ff",
+      "entry_target_id": "root:0000:164b",
+      "kind": "far-code-entry",
+      "offset": 5707,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
     "CLEAR_FLAGS_OF_FAR_BLOCK": {
       "entry_sha256": "4a94c849f2f1e7f82e47f925258fb35f25ca65fc44c2e11d9fff6a742e218ce5",
       "entry_target_id": "root:1d9c:01c4",
@@ -20933,6 +20890,15 @@
       "kind": "far-code-entry",
       "offset": 28492,
       "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "HNEWSHPITEM": {
+      "entry_sha256": "b47b7e207f2b21285edd0bd74b800ea6b22d06df01dfbeaf23081985ea92ead9",
+      "entry_target_id": "root:1d7e:0004",
+      "kind": "far-code-entry",
+      "offset": 4,
+      "segment": 7550,
       "space": "root",
       "witnesses": []
     },

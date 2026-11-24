@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/init/init.json",
-  "binding_sha256": "6aa980ea277ac86d6c981ec8b78d31771792af9636aa1a153613cbcfaadc2c9d",
+  "binding_sha256": "b241a20a8f96d24ab1038b1c48a7a4c2b5a1f41a4141e885fb293e344b54cb12",
   "claims": [
     {
       "fixup_count": 18,
@@ -34,6 +34,26 @@
       "fixup_count": 2,
       "public": "SAVE_INITIAL_SETTING",
       "target_id": "overlay-2:251b:00ba"
+    },
+    {
+      "fixup_count": 18,
+      "public": "CHOOSE_MEMORY_POOL",
+      "relocation_indices": [
+        6,
+        7,
+        23,
+        24,
+        45,
+        48,
+        49,
+        52,
+        53
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:251b:00c6"
     },
     {
       "fixup_count": 85,
@@ -111,12 +131,7 @@
       "target_id": "overlay-2:251b:03ee"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 198,
-      "public": "CHOOSE_MEMORY_POOL"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 1022,
   "flags": [
     "/c",
@@ -131,12 +146,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "init/init",
-  "object_sha256": "e1cbc1538356cf074e6acb0a140505354e69cc9afbb2ed38e3a3476221c2bf15",
+  "object_sha256": "c9631db34d03678faaa7c40e28cd83f85f0e426ab3fe95b2dd2f9b2df1dca039",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/init/init.c",
-  "source_sha256": "2273845aa8e65a9f1cf5392c701cbe16e21d2f77a1d042a460eb21b65521628d",
+  "source_sha256": "01da0bc4bc9dedff4fb7b042a8c9dcd2eeafa3cac78cae7957f7a9e9a9386cd0",
   "space": "overlay-2"
 }

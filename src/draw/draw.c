@@ -720,8 +720,8 @@ extern void save_under_carpet(void);
 extern void set_shape_variant(int variant);
 extern unsigned int mark_purgeable(unsigned int handle);
 extern void MIRRORMCGABLOCK(unsigned char far *data, int width, int stride);
-extern void set_frame_dimensions(unsigned char far *data, int width, int stride);
-extern void flip_image(unsigned char far *data, int width, int height, int stride);
+extern void MIRRORRLEBLOCK(unsigned char far *data, int width, int stride);
+extern void MIRROR4BITBLOCK(unsigned char far *data, int width, int height, int stride);
 extern void push_port_clip(DrawRect far *rect);
 extern void pop_port_clip(void);
 extern void far _fastcall add_peel(int x, int height, int y, int width, char mode, char flags);
@@ -782,9 +782,9 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
         if (ref.separate_mask)
             MIRRORMCGABLOCK(image->data, image->width, image->stride);
         else if (ref.kind == 2)
-            flip_image(image->data, image->width, image->height, image->stride);
+            MIRROR4BITBLOCK(image->data, image->width, image->height, image->stride);
         else if (ref.kind == 1)
-            set_frame_dimensions(image->data, image->width, image->stride);
+            MIRRORRLEBLOCK(image->data, image->width, image->stride);
         if (entry->shape < 0x6370 || entry->shape > 0x6372)
             ((unsigned char *)sprite_tables[entry->type])[6 * entry->shape + 3] = entry->attributes;
     }
@@ -850,9 +850,9 @@ void draw_middle_item(int index)
         if (mode == 1)
             MIRRORMCGABLOCK(image->data, image->width, image->stride);
         else if (mode == 2)
-            set_frame_dimensions(image->data, image->width, image->stride);
+            MIRRORRLEBLOCK(image->data, image->width, image->stride);
         else
-            flip_image(image->data, image->width, image->height, image->stride);
+            MIRROR4BITBLOCK(image->data, image->width, image->height, image->stride);
         ((unsigned char *)sprite_tables[type])[6 * middle_queue[index].shape + 9] =
             middle_queue[index].palette;
     }
@@ -929,7 +929,7 @@ extern int cdecl sprintf(char *out, const char *fmt, ...);
 extern void abort_with_message(int severity, const char far *message);
 extern void paint_plain(ShapeBitmap far *image, int x, int y, int flip);
 extern void paint_indexed_shape(ShapeBitmap far *image, int x, int y, int flip, unsigned int flags);
-extern void copy_shape_special(ShapeBitmap far *image, int x, int y, int flip);
+extern void PAINTRLESHAPE_ASM(ShapeBitmap far *image, int x, int y, int flip);
 extern void paint_four_bit(ShapeBitmap far *mask, int x, int y, int color, int flip);
 extern void add_dirty_rectangle(DrawRect *rect);
 
@@ -952,7 +952,7 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
         case 0:
         case 10:
             if (mode == 2) {
-                copy_shape_special(image, x, y, flip);
+                PAINTRLESHAPE_ASM(image, x, y, flip);
                 break;
             }
             if (mode == 3) {

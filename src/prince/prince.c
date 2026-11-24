@@ -688,7 +688,7 @@ typedef struct {
 } GameportState;
 #pragma pack()
 extern GameportState gameport_state;
-extern int far pascal detect_gameport(void);
+extern int far pascal check_game_port(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
 
@@ -699,7 +699,7 @@ char *far pascal joystick_status(void)
         message = joystick_unavailable_message;
     } else {
         configuration->control_mode = 2;
-        if (detect_gameport()) {
+        if (check_game_port()) {
             message = joystick_mode_message;
             configuration->control_mode = control_mode = 2;
         } else {
@@ -1029,7 +1029,7 @@ int far pascal Input(void)
 
 extern int control_mode;
 extern unsigned char key_down[];
-extern void far pascal sample_gameport(void);
+extern void far pascal POLL_GAME_PORT(void);
 
 #define keyboard_flags (*(unsigned char far *)0x00400017UL)
 
@@ -1049,7 +1049,7 @@ void far pascal read_gameport_controls(void)
     int displacement;
     int threshold;
 
-    sample_gameport();
+    POLL_GAME_PORT();
     threshold = *(volatile int *)&gameport_state.center_y / 2;
     displacement = gameport_state.y - gameport_state.center_y;
     if (displacement > threshold)
@@ -1106,7 +1106,7 @@ void far pascal read_gameport_controls(void)
     }
 }
 
-extern int far pascal read_input(void);
+extern int far pascal POLL_DOS_KEY(void);
 extern void far pascal post_pointer_event(int type, int data, int key);
 
 void far pascal clear_keyboard(void)
@@ -1115,7 +1115,7 @@ void far pascal clear_keyboard(void)
 
     if (control_mode == 0) {
         do {
-            key = read_input();
+            key = POLL_DOS_KEY();
             if (key)
                 post_pointer_event(8, 0, key);
         } while (key);

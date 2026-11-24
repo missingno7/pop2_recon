@@ -290,7 +290,7 @@ extern ShapeHeader far *fetch_locked_shape_list(int);
 extern void load_shape_list_banks(int);
 extern void CLEAR_HANDLE_OWNED(int);
 extern void MARK_FIXED(int);
-extern int load_sheet_shape(int, int, int);
+extern int hNewShpItem1(int, int, int);
 extern int create_port(void *, const Rect far *);
 extern void SET_ORIGIN(int, int);
 extern void far *ALLOCATE_BUFFER(unsigned long);
@@ -371,7 +371,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             }
             for (count = 0; count < anim_record->handle_count; ++count) {
                 if (used_entries[count]) {
-                    if (!(anim_record->handles[count] = load_sheet_shape(sheet, count + first_shape,
+                    if (!(anim_record->handles[count] = hNewShpItem1(sheet, count + first_shape,
                             animation_color_mode == 0 ? 1 : 2))) {
                         if (anim_record->sound_flag != 0) sheet_info->sound = 0;
                         goto fail;
@@ -509,7 +509,7 @@ Animation *draw_frame(Animation *animation)
 }
 
 extern int high_color_shape_boundary;
-extern void paint_low_color_shape(const ShapeHeader far *, int, int, int);
+extern void PAINTRLESHAPE_ASM(const ShapeHeader far *, int, int, int);
 extern void PAINT_PLAIN(const ShapeHeader far *, int, int, int);
 
 void near paint_element(Animation *animation, Element *element)
@@ -518,7 +518,7 @@ void near paint_element(Animation *animation, Element *element)
         goto done;
     if (animation_color_mode || !(high_color_shape_boundary < element->shape))
         goto high_color;
-    paint_low_color_shape(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
+    PAINTRLESHAPE_ASM(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
                           (int)(element->x >> 16), (int)(element->y >> 16),
                           element->flags & 15);
     goto done;

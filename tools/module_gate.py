@@ -132,12 +132,13 @@ def _own_segment(fix, code_name):
             (frame.get("kind") == "target_frame" or {k: frame.get(k) for k in ("kind", "name")} == own))
 
 
-def _tables(fields, piece, start):
+def _tables(addends, start):
     """Jump tables: a run of consecutive own-segment words that another own-segment field
-    (the `jmp cs:[bx+T]` displacement) points at. `fields` are claim-relative offsets;
-    addends are object offsets, so T - start locates the table inside the claim."""
-    present = set(fields)
-    starts = sorted({struct.unpack_from("<H", piece, at)[0] - start for at in fields} & present)
+    (the `jmp cs:[bx+T]` displacement) points at. `addends` maps each field's claim-relative offset
+    to its object offset T (LEDATA word + FIXUPP displacement: MASM may use either), so T - start
+    locates the table inside the claim."""
+    present = set(addends)
+    starts = sorted({target - start for target in addends.values()} & present)
     runs = []
     for first in starts:
         last = first
@@ -1336,14 +1337,17 @@ def _far_consensus(far_symbols, states, reports, conditional):
                 changed = True
 
 
-def _data_tail(piece, own_targets, tables, start):
-    """Rows for a claim whose code ends in a return/JMP before data it addresses itself (e.g. a
+def _data_tail(piece, own_targets, tables, start, addressed=()):
+    """Rows for a claim whose code ends in a return/JMP before data the object addresses itself (e.g. a
     literal after the RET, `mov si, offset Lit`): the tail from the lowest own-segment field
     target T inside the claim is data when [0, T) decodes completely (around any tables) and
-    ends in a return or JMP. The tail bytes are still compared exactly as ordinary bytes."""
+    ends in a return or JMP. The tail bytes are still compared exactly as ordinary bytes.
+    `addressed` are the object offsets that fields of the object's other functions address (a signature
+    between two procedures, used by the second). A jump-table entry names code, never such a tail."""
     cs, _ = _capstone()
     # own_targets: claim-relative field offset -> object offset it addresses (LEDATA + FIXUPP D).
-    targets = sorted({value - start for value in own_targets.values() if 0 < value - start < len(piece)})
+    values = [value for at, value in own_targets.items() if not any(lo <= at < hi for lo, hi in tables)]
+    targets = sorted({value - start for value in [*values, *addressed] if 0 < value - start < len(piece)})
     for t in targets:
         if any(lo < t < hi for lo, hi in tables) or any(at >= t for at in own_targets):
             continue
@@ -1478,6 +1482,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             require(binding["mode"] in ("external-far-call-v1",) + DATA_MODES, "Unsupported group binding mode")
             symbols, mode = {}, binding["mode"]
 
+    addressed = {f["segment_offset"]: (struct.unpack_from("<H", actual, f["segment_offset"])[0] +
+                                       (f["displacement"] or 0)) & 0xFFFF
+                 for f in code_fixes if _own_segment(f, name)}
     # Pass 1: extent, decoding, near equations. Pass 2: segment safety. Pass 3: data.
     states, reports, placed_uses, used_near = {}, [], {}, set()
     for claim, target, expected, start in resolved:
@@ -1498,15 +1505,15 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             require(all(f["segment_offset"] + f["field_width"] <= end for f in mine) and
                     not any(f["segment_offset"] < start < f["segment_offset"] + f["field_width"]
                             for f in code_fixes), "Fixup field crosses the claim boundary")
-            own_fields = [f["segment_offset"] - start for f in mine if _own_segment(f, name)]
-            tables = _tables(own_fields, piece, start)
+            own_targets = {f["segment_offset"] - start: (struct.unpack_from("<H", piece, f["segment_offset"] - start)[0]
+                                                         + (f["displacement"] or 0)) & 0xFFFF
+                           for f in mine if _own_segment(f, name)}
+            tables = _tables(own_targets, start)
             try:
                 rows = _decode(piece, tables) if tables else instructions(piece)
             except ValueError:
-                own_targets = {f["segment_offset"] - start: (struct.unpack_from("<H", piece, f["segment_offset"] - start)[0]
-                                                             + (f["displacement"] or 0)) & 0xFFFF
-                               for f in mine if _own_segment(f, name)}
-                rows = _data_tail(piece, own_targets, tables, start) if mine else None
+                rows = _data_tail(piece, own_targets, tables, start,
+                                  [a for at, a in addressed.items() if not start <= at < end]) if mine else None
                 require(rows is not None or not mine, "Fixup-bearing claim does not decode completely")
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],

@@ -217,7 +217,7 @@ typedef struct {
     unsigned char pixels[1];
 } ShapeImage;
 
-extern void set_frame_dimensions(unsigned char far *pixels, int width, int height);
+extern void MIRRORRLEBLOCK(unsigned char far *pixels, int width, int height);
 extern void MIRRORMCGABLOCK(unsigned char far *pixels, int width, int height);
 
 typedef struct {
@@ -233,7 +233,7 @@ void FlipHorses(const AnimationShapes *animation)
         if (animation->shapes[i]) {
             ShapeImage far *image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(animation->shapes[i]);
 
-            set_frame_dimensions(image->pixels, image->width, image->height);
+            MIRRORRLEBLOCK(image->pixels, image->width, image->height);
         }
     } while (++i <= 435);
 }
@@ -374,7 +374,7 @@ extern Handle transition_shapes, transition_background_shapes, transition_palett
 extern Handle title_left, title_right, second_palette;
 extern void SET_RECORD_RANGE(const Rect far *bounds, int color);
 extern int query_sound(int sound);
-extern Handle load_nis_image(Handle shapes, int item, int flags);
+extern Handle hNewShpItem1(Handle shapes, int item, int flags);
 extern void free_record_pair(ImagePort *port);
 extern void draw_room_from_nis(signed char room, signed char level);
 extern void PaintShapeItem(Handle shapes, int item, int x, int y, int mode, int plane);
@@ -426,8 +426,8 @@ int Transition(int scene)
         NIS_ITEM(320, 118, 0, 10);
         NIS_ITEM(321, 73, 60, 10);
         NIS_ITEM(322, -41, 32, 10);
-        title_left = load_nis_image(transition_shapes, 312, 1);
-        title_right = load_nis_image(transition_shapes, 313, 1);
+        title_left = hNewShpItem1(transition_shapes, 312, 1);
+        title_right = hNewShpItem1(transition_shapes, 313, 1);
         transition_palette = TRANSITION_COLORS(2);
         title_patch = 0;
         animation_callback_argument = 2;
@@ -1189,7 +1189,7 @@ extern Rect *get_shape_rect(Rect far *bounds, Handle shapes, int item, int x, in
 extern void add_shape_nis(DrawPort *port, Handle shape, int x, int y, int mode);
 int dissolve_nis(DrawPort *port, unsigned int duration, const Rect far *bounds);
 extern Rect far *UNIONRECT(Rect far *dst, const Rect far *a, const Rect far *b);
-extern void paint_rle(const void far *shape, int x, int y, int mode);
+extern void PAINTRLESHAPE_ASM(const void far *shape, int x, int y, int mode);
 
 typedef DrawPort NisTemporaryPort;
 
@@ -1445,19 +1445,19 @@ int opening_two(void)
         wait_sound(0);
     if (!was_interrupted) {
         draw_nis_text(0, 0);
-        background = load_nis_image(anim_table, 17, 1);
-        left_actor = load_nis_image(anim_table, 13, 1);
-        right_sprite = load_nis_image(anim_table, 14, 1);
-        foreground = load_nis_image(anim_table, 16, 1);
+        background = hNewShpItem1(anim_table, 17, 1);
+        left_actor = hNewShpItem1(anim_table, 13, 1);
+        right_sprite = hNewShpItem1(anim_table, 14, 1);
+        foreground = hNewShpItem1(anim_table, 16, 1);
         play_sound(30503);
         for (slide_step = 1; slide_step < 17; ++slide_step) {
             if (!was_interrupted) {
                 delay_count = 14 - slide_step < 0 ? 0 : 14 - slide_step;
                 Graf = &temporary_port;
-                paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(background), 39, 32, 0);
-                paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(left_actor), 9 - (slide_step << 3), 31, 0);
-                paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(right_sprite), (slide_step + 20) << 3, 32, 0);
-                paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(foreground), 192, 55, 10);
+                PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(background), 39, 32, 0);
+                PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(left_actor), 9 - (slide_step << 3), 31, 0);
+                PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(right_sprite), (slide_step + 20) << 3, 32, 0);
+                PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(foreground), 192, 55, 10);
                 Graf = &ScreenPort;
                 cut_nis(&temporary_port);
                 was_interrupted = wait_timer(0);
@@ -1527,9 +1527,9 @@ int opening_two(void)
         if (!was_interrupted) was_interrupted = wait_ticks(was_interrupted, 20);
     }
     if (!was_interrupted) {
-        background = load_nis_image(anim_table, 21, 1);
-        left_actor = load_nis_image(anim_table, 22, 1);
-        right_sprite = load_nis_image(anim_table, 25, 1);
+        background = hNewShpItem1(anim_table, 21, 1);
+        left_actor = hNewShpItem1(anim_table, 22, 1);
+        right_sprite = hNewShpItem1(anim_table, 25, 1);
         dispose_handle(nis_palette);
         nis_palette = HGETRSRC(0x50414c54UL, OPENING_SCENE + 5);
         draw_nis_text(0, 0);
@@ -1719,7 +1719,7 @@ int opening_two(void)
 
 extern Rect nis_clip;
 extern Handle nis_palette;
-extern void paint_rle(const void far *shape, int x, int y, int mode);
+extern void PAINTRLESHAPE_ASM(const void far *shape, int x, int y, int mode);
 
 void clear_nis(DrawPort *port, int color)
 {
@@ -1744,7 +1744,7 @@ void add_shape_nis(DrawPort *port, Handle shape, int x, int y, int mode)
     DrawPort *saved = Graf;
 
     Graf = port;
-    paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(shape), x, y, mode);
+    PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(shape), x, y, mode);
     Graf = saved;
 }
 
@@ -1945,7 +1945,7 @@ int ending(void)
         hGetSnd(ENDING_SCENE + 6);
         hGetSnd(ENDING_SCENE + 7);
         hGetSnd(ENDING_SCENE + 8);
-        ending_sprite = MARK_PURGEABLE(load_nis_image(ending_shapes, 10, 1));
+        ending_sprite = MARK_PURGEABLE(hNewShpItem1(ending_shapes, 10, 1));
         interrupted = play_anim(ending_shapes, ENDING_SCENE, 1, 1, ending_callback, 0, 0, 1);
         dispose_handle(ending_sprite);
         dispose_handle(ending_palette_four);
@@ -2013,17 +2013,17 @@ int ending_callback(AnimationState *playback, int frame)
     } else if (frame == 3) {
         if (!MATERIALIZE_HANDLE(ending_sprite)) {
             dispose_handle(ending_sprite);
-            ending_sprite = MARK_PURGEABLE(load_nis_image(ending_shapes, 10, 1));
+            ending_sprite = MARK_PURGEABLE(hNewShpItem1(ending_shapes, 10, 1));
         }
         swap_record_pairs(playback);
-        paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(ending_sprite), -playback->port.clip.left,
+        PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(ending_sprite), -playback->port.clip.left,
                   8 - playback->port.clip.top, 0);
         swap_record_pairs(playback);
 
         saved_port = Graf;
         Graf = &ScreenPort;
         SET_RECORD_RANGE(&ending_fill_bounds, 0);
-        paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(ending_sprite), 0, 8, 10);
+        PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(ending_sprite), 0, 8, 10);
         Graf = saved_port;
         play_sound(ENDING_SCENE + 20);
         playback->fade = init_fade_to(ending_palette_four, -1, 1);
@@ -2069,7 +2069,7 @@ void draw_happy_dialog(int resource, int line, int voice)
     Graf = saved;
 }
 
-extern int read_input(void);
+extern int POLL_DOS_KEY(void);
 extern void toggle_sound(void);
 extern void read_controls(void);
 extern int nis_skip_requested, nis_button_latched;
@@ -2077,7 +2077,7 @@ extern unsigned char nis_button_held;
 
 int check_nis_input(void)
 {
-    int key = read_input();
+    int key = POLL_DOS_KEY();
 
     if (key == 0x1000 || key == 0x11)
         abort_with_message(0, 0L);
@@ -2338,11 +2338,11 @@ int title_callback(TitleAnimationState *playback, int frame)
         switch (midi_play_time) {
         case 101:
             Graf = &ScreenPort;
-            paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_left), 43, 68, 10);
+            PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_left), 43, 68, 10);
             Graf = saved_port;
             midi_play_time = 114;
         case 114:
-            paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_left), 43 - playback->port.clip.left,
+            PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_left), 43 - playback->port.clip.left,
                       68 - playback->port.clip.top, 10);
             break;
         case 102:
@@ -2362,11 +2362,11 @@ int title_callback(TitleAnimationState *playback, int frame)
             break;
         case 103:
             Graf = &ScreenPort;
-            paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_right), 58, 53, 10);
+            PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_right), 58, 53, 10);
             Graf = saved_port;
             midi_play_time = 115;
         case 115:
-            paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_right), 58 - playback->port.clip.left,
+            PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_right), 58 - playback->port.clip.left,
                       53 - playback->port.clip.top, 10);
             break;
         case 105:

@@ -317,7 +317,7 @@
     "externals": [
       "__acrtused",
       "DEATH_SEQUENCE_PRIMARY",
-      "DETECT_GAMEPORT",
+      "CHECK_GAME_PORT",
       "_main",
       "FALL_TRANSITION",
       "CHAR",
@@ -383,7 +383,7 @@
       "TRIGGER_TORCH",
       "DEBUG_SHOW_OBJECTS",
       "TOGGLE_SOUND",
-      "READ_INPUT",
+      "POLL_DOS_KEY",
       "DEBUG_SHOW_MESSAGES",
       "DEBUG_SHOW_BUILDINGS",
       "JOYSTICK_STATUS",
@@ -483,7 +483,7 @@
       "SET_SKELETON_TIMER",
       "MINUTES_REMAINING",
       "READ_START_LEVEL",
-      "SAMPLE_GAMEPORT",
+      "POLL_GAME_PORT",
       "CHECKSHADOWMANCREATE",
       "PLAYOPENINGSEQUENCE",
       "READ_GAMEPORT_CONTROLS",
@@ -11832,7 +11832,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "DETECT_GAMEPORT",
+          "name": "CHECK_GAME_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -11840,7 +11840,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "DETECT_GAMEPORT",
+        "name": "CHECK_GAME_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13182,7 +13182,7 @@
         "target": {
           "kind": "external",
           "index": 169,
-          "name": "SAMPLE_GAMEPORT",
+          "name": "POLL_GAME_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13190,7 +13190,7 @@
       "target": {
         "kind": "external",
         "index": 169,
-        "name": "SAMPLE_GAMEPORT",
+        "name": "POLL_GAME_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -15747,7 +15747,7 @@
         "target": {
           "kind": "external",
           "index": 69,
-          "name": "READ_INPUT",
+          "name": "POLL_DOS_KEY",
           "method": 6,
           "zero_displacement": true
         }
@@ -15755,7 +15755,7 @@
       "target": {
         "kind": "external",
         "index": 69,
-        "name": "READ_INPUT",
+        "name": "POLL_DOS_KEY",
         "method": 6,
         "zero_displacement": true
       },
@@ -16887,23 +16887,6 @@
           "image_offset": 22278,
           "bytes_hex": "833e921300",
           "entry": "root:053b:02d4"
-        }
-      ]
-    },
-    "DETECT_GAMEPORT": {
-      "entry_sha256": "382769cf8220d66e30efc8d1efd0400af39bbef1d13ea60f941549152445ed55",
-      "entry_target_id": "root:1e92:000c",
-      "kind": "far-code-entry",
-      "offset": 12,
-      "segment": 7826,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "overlay-2",
-          "image_offset": 830,
-          "bytes_hex": "9a0c00921e",
-          "file_offset": 164366,
-          "relocation_index": 56
         }
       ]
     },
@@ -18101,23 +18084,6 @@
         }
       ]
     },
-    "SAMPLE_GAMEPORT": {
-      "entry_sha256": "f9787565e227ea42567abf5cbdccd7556f6e8ec766feea5a66263840866a07ff",
-      "entry_target_id": "root:0000:164b",
-      "kind": "far-code-entry",
-      "offset": 5707,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22397,
-          "bytes_hex": "9a4b160000",
-          "file_offset": 30589,
-          "relocation_index": 460
-        }
-      ]
-    },
     "SAVEOPTIONSTODISK": {
       "entry_sha256": "9e5b9055f79740c5b994281d9e6627c6d3d0f0ea57ae7ade79523642f798867a",
       "entry_target_id": "root:053b:20f4",
@@ -18626,6 +18592,24 @@
       "offset": 3571,
       "witnesses": []
     },
+    "CHECK_GAME_PORT": {
+      "entry_sha256": "382769cf8220d66e30efc8d1efd0400af39bbef1d13ea60f941549152445ed55",
+      "entry_target_id": "root:1e92:000c",
+      "kind": "far-code-entry",
+      "offset": 12,
+      "segment": 7826,
+      "space": "root",
+      "witnesses": []
+    },
+    "POLL_GAME_PORT": {
+      "entry_sha256": "f9787565e227ea42567abf5cbdccd7556f6e8ec766feea5a66263840866a07ff",
+      "entry_target_id": "root:0000:164b",
+      "kind": "far-code-entry",
+      "offset": 5707,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
     "POST_POINTER_EVENT": {
       "entry_sha256": "72cc968b2759fa356d80e2f57fbe909cc7b4b462ca06ffe5619ce9c167332cc0",
       "entry_target_id": "root:1129:99ec",
@@ -18635,29 +18619,14 @@
       "space": "root",
       "witnesses": []
     },
-    "READ_INPUT": {
+    "POLL_DOS_KEY": {
       "entry_sha256": "8ce4ea4b19a01d1512577641f985db053c5cb0aed31f003ce38f1f8af2f61f0e",
       "entry_target_id": "root:0000:16ee",
       "kind": "far-code-entry",
       "offset": 5870,
       "segment": 0,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 109376,
-          "bytes_hex": "9aee160000",
-          "relocation_index": 1618,
-          "file_offset": 117568
-        },
-        {
-          "space": "overlay-2",
-          "image_offset": 19948,
-          "bytes_hex": "9aee160000",
-          "relocation_index": 696,
-          "file_offset": 183484
-        }
-      ]
+      "witnesses": []
     },
     "DIGITAL_DRIVER": {
       "kind": "dgroup-offset",

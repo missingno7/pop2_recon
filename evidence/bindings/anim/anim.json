@@ -174,7 +174,7 @@
       "ANIMATION_WAIT_LEVEL",
       "ANIM_IDLE",
       "HIGH_COLOR_SHAPE_BOUNDARY",
-      "PAINT_LOW_COLOR_SHAPE",
+      "PAINTRLESHAPE_ASM",
       "PAINT_PLAIN",
       "__nmalloc",
       "__nmsize",
@@ -189,7 +189,7 @@
       "EMPTYRECT",
       "MARK_FIXED",
       "UNIONRECT",
-      "LOAD_SHEET_SHAPE",
+      "HNEWSHPITEM1",
       "CREATE_PORT",
       "SET_ORIGIN",
       "ALLOCATE_BUFFER",
@@ -1312,7 +1312,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "LOAD_SHEET_SHAPE",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -1320,7 +1320,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "LOAD_SHEET_SHAPE",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -2308,7 +2308,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "PAINT_LOW_COLOR_SHAPE",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -2316,7 +2316,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "PAINT_LOW_COLOR_SHAPE",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4458,30 +4458,6 @@
       "space": "root",
       "witnesses": []
     },
-    "PAINT_LOW_COLOR_SHAPE": {
-      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
-      "entry_target_id": "root:1d60:0006",
-      "kind": "far-code-entry",
-      "offset": 6,
-      "segment": 7520,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22560,
-          "bytes_hex": "9a0600601d",
-          "file_offset": 30752,
-          "relocation_index": 651
-        },
-        {
-          "space": "root",
-          "image_offset": 22512,
-          "bytes_hex": "9a0600601d",
-          "file_offset": 30704,
-          "relocation_index": 652
-        }
-      ]
-    },
     "PAINT_PLAIN": {
       "entry_sha256": "8d0298c8c0735e0eb56e9be2af326e303e65823ea1bada87fa41f2677b87f415",
       "entry_target_id": "root:1129:511c",
@@ -4751,29 +4727,14 @@
       "space": "root",
       "witnesses": []
     },
-    "LOAD_SHEET_SHAPE": {
+    "HNEWSHPITEM1": {
       "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
       "entry_target_id": "root:1d7e:00fa",
       "kind": "far-code-entry",
       "offset": 250,
       "segment": 7550,
       "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 11638,
-          "bytes_hex": "9afa007e1d",
-          "relocation_index": 270,
-          "file_offset": 19830
-        },
-        {
-          "space": "root",
-          "image_offset": 11507,
-          "bytes_hex": "9afa007e1d",
-          "relocation_index": 271,
-          "file_offset": 19699
-        }
-      ]
+      "witnesses": []
     },
     "LOAD_SHAPE_LIST_BANKS": {
       "entry_sha256": "ac61be843fc06dd57e5a944377926e8b98403012df7172c9ed060d4faef65637",
@@ -4817,6 +4778,15 @@
       "kind": "far-code-entry",
       "offset": 5910,
       "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "PAINTRLESHAPE_ASM": {
+      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
+      "entry_target_id": "root:1d60:0006",
+      "kind": "far-code-entry",
+      "offset": 6,
+      "segment": 7520,
       "space": "root",
       "witnesses": []
     },

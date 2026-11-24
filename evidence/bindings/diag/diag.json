@@ -299,7 +299,7 @@
       "DRAW_RULER_MARKS",
       "PAINT_PLAIN",
       "PAINT_INDEXED_SHAPE",
-      "PAINT_RLE",
+      "PAINTRLESHAPE_ASM",
       "START_SOUND_PAYLOAD",
       "WAIT_SOUND",
       "DISPATCH_SOUND",
@@ -837,7 +837,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "PAINT_RLE",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -845,7 +845,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "PAINT_RLE",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4463,23 +4463,6 @@
         }
       ]
     },
-    "PAINT_RLE": {
-      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
-      "entry_target_id": "root:1d60:0006",
-      "kind": "far-code-entry",
-      "offset": 6,
-      "segment": 7520,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22560,
-          "bytes_hex": "9a0600601d",
-          "file_offset": 30752,
-          "relocation_index": 651
-        }
-      ]
-    },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
@@ -4708,6 +4691,15 @@
           "relocation_index": 128
         }
       ]
+    },
+    "PAINTRLESHAPE_ASM": {
+      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
+      "entry_target_id": "root:1d60:0006",
+      "kind": "far-code-entry",
+      "offset": 6,
+      "segment": 7520,
+      "space": "root",
+      "witnesses": []
     },
     "SETFONT": {
       "entry_sha256": "48146f333bbb3b64cd40ff9e9274c27ad8b8179dddb5ead6d12bcab0b0ecd368",

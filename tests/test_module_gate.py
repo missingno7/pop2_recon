@@ -529,6 +529,29 @@ class V4FieldTests(unittest.TestCase):
                            self.rows("b80900cb"), OPERAND_MODE, set())
 
 
+class JumpTableTests(unittest.TestCase):
+    def test_tables_are_found_from_whole_addends(self):
+        import module_gate
+        # `jmp cs:[bx+T]` at claim offset 5 selects the words at 8..0c; the addend is LEDATA + displacement
+        self.assertEqual(module_gate._tables({5: 0x48, 8: 0x4C, 10: 0x50}, 0x40), [(8, 12)])
+        # a selector that points at no own-segment word, or words nothing selects, are no table
+        self.assertEqual(module_gate._tables({5: 0x47, 8: 0x4C, 10: 0x50}, 0x40), [])
+        self.assertEqual(module_gate._tables({8: 0x4C, 10: 0x50}, 0x40), [])
+
+    def test_data_tail_addressed_by_another_function(self):
+        import module_gate
+        # mov ax,bx / ret, then a signature ending in an incomplete instruction
+        piece = bytes.fromhex("8bc3c3") + b"EMMXXXX0"
+        self.assertIsNone(module_gate._data_tail(piece, {}, [], 0x40))
+        rows = module_gate._data_tail(piece, {}, [], 0x40, [0x43])
+        self.assertEqual([i.address for i in rows], [0, 2])
+        # an address inside the code is no tail: the code before it must end in a return or JMP
+        self.assertIsNone(module_gate._data_tail(piece, {}, [], 0x40, [0x42]))
+        # jmp cs:[bx+6] with one table word at 5: the entry 7 names code, never a data tail
+        dispatch = bytes.fromhex("2effa70500" + "0700" + "c3") + b"0"
+        self.assertIsNone(module_gate._data_tail(dispatch, {3: 5, 5: 7}, [(5, 7)], 0))
+
+
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
 class SwitchTableTests(unittest.TestCase):
     """A real MSC jump table: the CS: displacement and table words are own-segment fields."""

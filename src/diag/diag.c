@@ -110,7 +110,7 @@ extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
 extern void STROKE_PORT_RECT(const char far *);
 extern void paint_plain(const void far *, int, int, int);
 extern void PAINT_INDEXED_SHAPE(const void far *, int, int, int, unsigned);
-extern void paint_rle(const void far *, int, int, int);
+extern void PAINTRLESHAPE_ASM(const void far *, int, int, int);
 extern int start_sound_payload(const unsigned char far *, void far *);
 extern void wait_sound(int);
 extern void dispatch_sound(int);
@@ -257,7 +257,7 @@ void preview_resource(int handle)
         Graf = &ScreenPort;
         paint_plain(image, 0, preview_x, 0);
         PAINT_INDEXED_SHAPE(image, 100, preview_x, 0, 0x8000);
-        paint_rle(image, 200, preview_x, 0);
+        PAINTRLESHAPE_ASM(image, 200, preview_x, 0);
         preview_x += image->width;
         if (preview_x > 280) {
             MOVETO(0, 300);

@@ -62225,87 +62225,6 @@
       "state": "ANALYZED"
     },
     {
-      "abi": "Plain near helper as entered by the original independent caller.",
-      "boundary_evidence": [
-        "Extent aligned instruction by instruction with the reviewed target root:1101:c16a of the earlier build (tag oracle-dos-1565); 100% of its instructions are identical apart from 16-bit address fields.",
-        "8 original transfer(s) in v1.1 name this entry (call_sites).",
-        "The extent decodes linearly and closes with RETF."
-      ],
-      "boundary_status": "REVIEWED",
-      "call_sites": [
-        {
-          "file_offset": 113112,
-          "image_offset": 104920,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 104919,
-          "space": "root"
-        },
-        {
-          "file_offset": 115695,
-          "image_offset": 107503,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 107502,
-          "space": "root"
-        },
-        {
-          "file_offset": 116928,
-          "image_offset": 108736,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 108735,
-          "space": "root"
-        },
-        {
-          "file_offset": 119892,
-          "image_offset": 111700,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 111699,
-          "space": "root"
-        },
-        {
-          "file_offset": 122164,
-          "image_offset": 113972,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 113971,
-          "space": "root"
-        },
-        {
-          "file_offset": 123081,
-          "image_offset": 114889,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 114888,
-          "space": "root"
-        },
-        {
-          "file_offset": 123740,
-          "image_offset": 115548,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 115547,
-          "space": "root"
-        },
-        {
-          "file_offset": 124228,
-          "image_offset": 116036,
-          "kind": "push_cs_near_call",
-          "pushed_cs_site": 116035,
-          "space": "root"
-        }
-      ],
-      "classification": "ASM_LIKELY",
-      "classification_evidence": [
-        "Classification carried from root:1101:c16a (oracle-dos-1565) with its aligned code."
-      ],
-      "classification_status": "Original DOS byte and ABI review",
-      "entry_kind": "direct-code",
-      "id": "root:1129:c14c",
-      "offset": 49484,
-      "segment": 4393,
-      "semantic_name_hypothesis": "apply_default_pen_state",
-      "sha256": "f29eaa10cdc599eb705e3191fced431bdcd420896cb15314f5af41be07224f5d",
-      "size": 17,
-      "space": "root",
-      "state": "ANALYZED"
-    },
-    {
       "abi": "Far C ABI, two far string pointers, AX signed comparison, caller removes eight argument bytes.",
       "boundary_evidence": [
         "Extent aligned instruction by instruction with the reviewed target root:1fe6:2162 of the earlier build (tag oracle-dos-1565); 100% of its instructions are identical apart from 16-bit address fields.",
@@ -66508,28 +66427,6 @@
       "state": "ANALYZED"
     },
     {
-      "abi": "Far register ABI. AL selects one of six cases, sharing the far return at root+1fa98.",
-      "boundary_evidence": [
-        "Extent aligned instruction by instruction with the reviewed target root:1fa0:000c of the earlier build (tag oracle-dos-1565); 100% of its instructions are identical apart from 16-bit address fields."
-      ],
-      "boundary_status": "REVIEWED",
-      "call_sites": [],
-      "classification": "PLATFORM_CODE",
-      "classification_evidence": [
-        "Classification carried from root:1fa0:000c (oracle-dos-1565) with its aligned code."
-      ],
-      "classification_status": "Reviewed original code",
-      "entry_kind": "direct-code",
-      "id": "root:1fa9:000c",
-      "offset": 12,
-      "segment": 8105,
-      "semantic_name_hypothesis": "ems_driver",
-      "sha256": "98b1e20269d9864b0307958e6eda4ed781d64ac16855471825a0a56d76bdf93a",
-      "size": 426,
-      "space": "root",
-      "state": "ANALYZED"
-    },
-    {
       "abi": "Far Pascal, no arguments, bare RETF.",
       "boundary_evidence": [
         "Extent aligned instruction by instruction with the reviewed target overlay-3:25da:2090 of the earlier build (tag oracle-dos-1565); 100% of its instructions are identical apart from 16-bit address fields.",
@@ -66790,6 +66687,314 @@
       "segment": 8175,
       "sha256": "766abe666898e314b979d81731f82a7d38f077e9105d61a5f18339bc71468d85",
       "size": 154,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register interface. AL selects probe (0), open (1), close (2), seek (3), read (4) or write (5). AH is seek origin, CX:DX is seek offset or transfer length, DS:SI is the conventional buffer. CF signals failure. Probe/open return bytes in DX:AX on success. No stack arguments; RETF.",
+      "boundary_evidence": [
+        "Overlay-2 CHOOSE_MEMORY_POOL forms 1fc8:0008 with MOV AX,0008; MOV DX,1fc8; PUSH DX; PUSH AX. The segment immediates at 0102 and 016a have original relocation records. The destination wrapper in each case calls that pointer indirectly.",
+        "CS-indexed table at 1fc9c holds 0028, 002d, 005b, 006c, 00a6, 0142 in frame 1fc8.",
+        "The shared far return is at 1fd19. The last dispatcher branch is at 1feb2 and jumps to 1fe19. The next byte at 1feb5 begins the independently reached near probe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_evidence": [
+        "Hand assembly: register arguments, flag return and direct manager calls."
+      ],
+      "classification_status": "Original instruction and ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1fc8:0008",
+      "local_transfer_evidence": [
+        {
+          "image_offset": 80226,
+          "kind": "indirect_far_call",
+          "selector": 0,
+          "space": "root",
+          "via": "root:1129:26cd"
+        },
+        {
+          "image_offset": 80274,
+          "kind": "indirect_far_call",
+          "selector": 1,
+          "space": "root",
+          "via": "root:1129:26de"
+        },
+        {
+          "call_site": 262,
+          "image_offset": 254,
+          "kind": "split_callback_pointer",
+          "relocated_segment_site": 258,
+          "space": "overlay-2"
+        },
+        {
+          "call_site": 366,
+          "image_offset": 358,
+          "kind": "split_callback_pointer",
+          "relocated_segment_site": 362,
+          "space": "overlay-2"
+        }
+      ],
+      "offset": 8,
+      "segment": 8136,
+      "semantic_name_hypothesis": "xms_driver",
+      "sha256": "12f736045bae78fc46b8b087efedd0456a8e3aaa1e450c94c73e2de65b1bac65",
+      "size": 557,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near, no stack arguments. Preserves DS. Queries XMS manager through INT 2Fh and returns DX:AX bytes with CF clear or CF set on failure.",
+      "boundary_evidence": [
+        "Two decoded E8 calls target 1feb5 from the two XMS dispatcher paths. The near return is 1fef5 and the failure tail jumps back to the restore/return at 1fef4. The zero run begins 1fef9; the first CRT procedure starts 1ff0a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_evidence": [
+        "Hand assembly: register arguments, flag return and direct manager calls."
+      ],
+      "classification_status": "Original instruction and ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1fc8:0235",
+      "local_transfer_evidence": [
+        {
+          "bytes_hex": "e80a02",
+          "image_offset": 130216,
+          "kind": "near_call",
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e8f801",
+          "image_offset": 130234,
+          "kind": "near_call",
+          "space": "root"
+        }
+      ],
+      "offset": 565,
+      "segment": 8136,
+      "semantic_name_hypothesis": "xms_probe",
+      "sha256": "3a525d53275bcdf744d2b79c8a6f811602fae721a9e9911bba19ff9debfcdde4",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near; CX:DX byte offset in, AX page number and BX within-page offset out; preserves CX:DX.",
+      "boundary_evidence": [
+        "Four decoded E8 calls name 1fc46. Previous eight bytes are the EMS signature referenced by EMS_PROBE. RET at 1fc52 abuts the next independently called near entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_evidence": [
+        "Hand assembly: register arguments, flag return and direct manager calls."
+      ],
+      "classification_status": "Original instruction and ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1fa9:01b6",
+      "local_transfer_evidence": [
+        {
+          "bytes_hex": "e8e200",
+          "image_offset": 129889,
+          "kind": "near_call",
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e89100",
+          "image_offset": 129970,
+          "kind": "near_call",
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e84900",
+          "image_offset": 130042,
+          "kind": "near_call",
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e82800",
+          "image_offset": 130075,
+          "kind": "near_call",
+          "space": "root"
+        }
+      ],
+      "offset": 438,
+      "segment": 8105,
+      "semantic_name_hypothesis": "ems_split_page_offset",
+      "sha256": "913972d95e1a4ee465cbfc4ab9ae0fc21c8565aecebca2b76e3f84e9f84f2e66",
+      "size": 13,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near, no stack arguments. Preserves DS. Returns DX:AX available EMS bytes with CF clear, or CF set on missing/unsupported manager or EMS error.",
+      "boundary_evidence": [
+        "Two decoded E8 calls name 1fc53. It returns near at 1fc83, with a failure tail jumping back to 1fc82. One zero byte at 1fc87 precedes the independently anchored XMS entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_evidence": [
+        "Hand assembly: register arguments, flag return and direct manager calls."
+      ],
+      "classification_status": "Original instruction and ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1fa9:01c3",
+      "local_transfer_evidence": [
+        {
+          "bytes_hex": "e89401",
+          "image_offset": 129724,
+          "kind": "near_call",
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e88401",
+          "image_offset": 129740,
+          "kind": "near_call",
+          "space": "root"
+        }
+      ],
+      "offset": 451,
+      "segment": 8105,
+      "semantic_name_hypothesis": "ems_probe",
+      "sha256": "8b7dc1e94cb234c84352c32e6a1511cd396b61e94c710be8b99d6c1de4275ac0",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register interface. AL selects probe (0), open (1), close (2), seek (3), read (4) or write (5). AH is seek origin, CX:DX is seek offset or transfer length, DS:SI is the conventional buffer. CF signals failure. Probe/open return bytes in DX:AX on success. No stack arguments; RETF.",
+      "boundary_evidence": [
+        "Overlay-2 CHOOSE_MEMORY_POOL passes 1fa9:000c to original indirect callback wrappers with relocated segment immediates at 00ef and 014b. The six CS-relative table words are at 1fab0.",
+        "Shared RETF is at 1fb28. Last dispatcher transfer at 1fc3b jumps back to the common move path. Referenced signature EMMXXXX0 at 1fc3e belongs to this extent. The first near helper starts at 1fc46."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_evidence": [
+        "Classification carried from root:1fa0:000c (oracle-dos-1565) with its aligned code."
+      ],
+      "classification_status": "Reviewed original code",
+      "entry_kind": "direct-code",
+      "id": "root:1fa9:000c",
+      "local_transfer_evidence": [
+        {
+          "image_offset": 80226,
+          "kind": "indirect_far_call",
+          "selector": 0,
+          "space": "root",
+          "via": "root:1129:26cd"
+        },
+        {
+          "image_offset": 80274,
+          "kind": "indirect_far_call",
+          "selector": 1,
+          "space": "root",
+          "via": "root:1129:26de"
+        },
+        {
+          "call_site": 243,
+          "image_offset": 235,
+          "kind": "split_callback_pointer",
+          "relocated_segment_site": 239,
+          "space": "overlay-2"
+        },
+        {
+          "call_site": 335,
+          "image_offset": 327,
+          "kind": "split_callback_pointer",
+          "relocated_segment_site": 331,
+          "space": "overlay-2"
+        }
+      ],
+      "offset": 12,
+      "segment": 8105,
+      "semantic_name_hypothesis": "ems_driver",
+      "sha256": "98b1e20269d9864b0307958e6eda4ed781d64ac16855471825a0a56d76bdf93a",
+      "size": 426,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far-return helper with no arguments. All eight reviewed callers push CS before their near CALL to build the far return frame. Clobbers AX and BX; ends with RETF (CB).",
+      "boundary_evidence": [
+        "Extent aligned instruction by instruction with the reviewed target root:1101:c16a of the earlier build (tag oracle-dos-1565); 100% of its instructions are identical apart from 16-bit address fields.",
+        "8 original transfer(s) in v1.1 name this entry (call_sites).",
+        "The extent decodes linearly and closes with RETF."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 113112,
+          "image_offset": 104920,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 104919,
+          "space": "root"
+        },
+        {
+          "file_offset": 115695,
+          "image_offset": 107503,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 107502,
+          "space": "root"
+        },
+        {
+          "file_offset": 116928,
+          "image_offset": 108736,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 108735,
+          "space": "root"
+        },
+        {
+          "file_offset": 119892,
+          "image_offset": 111700,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 111699,
+          "space": "root"
+        },
+        {
+          "file_offset": 122164,
+          "image_offset": 113972,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 113971,
+          "space": "root"
+        },
+        {
+          "file_offset": 123081,
+          "image_offset": 114889,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 114888,
+          "space": "root"
+        },
+        {
+          "file_offset": 123740,
+          "image_offset": 115548,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 115547,
+          "space": "root"
+        },
+        {
+          "file_offset": 124228,
+          "image_offset": 116036,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 116035,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Classification carried from root:1101:c16a (oracle-dos-1565) with its aligned code."
+      ],
+      "classification_status": "Original DOS byte and ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1129:c14c",
+      "offset": 49484,
+      "segment": 4393,
+      "semantic_name_hypothesis": "apply_default_pen_state",
+      "sha256": "f29eaa10cdc599eb705e3191fced431bdcd420896cb15314f5af41be07224f5d",
+      "size": 17,
       "space": "root",
       "state": "ANALYZED"
     },

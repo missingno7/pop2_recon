@@ -62,12 +62,12 @@ extern void mark_purgeable(Handle handle);
 extern void far *MATERIALIZE_HANDLE(Handle handle);
 extern Handle convert_shape(const void far *packed, const void far *mapping, int mode);
 extern void paint_four_bit(const void far *image, int x, int y, int mode, int page);
-extern void paint_rle(const void far *image, int x, int y, int page);
+extern void PAINTRLESHAPE_ASM(const void far *image, int x, int y, int page);
 extern void PAINT_INDEXED_SHAPE(const void far *image, int x, int y, int page, int mode);
 extern void paint_plain(const void far *image, int x, int y, int page);
 extern void release_shape_list(Handle handle);
 extern void cdecl _nfree(void *pointer);
-extern Handle new_shape_item(int group, int item, int mode);
+extern Handle hNewShpItem1(int group, int item, int mode);
 extern void MIRRORMCGABLOCK(unsigned char far *, int, int);
 
 extern const unsigned char far builtin_mapping[];
@@ -311,7 +311,7 @@ void PrincePaintShapeIdx(ShapeList *list, int index, int x, int y, int page, int
             paint_four_bit(image, x, y, 0, page);
         else {
             if (mode == 2)
-                paint_rle(image, x, y, page);
+                PAINTRLESHAPE_ASM(image, x, y, page);
             if (mode == 3)
                 PAINT_INDEXED_SHAPE(image, x, y, page, 0x2000);
             else
@@ -408,14 +408,14 @@ void UnloadShapeList(ShapeList *list)
 
 void PaintRLEShapeItem(int group, int item, int x, int y, int page)
 {
-    Handle handle = new_shape_item(group, item, 1);
-    paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), x, y, page);
+    Handle handle = hNewShpItem1(group, item, 1);
+    PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), x, y, page);
     dispose_handle(handle);
 }
 
 void PaintShapeItem(int group, int item, int x, int y, int page, int reverse)
 {
-    Handle handle = new_shape_item(group, item, 1);
+    Handle handle = hNewShpItem1(group, item, 1);
     ShapeImage far *image;
 
     if (handle) {
@@ -429,7 +429,7 @@ void PaintShapeItem(int group, int item, int x, int y, int page, int reverse)
 
 void Paint4BitShapeItem(int group, int item, int x, int y, int page, int mode)
 {
-    Handle handle = new_shape_item(group, item, 2);
+    Handle handle = hNewShpItem1(group, item, 2);
     PAINT_INDEXED_SHAPE(RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), x, y, page, mode);
     dispose_handle(handle);
 }

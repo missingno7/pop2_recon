@@ -123,7 +123,7 @@ extern void update_message_display(void);
 extern void install_dos_vectors(void);
 extern void initialize_window_draw_port(void);
 extern void open_level_resources(const char **);
-extern void detect_gameport(void);
+extern void check_game_port(void);
 extern void init_ambient(AmbientState *);
 extern void set_default_palette(void);
 extern int hGetTxt4(int);
@@ -209,7 +209,7 @@ void init_system(void)
     window_draw_ready = 1;
     initialize_window_draw_port();
     open_level_resources(device_filenames);
-    detect_gameport();
+    check_game_port();
     if (control_mode != configuration->video)
         control_mode = 0;
     if (control_mode != 2)

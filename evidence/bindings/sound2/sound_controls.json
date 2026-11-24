@@ -103,7 +103,7 @@
       "HGETSND",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "DISPATCH_RESOURCE_POINTER",
-      "PROCESS_SOUND_HANDLE",
+      "PROCESS_HANDLE",
       "QUERY_SOUND_PAYLOAD",
       "FLAG_SOUND_PAYLOAD",
       "FLAG_SOUND_RESOURCE",
@@ -206,7 +206,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "PROCESS_SOUND_HANDLE",
+          "name": "PROCESS_HANDLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -214,7 +214,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "PROCESS_SOUND_HANDLE",
+        "name": "PROCESS_HANDLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -456,23 +456,6 @@
         }
       ]
     },
-    "PROCESS_SOUND_HANDLE": {
-      "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
-      "entry_target_id": "root:1129:8092",
-      "kind": "far-code-entry",
-      "offset": 32914,
-      "segment": 4393,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 58453,
-          "bytes_hex": "9a92802911",
-          "file_offset": 66645,
-          "relocation_index": 1120
-        }
-      ]
-    },
     "QUERY_SOUND_PAYLOAD": {
       "entry_sha256": "3012e10c7df8bf83c1258041df124413b55de022de871a5d1764980c6ce9c21a",
       "entry_target_id": "root:1129:33ce",
@@ -506,6 +489,15 @@
           "relocation_index": 177
         }
       ]
+    },
+    "PROCESS_HANDLE": {
+      "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
+      "entry_target_id": "root:1129:8092",
+      "kind": "far-code-entry",
+      "offset": 32914,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
     }
   },
   "target_id": "group:sound2/sound_controls",

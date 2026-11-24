@@ -346,9 +346,9 @@ typedef struct {
 
 
 extern unsigned int hGetSL(int resource_id, int mode);
-extern int load_nis_image(int asset, int frame, int type);
+extern int hNewShpItem1(int asset, int frame, int type);
 extern image_header far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int image);
-extern void flip_image(unsigned char far *pixels, int first, int second, int third);
+extern void MIRROR4BITBLOCK(unsigned char far *pixels, int first, int second, int third);
 extern void PAINT_INDEXED_SHAPE(image_header far *image, int x, int y, int mode, int plane);
 extern void DISPOSE_HANDLE(int image);
 
@@ -361,12 +361,12 @@ void draw_dead_kid(int install_palette)
     image_header far *image;
 
     shapes = hGetSL(25001, 2);
-    frame = load_nis_image(shapes, 80, 2);
+    frame = hNewShpItem1(shapes, 80, 2);
     if (frame) {
         x = Kid.x - 137;
         image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame);
         if (Kid.direction == 0) {
-            flip_image(image->pixels, image->first, image->second, image->third);
+            MIRROR4BITBLOCK(image->pixels, image->first, image->second, image->third);
             x -= 19;
         }
         PAINT_INDEXED_SHAPE(image, x, Kid.y - 10, 10, 2);
@@ -375,7 +375,7 @@ void draw_dead_kid(int install_palette)
     }
 
     shapes = hGetSL(1000, 0x8000);
-    frame = load_nis_image(shapes, 11, 2);
+    frame = hNewShpItem1(shapes, 11, 2);
     if (frame) {
         PAINT_INDEXED_SHAPE(RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame), 170, 181, 10, 0x8000);
         DISPOSE_HANDLE(frame);

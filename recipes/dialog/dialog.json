@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "bc2d835be41f54f97cd005ccf372bcdba289394cfc19b583c76e62f9b5f1ae9c",
+  "binding_sha256": "347d85e3707a26539194dab51e4b463d1153e71d5878a26670fa66b6ea3d7930",
   "claims": [
     {
       "fixup_count": 10,
@@ -682,6 +682,23 @@
       "target_id": "root:053b:1f58"
     },
     {
+      "fixup_count": 7,
+      "public": "DRAW_MENU_ICON",
+      "relocation_indices": [
+        459,
+        463,
+        492,
+        516,
+        583,
+        658
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:053b:2032"
+    },
+    {
       "fixup_count": 8,
       "public": "SAVEOPTIONSTODISK",
       "relocation_indices": [
@@ -787,15 +804,6 @@
       "target_id": "root:053b:2402"
     }
   ],
-  "code_matches": [
-    {
-      "public": "DRAW_MENU_ICON",
-      "target_id": "root:053b:2032",
-      "unproven": [
-        "ACQUIRE_FRAME_SHAPE"
-      ]
-    }
-  ],
   "drafts": [],
   "emitted_size": 9542,
   "flags": [
@@ -811,12 +819,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "ef7c5dd01e6c4e2654d5d0c78aa03cb853fca33166152bcdbead1e7164c881a4",
+  "object_sha256": "e8f299fd32e954d92826e8581c03640fe2029900cb69d0827501797f605060dd",
   "origin": 21436,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "f7bbe4d3c2ee48ab1c7e70d660b7c77b4f3b52b0de038cb4443aa004289eab42",
+  "source_sha256": "660a03fe1800373cceecc11914d1866268f622f665de40154e35a726793718dc",
   "space": "root"
 }

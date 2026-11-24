@@ -306,7 +306,7 @@
       }
     ],
     "externals": [
-      "START_SOUND",
+      "PROCESS_HANDLE",
       "ISEXITCHASINGSKEL",
       "SAVEOPTIONSTODISK",
       "ADDSONG",
@@ -3568,7 +3568,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "START_SOUND",
+          "name": "PROCESS_HANDLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3576,7 +3576,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "START_SOUND",
+        "name": "PROCESS_HANDLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6401,23 +6401,6 @@
       "offset": 3420,
       "witnesses": []
     },
-    "START_SOUND": {
-      "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
-      "entry_target_id": "root:1129:8092",
-      "kind": "far-code-entry",
-      "offset": 32914,
-      "segment": 4393,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 104106,
-          "bytes_hex": "9a92802911",
-          "file_offset": 112298,
-          "relocation_index": 1579
-        }
-      ]
-    },
     "PREVIOUS_TRACK_RANGE": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -6431,6 +6414,15 @@
           "space": "overlay-3"
         }
       ]
+    },
+    "PROCESS_HANDLE": {
+      "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
+      "entry_target_id": "root:1129:8092",
+      "kind": "far-code-entry",
+      "offset": 32914,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
     },
     "RND": {
       "entry_sha256": "926f9776c3cabef347a8b2082bd1f7aa6cf047339e4dc0cbe2aac4835878447b",

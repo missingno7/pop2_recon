@@ -226,7 +226,7 @@
     ],
     "externals": [
       "ABORT_WITH_MESSAGE",
-      "NEW_SHAPE_ITEM",
+      "HNEWSHPITEM1",
       "SAVE_HANDLE_FLAGS",
       "MIRRORMCGABLOCK",
       "BUILTIN_MAPPING",
@@ -260,7 +260,7 @@
       "PRINCEUNPACKSHAPE",
       "PAINT_FOUR_BIT",
       "LOAD_SHAPE_LIST",
-      "PAINT_RLE",
+      "PAINTRLESHAPE_ASM",
       "DISPOSE_HANDLE",
       "FIND_SHAPE_LIST",
       "UNLOAD_OVERLAY",
@@ -1507,7 +1507,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "PAINT_RLE",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -1515,7 +1515,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "PAINT_RLE",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -2204,7 +2204,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "NEW_SHAPE_ITEM",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -2212,7 +2212,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "NEW_SHAPE_ITEM",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -2339,7 +2339,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "NEW_SHAPE_ITEM",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -2347,7 +2347,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "NEW_SHAPE_ITEM",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -2393,7 +2393,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "PAINT_RLE",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -2401,7 +2401,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "PAINT_RLE",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -2447,7 +2447,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "NEW_SHAPE_ITEM",
+          "name": "HNEWSHPITEM1",
           "method": 6,
           "zero_displacement": true
         }
@@ -2455,7 +2455,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "NEW_SHAPE_ITEM",
+        "name": "HNEWSHPITEM1",
         "method": 6,
         "zero_displacement": true
       },
@@ -2957,23 +2957,6 @@
         }
       ]
     },
-    "NEW_SHAPE_ITEM": {
-      "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
-      "entry_target_id": "root:1d7e:00fa",
-      "kind": "far-code-entry",
-      "offset": 250,
-      "segment": 7550,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 11507,
-          "bytes_hex": "9afa007e1d",
-          "file_offset": 19699,
-          "relocation_index": 271
-        }
-      ]
-    },
     "PAINT_FOUR_BIT": {
       "entry_sha256": "d5225e195418282751ec1583766d64990dfe41cf15a16c17b04606aaabbad5f8",
       "entry_target_id": "root:1129:5118",
@@ -3022,23 +3005,6 @@
           "bytes_hex": "9a1c512911",
           "file_offset": 37989,
           "relocation_index": 463
-        }
-      ]
-    },
-    "PAINT_RLE": {
-      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
-      "entry_target_id": "root:1d60:0006",
-      "kind": "far-code-entry",
-      "offset": 6,
-      "segment": 7520,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22560,
-          "bytes_hex": "9a0600601d",
-          "file_offset": 30752,
-          "relocation_index": 651
         }
       ]
     },
@@ -3210,6 +3176,24 @@
       "kind": "far-code-entry",
       "offset": 9664,
       "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "PAINTRLESHAPE_ASM": {
+      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
+      "entry_target_id": "root:1d60:0006",
+      "kind": "far-code-entry",
+      "offset": 6,
+      "segment": 7520,
+      "space": "root",
+      "witnesses": []
+    },
+    "HNEWSHPITEM1": {
+      "entry_sha256": "b56fc383ae09114cf0450fc983aa9ce663df4f5ab875b192dc24f934c75b52f3",
+      "entry_target_id": "root:1d7e:00fa",
+      "kind": "far-code-entry",
+      "offset": 250,
+      "segment": 7550,
       "space": "root",
       "witnesses": []
     }

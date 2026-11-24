@@ -460,7 +460,7 @@ class AcceptedEntryTests(unittest.TestCase):
         # Any reviewed root direct-code entry that no canonical owner starts at, chosen at run time
         # because accepted owners grow with every wave.
         from common import ROOT, read_json
-        from far_binding import _accepted_entry
+        from far_binding import _accepted_entry, _matched_entry
         from oracle import Oracle
         oracle = Oracle.load()
         from far_binding import _structural_entry
@@ -474,7 +474,8 @@ class AcceptedEntryTests(unittest.TestCase):
                 return False
         unaccepted = next(t["id"] for t in read_json(ROOT / "evidence/targets.json")["functions"]
                           if t["space"] == "root" and t.get("entry_kind") == "direct-code" and
-                          not _accepted_entry(t["id"], oracle) and not structural(t))
+                          not _accepted_entry(t["id"], oracle) and not _matched_entry(t["id"]) and
+                          not structural(t))
         with self.assertRaisesRegex(ValueError, "accepted exact entry"):
             self.ground(unaccepted)
 
@@ -673,7 +674,7 @@ class RuntimePublicEntryTests(unittest.TestCase):
     positions are not."""
 
     def test_second_public_of_a_pinned_member_is_an_accepted_entry(self):
-        from far_binding import _accepted_entry
+        from far_binding import _accepted_entry, _matched_entry
         from oracle import Oracle
         oracle = Oracle.load()
         from common import ROOT, read_json

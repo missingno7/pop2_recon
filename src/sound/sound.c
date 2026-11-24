@@ -175,7 +175,7 @@ extern unsigned RND(unsigned limit);
 extern signed char FIRSTINROW(signed char room);
 extern void dispatch_sound(int resource);
 extern int pending_effect;
-extern void start_sound(SoundHandle handle);
+extern void process_handle(SoundHandle handle);
 extern int IsExitChasingSkel(signed char room);
 extern void SaveOptionsToDisk(void);
 extern void *memset(void *, int, unsigned int);
@@ -431,7 +431,7 @@ void play_song(int song)
 {
     if (!sound_handles[song] || !MATERIALIZE_HANDLE(sound_handles[song]))
         sound_handles[song] = hGetSnd(song + 10000);
-    start_sound(sound_handles[song]);
+    process_handle(sound_handles[song]);
 }
 
 int should_replace_effect(int effect, int playing)

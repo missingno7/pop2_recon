@@ -3273,6 +3273,60 @@
       ],
       "group": "cpu_probe",
       "verdict": "asm"
+    },
+    "root:0000:164b": {
+      "evidence": [
+        "Direct IN/OUT at 0201h, PUSHF/CLI/POPF envelope and LOOPNE timed polling."
+      ],
+      "verdict": "asm"
+    },
+    "root:0000:16d0": {
+      "evidence": [
+        "Explicit ES save and FC00h selector with two segment-overridden ROM probes."
+      ],
+      "verdict": "asm"
+    },
+    "root:0000:16ee": {
+      "evidence": [
+        "Direct INT 21h/AH=06h with zero-flag branch and packed BX key result."
+      ],
+      "verdict": "asm"
+    },
+    "root:1129:c14c": {
+      "evidence": [
+        "Fits existing assembly trailer after register-based graphics helper; exact RETF sequence uses AX/BX, and independent assembly callers push CS plus CALL near."
+      ],
+      "verdict": "asm"
+    },
+    "root:1fa9:000c": {
+      "evidence": [
+        "Explicit AL dispatch, selected BP frame, carry result and direct EMS interrupts."
+      ],
+      "verdict": "asm"
+    },
+    "root:1fa9:01b6": {
+      "evidence": [
+        "Register-only divide and near RET, called from EMS move paths."
+      ],
+      "verdict": "asm"
+    },
+    "root:1fa9:01c3": {
+      "evidence": [
+        "DOS IVT query, CS-based signature compare and EMS interrupt via register ABI."
+      ],
+      "verdict": "asm"
+    },
+    "root:1fc8:0008": {
+      "evidence": [
+        "Explicit AL dispatch, selected BP frame, carry result and direct manager register ABI."
+      ],
+      "verdict": "asm"
+    },
+    "root:1fc8:0235": {
+      "evidence": [
+        "Direct INT 2Fh and indirect XMS far calls, shared STC/CLC epilogue with near RET."
+      ],
+      "verdict": "asm"
     }
   }
 }

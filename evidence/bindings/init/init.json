@@ -148,7 +148,7 @@
       "INSTALL_DOS_VECTORS",
       "INITIALIZE_WINDOW_DRAW_PORT",
       "OPEN_LEVEL_RESOURCES",
-      "DETECT_GAMEPORT",
+      "CHECK_GAME_PORT",
       "INIT_AMBIENT",
       "SET_DEFAULT_PALETTE",
       "HGETTXT4",
@@ -642,7 +642,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "DETECT_GAMEPORT",
+          "name": "CHECK_GAME_PORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -650,7 +650,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "DETECT_GAMEPORT",
+        "name": "CHECK_GAME_PORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -4192,23 +4192,6 @@
       "space": "root",
       "witnesses": []
     },
-    "DETECT_GAMEPORT": {
-      "entry_sha256": "382769cf8220d66e30efc8d1efd0400af39bbef1d13ea60f941549152445ed55",
-      "entry_target_id": "root:1e92:000c",
-      "kind": "far-code-entry",
-      "offset": 12,
-      "segment": 7826,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 2877,
-          "bytes_hex": "9a0c00921e",
-          "file_offset": 11069,
-          "relocation_index": 123
-        }
-      ]
-    },
     "DIGITAL_SOUND_ERROR": {
       "group": "DGROUP",
       "kind": "dgroup-public",
@@ -4248,6 +4231,15 @@
           "relocation_index": 631
         }
       ]
+    },
+    "EMS_DRIVER": {
+      "entry_sha256": "98b1e20269d9864b0307958e6eda4ed781d64ac16855471825a0a56d76bdf93a",
+      "entry_target_id": "root:1fa9:000c",
+      "kind": "far-code-entry",
+      "offset": 12,
+      "segment": 8105,
+      "space": "root",
+      "witnesses": []
     },
     "FILE_ERROR": {
       "group": "DGROUP",
@@ -4341,6 +4333,15 @@
       "kind": "far-code-entry",
       "offset": 5136,
       "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
+    "INITIALIZE_BACKING_DRIVER": {
+      "entry_sha256": "fbe18318eabe73bb34846a06ad51196fd3b95e8869cb8bc7cd604ff31322f1ff",
+      "entry_target_id": "root:1129:26de",
+      "kind": "far-code-entry",
+      "offset": 9950,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
@@ -4618,6 +4619,15 @@
           "space": "root"
         }
       }
+    },
+    "QUERY_CALLBACK_U32": {
+      "entry_sha256": "2d19c2f72e27058ef2aaf314bb51ac020cd718fdaddf003ef3aaf3306637de8a",
+      "entry_target_id": "root:1129:26cd",
+      "kind": "far-code-entry",
+      "offset": 9933,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
     },
     "RELEASE_DISCARDABLE_IMAGES": {
       "entry_sha256": "7f05a03c866270ec029e8f7411fade4d35d817c0013cb351f515fc61b60646f6",
@@ -4947,6 +4957,15 @@
       "space": "root",
       "witnesses": []
     },
+    "CHECK_GAME_PORT": {
+      "entry_sha256": "382769cf8220d66e30efc8d1efd0400af39bbef1d13ea60f941549152445ed55",
+      "entry_target_id": "root:1e92:000c",
+      "kind": "far-code-entry",
+      "offset": 12,
+      "segment": 7826,
+      "space": "root",
+      "witnesses": []
+    },
     "EXPAND_MEMORY_LIMITS": {
       "entry_sha256": "da472d047665eec5fa8df60b0afe2a0434979ddcd1578ce40508c9320b1ef61c",
       "entry_target_id": "root:1f2e:0070",
@@ -4983,6 +5002,29 @@
           "space": "root"
         }
       ]
+    },
+    "BACKING_DRIVER_ACTIVE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26872,
+      "witnesses": [
+        {
+          "bytes_hex": "833ef86800",
+          "entry": "root:1f74:000a",
+          "image_offset": 128970,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "XMS_DRIVER": {
+      "entry_sha256": "12f736045bae78fc46b8b087efedd0456a8e3aaa1e450c94c73e2de65b1bac65",
+      "entry_target_id": "root:1fc8:0008",
+      "kind": "far-code-entry",
+      "offset": 8,
+      "segment": 8136,
+      "space": "root",
+      "witnesses": []
     },
     "POLL_USER": {
       "entry_sha256": "69784b12d667374ba9d8f69d30783ed1ea2cf7b32dede7249014d239710790c8",

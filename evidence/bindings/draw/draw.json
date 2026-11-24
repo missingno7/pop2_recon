@@ -744,7 +744,7 @@
       "_sprintf",
       "DUMP_DRAW_TABLE",
       "SET_DEFAULT_PALETTE",
-      "SET_FRAME_DIMENSIONS",
+      "MIRRORRLEBLOCK",
       "RESTORE_GAME_PLAY_PALETTE",
       "ABORT_WITH_MESSAGE",
       "DRAW_BACK_IMAGE",
@@ -757,7 +757,7 @@
       "SAVE_GAME_PLAY_PALETTE",
       "KID_METER_SHAPES",
       "STROKE_PORT_RECT",
-      "FLIP_IMAGE",
+      "MIRROR4BITBLOCK",
       "ROOM_IMAGES",
       "LOAD_KID_WITH_OPPONENT",
       "PAINT_PLAIN",
@@ -807,7 +807,7 @@
       "SET_OBJECT_CELL",
       "CHAROBJFOREPRIORITY",
       "RESTORE_PEELS",
-      "COPY_SHAPE_SPECIAL",
+      "PAINTRLESHAPE_ASM",
       "KID",
       "ISWALL",
       "NONCHAROBJFOREPRIORITY",
@@ -9450,7 +9450,7 @@
         "target": {
           "kind": "external",
           "index": 97,
-          "name": "SET_FRAME_DIMENSIONS",
+          "name": "MIRRORRLEBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -9458,7 +9458,7 @@
       "target": {
         "kind": "external",
         "index": 97,
-        "name": "SET_FRAME_DIMENSIONS",
+        "name": "MIRRORRLEBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -9477,7 +9477,7 @@
         "target": {
           "kind": "external",
           "index": 110,
-          "name": "FLIP_IMAGE",
+          "name": "MIRROR4BITBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -9485,7 +9485,7 @@
       "target": {
         "kind": "external",
         "index": 110,
-        "name": "FLIP_IMAGE",
+        "name": "MIRROR4BITBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -10255,7 +10255,7 @@
         "target": {
           "kind": "external",
           "index": 160,
-          "name": "COPY_SHAPE_SPECIAL",
+          "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
         }
@@ -10263,7 +10263,7 @@
       "target": {
         "kind": "external",
         "index": 160,
-        "name": "COPY_SHAPE_SPECIAL",
+        "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
       },
@@ -11147,7 +11147,7 @@
         "target": {
           "kind": "external",
           "index": 110,
-          "name": "FLIP_IMAGE",
+          "name": "MIRROR4BITBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -11155,7 +11155,7 @@
       "target": {
         "kind": "external",
         "index": 110,
-        "name": "FLIP_IMAGE",
+        "name": "MIRROR4BITBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -11174,7 +11174,7 @@
         "target": {
           "kind": "external",
           "index": 97,
-          "name": "SET_FRAME_DIMENSIONS",
+          "name": "MIRRORRLEBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -11182,7 +11182,7 @@
       "target": {
         "kind": "external",
         "index": 97,
-        "name": "SET_FRAME_DIMENSIONS",
+        "name": "MIRRORRLEBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -27202,23 +27202,6 @@
         }
       ]
     },
-    "COPY_SHAPE_SPECIAL": {
-      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
-      "entry_target_id": "root:1d60:0006",
-      "kind": "far-code-entry",
-      "offset": 6,
-      "segment": 7520,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22560,
-          "bytes_hex": "9a0600601d",
-          "file_offset": 30752,
-          "relocation_index": 651
-        }
-      ]
-    },
     "DISPOSE_HANDLE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
@@ -27583,23 +27566,6 @@
           "file_offset": 11225,
           "relocated_segment_site": 3036,
           "relocation_index": 58
-        }
-      ]
-    },
-    "FLIP_IMAGE": {
-      "entry_sha256": "04ab3e9e259d4fa97d601ec7aceb984cb9c4771b41de6ae71f2e2dd7f7204ee4",
-      "entry_target_id": "root:0000:14db",
-      "kind": "far-code-entry",
-      "offset": 5339,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 11565,
-          "bytes_hex": "9adb140000",
-          "file_offset": 19757,
-          "relocation_index": 246
         }
       ]
     },
@@ -29247,23 +29213,6 @@
         }
       ]
     },
-    "SET_FRAME_DIMENSIONS": {
-      "entry_sha256": "fc7de4acc5032ced5e572e36658823004545e411343fada2df45ad1c01583042",
-      "entry_target_id": "root:0000:1447",
-      "kind": "far-code-entry",
-      "offset": 5191,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 22538,
-          "bytes_hex": "9a47140000",
-          "file_offset": 30730,
-          "relocation_index": 552
-        }
-      ]
-    },
     "SET_RECORD_RANGE": {
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
       "entry_target_id": "root:1129:6632",
@@ -29451,6 +29400,24 @@
       "space": "root",
       "witnesses": []
     },
+    "MIRRORRLEBLOCK": {
+      "entry_sha256": "fc7de4acc5032ced5e572e36658823004545e411343fada2df45ad1c01583042",
+      "entry_target_id": "root:0000:1447",
+      "kind": "far-code-entry",
+      "offset": 5191,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
+    "MIRROR4BITBLOCK": {
+      "entry_sha256": "04ab3e9e259d4fa97d601ec7aceb984cb9c4771b41de6ae71f2e2dd7f7204ee4",
+      "entry_target_id": "root:0000:14db",
+      "kind": "far-code-entry",
+      "offset": 5339,
+      "segment": 0,
+      "space": "root",
+      "witnesses": []
+    },
     "@get_carpet_shape_info": {
       "entry_sha256": "ed3cc2a092544ac480fc4a2a447ca1900e07d0c9488471ca40f81dd8e20c6f20",
       "entry_target_id": "overlay-13:2fcd:03ac",
@@ -29458,6 +29425,15 @@
       "offset": 940,
       "segment": 12237,
       "space": "overlay-13",
+      "witnesses": []
+    },
+    "PAINTRLESHAPE_ASM": {
+      "entry_sha256": "2ecff07a004d1af90bd7d9bc9239fae58e9db581553fc5e4c754505f59889003",
+      "entry_target_id": "root:1d60:0006",
+      "kind": "far-code-entry",
+      "offset": 6,
+      "segment": 7520,
+      "space": "root",
       "witnesses": []
     },
     "RESTORE_PEELS": {

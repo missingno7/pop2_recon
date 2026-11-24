@@ -266,13 +266,13 @@ extern int far pascal PrepCut(int);
 extern void far pascal set_kid_palette(signed char);
 extern int far pascal Input(void);
 extern int far pascal read_queued_key(void);
-extern void far pascal wait_for_key(void);
+extern void far pascal POLL_GAME_PORT(void);
 extern void far pascal abort_with_message(int, const char far *);
 typedef struct resource_handle *DialogAsset;
-extern int far pascal create_frame_asset(DialogAsset, int, int);
+extern int far pascal hNewShpItem1(DialogAsset, int, int);
 extern void far pascal PaintRLEShapeItem(DialogAsset, int, int, int, int);
-extern void far pascal fill_frame_buffer(void far *, int, int, int);
-extern void far pascal set_frame_dimensions(void far *, int, int);
+extern void far pascal PAINTRLESHAPE_ASM(void far *, int, int, int);
+extern void far pascal MIRRORRLEBLOCK(void far *, int, int);
 extern void far pascal InsetRect(struct dialog_rect far *, const void far *, int, int);
 extern void far pascal SET_RECORD_RANGE(struct dialog_rect far *, int);
 extern void far pascal release_shape_list(DialogAsset);
@@ -323,7 +323,7 @@ empty:
         return key;
     }
     if (control_mode == 2) {
-        wait_for_key();
+        POLL_GAME_PORT();
         key = pending_key;
     }
 done:
@@ -349,10 +349,10 @@ void far pascal DrawDialogFrame(DialogAsset asset)
         asset = load_frame_asset();
     PaintRLEShapeItem(asset, 1, 0, 0, 0);
     PaintRLEShapeItem(asset, 2, 0, 192, 0);
-    bitmap = (struct frame_bitmap far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle = create_frame_asset(asset, 3, 1));
-    fill_frame_buffer(bitmap, 0, 8, 0);
-    set_frame_dimensions(bitmap->pixels, bitmap->width, bitmap->height);
-    fill_frame_buffer(bitmap, 312, 8, 0);
+    bitmap = (struct frame_bitmap far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle = hNewShpItem1(asset, 3, 1));
+    PAINTRLESHAPE_ASM(bitmap, 0, 8, 0);
+    MIRRORRLEBLOCK(bitmap->pixels, bitmap->width, bitmap->height);
+    PAINTRLESHAPE_ASM(bitmap, 312, 8, 0);
     DISPOSE_HANDLE(handle);
     InsetRect(&border, &screen_bounds, 9, 9);
     SET_RECORD_RANGE(&border, 12);
@@ -1607,7 +1607,7 @@ void far pascal draw_menu_label(int index, int selected)
     }
 }
 
-extern int far pascal acquire_frame_shape(int, int);
+extern int far pascal hNewShpItem(int, int);
 extern void far pascal MIRRORMCGABLOCK(void far *, int, int);
 extern void far pascal PAINT_PLAIN(void far *, int, int, int);
 
@@ -1621,7 +1621,7 @@ void far pascal draw_menu_icon(int index, int selected)
     if (MAKE_INDEX_RECT((int *)&rect, index)) {
         origin.x = rect.left + 6;
         origin.y = rect.top - 22;
-        handle = acquire_frame_shape(find_shape_list(1000), 5);
+        handle = hNewShpItem(find_shape_list(1000), 5);
         if (handle) {
             bitmap = (struct frame_bitmap far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
             if (selected) {
