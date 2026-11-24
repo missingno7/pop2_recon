@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "e7dea9b52d7dc814bb45d88ad57766a7f1516a3ef98c5eef017bd90920f9d233",
+  "binding_sha256": "a23db493a11bd1f9cdaec753638cb622917f15b3ac133868ce9f8fa9aa2ca266",
   "claims": [
     {
       "fixup_count": 43,
@@ -32,6 +32,22 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0b52:12cc"
+    },
+    {
+      "fixup_count": 35,
+      "public": "ADD_LOOSE_TO_FRAME",
+      "relocation_indices": [
+        999,
+        1000,
+        1003,
+        1004,
+        1082
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b52:2062"
     },
     {
       "fixup_count": 13,
@@ -750,12 +766,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 8284,
-      "public": "ADD_LOOSE_TO_FRAME"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 9830,
   "flags": [
     "/c",
@@ -770,12 +781,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "4433711f0b4103ca15eb279b97cf78bc1010d9ed7895ee7ca63caf9caa257804",
+  "object_sha256": "0c77c65d13cfcb51852324d7c15b904dbda02af7603c59d41dd959757c09b161",
   "origin": 46374,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "9a345f325342f7c80baf106297ef80a56f4e50b17ee043cf75ad1dfe2cb54e78",
+  "source_sha256": "9ed58d394af0341d47bd57c3260f7b38ec7c282486fe8b41e21a31792076c6e7",
   "space": "root"
 }

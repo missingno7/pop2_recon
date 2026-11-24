@@ -1861,16 +1861,16 @@ void add_loose_to_frame(void)
     int height = mob_heights[(byte)Mob.kind];
 
     if (Room.number == Mob.room) {
-        if (height + 191 <= y)
+        if (height + 191 <= Mob.y)
             visible = 0;
     } else if (Room.below == Mob.room) {
         if (height > y)
-            y += 191;
+            y = Mob.y + 191;
         else
             visible = 0;
     } else if (Room.above == Mob.room) {
-        if (191 - height <= y)
-            y -= 191;
+        if (191 - height <= Mob.y)
+            y = Mob.y - 191;
         else
             visible = 0;
     } else if (Room.left == Mob.room && mob_widths[(byte)Mob.kind] + (x = Mob.x) > 320) {
