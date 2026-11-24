@@ -109,8 +109,8 @@ def reachable_from_entry(oracle, entry):
     segment, offset = int(seg_text, 16), int(off_text, 16)
     start = root.position(segment, offset)
     def reviewed_entry():
-        from common import ROOT, read_json
-        for t in read_json(ROOT / "evidence/targets.json")["functions"]:
+        from common import ROOT, read_json_shared
+        for t in read_json_shared(ROOT / "evidence/targets.json")["functions"]:
             if (t["space"] == space_name and t.get("boundary_status") == "REVIEWED" and
                     t.get("entry_kind", "direct-code") == "direct-code" and
                     0 <= (t["segment"] - root.link_segment) * 16 + t["offset"] == start):
@@ -126,7 +126,7 @@ def reachable_from_entry(oracle, entry):
         if space_name == "root":
             return False
         from tu_census import overlay_vectors
-        overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+        overlays = {n: s for n, s in oracle.spaces.items() if s.code_overlay}
         return any(v["target_space"] == space_name and (v["target_segment"], v["target_offset"]) == (segment, offset)
                    for v in overlay_vectors(oracle, overlays).values())
 

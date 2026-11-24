@@ -14,8 +14,8 @@ from common import sha
 from match import check_object
 from omf import OmfReader
 from oracle import Oracle, Space
-from test_match import make_omf, omf_record
-import test_binding
+from tests.test_match import make_omf, omf_record
+from tests import test_binding
 
 
 def far_object(code=bytes.fromhex('9a00000000cb'), fix_body=bytes.fromhex('cc015601'), mixed=False):
@@ -48,7 +48,8 @@ class FarBindingTests(unittest.TestCase):
         image[96] = 0xcb
         self.space = Space('root', 0, 1000, bytes(image),
                            ({'index': 0, 'image_offset': 35}, {'index': 1, 'image_offset': 67}))
-        self.oracle = SimpleNamespace(data=b'independent far oracle', spaces={'root': self.space})
+        self.oracle = SimpleNamespace(data=b'independent far oracle', spaces={'root': self.space},
+                                      mz=SimpleNamespace(header={'initial_cs': 16}))
         self.target = {'id': 'owner', 'space': 'root', 'segment': 0, 'offset': 64, 'size': 6}
         self.entry = {'id': 'callee', 'space': 'root', 'segment': 0, 'offset': 96, 'size': 1,
                       'sha256': sha(b'\xcb'), 'entry_kind': 'direct-code'}
@@ -293,7 +294,7 @@ class FarBindingTests(unittest.TestCase):
                      recipe='recipes/test.json', relocation_count=1, relocation_indices=[1])
         recipe = {'target_id': 'owner', 'relocation_indices': [0]}
         with patch('validate.get_target', return_value=(self.target, self.space, self.expected)), \
-             patch('validate.read_json', return_value=recipe):
+             patch('validate.read_json_shared', return_value=recipe):
             with self.assertRaisesRegex(ValueError, 'original relocation indices'):
                 check_manifest(self.oracle, {'owners': [owner]})
             recipe['relocation_indices'] = [1]; owner['relocation_count'] = 0
@@ -303,21 +304,21 @@ class FarBindingTests(unittest.TestCase):
 
 class FarWindowTests(unittest.TestCase):
     """Original far-address forms that pair an offset with a relocated segment (2026-11-23)."""
-    DGROUP = {"segment": 12531, "witnesses": [{"space": "root", "image_offset": 5473, "relocation_index": 42}]}
+    DGROUP = {"segment": 13058, "witnesses": [{"space": "root", "image_offset": 5647, "relocation_index": 54}]}
 
     @classmethod
     def setUpClass(cls):
         cls.oracle = Oracle.load()
         cls.root = cls.oracle.spaces["root"]
 
-    def window(self, kind, lo, hi, value, segment=0x2FAE, raw=None, **extra):
+    def window(self, kind, lo, hi, value, segment=0x31BD, raw=None, **extra):
         from far_binding import _far_window
         raw = self.root.data[lo:hi] if raw is None else raw
         _far_window(dict(extra, kind=kind), bytes(raw), lo, self.root, {"segment": segment}, value, self.oracle)
 
-    def selector(self, value, selector=0x283C, index=160, **kw):
-        # root+8459: mov es,[283c]; cmp byte es:[bx+1],0
-        self.window("selector-access", 0x8459, 0x8463, value, selector_offset=selector, relocation_index=index,
+    def selector(self, value, selector=0x26CC, index=154, **kw):
+        # root+84c9: mov es,[26cc]; cmp byte es:[bx+1],0
+        self.window("selector-access", 0x84C9, 0x84D3, value, selector_offset=selector, relocation_index=index,
                     dgroup_segment=self.DGROUP, **kw)
 
     def test_selector_word_access(self):
@@ -325,32 +326,32 @@ class FarWindowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "that displacement"):
             self.selector(2)
         with self.assertRaisesRegex(ValueError, "relocated DGROUP word"):
-            self.selector(1, segment=0x2E5F)
+            self.selector(1, segment=0x306E)
         with self.assertRaisesRegex(ValueError, "relocated DGROUP word"):
-            self.selector(1, index=159)
+            self.selector(1, index=153)
         with self.assertRaisesRegex(ValueError, "start with mov es"):
-            self.selector(1, selector=0x2838)
-        # mov es,[283c]; mov es,ax; cmp byte es:[bx+1],0: another ES load
+            self.selector(1, selector=0x26C8)
+        # mov es,[26cc]; mov es,ax; cmp byte es:[bx+1],0: another ES load
         with self.assertRaisesRegex(ValueError, "without another ES"):
-            self.selector(1, raw=bytes.fromhex("8e063c288ec02680bf010000"))
+            self.selector(1, raw=bytes.fromhex("8e06cc268ec02680bf010000"))
 
     def test_selector_window_across_a_saved_es(self):
-        # root+1b2a: mov es,[283a] ... push es; lea di; movs; pop es; mov es:[bx+1207],al
-        extra = dict(selector_offset=0x283A, relocation_index=self.index(0x283A), dgroup_segment=self.DGROUP)
-        self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, **extra)
-        raw = bytearray(self.root.data[0x1B2A:0x1B5C])
-        raw[0x1B47 - 0x1B2A], raw[0x1B53 - 0x1B2A] = 0x90, 0x07         # pop es without its push
+        # root+1b64: mov es,[26ca] ... push es; lea di; movs; pop es; mov es:[bx+1207],al
+        extra = dict(selector_offset=0x26CA, relocation_index=self.index(0x26CA), dgroup_segment=self.DGROUP)
+        self.window("selector-access", 0x1B64, 0x1B96, 0x1207, **extra)
+        raw = bytearray(self.root.data[0x1B64:0x1B96])
+        raw[0x1B81 - 0x1B64], raw[0x1B8D - 0x1B64] = 0x90, 0x07         # pop es without its push
         with self.assertRaisesRegex(ValueError, "without another ES"):
-            self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, raw=raw, **extra)
-        raw[0x1B47 - 0x1B2A], raw[0x1B53 - 0x1B2A] = 0x06, 0x07
-        raw[0x1B4F - 0x1B2A] = 0x50                                     # push ax between: pop es takes AX
+            self.window("selector-access", 0x1B64, 0x1B96, 0x1207, raw=raw, **extra)
+        raw[0x1B81 - 0x1B64], raw[0x1B8D - 0x1B64] = 0x06, 0x07
+        raw[0x1B89 - 0x1B64] = 0x50                                     # push ax between: pop es takes AX
         with self.assertRaisesRegex(ValueError, "without another ES"):
-            self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, raw=raw, **extra)
+            self.window("selector-access", 0x1B64, 0x1B96, 0x1207, raw=raw, **extra)
 
     def test_unproven_member_needs_a_reason_and_a_group(self):
         from far_binding import _ground_far_data
-        symbol = {"segment": 0x2FAE, "offset": 4600, "consensus": True,
-                  "segment_witnesses": [{"image_offset": 20858, "relocation_index": 149, "space": "overlay-17"}],
+        symbol = {"segment": 0x31BD, "offset": 4600, "consensus": True,
+                  "segment_witnesses": [{"image_offset": 20490, "relocation_index": 155, "space": "overlay-17"}],
                   "members": [{"offset": 0xFFFE, "unproven": "no independent operand"}]}
         target = {"space": "root", "segment": 0, "offset": 0, "size": 0}
         _ground_far_data(symbol, target, self.oracle, claimed=[])
@@ -364,49 +365,49 @@ class FarWindowTests(unittest.TestCase):
             self.assertEqual(any(_not_dgroup(o) for o in insn.operands if o.type == 3), expected, code)
 
     def test_les_is_another_es_load(self):
-        # mov es,[283c]; les bx,[bp+6]; cmp byte es:[bx+1],0
+        # mov es,[26cc]; les bx,[bp+6]; cmp byte es:[bx+1],0
         with self.assertRaisesRegex(ValueError, "without another ES"):
-            self.selector(1, raw=bytes.fromhex("8e063c28c45e062680bf010000"))
+            self.selector(1, raw=bytes.fromhex("8e06cc26c45e062680bf010000"))
 
     def test_selector_copy_proves_the_copied_unit(self):
-        extra = dict(selector_offset=0x283A, relocation_index=self.index(0x283A), dgroup_segment=self.DGROUP)
+        extra = dict(selector_offset=0x26CA, relocation_index=self.index(0x26CA), dgroup_segment=self.DGROUP)
         for value in (0x11FF, 0x1203, 0x1206):
-            self.window("selector-copy", 0x1B2A, 0x1B53, value, **extra)
+            self.window("selector-copy", 0x1B64, 0x1B8D, value, **extra)
         for value in (0x11FE, 0x1207):
             with self.assertRaisesRegex(ValueError, "outside the unit"):
-                self.window("selector-copy", 0x1B2A, 0x1B53, value, **extra)
+                self.window("selector-copy", 0x1B64, 0x1B8D, value, **extra)
         with self.assertRaisesRegex(ValueError, "run of MOVS"):         # window ends before the copy
-            self.window("selector-copy", 0x1B2A, 0x1B4F, 0x11FF, **extra)
+            self.window("selector-copy", 0x1B64, 0x1B89, 0x11FF, **extra)
 
     def test_carried_pointer_reaches_the_es_access(self):
-        # root+986f: mov word [bp-8],0a2a; mov ax,[bp-0ah]; mov es,[2840]; mov bx,[bp-8]; cmp es:[bx],ax
-        extra = dict(selector_offset=0x2840, relocation_index=self.index(0x2840), dgroup_segment=self.DGROUP)
-        raw = self.root.data[0x986F:0x9881]
-        self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, **extra)
+        # root+98cb: mov word [bp-8],0a2a; mov ax,[bp-0ah]; mov es,[26d0]; mov bx,[bp-8]; cmp es:[bx],ax
+        extra = dict(selector_offset=0x26D0, relocation_index=self.index(0x26D0), dgroup_segment=self.DGROUP)
+        raw = self.root.data[0x98CB:0x98DD]
+        self.window("selector-pointer", 0x98CB, 0x98DD, 0x0A2A, **extra)
         with self.assertRaisesRegex(ValueError, "does not carry"):
-            self.window("selector-pointer", 0x986F, 0x9881, 0x0A28, **extra)
+            self.window("selector-pointer", 0x98CB, 0x98DD, 0x0A28, **extra)
         with self.assertRaisesRegex(ValueError, "does not carry"):          # the slot is loaded from elsewhere
-            self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, raw=raw.replace(bytes.fromhex("8b5ef8"), bytes.fromhex("8b5efa")), **extra)
+            self.window("selector-pointer", 0x98CB, 0x98DD, 0x0A2A, raw=raw.replace(bytes.fromhex("8b5ef8"), bytes.fromhex("8b5efa")), **extra)
         with self.assertRaisesRegex(ValueError, "does not carry"):          # another store in between
-            self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, raw=raw.replace(bytes.fromhex("8b46f6"), bytes.fromhex("8946f8")), **extra)
+            self.window("selector-pointer", 0x98CB, 0x98DD, 0x0A2A, raw=raw.replace(bytes.fromhex("8b46f6"), bytes.fromhex("8946f8")), **extra)
         with self.assertRaisesRegex(ValueError, "exactly one"):
-            self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, raw=raw.replace(bytes.fromhex("8b46f6"), bytes.fromhex("8ec090")), **dict(extra, selector_offset=0x283C))
+            self.window("selector-pointer", 0x98CB, 0x98DD, 0x0A2A, raw=raw.replace(bytes.fromhex("8b46f6"), bytes.fromhex("8ec090")), **dict(extra, selector_offset=0x26CC))
 
     def index(self, selector):
         home = self.oracle.spaces["overlay-17"]
         return next(r["index"] for r in home.relocations if r["image_offset"] == 0x2940 + selector)
 
     def test_address_construction_needs_the_adjacent_relocated_segment(self):
-        self.window("address-construction", 0x84AD, 0x84B3, 0x0A28)     # add ax,0a28; mov dx,2fae
+        self.window("address-construction", 0x851D, 0x8523, 0x0A28)     # add ax,0a28; mov dx,31bd
         with self.assertRaisesRegex(ValueError, "does not pair"):
-            self.window("address-construction", 0x84AD, 0x84B3, 0x0A29)
+            self.window("address-construction", 0x851D, 0x8523, 0x0A29)
         with self.assertRaisesRegex(ValueError, "does not pair"):       # same bytes, no relocation there
-            self.window("address-construction", 0x100, 0x106, 0x0A28, raw=self.root.data[0x84AD:0x84B3])
+            self.window("address-construction", 0x100, 0x106, 0x0A28, raw=self.root.data[0x851D:0x8523])
 
     def test_consensus_is_explicit_and_exclusive(self):
         from far_binding import _ground_far_data
-        symbol = {"kind": "far-data", "segment": 0x2FAE, "offset": 0x0A28, "consensus": True,
-                  "segment_witnesses": [{"space": "overlay-17", "image_offset": 20860, "relocation_index": 160}]}
+        symbol = {"kind": "far-data", "segment": 0x31BD, "offset": 0x0A28, "consensus": True,
+                  "segment_witnesses": [{"space": "overlay-17", "image_offset": 20492, "relocation_index": 154}]}
         target = {"space": "root", "segment": 0, "offset": 0, "size": 16}
         _ground_far_data(symbol, target, self.oracle, claimed=[(0, 16)])
         with self.assertRaisesRegex(ValueError, "group rule"):          # not outside a group
@@ -424,17 +425,17 @@ class FarCalleeKindTests(unittest.TestCase):
         from far_binding import ground_symbol
         from oracle import Oracle
         target = {"id": "probe", "space": "root", "segment": 0, "offset": 0, "size": 2}
-        base = {"witnesses": [{"space": "root", "image_offset": 10987, "bytes_hex": "9adb0c0322",
-                               "relocation_index": 248, "file_offset": 8192 + 10987}]}
+        base = {"witnesses": [{"space": "root", "image_offset": 11147, "bytes_hex": "9adb0c0e22",
+                               "relocation_index": 252, "file_offset": 8192 + 11147}]}
         return ground_symbol({**base, **symbol}, target, Oracle.load())
 
     def test_original_rtlink_vector_is_grounded_with_its_destination(self):
-        result = self.ground(kind="rtlink-vector", space="root", segment=0x2203, offset=0x0cdb)
+        result = self.ground(kind="rtlink-vector", space="root", segment=0x220E, offset=0x0cdb)
         self.assertEqual(result["vector_destination"]["target_space"], "overlay-2")
 
     def test_address_that_is_not_a_vector_is_refused(self):
         with self.assertRaisesRegex(ValueError, "not an original RTLink vector"):
-            self.ground(kind="rtlink-vector", space="root", segment=0x2203, offset=0x0cdc)
+            self.ground(kind="rtlink-vector", space="root", segment=0x220E, offset=0x0cdc)
 
 
 class AcceptedEntryTests(unittest.TestCase):
@@ -453,7 +454,7 @@ class AcceptedEntryTests(unittest.TestCase):
         return ground_symbol(symbol, target, oracle)
 
     def test_accepted_owner_grounds_its_entry(self):
-        self.assertEqual(self.ground("root:02cc:0002")["grounded_by"], "accepted exact entry")
+        self.assertEqual(self.ground("root:02dc:000c")["grounded_by"], "accepted exact entry")
 
     def test_reviewed_but_unaccepted_entry_needs_a_witness(self):
         # Any reviewed root direct-code entry that no canonical owner starts at, chosen at run time
@@ -513,9 +514,9 @@ class StructuralEntryTests(unittest.TestCase):
         self.assertGreaterEqual(receipt["frame_witnesses"], 1)
 
     def test_mid_routine_retf_nop_label_is_refused(self):
-        # MSC duplicates frameless epilogues: 078a:2830 has `retf 2; nop; mov ax,1` at 0xa104.
+        # MSC duplicates frameless epilogues: 0790:286c has `retf 2; nop; mov ax,1` at 0xa16c.
         with self.assertRaisesRegex(ValueError, "prologue"):
-            self.ground((0xa104, 0x078a, 0xa104 - 0x78a0, 4))
+            self.ground((0xa16c, 0x0790, 0xa16c - 0x7900, 4))
 
     def test_entry_inside_another_extent_is_refused(self):
         lo = self.entry[0]
@@ -541,7 +542,7 @@ class StructuralEntryTests(unittest.TestCase):
     def test_rtlink_region_is_refused(self):
         root = self.oracle.spaces["root"]
         with self.assertRaisesRegex(ValueError, "RTLink"):
-            self.ground((root.position(0x2203, 0x0cbd), 0x2203, 0x0cbd, 10))
+            self.ground((root.position(0x220E, 0x0cbd), 0x220E, 0x0cbd, 10))
 
 
 class VectorRecordTests(unittest.TestCase):
@@ -554,7 +555,7 @@ class VectorRecordTests(unittest.TestCase):
         from far_binding import _extents
         from tu_census import overlay_vectors
         cls.oracle = Oracle.load()
-        overlays = {n: s for n, s in cls.oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+        overlays = {n: s for n, s in cls.oracle.spaces.items() if s.code_overlay}
         cls.extents = _extents(cls.oracle)
         vectors = overlay_vectors(cls.oracle, overlays)
         # Any vector: its destination row is removed for the unreviewed case and injected for the
@@ -587,9 +588,9 @@ class SegmentBaseTests(unittest.TestCase):
         from oracle import Oracle
         self.oracle = Oracle.load()
         root = self.oracle.spaces["root"]
-        site = next(r for r in root.relocations if r["index"] == 330)
+        site = next(r for r in root.relocations if r["index"] == 358)
         self.value = struct.unpack_from("<H", root.data, site["image_offset"])[0]
-        self.other = next(r for r in root.relocations if r["index"] != 330 and
+        self.other = next(r for r in root.relocations if r["index"] != 358 and
                           struct.unpack_from("<H", root.data, r["image_offset"])[0] == self.value)
         self.target = {"id": "probe", "space": "root", "segment": 0, "offset": site["image_offset"] - 1, "size": 4}
 
@@ -623,21 +624,21 @@ class SegmentBaseTests(unittest.TestCase):
         self.assertEqual(self.ground(w)["segment"], self.value)
 
     def test_the_candidates_own_relocation_cannot_ground_it(self):
-        site = next(r for r in self.oracle.spaces["root"].relocations if r["index"] == 330)
+        site = next(r for r in self.oracle.spaces["root"].relocations if r["index"] == 358)
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
-            self.ground({"space": "root", "image_offset": site["image_offset"], "relocation_index": 330})
+            self.ground({"space": "root", "image_offset": site["image_offset"], "relocation_index": 358})
 
 
 class AnchorInsidePadTests(unittest.TestCase):
     """A reviewed anchor whose extent already ends with its single alignment NOP after the
-    return counts as the one pad byte (ROOFTOPS' callee 1101:83b4)."""
+    return counts as the one pad byte (ROOFTOPS' callee 1129:8396)."""
 
     def test_anchor_including_its_nop_pad_grounds_the_next_entry(self):
         from far_binding import _structural_entry
         from oracle import Oracle
         oracle = Oracle.load()
-        at = oracle.spaces["root"].position(0x1101, 0x83b4)
-        anchor = _structural_entry(oracle, at, 0x1101, 0x83b4, 4, "root", 0, 0)["anchor"]
+        at = oracle.spaces["root"].position(0x1129, 0x8396)
+        anchor = _structural_entry(oracle, at, 0x1129, 0x8396, 4, "root", 0, 0)["anchor"]
         self.assertEqual((anchor["pad"], anchor.get("pad_inside_anchor")), (1, True))
 
 
@@ -648,7 +649,7 @@ class GenuineAsmTests(unittest.TestCase):
         from origin import require_genuine_asm, _pairs
         pairs = _pairs()
         c_target = next(t for t, (m, src) in pairs.items() if src.upper().endswith(".C"))
-        with patch("origin.read_json", side_effect=lambda p: {"c_origin_debt": []}
+        with patch("origin.read_json_shared", side_effect=lambda p: {"c_origin_debt": []}
                    if str(p).endswith("asm-origin-audit.json") else __import__("common").read_json(p)):
             with self.assertRaisesRegex(ValueError, "reconstruct it as C"):
                 require_genuine_asm([c_target])
@@ -660,8 +661,8 @@ class GenuineAsmTests(unittest.TestCase):
         pairs = _pairs()
         from common import ROOT, read_json
         targets = [t["id"] for t in read_json(ROOT / "evidence/targets.json")["functions"]]
-        unpaired = next(t for t in targets if t not in pairs and t.startswith("root:1101:"))
-        with patch("origin.read_json", side_effect=lambda p: {"targets": {}}
+        unpaired = next(t for t in targets if t not in pairs and t.startswith("root:1129:"))
+        with patch("origin.read_json_shared", side_effect=lambda p: {"targets": {}}
                    if str(p).endswith("asm-origin-review.json") else read_json(p)):
             with self.assertRaisesRegex(ValueError, "no reviewed evidence"):
                 require_genuine_asm([unpaired])
@@ -675,6 +676,9 @@ class RuntimePublicEntryTests(unittest.TestCase):
         from far_binding import _accepted_entry
         from oracle import Oracle
         oracle = Oracle.load()
-        self.assertTrue(_accepted_entry("root:1fe6:1ba2", oracle))   # __dos_creatnew, member start
-        self.assertTrue(_accepted_entry("root:1fe6:1ba9", oracle))   # __dos_creat, PUBDEF +7
-        self.assertFalse(_accepted_entry("root:1fe6:1baa", oracle))  # interior, no public
+        from common import ROOT, read_json
+        recipe = read_json(ROOT / "recipes/runtime/crt_d_creat_medium.json")
+        segment, offset = recipe["segment"], recipe["offset"]
+        self.assertTrue(_accepted_entry(f"root:{segment:04x}:{offset:04x}", oracle))      # __dos_creatnew
+        self.assertTrue(_accepted_entry(f"root:{segment:04x}:{offset + 7:04x}", oracle))  # __dos_creat
+        self.assertFalse(_accepted_entry(f"root:{segment:04x}:{offset + 8:04x}", oracle))  # interior

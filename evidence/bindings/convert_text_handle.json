@@ -1,15 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "SAVE_HANDLE_FLAGS",
-      "QUERY_HANDLE_SIZE",
-      "MATERIALIZE_HANDLE",
-      "RESIZE_HANDLE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "MOVE_HUGE_BYTES",
-      "XLATTXT4",
-      "MARK_HANDLE_CONVERTED",
-      "CONVERT_TEXT_HANDLE"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 152,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -23,321 +62,282 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "CONVERT_TEXT_HANDLE",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 152,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "SAVE_HANDLE_FLAGS",
+      "QUERY_HANDLE_SIZE",
+      "MATERIALIZE_HANDLE",
+      "RESIZE_HANDLE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "MOVE_HUGE_BYTES",
+      "XLATTXT4",
+      "MARK_HANDLE_CONVERTED",
+      "CONVERT_TEXT_HANDLE"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 8,
-          "kind": "external",
-          "method": 6,
-          "name": "MARK_HANDLE_CONVERTED",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 133,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 8,
+          "name": "MARK_HANDLE_CONVERTED",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 8,
-        "kind": "external",
-        "method": 6,
         "name": "MARK_HANDLE_CONVERTED",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 4,
-          "kind": "external",
-          "method": 6,
-          "name": "RESIZE_HANDLE",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 127,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "RESIZE_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 7,
-          "kind": "external",
-          "method": 6,
-          "name": "XLATTXT4",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
       "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 114,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "XLATTXT4",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
           "kind": "external",
-          "method": 6,
-          "name": "MOVE_HUGE_BYTES",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 107,
-      "self_relative": false,
-      "target": {
-        "index": 6,
-        "kind": "external",
-        "method": 6,
-        "name": "MOVE_HUGE_BYTES",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 5,
-          "kind": "external",
-          "method": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 78,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
           "index": 4,
-          "kind": "external",
-          "method": 6,
           "name": "RESIZE_HANDLE",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 68,
-      "self_relative": false,
       "target": {
+        "kind": "external",
         "index": 4,
-        "kind": "external",
-        "method": 6,
         "name": "RESIZE_HANDLE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 114,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
           "kind": "external",
+          "index": 7,
+          "name": "XLATTXT4",
           "method": 6,
-          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
+      "target": {
+        "kind": "external",
+        "index": 7,
+        "name": "XLATTXT4",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 107,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 6,
+          "name": "MOVE_HUGE_BYTES",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "MOVE_HUGE_BYTES",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 78,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 5,
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 5,
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 68,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 4,
+          "name": "RESIZE_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "RESIZE_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 37,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 3,
+          "name": "MATERIALIZE_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 3,
-        "kind": "external",
-        "method": 6,
         "name": "MATERIALIZE_HANDLE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "QUERY_HANDLE_SIZE",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 24,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "QUERY_HANDLE_SIZE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
           "kind": "external",
+          "index": 2,
+          "name": "QUERY_HANDLE_SIZE",
           "method": 6,
-          "name": "SAVE_HANDLE_FLAGS",
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 13,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
+        "index": 2,
+        "name": "QUERY_HANDLE_SIZE",
         "method": 6,
-        "name": "SAVE_HANDLE_FLAGS",
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 13,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "SAVE_HANDLE_FLAGS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "SAVE_HANDLE_FLAGS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -346,133 +346,133 @@
   "symbols": {
     "MARK_HANDLE_CONVERTED": {
       "entry_sha256": "acd58479c7db44f27fe8728be1702c9e4005e38d2f5be76f532c382ee1e4d71d",
-      "entry_target_id": "root:1101:237c",
+      "entry_target_id": "root:1129:1742",
       "kind": "far-code-entry",
-      "offset": 9084,
-      "segment": 4353,
+      "offset": 5954,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a7c230111",
-          "file_offset": 80516,
-          "image_offset": 72324,
-          "relocation_index": 1538,
-          "space": "root"
+          "space": "root",
+          "image_offset": 72340,
+          "bytes_hex": "9a42172911",
+          "file_offset": 80532,
+          "relocation_index": 1449
         }
       ]
     },
     "MATERIALIZE_HANDLE": {
-      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
-      "entry_target_id": "root:1101:22e2",
+      "entry_sha256": "c638859e9080a7e89676e888413d78484e93d303b320533be8af0abc16e08c4a",
+      "entry_target_id": "root:1129:25c0",
       "kind": "far-code-entry",
-      "offset": 8930,
-      "segment": 4353,
+      "offset": 9664,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ae2220111",
-          "file_offset": 17610,
-          "image_offset": 9418,
-          "relocation_index": 134,
-          "space": "root"
+          "space": "root",
+          "image_offset": 9460,
+          "bytes_hex": "9ac0252911",
+          "file_offset": 17652,
+          "relocation_index": 161
         }
       ]
     },
     "MOVE_HUGE_BYTES": {
       "entry_sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
-      "entry_target_id": "root:1101:1b7c",
+      "entry_target_id": "root:1129:1fd0",
       "kind": "far-code-entry",
-      "offset": 7036,
-      "segment": 4353,
+      "offset": 8144,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a7c1b0111",
-          "file_offset": 111455,
-          "image_offset": 103263,
-          "relocation_index": 1573,
-          "space": "root"
+          "space": "root",
+          "image_offset": 103873,
+          "bytes_hex": "9ad01f2911",
+          "file_offset": 112065,
+          "relocation_index": 1458
         }
       ]
     },
     "QUERY_HANDLE_SIZE": {
-      "entry_sha256": "a557c8c0a5bed1cc42e9277d0b5df2ff17ab5958ca061a7d4a7c36a011de1d62",
-      "entry_target_id": "root:1101:c030",
+      "entry_sha256": "ca4cd098ffedf7948995457bbad67c832492cf098022863d087cf67cadb8df0e",
+      "entry_target_id": "root:1129:c012",
       "kind": "far-code-entry",
-      "offset": 49200,
-      "segment": 4353,
+      "offset": 49170,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a30c00111",
-          "file_offset": 110984,
-          "image_offset": 102792,
-          "relocation_index": 1598,
-          "space": "root"
+          "space": "root",
+          "image_offset": 103402,
+          "bytes_hex": "9a12c02911",
+          "file_offset": 111594,
+          "relocation_index": 1616
         }
       ]
     },
     "RESIZE_HANDLE": {
-      "entry_sha256": "c8edafc61150b7dd7ed96e9da2dc0a3b24f239c4f25d28126af9fdb3313c4b83",
-      "entry_target_id": "root:1101:2502",
+      "entry_sha256": "38a70eb1b103ff3f6dccc836755715dfd6007844cab736db8976c26fcb16c02a",
+      "entry_target_id": "root:1129:18c8",
       "kind": "far-code-entry",
-      "offset": 9474,
-      "segment": 4353,
+      "offset": 6344,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a02250111",
-          "file_offset": 82724,
-          "image_offset": 74532,
-          "relocation_index": 1527,
-          "space": "root"
+          "space": "root",
+          "image_offset": 74548,
+          "bytes_hex": "9ac8182911",
+          "file_offset": 82740,
+          "relocation_index": 1634
         }
       ]
     },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+      "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
-      "offset": 8556,
-      "segment": 4353,
+      "offset": 5554,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5995,
+          "bytes_hex": "9ab2152911",
+          "file_offset": 14187,
+          "relocation_index": 177
         }
       ]
     },
     "SAVE_HANDLE_FLAGS": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
-      "entry_target_id": "root:1101:22d0",
+      "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",
-      "offset": 8912,
-      "segment": 4353,
+      "offset": 5910,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ad0220111",
-          "file_offset": 20600,
-          "image_offset": 12408,
-          "relocation_index": 338,
-          "space": "root"
+          "space": "root",
+          "image_offset": 12686,
+          "bytes_hex": "9a16172911",
+          "file_offset": 20878,
+          "relocation_index": 368
         }
       ]
     },
     "XLATTXT4": {
-      "entry_sha256": "8080951d633656940089b4d3af41375c9f83a902ea7ea2dabbefd81df8a6f5d9",
-      "entry_target_id": "root:1101:8670",
+      "entry_sha256": "6b0614d977f46d3cc23c0c9a8aeddb43b7b204181615f5bd02c08a4631b75c48",
+      "entry_target_id": "root:1129:8652",
       "kind": "far-code-entry",
-      "offset": 34416,
-      "segment": 4353,
+      "offset": 34386,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     }
   },
   "target_id": "group:convert_text_handle",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

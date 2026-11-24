@@ -1,337 +1,338 @@
 {
   "binding": "evidence/bindings/movetemp/movetemp.json",
-  "binding_sha256": "27da351b5fdda29dfaaff15c8600474963225b359bf62c1090b2a36050301400",
+  "binding_sha256": "7af66355fd57cdbb23b80038b61b06758f9fbf5d8886a060c1ee9e960f2c5239",
   "claims": [
     {
       "fixup_count": 1,
       "public": "CHOOSE_TRAPDOOR_DELAY",
       "relocation_indices": [
-        15
+        16
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0000"
+      "target_id": "overlay-9:2c59:0000"
     },
     {
       "fixup_count": 12,
       "public": "MOVE_SLIDE_BOLT",
       "relocation_indices": [
-        34,
-        62
+        23,
+        43
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0024"
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:0024"
     },
     {
       "fixup_count": 69,
       "public": "MOVE_SLIDE_ROCK",
       "relocation_indices": [
-        35,
-        36,
-        40,
-        43,
-        61,
-        63,
-        67
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:0084"
-    },
-    {
-      "fixup_count": 2,
-      "public": "CAN_SLIDE_ROCK_STOP",
-      "target_id": "overlay-9:2a4e:0214"
-    },
-    {
-      "fixup_count": 1,
-      "public": "COMPUTE_SLIDE_ROCK_RECT",
-      "target_id": "overlay-9:2a4e:0238"
-    },
-    {
-      "fixup_count": 13,
-      "public": "CHECK_SLIDE_ROCK_CRUSH",
-      "relocation_indices": [
-        58
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:027a"
-    },
-    {
-      "fixup_count": 8,
-      "public": "DRAW_OBJECT_SLIDE_ROCK",
-      "relocation_indices": [
-        47
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:02d6"
-    },
-    {
-      "fixup_count": 10,
-      "public": "SLIDE_ROCK_BARRIER",
-      "relocation_indices": [
-        28,
-        50,
-        64
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:0368"
-    },
-    {
-      "fixup_count": 14,
-      "public": "SLIDE_ROCK_COLLISION_ROW",
-      "relocation_indices": [
-        51,
-        52,
-        53,
-        54
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0412"
-    },
-    {
-      "fixup_count": 1,
-      "public": "@slide_rock_on_row",
-      "relocation_indices": [
-        17
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0526"
-    },
-    {
-      "fixup_count": 8,
-      "public": "PROBE_FLOORS_TOWARD_ROCK",
-      "relocation_indices": [
-        21,
-        57
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:0732"
-    },
-    {
-      "fixup_count": 12,
-      "public": "SLIDE_ROCK_NEAR_SPIKES",
-      "relocation_indices": [
-        24,
-        25
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0a0e"
-    },
-    {
-      "fixup_count": 7,
-      "public": "PROBE_CHAIN_FLOOR",
-      "target_id": "overlay-9:2a4e:0a80"
-    },
-    {
-      "fixup_count": 3,
-      "public": "@get_slide_rock_x",
-      "target_id": "overlay-9:2a4e:0b0a"
-    },
-    {
-      "fixup_count": 17,
-      "public": "TRIGGER_SLIDE_ROCK",
-      "relocation_indices": [
-        1,
-        26
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0b3e"
-    },
-    {
-      "fixup_count": 54,
-      "public": "MOVE_TRAPDOOR",
-      "relocation_indices": [
-        0,
-        3,
-        9,
-        37,
-        39,
-        41,
-        44,
-        65,
-        66,
-        68,
-        74,
-        76
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:0c22"
-    },
-    {
-      "fixup_count": 6,
-      "public": "MOVE_TRAPDOOR_RECORD",
-      "relocation_indices": [
         10,
-        13,
-        14
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0e0c"
-    },
-    {
-      "fixup_count": 12,
-      "public": "CHECK_TRAPDOOR",
-      "relocation_indices": [
-        27
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0e44"
-    },
-    {
-      "fixup_count": 10,
-      "public": "SHAKE_TRAPDOOR",
-      "target_id": "overlay-9:2a4e:0e8a"
-    },
-    {
-      "fixup_count": 17,
-      "public": "TRIGGER_TRAPDOOR",
-      "relocation_indices": [
-        2,
-        11,
-        42
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:0ec6"
-    },
-    {
-      "fixup_count": 9,
-      "public": "DRAW_OBJECT_TRAPDOOR",
-      "relocation_indices": [
-        48,
-        49
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0f5a"
-    },
-    {
-      "fixup_count": 2,
-      "public": "LOAD_INSCRIPTION_ROOM",
-      "relocation_indices": [
-        56
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0fae"
-    },
-    {
-      "fixup_count": 3,
-      "public": "CHECK_TEMPLE_EVENT",
-      "relocation_indices": [
-        69
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-9:2a4e:0fc0"
-    },
-    {
-      "fixup_count": 0,
-      "public": "TEMPLE_FRAME",
-      "target_id": "overlay-9:2a4e:0fd4"
-    },
-    {
-      "fixup_count": 57,
-      "public": "MOVE_ROCK_RECORD",
-      "relocation_indices": [
-        6,
-        7,
-        8,
-        12,
+        14,
         22,
-        23,
-        32,
-        45,
-        59,
-        60,
-        70,
-        72,
-        73
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:07d4"
-    },
-    {
-      "fixup_count": 49,
-      "public": "HIT_CHARACTER_WITH_ROCK",
-      "relocation_indices": [
-        4,
-        5,
-        16,
-        18,
-        19,
-        20,
-        29,
-        30,
-        31,
-        33,
-        38,
-        46,
-        55,
-        71,
+        27,
+        41,
+        42,
         75
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-9:2a4e:056c"
+      "target_id": "overlay-9:2c59:0084"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CAN_SLIDE_ROCK_STOP",
+      "target_id": "overlay-9:2c59:0214"
+    },
+    {
+      "fixup_count": 1,
+      "public": "COMPUTE_SLIDE_ROCK_RECT",
+      "target_id": "overlay-9:2c59:0238"
+    },
+    {
+      "fixup_count": 13,
+      "public": "CHECK_SLIDE_ROCK_CRUSH",
+      "relocation_indices": [
+        7
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:027a"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAW_OBJECT_SLIDE_ROCK",
+      "relocation_indices": [
+        29
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:02d6"
+    },
+    {
+      "fixup_count": 10,
+      "public": "SLIDE_ROCK_BARRIER",
+      "relocation_indices": [
+        4,
+        21,
+        58
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:0368"
+    },
+    {
+      "fixup_count": 14,
+      "public": "SLIDE_ROCK_COLLISION_ROW",
+      "relocation_indices": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0412"
+    },
+    {
+      "fixup_count": 1,
+      "public": "@slide_rock_on_row",
+      "relocation_indices": [
+        32
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0526"
+    },
+    {
+      "fixup_count": 49,
+      "public": "HIT_CHARACTER_WITH_ROCK",
+      "relocation_indices": [
+        1,
+        2,
+        3,
+        6,
+        13,
+        18,
+        19,
+        33,
+        47,
+        48,
+        57,
+        59,
+        65,
+        66,
+        67
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:056c"
+    },
+    {
+      "fixup_count": 8,
+      "public": "PROBE_FLOORS_TOWARD_ROCK",
+      "relocation_indices": [
+        17,
+        72
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0732"
+    },
+    {
+      "fixup_count": 57,
+      "public": "MOVE_ROCK_RECORD",
+      "relocation_indices": [
+        0,
+        5,
+        8,
+        9,
+        34,
+        35,
+        38,
+        49,
+        50,
+        51,
+        64,
+        70,
+        71
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:07d4"
+    },
+    {
+      "fixup_count": 12,
+      "public": "SLIDE_ROCK_NEAR_SPIKES",
+      "relocation_indices": [
+        68,
+        69
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0a0e"
+    },
+    {
+      "fixup_count": 7,
+      "public": "PROBE_CHAIN_FLOOR",
+      "target_id": "overlay-9:2c59:0a80"
+    },
+    {
+      "fixup_count": 3,
+      "public": "@get_slide_rock_x",
+      "target_id": "overlay-9:2c59:0b0a"
+    },
+    {
+      "fixup_count": 17,
+      "public": "TRIGGER_SLIDE_ROCK",
+      "relocation_indices": [
+        45,
+        74
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0b3e"
+    },
+    {
+      "fixup_count": 55,
+      "public": "MOVE_TRAPDOOR",
+      "relocation_indices": [
+        11,
+        15,
+        24,
+        25,
+        26,
+        28,
+        36,
+        44,
+        53,
+        55,
+        56,
+        76
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:0c22"
+    },
+    {
+      "fixup_count": 6,
+      "public": "MOVE_TRAPDOOR_RECORD",
+      "relocation_indices": [
+        39,
+        40,
+        52
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:0e10"
+    },
+    {
+      "fixup_count": 12,
+      "public": "CHECK_TRAPDOOR",
+      "relocation_indices": [
+        73
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0e48"
+    },
+    {
+      "fixup_count": 10,
+      "public": "SHAKE_TRAPDOOR",
+      "target_id": "overlay-9:2c59:0e8e"
+    },
+    {
+      "fixup_count": 17,
+      "public": "TRIGGER_TRAPDOOR",
+      "relocation_indices": [
+        12,
+        46,
+        54
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2c59:0eca"
+    },
+    {
+      "fixup_count": 9,
+      "public": "DRAW_OBJECT_TRAPDOOR",
+      "relocation_indices": [
+        30,
+        31
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0f5e"
+    },
+    {
+      "fixup_count": 2,
+      "public": "LOAD_INSCRIPTION_ROOM",
+      "relocation_indices": [
+        20
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0fb2"
+    },
+    {
+      "fixup_count": 3,
+      "public": "CHECK_TEMPLE_EVENT",
+      "relocation_indices": [
+        37
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2c59:0fc4"
+    },
+    {
+      "fixup_count": 0,
+      "public": "TEMPLE_FRAME",
+      "target_id": "overlay-9:2c59:0fd8"
     }
   ],
   "drafts": [],
-  "emitted_size": 4054,
+  "emitted_size": 4058,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10830,
+  "frame": 11353,
   "group_id": "group:movetemp/movetemp",
   "kind": "same_source_group",
   "language": "c",
   "name": "movetemp/movetemp",
-  "object_sha256": "0004ffac1b088e89251db6021c4e5a7781a09709e74cf2c5a8be13c1f824b1c9",
+  "object_sha256": "89a6a99d4df976d8803cabdfddc36848d4d026679a4ace0a1d9063cdbb4ffd7f",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "provider_span_aliases": [
-    "ROCK_SPEED_A@0x08b6 in MOB_DIMENSIONS",
-    "ROCK_SPEED_B@0x08b8 in MOB_DIMENSIONS",
-    "SEQUENCE_A@0x089c in MOB_DIMENSIONS",
-    "SEQUENCE_B@0x089e in MOB_DIMENSIONS"
+    "ROCK_SPEED_A@0x0836 in MOB_DIMENSIONS",
+    "ROCK_SPEED_B@0x0838 in MOB_DIMENSIONS",
+    "SEQUENCE_A@0x081c in MOB_DIMENSIONS",
+    "SEQUENCE_B@0x081e in MOB_DIMENSIONS"
   ],
   "schema": 1,
   "source": "src/movetemp/movetemp.c",
-  "source_sha256": "33ce875544bb1d855df1c35e44c12b9790b39586966fb259cc2d26f9746a62a0",
+  "source_sha256": "ef208188a73ff6d4bfd48bbcaf98673ec76fe1e34149315f809835438cd270de",
   "space": "overlay-9"
 }

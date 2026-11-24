@@ -1,0 +1,329 @@
+{
+  "declarations": {
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 288,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "FIND_MOVABLE_PAYLOAD_SPACE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "EVICT_MOVABLE_BLOCK",
+      "COALESCE_FREE_BLOCKS",
+      "RESIZE_DOS_HEAP",
+      "HEAP_STATE",
+      "GET_BLOCK_PAYLOAD_SIZE"
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 29,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT",
+        "method": 0
+      },
+      "displacement": 264
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 155,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "HEAP_STATE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 178,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 5,
+        "name": "GET_BLOCK_PAYLOAD_SIZE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 189,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "COALESCE_FREE_BLOCKS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 206,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT",
+        "method": 0
+      },
+      "displacement": 72
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 246,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "EVICT_MOVABLE_BLOCK",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 262,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 278,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "RESIZE_DOS_HEAP",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
+      "space": "root"
+    },
+    "segment": 8718,
+    "witness": {
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
+      "space": "root"
+    }
+  },
+  "mode": "external-dgroup-offset16-v4",
+  "schema": 1,
+  "symbols": {
+    "COALESCE_FREE_BLOCKS": {
+      "entry_sha256": "372bd19412252f361df313218ac219be2419ed6919436e2a87294b034a9af5b6",
+      "entry_target_id": "root:1129:2390",
+      "kind": "near-code-entry",
+      "offset": 9104,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 77117,
+          "bytes_hex": "e8e008",
+          "entry": "root:1129:6f4c"
+        }
+      ]
+    },
+    "EVICT_MOVABLE_BLOCK": {
+      "entry_sha256": "bd2976aeede96876662b71f088642c9c75953c984183668d456042bdc98f9638",
+      "entry_target_id": "root:1129:23c9",
+      "kind": "near-code-entry",
+      "offset": 9161,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 78338,
+          "bytes_hex": "e85404",
+          "entry": "root:1129:6f4c"
+        }
+      ]
+    },
+    "GET_BLOCK_PAYLOAD_SIZE": {
+      "entry_sha256": "5189d5aadc546501c2456423415cfbb36ef664736fb266535a081ccbe9d5a0ca",
+      "entry_target_id": "root:1129:2361",
+      "kind": "near-code-entry",
+      "offset": 9057,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 76313,
+          "bytes_hex": "e8d50b",
+          "entry": "root:1129:6f4c"
+        }
+      ]
+    },
+    "HEAP_STATE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8028,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 69272,
+          "bytes_hex": "c41e5c1f",
+          "entry": "root:10a5:033c"
+        }
+      ]
+    },
+    "RESIZE_DOS_HEAP": {
+      "entry_sha256": "3666589e36da51da900a3b38d6dfa803187d7f61b60ea4b86cb4c7be09e8bcf3",
+      "entry_target_id": "root:1129:1b43",
+      "kind": "near-code-entry",
+      "offset": 6979,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 78275,
+          "bytes_hex": "e80dfc",
+          "entry": "root:1129:6f4c"
+        }
+      ]
+    }
+  },
+  "target_id": "group:find_movable_payload_space",
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+}

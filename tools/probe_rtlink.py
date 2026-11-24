@@ -14,7 +14,7 @@ from pathlib import Path
 
 DESC_FMT = '<HHHBBHHHHH'
 DESC_SIZE = struct.calcsize(DESC_FMT)
-DEFAULT_DESC_OFFSET = 150347
+DEFAULT_DESC_OFFSET = 150523
 DEFAULT_OVERLAYS = 16
 
 
@@ -82,8 +82,9 @@ def parse_overlays(image: bytes, descriptor_offset: int = DEFAULT_DESC_OFFSET,
         for j in range(nrel):
             roff, rseg = struct.unpack_from('<HH', image, reloc + 4 * j)
             site = (rseg - seg) * 16 + roff
-            if site < 0 or site + 2 > size * 16:
-                raise ValueError(f'overlay {oid} relocation {j} site {site} outside {size*16}-byte code')
+            extent = (f8 if flags & 0x20 else size) * 16  # compressed overlays: sites name the expanded image
+            if site < 0 or site + 2 > extent:
+                raise ValueError(f'overlay {oid} relocation {j} site {site} outside {extent}-byte code')
             sites += 1
         result.append(Overlay(doff, seg, f2, pos, hi, flags, f8, nrel, fc, oid,
                               size, reloc, reloc_page_bytes, code, code_end,
@@ -124,7 +125,7 @@ def run_self_test() -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('image', nargs='?', type=Path, default=Path('assets/DOS/PRINCE.EXE'))
+    ap.add_argument('image', nargs='?', type=Path, default=Path('assets/pop2_11/PRINCE.EXE'))
     ap.add_argument('--descriptor-offset', type=int, default=DEFAULT_DESC_OFFSET)
     ap.add_argument('--count', type=int, default=DEFAULT_OVERLAYS)
     ap.add_argument('--self-test', action='store_true')

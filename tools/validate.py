@@ -7,7 +7,7 @@ import sys
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from common import ROOT, read_json, require, sha, project_path, write_json
+from common import ROOT, read_json, read_json_shared, require, sha, project_path, write_json
 from match import compile_and_check, get_target
 from metrics import metrics
 from oracle import Oracle
@@ -29,7 +29,7 @@ def check_manifest(oracle, manifest):
                                                       ("MATCHING_ASM", "ASM_EXACT"),
                                                       ("PINNED_RUNTIME", "PINNED_RUNTIME")),
                 "Unsupported bootstrap ownership kind/state")
-        recipe = read_json(project_path(owner["recipe"]))
+        recipe = read_json_shared(project_path(owner["recipe"]))
         if owner["kind"] in ("MATCHING_C", "MATCHING_ASM"):
             target, space, _ = get_target(owner["target_id"], oracle)
         else:
@@ -89,7 +89,7 @@ def check_manifest(oracle, manifest):
             if recipe.get("kind") != GROUP_KIND:
                 require(owner["fixup_count"] == recipe["fixup_count"], "Owner fixup count differs from recipe")
     for path, claimed in group_claims.items():
-        require(claimed == {c["target_id"] for c in read_json(project_path(path))["claims"]},
+        require(claimed == {c["target_id"] for c in read_json_shared(project_path(path))["claims"]},
                 "Group recipe claims and canonical owners differ")
     from runtime_fixups import check_layout
     check_layout(runtime_reports)

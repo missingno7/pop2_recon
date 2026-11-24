@@ -28,7 +28,7 @@ exactly the generated segment words, in FIXUPP order per target.
 import struct
 
 from binding import fixes
-from common import project_path, read_json, require, sha
+from common import project_path, read_json_shared, require, sha
 from runtime_fixups import _field_free, _relocation_check, read_member
 
 MODE = "rtlink-manager-v1"
@@ -62,7 +62,7 @@ def providers(manifest, oracle, exclude=None):
     for owner in manifest["owners"]:
         if owner["kind"] != "PINNED_RUNTIME" or owner["target_id"] == exclude:
             continue
-        recipe = read_json(project_path(owner["recipe"]))
+        recipe = read_json_shared(project_path(owner["recipe"]))
         module, _ = read_member(recipe)
         start = oracle.spaces[recipe["space"]].position(recipe["segment"], recipe["offset"])
         if recipe["space"] == "root":

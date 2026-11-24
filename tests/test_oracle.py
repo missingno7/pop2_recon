@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import inventory
 import oracle
+import overlay_expand
 from common import sha
 from mz import MZ
 
@@ -134,14 +135,14 @@ class OverlayOracleTests(unittest.TestCase):
     def test_locked_target_preserves_known_gap_and_eof_shortfall(self):
         parsed = oracle.Oracle.load()
         self.assertEqual(parsed.gaps, [{
-            "file_offset": 152637,
-            "size": 3,
-            "sha256": "709e80c88487a2411e1ee4dfb9f22a861492d20c4765150c0c794abd70f8147c",
+            "file_offset": 160171,
+            "size": 5,
+            "sha256": "8855508aade16ec573d21e6a485dfd0a7624085c1a14b5ecdd6485de0c6839a4",
             "kind": "unowned_file_gap",
         }])
         final = parsed.spaces["overlay-17"]
-        self.assertEqual(final.descriptor["allocated_size"], 21104)
-        self.assertEqual(final.descriptor["file_payload_size"], 21103)
+        self.assertEqual(final.descriptor["allocated_size"], 20736)
+        self.assertEqual(final.descriptor["file_payload_size"], 20735)
         self.assertEqual(final.descriptor["absent_final_paragraph_bytes"], 1)
         self.assertEqual(final.file_offset + final.size, len(parsed.data))
 
@@ -168,6 +169,46 @@ class OverlayOracleTests(unittest.TestCase):
         self.assertNotEqual(first.extent(first.link_segment, 0, 4),
                             second.extent(second.link_segment, 0, 4))
         self.assertNotEqual(first.address(0)["space"], second.address(0)["space"])
+
+
+class OverlayExpansionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.original = oracle.Oracle.load()
+
+    def payload(self, space):
+        start = space.file_offset
+        return self.original.data[start:start + space.descriptor["file_payload_size"]]
+
+    def test_each_compressed_overlay_emulates_to_its_pin(self):
+        original = self.original
+        pins = original.profile["expanded_sha256_by_overlay"]
+        compressed = {str(s.descriptor["overlay_id"]): s for s in original.spaces.values()
+                      if s.descriptor and s.descriptor["flags"] & overlay_expand.COMPRESSED}
+        self.assertEqual(set(compressed), set(pins))
+        self.assertEqual(set(compressed), {str(i) for i in range(2, 16)})
+        for ident, space in compressed.items():
+            with self.subTest(overlay=ident):
+                expanded = overlay_expand.emulate(original.data, original.mz, original.profile["expander_entry"],
+                                                  self.payload(space), space.descriptor["f8"])
+                self.assertEqual(sha(expanded), pins[ident])
+
+    def test_wrong_expanded_pin_refuses_valid_payload(self):
+        original = self.original
+        space = original.spaces["overlay-2"]
+        profile = dict(original.profile, expanded_sha256_by_overlay={"2": "0" * 64})
+        with tempfile.TemporaryDirectory() as directory, patch.object(overlay_expand, "CACHE", Path(directory)):
+            with self.assertRaisesRegex(ValueError, "Expanded overlay 2 differs from its pinned identity"):
+                overlay_expand.expand(original.data, original.mz, profile, 2,
+                                      self.payload(space), space.descriptor["f8"])
+
+    def test_uncompressed_code_overlay_uses_stored_payload(self):
+        with patch.object(oracle, "expand", wraps=overlay_expand.expand) as expand:
+            space = oracle.Oracle.load().spaces["overlay-16"]
+        self.assertTrue(space.code_overlay)
+        self.assertEqual(space.descriptor["flags"], 4)
+        self.assertEqual(space.data, self.payload(space))
+        self.assertNotIn(16, [call.args[3] for call in expand.call_args_list])
 
 
 class ImmutableLockTests(unittest.TestCase):

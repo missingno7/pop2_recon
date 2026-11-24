@@ -1,10 +1,30 @@
 {
   "declarations": {
-    "externals": [
-      "DEFAULT_PORT",
-      "GRAF",
-      "FINISH_PORT",
-      "DRAW_AXIS_SEGMENT"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 143,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -16,178 +36,158 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "ALIGNMENT_5055",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
         "offset": 117,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "ALIGNMENT_5029",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
         "offset": 73,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "DRAW_RELATIVE_AXIS_SEGMENT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
         "offset": 118,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "INSETRECT",
-        "offset": 74,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 74,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "INIT_PORT",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 143,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "DEFAULT_PORT",
+      "GRAF",
+      "FINISH_PORT",
+      "DRAW_AXIS_SEGMENT"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 14,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 14,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "DEFAULT_PORT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 64,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 1,
         "kind": "segment",
+        "index": 1,
         "name": "UNIT_TEXT"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 64,
-      "self_relative": true,
       "target": {
-        "index": 3,
         "kind": "external",
-        "method": 6,
+        "index": 3,
         "name": "FINISH_PORT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 123,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 123,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "GRAF",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 139,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
-        "index": 4,
         "kind": "external",
+        "index": 4,
         "name": "DRAW_AXIS_SEGMENT"
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 139,
-      "self_relative": false,
       "target": {
-        "index": 4,
         "kind": "external",
-        "method": 6,
+        "index": 4,
         "name": "DRAW_AXIS_SEGMENT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -197,51 +197,57 @@
     "DEFAULT_PORT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 9710,
+      "offset": 9342,
       "witnesses": [
         {
-          "bytes_hex": "3906ee25",
-          "entry": "root:1101:4e54",
-          "image_offset": 89712,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 90322,
+          "bytes_hex": "39067e24",
+          "entry": "root:1129:4e36"
         }
       ]
     },
     "DRAW_AXIS_SEGMENT": {
-      "entry_sha256": "2c5f2c8c5582baf57fad2c4456ad649a2a30cfafac0ac39dfc86e51a375bcd7d",
-      "entry_target_id": "root:1101:5070",
+      "entry_sha256": "3773b63858b3c2015fbd27eff069d335cd2301fa55957de3b51f15ea143c8c82",
+      "entry_target_id": "root:1129:5052",
       "kind": "far-code-entry",
-      "offset": 20592,
-      "segment": 4353,
+      "offset": 20562,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "FINISH_PORT": {
-      "entry_sha256": "a33c4f79d52a93b8c95dc332507ccf8d3eaa7f46357a671d8e16f915274ddfe5",
-      "entry_target_id": "root:1101:39ba",
+      "entry_sha256": "ee3d624c0399f4a55d269b44fe0e4b00c6020460c59d718691208b703cc6f1ab",
+      "entry_target_id": "root:1129:399c",
       "kind": "near-code-entry",
-      "offset": 14778,
-      "segment": 4353,
+      "offset": 14748,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 107346,
+          "bytes_hex": "e8d7a8",
+          "entry": "root:1129:9056"
+        }
+      ]
     },
     "GRAF": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 9664,
+      "offset": 9296,
       "witnesses": [
         {
-          "bytes_hex": "a3c025",
-          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5116,
+          "bytes_hex": "a35024",
+          "entry": "root:0000:0000"
         }
       ]
     }
   },
   "target_id": "group:graf/init_port",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

@@ -160,7 +160,6 @@ typedef struct {
     unsigned int flags;                               /* 0b */
 } MOBREC;
 #pragma pack()
-extern MOBREC Mob;
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -170,7 +169,8 @@ typedef struct {
     unsigned char custom;                             /* 09 */
 } ROOMREC;
 #pragma pack()
-extern ROOMREC Room;
+extern MOBREC Mob;
+extern LavaTrob current_lava;
 #define animation_code current_lava.slot
 #pragma pack(1)
 typedef struct {
@@ -193,8 +193,8 @@ typedef struct {
 extern FCHARREC FChar;
 extern int ColEdgeX[20];
 extern int Col2PixelX[13];
+extern ROOMREC Room;
 extern int Row2PixelY[5];
-extern LavaTrob current_lava;
 extern struct list *lava_slots[4];
 extern sbyte gate_offsets[];
 /* 16-bit bubble coordinates are copied together through the legacy input
@@ -265,13 +265,13 @@ extern void reread_cells(void);
 extern void JumpSeq(int);
 extern void begin_actor_death(void);
 extern void reset_char_y(void);
-extern void set_actor_action(sbyte);
+extern void SetKidDeathMethod(sbyte);
 extern void add_mob(void);
 extern int get_base_x(void);
 extern unsigned int Rnd(unsigned int);
 extern void ClearCharVel(void);
 extern void AnimChar(void);
-extern void load_room(sbyte);
+extern void select_room_arrays(sbyte);
 extern void mark_move(sbyte, struct char_bounds *);
 extern int compute_trob_move_rect(struct char_bounds *, int *);
 extern sbyte check_trob_right(void);
@@ -279,8 +279,7 @@ extern void add_gate_sound(int);
 extern sbyte FirstInRow(sbyte);
 extern void redraw_gate(void);
 extern void frame_water_effect(void);
-extern void initialize_cave_drawing(void);
-extern void configure_cave_view(int, int, ubyte, ubyte);
+extern void SetResource(int, int, ubyte, ubyte);
 extern void show_message(const char far *, int);
 extern void *cdecl _nmalloc(uword);
 extern void cdecl _nfree(void *);
@@ -336,7 +335,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
         } else if (trob->action == 2 && pressed)
             trob->action = 3;
     } else if (low != 255) {
-        if (low == 0 && !(Char.character_kind == 4 && ((unsigned char)Level.level_number) == 5 && Char.row == 1 &&
+        if (low == 0 && !(Char.character_kind == 4 && Char.row != 0 && ((unsigned char)Level.level_number) == 5 &&
                          ((ubyte)Char.room == 10 || (ubyte)Char.room == 7 || (ubyte)Char.room == 12))) {
             if (!pressed) {
                 if (!(Cell.modifier & 0x0800))
@@ -390,15 +389,13 @@ void check_dart_hit(void)
                 bounds.left = bounds.right - 4;
                 bounds.bottom = dart_mob->x;
                 bounds.top = dart_mob->x - 2;
-                if (SECTRECT(&hit, &bounds, &Char.bounds))
-                    goto hit_dart;
-                if (Char.bounds.left > bounds.left ||
+                if (!SECTRECT(&hit, &bounds, &Char.bounds) &&
+                    (Char.bounds.left > bounds.left ||
                     Char.bounds.top - 2 > bounds.bottom ||
                     Char.bounds.bottom - 2 < bounds.top ||
                     bounds.left - dart_mob->left >= Char.bounds.right ||
-                    bounds.bottom - dart_mob->top >= Char.bounds.bottom)
+                    bounds.bottom - dart_mob->top >= Char.bounds.bottom))
                     continue;
-            hit_dart:
                 hit_actor_with_dart();
                 dart_mob->top = -1;
             }
@@ -408,12 +405,8 @@ void check_dart_hit(void)
 
 void move_dart_mob(void)
 {
-    union {
-        int x;
-        ubyte tile[2];
-    } motion;
-    int next_col;
-    register int y;
+    int x, y;
+    ubyte tile;
 
     if (Mob.velocity == -2) {
         Mob.velocity = -1;
@@ -421,11 +414,11 @@ void move_dart_mob(void)
     }
     if (Mob.velocity != -1) {
         y = Mob.y + Mob.velocity;
-        motion.x = Mob.auxiliary + Mob.x;
-        if (motion.x > 320) {
+        x = Mob.auxiliary + Mob.x;
+        if (x > 320) {
             if ((ubyte)((signed char)Room.left) == Mob.room) {
                 Mob.room = Room.number;
-                motion.x -= 320;
+                x -= 320;
             } else {
                 if (!Level.room_links[Mob.room - 1].right)
                     AddSound(82);
@@ -443,17 +436,15 @@ void move_dart_mob(void)
             }
         }
         if (Mob.velocity != -2) {
-            register int next_x = motion.x;
+            int next_x = x;
+
             if (63 * Mob.row + 3 >= y) {
                 if (!IS_SIX_KIND(ReadCell(Mob.room, next_x / 32, --Mob.row)))
                     Mob.velocity = -2;
-            } else {
-                *(volatile int *)&next_col = next_x / 32;
-                if (Mob.x / 32 != next_col) {
-                    motion.tile[1] = ReadCell(Mob.room, next_col, Mob.row);
-                    if (IsWall(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_passage()))
-                        Mob.velocity = -2;
-                }
+            } else if (next_x / 32 != Mob.x / 32) {
+                tile = ReadCell(Mob.room, next_x / 32, Mob.row);
+                if (IsWall(tile) || (tile == 4 && gate_blocks_passage()))
+                    Mob.velocity = -2;
             }
             if (Mob.velocity == -2)
                 AddSound(82);
@@ -488,7 +479,7 @@ void hit_actor_with_dart(void)
             }
         }
         AddSound(81);
-        set_actor_action(0);
+        SetKidDeathMethod(0);
     }
 }
 
@@ -515,7 +506,7 @@ void trigger_dart(sbyte room, sbyte cell)
         Mob.velocity = -11;
         x = Col2PixelX[current_lava.cell % (sbyte)10 + 1] + 30;
         if (x > 320) {
-            if (((signed char)Room.left) == room) {
+            if (Room.left == (ubyte)room) {
                 room = Room.number;
                 x -= 320;
             } else
@@ -687,7 +678,7 @@ LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
     if (kind == 24)
         --cell;
     trob = (LavaTrob *)get_trob_room_cell(room, cell);
-    load_room(Room.number);
+    select_room_arrays(Room.number);
     return trob;
 }
 
@@ -778,7 +769,7 @@ void trigger_lava(sbyte room, sbyte cell)
 void far pascal TriggerLavaBubble(struct list *destination,
                                       struct input *source)
 {
-    register int index;
+    int index;
     struct item *entry;
 
     index = 0;
@@ -854,8 +845,7 @@ void cave_frame(void)
 
 void initialize_bridge(void)
 {
-    initialize_cave_drawing();
-    configure_cave_view(3500, 64, 160, 0);
+    SetResource(3500, 64, 160, 0);
     bridge.ticks = 0;
     memset(bridge.state, 0, sizeof(bridge.state));
 }

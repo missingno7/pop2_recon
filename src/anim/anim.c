@@ -1,5 +1,4 @@
-/* ANIM.C. Exact contributions include play_anim and swap_record_pairs.
- * anim_idle and anim_new are drafts. */
+/* ANIM.C, overlay 2. Definitions follow DOS code order. */
 typedef struct
 {
     int top, left, bottom, right;
@@ -117,7 +116,7 @@ int anim_idle(Animation *animation)
     int previous_port;
     int status = 0;
     const unsigned char far *event;
-    int idx, saved_flags;
+    int idx, saved_flags, opcode;
     int effect_id;
     void far *saved_pixels;
     Element *current_element;
@@ -129,11 +128,11 @@ next_command:
     event = (*animation).commands;
     switch (*event) {
     case 0:
-        if ((*animation).deadline_base + (*animation).delay <= *(volatile unsigned long *)&clock_ticks)
+        if ((*animation).deadline_base + (*animation).delay <= clock_ticks)
             status = 1;
         break;
     case 1:
-        if ((*animation).deadline_base + (*animation).delay <= *(const volatile unsigned long *)&clock_ticks) {
+        if ((*animation).deadline_base + (*animation).delay <= clock_ticks) {
             advance_animation_frame(animation);
             if (!(*animation).timing.repeats) {
                 (*animation).timing.repeats = WORD_AT(event, 1);
@@ -144,15 +143,15 @@ next_command:
         break;
     case 2:
         if (!(*animation).timing.deadline) {
-            (*animation).timing.deadline = WORD_AT(event, 1) + *(volatile unsigned long *)&clock_ticks;
+            (*animation).timing.deadline = WORD_AT(event, 1) + clock_ticks;
             if ((*animation).deadline_base) (*animation).deadline_base += WORD_AT(event, 1);
-        } else if ((*animation).timing.deadline <= *(const volatile unsigned long *)&clock_ticks) {
+        } else if ((*animation).timing.deadline <= clock_ticks) {
             (*animation).timing.deadline = 0;
             (*animation).commands += 3;
         }
         break;
     case 3:
-        if ((*animation).deadline_base + (*animation).delay <= *(const volatile unsigned long *)&clock_ticks) {
+        if ((*animation).deadline_base + (*animation).delay <= clock_ticks) {
             effect_id = WORD_AT(event, 1);
             play_animation_sound(effect_id);
             (*animation).commands += 3;
@@ -165,20 +164,23 @@ next_command:
     case 5:
         if (!animation_fade_pending(WORD_AT(event, 1))) (*animation).commands += 3;
         break;
-    case 6:
-        if (!(*animation).timing.wait_level) (*animation).timing.wait_level = event[1];
-        if (!animation_wait_level || (*animation).timing.wait_level <= animation_wait_level) {
-            (*animation).timing.wait_level = 0;
-            (*animation).commands += 2;
+    case 6: {
+        Animation *state = animation;
+        if (!state->timing.wait_level) state->timing.wait_level = event[1];
+        if (!animation_wait_level || state->timing.wait_level <= animation_wait_level) {
+            state->timing.wait_level = 0;
+            state->commands += 2;
         }
         break;
+    }
     case 7:
         draw_frame(animation);
         (*animation).skip_draw = 1;
         ++(*animation).commands;
         break;
     default:
-        if ((*event & ~3) == 0x10) {
+        opcode = *event;
+        if ((opcode & ~3) == 0x10) {
             idx = *event & 3;
             if ((*animation).callbacks[idx] &&
                 (*animation).callbacks[idx](animation, WORD_AT(event, 1)))
@@ -186,22 +188,21 @@ next_command:
             (*animation).commands += 3;
             goto next_command;
         }
-        if ((*event & ~3) == 0x14) {
+        if ((opcode & ~3) == 0x14) {
             idx = *event & 3;
             if ((*animation).loops[idx]) {
-                --(*animation).loops[idx];
-                if (!*(volatile int *)&(*animation).loops[idx])
+                if (!--(*animation).loops[idx])
                     goto next_element_command;
                 goto continue_loop;
             }
             (*animation).loops[idx] = WORD_AT(event, 1);
         continue_loop:
-            (*animation).commands += WORD_AT(event, 3) + 3;
+            (*animation).commands = event + WORD_AT(event, 3) + 3;
             goto next_command;
         }
         idx = *event & 31;
         current_element = &(*animation).elements[idx];
-        switch (*event & ~31) {
+        switch (opcode & ~31) {
         case 0x20:
             saved_flags = current_element->flags;
             current_element->flags &= WORD_AT(event, 1);
@@ -276,23 +277,23 @@ finish:
     return status;
 }
 
-extern void near *cdecl malloc(unsigned int);
-extern unsigned int cdecl allocation_size(void *);
+extern void near *cdecl _nmalloc(unsigned int);
+extern unsigned int cdecl _nmsize(void *);
 extern void near *cdecl memset(void near *, int, unsigned int);
 #pragma intrinsic(memset)
 extern void far *cdecl _fmemcpy(void far *, const void far *, unsigned int);
 
-extern int retain_sheet(int);
-extern void restore_sheet(int, int);
+extern int SAVE_HANDLE_FLAGS(int);
+extern void RESTORE_HANDLE_FLAGS(int, int);
 extern ShapeHeader far *resolve_handle_to_far_payload(int);
 extern ShapeHeader far *fetch_locked_shape_list(int);
-extern void prepare_sheet(int);
-extern void unlock_sheet(int);
-extern void prepare_transparency(int);
+extern void load_shape_list_banks(int);
+extern void CLEAR_HANDLE_OWNED(int);
+extern void MARK_FIXED(int);
 extern int load_sheet_shape(int, int, int);
 extern int create_port(void *, const Rect far *);
-extern void set_port_origin(int, int);
-extern void far *allocate_pixels(unsigned long);
+extern void SET_ORIGIN(int, int);
+extern void far *ALLOCATE_BUFFER(unsigned long);
 static unsigned char animation_command_codes[] = {
     0, 1, 2, 3, 4, 5, 6, 7, 0x10, 0x14, 0x20, 0x40, 0x60, 0x80, 0xa0, 0xc0, 0xe0
 };
@@ -307,19 +308,20 @@ extern void abort_with_message(int, const char far *);
 Animation *anim_new(const unsigned char far *commands, int sheet, int first_shape,
                     int last_shape, int save_background)
 {
-    int old_entry = retain_sheet(sheet);
+    int old_entry = SAVE_HANDLE_FLAGS(sheet);
     int count = last_shape - first_shape + 1;
-    int ei, idx, previous_port;
+    int ei, previous_port;
     unsigned char used_entries[512];
     Animation *anim_record;
     ShapeHeader far *sheet_info;
+    int idx;
     const unsigned char far *command_cursor;
     unsigned char operation;
     char warning[80];
 
-    anim_record = malloc((0x260 + count) * 2);
+    anim_record = _nmalloc((0x260 + count) * 2);
     if (anim_record) {
-        memset(anim_record, 0, allocation_size(anim_record));
+        memset(anim_record, 0, _nmsize(anim_record));
         previous_port = anim_record->destination = Graf;
         ei = 0;
         while (ei < 32) {
@@ -328,25 +330,22 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         }
         idx = 0;
         do {
-            used_entries[idx] = (unsigned char)*(volatile int *)&load_all_animation_shapes;
+            used_entries[idx] = (unsigned char)load_all_animation_shapes;
         } while (++idx < (int)sizeof(used_entries));
         if (!load_all_animation_shapes) {
-            command_cursor = &commands[8];
-            for (operation = *command_cursor; operation; operation = *command_cursor) {
+            command_cursor = commands + sizeof(Rect);
+            while ((operation = *command_cursor) != 0) {
                 for (idx = 0; idx < 8; ++idx) {
                     if (operation == animation_command_codes[idx])
-                        break;
+                        goto found_command;
                 }
-                if (idx < 8)
+                idx = 8;
+                if ((operation & ~3) == animation_command_codes[idx] ||
+                    (idx = 9, (operation & ~3) == animation_command_codes[idx]))
                     goto found_command;
-                if ((operation & ~3) == animation_command_codes[8] ||
-                    (operation & ~3) == animation_command_codes[9]) {
-                    idx = (operation & ~3) == animation_command_codes[8] ? 8 : 9;
-                    goto found_command;
-                }
                 if ((operation & ~31) == 0x80 && (idx = WORD_AT(command_cursor, 1)) != 0) {
                     for (; idx <= WORD_AT(command_cursor, 3); ++idx) {
-                        if (idx > last_shape) {
+                        if (last_shape < idx) {
                             sprintf(warning, "AnimNew(): Cast member %d out of range", idx);
                             abort_with_message(1, warning);
                         } else {
@@ -367,7 +366,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         if (sheet_info) {
             animation_color_mode = sheet_info->depth <= 16;
             if (sheet_info->sound == 0) {
-                prepare_sheet(sheet);
+                load_shape_list_banks(sheet);
                 anim_record->sound_flag = sheet_info->sound;
             }
             for (count = 0; count < anim_record->handle_count; ++count) {
@@ -382,25 +381,23 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                 }
             }
             if (anim_record->sound_flag != 0) sheet_info->sound = 0;
-            unlock_sheet(sheet);
-            prepare_transparency(sheet);
+            CLEAR_HANDLE_OWNED(sheet);
+            MARK_FIXED(sheet);
         }
         {
-            Rect *bounds = &anim_record->bounds;
-
-            if (!create_port(anim_record, _fmemcpy(bounds, commands, sizeof(Rect)))) goto fail;
+            if (!create_port(anim_record, _fmemcpy(&anim_record->bounds, commands, sizeof(Rect)))) goto fail;
             Graf = (int)anim_record;
-            set_port_origin(0, 0);
+            SET_ORIGIN(0, 0);
             anim_record->dirty = anim_record->source;
             anim_record->commands = &commands[8];
             if (save_background) {
                 anim_record->background = anim_record->port;
-                anim_record->background.pixels = allocate_pixels(
+                anim_record->background.pixels = ALLOCATE_BUFFER(
                     (long)(anim_record->port.bounds.bottom - anim_record->port.bounds.top) *
                     anim_record->port.row_bytes);
                 if (!anim_record->background.pixels) goto fail;
                 MEASURE_TEXT((int)&anim_record->background, anim_record->destination,
-                          &anim_record->source, bounds, 0);
+                          &anim_record->source, &anim_record->bounds, 0);
             }
         }
         draw_frame(anim_record);
@@ -411,7 +408,7 @@ fail:
 restore:
         Graf = previous_port;
     }
-    restore_sheet(sheet, old_entry);
+    RESTORE_HANDLE_FLAGS(sheet, old_entry);
     return anim_record;
 }
 

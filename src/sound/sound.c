@@ -53,7 +53,7 @@ typedef struct {
     REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
     unsigned char unknown_26eb[0x0e];
     ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+    signed char ambient_cues[32][30];                 /* 2b39-2ef8 */
 } LEVELREC;
 #pragma pack()
 
@@ -82,7 +82,7 @@ static int death_songs[] = {
 };
 
 static int track_first[] = {-1, 191, 72, -1, -1, 86, 86, -1, 69, 196, 0};
-static int track_last[] = {-1, 195, 76, -1, -1, 90, 90, -1, 71, 197, 0};
+static int track_last[] = {-1, 195, 76, -1, -1, 90, 90, -1, 71, 199, 0};
 
 int background_scene_group[] = {-1, 37, 204, 100, 145, 246, 256};
 int background_scene_number[] = {-1, 46, 245, 142, 190, 249, 272};
@@ -155,7 +155,6 @@ extern CHARREC RoomOpp[5];
 extern SoundRule sound_rules[];
 extern AmbientState ambient_state;
 extern ROOMREC Room;
-extern signed char ambient_table[];
 
 extern int sound_inhibit, ambient_last_song, pending_song;
 extern SoundHandle sound_handles[];
@@ -171,9 +170,9 @@ extern SoundHandle hGetSnd(int resource);
 extern SoundHandle MARK_PURGEABLE(SoundHandle handle);
 extern SoundData RESOLVE_HANDLE_TO_FAR_PAYLOAD(SoundHandle handle);
 extern int find_option(const char far *option);
-extern void advance_sound(void);
-extern int random_below(int limit);
-extern signed char map_room_row(signed char room);
+extern void COPY_KID_TO_CHAR(void);
+extern unsigned RND(unsigned limit);
+extern signed char FIRSTINROW(signed char room);
 extern void dispatch_sound(int resource);
 extern int pending_effect;
 extern void start_sound(SoundHandle handle);
@@ -237,7 +236,7 @@ void add_opponent_death_song(void)
         case 11:
             Char.field_0f = 0;
         default:
-            allowed = Kid.alive < 0 && (*(int near *)&Char.sequence) == 120 &&
+            allowed = Kid.alive < 0 && Char.sequence == 120 &&
                       Char.alive > 4 && !query_sound(10076) &&
                       !query_sound(10097) && !query_sound(10098) &&
                       Kid.alive < 0 ? 1 : 0;
@@ -258,7 +257,7 @@ void add_actor_sfx(void)
 
     if (sound != -1) {
         load_actor_slot(sound);
-        if (((*(int near *)&Kid.frame) == 167 || (*(int near *)&Char.frame) == 167) &&
+        if ((Kid.frame == 167 || Char.frame == 167) &&
             Char.character_kind != 7 && Char.character_kind != 8)
             AddSound(12);
     }
@@ -276,7 +275,7 @@ void AddSong(int song)
 void AddSound(int effect)
 {
     if ((pending_effect == -1 || sound_rules[effect].priority <= sound_rules[pending_effect].priority) &&
-        !sound_inhibit)
+        !sound_inhibit && Char.character_kind != 1)
         pending_effect = effect;
 }
 
@@ -378,7 +377,7 @@ void play_ambient(AmbientState *state)
     int *songs;
 
     if (Kid.room) {
-        advance_sound();
+        COPY_KID_TO_CHAR();
         if (should_change_ambient(state) && ambient_first[Level.environment_kind] != 0) {
             special = OppToFight();
             if (special && ambient_special[Level.environment_kind] == -1)
@@ -386,15 +385,15 @@ void play_ambient(AmbientState *state)
             song = select_special_ambient(special);
             if (song == -1) {
                 if (!special) {
-                    cell = map_room_row(Char.row) + Char.column;
-                    cue = ambient_table[cell + 30 * (unsigned char)Char.room];
+                    cell = FIRSTINROW(Char.row) + Char.column;
+                    cue = Level.ambient_cues[(unsigned char)Char.room - 1][cell];
                 } else {
                     cue = ambient_special[Level.environment_kind];
                 }
                 songs = ambient_first[Level.environment_kind];
                 first = songs[cue];
-                count = *(int *)((unsigned)ambient_count[Level.environment_kind] + cue * sizeof(*ambient_count[Level.environment_kind]));
-                song = random_below(count) + *(int *)((unsigned)songs + cue * sizeof(*songs));
+                count = ambient_count[Level.environment_kind][cue];
+                song = songs[cue] + RND(count);
                 if (state->song == song) {
                     if (first + count != song)
                         ++song;
@@ -430,11 +429,9 @@ void play_sounds(void)
 
 void play_song(int song)
 {
-    SoundHandle *handle = &sound_handles[song];
-
-    if (!*handle || !MATERIALIZE_HANDLE(*handle))
-        *handle = hGetSnd(song + 10000);
-    start_sound(*(*(SoundHandle *volatile *)&handle));
+    if (!sound_handles[song] || !MATERIALIZE_HANDLE(sound_handles[song]))
+        sound_handles[song] = hGetSnd(song + 10000);
+    start_sound(sound_handles[song]);
 }
 
 int should_replace_effect(int effect, int playing)
@@ -457,18 +454,31 @@ int should_replace_effect(int effect, int playing)
 int select_special_ambient(int special)
 {
     int song = -1;
+
     if (special && Level.level_number == 5 && (Room.number == 10 || Room.number == 7 || Room.number == 12))
         song = 64;
+    else if (special && RoomOpp[0].character_kind == 12)
+        song = 198;
+    else if (special && RoomOpp[0].character_kind == 10)
+        song = 199;
+    else if (Kid.character_kind == 1 && Kid.life_points > 2)
+        song = 60;
+    else if (Level.level_number == 13 && (Room.number == 4 || Room.number == 29))
+        song = 61;
     return song;
 }
 
-int special_no_ambient_case(AmbientState *state)
+int special_no_ambient_case(void)
 {
     int blocked = 0;
+
+    if (Kid.alive > 0)
+        blocked = 1;
     if (is_leave_level_music_on() ||
         (Level.preferred_opponent == 2 && IsExitChasingSkel(RoomOpp[0].room) &&
-         ((*(int near *)&RoomOpp[0].sequence) == 88 || (*(int near *)&RoomOpp[0].sequence) == 102 || (*(int near *)&RoomOpp[0].sequence) == 216)) ||
-        (Kid.room == 16 && Level.level_number == 9))
+         (RoomOpp[0].sequence == 88 || RoomOpp[0].sequence == 102 || RoomOpp[0].sequence == 216)) ||
+        (Kid.room == 16 && Level.level_number == 9) ||
+        (Kid.room == 9 && Level.level_number == 8 && Kid.column >= 8))
         blocked = 1;
     return blocked;
 }
@@ -482,18 +492,20 @@ int _fastcall should_change_ambient(AmbientState *state)
         int word;
     } cue;
 
-    if (state->enabled && Char.alive < 0 && !special_no_ambient_case(state)) {
+    if (state->enabled && Char.alive < 0 && !special_no_ambient_case()) {
         if (!query_sound(state->song + 10000)) {
             change = 1;
-        } else if (state->cue != -1) {
+        } else if (state->cue != -1 || (Level.level_number == 8 && query_sound(10255))) {
             special = OppToFight();
             if (special && ambient_special[Level.environment_kind] == -1)
                 special = 0;
-            if (special && ambient_special[Level.environment_kind] > state->cue)
-                change = 1;
-            else if (!special) {
+            if (special) {
+                if (state->cue < ambient_special[Level.environment_kind])
+                    change = 1;
+            } else if (!special) {
                 cue.value = ambient_special[Level.environment_kind];
-                if (cue.value <= state->cue && cue.value != -1 && !find_active_generator(Char.room, Char.row))
+                if (cue.value <= state->cue && cue.value != -1 && !find_active_generator(Char.room, Char.row) &&
+                    (Level.level_number != 8 || !query_sound(10255)))
                     change = 1;
             }
         }

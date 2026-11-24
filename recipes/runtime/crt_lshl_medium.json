@@ -2,10 +2,7 @@
   "abi": "Far runtime register helper. Shifts DX:AX left by CL, clears CH, consumes CX for a nonzero count, and returns DX:AX via RETF without popping arguments.",
   "archive_offset": 2464,
   "boundary_evidence": [
-    "The complete 135-byte lshl.asm member in the 6.00A PDS DOS LIBH.LIB has 11 initialized _TEXT bytes, empty _DATA, sole ungrouped __aFlshl at offset zero, and zero fixups. Whole member is byte-identical in 6.00 DOS LIBH.LIB and the 6.00A July DDK MLIBCER.LIB.",
-    "The full original CODE extent is root image [0x21b40,0x21b4b). The prior multiply exits with RETF 8 at 0x21b3d. JCXZ at 0x21b42 and LOOP at 0x21b48 stay inside the shift helper and both paths reach RETF at 0x21b4a. Root 0x21b4b is a separate zero alignment byte before the BP frame at 0x21b4c.",
-    "Game-side CALL FARs at root image 0x11e46 and 0x121e3 encode the wrapper 1fe6:1cec (MZ relocation indices 1439 and 1440). The wrapper loads DX:AX through a near pointer and CX from BP+8, then uses PUSH CS; CALL near at root 0x21b5b. Next IP 0x1cff plus signed displacement -31 is 0x1ce0 in the independently anchored 1fe6 frame. The wrapper stores DX:AX back and exits with RETF 4.",
-    "There are zero original relocations touching the full extent and no physical overlaps with manifest owners. The caller frame is independently anchored, while original library order and behavior remain unproved."
+    "Complete independent LIBH.LIB member (archive offset 2464, 135 bytes) whose whole 11-byte segment lies at root+0x21c2a in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -15,13 +12,13 @@
   "member_sha256": "020216b17826a28d39d17a077381364f4578d35b15bb25b70df8bfcbc6ec4453",
   "name": "crt_lshl_medium",
   "object_segment": "_TEXT",
-  "offset": 7392,
+  "offset": 7482,
   "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
   "publics": [
     "__aFlshl"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 11,
   "space": "root",
   "target_sha256": "dda4a262ac108716fcc6bff13976eb59132e8232fed1db53d7ae8cd97bf66338"

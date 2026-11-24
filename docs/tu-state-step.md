@@ -1,5 +1,7 @@
 # State-step caller/callee cluster (2026-10-23)
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 Three fresh MSC 6.00 compilations support a grouping of the caller at
 `root:0000:0e78` and accepted `UPDATE_STEP_DELTA` at `root:0000:0e8e`.
 The complete combined CODE segment is 34 bytes, with publics at offsets 0 and

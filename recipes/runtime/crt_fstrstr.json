@@ -1,7 +1,7 @@
 {
   "archive_offset": 15872,
   "boundary_evidence": [
-    "Complete independent large-model strstr.asm OMF member of MSC 6.00 LIBH.LIB (archive offset 15872, 231 bytes; sole public __fstrstr) whose whole CODE equals the original bytes at root:2000:1dca. The game is medium model, and its medium-model _strstr is a separate pinned copy, so this far-data copy is the LIBH far-string routine (o10_trial whole-image link: one definition per name)."
+    "Complete independent libh.lib member (archive offset 15872, 231 bytes) whose whole 103-byte segment lies at root+0x21e6e in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -11,7 +11,7 @@
   "member_sha256": "48ecdd79c4e5c3d4ba798c119ad45e7067462b7005c37e7e9f18109333d1adf6",
   "name": "crt_fstrstr",
   "object_segment": "_TEXT",
-  "offset": 7626,
+  "offset": 7790,
   "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
   "publics": [
     "__fstrstr"

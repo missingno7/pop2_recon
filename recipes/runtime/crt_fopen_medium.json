@@ -1,9 +1,9 @@
 {
   "archive_offset": 11152,
   "binding": "evidence/bindings/crt_fopen_medium.json",
-  "binding_sha256": "3253e805dba0addc6e85e3f81f878552e62f12c770f22f9d719ecc3e01fb6e0a",
+  "binding_sha256": "48c65f1c44e4864cc2c17ca62bc84cf4b043faa63a18b33120205f8e172220c7",
   "boundary_evidence": [
-    "Complete independent medium-model MSC 6.00 mlibcr.lib member (archive offset 11152, 340 bytes) whose whole 66-byte CODE segment lies at root 0x2056c (1fe6:070c) in the monotone runtime run of frame 1fe6; every fixup proven by runtime-symbolic-v1 equations, with signature-anchored providers, data code pointers and the MSG class run where listed."
+    "Complete independent mlibcr.lib member (archive offset 11152, 340 bytes) whose whole 66-byte segment lies at root+0x205fc in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 3,
   "kind": "PINNED_RUNTIME",
@@ -20,13 +20,13 @@
     "_fopen"
   ],
   "relocation_indices": [
-    1920,
-    1933,
-    1944
+    1917,
+    1930,
+    1945
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 66,
   "space": "root",
-  "target_sha256": "496d057f051ed91a2f76b4c409221593f840e6b4d5322f83f71dcdd29aab878b"
+  "target_sha256": "d5c4bea8e91921baf8fbae23e41dea713e24714ba5766c4af4cfcd22977f24eb"
 }

@@ -109,31 +109,17 @@ extern LEVELREC Level;
 extern int background_image_limits[];
 extern void DISPOSE_HANDLE(unsigned int handle);
 extern int far *MATERIALIZE_HANDLE(unsigned int handle);
-extern void load_set_shape(unsigned int resource, int image,
-                           ShapeItem far *entry, int slot);
+extern void load_set_shape(unsigned int, int, ShapeItem far *, int);
 extern void MARK_PURGEABLE(unsigned int handle);
-extern void PrinceFreeShp(int id);
+extern void PrinceFreeShp(int);
 extern TileImages *level_pieces;
 extern BFItem far back_table[];
 extern BFItem far front_table[];
 
-static struct {
-    char back[sizeof("BackTable overflow in AddBImgToBTable(). Quit?")];
-    char back_foreground[sizeof("BackTable overflow in AddBFImgToBTable(). Quit?")];
-    char front_foreground[sizeof("ForeTable overflow in AddBFImgToFTable. Quit?")];
-    char front[sizeof("ForeTable Overflow. Quit?")];
-} overflow = {
-    "BackTable overflow in AddBImgToBTable(). Quit?",
-    "BackTable overflow in AddBFImgToBTable(). Quit?",
-    "ForeTable overflow in AddBFImgToFTable. Quit?",
-    "ForeTable Overflow. Quit?"
-};
-
 extern void check_background_shape(int index);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
-extern void shape_rect(Rect far *bounds, int y, int x, int far *shape);
+extern void shape_rect(Rect far *, int, int, int far *);
 extern int clip_rect(Rect far *result, Rect far *bounds, Rect far *clip);
-extern int confirm_quit(const char far *message);
 
 int far _fastcall add_image_info(Byte set, int image, ImagePlacement *placement,
                                BFItem far *item, Offset x, Offset y,
@@ -178,7 +164,7 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
     int i = back_count;
     int added;
 
-    if (i >= 130 && confirm_quit(overflow.back)) return 0;
+    if (i >= 130) return 0;
     added = add_image_info(4, image, &level_pieces[tile].background,
                            &back_table[i], x, y, order, layer);
     if (added) {
@@ -197,7 +183,7 @@ int add_back_foreground_to_back(Byte tile, int image, Offset x, Offset y,
 
     if (image) {
         i = back_count;
-        if (i >= 130 && confirm_quit(overflow.back_foreground)) return 0;
+        if (i >= 130) return 0;
         added = add_image_info(4, image,
                                &level_pieces[tile].background_foreground,
                                &back_table[i], x, y, order, layer);
@@ -215,7 +201,7 @@ int add_back_foreground_to_front(Byte tile, int image, Offset x, Offset y,
     int i = front_count;
     int added;
 
-    if (i >= 100 && confirm_quit(overflow.front_foreground)) return 0;
+    if (i >= 100) return 0;
     added = add_image_info(4, image,
                            &level_pieces[tile].background_foreground,
                            &front_table[i], x, y, order, layer);
@@ -260,7 +246,7 @@ typedef struct {
     signed char index, flipped;                       /* 00-01 */
     int x, y, image;                                   /* 02,04,06 */
     unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    Rect clip;                              /* 09,0b,0d,0f */
     int depth;                                        /* 11 */
     unsigned char object_type;                        /* 13 */
 } FCHARREC;
@@ -331,7 +317,7 @@ void far _fastcall add_char_object(Byte kind)
         object->set = FChar.image_set;
         object->image = FChar.image;
         object->flags = FChar.flipped;
-        object->clip = (*(Rect near *)&FChar.clip_top);
+        object->clip = FChar.clip;
         object->depth = FChar.depth;
         set_object_cell((Byte)index);
         object->object_id = Char.frame;
@@ -350,7 +336,7 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
     else set = tile == 22 ? 0 : 4;
 
     i = front_count;
-    if (i >= 100 && confirm_quit(overflow.front)) return 0;
+    if (i >= 100) return 0;
     added = add_image_info(set, image, &level_pieces[tile].foreground,
                            &front_table[i], x, y, order, layer);
     if (added) {
@@ -428,7 +414,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         mid_table[index].y = y - size.height + 1;
         mid_table[index].set = set;
         mid_table[index].image = image_index;
-        mid_table[index].clip = (*(Rect near *)&FChar.clip_top);
+        mid_table[index].clip = FChar.clip;
         mid_table[index].order = order;
         mid_table[index].reserved = 0;
         if (FChar.flipped == 0 && (set != 4 || (signed char)FChar.object_type >= 0)) mid_table[index].visible = 1;
@@ -443,34 +429,30 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
 }
 
 typedef struct {
-    unsigned int handle;
-    int x;
-    int y;
-} PeelEntry;
-extern PeelEntry peel_entries[];
-extern void free_record_pair(unsigned int handle);
-
-/* Packed bytes within the first payload word of the peel record. */
-#define PEEL_CHARACTER(entry) (((Offset *)&(entry).x)[0])
-#define PEEL_MODE(entry) (((Offset *)&(entry).x)[1])
-
-typedef struct {
     Offset character;
     Offset mode;
     int retain;
 } PeelDetails;
 
+typedef struct {
+    unsigned int handle;
+    PeelDetails details;
+} PeelEntry;
+extern PeelEntry peel_entries[];
+extern void free_record_pair(unsigned int handle);
+
 extern int peel_count;
 extern int EMPTYRECT(Rect far *rect);
 extern unsigned int ALLOCATE_CLIPPED_PORT(Rect far *rect);
+
 extern int find_character_peel(Offset actor, int occurrence);
 extern void load_actor_slot(Offset actor);
 extern int is_char_non_viewable(void);
 
-extern void far actor_redraw_callback(void);
+extern void far mark_foreground(void);
 extern void mark_bufs_for_rect(void (far *callback)(void), unsigned int handle, Offset actor);
-extern void retain_peel(unsigned int handle);
-extern void restore_saved_pixels(unsigned int handle);
+extern void draw_record_bounds(unsigned int handle);
+extern void DISPOSE_BITMAP_PORT(unsigned int handle);
 extern int peel_restore_mode;
 
 void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, Offset mode)
@@ -483,11 +465,17 @@ void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, O
     rect.bottom = x + width;
     if (EMPTYRECT(&rect)) return;
 
-    peel_entries[*(volatile int *)&peel_count].handle = ALLOCATE_CLIPPED_PORT(&rect);
-    PEEL_CHARACTER(peel_entries[*(volatile int *)&peel_count]) = actor;
-    PEEL_MODE(peel_entries[*(volatile int *)&peel_count]) = mode;
-    if (mode != 2 && mode != 3) peel_entries[*(volatile int *)&peel_count].y = 0;
-    else peel_entries[*(volatile int *)&peel_count].y = 1;
+    peel_entries[peel_count].handle = ALLOCATE_CLIPPED_PORT(&rect);
+    {
+        Offset *character = &peel_entries[peel_count].details.character;
+        *character = actor;
+    }
+    {
+        Offset *peel_mode = &peel_entries[peel_count].details.mode;
+        *peel_mode = mode;
+    }
+    if (mode != 2 && mode != 3) peel_entries[peel_count].details.retain = 0;
+    else peel_entries[peel_count].details.retain = 1;
     ++peel_count;
 }
 
@@ -495,17 +483,17 @@ void save_character_peel(Offset actor, Offset occurrence)
 {
     int index = find_character_peel(actor, occurrence);
     if (index != -1)
-        peel_entries[index].y = 1;
+        peel_entries[index].details.retain = 1;
 }
 
 void mark_peel_front_buffers(void)
 {
     int remaining = peel_count;
-    PeelDetails *details = (PeelDetails *)&peel_entries[remaining].x;
+    PeelDetails *details = &peel_entries[remaining].details;
 
     for (; details = (PeelDetails *)((char *)details - sizeof(PeelEntry)),
            remaining--; ) {
-        volatile int redraw;
+        int redraw;
         if (details->retain)
             continue;
         redraw = 1;
@@ -515,7 +503,7 @@ void mark_peel_front_buffers(void)
                 redraw = 0;
         }
         if (redraw)
-            mark_bufs_for_rect(actor_redraw_callback,
+            mark_bufs_for_rect(mark_foreground,
                                   ((unsigned int *)details)[-1] + 16,
                                   details->character);
     }
@@ -525,31 +513,28 @@ int find_character_peel(Offset actor, int occurrence)
 {
     int found = -1;
     int index, occurrences;
-    PeelDetails *details;
 
     index = occurrences = 0;
     if (index < peel_count) {
-        details = (PeelDetails *)&peel_entries[0].x;
         do {
             if (found != -1) break;
-            if (actor == details->character) {
+            if (actor == peel_entries[index].details.character) {
                 ++occurrences;
                 if (occurrence == occurrences) found = index;
             }
-            details = (PeelDetails *)((char *)details + sizeof(PeelEntry));
             ++index;
         } while (index < peel_count);
     }
     return found;
 }
 
-extern void mark_peel_handle(unsigned int handle);
+extern void add_dirty_rectangle(unsigned int handle);
 
 void restore_peels(void)
 {
     int keep[40];
     int index = peel_count;
-    int *retain = &peel_entries[index].y;
+    int *retain = &peel_entries[index].details.retain;
     int *saved = &keep[index];
     int remaining;
 
@@ -557,24 +542,25 @@ void restore_peels(void)
         unsigned int handle;
         if ((*saved = *retain) != 0) continue;
         handle = ((unsigned int *)retain)[-2];
-        if (peel_restore_mode == 0) mark_peel_handle(handle + 16);
+        if (peel_restore_mode == 0) add_dirty_rectangle(handle + 16);
         if (((Offset *)retain)[-1] == 2) {
-            retain_peel(handle);
+            draw_record_bounds(handle);
             *saved = *retain = 1;
         } else {
-            restore_saved_pixels(handle);
+            DISPOSE_BITMAP_PORT(handle);
         }
     }
     index = remaining = 0;
     if (index < peel_count) {
         do {
             if (keep[index]) {
-                peel_entries[remaining] = peel_entries[index];
-                if (PEEL_CHARACTER(peel_entries[remaining]) < 100)
-                    peel_entries[remaining].y = 0;
+                PeelEntry *source = &peel_entries[index];
+                peel_entries[remaining] = *source;
+                if (peel_entries[remaining].details.character < 100)
+                    peel_entries[remaining].details.retain = 0;
                 ++remaining;
             }
-        } while (++index < *(volatile int *)&peel_count);
+        } while (++index < peel_count);
     }
     peel_count = remaining;
 }
@@ -633,7 +619,7 @@ extern void ClipChar(void);
 extern void get_frame_info(void);
 extern void update_actor_frame(void);
 extern int far _fastcall get_sword_frame_image(unsigned int frame);
-extern void adjust_actor_x(int delta);
+extern void AddFCharX(int delta);
 extern int AddCharX(int delta);
 extern void MakeFCharClipRect(void);
 extern void reread_cells(void);
@@ -665,7 +651,7 @@ extern void setup_fireball(void);
 extern void setup_kid(void);
 extern void far _fastcall setup_sword(Byte kind);
 extern void setup_flask(void);
-extern int far _fastcall setup_opponent(Offset opponent);
+extern int far _fastcall setup_opponent(void);
 
 void add_kid(void)
 {
@@ -709,7 +695,7 @@ void add_opponent(void)
     do {
         load_actor_slot(opponent);
         if ((Byte)Char.room == Room.number) {
-            if (!setup_opponent(opponent))
+            if (!setup_opponent())
                 continue;
             if ((Char.action == 99 || Char.sequence_group == 8 ||
                  (Char.action == 9 && Char.frame == 213)) &&
@@ -783,53 +769,42 @@ void setup_comix(void)
     FChar.image_set = 2;
     FChar.image = 218;
 
-    if (frame == 185 || (frame >= 106 && frame < 111))
-        goto raised;
-    if (Char.character_kind == 11) {
-        FChar.y += 5;
-        adjust_actor_x(-8);
-        FChar.image_set = 3;
-        FChar.image = 119;
-        goto render;
-    }
-    if (Char.character_kind == 12) {
-        FChar.y -= 11;
-        adjust_actor_x(-8);
-        goto render;
-    }
-    if (Char.character_kind == 0) {
-        if (Opp.character_kind == 11 || Char.frame == 265)
-            goto default_x;
-        if (Char.frame == 138 || Char.frame == 139 || Char.frame == 140)
-            goto lowered;
-        if (Char.frame == 338) {
-            FChar.y -= 30;
-            adjust_actor_x(29);
-            goto render;
+    if (frame != 185 && (frame < 106 || frame >= 111)) {
+        if (Char.character_kind == 11) {
+            FChar.y += 5;
+            AddFCharX(-8);
+            FChar.image_set = 3;
+            FChar.image = 119;
+        } else if (Char.character_kind == 12) {
+            FChar.y -= 11;
+            AddFCharX(-8);
+        } else if (Char.character_kind == 0) {
+            if (Opp.character_kind == 11 || Char.frame == 265) {
+                AddFCharX(10);
+            } else if (Char.frame == 138 || Char.frame == 139 || Char.frame == 140) {
+                FChar.y -= 10;
+                AddFCharX(-5);
+            } else if (Char.frame == 338) {
+                FChar.y -= 30;
+                AddFCharX(29);
+            } else if (Char.frame == 340) {
+                FChar.y -= 30;
+                AddFCharX(-17);
+            } else {
+                FChar.y -= 15;
+                AddFCharX(10);
+            }
+        } else {
+            FChar.y -= 11;
+            AddFCharX(7);
         }
-        if (Char.frame == 340) {
-            FChar.y -= 30;
-            adjust_actor_x(-17);
-            goto render;
-        }
-        FChar.y -= 15;
-        goto default_x;
-lowered:
-        FChar.y -= 10;
-        adjust_actor_x(-5);
-        goto render;
+    } else {
+        FChar.y += 4;
+        AddFCharX(12);
     }
-    FChar.y -= 11;
-    adjust_actor_x(7);
-    goto render;
-raised:
-    FChar.y += 4;
-default_x:
-    adjust_actor_x(10);
-render:
     MakeFCharClipRect();
     add_char_object(5);
-    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), -1);
+    mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, -1);
     RestoreFChar();
 }
 
@@ -846,11 +821,11 @@ void setup_fireball(void)
         unsigned int frame = (unsigned int)Frame.equipment_image;
         EquipmentPlacement far *entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
         FChar.image = entries[frame].image;
-        adjust_actor_x(entries[frame].x);
+        AddFCharX(entries[frame].x);
         FChar.y += entries[frame].y;
         MakeFCharClipRect();
         add_char_object(3);
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), -1);
+        mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, -1);
     }
     RestoreFChar();
 }
@@ -879,7 +854,6 @@ void far _fastcall setup_sword(Byte kind)
         return;
     if ((unsigned int)Frame.equipment_image > 144 &&
         !((unsigned int)Frame.equipment_image >= 200 && (unsigned int)Frame.equipment_image < 251) &&
-        !((unsigned int)Frame.equipment_image >= 264 && (unsigned int)Frame.equipment_image <= 265) &&
         !((unsigned int)Frame.equipment_image >= 292 && (unsigned int)Frame.equipment_image <= 304))
         return;
     if (Char.character_kind == 0 && Char.stance == 0 && Char.frame != 133 &&
@@ -892,7 +866,7 @@ void far _fastcall setup_sword(Byte kind)
     FChar.image = entries[frame].image;
     if (FChar.image == -1)
         return;
-    adjust_actor_x(entries[frame].x);
+    AddFCharX(entries[frame].x);
     FChar.y += entries[frame].y;
     FChar.image_set = 0;
     MakeFCharClipRect();
@@ -900,7 +874,7 @@ void far _fastcall setup_sword(Byte kind)
         clip_character_at_water();
     add_char_object(kind);
     if (Char.action != 9)
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), Char.slot);
+        mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, Char.slot);
 }
 
 void setup_flask(void)
@@ -915,12 +889,12 @@ void setup_flask(void)
     if (entries[frame].image == -1)
         return;
     FChar.image = entries[frame].image;
-    adjust_actor_x(entries[frame].x);
+    AddFCharX(entries[frame].x);
     FChar.y += entries[frame].y;
     FChar.image_set = 1;
     MakeFCharClipRect();
     add_char_object(3);
-    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), Char.slot);
+    mark_bufs_for_rect(mark_foreground, (unsigned int)&FChar.clip, Char.slot);
 }
 
 void check_background_shape(int index)
@@ -955,8 +929,14 @@ void check_kid_shape(int index)
 {
     int image;
 
-    if (index < 0 || MATERIALIZE_HANDLE(kid_shapes->images[index].handle))
+    if (index < 0)
         return;
+    if (kid_shapes->images[index].handle && MATERIALIZE_HANDLE(kid_shapes->images[index].handle))
+        return;
+    if (kid_shapes->images[index].handle) {
+        DISPOSE_HANDLE(kid_shapes->images[index].handle);
+        kid_shapes->images[index].handle = 0;
+    }
     image = kid_shapes->first_image + index + 1;
     if (index >= 222)
         image -= 400;
@@ -1013,7 +993,7 @@ ShapeItem far *get_set_shape_item(ShapeSet *set, int image, ImageSize far *size)
     return (ShapeItem far *)size;
 }
 
-int far _fastcall setup_opponent(Offset opponent)
+int far _fastcall setup_opponent(void)
 {
     Byte kind;
     int added;
@@ -1043,7 +1023,7 @@ int far _fastcall setup_opponent(Offset opponent)
         kind = 2;
     }
     if (Char.action != 9 && !is_char_non_viewable())
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&Char.bounds, Char.slot);
+        mark_bufs_for_rect(mark_foreground, (unsigned int)&Char.bounds, Char.slot);
     add_char_object(kind);
     Char.previous_x = Char.x;
     Char.previous_y = Char.y;

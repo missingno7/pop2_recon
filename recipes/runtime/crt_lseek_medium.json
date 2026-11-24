@@ -1,9 +1,9 @@
 {
   "archive_offset": 23104,
   "binding": "evidence/bindings/crt_lseek_medium.json",
-  "binding_sha256": "f765db82cb1c0a38e319ffcdce4e6da1f00af0bcf57aaf312721165cb514791f",
+  "binding_sha256": "62f1b0a6e0681005e9372e007a1277c523d16e3505ecad8b534e00fd2388d0b5",
   "boundary_evidence": [
-    "Complete independent medium-model dos\\lseek.asm OMF member (archive offset 23104, 302 bytes) whose whole 122-byte CODE segment lies at root 0x20f16 (1fe6:10b6) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent mlibcr.lib member (archive offset 23104, 302 bytes) whose whole 122-byte segment lies at root+0x20fa6 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 3,
   "kind": "PINNED_RUNTIME",
@@ -19,8 +19,8 @@
     "_lseek"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 122,
   "space": "root",
-  "target_sha256": "303e0e704b36e5127a93c862dd1ff9e5df975eb4f637dec3b93a9d10578a46cf"
+  "target_sha256": "4446dbf794fc60d2f4ec072f79add3b4e1b17792698ae773d084183771b21c87"
 }

@@ -1,9 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "OWNER_OF_PAYLOAD",
-      "CLEAR_HANDLE_OWNED",
-      "SOUND_PAYLOAD_CALLBACK"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 26,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -17,120 +62,75 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "SOUND_PAYLOAD_CALLBACK",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 26,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "OWNER_OF_PAYLOAD",
+      "CLEAR_HANDLE_OWNED",
+      "SOUND_PAYLOAD_CALLBACK"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 16,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
           "kind": "external",
-          "method": 6,
+          "index": 2,
           "name": "CLEAR_HANDLE_OWNED",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 16,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "CLEAR_HANDLE_OWNED",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 10,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
           "kind": "external",
-          "method": 6,
+          "index": 1,
           "name": "OWNER_OF_PAYLOAD",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 10,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "OWNER_OF_PAYLOAD",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "mode": "external-far-call-v1",
@@ -138,39 +138,39 @@
   "symbols": {
     "CLEAR_HANDLE_OWNED": {
       "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
-      "entry_target_id": "root:1101:25b2",
+      "entry_target_id": "root:1129:1978",
       "kind": "far-code-entry",
-      "offset": 9650,
-      "segment": 4353,
+      "offset": 6520,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ab2250111",
-          "file_offset": 27690,
-          "image_offset": 19498,
-          "relocation_index": 386,
-          "space": "root"
+          "space": "root",
+          "image_offset": 19720,
+          "bytes_hex": "9a78192911",
+          "file_offset": 27912,
+          "relocation_index": 388
         }
       ]
     },
     "OWNER_OF_PAYLOAD": {
       "entry_sha256": "51f335893b8179dd6db0159b04ae3e9be6ba6c3c3556b043e1cf444ddd7f6a31",
-      "entry_target_id": "root:1101:25c6",
+      "entry_target_id": "root:1129:198c",
       "kind": "far-code-entry",
-      "offset": 9670,
-      "segment": 4353,
+      "offset": 6540,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ac6250111",
-          "file_offset": 156772,
-          "image_offset": 836,
-          "relocation_index": 49,
-          "space": "overlay-2"
+          "space": "overlay-2",
+          "image_offset": 929,
+          "bytes_hex": "9a8c192911",
+          "file_offset": 164465,
+          "relocation_index": 25
         }
       ]
     }
   },
   "target_id": "group:sound2/sound_payload_callback",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

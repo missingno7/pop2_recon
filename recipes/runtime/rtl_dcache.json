@@ -1,7 +1,7 @@
 {
   "archive_offset": 345600,
   "boundary_evidence": [
-    "Complete RTLink/Plus 6.10 RTLUTILS.LIB member dcache.asm (archive offset 0x54600, 235 bytes) whose whole 2-byte $$OVLMGR_UTILS contribution lies at root 0x22e55 (22e5:0005). Three original relocated CALL FARs in the manager reach 22e5:0005 (the dummy cache entry), directly after the RTLink vector table ending at 0x22e55."
+    "Complete independent RTLUTILS.LIB member (archive offset 345600, 235 bytes) whose whole 2-byte segment lies at root+0x22f2e in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -11,7 +11,7 @@
   "member_sha256": "46d4258af60ce1c01c6decf1e93a34d48c8275b1ded9dee20d10aacdc0ec23bf",
   "name": "rtl_dcache",
   "object_segment": "$$OVLMGR_UTILS",
-  "offset": 5,
+  "offset": 14,
   "proof_scope": "Complete independent RTLink manager member segment $$OVLMGR_UTILS; natural RTLink placement and behavior unproved",
   "publics": [
     "$$RTLOVL_DUMMY_CACHE",
@@ -22,7 +22,7 @@
     "$$OVCOFF"
   ],
   "schema": 1,
-  "segment": 8933,
+  "segment": 8946,
   "segment_class": "$$OVLMGR_UTILS",
   "size": 2,
   "space": "root",

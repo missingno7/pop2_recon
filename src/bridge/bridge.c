@@ -69,7 +69,7 @@ typedef struct Rect {
     int top, left, bottom, right;
 } Rect;
 
-extern CHARREC Char, Kid, RoomOpp[5], Opp;
+extern CHARREC Kid, Char, RoomOpp[5], Opp;
 
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -112,7 +112,7 @@ typedef struct {
     unsigned char unknown_1841[4];
     unsigned char environment_kind;                  /* 1845 */
     unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
+    unsigned char level_number;                         /* 1847 */
     int background_overlays[8];                       /* 1848 */
     unsigned char unknown_1858[4];
     int actor_phase;                                  /* 185c */
@@ -158,14 +158,14 @@ extern void turn_engarde(void), JumpSeq(int);
 extern void trigger_reverse_gate(char, char);
 extern Gate near *get_trob_room_cell(char, int);
 extern unsigned char ReadCell(char, char, char);
-extern void set_resource(int, unsigned int, unsigned char, unsigned char);
+extern void set_palette(int, unsigned int, unsigned char, unsigned char);
 extern int query_sound(int);
 
 extern void DrawCustomRoomImgAtInfo(char, TileAnim near *);
 extern void OFFSETRECT(void far *, void far *, int, int);
 extern void ComputeOffsetCellRect(Rect near *, void near *, int, int);
 typedef void far pascal DrawCallback(char cell, Rect near *rect);
-extern DrawCallback mark_bridge_top, mark_floor;
+extern DrawCallback mark_move, mark_floor;
 extern void mark_bufs_for_rect(DrawCallback *, Rect near *, char);
 extern void add_trob(char, char, char, char);
 extern char far pascal FirstInRow(signed char);
@@ -174,7 +174,7 @@ typedef struct {
     unsigned int width, height;
 } ShapeSize;
 extern ShapeSize far *GetCustomPieceSize(unsigned char, ShapeSize far *);
-extern void mark_mob_redraw(char), compute_mob_rect(Rect near *), update_mob_y(int), add_mob(void);
+extern void mark_mob_redraw(char), compute_mob_rect(Rect near *), add_mob_obj(int), add_mob(void);
 extern void far _fastcall add_middle_image(char, int, void near *, int, char);
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -196,8 +196,8 @@ typedef struct {
     unsigned int flags;                               /* 0b */
 } MOBREC;
 
-extern MOBREC Mob;
 extern ROOMREC Room;
+extern MOBREC Mob;
 extern struct {
     int heights[13];
     int widths[13];
@@ -270,9 +270,9 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
 
 char far pascal BridgeGetCharCol(char kind, char value)
 {
-    if ((*(volatile unsigned char *)&Level.level_number) == 5 && kind == 7)
+    if (Level.level_number == 5 && kind == 7)
         value -= 10;
-    else if ((*(volatile unsigned char *)&Level.level_number) == 5 && kind == 12)
+    else if (Level.level_number == 5 && kind == 12)
         value += 10;
     return value;
 }
@@ -338,28 +338,32 @@ int bridge_skeleton_progress(void)
     int keep_going = 1;
 
     if (Char.action != 5) {
-        if (Char.row >= 3 && Char.action == 4) {
+        if (Char.action == 4 && (Char.row >= 3 || Level.level_number != 5 ||
+                                 (Char.room != 10 && Char.room != 7 && Char.room != 12))) {
             remove_char();
             keep_going = 0;
         } else if (Char.direction == 0) {
-            if (Char.sequence == 102 || Char.sequence == 216) {
-                if (col >= 9) {
+            if (Char.sequence != 102 && Char.sequence != 216) {
+                if (Char.x > Kid.x) {
+                    if (bridge_skeleton_at_plate()) {
+                        start_opponent_running();
+                        keep_going = 0;
+                    } else if (col >= 9) {
+                        turn_engarde();
+                        keep_going = 0;
+                    }
+                }
+            } else {
+                if (col >= 9 || !bridge_gate_open()) {
                     Char.alert_delay = 2;
                     Char.stance = 1;
                     JumpSeq(101);
                 }
                 keep_going = 0;
-            } else if (Kid.x < Char.x) {
-                if (bridge_skeleton_at_plate()) {
-                    start_opponent_running();
-                    keep_going = 0;
-                } else if (col >= 9) {
-                    turn_engarde();
-                    keep_going = 0;
-                }
             }
         } else if (bridge_skeleton_at_plate()) {
-            turn_engarde();
+            Char.direction = 0;
+            Char.x = AddCharX(10);
             keep_going = 0;
         }
     }
@@ -383,7 +387,7 @@ int bridge_skeleton_at_plate(void)
 
 int bridge_gate_open(void)
 {
-    register Gate near *gate = get_trob_room_cell(7, 13);
+    Gate near *gate = get_trob_room_cell(7, 13);
     int open;
 
     if (gate && (gate->state == 0 || gate->state == 2))
@@ -420,8 +424,8 @@ int bridge_char_on_floor(void)
 
 void load_bridge_code(void)
 {
-    if ((*(volatile unsigned char *)&Level.level_number) == 5 && ((signed char)Room.number) == 10)
-        set_resource(3500, 64, 160, 1);
+    if (Level.level_number == 5 && ((signed char)Room.number) == 10)
+        set_palette(3500, 64, 160, 1);
     floor_mask = 0;
     bridge_wait = 0;
 }
@@ -481,14 +485,14 @@ void tweak_char_y_on_bridge(void)
 
 void unload_bridge_code(void)
 {
-    set_resource(3500, 64, 160, 0);
+    set_palette(3500, 64, 160, 0);
 }
 
 void animate_bridge_floor(void)
 {
     unsigned char phase, old_phase;
 
-    if ((*(volatile unsigned char *)&Level.level_number) == 5 && ((signed char)Room.number) == 10) {
+    if (Level.level_number == 5 && ((signed char)Room.number) == 10) {
         old_phase = BlueSpec & 15;
         BlueSpec &= 0xfff0;
         if (!(floor_mask & (1 << (animation_cell % (signed char)10 - 1)))) {
@@ -554,7 +558,7 @@ void redraw_bridge_floor(int phase, char cell)
 
     ComputeOffsetCellRect(&rect, image_table->images[image].rect, col, cell / (signed char)10 + 1);
     --rect.top;
-    mark_bufs_for_rect(&mark_bridge_top, &rect, -1);
+    mark_bufs_for_rect(&mark_move, &rect, -1);
     restore_bridge_floor_y(image, old_y);
 }
 
@@ -619,7 +623,7 @@ void animate_bridge_mob(void)
             compute_mob_rect(&redraw);
             redraw.left += 16;
             mark_bufs_for_rect(&mark_floor, &redraw, -1);
-            update_mob_y(y);
+            add_mob_obj(y);
         }
         Mob.x = old_x;
         Mob.y = old_y;
@@ -636,7 +640,7 @@ void step_bridge_mob(void)
 {
     int phase, speed;
 
-    if ((*(volatile unsigned char *)&Level.level_number) == 5 && ((signed char)Room.number) == 10) {
+    if (Level.level_number == 5 && ((signed char)Room.number) == 10) {
         phase = Mob.flags & 15;
         speed = (Mob.flags & 0x30) >> 4;
         if ((speed == 1 && phase != 4) || (speed == 2 && phase != 9)) {

@@ -1,5 +1,7 @@
 # Code-frame census — 2026-11-20
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 Phase 1 of the [module acceptance plan](tu-acceptance-plan.md). Research only:
 no ownership, target or gate changes.
 

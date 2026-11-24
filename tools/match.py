@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from common import ROOT, read_json, require, sha
+from common import ROOT, read_json, read_json_shared, require, sha
 from oracle import Oracle
 from omf import OmfReader
 
@@ -24,7 +24,7 @@ EXTRA_TARGETS = []
 
 def get_target(identifier, oracle=None):
     oracle = oracle or Oracle.load()
-    inventory = read_json(ROOT / "evidence/targets.json")
+    inventory = read_json_shared(ROOT / "evidence/targets.json")
     require(inventory["target_sha256"] == sha(oracle.data), "Targets belong to another oracle")
     # Verify-only research rows replace the canonical row of the same id (a proposed replacement);
     # publication merges reviewed rows into evidence/targets.json before promotion.

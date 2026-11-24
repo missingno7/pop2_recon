@@ -6,17 +6,17 @@ typedef struct
 
 typedef struct
 {
-    int unknown, video, memory, sound_report;
+    int unknown, video, memory, sound_report, midi_sound_mode;
 } Configuration;
 
 typedef int (far pascal *InputPoll)(void);
 
 extern Configuration *configuration;
 extern unsigned char active_sound_channels;
-extern int initial_setting;
+extern int control_mode;
 extern int backing_driver_active;
 extern InputPoll poll_input;
-extern int message_input(void);
+extern int poll_user(void);
 
 extern void STROKE_PORT_RECT(Rect far *);
 extern void frame_rect(Rect far *);
@@ -24,7 +24,6 @@ extern void INSETRECT(Rect far *, Rect far *, int, int);
 extern void DRAW_NUL_TEXT_IN_RECT(Rect far *, int, int, const char far *);
 extern void wait_key(void);
 extern int cdecl initialize_sound_drivers(int);
-extern void report_memory(int memory_class, unsigned long available);
 extern void show_init_message(const char *message);
 extern void init_graphics(void);
 extern unsigned long choose_memory_pool(int *memory_class);
@@ -39,44 +38,16 @@ extern unsigned long xms_driver(void);
 extern unsigned long query_callback_u32(MemoryDriver driver);
 extern void initialize_backing_driver(MemoryDriver driver);
 extern int cdecl sprintf(char *, const char *, ...);
-extern char near *cdecl strcat(char near *, const char near *);
 extern int cdecl printf(const char *, ...);
 extern void cdecl exit(int);
-
-#pragma intrinsic(strcat)
 
 static Rect message_port = { 50, 50, 150, 270 };
 
 static const char *extended_memory_name = "extended";
 static const char *expanded_memory_name = "expanded";
 static const char *device_filenames[] = {
-    "IBMSND.DAT", "DIGISND.DAT", "MIDISND.DAT", 0, "FRAGSND.DAT", "TANDYSND.DAT"
+    "IBMSND.DAT", "DIGISND.DAT", "MIDISND.DAT", 0, 0, 0
 };
-
-void report_memory(int memory_class, unsigned long available)
-{
-    char message[240];
-    const char *kind;
-
-    if (configuration->sound_report && available <= 0x53020UL) {
-        if (available) {
-            if (memory_class == 1)
-                kind = extended_memory_name;
-            else
-                kind = expanded_memory_name;
-            sprintf(message,
-                    "Digital sounds will not be played because there is not enough extended or expanded memory available.  "
-                    "You need %ld more bytes of %s memory for digital sounds.",
-                    0x537f0L - available, kind);
-        } else {
-            sprintf(message,
-                    "Digital sounds will not be played because there is no extended or expanded memory available.");
-        }
-        strcat(message, "  Press any key to continue.");
-        show_init_message(message);
-        configuration->sound_report = 0;
-    }
-}
 
 void show_init_message(const char *message)
 {
@@ -88,7 +59,7 @@ void show_init_message(const char *message)
     INSETRECT(&rect, &message_port, 5, 8);
     DRAW_NUL_TEXT_IN_RECT(&rect, 0, 0, message);
     saved_input = poll_input;
-    poll_input = message_input;
+    poll_input = poll_user;
     wait_key();
     STROKE_PORT_RECT(&message_port);
     poll_input = saved_input;
@@ -99,19 +70,19 @@ extern const char digital_sound_error[], midi_sound_error[];
 void init_sound(void)
 {
     initialize_sound_drivers(0);
-    if (active_sound_channels & 4)
+    if (configuration->sound_report && !(active_sound_channels & 1))
         show_init_message(digital_sound_error);
-    if (active_sound_channels & 8)
+    if (configuration->midi_sound_mode && !(active_sound_channels & 2))
         show_init_message(midi_sound_error);
 }
 
 void save_initial_setting(void)
 {
-    initial_setting = configuration->video;
+    control_mode = configuration->video;
 }
 
 extern char config_filename[];
-extern char joystick_missing_message[], video_error[], file_error[];
+extern char video_error[], file_error[];
 typedef int (far pascal *CatalogError)(unsigned int *);
 typedef void (far pascal *ResourceError)(const char far *);
 typedef void (far pascal *WindowAction)(void *, int);
@@ -125,6 +96,7 @@ extern void ignore_window_action(void *, int);
 extern char *interface_buffer;
 extern void far *heap_state;
 extern int source_port, Graf, main_port, option_flags;
+extern int window_draw_ready;
 extern char ScreenPort[], screen_bounds[], joystick_state[];
 
 typedef struct {
@@ -134,6 +106,7 @@ typedef struct {
 } AmbientState;
 extern AmbientState ambient_state;
 extern void initialize_dos_heap(unsigned long);
+extern unsigned long expand_memory_limits(void);
 extern int load_sound_settings(const char *);
 extern void release_heap_segment(void);
 extern void near *cdecl _nmalloc(unsigned int);
@@ -160,23 +133,56 @@ extern void dispose_handle(int);
 extern void near *cdecl memset(void near *, int, unsigned int);
 #pragma intrinsic(memset)
 
+unsigned long choose_memory_pool(int *memory_class)
+{
+    unsigned long extended, expanded, available = 0;
+
+    *memory_class = 0;
+    if (!find_option("NOHIMEM")) {
+        extended = query_callback_u32(ems_driver);
+        expanded = query_callback_u32(xms_driver);
+        backing_driver_active = extended || expanded;
+        if (backing_driver_active) {
+            if (expanded < extended) {
+                initialize_backing_driver(ems_driver);
+                available = extended;
+                *memory_class = 2;
+            } else {
+                initialize_backing_driver(xms_driver);
+                available = expanded;
+                *memory_class = 1;
+            }
+        }
+    } else {
+        backing_driver_active = 0;
+    }
+    return available;
+}
+
 void init_system(void)
 {
     unsigned long available;
     unsigned long sound;
     int memory_class;
+    char message[100];
 
     initialize_dos_heap(0xffffffUL);
+    available = expand_memory_limits();
+    if (available < 0x41eb0UL) {
+        sprintf(message, "\nThis machine needs to have %ld more bytes of base memory.\n\n",
+                0x42298UL - available);
+        printf(message);
+        exit(1);
+    }
     if (!load_sound_settings(config_filename)) {
         release_heap_segment();
         printf(file_error, config_filename);
         exit(0);
     }
+    configuration->video = 2;
     save_initial_setting();
-    if (!configuration->memory && !find_option("USEHIMEM"))
-        available = 0;
-    else
-        available = choose_memory_pool(&memory_class);
+    if (find_option("USEHIMEM"))
+        choose_memory_pool(&memory_class);
 
     catalog_callback = load_resource_error;
     allocation_handler = report_fatal_memory;
@@ -190,7 +196,6 @@ void init_system(void)
     init_graphics();
     install_interrupt_handlers();
     install_default_timer(60);
-    report_memory(memory_class, available);
     init_sound();
     if (configuration->sound_report == -1)
         set_sound_level(0);
@@ -201,14 +206,13 @@ void init_system(void)
     *(WindowAction *)((char *)main_port + 0x56) = ignore_window_action;
     update_message_display();
     install_dos_vectors();
+    window_draw_ready = 1;
     initialize_window_draw_port();
     open_level_resources(device_filenames);
     detect_gameport();
-    if (initial_setting != configuration->video) {
-        show_init_message(joystick_missing_message);
-        initial_setting = 0;
-    }
-    if (initial_setting != 2)
+    if (control_mode != configuration->video)
+        control_mode = 0;
+    if (control_mode != 2)
         memset(joystick_state, 0, 9);
     init_ambient(&ambient_state);
     set_default_palette();
@@ -225,32 +229,6 @@ void init_graphics(void)
         exit(0);
     }
     INITIALIZE_GRAPHICS_MODE(5);
-}
-
-unsigned long choose_memory_pool(int *memory_class)
-{
-    unsigned long extended, expanded, available = 0;
-
-    *memory_class = 0;
-    if (!find_option("NOHIMEM")) {
-        extended = query_callback_u32(ems_driver);
-        expanded = query_callback_u32(xms_driver);
-        backing_driver_active = extended || expanded;
-        if (backing_driver_active) {
-            if (expanded < extended) {
-                initialize_backing_driver(ems_driver);
-                available = extended;
-                *memory_class = 1;
-            } else {
-                initialize_backing_driver(xms_driver);
-                available = expanded;
-                *memory_class = 1;
-            }
-        }
-    } else {
-        backing_driver_active = 0;
-    }
-    return available;
 }
 
 void wait_for_ready(void)

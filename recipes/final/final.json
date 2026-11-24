@@ -1,705 +1,696 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "045f26e003b8f94e41c1546ede484072f40c08506334eb91dfce08da306c1692",
+  "binding_sha256": "bbe3d9c9056958229fb273a424dfdb63d429847da84721c254e29e6c70011275",
   "claims": [
     {
       "fixup_count": 7,
       "public": "DRAW_FINAL_OBJECT",
-      "target_id": "overlay-10:29cf:0000"
+      "target_id": "overlay-10:2bda:0000"
     },
     {
       "fixup_count": 1,
       "public": "LOAD_FINAL_CODE",
-      "target_id": "overlay-10:29cf:004c"
+      "target_id": "overlay-10:2bda:004c"
+    },
+    {
+      "fixup_count": 23,
+      "public": "CHECK_DEAD_OPPONENT",
+      "relocation_indices": [
+        51,
+        73,
+        94,
+        126,
+        147,
+        165,
+        171,
+        178
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:0054"
     },
     {
       "fixup_count": 7,
       "public": "CHECK_NEW_OPPONENT",
       "relocation_indices": [
-        26,
-        27
+        49,
+        50
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:0126"
+      "target_id": "overlay-10:2bda:0126"
     },
     {
       "fixup_count": 38,
       "public": "FINLGENERATEOPP",
       "relocation_indices": [
-        0,
-        11,
-        28,
-        42,
-        72,
-        80,
-        85,
-        120,
-        144,
-        160,
-        165
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:01ba"
-    },
-    {
-      "fixup_count": 0,
-      "public": "FINAL_NOOP",
-      "target_id": "overlay-10:29cf:02e4"
-    },
-    {
-      "fixup_count": 6,
-      "public": "CLIP_FINAL_CHARACTER",
-      "relocation_indices": [
-        138
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:02e6"
-    },
-    {
-      "fixup_count": 19,
-      "public": "CUT_KID_TO_CHESS_ROOM",
-      "relocation_indices": [
-        12,
-        81,
-        86,
-        161,
-        173
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0310"
-    },
-    {
-      "fixup_count": 7,
-      "public": "ENTER_PRINCESS_ROOM",
-      "relocation_indices": [
-        60,
-        118,
-        150,
-        172,
-        174
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:03e2"
-    },
-    {
-      "fixup_count": 27,
-      "public": "FINLWATCHKID",
-      "relocation_indices": [
-        24,
-        46,
-        79,
-        87,
-        113,
-        121,
-        132,
-        133,
-        134,
-        137
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:04f6"
-    },
-    {
-      "fixup_count": 7,
-      "public": "FINLWATCHOPPS",
-      "relocation_indices": [
-        47,
-        166
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:05c6"
-    },
-    {
-      "fixup_count": 4,
-      "public": "RUN_JAFFAR",
-      "target_id": "overlay-10:29cf:061a"
-    },
-    {
-      "fixup_count": 11,
-      "public": "DISMISS_OTHER_JAFFARS",
-      "relocation_indices": [
+        2,
+        7,
         48,
-        88,
-        167
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0634"
-    },
-    {
-      "fixup_count": 13,
-      "public": "CAST_JAFFAR_SPELL",
-      "relocation_indices": [
-        89
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:06ae"
-    },
-    {
-      "fixup_count": 21,
-      "public": "JAFFAR_ATTACK_IN_ESCHER",
-      "relocation_indices": [
-        13,
-        43
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:071a"
-    },
-    {
-      "fixup_count": 8,
-      "public": "JAFFAR_FLEE_IN_ESCHER",
-      "relocation_indices": [
-        44
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:07dc"
-    },
-    {
-      "fixup_count": 16,
-      "public": "JAFFAR_HAS_CLEAR_SHOT",
-      "target_id": "overlay-10:29cf:083c"
-    },
-    {
-      "fixup_count": 0,
-      "public": "JAFFARSETTONEXTPOS",
-      "target_id": "overlay-10:29cf:08fc"
-    },
-    {
-      "fixup_count": 0,
-      "public": "JAFFARSETTOPREVPOS",
-      "target_id": "overlay-10:29cf:0918"
-    },
-    {
-      "fixup_count": 6,
-      "public": "SEND_JAFFAR_TO_POSITION",
-      "relocation_indices": [
-        90
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:0934"
-    },
-    {
-      "fixup_count": 13,
-      "public": "SETTLE_JAFFAR_AT_POSITION",
-      "relocation_indices": [
-        8
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:098e"
-    },
-    {
-      "fixup_count": 22,
-      "public": "JAFFAR_GO_TO_POSITION_0",
-      "relocation_indices": [
-        21,
-        51,
-        76,
-        112,
-        156
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0a62"
-    },
-    {
-      "fixup_count": 23,
-      "public": "JAFFAR_GO_TO_POSITION_1",
-      "relocation_indices": [
-        40,
-        52,
-        152,
-        157
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0bba"
-    },
-    {
-      "fixup_count": 22,
-      "public": "JAFFAR_GO_TO_POSITION_2",
-      "relocation_indices": [
-        41,
-        53,
-        153,
-        158
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0ce2"
-    },
-    {
-      "fixup_count": 20,
-      "public": "JAFFAR_GO_TO_POSITION_3",
-      "relocation_indices": [
-        9,
-        22,
-        54,
-        77,
-        159
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0ddc"
-    },
-    {
-      "fixup_count": 11,
-      "public": "FINISH_CASTING_AT_KID",
-      "relocation_indices": [
-        14,
-        39,
-        58,
-        91,
-        92,
-        114,
-        135,
-        168
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0f06"
-    },
-    {
-      "fixup_count": 21,
-      "public": "RUN_JAFFAR_IN_CRYSTAL",
-      "relocation_indices": [
-        15,
+        64,
+        70,
+        72,
         93,
-        94,
-        109,
-        128
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0f68"
-    },
-    {
-      "fixup_count": 35,
-      "public": "RUN_JAFFAR_IN_ESCHER",
-      "relocation_indices": [
-        45,
-        49,
-        95,
-        123,
-        129,
-        136,
-        169
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:1030"
-    },
-    {
-      "fixup_count": 22,
-      "public": "UPDATE_JAFFAR_SLOT",
-      "relocation_indices": [
-        82,
-        96,
-        151,
-        162
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:119c"
-    },
-    {
-      "fixup_count": 9,
-      "public": "TRANSFER_JAFFAR_TO_ESCHER2",
-      "relocation_indices": [
-        97,
-        119,
+        103,
+        121,
+        146,
         163
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:12ce"
+      "target_id": "overlay-10:2bda:01ba"
+    },
+    {
+      "fixup_count": 5,
+      "public": "FINAL_NOOP",
+      "target_id": "overlay-10:2bda:02e4"
+    },
+    {
+      "fixup_count": 6,
+      "public": "CLIP_FINAL_CHARACTER",
+      "relocation_indices": [
+        8
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:0330"
+    },
+    {
+      "fixup_count": 19,
+      "public": "CUT_KID_TO_CHESS_ROOM",
+      "relocation_indices": [
+        63,
+        71,
+        92,
+        145,
+        162
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:035a"
+    },
+    {
+      "fixup_count": 14,
+      "public": "RUN_FINAL_FRAME",
+      "relocation_indices": [
+        86,
+        133,
+        134
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:03c6"
     },
     {
       "fixup_count": 7,
-      "public": "LOAD_TOWER_TOP",
+      "public": "ENTER_PRINCESS_ROOM",
       "relocation_indices": [
+        19,
+        91,
+        100,
+        120,
+        177
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:045c"
+    },
+    {
+      "fixup_count": 9,
+      "public": "SORT_FOREGROUND",
+      "relocation_indices": [
+        0,
         1,
-        61
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:12fe"
-    },
-    {
-      "fixup_count": 14,
-      "public": "LOAD_CHESS",
-      "relocation_indices": [
-        62,
-        63,
-        64,
-        70,
-        124
+        144
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:1334"
+      "target_id": "overlay-10:2bda:0494"
     },
     {
-      "fixup_count": 17,
-      "public": "SETUP_GUARD_SMOKE",
-      "relocation_indices": [
-        3,
-        57,
-        83,
-        105,
-        139,
-        171
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:13b2"
-    },
-    {
-      "fixup_count": 8,
-      "public": "ANIMATE_JAFFAR_BLINK",
-      "relocation_indices": [
-        4,
-        73
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:1442"
-    },
-    {
-      "fixup_count": 4,
-      "public": "DRAW_JAFFAR_BLINK",
-      "relocation_indices": [
-        146
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:1488"
-    },
-    {
-      "fixup_count": 4,
-      "public": "DRAW_SPIDER",
-      "relocation_indices": [
-        147
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:1578"
-    },
-    {
-      "fixup_count": 10,
-      "public": "SETUP_CRYSTAL_ROOM",
-      "relocation_indices": [
-        65,
-        66,
-        67,
-        68,
-        125
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:15a8"
-    },
-    {
-      "fixup_count": 14,
-      "public": "ANIMATE_CRYSTAL",
+      "fixup_count": 27,
+      "public": "FINLWATCHKID",
       "relocation_indices": [
         6,
-        33,
-        34,
-        75,
-        100
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:1622"
-    },
-    {
-      "fixup_count": 8,
-      "public": "DRAW_CRYSTAL",
-      "relocation_indices": [
-        101,
-        148
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:170e"
-    },
-    {
-      "fixup_count": 5,
-      "public": "TRIGGER_CRYSTAL",
-      "relocation_indices": [
-        35,
-        130
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:17d8"
-    },
-    {
-      "fixup_count": 16,
-      "public": "ANIMATE_GARGOYLE",
-      "relocation_indices": [
-        7,
-        36,
-        37,
-        102,
-        140
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:182a"
-    },
-    {
-      "fixup_count": 8,
-      "public": "DRAW_GARGOYLE",
-      "relocation_indices": [
-        103,
-        149
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:1940"
-    },
-    {
-      "fixup_count": 5,
-      "public": "TRIGGER_GARGOYLE",
-      "relocation_indices": [
+        11,
+        12,
+        13,
         38,
-        131
+        43,
+        76,
+        129,
+        161,
+        176
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:1a0a"
+      "target_id": "overlay-10:2bda:0570"
     },
     {
-      "fixup_count": 17,
-      "public": "CHECK_FIREBALL_HIT_CHARACTER",
+      "fixup_count": 7,
+      "public": "FINLWATCHOPPS",
       "relocation_indices": [
-        16,
-        50,
-        98,
-        115,
-        126,
-        164
+        105,
+        128
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:1b60"
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:0640"
     },
     {
-      "fixup_count": 14,
-      "public": "CHECK_FIREBALL_HIT_WALL",
-      "relocation_indices": [
-        17,
-        56,
-        71,
-        154
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:1c38"
+      "fixup_count": 4,
+      "public": "RUN_JAFFAR",
+      "target_id": "overlay-10:2bda:0694"
     },
     {
-      "fixup_count": 3,
-      "public": "DO_THROW_FIREBALL",
+      "fixup_count": 11,
+      "public": "DISMISS_OTHER_JAFFARS",
       "relocation_indices": [
-        116,
+        75,
+        104,
         127
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:1cc2"
+      "target_id": "overlay-10:2bda:06ae"
     },
     {
-      "fixup_count": 0,
-      "public": "@get_fireball_image",
-      "target_id": "overlay-10:29cf:1d28"
-    },
-    {
-      "fixup_count": 22,
-      "public": "MOVE_FIREBALL",
+      "fixup_count": 13,
+      "public": "CAST_JAFFAR_SPELL",
       "relocation_indices": [
-        18,
-        69,
-        155
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:1d48"
-    },
-    {
-      "fixup_count": 3,
-      "public": "THROWING_FIREBALL",
-      "relocation_indices": [
-        19
+        74
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-10:29cf:1e02"
+      "target_id": "overlay-10:2bda:0728"
     },
     {
-      "fixup_count": 17,
-      "public": "TRIGGER_FIREBALL",
+      "fixup_count": 22,
+      "public": "JAFFAR_ATTACK_IN_ESCHER",
       "relocation_indices": [
-        2,
-        20,
-        110,
-        142
+        123,
+        148
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:1e18"
+      "target_id": "overlay-10:2bda:0794"
+    },
+    {
+      "fixup_count": 8,
+      "public": "JAFFAR_FLEE_IN_ESCHER",
+      "relocation_indices": [
+        122
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:0860"
+    },
+    {
+      "fixup_count": 17,
+      "public": "JAFFAR_HAS_CLEAR_SHOT",
+      "target_id": "overlay-10:2bda:08c0"
+    },
+    {
+      "fixup_count": 0,
+      "public": "JAFFARSETTONEXTPOS",
+      "target_id": "overlay-10:2bda:098c"
+    },
+    {
+      "fixup_count": 0,
+      "public": "JAFFARSETTOPREVPOS",
+      "target_id": "overlay-10:2bda:09a8"
+    },
+    {
+      "fixup_count": 6,
+      "public": "SEND_JAFFAR_TO_POSITION",
+      "relocation_indices": [
+        77
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:09c4"
+    },
+    {
+      "fixup_count": 13,
+      "public": "SETTLE_JAFFAR_AT_POSITION",
+      "relocation_indices": [
+        142
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:0a1e"
+    },
+    {
+      "fixup_count": 22,
+      "public": "JAFFAR_GO_TO_POSITION_0",
+      "relocation_indices": [
+        114,
+        117,
+        131,
+        156,
+        166
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:0af2"
     },
     {
       "fixup_count": 23,
-      "public": "CHECK_DEAD_OPPONENT",
+      "public": "JAFFAR_GO_TO_POSITION_1",
+      "relocation_indices": [
+        4,
+        116,
+        159,
+        173
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:0c4a"
+    },
+    {
+      "fixup_count": 28,
+      "public": "JAFFAR_GO_TO_POSITION_2",
+      "relocation_indices": [
+        5,
+        16,
+        119,
+        158,
+        174
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:0d72"
+    },
+    {
+      "fixup_count": 20,
+      "public": "JAFFAR_GO_TO_POSITION_3",
+      "relocation_indices": [
+        115,
+        118,
+        132,
+        143,
+        157
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:0e8e"
+    },
+    {
+      "fixup_count": 11,
+      "public": "FINISH_CASTING_AT_KID",
+      "relocation_indices": [
+        9,
+        14,
+        39,
+        78,
+        79,
+        106,
+        137,
+        149
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:0fb8"
+    },
+    {
+      "fixup_count": 34,
+      "public": "RUN_JAFFAR_IN_CRYSTAL",
+      "relocation_indices": [
+        17,
+        82,
+        83,
+        139,
+        150
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:101a"
+    },
+    {
+      "fixup_count": 33,
+      "public": "RUN_JAFFAR_IN_ESCHER",
+      "relocation_indices": [
+        15,
+        81,
+        87,
+        107,
+        124,
+        130,
+        138
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1186"
+    },
+    {
+      "fixup_count": 22,
+      "public": "UPDATE_JAFFAR_SLOT",
+      "relocation_indices": [
+        42,
+        65,
+        80,
+        164
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:12e4"
+    },
+    {
+      "fixup_count": 4,
+      "public": "SHADOW_IN_RANGE",
+      "target_id": "overlay-10:2bda:13a2"
+    },
+    {
+      "fixup_count": 12,
+      "public": "TRANSFER_JAFFAR_TO_ESCHER2",
       "relocation_indices": [
         10,
-        25,
-        55,
-        59,
+        66,
         84,
-        143,
-        145,
+        125
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:1416"
+    },
+    {
+      "fixup_count": 7,
+      "public": "LOAD_TOWER_TOP",
+      "relocation_indices": [
+        28,
+        44
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:145e"
+    },
+    {
+      "fixup_count": 14,
+      "public": "LOAD_CHESS",
+      "relocation_indices": [
+        25,
+        26,
+        27,
+        33,
+        89
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1494"
+    },
+    {
+      "fixup_count": 17,
+      "public": "SETUP_GUARD_SMOKE",
+      "relocation_indices": [
+        30,
+        47,
+        62,
+        97,
+        113,
+        140
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1512"
+    },
+    {
+      "fixup_count": 8,
+      "public": "ANIMATE_JAFFAR_BLINK",
+      "relocation_indices": [
+        96,
+        111
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:15a2"
+    },
+    {
+      "fixup_count": 4,
+      "public": "DRAW_JAFFAR_BLINK",
+      "relocation_indices": [
+        168
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:15e8"
+    },
+    {
+      "fixup_count": 14,
+      "public": "ANIMATE_SPIDER",
+      "relocation_indices": [
+        52,
+        53,
+        54,
+        55,
+        95,
+        110
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:162a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "DRAW_SPIDER",
+      "relocation_indices": [
+        167
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:16d8"
+    },
+    {
+      "fixup_count": 14,
+      "public": "SETUP_CRYSTAL_ROOM",
+      "relocation_indices": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        88,
+        135
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1708"
+    },
+    {
+      "fixup_count": 14,
+      "public": "ANIMATE_CRYSTAL",
+      "relocation_indices": [
+        37,
+        59,
+        60,
+        99,
+        112
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:17ac"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAW_CRYSTAL",
+      "relocation_indices": [
+        36,
         170
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:0054"
+      "target_id": "overlay-10:2bda:1898"
     },
     {
-      "fixup_count": 9,
-      "public": "RUN_FINAL_FRAME",
+      "fixup_count": 5,
+      "public": "TRIGGER_CRYSTAL",
       "relocation_indices": [
-        23,
-        122
+        58,
+        68
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:037c"
+      "target_id": "overlay-10:2bda:1962"
+    },
+    {
+      "fixup_count": 16,
+      "public": "ANIMATE_GARGOYLE",
+      "relocation_indices": [
+        31,
+        35,
+        56,
+        57,
+        98
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:19b4"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAW_GARGOYLE",
+      "relocation_indices": [
+        34,
+        169
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1aca"
+    },
+    {
+      "fixup_count": 5,
+      "public": "TRIGGER_GARGOYLE",
+      "relocation_indices": [
+        61,
+        69
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1b94"
+    },
+    {
+      "fixup_count": 18,
+      "public": "CHECK_FIREBALL_HIT_CHARACTER",
+      "relocation_indices": [
+        41,
+        67,
+        85,
+        102,
+        152
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1cea"
     },
     {
       "fixup_count": 14,
-      "public": "ANIMATE_SPIDER",
+      "public": "CHECK_FIREBALL_HIT_WALL",
       "relocation_indices": [
-        5,
+        3,
+        108,
+        151,
+        172
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1dc0"
+    },
+    {
+      "fixup_count": 3,
+      "public": "DO_THROW_FIREBALL",
+      "relocation_indices": [
+        40,
+        90
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:2bda:1e4a"
+    },
+    {
+      "fixup_count": 0,
+      "public": "@get_fireball_image",
+      "target_id": "overlay-10:2bda:1eb0"
+    },
+    {
+      "fixup_count": 22,
+      "public": "MOVE_FIREBALL",
+      "relocation_indices": [
         29,
-        30,
-        31,
-        32,
-        74
+        109,
+        155
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:14ca"
+      "target_id": "overlay-10:2bda:1ed0"
     },
     {
-      "fixup_count": 4,
-      "public": "SHADOW_IN_RANGE",
-      "target_id": "overlay-10:29cf:125a"
-    },
-    {
-      "fixup_count": 9,
-      "public": "SORT_FOREGROUND",
+      "fixup_count": 3,
+      "public": "THROWING_FIREBALL",
       "relocation_indices": [
-        106,
-        107,
-        117
+        154
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:2bda:1f8a"
+    },
+    {
+      "fixup_count": 17,
+      "public": "TRIGGER_FIREBALL",
+      "relocation_indices": [
+        18,
+        46,
+        141,
+        153
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-10:29cf:041a"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "DRAW_FIREBALL_OBJECT",
-      "target_id": "overlay-10:29cf:1cea",
-      "unproven": [
-        "MIDDLE_QUEUE+0xfffe"
-      ]
+      "target_id": "overlay-10:2bda:1fa0"
     }
   ],
   "data_publics": [
     {
-      "address": 7236,
+      "address": 6872,
       "name": "FINAL_LEVEL_SPEC",
       "offset": 170,
       "segment": "_DATA",
@@ -709,31 +700,34 @@
   ],
   "drafts": [
     {
-      "object_offset": 6748,
+      "object_offset": 7142,
       "public": "UPDATE_FIREBALL_VIEW"
+    },
+    {
+      "object_offset": 7794,
+      "public": "DRAW_FIREBALL_OBJECT"
     }
   ],
-  "emitted_size": 7804,
+  "emitted_size": 8196,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10703,
+  "frame": 11226,
   "group_id": "group:final/final",
   "kind": "same_source_group",
   "language": "c",
   "name": "final/final",
-  "object_sha256": "277b97007d6fcee730b7daf1d396b42a9f047a1c5f618e50781f641d841901ae",
+  "object_sha256": "7dd8ac2a60ca887b30d0f782ddd8e699e8ff557aba2b1b35ee29115a699b10fa",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/final/final.c",
-  "source_sha256": "7b055c9c356dc539434a44c11325816168f1ee2fcc172fb04cfd6c8b03ddc233",
+  "source_sha256": "5d99b1421bc3b2adf3a8f72776d77ba8569697b43a898cc16fed5140a0eed9ac",
   "space": "overlay-10"
 }

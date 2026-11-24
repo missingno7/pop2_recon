@@ -2,10 +2,7 @@
   "abi": "Far cdecl; command wordBP6 and near long-word pair pointerBP8; INT1A get/set path; resultAX. BIOS behavior untraced.",
   "archive_offset": 118272,
   "boundary_evidence": [
-    "Independent medium-model dos\\b_timofd.asm whole OMF member has sole public __bios_timeofday at0 and complete initialized46-byte CODE; all secondary storage empty; archive/member pinned.",
-    "Whole literal CODE uniquely occurs at root image0x219c6, logical1fe6:1b66; original CFG closes at exclusive0x219f4. All ordinary bytes, internal branches and returns included, no emitted or original fixup obligations.",
-    "Outside original far CALL image0x1f701 encodes1fe6:1b66; original MZ segment-word relocation index1870 at0x1f704. Original caller entry0x1f6f0 full CFG has a structural entry-to-call path; calls are opaque returning continuations, not execution proof.",
-    "Compact independent original boundary/caller/ABI evidence in evidence/matching/wave7-runtime-review.json; preceding/following alignment outside full member remains unowned."
+    "Complete independent mlibcr.lib member (archive offset 118272, 188 bytes) whose whole 46-byte segment lies at root+0x21ab0 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -15,13 +12,13 @@
   "member_sha256": "4b90bf20f1fa2de8b0602af1425b5fef0be998563e515aa42bf0162ec1b839ec",
   "name": "crt_bios_timeofday_medium",
   "object_segment": "_TEXT",
-  "offset": 7014,
+  "offset": 7104,
   "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
   "publics": [
     "__bios_timeofday"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 46,
   "space": "root",
   "target_sha256": "a5a388a9bc9f8954a5af74a764840d4091e71cb0463f82a848826062575a6368"

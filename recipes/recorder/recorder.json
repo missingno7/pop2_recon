@@ -1,22 +1,34 @@
 {
   "binding": "evidence/bindings/recorder/recorder.json",
-  "binding_sha256": "f53fdffed7a6483089f7b1444daf01255f3c5f7a2081ceff38254c407db0f7c5",
+  "binding_sha256": "5f245edb97c19b49ac848138af0628bfe6227d1b91f63cc5b9eba594ad53b49a",
   "claims": [
     {
-      "fixup_count": 10,
+      "fixup_count": 11,
       "public": "CHECKFORENDOFRECORDING",
       "relocation_indices": [
-        1090,
-        1098
+        1093,
+        1099
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0db8:000c"
+    },
+    {
+      "fixup_count": 19,
+      "public": "CHECKRECORDEDDIRFORCHAR",
+      "relocation_indices": [
+        1092
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0da4:0002"
+      "target_id": "root:0db8:0064"
     },
     {
       "fixup_count": 2,
       "public": "CHECKRECORDEDGAMEPLAYER",
-      "target_id": "root:0da4:0122"
+      "target_id": "root:0db8:0148"
     },
     {
       "fixup_count": 6,
@@ -26,107 +38,98 @@
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0da4:0130"
+      "target_id": "root:0db8:0156"
     },
     {
       "fixup_count": 5,
       "public": "CONVERTRECDIRTODIR",
-      "target_id": "root:0da4:0196"
+      "target_id": "root:0db8:01bc"
     },
     {
       "fixup_count": 8,
       "public": "INCRECORDEDGAMETONEXTFRAME",
       "relocation_indices": [
-        1089
+        1100
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0da4:01e4"
+      "target_id": "root:0db8:020a"
     },
     {
       "fixup_count": 2,
       "public": "ALLOCATE_DEFAULT_HANDLE",
       "relocation_indices": [
+        1089
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0db8:026a"
+    },
+    {
+      "fixup_count": 17,
+      "public": "RESET_RECORDED_PLAYBACK",
+      "relocation_indices": [
+        1088,
+        1090,
+        1095,
+        1098
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0db8:0278"
+    },
+    {
+      "fixup_count": 2,
+      "public": "TOGGLE_RECORDING_PLAYER",
+      "target_id": "root:0db8:02e0"
+    },
+    {
+      "fixup_count": 6,
+      "public": "TURNRECORDEDGAMEPLAYEROFF",
+      "relocation_indices": [
         1097
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0da4:0244"
+      "target_id": "root:0db8:02f8"
     },
     {
-      "fixup_count": 16,
-      "public": "RESET_RECORDED_PLAYBACK",
+      "fixup_count": 11,
+      "public": "TURNRECORDEDGAMEPLAYERON",
       "relocation_indices": [
-        1088,
         1091,
-        1095,
         1096
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:0da4:0252"
-    },
-    {
-      "fixup_count": 2,
-      "public": "TOGGLE_RECORDING_PLAYER",
-      "target_id": "root:0da4:02b8"
-    },
-    {
-      "fixup_count": 6,
-      "public": "TURNRECORDEDGAMEPLAYEROFF",
-      "relocation_indices": [
-        1092
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:0da4:02d0"
-    },
-    {
-      "fixup_count": 11,
-      "public": "TURNRECORDEDGAMEPLAYERON",
-      "relocation_indices": [
-        1093,
-        1100
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:0da4:02ee"
-    },
-    {
-      "fixup_count": 18,
-      "public": "CHECKRECORDEDDIRFORCHAR",
-      "relocation_indices": [
-        1099
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:0da4:0050"
+      "target_id": "root:0db8:0316"
     }
   ],
   "drafts": [],
-  "emitted_size": 824,
+  "emitted_size": 854,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 3492,
+  "frame": 3512,
   "group_id": "group:recorder/recorder",
   "kind": "same_source_group",
   "language": "c",
   "name": "recorder/recorder",
-  "object_sha256": "209511a9b636952264eb8fdbf5ec8f455cc48767205e8ff21ee4f0a8b6c9562b",
-  "origin": 55874,
+  "object_sha256": "49d8a8a31d61f28ae5565b779b76fcd411cd6444f4f617798406cf240494eb52",
+  "origin": 56204,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/recorder/recorder.c",
-  "source_sha256": "61c18308575560547612d9544925c5866dcbfa165de81e9f32d2d5bb44038b55",
+  "source_sha256": "0b324a4c84bf5551ebe1f9501b002d7ef7806862dadb7119a4ddf6a5d9d9113e",
   "space": "root"
 }

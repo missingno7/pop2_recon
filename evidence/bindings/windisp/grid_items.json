@@ -1,0 +1,220 @@
+{
+  "declarations": {
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 108,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "PAINT_GRID_ITEMS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DRAW_INDEXED_ITEM",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 44,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "GRID_INDEX_TO_COORDINATES",
+      "DRAW_GRID_ITEMS",
+      "SELECT_GRID_ITEM"
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 23,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "DRAW_GRID_ITEMS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 91,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "SELECT_GRID_ITEM",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 95,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "GRID_INDEX_TO_COORDINATES",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 101,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "DRAW_GRID_ITEMS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
+      "space": "root"
+    },
+    "segment": 8718,
+    "witness": {
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
+      "space": "root"
+    }
+  },
+  "mode": "external-dgroup-offset16-v4",
+  "schema": 1,
+  "symbols": {
+    "DRAW_GRID_ITEMS": {
+      "entry_sha256": "8d48659990d23414a94cf1a933217233b40f50894a27ce670ea3505fd0a043cd",
+      "entry_target_id": "root:1129:a19d",
+      "kind": "near-code-entry",
+      "offset": 41373,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 111606,
+          "bytes_hex": "e83400",
+          "entry": "root:1129:a14a"
+        }
+      ]
+    },
+    "GRID_INDEX_TO_COORDINATES": {
+      "entry_sha256": "85c930a3f25bb69988216f19c9112744961a480e4a143c337fc90b2f52dbb8ca",
+      "entry_target_id": "root:1129:a2d2",
+      "kind": "near-code-entry",
+      "offset": 41682,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 110643,
+          "bytes_hex": "e82c05",
+          "entry": "root:1129:9d95"
+        }
+      ]
+    },
+    "SELECT_GRID_ITEM": {
+      "entry_sha256": "65cbb2d339d28e989ce41fe2d4e1c94c3294fcdcaf1f2767c658b3638656c6ee",
+      "entry_target_id": "root:1129:a0be",
+      "kind": "near-code-entry",
+      "offset": 41150,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 110781,
+          "bytes_hex": "e88e02",
+          "entry": "root:1129:9d95"
+        }
+      ]
+    }
+  },
+  "target_id": "group:windisp/grid_items",
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+}

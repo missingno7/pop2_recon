@@ -36,9 +36,8 @@ RELEASE_BACKING_RECORD PROC FAR
     call SELECT_BACKING_EXTENDED
     pop dx
     pop ax
-    and ax, 3fffh
-    call WRITE_BACKING_HEADER
     and ax, 01ffh
+    call WRITE_BACKING_HEADER
     add dx, 4
     adc ax, 0
     add BACKING_FREE_LOW, dx

@@ -1,33 +1,33 @@
 {
   "schema": 1,
   "target_id": "group:winlife/events",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
   "mode": "external-dgroup-offset16-v4",
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
   "dgroup_segment": {
-    "segment": 12531,
+    "segment": 13058,
     "witnesses": [
       {
-        "image_offset": 5473,
-        "relocation_index": 42,
-        "space": "root"
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
       }
     ]
   },
   "placements": {
-    "_DATA": 10110
+    "_DATA": 9608
   },
   "fixups": [
     {
@@ -2443,68 +2443,66 @@
   "symbols": {
     "MOUSE_PRESENT": {
       "kind": "dgroup-offset",
-      "offset": 9678,
+      "offset": 9310,
       "group": "DGROUP",
       "witnesses": [
         {
-          "bytes_hex": "8b0ece25",
-          "context": "mov cx, word ptr [0x25ce] reached from root:1101:054f",
-          "entry": "root:1101:054f",
-          "image_offset": 71051,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 71067,
+          "bytes_hex": "8b0e5e24",
+          "entry": "root:1129:02df"
         }
       ],
       "members": []
     },
     "EVENT_QUEUE": {
       "kind": "dgroup-offset",
-      "offset": 10132,
+      "offset": 9630,
       "group": "DGROUP",
       "witnesses": [],
       "members": []
     },
     "EVENT_COUNT": {
       "kind": "dgroup-offset",
-      "offset": 10244,
+      "offset": 9742,
       "group": "DGROUP",
       "witnesses": [],
       "members": []
     },
     "WINDOW_LIST": {
       "kind": "dgroup-offset",
-      "offset": 10054,
+      "offset": 9830,
       "group": "DGROUP",
       "witnesses": [
         {
-          "bytes_hex": "be4627",
-          "entry": "root:1101:8fed",
-          "image_offset": 115132,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 117132,
+          "bytes_hex": "be6626",
+          "entry": "root:1129:8fcf"
         }
       ],
       "members": []
     },
     "TIMER_TICKS": {
       "kind": "dgroup-offset",
-      "offset": 9812,
+      "offset": 9444,
       "group": "DGROUP",
       "witnesses": [
         {
-          "bytes_hex": "ff065426",
-          "context": "inc word ptr [0x2654] reached from root:1101:7f05",
-          "entry": "root:1101:7f05",
-          "image_offset": 102176,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 102786,
+          "bytes_hex": "ff06e424",
+          "entry": "root:1129:7ee7"
         }
       ],
       "members": []
     },
     "LAST_INPUT_TICK": {
       "kind": "dgroup-offset",
-      "offset": 10130,
+      "offset": 9628,
       "group": "DGROUP",
       "witnesses": [],
       "members": []
@@ -2513,61 +2511,58 @@
       "kind": "far-code-entry",
       "space": "root",
       "segment": 0,
-      "offset": 5756,
-      "entry_target_id": "root:0000:167c",
+      "offset": 5870,
+      "entry_target_id": "root:0000:16ee",
       "entry_sha256": "8ce4ea4b19a01d1512577641f985db053c5cb0aed31f003ce38f1f8af2f61f0e",
       "witnesses": [
         {
           "space": "root",
-          "image_offset": 22115,
-          "bytes_hex": "9a7c160000",
-          "relocation_index": 605,
-          "file_offset": 30307
+          "image_offset": 4869,
+          "bytes_hex": "9aee160000",
+          "relocation_index": 104,
+          "file_offset": 13061
+        },
+        {
+          "space": "overlay-2",
+          "image_offset": 19948,
+          "bytes_hex": "9aee160000",
+          "relocation_index": 696,
+          "file_offset": 183484
         }
       ]
     },
     "SET_WINDOW_EVENT_STATE": {
       "kind": "near-code-entry",
       "space": "root",
-      "segment": 4353,
-      "offset": 46109,
-      "entry_target_id": "root:1101:b41d",
-      "entry_sha256": "f1414257a1b8c150b6161cf562eb22aefeebc88bda3e5bc94d6762529297b164",
+      "segment": 4393,
+      "offset": 47469,
+      "entry_target_id": "root:1129:b96d",
+      "entry_sha256": "dd7a8683217b5aa0b1fcf5314c4dffd389e0afc7ec10d88cbacf1d316431a4b5",
       "witnesses": []
     },
     "SCREEN_WIDTH": {
       "kind": "dgroup-offset",
-      "offset": 9682,
+      "offset": 9314,
       "group": "DGROUP",
       "witnesses": [
         {
-          "bytes_hex": "a1d225",
-          "context": "mov ax, word ptr [0x25d2] reached from root:1101:4f5e",
-          "entry": "root:1101:4f5e",
-          "image_offset": 90022,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 90632,
+          "bytes_hex": "a16224",
+          "entry": "root:1129:4f40"
         }
       ],
       "members": []
     },
-    "SHOW_MOUSE_GRAPHICS": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 1442,
-      "entry_target_id": "root:1101:05a2",
-      "entry_sha256": "64394054d48fa9a71f37d635d64db4ea5a927879822d97027be5c00eba45f9f1",
-      "witnesses": []
-    },
     "INTERRUPT_DGROUP": {
       "kind": "segment-base",
-      "segment": 12531,
+      "segment": 13058,
       "witnesses": [
         {
-          "image_offset": 5473,
-          "relocation_index": 42,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5647,
+          "relocation_index": 54
         }
       ]
     }

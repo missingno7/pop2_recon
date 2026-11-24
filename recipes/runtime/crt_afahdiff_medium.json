@@ -2,7 +2,7 @@
   "abi": "MSC far runtime arithmetic helper __aFahdiff.",
   "archive_offset": 35968,
   "boundary_evidence": [
-    "Whole __aFahdiff member matches original root+0x21542 (43 bytes); MASM back-patch overwrites 1 byte(s), applied last-write-wins as RTLink 6.10 reproduces (build/workers/runtime_600a/linkprobe)."
+    "Complete independent mlibc7r.lib member (archive offset 35968, 183 bytes) whose whole 43-byte segment lies at root+0x215d2 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -12,7 +12,7 @@
   "member_sha256": "f4800cbdc56ef7fe533073f711d1d61e088d8f4fa4e1f4b5a95257b747c56d71",
   "name": "crt_afahdiff_medium",
   "object_segment": "_TEXT",
-  "offset": 5442,
+  "offset": 5586,
   "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
   "publics": [
     "__aFahdiff"

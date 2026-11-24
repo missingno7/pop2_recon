@@ -1,9 +1,9 @@
 {
   "archive_offset": 79120,
   "binding": "evidence/bindings/crt_strdup_medium.json",
-  "binding_sha256": "3b65adce2df699555a84728aab9fc8e9801d0023a4efe98e505fff47bb054d6d",
+  "binding_sha256": "b3338d5c8374373def7e98286ebf942e4e9bbab7a6f7c1de54892f7ab91eb10f",
   "boundary_evidence": [
-    "Complete independent medium-model MSC 6.00 mlibcr.lib member (archive offset 79120, 215 bytes) whose whole 40-byte CODE segment lies at root 0x21f9a (1fe6:213a) in the monotone runtime run of frame 1fe6; every fixup proven by runtime-symbolic-v1 equations, with accepted external providers and same-library selection where listed."
+    "Complete independent mlibcr.lib member (archive offset 79120, 215 bytes) whose whole 40-byte segment lies at root+0x2203e in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 3,
   "kind": "PINNED_RUNTIME",
@@ -13,19 +13,19 @@
   "member_sha256": "e953296271bc8c0578ec46fc346c5cd88e8c93ab7b8d54a5f2af3df0c6795449",
   "name": "crt_strdup_medium",
   "object_segment": "_TEXT",
-  "offset": 8506,
+  "offset": 8526,
   "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
   "publics": [
     "_strdup"
   ],
   "relocation_indices": [
-    1903,
     1919,
+    1924,
     1929
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 40,
   "space": "root",
-  "target_sha256": "a5e47f78147090a488de140a7164ae468e9e6e50e0786eee6b8b3153c2786a96"
+  "target_sha256": "1fb2a9358724ea6e579a390f058bf1f3ca94cba7e4588a0a2044252bedfe3342"
 }

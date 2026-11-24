@@ -1,5 +1,7 @@
 # Runtime classification evidence
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 ## Whole conversion members — 2026-10-11
 
 The medium-model `atox.asm` and `xtoa.asm` members now pass the unchanged

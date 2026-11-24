@@ -1,6 +1,31 @@
 {
   "declarations": {
-    "externals": [],
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 200,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 128,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
     "groups": [
       {
         "name": "DGROUP",
@@ -11,116 +36,91 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "XLATTXT4",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 200,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 128,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      }
-    ]
+    "externals": []
   },
   "dgroup_segment": {
-    "segment": 12531,
+    "segment": 13058,
     "witnesses": [
       {
-        "image_offset": 5473,
-        "relocation_index": 42,
-        "space": "root"
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
       }
     ]
   },
   "fixups": [
     {
-      "displacement": 186,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 54,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 1,
         "kind": "segment",
+        "index": 1,
         "name": "UNIT_TEXT"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 54,
-      "self_relative": true,
       "target": {
-        "index": 1,
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "UNIT_TEXT",
+        "method": 0
+      },
+      "displacement": 186
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 156,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 156,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "segment",
-        "method": 4,
+        "index": 2,
         "name": "_DATA",
+        "method": 4,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_DATA": 9840
+    "_DATA": 9472
   },
   "schema": 1,
   "symbols": {},
   "target_id": "group:xlattxt4/xlattxt4",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

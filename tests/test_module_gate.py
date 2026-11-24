@@ -15,7 +15,7 @@ from compiler import compile_c, load_lock
 
 ROOT = Path(__file__).resolve().parents[1]
 FLAGS = ["/c", "/AM", "/Oe", "/Gs", "/Zl", "/Gc"]
-CALLER, CALLEE = "root:0000:0e78", "root:0000:0e8e"
+CALLER, CALLEE = "root:0000:0f16", "root:0000:0f2c"
 DECLS = """extern unsigned char STATE_BYTE;
 extern unsigned char STATE_BASE;
 extern unsigned char STATE_DELTA;
@@ -36,7 +36,7 @@ char far pascal UPDATE_STEP_DELTA(void)
     return STATE_DELTA;
 }
 """
-BINDING = ROOT / "tests/fixtures/state_step_pair.binding.json"  # frozen pair binding (witnesses outside 0e78..0e9a)
+BINDING = ROOT / "tests/fixtures/state_step_pair.binding.json"  # frozen pair binding (witnesses outside 0f16..0f38)
 
 
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
@@ -78,7 +78,7 @@ class GroupGateTests(unittest.TestCase):
     def test_pair_is_exact_with_near_and_data_equations(self):
         report = self.check([(CALLER, "INCREMENT_STATE_AND_UPDATE"), (CALLEE, "UPDATE_STEP_DELTA")])
         self.assertTrue(report["exact"])
-        self.assertEqual(report["origin"], 0x0e78)
+        self.assertEqual(report["origin"], 0x0f16)
         near = [e for e in report["claims"][0]["equations"] if e["kind"] == "same-object near16"]
         self.assertEqual([(e["offset"], e["linked_value"], e["original_value"]) for e in near], [(18, 2, 2)])
 
@@ -109,7 +109,7 @@ class GroupGateTests(unittest.TestCase):
 
     def test_unused_grounded_symbol_is_refused(self):
         root = self.oracle.spaces["root"]
-        used = {0x5c12, 0x5c13, 0x5c14}
+        used = {s["offset"] for s in common.read_json(BINDING)["symbols"].values()}
         at = next(i for i in range(0x1000, root.size - 3) if root.data[i] == 0xa0 and
                   int.from_bytes(root.data[i+1:i+3], "little") not in used)
         binding = common.read_json(BINDING)
@@ -125,7 +125,7 @@ class GroupGateTests(unittest.TestCase):
     def test_data_witness_inside_the_group_object_is_refused(self):
         binding = common.read_json(BINDING)
         binding["symbols"]["STATE_BYTE"]["witnesses"].append(
-            {"bytes_hex": "a0135c", "image_offset": 0x0e8e, "operand_offset": 1, "space": "root",
+            {"bytes_hex": "a0c95a", "image_offset": 0x0f2c, "operand_offset": 1, "space": "root",
              "context": "inside the callee of this group"})
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
             self.check([(CALLER, "INCREMENT_STATE_AND_UPDATE"), (CALLEE, "UPDATE_STEP_DELTA")],
@@ -190,7 +190,7 @@ class SyntheticGroupTests(unittest.TestCase):
     def check(self, obj, oracle, inventory, claims, **kw):
         import match
         from module_gate import check_group
-        with patch.object(match, "read_json", return_value=inventory):
+        with patch.object(match, "read_json_shared", return_value=inventory):
             return check_group(obj, [{"target_id": t, "public": p} for t, p in claims], oracle, **kw)
 
     def near_fixture(self, fixes, publics=(("CALLER", 0), ("CALLEE", 6))):
@@ -286,9 +286,9 @@ class SyntheticGroupTests(unittest.TestCase):
         import match
         real = Oracle.load()
         caller, root, _ = match.get_target(CALLER, real)
-        base = 0x0e78
+        base = 0x0f16
         # A calls B then reads STATE_BYTE; B ends with JMP into unclaimed draft C.
-        raw, linked = bytes.fromhex("0ee80000a00000cbeb008ed8cb"), bytes.fromhex("0ee80400a0135ccbeb009090cb")
+        raw, linked = bytes.fromhex("0ee80000a00000cbeb008ed8cb"), bytes.fromhex("0ee80400a0c95acbeb009090cb")
         image = root.data[:base] + linked + root.data[base + len(linked):]
         oracle, inventory = synthetic_oracle(image, [("A", 0, base, 8, caller["call_sites"]), ("B", 0, base + 8, 2, [])],
                                              relocations=root.relocations, source=real)
@@ -410,7 +410,7 @@ class GroupFarCallTests(unittest.TestCase):
     def test_far_calls_and_mz_relocations_are_proven_per_claim(self):
         claim = self.run_group()["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT")
-        self.assertEqual(claim["covered_relocation_indices"], [1453, 1654])
+        self.assertEqual(claim["covered_relocation_indices"], [1527, 1602])
         self.assertEqual(claim["relocation_order"], "GROUPED")
         self.assertEqual(sorted(e["kind"] for e in claim["equations"]), ["far-call", "far-call"])
 
@@ -558,7 +558,7 @@ int far pascal Sw(int k)
         oracle, inventory = synthetic_oracle(image, [("sw", base // 16, 0, len(raw), [site])],
                                              relocations=[{"image_offset": 0x13}])
         import match
-        with patch.object(match, "read_json", return_value=inventory):
+        with patch.object(match, "read_json_shared", return_value=inventory):
             report = check_group(obj, [{"target_id": "sw", "public": "SW"}], oracle)
         claim = report["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
@@ -584,18 +584,18 @@ class ExclusiveSelectorTests(unittest.TestCase):
     def test_const_start_is_the_end_of_the_termination_table(self):
         import module_gate
         root = self.oracle.spaces["root"]
-        self.assertEqual(root.data[0x200C0:0x200C6], bytes.fromhex("be3228bf3628"))
-        self.assertEqual(module_gate.CONST_START, 0x2836)
+        self.assertEqual(root.data[0x20150:0x20156], bytes.fromhex("bec226bfc626"))
+        self.assertEqual(module_gate.CONST_START, 0x26C6)
 
     def test_original_files_own_their_selector_words(self):
-        self.assertTrue(self.place(0x2842, 2, "auto/auto", "overlay-3"))
-        self.assertTrue(self.place(0x2844, 2, "drawruin/drawruin", "overlay-8"))
-        self.assertTrue(self.place(0x2846, 6, "final/final", "overlay-10"))
+        self.assertTrue(self.place(0x26D2, 2, "auto/auto", "overlay-3"))
+        self.assertTrue(self.place(0x26D4, 2, "drawruin/drawruin", "overlay-8"))
+        self.assertTrue(self.place(0x26D6, 6, "final/final", "overlay-10"))
 
     def test_another_files_word_or_a_wrong_object_is_refused(self):
-        self.assertFalse(self.place(0x2848, 2, "auto/auto", "overlay-3"))      # FINAL loads it
-        self.assertFalse(self.place(0x2842, 2, "final/final", "overlay-10"))   # AUTO loads it
-        self.assertFalse(self.place(0x2822, 2, "auto/auto", "overlay-3"))      # before CONST, never loaded
+        self.assertFalse(self.place(0x26D8, 2, "auto/auto", "overlay-3"))      # FINAL loads it
+        self.assertFalse(self.place(0x26D2, 2, "final/final", "overlay-10"))   # AUTO loads it
+        self.assertFalse(self.place(0x26B2, 2, "auto/auto", "overlay-3"))      # before CONST, never loaded
 
 
 class FarConsensusTests(unittest.TestCase):
@@ -635,10 +635,10 @@ class FarConsensusTests(unittest.TestCase):
         from oracle import Oracle
         oracle = Oracle.load()
         rows = common.read_json(ROOT / "evidence/targets.json")["functions"]
-        callee = next(t for t in rows if t["id"] == "root:1fe6:1beb")
-        symbol = {"kind": "far-code-entry", "space": "root", "segment": 0x1fe6, "offset": 0x1beb,
+        callee = next(t for t in rows if t["id"] == "root:1fef:1c45")
+        symbol = {"kind": "far-code-entry", "space": "root", "segment": callee["segment"], "offset": callee["offset"],
                   "entry_target_id": callee["id"], "entry_sha256": callee["sha256"], "witnesses": [], "consensus": True}
-        target = next(t for t in rows if t["id"] == "root:052d:0518")
+        target = next(t for t in rows if t["id"] == "root:053b:0516")
         self.assertEqual(ground_symbol(symbol, target, oracle, claimed=[])["grounded_by"], "internal consensus")
         with self.assertRaisesRegex(ValueError, "group rule"):
             ground_symbol(symbol, target, oracle)
@@ -1017,7 +1017,7 @@ class SelfRelativeTests(unittest.TestCase):
 
         def read(path):
             return {"owners": list(owners)} if "manifest" in str(path) else inventory
-        with patch.object(match, "read_json", return_value=inventory), patch.object(common, "read_json", read):
+        with patch.object(match, "read_json_shared", return_value=inventory), patch.object(common, "read_json_shared", read):
             return check_group(obj, [{"target_id": t, "public": p} for t, p in claims], oracle, **kw)
 
     def binding(self, obj, symbols, group_id="group:fixture"):
@@ -1171,7 +1171,7 @@ END
         image[16:21] = call
         oracle, inventory = synthetic_oracle(image, [("first", 2, 0, 137, [site]), ("helper", 2, 137, 1, [])],
                                              relocations=[{"image_offset": 19}])
-        with patch.object(match, "read_json", return_value=inventory), \
+        with patch.object(match, "read_json_shared", return_value=inventory), \
                 patch("oracle.Oracle.load", return_value=oracle):
             _, report = compile_group(self.SOURCE, "masm510", None,
                                       [{"target_id": "first", "public": "FIRST"},
@@ -1252,7 +1252,7 @@ class ReachedNearFrameTests(unittest.TestCase):
         from oracle import Oracle
         from match import get_target
         cls.oracle = Oracle.load()
-        cls.target, cls.space, raw = get_target("root:1101:7364", cls.oracle)
+        cls.target, cls.space, raw = get_target("root:1129:7346", cls.oracle)
         cls.entry = cls.space.position(cls.target["segment"], cls.target["offset"])
         cls.size = len(raw)
 
@@ -1262,7 +1262,7 @@ class ReachedNearFrameTests(unittest.TestCase):
 
     def test_near_call_reached_from_a_far_entry_names_the_frame(self):
         found = self.frames((self.entry, self.entry + self.size))
-        self.assertEqual(found[0]["frame"], 0x1101)
+        self.assertEqual(found[0]["frame"], 0x1129)
         self.assertEqual(found[0]["kind"], "reached near CALL")
 
     def test_a_near_call_inside_the_object_does_not_count(self):
@@ -1273,14 +1273,14 @@ class ReachedNearFrameTests(unittest.TestCase):
         self.assertEqual(others, [])
 
     def test_an_overlay_far_caller_names_the_frame_of_a_root_entry(self):
-        # root:1101:4ea8 is entered by a relocated CALL FAR in overlay 2 (relocation 29); its near
-        # calls reach the cursor routine at 042f, which therefore runs with CS = 1101.
+        # root:1129:4e8a is entered by a relocated CALL FAR in overlay 2; its near
+        # calls reach the cursor routine at 01bf, which therefore runs with CS = 1129.
         from match import get_target
         from module_gate import _reached_near_frames
-        target, space, raw = get_target("root:1101:042f", self.oracle)
+        target, space, raw = get_target("root:1129:01bf", self.oracle)
         entry = space.position(target["segment"], target["offset"])
         found = _reached_near_frames(target, space, self.oracle, (entry, entry + len(raw)))
-        self.assertEqual((found[0]["frame"], found[0]["entry"]), (0x1101, "root:1101:4ea8"))
+        self.assertEqual((found[0]["frame"], found[0]["entry"]), (0x1129, "root:1129:4e8a"))
 
 
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
@@ -1296,8 +1296,8 @@ class OwnBaseBucketTests(unittest.TestCase):
                            recipe["flags"], workdir=ROOT / "build/workers/tests/own_base_buckets")
         self.assertTrue(result.ok, result.log)
         claims = recipe_claims(recipe)
-        if not any(c["target_id"] == "root:0b41:2264" for c in claims):
-            claims.append({"target_id": "root:0b41:2264", "public": "MARK_MOB_REDRAW"})
+        if not any(c["public"] == "MARK_MOB_REDRAW" for c in claims):
+            claims.append({"target_id": "root:0b52:2296", "public": "MARK_MOB_REDRAW"})
         report = check_group(result.obj_bytes, claims, Oracle.load(),
                              binding=common.read_json(ROOT / recipe["binding"]), group_id=recipe["group_id"])
         claim = next(c for c in report["claims"] if c["public"] == "MARK_MOB_REDRAW")
@@ -1340,17 +1340,15 @@ class FrameInvariantTests(unittest.TestCase):
 
 class FarPointerFrameTests(unittest.TestCase):
     """A relocated far pointer naming a root entry (the window callback table in DGROUP at
-    overlay-17+0x1320 holds 1101:8738) is CS-frame evidence like a relocated CALL FAR."""
+    overlay-17+0x1320 holds 1129:871a) is CS-frame evidence like a relocated CALL FAR."""
 
     @classmethod
     def setUpClass(cls):
         from oracle import Oracle
         cls.oracle = Oracle.load()
         rows = [f for f in common.read_json(ROOT / "evidence/targets.json")["functions"]
-                if f["id"] == "root:1101:8738"]
-        if not rows:
-            raise unittest.SkipTest("root:1101:8738 is not a reviewed target")
-        cls.row = rows[0]
+                if f["id"] == "root:1129:871a"]
+        cls.row, = rows
         holder = cls.oracle.spaces["overlay-17"]
         cls.at = 0x1320
         cls.site = {"kind": "far_pointer", "space": "overlay-17", "image_offset": cls.at,
@@ -1361,7 +1359,7 @@ class FarPointerFrameTests(unittest.TestCase):
         row = dict(self.row, call_sites=[site])
         inventory = dict(common.read_json(ROOT / "evidence/targets.json"))
         inventory["functions"] = [f for f in inventory["functions"] if f["id"] != row["id"]] + [row]
-        with patch.object(match, "read_json", return_value=inventory):
+        with patch.object(match, "read_json_shared", return_value=inventory):
             return match.get_target(row["id"], self.oracle)[0]
 
     def test_relocated_far_pointer_names_the_frame(self):
@@ -1369,7 +1367,7 @@ class FarPointerFrameTests(unittest.TestCase):
         target = self.target(self.site)
         space = self.oracle.spaces["root"]
         evidence, _ = _frame_evidence(target, space, self.oracle, (0, 0))
-        self.assertIn({"frame": 0x1101, "kind": "relocated far pointer", "space": "overlay-17",
+        self.assertIn({"frame": 0x1129, "kind": "relocated far pointer", "space": "overlay-17",
                        "image_offset": self.at}, evidence)
 
     def test_pointer_without_its_relocation_or_at_the_wrong_word_refuses(self):

@@ -1,3 +1,7 @@
+struct rock_rect {
+    int top, left, bottom, right;
+};
+
 #pragma pack(1)
 struct moving_rock {
     int x;
@@ -8,10 +12,6 @@ struct moving_rock {
     char field_9;
     signed char row;
     int screen_x;
-};
-
-struct rock_rect {
-    int top, left, bottom, right;
 };
 
 struct char_bounds { int top, left, bottom, right; };
@@ -54,7 +54,7 @@ extern int Rnd(int);
 extern signed char FirstInRow(signed char row);
 extern signed char get_char_col(int x);
 extern int IsWall(unsigned char kind);
-extern void draw_moving_tile(int y);
+extern void add_mob_obj(int y);
 extern signed char GetRow(int y);
 extern unsigned char IndexCell1(signed char col, signed char row);
 extern int is_visible_room_cell(unsigned char room, unsigned char cell);
@@ -76,7 +76,8 @@ typedef struct {
 
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
+    int x, y;
+    struct { unsigned char low, high; } image;                                   /* 02,04,06 */
     unsigned char image_set;                          /* 08 */
     int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
     int depth;                                        /* 11 */
@@ -84,8 +85,6 @@ typedef struct {
 } FCHARREC;
 #pragma pack()
 
-extern MOBREC Mob;
-extern CHARREC Char;
 extern FCHARREC FChar;
 extern int sequence_a, sequence_b, rock_speed_a, rock_speed_b;
 static struct {
@@ -164,6 +163,8 @@ typedef struct {
 #pragma pack()
 
 extern ROOMREC Room;
+extern MOBREC Mob;
+extern CHARREC Char;
 extern LEVELREC Level;
 extern int ColEdgeX[20];
 extern int screen_left, screen_right;
@@ -185,7 +186,7 @@ void move_slide_bolt(void)
         do {
             FChar.index = FirstInRow(row) + Mob.x / 32;
             if (Mob.kind == 8) ++FChar.index;
-            draw_moving_tile(Mob.y); Mob.x += 24;
+            add_mob_obj(Mob.y); Mob.x += 24;
         } while (Mob.x < end);
     }
 }
@@ -208,11 +209,11 @@ void move_slide_rock(void)
                 sequence_b = sequence_a = sequence;
             } else
                 sequence_b = sequence_a = 58;
-            Mob.kind = 7; draw_moving_tile(Mob.y);
+            Mob.kind = 7; add_mob_obj(Mob.y);
             x = Mob.x; Mob.x += 32; y = Mob.y;
             if (Mob.flags > (unsigned int)Mob.x) {
                 FChar.index = FirstInRow(row) + Mob.x / 32; Mob.kind = 6;
-                --Mob.y; draw_moving_tile(Mob.y);
+                --Mob.y; add_mob_obj(Mob.y);
             }
             Mob.x = temple_draw_offsets.trapdoor_x[0] + x;
             if ((unsigned int)Mob.x < Mob.flags) {
@@ -381,7 +382,7 @@ extern int IS_SIX_KIND(unsigned char);
 extern void decrement_life_points(unsigned char kind);
 extern void AddSound(int);
 extern void dispatch_sound(int);
-extern void mark_kid_contact(unsigned char);
+extern void SetKidDeathMethod(unsigned char);
 extern void reset_char_y(void);
 extern void JumpSeq(int);
 extern void AnimChar(void);
@@ -435,7 +436,7 @@ void hit_character_with_rock(void)
                         if (Char.alive < 0) {
                             dispatch_sound(10001); AddSound(55);
                         }
-                        mark_kid_contact(13);
+                        SetKidDeathMethod(13);
                     }
                     Char.sequence_group = 4; sequence = 71;
                 }
@@ -491,7 +492,7 @@ typedef struct {
 #pragma pack()
 
 extern CELLREC Cell;
-extern unsigned short *BlueS;
+extern struct tile_animation *BlueS;
 extern unsigned char *room_trapdoor_flags;
 extern int query_sound(int);
 extern int current_sound;
@@ -505,16 +506,16 @@ extern void AddSong(int);
 extern void altar_watch_kid(void);
 extern unsigned long get_set_image_size(int sheet, int shape, struct trapdoor_bounds far *bounds);
 extern void compute_mob_rect(struct rock_rect *rect);
-extern void trapdoor_update_rect(struct rock_rect *rect);
-extern void mark_bufs_for_rect(void (far pascal *update)(struct rock_rect *),
+extern void mark_floor(signed char cell, struct rock_rect *rect);
+extern void mark_bufs_for_rect(void (far pascal *update)(signed char, struct rock_rect *),
                                     struct rock_rect *rect, signed char flags);
 extern void trigger_trapdoor(unsigned char room, signed char cell);
 
 void move_rock_record(void)
 {
     int x, prior_column;
-    signed char prev_column;
     signed char new_column;
+    signed char prev_column;
     unsigned char tile;
     signed char column;
 
@@ -537,9 +538,10 @@ void move_rock_record(void)
     do {
         if (!Mob.room) {
             Mob.velocity = -1;
-            goto stop_timer;
+            dispatch_sound(10054);
+            return;
         }
-        if (Mob.auxiliary == 0 || Mob.auxiliary == 100) goto done;
+        if (Mob.auxiliary == 0 || Mob.auxiliary == 100) return;
         prior_column = x - 20;
         column = prior_column / 32;
         if (prior_column <= 0) --column;
@@ -572,9 +574,7 @@ void move_rock_record(void)
         if (Mob.auxiliary != 0) AddSound(54);
         return;
     }
-stop_timer:
     dispatch_sound(10054);
-done:;
 }
 
 extern unsigned char view_left, view_right, view_up, view_down;
@@ -677,26 +677,24 @@ void move_trapdoor(void)
     struct trapdoor_bounds bounds;
     struct {
         signed char saved_column;
-        union {
-            struct rock_rect rect;
-            int alignment;
-        } area;
+        struct rock_rect rect;
     } draw;
 
     if (room != Room.number) {
-        if (room == Room.below)
+        if (Mob.room == Room.below) {
             y += 191;
-        else if (Mob.room == Room.above)
+            room = Room.number;
+        } else if (Mob.room == Room.above) {
             y -= 191;
-        else if (Mob.room == Room.left)
+            room = Room.number;
+        } else if (Mob.room == Room.left) {
             x -= 320;
-        else if (Mob.room == Room.right)
+            room = Room.number;
+        } else if (Mob.room == Room.right) {
             x += 320;
-        else
-            goto draw;
-        room = Room.number;
+            room = Room.number;
+        }
     }
-draw:
     draw.saved_column = column = x / 32;
     FChar.index = IndexCell1(draw.saved_column, y / 63);
     if (FChar.index != 30) {
@@ -735,10 +733,10 @@ draw:
         }
         mark_mob_redraw(0);
         if (Mob.velocity != -1) {
-            compute_mob_rect(&draw.area.rect);
-            draw.area.rect.left += 16;
-            mark_bufs_for_rect(trapdoor_update_rect, &draw.area.rect, -1);
-            draw_moving_tile(y);
+            compute_mob_rect(&draw.rect);
+            draw.rect.left += 16;
+            mark_bufs_for_rect(mark_floor, &draw.rect, -1);
+            add_mob_obj(y);
         }
         Mob.x = saved_x;
         Mob.y = saved_y;
@@ -769,7 +767,7 @@ void shake_trapdoor(void)
 {
     if (!(Cell.modifier & 0x40)) {
         if (Cell.index % (signed char)10 != Char.column) {
-            struct tile_animation *animation = (struct tile_animation *)BlueS;
+            struct tile_animation *animation = BlueS;
             Cell.modifier |= 0x40;
             animation[Cell.index].state = Cell.modifier;
         }
@@ -795,7 +793,7 @@ void trigger_trapdoor(unsigned char room, signed char cell)
 
 void draw_object_trapdoor(unsigned char modifier)
 {
-    int shape = temple_draw_offsets.trapdoor_shape[(*(unsigned char *)&FChar.image) & 31];
+    int shape = temple_draw_offsets.trapdoor_shape[FChar.image.low & 31];
     if (shape == 21) {
         add_middle_image(4, shape, FChar.x + 1, FChar.y - 2, 10);
         add_middle_image(4, 22, FChar.x, FChar.y - 1, 0);

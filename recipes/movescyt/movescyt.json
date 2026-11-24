@@ -1,116 +1,112 @@
 {
   "binding": "evidence/bindings/movescyt/movescyt.json",
-  "binding_sha256": "c2084a87c66a6817db5707dfc08120b948e381273ebe854fbbc933b43a391988",
+  "binding_sha256": "b674c3000d6059cb1afdab71d7b86627b6f85ccb9061aac75856ba9471604fe1",
   "claims": [
     {
       "fixup_count": 23,
       "public": "ANIMSCYTHE",
       "relocation_indices": [
-        1,
-        6
+        14,
+        19
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-7:29cf:0000"
+      "target_id": "overlay-7:2bda:0000"
     },
     {
       "fixup_count": 16,
       "public": "CHECKSCYTHE",
       "relocation_indices": [
-        7
+        18
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-7:29cf:00b2"
+      "target_id": "overlay-7:2bda:00b2"
     },
     {
       "fixup_count": 35,
       "public": "CHECKSCYTHEHIT",
       "relocation_indices": [
-        2,
+        0,
         3,
+        5,
+        7,
         8,
-        9,
-        15,
+        12,
+        13,
         16,
-        17,
-        19,
-        21
+        17
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-7:29cf:0118"
+      "target_id": "overlay-7:2bda:0118"
     },
     {
       "fixup_count": 10,
       "public": "COMPUTEBLADEHITRECT",
       "relocation_indices": [
-        13,
-        18
+        4,
+        11
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-7:29cf:0264"
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-7:2bda:0264"
     },
     {
       "fixup_count": 0,
       "public": "GETSCYTHEHITTYPE",
-      "target_id": "overlay-7:29cf:02f8"
+      "target_id": "overlay-7:2bda:02f8"
     },
     {
       "fixup_count": 7,
       "public": "REDRAWSCYTHE",
       "relocation_indices": [
-        0,
-        4,
-        5,
-        14
+        1,
+        2,
+        9,
+        10
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-7:29cf:0322"
+      "target_id": "overlay-7:2bda:0322"
     },
     {
       "fixup_count": 15,
       "public": "SCYTHEBARRTOSTANDUP",
       "relocation_indices": [
-        10,
-        11
+        15,
+        21
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-7:29cf:0380"
+      "target_id": "overlay-7:2bda:0380"
     },
     {
       "fixup_count": 0,
       "public": "SCYTHEBLADEEXTENDED",
-      "target_id": "overlay-7:29cf:03f2"
+      "target_id": "overlay-7:2bda:03f2"
     },
     {
       "fixup_count": 8,
       "public": "TRIGGERSCYTHE",
       "relocation_indices": [
-        12,
+        6,
         20
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-7:29cf:0412"
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-7:2bda:0412"
     }
   ],
   "data_publics": [
     {
-      "address": 6384,
+      "address": 6020,
       "name": "SCYTHEIMG",
       "offset": 24,
       "segment": "_DATA",
@@ -126,15 +122,14 @@
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10703,
+  "frame": 11226,
   "group_id": "group:movescyt/movescyt",
   "kind": "same_source_group",
   "language": "c",
   "name": "movescyt/movescyt",
-  "object_sha256": "a6113976a7dafdf6e501edccd0d6b211bc311339f795c2b4d247d6bb08fc61bf",
+  "object_sha256": "88f73735d83c16843b07eb77a5bb22a11ccd67f65bd11a113fd7a42cbea6d8dc",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",

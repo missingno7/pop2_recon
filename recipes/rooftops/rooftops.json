@@ -1,240 +1,104 @@
 {
   "binding": "evidence/bindings/rooftops/rooftops.json",
-  "binding_sha256": "2df1d6d8d5bec22c8dae2f7b8c20f55534cd1cbbb4c3261823bf987e8b1ecb74",
+  "binding_sha256": "6730891d1efb688ae54aaceabb13f6685558086a4e65b612d22ea6cab0d3bf66",
   "claims": [
+    {
+      "fixup_count": 7,
+      "public": "DRAW_ROOF_PILLAR",
+      "relocation_indices": [
+        1,
+        2,
+        70
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:2bda:073c"
+    },
     {
       "fixup_count": 5,
       "public": "@keep_image_in_back",
       "relocation_indices": [
-        27
+        55
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-4:29cf:0000"
+      "target_id": "overlay-4:2bda:0000"
     },
     {
       "fixup_count": 3,
       "public": "LOADROOFCODE",
-      "target_id": "overlay-4:29cf:005a"
+      "target_id": "overlay-4:2bda:005a"
     },
     {
       "fixup_count": 25,
       "public": "CHECK_CHARACTER_WATER",
       "relocation_indices": [
-        3,
-        14,
-        21,
-        33
+        6,
+        24,
+        36,
+        46
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:0068"
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:0068"
     },
     {
       "fixup_count": 5,
       "public": "CHECK_ROOF_PALETTE",
       "relocation_indices": [
-        18
+        10
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-4:29cf:0128"
+      "target_id": "overlay-4:2bda:0128"
     },
     {
       "fixup_count": 2,
       "public": "CHECK_ROOF_ROOM",
-      "target_id": "overlay-4:29cf:0186"
+      "target_id": "overlay-4:2bda:0186"
     },
     {
-      "fixup_count": 8,
+      "fixup_count": 10,
+      "public": "CLIP_CHARACTER_AT_WATER",
+      "target_id": "overlay-4:2bda:0190"
+    },
+    {
+      "fixup_count": 10,
       "public": "CYCLE_ROOF_COLORS",
       "relocation_indices": [
-        35,
-        36,
-        37
+        19,
+        20,
+        21,
+        58
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-4:29cf:01ce"
+      "target_id": "overlay-4:2bda:01ce"
     },
     {
       "fixup_count": 3,
       "public": "ROOF_FRAME",
-      "target_id": "overlay-4:29cf:0228"
+      "target_id": "overlay-4:2bda:0232"
     },
     {
-      "fixup_count": 25,
+      "fixup_count": 27,
       "public": "KILL_KID_ON_WHARF",
       "relocation_indices": [
-        0,
-        11,
-        12,
-        13,
-        19,
-        30,
-        31,
-        32,
-        34,
-        38,
-        39,
-        47,
-        64,
-        65
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:0236"
-    },
-    {
-      "fixup_count": 6,
-      "public": "MAKE_WATER_TEST_RECT",
-      "target_id": "overlay-4:29cf:02fc"
-    },
-    {
-      "fixup_count": 14,
-      "public": "TRIGGER_CHARACTER_WATER",
-      "relocation_indices": [
-        1
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-4:29cf:035e"
-    },
-    {
-      "fixup_count": 14,
-      "public": "WATCH_KID",
-      "relocation_indices": [
-        20,
-        40
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:03b6"
-    },
-    {
-      "fixup_count": 8,
-      "public": "WATCH_OPPONENTS",
-      "relocation_indices": [
-        16,
-        57
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:0416"
-    },
-    {
-      "fixup_count": 20,
-      "public": "SETUP_SPLASH",
-      "relocation_indices": [
         4,
-        41,
-        48,
-        50,
-        58
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:046e"
-    },
-    {
-      "fixup_count": 10,
-      "public": "ANIMATE_ROOF_GLASS",
-      "relocation_indices": [
-        2,
         5,
-        22
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:0576"
-    },
-    {
-      "fixup_count": 9,
-      "public": "DRAW_ROOF_GLASS",
-      "relocation_indices": [
-        6,
-        49,
-        51
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-4:29cf:05ba"
-    },
-    {
-      "fixup_count": 19,
-      "public": "ANIMROOFPILLAR",
-      "relocation_indices": [
-        7,
         8,
-        15,
         23,
-        24,
-        28
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:063e"
-    },
-    {
-      "fixup_count": 4,
-      "public": "DRAW_PILLAR_IN_BACK",
-      "relocation_indices": [
-        29
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-4:29cf:077e"
-    },
-    {
-      "fixup_count": 0,
-      "public": "SELECT_PAIR_CODE",
-      "target_id": "overlay-4:29cf:07ce"
-    },
-    {
-      "fixup_count": 22,
-      "public": "ANIMATE_ROOF_SHIP",
-      "relocation_indices": [
-        9,
-        10,
-        17,
         25,
         26,
-        42,
-        43,
-        59,
-        60
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-4:29cf:0814"
-    },
-    {
-      "fixup_count": 16,
-      "public": "DRAW_ROOF_SHIP",
-      "relocation_indices": [
+        33,
+        34,
+        35,
         44,
-        45,
-        46,
+        53,
         54,
-        55,
-        56,
-        61,
+        59,
         62,
         63
       ],
@@ -242,37 +106,189 @@
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-4:29cf:08e8"
+      "target_id": "overlay-4:2bda:0240"
+    },
+    {
+      "fixup_count": 6,
+      "public": "MAKE_WATER_TEST_RECT",
+      "target_id": "overlay-4:2bda:030e"
+    },
+    {
+      "fixup_count": 14,
+      "public": "TRIGGER_CHARACTER_WATER",
+      "relocation_indices": [
+        61
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:0370"
+    },
+    {
+      "fixup_count": 14,
+      "public": "WATCH_KID",
+      "relocation_indices": [
+        3,
+        9
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:03c8"
+    },
+    {
+      "fixup_count": 8,
+      "public": "WATCH_OPPONENTS",
+      "relocation_indices": [
+        45,
+        52
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:0428"
+    },
+    {
+      "fixup_count": 20,
+      "public": "SETUP_SPLASH",
+      "relocation_indices": [
+        11,
+        18,
+        27,
+        41,
+        65
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:2bda:0482"
+    },
+    {
+      "fixup_count": 10,
+      "public": "ANIMATE_ROOF_GLASS",
+      "relocation_indices": [
+        40,
+        49,
+        60
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:058a"
+    },
+    {
+      "fixup_count": 9,
+      "public": "DRAW_ROOF_GLASS",
+      "relocation_indices": [
+        17,
+        39,
+        64
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:2bda:05ce"
+    },
+    {
+      "fixup_count": 18,
+      "public": "ANIMROOFPILLAR",
+      "relocation_indices": [
+        7,
+        37,
+        38,
+        47,
+        48,
+        56,
+        69
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:2bda:0652"
+    },
+    {
+      "fixup_count": 4,
+      "public": "DRAW_PILLAR_IN_BACK",
+      "relocation_indices": [
+        57
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:0826"
+    },
+    {
+      "fixup_count": 1,
+      "public": "OFFSET_ROOF_PILLAR",
+      "relocation_indices": [
+        22
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-4:2bda:0876"
+    },
+    {
+      "fixup_count": 22,
+      "public": "ANIMATE_ROOF_SHIP",
+      "relocation_indices": [
+        0,
+        15,
+        16,
+        31,
+        32,
+        42,
+        43,
+        50,
+        51
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:2bda:08a2"
+    },
+    {
+      "fixup_count": 16,
+      "public": "DRAW_ROOF_SHIP",
+      "relocation_indices": [
+        12,
+        13,
+        14,
+        28,
+        29,
+        30,
+        66,
+        67,
+        68
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:2bda:0976"
     },
     {
       "fixup_count": 2,
       "public": "ROOFCLIMBINGINTOSHIP",
-      "target_id": "overlay-4:29cf:0a12"
+      "target_id": "overlay-4:2bda:0aa0"
     },
     {
       "fixup_count": 4,
       "public": "GRAB_ROOF_SHIP",
-      "target_id": "overlay-4:29cf:0a2c"
+      "target_id": "overlay-4:2bda:0aba"
     },
     {
       "fixup_count": 5,
       "public": "ROOFHANGINGFROMSHIP",
-      "target_id": "overlay-4:29cf:0a54"
+      "target_id": "overlay-4:2bda:0ae2"
     },
     {
       "fixup_count": 1,
       "public": "UPDATE_SHIP_PEEL",
-      "target_id": "overlay-4:29cf:0a84"
-    },
-    {
-      "fixup_count": 10,
-      "public": "CLIP_CHARACTER_AT_WATER",
-      "target_id": "overlay-4:29cf:0190"
+      "target_id": "overlay-4:2bda:0b12"
     }
   ],
   "data_publics": [
     {
-      "address": 5476,
+      "address": 5112,
       "name": "ROOFTOPS_LEVEL_SPEC",
       "offset": 16,
       "segment": "_DATA",
@@ -280,33 +296,27 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 1782,
-      "public": "DRAW_ROOF_PILLAR"
-    }
-  ],
-  "emitted_size": 2742,
+  "drafts": [],
+  "emitted_size": 2884,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10703,
+  "frame": 11226,
   "group_id": "group:rooftops/rooftops",
   "kind": "same_source_group",
   "language": "c",
   "name": "rooftops/rooftops",
-  "object_sha256": "f682f541d130934dc2888f6a440a625db15d29786f12b4185cbfebb86b6b9ea3",
+  "object_sha256": "c218521a509004b29392dce2e006f608df9db3943a0028184e0fd52121abb059",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/rooftops/rooftops.c",
-  "source_sha256": "11d4d6caf6702e1b8f9a8a43f9aba0ce1415455b013b82110ffad9563fb5aebc",
+  "source_sha256": "530225850f37548a2a7e8e3c6faa4b5125a852caa5d52700bc5cc5a65c064fac",
   "space": "overlay-4"
 }

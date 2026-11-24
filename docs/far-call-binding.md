@@ -1,5 +1,7 @@
 # External root CALL FAR binding
 
+Examples with addresses recorded before 2026-11-24 refer to the earlier build (tag `oracle-dos-1565`); the rules are unchanged.
+
 `external-far-call-v1` proves one complete initialized CODE segment, one
 owning public at zero and no secondary storage through the existing
 `search.py`, `promote.py --binding`, recipe and fresh `validate.py` flow.

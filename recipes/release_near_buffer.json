@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/release_near_buffer.json",
-  "binding_sha256": "1870fbc8e0249adec7c5b670829465e903e20a33c22306f4699a0dd4b43e6f3c",
+  "binding_sha256": "964d592976843b2f1826f9d9098eebb7cc9f198ec8959799460f6e9c5dd7da64",
   "fixup_count": 1,
   "flags": [
     "/c",
@@ -14,13 +14,15 @@
   "name": "release_near_buffer",
   "object_sha256": "2014bf3f79f2b29e84142b71a2c9c15d8bf6a883bfb72b75c2075efa1e1cb3db",
   "profile": "msc510",
-  "proof_scope": "Complete root component bytes, external zero-addend CALL FAR equations to independently witnessed reviewed direct entries, exact ordered original MZ segment-word coverage; optional resident DGROUP equations hold for every DS; raw OMF preserved, original symbols/TU/runtime DS/natural placement/overlay vectors/whole link unproved",
+  "proof_scope": "Complete root component bytes, external zero-addend CALL FAR equations to independently witnessed reviewed direct entries, exact original MZ segment-word coverage with within-target-symbol FIXUPP order (between-group order is structural debt); optional resident DGROUP equations hold for every DS; raw OMF preserved, original symbols/TU/runtime DS/natural placement/overlay vectors/whole link unproved",
   "public": "RELEASE_NEAR_BUFFER",
   "relocation_indices": [
-    1460
+    1538
   ],
+  "relocation_order": "EXACT",
+  "relocation_order_debt": [],
   "schema": 1,
   "source": "src/release_near_buffer.c",
   "source_sha256": "c234b002a2b57b0e32a327260e7b1a4625a91d16ffcecd73db94d31b2894d5ad",
-  "target_id": "root:1000:a82a"
+  "target_id": "root:1000:affa"
 }

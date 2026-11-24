@@ -82,12 +82,12 @@ def _addend(raw, at, width):
 
 def code_providers(manifest, oracle, exclude=None):
     """symbol -> (recipe name, frame-free linear position) over manifest PINNED_RUNTIME owners."""
-    from common import project_path, read_json
+    from common import project_path, read_json_shared
     table = {}
     for owner in manifest["owners"]:
         if owner["kind"] != "PINNED_RUNTIME" or owner["target_id"] == exclude:
             continue
-        recipe = read_json(project_path(owner["recipe"]))
+        recipe = read_json_shared(project_path(owner["recipe"]))
         module, _ = read_member(recipe)
         start = oracle.spaces[recipe["space"]].position(recipe["segment"], recipe["offset"])
         for public in module.publics:
@@ -167,7 +167,7 @@ def _signature_hits(data, lo, hi, code, mask):
 
 def _owner_overlaps(manifest, oracle, position, size, spec):
     """Owners touching [position, position+size); only the same member pinned at the same place is allowed."""
-    from common import project_path, read_json
+    from common import project_path, read_json_shared
     for owner in manifest["owners"]:
         if owner["space"] != "root":
             continue
@@ -176,7 +176,7 @@ def _owner_overlaps(manifest, oracle, position, size, spec):
             continue
         same = False
         if owner["kind"] == "PINNED_RUNTIME":
-            recipe = read_json(project_path(owner["recipe"]))
+            recipe = read_json_shared(project_path(owner["recipe"]))
             same = (recipe["member_sha256"] == spec["member_sha256"] and lo == position and
                     recipe["object_segment"] == spec["object_segment"] and owner["size"] == size)
         require(same, f"Anchored provider {spec['name']} overlaps owner {owner['target_id']}")
@@ -249,12 +249,12 @@ def anchor_provider(spec, frame, space, oracle, manifest, owner_span):
 
 def verify_class_run(path, digest, ctx):
     """An ordered gap-free run of fixup-free DGROUP contributions ending at the payload end."""
-    from common import ROOT, project_path, read_json
+    from common import ROOT, project_path, read_json_shared
     source = project_path(path)
     raw = source.read_bytes()
     require(source.is_relative_to(ROOT/"evidence/bindings") and sha(raw) == digest and b"\r" not in raw,
             "Class run evidence changed, escapes evidence cone or is not LF")
-    run = read_json(source)
+    run = read_json_shared(source)
     require(run.get("schema") == 1 and run.get("mode") == RUN_MODE and
             run.get("target_sha256") == sha(ctx.oracle.data), "Unsupported/foreign class run evidence")
     require(ctx.dgroup is not None and run.get("dgroup_paragraph") == ctx.dgroup[0],
@@ -300,8 +300,8 @@ def verify_class_run(path, digest, ctx):
 
 def _provider_libraries(manifest):
     """Pinned recipe name -> its archive identity (library_sha256)."""
-    from common import project_path, read_json
-    return {read_json(project_path(o["recipe"]))["name"]: read_json(project_path(o["recipe"]))["library_sha256"]
+    from common import project_path, read_json_shared
+    return {read_json_shared(project_path(o["recipe"]))["name"]: read_json_shared(project_path(o["recipe"]))["library_sha256"]
             for o in manifest["owners"] if o["kind"] == "PINNED_RUNTIME"}
 
 
@@ -310,7 +310,7 @@ ACCEPTED_CODE = (("MATCHING_C", "CODE_EXACT"), ("MATCHING_ASM", "ASM_EXACT"))
 
 def external_provider(row, oracle, manifest, owner_span):
     """An accepted exact owner's entry as a code provider: (linear position, frame, receipt)."""
-    from common import project_path, read_json
+    from common import project_path, read_json_shared
     from match import get_target
     symbol, target_id, at = row["symbol"], row["target_id"], row["frame_witness"]
     owners = [o for o in manifest["owners"] if o["target_id"] == target_id]
@@ -321,7 +321,7 @@ def external_provider(row, oracle, manifest, owner_span):
     position = root.position(owner["segment"], owner["offset"])
     require(not (position < owner_span[1] and owner_span[0] < position+owner["size"]),
             "External provider overlaps the judged member")
-    recipe = read_json(project_path(owner["recipe"]))
+    recipe = read_json_shared(project_path(owner["recipe"]))
     if "claims" in recipe:
         publics = [c["public"] for c in recipe["claims"] if c["target_id"] == target_id]
     else:

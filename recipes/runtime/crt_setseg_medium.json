@@ -1,9 +1,9 @@
 {
   "archive_offset": 54288,
   "binding": "evidence/bindings/crt_setseg_medium.json",
-  "binding_sha256": "d287fba24f68033d258a09c7745efc82d713eb2c562e15399971fbfde68b46ab",
+  "binding_sha256": "a6d73b9e5623e0590a9554665a8bac2fbbc44f155ec2bd6dc9b8fe2bb3eac755",
   "boundary_evidence": [
-    "Complete independent medium-model setseg.asm OMF member (archive offset 54288, 223 bytes) whose whole 73-byte CODE segment lies at root 0x2170e (1fe6:18ae) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent mlibcr.lib member (archive offset 54288, 223 bytes) whose whole 73-byte segment lies at root+0x2179e in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 1,
   "kind": "PINNED_RUNTIME",
@@ -19,7 +19,7 @@
     "__setseg"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 73,
   "space": "root",
   "target_sha256": "05422d588b9b99182d9ee5d419d1e6b4995f52631fdc1ecead6af97a86212bb9"

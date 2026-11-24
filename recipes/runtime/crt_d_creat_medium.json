@@ -1,9 +1,9 @@
 {
   "archive_offset": 118816,
   "binding": "evidence/bindings/crt_d_creat_medium.json",
-  "binding_sha256": "3d56ea9fa78061912b25a5c43f50633ac0ec32ca8889efb6592fcda51c01aab2",
+  "binding_sha256": "86c62b31c835f1ecb46f56465ef30e8aaf277ef31c9d20950dd2d3f1833570a0",
   "boundary_evidence": [
-    "Complete independent medium-model dos\\d_creat.asm OMF member (archive offset 118816, 221 bytes) whose whole 42-byte CODE segment lies at root 0x21a02 (1fe6:1ba2) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent mlibcr.lib member (archive offset 118816, 221 bytes) whose whole 42-byte segment lies at root+0x21aec in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 1,
   "kind": "PINNED_RUNTIME",
@@ -13,15 +13,15 @@
   "member_sha256": "5e982cc69105f383e0544550bee71d01c539b87bc8caf112907d59503857957f",
   "name": "crt_d_creat_medium",
   "object_segment": "_TEXT",
-  "offset": 7074,
+  "offset": 7164,
   "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
   "publics": [
     "__dos_creatnew",
     "__dos_creat"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 42,
   "space": "root",
-  "target_sha256": "855216ef52cabcf50245a00281b5bba44132480101edcbd900bad797f863a46e"
+  "target_sha256": "e6fa1272b8d05ba3f715da6750ed365c0bbe76b77db8720bc39896c832f45f37"
 }

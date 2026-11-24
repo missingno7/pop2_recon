@@ -1,10 +1,9 @@
 {
   "archive_offset": 124896,
   "binding": "evidence/bindings/crt_dos_close.json",
-  "binding_sha256": "5841e888f442ed0fe83ef4884103985a04e900f9eb27953421f9864ccfcd83da",
+  "binding_sha256": "c82de36602c4028e6ed4220e82f64e8047096a07bd7248f4f35b217cf03e4edc",
   "boundary_evidence": [
-    "Complete independent library CODE SEGDEF of 13 bytes, one public at offset zero and empty DATA.",
-    "Original relocated far-call encoding at root 0x13a8c specifies 1fe6:1b94; the full body ends in E9 at 1b9e, ending at root 0x21a01. Following zero at 0x21a01 is unowned alignment; the next prologue begins at 0x21a02."
+    "Complete independent llibcr.lib member (archive offset 124896, 174 bytes) whose whole 13-byte segment lies at root+0x21ade in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 1,
   "kind": "PINNED_RUNTIME",
@@ -14,14 +13,14 @@
   "member_sha256": "672fa6319aa6357eec3132182114a8e6230b175ff0a46c3a1725adea7a5fb67b",
   "name": "crt_dos_close",
   "object_segment": "_TEXT",
-  "offset": 7060,
+  "offset": 7150,
   "proof_scope": "Whole pinned member CODE with external near equations to independently anchored library public context; provider context owns zero bytes, final provider/TU/link placement and behavior unproved",
   "publics": [
     "__dos_close"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 13,
   "space": "root",
-  "target_sha256": "2ffa060069b8535daa1e571b66ae66245b96c5db36f6951433341e8c95376a11"
+  "target_sha256": "f31352fbe706a84f5dc89fad388aaa5089797b4b5e8c588e87ca50dce3fe6947"
 }

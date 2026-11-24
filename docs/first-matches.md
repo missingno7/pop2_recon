@@ -1,5 +1,7 @@
 # First function matching work: overlay-2 pair swap
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 The best function-boundary candidate examined here is `overlay-2:28a1:0e68`, the same byte position as `overlay-2` link segment `0x2344`, offset `0x6438`. The supplied executable identity is SHA-256 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`. Oracle mapping puts the entry at overlay-relative `0x6438` and file offset `0x2c558` (181,592).
 
 The external Supermedo reference checkout at commit `e2c407fa8409ad891bf78c8e98c3e052dd00869b` lists `o2 28a1:0e68` in `recomp/extra_entries.txt`. Independent address arithmetic maps that alias into overlay 2. Linear 16-bit decoding reaches `RETF 2` exactly at byte 44, with no branch leaving the 45-byte extent. The following byte is `90`, then another `55 8b ec` prologue begins. There are no original overlay relocation sites in the 45-byte extent.

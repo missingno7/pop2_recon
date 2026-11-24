@@ -1,9 +1,9 @@
 {
   "archive_offset": 396288,
   "binding": "evidence/bindings/rtl_rtcomm_m.json",
-  "binding_sha256": "4e8237e9984e10f2d08114d58479949f1a27c02a5c9bd57b66c877e90bf59cb1",
+  "binding_sha256": "39469dd25e5dc48de8a541cbc2308f0029cac8d1267e7c9e46ed3f1121dd2ac2",
   "boundary_evidence": [
-    "Complete RTLink/Plus 6.10 RTLUTILS.LIB member rtcomm_m.asm (archive offset 0x60c00, 266 bytes) whose whole 112-byte $$OVLMGR_UTILS contribution lies at root 0x23067 (22e5:0217). The member follows ddata.asm contiguously in the byte-aligned $$OVLMGR_UTILS segment."
+    "Complete independent RTLUTILS.LIB member (archive offset 396288, 266 bytes) whose whole 112-byte segment lies at root+0x24dd5 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 4,
   "kind": "PINNED_RUNTIME",
@@ -13,15 +13,15 @@
   "member_sha256": "0e581f67956ccbbbe83c32a2118aa9789a22b35931c9b0efcbc1a242172517c5",
   "name": "rtl_rtcomm_m",
   "object_segment": "$$OVLMGR_UTILS",
-  "offset": 535,
+  "offset": 7861,
   "proof_scope": "Whole pinned RTLink manager member segment with every fixup computed from independently grounded output-segment frames and pinned providers; interior uninitialized bytes linked as zero; natural RTLink placement and behavior unproved",
   "publics": [
     "$$RTLCOMMON_MESSAGES"
   ],
   "schema": 1,
-  "segment": 8933,
+  "segment": 8946,
   "segment_class": "$$OVLMGR_UTILS",
   "size": 112,
   "space": "root",
-  "target_sha256": "f70657214c37fe4c281e88845a633a9d9a4009f06a8a93a0461711b06d16d18b"
+  "target_sha256": "d51f22588f82d3781a0db3fac07d2d549bb996e023a8bd0150e14283f5e53aac"
 }

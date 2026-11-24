@@ -1,9 +1,9 @@
 {
   "archive_offset": 11328,
   "binding": "evidence/bindings/crt_fmemcmp_medium.json",
-  "binding_sha256": "0eaf1e3c16ff67a26ee1261c587033c96d057edb4b71107cccdf70d65ee386a8",
+  "binding_sha256": "3a26a7014f7c3d0c15ff8285bb9c356eb2faf145d0ca0ac4e47339e24b0227c6",
   "boundary_evidence": [
-    "Complete independent medium-model hmemcmp.asm OMF member (archive offset 11328, 248 bytes) whose whole 91-byte CODE segment lies at root 0x21c34 (1fe6:1dd4) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent libh.lib member (archive offset 11328, 248 bytes) whose whole 91-byte segment lies at root+0x21d1e in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 2,
   "kind": "PINNED_RUNTIME",
@@ -13,13 +13,13 @@
   "member_sha256": "11cb5cd9503c270442d5b410eb584ec8f17e6234d355c8d44d094294551307c5",
   "name": "crt_fmemcmp_medium",
   "object_segment": "_TEXT",
-  "offset": 7636,
+  "offset": 7726,
   "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
   "publics": [
     "__fmemcmp"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 91,
   "space": "root",
   "target_sha256": "ad9ce2b01cdf308c4f0836c8519ea524790908b86725daa870d5ca8986d892b8"

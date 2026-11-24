@@ -32,7 +32,7 @@ extern struct {
     unsigned int handle;
 } playback;
 
-extern int FrameNum;
+extern unsigned long FrameNum;
 extern signed char current_character;
 extern signed char LevelIdx;
 extern signed char move_x, move_y, move_horizontal, move_vertical, move_action;
@@ -54,7 +54,7 @@ RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recordin
 int far pascal CheckForEndOfRecording(void)
 {
     int result = -2;
-    int tick;
+    unsigned long tick;
     Recording far *recording;
 
     if (playback.mode == 3 && playback.handle) {
@@ -78,16 +78,13 @@ void far pascal CheckRecordedDirForChar(void)
     RecordedFrame far *frame;
     RecordedInput far *input;
     PackedDirection far *direction;
-    union {
-        signed char value;
-        unsigned char raw;
-    } character;
+    signed char character;
 
     if (playback.mode == 3 && playback.handle) {
         if (current_character == 10)
-            character.raw = 5;
+            character = 5;
         else
-            character.value = current_character;
+            character = current_character;
         recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
         if (playback.offset < recording->data_size) {
             frame = (RecordedFrame far *)(recording->data + playback.offset);
@@ -95,15 +92,15 @@ void far pascal CheckRecordedDirForChar(void)
                 frame = IncRecordedGameToNextFrame(recording);
             if (FrameNum == frame->tick && frame->count > playback.input_index) {
                 input = (RecordedInput far *)(frame + 1) + playback.input_index;
-                if (input->character == character.value) {
+                if (input->character == character) {
                     direction = &input->direction;
                     ConvertRecDirToDir(direction);
-                    playback.saved_directions[character.value] = *direction;
+                    playback.saved_directions[character] = *direction;
                     playback.input_index++;
                 }
             }
         }
-        ConvertRecDirToDir(&playback.saved_directions[character.value]);
+        ConvertRecDirToDir(&playback.saved_directions[character]);
     }
 }
 
@@ -135,9 +132,11 @@ RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recordin
 {
     RecordedFrame far *frame;
 
-    playback.offset += (((RecordedFrame far *)(recording->data +
-                        *(volatile int *)&playback.offset))->count + 1)
-                        * sizeof(RecordedInput);
+    int count;
+
+    frame = (RecordedFrame far *)(recording->data + playback.offset);
+    count = frame->count + 1;
+    playback.offset += count * sizeof(RecordedInput);
     playback.input_index = 0;
     frame = (RecordedFrame far *)(recording->data + playback.offset);
     if (playback.mode == 3 && recording->data_size < playback.offset)

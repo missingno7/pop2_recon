@@ -1,5 +1,7 @@
 # Convergence audit — 2026-10-11
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 Audit snapshot at `5f26559`, before the sixth wave. Current ownership and the
 subsequent blocker results are in [reconstruction progress](reconstruction-progress.md).
 

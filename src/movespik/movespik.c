@@ -21,13 +21,6 @@ typedef struct TileState {
     Word other;
 } TileState;
 
-typedef struct Mobile {
-    Byte prefix[4];
-    Byte room;
-    Byte middle[5];
-    SByte row;
-    SpikeState spikes;
-} Mobile;
 #pragma pack()
 
 #pragma pack(1)
@@ -36,7 +29,7 @@ typedef struct {
     unsigned char room;                               /* 04 */
     int velocity, auxiliary;                          /* 05,07 */
     signed char kind, row;                             /* 09-0a */
-    unsigned int flags;                               /* 0b */
+    SpikeState spikes;                               /* 0b */
 } MOBREC;
 
 typedef struct {
@@ -48,8 +41,8 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 
-extern MOBREC Mob;
 extern ROOMREC Room;
+extern MOBREC Mob;
 
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
@@ -90,7 +83,8 @@ typedef struct {
 extern CHARREC Char;
 #pragma pack(1)
 typedef struct {
-    unsigned int modifier, unknown_02;
+    SpikeState spikes;
+    unsigned int unknown_02;
 } LEVELCELL;
 
 typedef struct {
@@ -143,7 +137,7 @@ extern LEVELREC Level;
 #pragma pack(1)
 typedef struct {
     signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
+    SpikeState modifier;                            /* 01 */
     signed char index;                                /* 03 */
     unsigned char room;                               /* 04 */
     signed char column, row;                          /* 05-06 */
@@ -151,9 +145,15 @@ typedef struct {
     unsigned char top_row, bottom_row;                 /* 09-0a */
 } CELLREC;
 
+typedef union {
+    Word number;
+    struct { Byte low, high; } byte;
+} SpikeImage;
+
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
+    int x, y;
+    SpikeImage image;                                   /* 02,04,06 */
     unsigned char image_set;                          /* 08 */
     int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
     int depth;                                        /* 11 */
@@ -172,26 +172,26 @@ static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
 extern TileState *BlueS;
 
 extern Byte FirstInRow(SByte row);
-extern void add_mobile_sprite(int y);
+extern void add_mob_obj(int y);
 extern int is_dead_pos(Word frame);
 extern Byte ReadCell(Byte room, SByte column, SByte row);
 extern int slide_rock_near_spikes(void);
 extern SByte GetCellCol(void);
 extern int get_sword_width(void);
 extern void add_mob(void);
-extern Mobile *get_mob_type_item(Byte kind, int index);
+extern MOBREC *get_mob_type_item(Byte kind, int index);
 extern void impale_skeleton(void);
 extern void JumpSeq(Word sequence);
 extern void AddSound(int sound);
 extern void decrement_life_points(Byte amount);
 extern void AnimChar(void);
 extern void reset_char_y(void);
-extern void set_room_state(Byte room);
+extern void select_room_arrays(Byte room);
 /* The sprite entry consumes kind, image and context in AX, DX and BX. */
 extern void _fastcall add_middle_image(Byte kind, int image, int context, int x, Byte height);
 
 int GetSpikes(void);
-Mobile *GetSpikeMobRoomRow(Byte room, SByte row);
+MOBREC *GetSpikeMobRoomRow(Byte room, SByte row);
 void DoImpale(void);
 void TriggerSpikes(Byte room, int index);
 
@@ -212,11 +212,11 @@ void ATMSpikes(void)
     }
     if (Mob.velocity != -1) {
         FChar.index = FirstInRow(Mob.row) + column;
-        add_mobile_sprite(Mob.y);
+        add_mob_obj(Mob.y);
         Mob.kind = 5;
         Mob.x -= 4;
         Mob.y += 7;
-        add_mobile_sprite(Mob.y);
+        add_mob_obj(Mob.y);
         Mob.kind = 4;
         Mob.x += 4;
         Mob.y -= 7;
@@ -227,7 +227,7 @@ void ATMSpikes(void)
 void CheckImpale(void)
 {
     SByte column;
-    volatile Mobile *mob;
+    MOBREC *mob;
     int x;
     SByte last_column;
 
@@ -238,7 +238,7 @@ void CheckImpale(void)
     if (column <= Char.column) {
         do {
             if (ReadCell(Char.room, column, Char.row) == 2 && GetSpikes() == 2) {
-                x = ((const volatile int *)ColEdgeX)[column + 6] + 14;
+                x = ColEdgeX[column + 6] + 14;
                 if (Char.stance == 0)
                     x += 14;
                 else
@@ -251,9 +251,9 @@ void CheckImpale(void)
                     DoImpale();
                     mob = GetSpikeMobRoomRow(Char.room, Char.row);
                     if (mob) {
-                        mob->spikes.byte.phase = 0;
-                        mob->spikes.byte.phase |= 0xf0;
-                        (&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].modifier = mob->spikes.word;
+                        mob->spikes.word &= 0xff00;
+                        mob->spikes.word |= 0xf0;
+                        (&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].spikes.word = mob->spikes.word;
                     }
                 }
             }
@@ -271,7 +271,7 @@ void CheckSpikes(void)
     if (Char.column >= 0 && Char.character_kind != 4
         && ReadCell(Char.room, Char.column - 1, Char.row) == 2
         && Char.row * 63 + 18 <= Char.y) {
-        x = ((const volatile int *)ColEdgeX)[GetCellCol() + 6] + 14;
+        x = ColEdgeX[GetCellCol() + 6] + 14;
         x += Char.stance == 0 ? 16 : 2;
         if (Char.direction == 0) {
             x += side_offset;
@@ -290,7 +290,7 @@ void CheckSpikesJammed(Byte room, int index)
     int zero;
 
     if (GetSpikeMobRoomRow(room, row.value = index / 10) == 0) {
-        state = (&Level.cell_info[0][0])[room * 30 + index - 30].modifier;
+        state = (&Level.cell_info[0][0])[room * 30 + index - 30].spikes.word;
         if ((Byte)state == 0xf0) {
             Mob.x = (index % 10) * 32 + 46;
             /* Narrow the stored byte before multiplying. */
@@ -301,7 +301,7 @@ void CheckSpikesJammed(Byte room, int index)
             Mob.auxiliary = zero;
             Mob.velocity = zero;
             Mob.kind = 4;
-            Mob.flags = state;
+            Mob.spikes.word = state;
             add_mob();
         }
     }
@@ -310,13 +310,13 @@ void CheckSpikesJammed(Byte room, int index)
 /* DoImpale */
 void DoImpale(void)
 {
-    volatile SpikeState *state;
-    Mobile *mob;
+    SpikeState *state;
+    MOBREC *mob;
     Word sequence;
 
-    state = (volatile SpikeState *)&(&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].modifier;
+    state = &(&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].spikes;
     if (Char.character_kind != 4) {
-        Byte flags = ((Byte *)&Cell.modifier)[1] & 8;
+        Byte flags = Cell.modifier.byte.flags & 8;
         state->word = 0xf0 + ((Word)flags << 8);
     } else {
         state->signed_word = 0x8f;
@@ -330,7 +330,7 @@ void DoImpale(void)
     Char.vertical_step = 0;
     if (Char.character_kind == 0 || Char.character_kind == 2) {
         Char.field_0f = 1;
-        Char.x = ((const volatile int *)ColEdgeX)[GetCellCol() + 6] + 27;
+        Char.x = ColEdgeX[GetCellCol() + 6] + 27;
         if (Char.direction == 0) {
             sequence = Char.character_kind == 0 ? 0x36 : 0xbd;
             Char.direction = -1;
@@ -353,17 +353,17 @@ void DrawObjSpikes(Byte object)
 {
     int image;
 
-    if ((*(Word *)&FChar.image) == 0xf0)
-        (*(Word *)&FChar.image) = 8;
-    else if ((*(Byte *)&FChar.image) & 0x80)
-        (*(Word *)&FChar.image) = 5;
+    if (FChar.image.number == 0xf0)
+        FChar.image.number = 8;
+    else if ((Byte)FChar.image.number & 0x80)
+        FChar.image.number = 5;
     else
-        ((Byte *)&FChar.image)[1] = 0;
+        FChar.image.number &= 0xff;
 
     if (object == 0x84)
-        image = spike_images_a[(*(Word *)&FChar.image)];
+        image = spike_images_a[FChar.image.number];
     else if (object == 0x85)
-        image = spike_images_b[(*(Word *)&FChar.image)];
+        image = spike_images_b[FChar.image.number];
     else
         return;
 
@@ -385,11 +385,11 @@ int GetSpikeIdx(Word state)
 }
 
 /* GetSpikeMobRoomRow */
-Mobile *GetSpikeMobRoomRow(Byte room, SByte row)
+MOBREC *GetSpikeMobRoomRow(Byte room, SByte row)
 {
     int found = 0;
     int index = 1;
-    Mobile *mob;
+    MOBREC *mob;
 
     do {
         mob = get_mob_type_item(4, index++);
@@ -405,7 +405,7 @@ int GetSpikes(void)
     int state;
     int result;
 
-    state = (*(Byte *)&Cell.modifier);
+    state = Cell.modifier.byte.phase;
     if (state && state != 0xf0) {
         if (state & 0x80)
             result = 1;
@@ -426,7 +426,7 @@ void MobSpikes(void)
     TileState *room;
 
     ReadCell(Mob.room, Mob.x / 32 - 1, Mob.row);
-    state = (*(Byte *)&Cell.modifier);
+    state = Cell.modifier.byte.phase;
     if (state != 0xf0) {
         if (state & 0x80) {
             --*(Byte *)&state; /* Decrement the low byte without changing the flags. */
@@ -443,21 +443,21 @@ void MobSpikes(void)
                 Mob.velocity = -1;
             }
         }
-        set_room_state(Cell.room);
+        select_room_arrays(Cell.room);
         room = BlueS;
-        *(Word *)((Byte *)room + Cell.index * sizeof(TileState)) = (state += Cell.modifier & 0x800);
-        Mob.flags = state;
+        room[Cell.index].spikes.word = (state += Cell.modifier.word & 0x800);
+        Mob.spikes.word = state;
     }
 }
 
 /* TriggerSpikes */
 void TriggerSpikes(Byte room, int index)
 {
-    register Word next;
+    Word next;
     SpikeState *spikes;
     Word state;
     SByte row;
-    Mobile *mob;
+    MOBREC *mob;
     int zero;
 
     spikes = &BlueS[index].spikes;
@@ -476,11 +476,11 @@ void TriggerSpikes(Byte room, int index)
             Mob.kind = 4;
             next = spikes->word + 1;
             spikes->word = next;
-            Mob.flags = next;
+            Mob.spikes.word = next;
             add_mob();
             AddSound(78);
         } else if (state != 0xf0) {
-            next = (*(volatile Word *)&Cell.modifier & 0x800) + 0x8f;
+            next = (Cell.modifier.word & 0x800) + 0x8f;
             spikes->word = next;
             mob = GetSpikeMobRoomRow(Char.room, Char.row);
             if (mob)

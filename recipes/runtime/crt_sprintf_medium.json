@@ -1,9 +1,9 @@
 {
   "archive_offset": 43504,
   "binding": "evidence/bindings/crt_sprintf_medium.json",
-  "binding_sha256": "d0da7f9ed20f6eab7e6cd519a266d176a30e8d42b2430e8457d7c40c3d8c931a",
+  "binding_sha256": "380e1d4760d069e770d8bf946ae0fdd0471798de8447f12cb4af324509a3c909",
   "boundary_evidence": [
-    "Complete independent medium-model MSC 6.00 mlibcr.lib member (archive offset 43504, 356 bytes) whose whole 90-byte CODE segment lies at root 0x2156e (1fe6:170e) in the monotone runtime run of frame 1fe6; every fixup proven by runtime-symbolic-v1 equations, with signature-anchored providers, data code pointers and the MSG class run where listed."
+    "Complete independent mlibcr.lib member (archive offset 43504, 356 bytes) whose whole 90-byte segment lies at root+0x215fe in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 9,
   "kind": "PINNED_RUNTIME",
@@ -19,12 +19,12 @@
     "_sprintf"
   ],
   "relocation_indices": [
-    1940,
-    1943
+    1904,
+    1936
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 90,
   "space": "root",
-  "target_sha256": "36e913b51ca8e483e907f93b9972a636d8c6be67fb1373ff44dd2ead2b9e19e6"
+  "target_sha256": "ef400b60bfb15ef83e27bd8b12f175774b6a77d9b491ccd5049f90bbd9811086"
 }

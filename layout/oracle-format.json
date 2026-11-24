@@ -1,13 +1,38 @@
 {
-  "schema": 1,
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
-  "descriptor_table_file_offset": 150347,
   "descriptor_count": 16,
-  "record_format": "<HHHBBHHHHH",
+  "descriptor_table_file_offset": 150523,
+  "evidence": "Table: MZ entry CS 220e, getsectionptr BX = 18*AX + 0b1b, so 2000h + 220eh*16 + 0b1bh = 24bfbh. Compressed flag: root 220e:030b tests cs:[bx+7] & 20h before CALL FAR 22f2:1296 (docs/rtlink.md). Expanded images: the original expander run on the original payload (tools/overlay_expand.py).",
+  "expanded_sha256_by_overlay": {
+    "10": "63cc619ad653123b9f0f1d1a34e3e37da6112b2a0a3dbce8e5f1ce2c96da4299",
+    "11": "8cca261f575dd2117760f5335ad0138adcfacf243bfdb71db8a6c1a5efe8b16c",
+    "12": "2ed3efdf1948f10b3eba066dbd173a1826fbffeccad767597f55435fafda2522",
+    "13": "a6285e807e4f62a3cf44058b718b203d65380b2eed2950b91374c6ecb0980c71",
+    "14": "669fe3f5bf1d02383c2e509fcaf0b2334beb18f55220b9266e1770df0aa0808d",
+    "15": "19e2b69f7097d202b34ec83250a81731bed4c9ca42115c570223059466dd8588",
+    "2": "2289640660034d6a72fc08a756299f062b8c99b1ce2bc2fbd15a9b8717f66df9",
+    "3": "b1f96920eb99e7effb08ec3fd3bc7ae42d841950bfaae49fe5d4bbf9101d003d",
+    "4": "c3751adb8ab9d5a06e00e5b825c64e58ae96b593d3f5a05692a320c1516204dd",
+    "5": "6b1865298ae547f3e2bde7c860ad98de77202827a31570f5cecf72afaa4bd517",
+    "6": "4a324c89e70d8acc43107f8d783d349d29a434b31b90e6266cd2a1bab2de89b6",
+    "7": "b4ecbbb479ac6a3ca504969a0b005ced64a1cb360e1e4c7d197b547aeb9ea788",
+    "8": "a1fe97309747e6f87d39f02cf95b2294a62ad2d5a75fa0e6617ab5d417636b24",
+    "9": "c592417655a9dd875730a9ab7b670e97447afeaaa470af4caeb426a17a8c4845"
+  },
+  "expander_entry": [
+    8946,
+    4758
+  ],
   "first_overlay_id": 2,
-  "payload_shortfall_by_overlay": {"17": 1},
-  "evidence": "Public reference recomp/image.py at e2c407fa8409ad891bf78c8e98c3e052dd00869b; independently decoded from locked executable. Runtime-derived locator remains debt.",
+  "flags_status": "14 compressed code overlays (24h), 1 uncompressed code overlay (04h), 1 preloaded data overlay (01h)",
   "offset_status": "guarded_target_specific_bootstrap",
-  "unknown_fields": ["f2", "f8", "fc"],
-  "flags_status": "4 ordinary overlays and 1 data/driver space observed; exact RTLink semantics unresolved"
+  "payload_shortfall_by_overlay": {
+    "17": 1
+  },
+  "record_format": "<HHHBBHHHHH",
+  "schema": 1,
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7",
+  "unknown_fields": [
+    "f2",
+    "fc"
+  ]
 }

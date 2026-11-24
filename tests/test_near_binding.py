@@ -17,7 +17,7 @@ from common import sha, write_json
 from omf import OmfReader
 from oracle import Space
 from runtime import verify_member
-from test_runtime import runtime_omf, omf_record
+from tests.test_runtime import runtime_omf, omf_record
 
 
 def object_with_fixup(code, fix_body, *, provider=False):

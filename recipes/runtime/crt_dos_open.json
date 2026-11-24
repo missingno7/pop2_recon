@@ -1,12 +1,9 @@
 {
   "archive_offset": 120016,
   "binding": "evidence/bindings/crt_dos_open.json",
-  "binding_sha256": "28ecfeb99c49eefb7aed41662af46f7fae43ee9a88b76f28fe32ff9d1f79059b",
+  "binding_sha256": "45d7dd6ce9a042757f3d7f0074051a96dec7e52971c573a6805898da03716581",
   "boundary_evidence": [
-    "Complete independent medium-model dos\\d_open.asm OMF member has one public __dos_open at offset0, complete initialized23-byte CODE and empty DATA; entire181-byte member and142539-byte archive pinned.",
-    "Independent original relocated far-call encoding at root image24314 specifies1fe6:1bcc; segment relocation at24317 anchors owner CS/IP.",
-    "Complete original body[1bcc,1be3) branches internally to final E9 at1be0; tail targets independently grounded __dosreturn at1fe6:0604. Original byte1be3 is unowned alignment; next entry begins1be4.",
-    "Provider anchor uses complete independent __dos_close at1b94 with far-call image80524, outside proposed open owner, plus its straight-line actual E9 path. No open-owned byte anchors its own provider."
+    "Complete independent mlibcr.lib member (archive offset 120016, 181 bytes) whose whole 23-byte segment lies at root+0x21b16 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 1,
   "kind": "PINNED_RUNTIME",
@@ -16,14 +13,14 @@
   "member_sha256": "8f43c497c233f08ff160775193965e9860865d3a02833ddffbcb9a0973461df4",
   "name": "crt_dos_open",
   "object_segment": "_TEXT",
-  "offset": 7116,
+  "offset": 7206,
   "proof_scope": "Whole pinned member CODE with external near equations to independently anchored library public context; provider context owns zero bytes, final provider/TU/link placement and behavior unproved",
   "publics": [
     "__dos_open"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 23,
   "space": "root",
-  "target_sha256": "8e72d48fd7a93e0ce5f4e53aa104fd48c5f879bcd314a3f3e7a212698209d4d7"
+  "target_sha256": "7e1d7bf2eeed69d6c3aa0d09f56c72984132695760e56d79822211ccb5c4df95"
 }

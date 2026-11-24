@@ -1,13 +1,30 @@
 {
   "declarations": {
-    "externals": [
-      "__NFREE",
-      "FIND_RESOURCE_ENTRY",
-      "__NMALLOC",
-      "READ_RESOURCE_PAYLOAD",
-      "MOVE_HUGE_BYTES",
-      "QUERY_RESOURCE_PAYLOAD",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 145,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -19,208 +36,191 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "LOAD_RESOURCE_COPY",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 145,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "__NFREE",
+      "FIND_RESOURCE_ENTRY",
+      "__NMALLOC",
+      "READ_RESOURCE_PAYLOAD",
+      "MOVE_HUGE_BYTES",
+      "QUERY_RESOURCE_PAYLOAD",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 23,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "FIND_RESOURCE_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 1,
         "kind": "segment",
+        "index": 1,
         "name": "UNIT_TEXT"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 28,
-      "self_relative": true,
       "target": {
-        "index": 6,
         "kind": "external",
+        "index": 2,
+        "name": "FIND_RESOURCE_ENTRY",
         "method": 6,
-        "name": "QUERY_RESOURCE_PAYLOAD",
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 28,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 3,
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
         "kind": "external",
+        "index": 6,
+        "name": "QUERY_RESOURCE_PAYLOAD",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 55,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "external",
+        "index": 3,
         "name": "__NMALLOC"
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 55,
-      "self_relative": false,
       "target": {
+        "kind": "external",
         "index": 3,
-        "kind": "external",
-        "method": 6,
         "name": "__NMALLOC",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 82,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
       "target": {
+        "kind": "external",
         "index": 7,
-        "kind": "external",
-        "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 94,
-      "self_relative": true,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "MOVE_HUGE_BYTES",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 1,
         "kind": "segment",
+        "index": 1,
         "name": "UNIT_TEXT"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 119,
-      "self_relative": true,
       "target": {
-        "index": 4,
         "kind": "external",
+        "index": 5,
+        "name": "MOVE_HUGE_BYTES",
         "method": 6,
-        "name": "READ_RESOURCE_PAYLOAD",
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 119,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
       "frame": {
+        "kind": "segment",
         "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
         "kind": "external",
+        "index": 4,
+        "name": "READ_RESOURCE_PAYLOAD",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 136,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "external",
+        "index": 1,
         "name": "__NFREE"
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 136,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "__NFREE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -228,106 +228,120 @@
   "schema": 1,
   "symbols": {
     "FIND_RESOURCE_ENTRY": {
-      "entry_sha256": "826ec55e98dd4de8780d178ac8611867dd36d19948a6fac695043bf00783ff12",
-      "entry_target_id": "root:1101:755d",
+      "entry_sha256": "e4a5252c5187cda523148dd9ba792f41a8727ce00a14f34f914241fa6808961e",
+      "entry_target_id": "root:1129:753f",
       "kind": "near-code-entry",
-      "offset": 30045,
-      "segment": 4353,
+      "offset": 30015,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
+          "space": "root",
+          "image_offset": 98794,
           "bytes_hex": "e8e205",
-          "entry": "root:1101:6f6a",
-          "image_offset": 98184,
-          "space": "root"
+          "entry": "root:1129:6f4c"
         }
       ]
     },
     "MOVE_HUGE_BYTES": {
       "entry_sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
-      "entry_target_id": "root:1101:1b7c",
+      "entry_target_id": "root:1129:1fd0",
       "kind": "near-code-entry",
-      "offset": 7036,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "QUERY_RESOURCE_PAYLOAD": {
-      "entry_sha256": "3addf13ab21f5d0efd986c081071c873d6fb1c4c516dfb3df276387396e8855e",
-      "entry_target_id": "root:1101:73c4",
-      "kind": "near-code-entry",
-      "offset": 29636,
-      "segment": 4353,
+      "offset": 8144,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
+          "space": "root",
+          "image_offset": 100129,
+          "bytes_hex": "e83cab",
+          "entry": "root:1129:6f4c"
+        }
+      ]
+    },
+    "QUERY_RESOURCE_PAYLOAD": {
+      "entry_sha256": "8d72cfb52b5a822f5c20a2dd14431e9cb6be17f0f30e4a712888940227fe3c21",
+      "entry_target_id": "root:1129:73a6",
+      "kind": "near-code-entry",
+      "offset": 29606,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 99121,
           "bytes_hex": "e80203",
-          "entry": "root:1101:70ac",
-          "image_offset": 98511,
-          "space": "root"
+          "entry": "root:1129:708e"
         }
       ]
     },
     "READ_RESOURCE_PAYLOAD": {
-      "entry_sha256": "485765567d098b7a182cdabd16f5587edd321728f5b33986ef80080f4a1332ad",
-      "entry_target_id": "root:1101:7483",
+      "entry_sha256": "86635dbcdff14cd90890366993535f9a43be8f5ef6ee20c25933f838e4af902c",
+      "entry_target_id": "root:1129:7465",
       "kind": "near-code-entry",
-      "offset": 29827,
-      "segment": 4353,
+      "offset": 29797,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
+          "space": "root",
+          "image_offset": 99186,
           "bytes_hex": "e88003",
-          "entry": "root:1101:70ac",
-          "image_offset": 98576,
-          "space": "root"
+          "entry": "root:1129:708e"
         }
       ]
     },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+      "entry_target_id": "root:1129:15b2",
       "kind": "near-code-entry",
-      "offset": 8556,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "__NFREE": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
-      "kind": "far-code-entry",
-      "offset": 26,
-      "segment": 8166,
+      "offset": 5554,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
-          "space": "root"
+          "space": "root",
+          "image_offset": 99723,
+          "bytes_hex": "e8b4a2",
+          "entry": "root:1129:6f4c"
+        }
+      ]
+    },
+    "__NFREE": {
+      "entry_sha256": "6c8d6437e51e6e44221d027366ec5d2597ca05cffc7791cb3e0f824a273f056e",
+      "entry_target_id": "root:1fef:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8175,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 5322,
+          "bytes_hex": "9a1a00ef1f",
+          "file_offset": 13514,
+          "relocation_index": 56
         }
       ]
     },
     "__NMALLOC": {
-      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
-      "entry_target_id": "root:1fe6:003b",
+      "entry_sha256": "abd19e80ca3aabcf3263efabd0fa607a10f569effe3df9dbb140ef8d3f06a1e7",
+      "entry_target_id": "root:1fef:003b",
       "kind": "far-code-entry",
       "offset": 59,
-      "segment": 8166,
+      "segment": 8175,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a3b00e61f",
-          "file_offset": 13191,
-          "image_offset": 4999,
-          "relocation_index": 65,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5207,
+          "bytes_hex": "9a3b00ef1f",
+          "file_offset": 13399,
+          "relocation_index": 1
         }
       ]
     }
   },
   "target_id": "group:resc/load_resource_copy",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

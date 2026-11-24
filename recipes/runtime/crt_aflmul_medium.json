@@ -2,7 +2,7 @@
   "abi": "MSC far runtime arithmetic helper __aFlmul.",
   "archive_offset": 1952,
   "boundary_evidence": [
-    "Whole __aFlmul member matches original root+0x21b0e (50 bytes); MASM back-patch overwrites 2 byte(s), applied last-write-wins as RTLink 6.10 reproduces (build/workers/runtime_600a/linkprobe)."
+    "Complete independent LIBH.LIB member (archive offset 1952, 203 bytes) whose whole 50-byte segment lies at root+0x21bf8 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -12,7 +12,7 @@
   "member_sha256": "d8822a76aac196541594109c77e8a91f4252d211d3e15096f9731dbd745a89dc",
   "name": "crt_aflmul_medium",
   "object_segment": "_TEXT",
-  "offset": 6926,
+  "offset": 7160,
   "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
   "publics": [
     "__aFlmul",

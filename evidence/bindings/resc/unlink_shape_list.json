@@ -1,11 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "SAVE_HANDLE_FLAGS",
-      "FETCH_LOCKED_SHAPE_LIST",
-      "RESTORE_HANDLE_FLAGS",
-      "OCCUPIED_BANKS",
-      "UNLINK_SHAPE_LIST"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 78,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -19,186 +62,143 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "UNLINK_SHAPE_LIST",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 78,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "SAVE_HANDLE_FLAGS",
+      "FETCH_LOCKED_SHAPE_LIST",
+      "RESTORE_HANDLE_FLAGS",
+      "OCCUPIED_BANKS",
+      "UNLINK_SHAPE_LIST"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 3,
-          "kind": "external",
-          "method": 6,
-          "name": "RESTORE_HANDLE_FLAGS",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 66,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 3,
+          "name": "RESTORE_HANDLE_FLAGS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 3,
-        "kind": "external",
-        "method": 6,
         "name": "RESTORE_HANDLE_FLAGS",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 4,
-          "kind": "external",
-          "method": 6,
-          "name": "OCCUPIED_BANKS",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 53,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 4,
+          "name": "OCCUPIED_BANKS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 4,
-        "kind": "external",
-        "method": 6,
         "name": "OCCUPIED_BANKS",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 22,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
           "kind": "external",
+          "index": 2,
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
-          "name": "SAVE_HANDLE_FLAGS",
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 13,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
+        "index": 2,
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
-        "name": "SAVE_HANDLE_FLAGS",
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 13,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "SAVE_HANDLE_FLAGS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "SAVE_HANDLE_FLAGS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -206,72 +206,71 @@
   "schema": 1,
   "symbols": {
     "FETCH_LOCKED_SHAPE_LIST": {
-      "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
-      "entry_target_id": "root:1101:2362",
+      "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
+      "entry_target_id": "root:1129:1728",
       "kind": "far-code-entry",
-      "offset": 9058,
-      "segment": 4353,
+      "offset": 5928,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a62230111",
-          "file_offset": 20609,
-          "image_offset": 12417,
-          "relocation_index": 371,
-          "space": "root"
+          "space": "root",
+          "image_offset": 12695,
+          "bytes_hex": "9a28172911",
+          "file_offset": 20887,
+          "relocation_index": 382
         }
       ]
     },
     "OCCUPIED_BANKS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8392,
+      "offset": 7962,
       "witnesses": [
         {
-          "bytes_hex": "8536c820",
-          "context": "test word ptr [0x20c8], si reached from root:1000:1898",
-          "entry": "root:1000:1898",
-          "image_offset": 71862,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 71878,
+          "bytes_hex": "85361a1f",
+          "entry": "root:1129:0618"
         }
       ]
     },
     "RESTORE_HANDLE_FLAGS": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
-      "entry_target_id": "root:1101:2594",
+      "entry_target_id": "root:1129:195a",
       "kind": "far-code-entry",
-      "offset": 9620,
-      "segment": 4353,
+      "offset": 6490,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a94250111",
-          "file_offset": 20946,
-          "image_offset": 12754,
-          "relocation_index": 380,
-          "space": "root"
+          "space": "root",
+          "image_offset": 13032,
+          "bytes_hex": "9a5a192911",
+          "file_offset": 21224,
+          "relocation_index": 308
         }
       ]
     },
     "SAVE_HANDLE_FLAGS": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
-      "entry_target_id": "root:1101:22d0",
+      "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",
-      "offset": 8912,
-      "segment": 4353,
+      "offset": 5910,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ad0220111",
-          "file_offset": 20600,
-          "image_offset": 12408,
-          "relocation_index": 338,
-          "space": "root"
+          "space": "root",
+          "image_offset": 12686,
+          "bytes_hex": "9a16172911",
+          "file_offset": 20878,
+          "relocation_index": 368
         }
       ]
     }
   },
   "target_id": "group:resc/unlink_shape_list",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

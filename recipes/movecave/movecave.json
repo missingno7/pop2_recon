@@ -1,217 +1,87 @@
 {
   "binding": "evidence/bindings/movecave/movecave.json",
-  "binding_sha256": "e97cd6f775ad0e42907208b552c391bd445e162536feb0701993cf3c49393567",
+  "binding_sha256": "c3758db181291fb4acf3573858715765d0c0071928530a6c0d9647e5ac5a3a63",
   "claims": [
+    {
+      "fixup_count": 25,
+      "public": "TRIGGER_REVERSE_GATE",
+      "relocation_indices": [
+        2,
+        19,
+        61
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:0000"
+    },
     {
       "fixup_count": 5,
       "public": "ANIMATE_DART",
-      "target_id": "overlay-6:29cf:017c"
+      "target_id": "overlay-6:2bda:017c"
     },
     {
       "fixup_count": 13,
       "public": "MOVE_DART_TO_TILE",
       "relocation_indices": [
-        36,
-        45,
-        49,
-        60
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:01a2"
-    },
-    {
-      "fixup_count": 12,
-      "public": "CHECK_DART_HIT",
-      "relocation_indices": [
+        13,
         23,
-        34
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:01f4"
-    },
-    {
-      "fixup_count": 42,
-      "public": "MOVE_DART_MOB",
-      "relocation_indices": [
-        3,
-        4,
-        5,
-        25,
-        26,
-        32,
-        33,
-        55
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:02ac"
-    },
-    {
-      "fixup_count": 18,
-      "public": "HIT_ACTOR_WITH_DART",
-      "relocation_indices": [
-        1,
-        6,
-        7,
-        14,
-        18,
-        35,
-        41,
-        50,
-        51,
-        56,
-        66,
-        67
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:0422"
-    },
-    {
-      "fixup_count": 4,
-      "public": "REDRAW_DART",
-      "relocation_indices": [
-        16,
-        40
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:04b6"
-    },
-    {
-      "fixup_count": 21,
-      "public": "TRIGGER_DART",
-      "relocation_indices": [
-        2,
-        8,
-        57
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:04d0"
-    },
-    {
-      "fixup_count": 11,
-      "public": "ANIMATE_LAVA",
-      "relocation_indices": [
-        9,
-        17,
-        20
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:05b0"
-    },
-    {
-      "fixup_count": 12,
-      "public": "CHECK_LAVA_BOIL",
-      "relocation_indices": [
-        27,
-        64
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:06e8"
-    },
-    {
-      "fixup_count": 24,
-      "public": "DO_LAVA_BOIL",
-      "relocation_indices": [
-        10,
-        11,
-        12,
-        42,
-        43,
-        52,
-        53,
+        46,
         65
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-6:29cf:0756"
+      "target_id": "overlay-6:2bda:01a2"
     },
     {
-      "fixup_count": 3,
-      "public": "GET_FREE_LAVA_SLOT",
+      "fixup_count": 12,
+      "public": "CHECK_DART_HIT",
       "relocation_indices": [
-        15
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:0806"
-    },
-    {
-      "fixup_count": 2,
-      "public": "GET_LAVA_INFO",
-      "target_id": "overlay-6:29cf:0846"
-    },
-    {
-      "fixup_count": 5,
-      "public": "GET_LAVA_TROB",
-      "relocation_indices": [
-        28,
-        29,
+        40,
         47
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-6:29cf:087a"
+      "target_id": "overlay-6:2bda:01f4"
     },
     {
-      "fixup_count": 3,
-      "public": "CLEAR_LAVA_SLOTS",
+      "fixup_count": 42,
+      "public": "MOVE_DART_MOB",
       "relocation_indices": [
-        21
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:08c6"
-    },
-    {
-      "fixup_count": 14,
-      "public": "REDRAW_LAVA",
-      "relocation_indices": [
-        22,
-        37,
-        38,
-        39,
-        62,
+        4,
+        10,
+        27,
+        49,
+        50,
+        55,
+        60,
         63
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-6:29cf:08f6"
+      "target_id": "overlay-6:2bda:02ac"
     },
     {
-      "fixup_count": 28,
-      "public": "RESET_LAVA_INFO",
-      "target_id": "overlay-6:29cf:097e"
-    },
-    {
-      "fixup_count": 6,
-      "public": "TRIGGER_LAVA",
+      "fixup_count": 18,
+      "public": "HIT_ACTOR_WITH_DART",
       "relocation_indices": [
-        48,
+        1,
+        5,
+        11,
+        16,
+        17,
+        22,
+        28,
+        31,
+        34,
+        53,
         54,
         58
       ],
@@ -219,81 +89,200 @@
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-6:29cf:0a56"
+      "target_id": "overlay-6:2bda:0422"
     },
     {
-      "fixup_count": 0,
-      "public": "TRIGGERLAVABUBBLE",
-      "target_id": "overlay-6:29cf:0ab8"
-    },
-    {
-      "fixup_count": 19,
-      "public": "MOVE_CAVE_GATE",
+      "fixup_count": 4,
+      "public": "REDRAW_DART",
       "relocation_indices": [
-        31,
-        59,
-        61
+        0,
+        7
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:2bda:04b6"
+    },
+    {
+      "fixup_count": 21,
+      "public": "TRIGGER_DART",
+      "relocation_indices": [
+        32,
+        48,
+        52
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-6:29cf:0b10"
+      "target_id": "overlay-6:2bda:04d0"
+    },
+    {
+      "fixup_count": 11,
+      "public": "ANIMATE_LAVA",
+      "relocation_indices": [
+        6,
+        38,
+        51
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:05ae"
+    },
+    {
+      "fixup_count": 12,
+      "public": "CHECK_LAVA_BOIL",
+      "relocation_indices": [
+        41,
+        62
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:2bda:06e6"
+    },
+    {
+      "fixup_count": 24,
+      "public": "DO_LAVA_BOIL",
+      "relocation_indices": [
+        3,
+        18,
+        24,
+        26,
+        35,
+        36,
+        56,
+        57
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:0754"
+    },
+    {
+      "fixup_count": 3,
+      "public": "GET_FREE_LAVA_SLOT",
+      "relocation_indices": [
+        59
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:2bda:0804"
+    },
+    {
+      "fixup_count": 2,
+      "public": "GET_LAVA_INFO",
+      "target_id": "overlay-6:2bda:0844"
+    },
+    {
+      "fixup_count": 5,
+      "public": "GET_LAVA_TROB",
+      "relocation_indices": [
+        21,
+        64,
+        66
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:0878"
+    },
+    {
+      "fixup_count": 3,
+      "public": "CLEAR_LAVA_SLOTS",
+      "relocation_indices": [
+        39
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:2bda:08c4"
+    },
+    {
+      "fixup_count": 14,
+      "public": "REDRAW_LAVA",
+      "relocation_indices": [
+        15,
+        29,
+        30,
+        42,
+        43,
+        44
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:08f4"
+    },
+    {
+      "fixup_count": 28,
+      "public": "RESET_LAVA_INFO",
+      "target_id": "overlay-6:2bda:097c"
+    },
+    {
+      "fixup_count": 6,
+      "public": "TRIGGER_LAVA",
+      "relocation_indices": [
+        8,
+        20,
+        33
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:0a54"
+    },
+    {
+      "fixup_count": 0,
+      "public": "TRIGGERLAVABUBBLE",
+      "target_id": "overlay-6:2bda:0ab6"
+    },
+    {
+      "fixup_count": 20,
+      "public": "MOVE_CAVE_GATE",
+      "relocation_indices": [
+        9,
+        37,
+        45
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2bda:0b0e"
     },
     {
       "fixup_count": 1,
       "public": "GET_CAVE_TORCH_FRAME",
       "relocation_indices": [
-        13
+        25
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:0bc4"
+      "target_id": "overlay-6:2bda:0bc2"
     },
     {
       "fixup_count": 0,
       "public": "CAVE_OVERLAY_ENTRY",
-      "target_id": "overlay-6:29cf:0bea"
+      "target_id": "overlay-6:2bda:0be8"
     },
     {
       "fixup_count": 7,
       "public": "CAVE_FRAME",
       "relocation_indices": [
-        19
+        14
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:0bec"
-    },
-    {
-      "fixup_count": 4,
-      "public": "INITIALIZE_BRIDGE",
-      "relocation_indices": [
-        30,
-        44
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-6:29cf:0c1c"
-    },
-    {
-      "fixup_count": 25,
-      "public": "TRIGGER_REVERSE_GATE",
-      "relocation_indices": [
-        0,
-        24,
-        46
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-6:29cf:0000"
+      "target_id": "overlay-6:2bda:0bea"
     }
   ],
   "data_publics": [
     {
-      "address": 5980,
+      "address": 5616,
       "name": "BUBBLE_FRAMES",
       "offset": 210,
       "segment": "_DATA",
@@ -301,28 +290,32 @@
       "unique": true
     }
   ],
-  "drafts": [],
-  "emitted_size": 3146,
+  "drafts": [
+    {
+      "object_offset": 3098,
+      "public": "INITIALIZE_BRIDGE"
+    }
+  ],
+  "emitted_size": 3138,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10703,
+  "frame": 11226,
   "group_id": "group:movecave/movecave",
   "kind": "same_source_group",
   "language": "c",
   "name": "movecave/movecave",
-  "object_sha256": "6fae03726f95d21b5a3bd8d10a386c5fc54a9a59b6b266cf0b4f455b69e5007e",
+  "object_sha256": "879c82a0ed3497dd4a7a854494b7e8199ddce37ceadb12ba099dd57bc125ad9c",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/movecave/movecave.c",
-  "source_sha256": "0e5b202471ff7bd063ce2f5f40c5ea066605f0e1be59aaf7acad41d47beaa5cd",
+  "source_sha256": "4afbe5fa506b9e3291399e9fc65d0f61c3f8b859fdf7e3f7747922f6ba43f0d8",
   "space": "overlay-6"
 }

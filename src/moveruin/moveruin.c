@@ -129,7 +129,6 @@ typedef struct {
 } MOBREC;
 #pragma pack()
 
-extern MOBREC Mob;
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -141,6 +140,7 @@ typedef struct {
 #pragma pack()
 
 extern ROOMREC Room;
+extern MOBREC Mob;
 extern Byte plateau_intro;
 extern CellCoord CutRoom;
 extern Byte *ruins_start_actor;
@@ -160,7 +160,7 @@ extern void reset_char_y(void);
 extern void AnimChar(void);
 extern void open_start_gate(void);
 extern Byte ClrAll(void);
-extern int load_palette_bank(unsigned int, int, Byte, Byte);
+extern int set_palette(unsigned int, int, Byte, Byte);
 extern void AddSong(int);
 
 void clip_ruins_actor(void)
@@ -199,9 +199,9 @@ void fall_spikes(void)
     Mob.y = 63 * Cell.row + 66;
     Mob.room = ((CellCoord)Cell.room);
     Mob.velocity = Mob.auxiliary = 0;
-    (*(volatile Byte *)&Mob.kind) = 3;
-    (*(volatile CellCoord *)&Mob.row) = Cell.row;
-    (*(volatile int *)&Mob.flags) = 0;
+    Mob.kind = 3;
+    Mob.row = Cell.row;
+    Mob.flags = 0;
     add_mob();
     make_space(((CellCoord)Cell.room), Cell.index);
     saved_x = Mob.x;
@@ -234,13 +234,13 @@ void cut_kid_inside_level6(void)
 
 void load_ruins_start_palette(void)
 {
-    load_palette_bank(3500, 64, 160, 1);
+    set_palette(3500, 64, 160, 1);
 }
 
 void unload_ruins_start_palette(void)
 {
     if (Kid.alive < 0 && ruins_start_loaded)
-        load_palette_bank(3500, 64, 160, 0);
+        set_palette(3500, 64, 160, 0);
 }
 
 void LoadRuinsMoveCode(void)
@@ -254,9 +254,9 @@ void load_plateau_room(void)
             AddSong(92);
             return;
         }
-        if (Room.number == 2 && ((Byte)Level.level_number) == 9 && !plateau_room_loaded) {
-            AddSong(91);
-            plateau_room_loaded = 1;
-        }
+    } else if (Room.number == 2 && ((Byte)Level.level_number) == 9 && !plateau_room_loaded
+               && Kid.column < 5) {
+        AddSong(91);
+        plateau_room_loaded = 1;
     }
 }

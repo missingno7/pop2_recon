@@ -1,131 +1,142 @@
 {
   "binding": "evidence/bindings/gfxerr/gfxerr.json",
-  "binding_sha256": "8a035dbc0f761d9ad9396121d5b25ac6de267fc202ee543abae1898a0f75b5aa",
+  "binding_sha256": "f750e184444843091506e8f649172f0193b2468c79fa6cfd11fc9e689fb71cae",
   "claims": [
     {
       "fixup_count": 1,
+      "public": "CONFIRM_ACTION",
+      "target_id": "root:1f45:0000"
+    },
+    {
+      "fixup_count": 1,
       "public": "SHOW_MESSAGE",
-      "target_id": "root:1f74:0030"
+      "target_id": "root:1f45:002e"
     },
     {
       "fixup_count": 1,
       "public": "CONFIRM_QUIT",
-      "target_id": "root:1f74:004e"
+      "target_id": "root:1f45:004c"
     },
     {
       "fixup_count": 5,
       "public": "RUN_WINDOW_ITEM_EFFECT",
       "relocation_indices": [
-        1886,
-        1888
+        1858,
+        1861
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:1f74:007c"
+      "target_id": "root:1f45:007a"
     },
     {
       "fixup_count": 7,
       "public": "RUN_DIALOG_PRESERVING_DIRECTORY",
       "relocation_indices": [
-        1883,
-        1891,
-        1900
+        1860,
+        1869,
+        1874
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:1f74:00c2"
+      "target_id": "root:1f45:00c0"
     },
     {
       "fixup_count": 1,
       "public": "ALLOCATE_GOLD_HANDLE",
       "relocation_indices": [
-        1898
+        1864
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:1f74:0116"
+      "target_id": "root:1f45:0114"
     },
     {
       "fixup_count": 13,
       "public": "SHOW_RESOURCE_DIALOG",
       "relocation_indices": [
-        1881,
-        1884,
-        1887,
-        1889,
-        1894,
-        1896,
-        1901
+        1857,
+        1862,
+        1868,
+        1871,
+        1873,
+        1877,
+        1878
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:1f74:0130"
+      "target_id": "root:1f45:012e"
     },
     {
       "fixup_count": 6,
       "public": "RESTORE_DIALOG_PORT",
       "relocation_indices": [
-        1882
+        1872
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:1f74:01ce"
+      "target_id": "root:1f45:01cc"
     },
     {
       "fixup_count": 10,
       "public": "CREATE_DIALOG_PORT",
       "relocation_indices": [
-        1892,
-        1893,
-        1895,
-        1897,
-        1899,
-        1902
+        1863,
+        1865,
+        1870,
+        1876,
+        1879,
+        1880
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:1f74:01f8"
+      "target_id": "root:1f45:01f6"
     },
     {
       "fixup_count": 3,
       "public": "SET_MODE_FLAG_VALUE",
-      "target_id": "root:1f74:0266"
+      "target_id": "root:1f45:0264"
     },
     {
       "fixup_count": 7,
       "public": "SET_WINDOW_ITEM_TEXT",
       "relocation_indices": [
-        1880,
-        1885,
-        1890
+        1856,
+        1859,
+        1867
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:1f74:027a"
+      "target_id": "root:1f45:0278"
     },
     {
       "fixup_count": 0,
       "public": "SET_NEAR_RECORD_WORD20",
-      "target_id": "root:1f74:02bc"
-    }
-  ],
-  "drafts": [
+      "target_id": "root:1f45:02ba"
+    },
     {
-      "object_offset": 0,
-      "public": "CONFIRM_ACTION"
+      "fixup_count": 2,
+      "public": "READ_QUEUED_KEY",
+      "relocation_indices": [
+        1866,
+        1875
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1f45:02ca"
     }
   ],
-  "emitted_size": 714,
+  "drafts": [],
+  "emitted_size": 762,
   "flags": [
     "/c",
     "/AM",
@@ -134,17 +145,17 @@
     "/Zl",
     "/Gc"
   ],
-  "frame": 8052,
+  "frame": 8005,
   "group_id": "group:gfxerr/gfxerr",
   "kind": "same_source_group",
   "language": "c",
   "name": "gfxerr/gfxerr",
-  "object_sha256": "32fa9f938aa28774d1e617b8cff909bc4a59611800335c671ae062ad1315b22b",
-  "origin": 128834,
+  "object_sha256": "896b8e79a9f3ef7f6cf757e9b815f0df66c733b52e1eddf55fe771a48ee77f82",
+  "origin": 128080,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/gfxerr/gfxerr.c",
-  "source_sha256": "f02ea330bdb94560e56f64f27f041a805904f3613d95c207d6e2a29500afb525",
+  "source_sha256": "8b3ba9288444e237c894bb6412b6c15098dde8a6227f74ad177e76fe45b38a00",
   "space": "root"
 }

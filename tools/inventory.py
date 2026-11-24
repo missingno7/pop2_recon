@@ -49,10 +49,10 @@ def main():
     args = parser.parse_args()
     if args.freeze:
         require(not LOCK.exists(), "Refusing to overwrite frozen oracle lock")
-        inv = inventory(ROOT / "assets/DOS")
+        inv = inventory(ROOT / "assets/pop2_11")
         target = next(r for r in inv["files"] if r["path"] == "PRINCE.EXE")
         write_json(LOCK, {"schema": 1, "authority": "Immutable supplied assets; never candidate output",
-                          "target": {"path": "assets/DOS/PRINCE.EXE", "size": target["size"],
+                          "target": {"path": "assets/pop2_11/PRINCE.EXE", "size": target["size"],
                                      "sha256": target["sha256"]}, "assets": inv})
     lock = verify_assets()
     print(f"Verified {lock['assets']['file_count']} assets, {lock['assets']['total_bytes']} bytes")

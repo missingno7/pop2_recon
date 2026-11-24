@@ -5,14 +5,13 @@ supplied DOS executable's machine code. This repository starts with component
 matching; whole RTLink structural closure is a separate investigation. No SDL
 port has been started.
 
-Target: local `assets/DOS/PRINCE.EXE`, 290,415 bytes, SHA-256
-`5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
-Its exact release identity is unconfirmed. The supplied `PRINCE2.EX_` differs
-at five bytes and has a separate locked identity; matching targets the requested
-`PRINCE.EXE` without undoing that difference.
+Target: local `assets/pop2_11/PRINCE.EXE` (v1.1, the last release), 259,583 bytes, SHA-256
+`c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7`, with its asset directory locked in
+`layout/oracle.lock.json`. Until 2026-11-23 the target was the leaked pre-1.0 build in `assets/DOS`; that
+reconstruction (1,565 exact components) is frozen at tag `oracle-dos-1565`.
 
-The oracle contains a 144,445-byte resident load image, 16 attached spaces
-(overlays 2-17), and 4,716 ordered relocation records. File offsets, link
+The oracle contains a 151,979-byte resident load image and 16 attached spaces (overlays 2-17); the 14
+compressed overlays are expanded by the original's own expander (`tools/overlay_expand.py`). File offsets, link
 segment:offset pairs and runtime addresses stay distinct. Overlay spaces overlap
 in memory and remain separately identified. See [RTLink evidence](docs/rtlink.md),
 [external leads](docs/external-evidence.md), and [sibling workflows](docs/sibling-workflows.md).
@@ -23,7 +22,7 @@ Run from the repository using Python 3.10 or newer:
 python tools/inventory.py
 python tools/oracle.py --extract
 python tools/discover.py
-python tools/context.py root:2203:0678 --asm
+python tools/context.py root:220e:0678 --asm
 python tools/runtime_scan.py C:/tools/msc-6.00/LIB/mlibcr.lib --output build/workers/review/runtime.json
 python tools/metrics.py
 python tools/validate.py

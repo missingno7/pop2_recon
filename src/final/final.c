@@ -125,8 +125,8 @@ extern ROOMREC Room;
 extern LEVELREC Level;
 extern int Pause;
 extern CHARREC Char;
-extern CHARREC RoomOpp[5];
 extern CHARREC Opp;
+extern CHARREC RoomOpp[5];
 extern CHARREC Kid;
 extern int trob_count;
 
@@ -144,7 +144,7 @@ void far pascal draw_crystal(FinalObject near *object);
 void far pascal draw_gargoyle(FinalObject near *object);
 void far pascal FinlGenerateOpp(sbyte variant, sbyte room);
 
-void far pascal draw_final_object(register FinalObject near *object)
+void far pascal draw_final_object(FinalObject near *object)
 {
     if (Room.number == 6 && Level.environment_kind == 6 &&
         (object->animation & 0x1000))
@@ -184,7 +184,7 @@ void far pascal check_dead_opponent(void)
         AddSound(197);
         ++Char.alive;
     }
-    if ((*(volatile byte *)&Char.field_0f) == 0 && Char.alive > 6)
+    if (Char.field_0f == 0 && Char.alive > 6)
         ++Char.alive;
 }
 
@@ -226,7 +226,10 @@ typedef struct {
     byte unused2[2];
     byte initial_strength;
     sbyte stance[4];
-    sbyte row;
+    union {
+        sbyte row;
+        int transition_state;
+    } location;
 } OpponentSlot;
 
 extern int ColEdgeX[20];
@@ -252,8 +255,8 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     if (variant < 5)
         opponent->direction = 0;
     else
-        *(byte near *)&opponent->direction = 0xff;
-    opponent->style = 7;
+        opponent->direction = -1;
+    opponent->style = 5;
     if (opponent_bank == 0) {
         reserve_opponent_bank(1);
         load_opponent_banks();
@@ -261,7 +264,7 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     opponent->bank = opponent_bank;
     opponent->index = index;
     opponent->delay = opponent->status = 0;
-    opponent->row = room;
+    opponent->location.row = room;
     opponent->initial_strength = opponent->strength = Rnd(2) + 3;
     Char.slot = index;
     Char.direction = opponent->direction;
@@ -269,16 +272,16 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     Char.character_kind = OppCharId[((sbyte)Level.preferred_opponent)];
     Char.column = variant;
     Char.row = room;
-    (*(volatile unsigned char *)&Char.behavior) = 0;
+    Char.behavior = 0;
     Char.room = 3;
     Char.life_delta = Char.life_points = Char.life_initial = opponent->strength;
     Char.alive = -1;
     Char.field_34 = 4;
     reset_char_y();
     ClearCharVel();
-    (*(volatile int *)&Char.sequence_group) = 0;
-    (*(volatile byte *)&Char.field_0f) = 1;
-    (*(volatile byte *)&Char.stance) = 0;
+    Char.sequence_group = 0;
+    Char.field_0f = 1;
+    Char.stance = 0;
     JumpSeq(238);
     Char.alert_delay = 0;
     AnimChar();
@@ -288,8 +291,18 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     save_actor_slot();
 }
 
-void far pascal final_noop(void)
+int far pascal final_noop(void)
 {
+    int index = RoomOpp[0].sequence == 243 ? 0 : 1;
+    int next;
+
+    if (Room.number == 7 && RoomOpp[index].column >= 10)
+        next = 1;
+    else if (Room.number == 8 && RoomOpp[index].column < 0)
+        next = 0;
+    else
+        next = -1;
+    return next;
 }
 
 extern FCHARREC FChar;
@@ -303,15 +316,18 @@ void far pascal clip_final_character(void)
 
 extern sbyte CutRoom;
 extern byte scroll_pending;
-extern int sound_period;
-extern byte LevelIdx;
+extern unsigned int death_sequence_alternate;
+extern sbyte LevelIdx;
+extern int next_level;
+extern byte ambient_state;
+extern unsigned int escher_room_eight_seen;
 extern void far pascal ClrAll(void);
 extern int far pascal query_sound(int tune);
 extern void far pascal AddSong(int tune);
 extern void far pascal play_nis(int mode);
 extern void far pascal reset_level_overlays(void);
 extern void far pascal load_level(sbyte room);
-extern void far pascal fade_scene(int ticks, int speed, byte color, byte direction);
+extern void far pascal set_palette(int ticks, int speed, byte color, byte direction);
 extern void far pascal set_kid_palette(sbyte room);
 
 void far pascal FinlWatchKid(void);
@@ -322,7 +338,7 @@ void far pascal cut_kid_to_chess_room(void)
     Char.field_34 = 2;
     Char.direction = 0;
     JumpSeq(55);
-    (*(volatile byte *)&Char.stance) = 1;
+    Char.stance = 1;
     AddSound(19);
     CutRoom = Char.room = 4;
     Char.column = 5;
@@ -341,7 +357,8 @@ void far pascal run_final_frame(void)
     FinlWatchKid();
     FinlWatchOpps();
 
-    if (!query_sound(sound_period + 10000)) {
+    if (ambient_state && !query_sound(death_sequence_alternate + 10000) &&
+        Kid.alive < 0 && LevelIdx == next_level) {
         int tune = -1;
 
         switch (Room.number) {
@@ -349,16 +366,16 @@ void far pascal run_final_frame(void)
             tune = 269;
             break;
         case 6:
-            if (Level.room_objects[6 - 1].opponent_count)
-                tune = 270;
+            tune = (byte)Level.room_objects[5].opponent_count ? 270 : 268;
             break;
-        case 7:
         case 8:
-            if (Level.room_objects[Room.number - 1].opponent_count)
-                tune = 263;
+            escher_room_eight_seen = 1;
+            /* Fall through. */
+        case 7:
+            tune = escher_room_eight_seen ? 263 : 268;
             break;
         }
-        if (tune != -1)
+        if (tune != -1 && !query_sound(tune + 10000))
             AddSong(tune);
     }
 }
@@ -368,7 +385,7 @@ void far pascal enter_princess_room(void)
     play_nis(5);
     reset_level_overlays();
     load_level(LevelIdx);
-    fade_scene(1000, 240, 16, 0);
+    set_palette(1000, 240, 16, 0);
     set_kid_palette(6);
     cut_kid_to_chess_room();
 }
@@ -384,8 +401,12 @@ typedef struct {
 } Rect;
 
 typedef struct {
+    int dy, dx;
+} ShapeOffset;
+
+typedef struct {
     sbyte shape_delta;
-    unsigned long shape_list;
+    ShapeOffset shape_offset;
     byte layer;
     byte attributes[5];
     Rect bounds;
@@ -507,7 +528,7 @@ void far pascal dismiss_other_jaffars(void)
     if (count > 0)
         do {
             load_actor_slot(i);
-            if (Char.character_kind == 6 && Opp.slot != Char.slot && Char.frame == 15) {
+            if (Char.character_kind == 6 && Char.slot != Opp.slot && Char.frame == 15) {
                 JumpSeq(240);
                 save_actor_slot();
             }
@@ -520,8 +541,8 @@ void far pascal cast_jaffar_spell(void)
     int sequence = -1;
 
     if (Char.frame == 15) {
-        if ((Opp.x < Char.x && Char.direction != -1) ||
-            (Opp.x >= Char.x && Char.direction != 0))
+        if ((Char.x > Opp.x && Char.direction != -1) ||
+            (Char.x <= Opp.x && Char.direction != 0))
             sequence = 5;
         else
             sequence = 242;
@@ -560,12 +581,14 @@ void far pascal jaffar_attack_in_escher(void)
             finish_casting_at_kid();
         move = 0;
     } else if (stance[1] == stance[2]) {
-        if (Opp.row == Char.row && jaffar_has_clear_shot())
+        if (Char.row == Opp.row && jaffar_has_clear_shot()) {
             cast_jaffar_spell();
-        if (shadow_in_range(stance[1], -1))
-            JaffarSetToNextPos((char near *)stance);
-        else
-            JaffarSetToPrevPos((char near *)stance);
+        } else if (Opp.sequence != 241) {
+            if (shadow_in_range(stance[1], -1))
+                JaffarSetToNextPos((char near *)stance);
+            else
+                JaffarSetToPrevPos((char near *)stance);
+        }
     }
     if (move && stance[1] != stance[2] && Opp.life_points > 0) {
         if (Char.row == 1 && jaffar_has_clear_shot()) {
@@ -600,7 +623,7 @@ int far pascal jaffar_has_clear_shot(void)
     int clear = 0;
 
     if (Opp.life_points > 0 && (Opp.room == 7 || Opp.room == 8) &&
-        Level.environment_kind == 6 && Char.row == Opp.row &&
+        Level.environment_kind == 6 && Opp.sequence != 241 && Char.row == Opp.row &&
         (hit_actions[(int)Char.frame].flags & 0x40) && Char.frame != 109) {
         sbyte position = Char.column;
 
@@ -661,7 +684,7 @@ static PositionRule position_rules[4] = {
     { 6, 0,  0, 360, 368, {0, 1}, {1, 6}, {18, 10}}
 };
 extern const sbyte direction_step[];
-static volatile int jaffar_motion_disabled = 0;
+static int jaffar_motion_disabled = 0;
 static byte blink_frame_order[6] = {0, 1, 2, 2, 1, 0};
 extern void far pascal step_forward(int delta);
 extern int far pascal jaffar_go_to_position_0(sbyte near *stance);
@@ -829,6 +852,8 @@ int far pascal jaffar_go_to_position_1(sbyte near *stance)
     return sequence;
 }
 
+extern int far pascal AddCharX(int x);
+
 int far pascal jaffar_go_to_position_2(sbyte near *stance)
 {
     int sequence = -1;
@@ -838,12 +863,14 @@ int far pascal jaffar_go_to_position_2(sbyte near *stance)
 
         if (x == position_rules[1].room_x && Char.frame == 15) {
             start_running();
-        } else if (x >= 12 && x <= 13 && Char.frame == 11) {
+        } else if (x >= 11 && ColEdgeX[7] + 36 > Char.x &&
+                   Char.sequence != 4 && (Char.frame == 7 || Char.frame == 11)) {
+            Char.x = AddCharX(2);
             run_jump(4);
         } else if (x <= 6 && Char.frame == 7) {
             sequence = 13;
         } else {
-            goto settle;
+            sequence = settle_jaffar_at_position(stance);
         }
     } else if (Char.row == 0) {
         if (Char.frame == 15) {
@@ -864,7 +891,6 @@ int far pascal jaffar_go_to_position_2(sbyte near *stance)
     } else if (Char.row == 2) {
         if (Char.frame == 109) sequence = 49;
         else {
-settle:
             sequence = settle_jaffar_at_position(stance);
         }
     }
@@ -910,7 +936,7 @@ int far pascal jaffar_go_to_position_3(sbyte near *stance)
 }
 
 extern void far pascal load_shadow_with_opponent(sbyte slot);
-extern void far pascal run_player_script(sbyte script);
+extern void far pascal SetKidDeathMethod(sbyte script);
 
 void far pascal finish_casting_at_kid(void)
 {
@@ -923,16 +949,14 @@ void far pascal finish_casting_at_kid(void)
     JumpSeq(71);
     AddSound(14);
     decrement_life_points(100);
-    run_player_script(17);
+    SetKidDeathMethod(17);
     Kid = Char;
     load_shadow_with_opponent(slot);
 }
 
 extern int battle_progress;
-extern int escape_counter;
 
 extern int far pascal get_opp_dist(void);
-extern int far pascal AddCharX(int x);
 extern sbyte far pascal index_cell(sbyte column, sbyte row);
 extern int abs(int x);
 #pragma intrinsic(abs)
@@ -946,26 +970,44 @@ void far pascal run_jaffar_in_crystal(void)
             --count;
         if (count == 1 && Char.sequence != 240 && Kid.alive < 0) {
             JumpSeq(240);
-            return;
-        }
-        if (Opp.direction == Char.direction) {
-            if ((*(volatile byte *)&Char.stance) == 0 && Kid.alive < 0) {
-                int range = get_opp_dist() - 15;
+        } else if (Char.frame == 15) {
+            if (Kid.alive < 0 && Kid.sequence != 44 && Kid.sequence != 6 &&
+                Kid.character_kind == 0 && (hit_actions[(int)Kid.frame].flags & 0x40) &&
+                Kid.action != 3 && Kid.action != 4) {
+                int attack = 0;
+                int range = get_opp_dist();
 
-                if (range > 18 && range < 48) {
-                    Char.x = AddCharX(15);
-                    (*(volatile byte *)&Char.stance) = 1;
-                    JumpSeq(75);
-                    return;
+                if (Char.direction == Opp.direction) {
+                    range -= 15;
+                    if (range > 18 && range < 48)
+                        attack = 1;
+                } else if (Char.direction != Opp.direction) {
+                    if (range < 0) {
+                        range = -15 - range;
+                        if (range > 18 && range < 48) {
+                            Char.direction = ~Char.direction;
+                            attack = 1;
+                        }
+                    } else if (Kid.frame == 145) {
+                        range -= 15;
+                        if (range > 18 && range < 52)
+                            attack = 1;
+                    }
                 }
-            } else if (Char.frame == 171) {
-                (*(volatile byte *)&Char.stance) = 0;
-                JumpSeq(92);
-                return;
-            } else if (Char.frame == 52 && Kid.alive > 0) {
-                JumpSeq(197);
-                AddSound(262);
+                if (attack) {
+                    Char.x = AddCharX(15);
+                    Char.stance = 1;
+                    JumpSeq(75);
+                }
             }
+        } else if (Char.frame == 171) {
+            Char.stance = 0;
+            JumpSeq(92);
+        } else if (Char.frame == 52 && Kid.alive > 0) {
+            JumpSeq(197);
+            AddSound(262);
+        } else if (Char.frame == 109) {
+            JumpSeq(49);
         }
     }
 }
@@ -996,19 +1038,17 @@ void far pascal run_jaffar_in_escher(void)
                 copy_kid_to_char();
                 JumpSeq(241);
                 AddSong(265);
-                (*(volatile byte *)&Char.stance) = (byte)-1;
+                Char.stance = -1;
                 Kid = Char;
                 load_actor_slot(slot);
             }
-        } else if (Opp.row == Char.row && battle_progress >= 4) {
+        } else if (Char.row == Opp.row && battle_progress >= 4) {
             if (Opp.life_points <= 2 && Opp.sequence != 242)
                 flee = 0;
             else
                 flee = 1;
-        } else if (Opp.life_points <= 2 && Opp.stance == -1 && Opp.sequence != 242) {
-            attack = 1;
         } else {
-            attack = 0;
+            attack = Opp.stance == -1 ? 1 : 0;
         }
     } else {
         if (Opp.life_points <= 2 && Opp.sequence != 242)
@@ -1022,7 +1062,7 @@ void far pascal run_jaffar_in_escher(void)
     }
 
     if (Char.sequence == 243 && Char.frame == 351)
-        ++escape_counter;
+        ++next_level;
     if (flee) {
         jaffar_flee_in_escher();
         return;
@@ -1096,6 +1136,7 @@ void far pascal transfer_jaffar_to_escher2(void)
     Char.row = -3;
     Char.y = -133;
     Char.direction = position_rules[0].direction;
+    GetOppInfoIdx((byte)Char.room, Char.slot)->location.transition_state = 0;
     JumpSeq(2);
     AnimChar();
     update_opponent_record();
@@ -1104,7 +1145,7 @@ void far pascal transfer_jaffar_to_escher2(void)
 void far pascal load_tower_top(void)
 {
     if (!playing_scene)
-        fade_scene(3500, 64, 192, 0);
+        set_palette(3500, 64, 192, 0);
     if (current_sound_bank)
         Graf = current_sound_bank;
     SET_RECORD_RANGE(&GamePlayRect, 139);
@@ -1112,8 +1153,8 @@ void far pascal load_tower_top(void)
 
 void far pascal load_chess(void)
 {
-    fade_scene(3500, 64, 192, 1);
-    fade_scene(1000, 240, 16, 0);
+    set_palette(3500, 64, 192, 1);
+    set_palette(1000, 240, 16, 0);
     if (Room.number == 4 && Level.environment_kind == 6) {
         unsigned int previous = Graf;
 
@@ -1122,7 +1163,7 @@ void far pascal load_chess(void)
         Graf = previous;
         AddSong(268);
     } else if (Room.number == 3 && Level.environment_kind == 6) {
-        fade_scene(3000, 224, 16, 0);
+        set_palette(3000, 224, 16, 0);
         AddSong(269);
     }
 }
@@ -1141,7 +1182,7 @@ typedef struct {
 extern FRAMEREC Frame;
 extern unsigned int sprite_table_handle;
 extern SmokeFrame far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
-extern int far pascal offset_sprite_x(int x);
+extern int far pascal AddFCharX(int x);
 extern void far pascal MakeFCharClipRect(void);
 extern void far _fastcall add_char_object(byte style);
 typedef void (far pascal *AnimationCallback)(sbyte cell, void near *clip);
@@ -1158,7 +1199,7 @@ void far pascal setup_guard_smoke(void)
         table = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sprite_table_handle);
         if (table[index].shape != -1) {
             FChar.image = table[index].shape;
-            offset_sprite_x(table[index].x_offset);
+            AddFCharX(table[index].x_offset);
             FChar.y += table[index].y_offset;
             FChar.image_set = 3;
             MakeFCharClipRect();
@@ -1172,10 +1213,10 @@ void far pascal setup_guard_smoke(void)
 static byte crystal_frame_slot[] = {
     0, 1, 2, 3, 2, 1, 0, 0
 };
-static unsigned long crystal_shapes[] = {
-    0x0136000aUL, 0x002f0048UL, 0x008a0054UL,
-    0x00ce0041UL, 0x00eb0054UL, 0x000e0082UL,
-    0x00340088UL, 0x008000a4UL, 0x010b009bUL
+static ShapeOffset crystal_shapes[] = {
+    {10, 310}, {72, 47}, {84, 138},
+    {65, 206}, {84, 235}, {130, 14},
+    {136, 52}, {164, 128}, {155, 267}
 };
 static byte crystal_layer[] = {
     1, 0, 0, 0, 0, 1, 1, 1, 1, 0
@@ -1183,10 +1224,10 @@ static byte crystal_layer[] = {
 static byte gargoyle_frame_slot[] = {
     0, 1, 2, 4, 3, 4, 2, 1, 0, 0
 };
-static unsigned long gargoyle_shapes[] = {
-    0x00240043UL, 0x003f0043UL, 0x005e0043UL,
-    0x007b0043UL, 0x009a0043UL, 0x00710083UL,
-    0xffff0044UL, 0x0019007eUL, 0x00d60083UL
+static ShapeOffset gargoyle_shapes[] = {
+    {67, 36}, {67, 63}, {67, 94},
+    {67, 123}, {67, 154}, {131, 113},
+    {68, -1}, {126, 25}, {131, 214}
 };
 static byte gargoyle_layer[] = {
     0, 0, 0, 0, 0, 1, 0, 1, 1, 0
@@ -1281,16 +1322,19 @@ void far pascal draw_spider(FinalObject near *object)
 
 void far pascal setup_crystal_room(void)
 {
-    fade_scene(3500, 64, 192, 2);
-    fade_scene(1000, 240, 16, 0);
-    fade_scene(25001, 32, 16, 7);
+    set_palette(3500, 64, 192, 2);
+    set_palette(1000, 240, 16, 0);
+    set_palette(25001, 32, 16, 7);
     crystal_serial = 0;
     if (Room.number == 7) {
-        fade_scene(3000, 224, 16, gargoyle_serial = 0);
-        AddSong(263);
+        set_palette(3000, 224, 16, gargoyle_serial = 0);
+        if (escher_room_eight_seen)
+            AddSong(263);
     } else if (Room.number == 8) {
         gargoyle_serial = 6;
-        AddSong(263);
+        set_palette(3000, 224, 16, 0);
+        if (!query_sound(263 + 10000) && Level.room_objects[7].opponent_count)
+            AddSong(263);
     } else {
         AddSong(270);
     }
@@ -1304,10 +1348,10 @@ void far pascal animate_crystal(void)
 
             if (frame < 7) {
                 Rect bounds;
-                const int near *shape;
+                const ShapeOffset near *shape;
 
                 state &= 0xf80f; state |= frame << 4;
-                shape = (const int near *)&crystal_shapes[state & 15]; OFFSETRECT(&bounds, &room_image_table->images[4].bounds, shape[1], shape[0]);
+                shape = &crystal_shapes[state & 15]; OFFSETRECT(&bounds, &room_image_table->images[4].bounds, shape->dx, shape->dy);
                 mark_bufs_for_rect(mark_move, &bounds, -1);
             } else {
                 state &= 0xf80f; state |= (Rnd(40) + 40) << 4; state &= ~0x800;
@@ -1344,14 +1388,14 @@ void far pascal draw_crystal(FinalObject near *object)
     image = &room_image_table->images[index];
     bounds = image->bounds;
     shape = object->animation & 15;
-    image->shape_list = crystal_shapes[shape];
-    OFFSETRECT(&image->bounds, &image->bounds, ((volatile int near *)&image->shape_list)[1], ((volatile int near *)&image->shape_list)[0]);
+    image->shape_offset = crystal_shapes[shape];
+    OFFSETRECT(&image->bounds, &image->bounds, image->shape_offset.dx, image->shape_offset.dy);
     image->layer = crystal_layer[shape];
     draw_custom_room_image(index, crystal_layer[shape]);
     image->layer = 11;
     image->bounds = bounds;
-    ((unsigned int near *)&image->shape_list)[0] = 0;
-    ((unsigned int near *)&image->shape_list)[1] = 0;
+    image->shape_offset.dy = 0;
+    image->shape_offset.dx = 0;
 }
 
 void far pascal trigger_crystal(sbyte row, sbyte col)
@@ -1375,16 +1419,16 @@ void far pascal animate_gargoyle(void)
 
                 if (frame < 9) {
                     Rect bounds;
-                    const int near *shape;
+                    const ShapeOffset near *shape;
 
                     state &= 0xf80f;
                     state |= frame << 4;
-                    shape = (const int near *)&gargoyle_shapes[serial];
-                    OFFSETRECT(&bounds, &room_image_table->images[2].bounds, shape[1], shape[0]);
+                    shape = &gargoyle_shapes[serial];
+                    OFFSETRECT(&bounds, &room_image_table->images[2].bounds, shape->dx, shape->dy);
                     mark_bufs_for_rect(mark_foreground, &bounds, -1);
                 } else {
                     state &= 0xf80f;
-                    state |= (Rnd(40) + 30) << 4;
+                    state |= (Rnd(40) + 80) << 4;
                     state &= ~0x800;
                 }
             } else {
@@ -1393,7 +1437,7 @@ void far pascal animate_gargoyle(void)
                 state &= 0xf80f;
                 if (--ticks <= 0) {
                     if (fade_active && trob_count)
-                        state |= (Rnd(40) + 30) << 4;
+                        state |= (Rnd(40) + 80) << 4;
                     else
                         state |= 0x800;
                 } else {
@@ -1423,14 +1467,14 @@ void far pascal draw_gargoyle(FinalObject near *object)
     image = &room_image_table->images[index];
     bounds = image->bounds;
     shape = object->animation & 15;
-    image->shape_list = gargoyle_shapes[shape];
-    OFFSETRECT(&image->bounds, &image->bounds, ((volatile int near *)&image->shape_list)[1], ((volatile int near *)&image->shape_list)[0]);
+    image->shape_offset = gargoyle_shapes[shape];
+    OFFSETRECT(&image->bounds, &image->bounds, image->shape_offset.dx, image->shape_offset.dy);
     image->layer = gargoyle_layer[shape];
     draw_custom_room_image(index, gargoyle_layer[shape]);
     image->layer = 11;
     image->bounds = bounds;
-    ((unsigned int near *)&image->shape_list)[0] = 0;
-    ((unsigned int near *)&image->shape_list)[1] = 0;
+    image->shape_offset.dy = 0;
+    image->shape_offset.dx = 0;
 }
 
 void far pascal trigger_gargoyle(sbyte row, sbyte col)
@@ -1455,7 +1499,7 @@ extern int object_counter;
 extern byte far pascal GetRow(int y);
 extern byte far pascal IndexCell1(sbyte col, byte row);
 extern void far *far pascal get_set_image_size(unsigned int sheet, unsigned int image, int far *size);
-extern void far pascal add_mobile_sprite(int y);
+extern void far pascal add_mob_obj(int y);
 extern void far pascal mark_mob_redraw(byte changed);
 extern int far pascal IsWall(sbyte tile);
 extern void far pascal dispatch_sound(unsigned int image);
@@ -1493,17 +1537,17 @@ void far pascal update_fireball_view(void)
     int visible = 1;
     volatile int y = Mob.y;
 
-    if ((*(volatile byte near *)&Mob.room) == Room.number) {
+    if (Room.number == Mob.room) {
         if (Mob.x > 449 || Mob.x < 0)
             visible = 0;
-    } else if (Room.left == (*(volatile byte near *)&Mob.room)) {
+    } else if (Mob.room == Room.left) {
         if (Mob.x + fireball_half_width > 320) {
             Mob.x -= 320;
             Mob.room = Room.number;
         } else {
             visible = 0;
         }
-    } else if (Room.right == (*(volatile byte near *)&Mob.room)) {
+    } else if (Mob.room == Room.right) {
         if (Mob.x - fireball_half_width < 320) {
             Mob.x += 320;
             Mob.room = Room.number;
@@ -1515,21 +1559,22 @@ void far pascal update_fireball_view(void)
     }
 
     if (visible) {
-        volatile sbyte col;
+        sbyte col;
         unsigned int image;
         int size[2];
 
-        FChar.index = IndexCell1((col = Mob.x / 32), GetRow(y));
+        FChar.index = IndexCell1(col = Mob.x / 32, GetRow(y));
+        ++col;
         image = get_fireball_image(Mob.flags);
         if (get_set_image_size(kid_shapes, image, size)) {
-            int x = Mob.x;
             int saved_y;
+            int x = Mob.x;
             Mob.x -= size[1] / 2;
             saved_y = y;
             Mob.y = saved_y + size[0] / 2;
             fireball_height = *(volatile int near *)&size[0];
             fireball_half_width = size[1];
-            add_mobile_sprite(Mob.y);
+            add_mob_obj(Mob.y);
             mark_mob_redraw(1);
             Mob.y = saved_y;
             Mob.x = x;
@@ -1558,11 +1603,11 @@ void far pascal check_fireball_hit_character(void)
                 if (offset + 34 > player_left && offset < player_right) {
                     ball->flags = 8;
                     ball->x = ball->velocity > 0 ? player_left - 125 : player_right - 135;
-                    AddSound(62);
                     decrement_life_points(100);
                     JumpSeq(243);
                     AnimChar();
-                    AddSong(267);
+                    AddSound(62);
+                    CutRoom = Char.room;
                 }
             }
             ++index;
@@ -1575,14 +1620,14 @@ void far pascal check_fireball_hit_wall(void)
     int x = Mob.x + fireball_half_width - 14;
     sbyte col;
 
-    if ((*(volatile int near *)&Mob.auxiliary) < 0)
+    if (Mob.auxiliary < 0)
         x -= 2 * fireball_half_width;
     col = x / 32;
     if (x < 0)
         --col;
     if (IsWall(ReadCell(Mob.room, col, Mob.row))) {
         Mob.x = col * 32 + 14;
-        if ((*(volatile int near *)&Mob.auxiliary) < 0)
+        if (Mob.auxiliary < 0)
             Mob.x += 32;
         Mob.flags = 8;
         AddSound(259);
@@ -1592,7 +1637,7 @@ void far pascal check_fireball_hit_wall(void)
 
 int far pascal do_throw_fireball(void)
 {
-    register int sequence;
+    int sequence;
     if (Char.life_points > 2) {
         sequence = 242;
 
@@ -1639,13 +1684,13 @@ void far pascal move_fireball(void)
             else
                 ++frame;
         } else {
-            if ((*(volatile int near *)&Mob.auxiliary) > 0) {
-                if ((*(volatile int near *)&Mob.auxiliary) < 16)
-                    (*(volatile int near *)&Mob.auxiliary) += 2;
-            } else if ((*(volatile int near *)&Mob.auxiliary) > -16) {
-                (*(volatile int near *)&Mob.auxiliary) -= 2;
+            if (Mob.auxiliary > 0) {
+                if (Mob.auxiliary < 16)
+                    Mob.auxiliary += 2;
+            } else if (Mob.auxiliary > -16) {
+                Mob.auxiliary -= 2;
             }
-            Mob.x += (*(volatile int near *)&Mob.auxiliary);
+            Mob.x += Mob.auxiliary;
             if (Mob.room == 0) {
                 Mob.velocity = -1;
                 dispatch_sound(0x2812);
@@ -1662,7 +1707,7 @@ void far pascal move_fireball(void)
         }
         if (Mob.velocity == -1) {
             if (Kid.life_points <= 2) {
-                fade_scene(2000, 48, 16, 0);
+                set_palette(2000, 48, 16, 0);
                 return;
             }
         } else {
@@ -1687,7 +1732,7 @@ void far pascal trigger_fireball(void)
     Mob.y = y = Char.y - 29;
     Mob.room = (byte)Char.room;
     Mob.velocity = 0;
-    (*(volatile int near *)&Mob.auxiliary) = direction_step[Char.direction] * 8;
+    Mob.auxiliary = direction_step[Char.direction] * 8;
     Mob.kind = 12;
     Mob.row = GetRow(y);
     Mob.flags = 2;

@@ -1,51 +1,53 @@
 {
   "binding": "evidence/bindings/resc/shape_list.json",
-  "binding_sha256": "686d196be1d975febb269b46c560fe91cf8302ed8942753bcc588c1165b46938",
+  "binding_sha256": "6b02a270c6a510126063745f821302743d9e7d9ef4d940a05556ba5c7f40aa4f",
   "claims": [
     {
       "fixup_count": 5,
       "public": "RELEASE_SHAPE_LIST",
       "relocation_indices": [
-        1480,
-        1499,
-        1600,
-        1627,
-        1628
+        1466,
+        1507,
+        1508,
+        1573,
+        1578
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:1101:7f46"
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1129:7f28"
     },
     {
       "fixup_count": 2,
       "public": "FIND_SHAPE_LIST",
       "relocation_indices": [
-        1607,
+        1503,
+        1625
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1129:7f78"
+    },
+    {
+      "fixup_count": 8,
+      "public": "LOAD_SHAPE_LIST_BANKS",
+      "relocation_indices": [
+        1431,
+        1497,
+        1498,
+        1604,
+        1611,
+        1626,
         1651
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:1101:7f96"
-    },
-    {
-      "fixup_count": 8,
-      "public": "LOAD_SHAPE_LIST_BANKS",
-      "relocation_indices": [
-        1475,
-        1545,
-        1566,
-        1619,
-        1647,
-        1648,
-        1652
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:1101:7fb6"
+      "target_id": "root:1129:7f98"
     }
   ],
   "drafts": [],
@@ -58,13 +60,13 @@
     "/Zl",
     "/Gc"
   ],
-  "frame": 4353,
+  "frame": 4393,
   "group_id": "group:resc/shape_list",
   "kind": "same_source_group",
   "language": "c",
   "name": "resc/shape_list",
   "object_sha256": "f6e29f5ac26d1936390275b15aa2ef3468e0d0125f677d811ee067a72656777a",
-  "origin": 102230,
+  "origin": 102840,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,

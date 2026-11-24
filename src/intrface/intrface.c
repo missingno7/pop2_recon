@@ -23,12 +23,13 @@ extern int cdecl close(int);
 
 extern void *interface_buffer;
 extern unsigned long clock_ticks;
+extern int dos_vectors_installed;
 extern int interrupt_vectors_installed;
 extern int graphics_mode;
 extern int backing_driver_active;
 extern volatile int timers[];
 extern ResourceMap resource_map_list;
-extern volatile unsigned char active_sound_channels;
+extern unsigned char active_sound_channels;
 extern struct LevelState *configuration;
 extern const char system_error[];
 
@@ -52,20 +53,19 @@ extern void shutdown_graphics_mode(void);
 extern void shutdown_backing_driver(void);
 extern void release_heap_segment(void);
 extern void show_message(FarName, int);
-extern int read_input(void);
-extern int MOUSE_BUTTON_DOWN(int);
+extern unsigned int read_queued_key(void);
 extern int query_sound(int);
 extern void close_resource_catalog(ResourceMap);
 extern ResourceMap MOUNT_RESOURCE_CATALOG(FarName);
 extern struct ResourceMapData far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(ResourceMap);
-extern int get_midi_driver_flag(void);
 
 void reset_interface(void);
 ResourceMap find_resource_map(const char *);
 
-void abort_with_message(int status, register FarName message)
+void abort_with_message(int status, FarName message)
 {
-    _nfree(interface_buffer);
+    if (interface_buffer)
+        _nfree(interface_buffer);
     reset_interface();
     if (message)
         printf(message_format, message);
@@ -78,12 +78,10 @@ void reset_interface(void)
         dispatch_resource_pointer(0L);
         reset_sound_drivers();
         reset_timer_hook();
-        restore_dos_vectors();
     }
-    if (interrupt_vectors_installed)
-        restore_interrupt_vectors();
-    if (graphics_mode)
-        shutdown_graphics_mode();
+    if (dos_vectors_installed) restore_dos_vectors();
+    if (interrupt_vectors_installed) restore_interrupt_vectors();
+    if (graphics_mode) shutdown_graphics_mode();
     if (backing_driver_active)
         shutdown_backing_driver();
     release_heap_segment();
@@ -113,16 +111,10 @@ void abort_program(void)
 
 unsigned int poll_user(void)
 {
-    register unsigned int key = read_input();
+    unsigned int key = read_queued_key();
     if (key == 0x1000 || key == 0x11) {
         abort_with_message(0, (FarName)0);
         key = 0;
-    }
-    if (!key) {
-        if (MOUSE_BUTTON_DOWN(1))
-            key = 0xe100;
-        else if (MOUSE_BUTTON_DOWN(2))
-            key = 0xe200;
     }
     return key;
 }
@@ -148,9 +140,9 @@ void wait_ticks(int timer, int ticks)
     wait_timer(timer);
 }
 
-int wait_sound(register int sound)
+int wait_sound(int sound)
 {
-    register int key = 0;
+    int key = 0;
     if (query_sound(sound)) {
         do {
             if (key)
@@ -163,7 +155,7 @@ int wait_sound(register int sound)
 
 int wait_key(void)
 {
-    register int key;
+    int key;
     do {
         key = check_wait_function();
     } while (!key);
@@ -223,14 +215,6 @@ void open_level_resources(const char **names)
         } else {
             if (names[5])
                 open_verified_resource(names[5]);
-        }
-        if (!(active_sound_channels & 1) && get_midi_driver_flag()) {
-            if (names[0])
-                close_resource_file(names[0]);
-            if (names[3])
-                open_verified_resource(names[3]);
-            if (names[4])
-                open_verified_resource(names[4]);
         }
     }
 }

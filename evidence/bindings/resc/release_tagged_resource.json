@@ -1,10 +1,30 @@
 {
   "declarations": {
-    "externals": [
-      "FIND_SHAPE_METADATA",
-      "FIND_RESOURCE_ENTRY",
-      "DISPOSE_HANDLE",
-      "MATERIALIZE_RESOURCE"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 103,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -16,182 +36,162 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "HGETRSRC",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
         "offset": 72,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "UNLINK_SHAPE_METADATA",
-        "offset": 38,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 38,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "RELEASE_TAGGED_RESOURCE",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 103,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "FIND_SHAPE_METADATA",
+      "FIND_RESOURCE_ENTRY",
+      "DISPOSE_HANDLE",
+      "MATERIALIZE_RESOURCE"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 15,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "FIND_RESOURCE_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 1,
         "kind": "segment",
+        "index": 1,
         "name": "UNIT_TEXT"
       },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "FIND_RESOURCE_ENTRY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 29,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
       "target": {
+        "kind": "external",
         "index": 3,
-        "kind": "external",
-        "method": 6,
         "name": "DISPOSE_HANDLE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 48,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
+      "frame": {
+        "kind": "segment",
         "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "FIND_SHAPE_METADATA",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 87,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "FIND_RESOURCE_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": true,
       "frame": {
-        "index": 1,
         "kind": "segment",
+        "index": 1,
         "name": "UNIT_TEXT"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 94,
-      "self_relative": true,
       "target": {
-        "index": 4,
         "kind": "external",
+        "index": 2,
+        "name": "FIND_RESOURCE_ENTRY",
         "method": 6,
-        "name": "MATERIALIZE_RESOURCE",
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 94,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "segment",
+        "index": 1,
+        "name": "UNIT_TEXT"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "MATERIALIZE_RESOURCE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -199,70 +199,70 @@
   "schema": 1,
   "symbols": {
     "DISPOSE_HANDLE": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
+      "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
+      "entry_target_id": "root:1129:16e6",
       "kind": "near-code-entry",
-      "offset": 8864,
-      "segment": 4353,
+      "offset": 5862,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "0ee817b1",
-          "entry": "root:1101:7112",
-          "image_offset": 98709,
-          "space": "root"
+          "space": "root",
+          "image_offset": 99319,
+          "bytes_hex": "0ee87ba5",
+          "entry": "root:1129:70f4"
         }
       ]
     },
     "FIND_RESOURCE_ENTRY": {
-      "entry_sha256": "826ec55e98dd4de8780d178ac8611867dd36d19948a6fac695043bf00783ff12",
-      "entry_target_id": "root:1101:755d",
+      "entry_sha256": "e4a5252c5187cda523148dd9ba792f41a8727ce00a14f34f914241fa6808961e",
+      "entry_target_id": "root:1129:753f",
       "kind": "near-code-entry",
-      "offset": 30045,
-      "segment": 4353,
+      "offset": 30015,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
+          "space": "root",
+          "image_offset": 98834,
           "bytes_hex": "e8ba05",
-          "entry": "root:1101:6f8a",
-          "image_offset": 98224,
-          "space": "root"
+          "entry": "root:1129:6f6c"
         }
       ]
     },
     "FIND_SHAPE_METADATA": {
-      "entry_sha256": "8ba5e8cdfe9bbc710296adade9a0e4b9754fe6a89615ea779e4682bc6dd5b3c8",
-      "entry_target_id": "root:1101:7364",
+      "entry_sha256": "0201fe561078ac867a3354eb921160dc9c9aeec276f6d6dd3631bdb5f19545d7",
+      "entry_target_id": "root:1129:7346",
       "kind": "near-code-entry",
-      "offset": 29540,
-      "segment": 4353,
+      "offset": 29510,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "e8fd72",
-          "entry": "root:1101:0058",
-          "image_offset": 69748,
-          "space": "root"
+          "space": "root",
+          "image_offset": 70384,
+          "bytes_hex": "e8e372",
+          "entry": "root:1129:0054"
         }
       ]
     },
     "MATERIALIZE_RESOURCE": {
-      "entry_sha256": "0f27d05b3b9733a92ad7116ebd7cd170588cb502305d41d9a803138b7a190f96",
-      "entry_target_id": "root:1101:73fa",
+      "entry_sha256": "349a623a60ce2aa6054ac5cf445199a0d0148ef10b725656854550f98b4d2b97",
+      "entry_target_id": "root:1129:73dc",
       "kind": "near-code-entry",
-      "offset": 29690,
-      "segment": 4353,
+      "offset": 29660,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
+          "space": "root",
+          "image_offset": 99592,
           "bytes_hex": "e86101",
-          "entry": "root:1101:719c",
-          "image_offset": 98982,
-          "space": "root"
+          "entry": "root:1129:717e"
         }
       ]
     }
   },
   "target_id": "group:resc/release_tagged_resource",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

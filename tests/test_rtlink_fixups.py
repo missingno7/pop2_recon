@@ -49,8 +49,8 @@ class RtlinkManagerTests(unittest.TestCase):
         self.assertEqual(report["fixups"], 7)
         self.assertEqual({e["target"] for e in report["equations"]},
                          {"segment:$$OVLMGR_UTILS", "external:$$RTLPATHSEARCH_MESSAGES"})
-        self.assertEqual(report["segment_frames"]["$$OVLMGR_UTILS"]["segment"], 0x22e5)
-        # ovlmgr_m: frame 2203 from an MZ record outside it; `4 dup (?)` gaps link as zero.
+        self.assertEqual(report["segment_frames"]["$$OVLMGR_UTILS"]["segment"], 0x22f2)
+        # ovlmgr_m: frame 220e from an MZ record outside it; `4 dup (?)` gaps link as zero.
         report = verify_member(self.recipe("rtl_ovlmgr_m"), self.oracle, self.manifest)
         self.assertTrue(report["exact"])
         self.assertEqual(report["fixups"], 11)
@@ -59,21 +59,21 @@ class RtlinkManagerTests(unittest.TestCase):
     def test_wrong_segment_frame_refused(self):
         binding = read_json(ROOT / self.recipe("rtl_pathsrch")["binding"])
         wrong = copy.deepcopy(binding)
-        wrong["segment_frames"]["$$OVLMGR_UTILS"]["segment"] = 0x22e4
+        wrong["segment_frames"]["$$OVLMGR_UTILS"]["segment"] = 0x22f1
         with self.assertRaisesRegex(ValueError, "does not reach a unique pinned public"):
             self.prove("rtl_pathsrch", binding=wrong)
-        # A root CALL FAR through the $$OVLMGR group frame (vector 2203:0cbd) is no
+        # A root CALL FAR through the $$OVLMGR group frame (vector 220e:0cbd) is no
         # witness for a segment frame: it reaches no pinned public of that segment.
         group = copy.deepcopy(binding)
-        group["segment_frames"]["$$OVLMGR_UTILS"] = {"segment": 0x2203, "witnesses": [
-            {"kind": "far_call", "image_offset": 0x1, "relocation_index": 5,
+        group["segment_frames"]["$$OVLMGR_UTILS"] = {"segment": 0x220e, "witnesses": [
+            {"kind": "far_call", "image_offset": 0x7, "relocation_index": 28,
              "provider": "rtl_cnv_val", "symbol": "$$RTLOVL_CONVERT_VAL"}]}
         with self.assertRaisesRegex(ValueError, "does not reach a unique pinned public"):
             self.prove("rtl_pathsrch", binding=group)
-        # An MZ record of another segment (frame 2202, before the manager) refuses.
+        # An MZ record of another segment (frame 220d, before the manager) refuses.
         site = read_json(ROOT / self.recipe("rtl_ovlmgr_m")["binding"])
-        site["segment_frames"]["$$OVLMGR"] = {"segment": 0x2202, "witnesses": [
-            {"kind": "site_record", "relocation_index": 1946}]}
+        site["segment_frames"]["$$OVLMGR"] = {"segment": 0x220d, "witnesses": [
+            {"kind": "site_record", "relocation_index": 1947}]}
         with self.assertRaisesRegex(ValueError, "does not overlap"):
             self.prove("rtl_ovlmgr_m", binding=site)
         # The equations themselves depend on the frame: a frame off by one paragraph fails.
@@ -100,16 +100,16 @@ class RtlinkManagerTests(unittest.TestCase):
         self.assertFalse(self.prove("rtl_ovlmgr_m", expected=bytes(data))["exact"])
 
     def test_unprovable_manager_providers_refused(self):
-        # ovlmgr.asm (root 0x22180): its bytes and 28 relocations agree in a research run,
-        # but rtcommon/CRT/linker-defined far targets have no pinned provider.
+        # The library's ovlmgr.asm member needs linker-defined providers, including $$MAIN.
+        # A v1.1 site record outside the manager body establishes the $$OVLMGR frame.
         from common import sha
         recipe = self.recipe("rtl_ovlmgr_m")
         raw = Path(recipe["library_path"]).read_bytes()[0x1200:0x1200+3674]
-        recipe.update(archive_offset=0x1200, member_extent=3674, size=2491, offset=0x150,
+        recipe.update(archive_offset=0x1200, member_extent=3674, size=2491, offset=0x152,
                       member_sha256=sha(raw))
         binding = {"schema": 1, "mode": rtlink_fixups.MODE, "target_sha256": sha(self.oracle.data),
-                   "segment_frames": {"$$OVLMGR": {"segment": 0x2203, "witnesses": [
-                       {"kind": "site_record", "relocation_index": 1947}]}}}
+                   "segment_frames": {"$$OVLMGR": {"segment": 0x220e, "witnesses": [
+                       {"kind": "site_record", "relocation_index": 1948}]}}}
         with self.assertRaisesRegex(ValueError, r"Missing pinned providers for \['\$\$MAIN'"):
             self.prove("rtl_ovlmgr", recipe=recipe, binding=binding)
 
@@ -124,7 +124,7 @@ class RtlinkManagerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "incomplete or trimmed"):
             rtlink_fixups.check_segment(recipe, segment, ranges[:-1])
         with self.assertRaisesRegex(ValueError, "alignment"):
-            rtlink_fixups.check_alignment(segment, 0x22038)
+            rtlink_fixups.check_alignment(segment, 0x220e8)
 
 
 if __name__ == "__main__":

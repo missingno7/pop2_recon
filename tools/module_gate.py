@@ -38,7 +38,7 @@ from far_binding import FAR_KINDS, NEAR_KIND, ground_near_entry as near_ground, 
 
 DATA_MODES = ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
               "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE, OPERAND_MODE)
-from common import ROOT, read_json, require, sha
+from common import ROOT, read_json_shared, require, sha
 from match import code_segment, get_target
 from omf import OmfReader
 
@@ -284,8 +284,8 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
     return bytes(linked), relocated
 
 
-# CONST begins where the C termination table [2832, 2836) ends: root+0x200c3 `mov di,2836` (tests re-read it).
-CONST_START = 0x2836
+# CONST begins where the C termination table [26c2, 26c6) ends: root+0x20153 `mov di,26c6` (tests re-read it).
+CONST_START = 0x26C6
 
 
 def _selector_references(oracle, home, offset):
@@ -326,7 +326,7 @@ def _exclusive_selectors(oracle, home, dgroup, p, content, space, hull):
 
     def reached(name, at):
         holder = oracle.spaces[name]
-        for t in read_json(ROOT / "evidence/targets.json")["functions"]:
+        for t in read_json_shared(ROOT / "evidence/targets.json")["functions"]:
             lo = (t["segment"] - holder.link_segment) * 16 + t["offset"]
             if t["space"] == name and t.get("boundary_status") == "REVIEWED" and lo <= at < lo + t["size"] and \
                     t.get("entry_kind", "direct-code") == "direct-code":
@@ -419,7 +419,7 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
 # could not have linked among the `_DATA` pieces (docs/dgroup-binding.md, DGROUP class order).
 # Sources accepted before 2026-11-22 are layout debt in evidence/const-layout-debt.json.
 SEGNAME = re.compile(rb"_segname\s*\(")
-CONST_LAYOUT_DEBT = set(read_json(ROOT / "evidence/const-layout-debt.json")["keys"]) \
+CONST_LAYOUT_DEBT = set(read_json_shared(ROOT / "evidence/const-layout-debt.json")["keys"]) \
     if (ROOT / "evidence/const-layout-debt.json").exists() else set()
 
 
@@ -433,7 +433,7 @@ def require_no_segname(source_bytes, key, language="c"):
 # One external declared under two spellings that differ only in case: /Gc folds them to one
 # Pascal external, so the compiler sees two objects where the program has one.
 EXTERN_DECL = re.compile(r"^[ \t]*extern\b[^;(]*;", re.M)
-CASE_ALIAS_DEBT = read_json(ROOT / "evidence/case-alias-debt.json")["aliases"] \
+CASE_ALIAS_DEBT = read_json_shared(ROOT / "evidence/case-alias-debt.json")["aliases"] \
     if (ROOT / "evidence/case-alias-debt.json").exists() else {}
 
 
@@ -456,7 +456,7 @@ def require_no_case_alias(source_bytes, key, language="c"):
             + ", ".join(extra))
 
 
-PLACEMENT_DEBT = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
+PLACEMENT_DEBT = set(read_json_shared(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
 
 
 def _placed_support(placement_report, states, reports):
@@ -572,7 +572,7 @@ def _solved_frame(states, cs_proven, table_words, space, oracle, origin, publics
 def _code_vectors(oracle):
     """The original RTLink vector records (tu_census decoding, checked against the manager)."""
     from tu_census import overlay_vectors
-    overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    overlays = {n: s for n, s in oracle.spaces.items() if s.code_overlay}
     return overlay_vectors(oracle, overlays)
 
 
@@ -595,7 +595,7 @@ def _other_overlay_frame(oracle, space, segment, offset):
     word stores its target segment's frame (probe), and the claim's own sites name a different
     frame there, so the linker resolved the reference into the other overlay's segment."""
     for other in oracle.spaces.values():
-        if other.name == space.name or not (other.descriptor and other.descriptor["flags"] == 4):
+        if other.name == space.name or not other.code_overlay:
             continue
         position = (segment - other.link_segment) * 16 + offset
         if not 0 <= position < other.size:
@@ -664,7 +664,7 @@ def _site_frame(target, space, oracle, hull, grouped=False):
     # Root (2026-11-23): the MZ relocation table has the same property. In the RTLink 6.10 trial link
     # (build/workers/o10_trial POP_diag.EXE/.MAP) all 1,949 root MZ entries at CODE sites name the floor
     # paragraph of their MAP segment, and the original root table is monotone; link segment 0.
-    if not ((space.descriptor and space.descriptor["flags"] == 4) or space.name == "root"):
+    if not (space.code_overlay or space.name == "root"):
         return None
     if not space.relocations or any(not {"segment", "index", "image_offset", "stored_word"} <= set(r) for r in space.relocations):
         return None  # a space without relocation site frames (synthetic test spaces) gives no evidence
@@ -939,11 +939,11 @@ def _data_publics(module, placements, dgroup_members, code_name):
 DATA_GROUP_KIND = "data_group"
 
 # BSS layout anchors read from the original C startup (root image offsets; tests re-read them):
-# 0x1ff57 `mov di,_edata` (2930), 0x1ff5a `mov cx,_end` (6cd6), 0x200b7/0x200ba `mov si/di,xontab`
-# (2cea, an empty onexit table). The per-file `_BSS` block is [_edata, xontab); communal storage
-# (`c_common`, paragraph-aligned) is [2cf0, _end): word-aligned communals, then the one-byte tail from
-# 6ccc (after the C runtime's 512-byte `__bufin` at 6acc). build/workers/o7_bss probes and report.
-BSS_START, BSS_END, COMMON_START, COMMON_BYTE_TAIL, END = 0x2930, 0x2CEA, 0x2CF0, 0x6CCC, 0x6CD6
+# 0x1ffe7 `mov di,_edata` (27c0), 0x1ffea `mov cx,_end` (6b74), 0x20147/0x2014a `mov si/di,xontab`
+# (2b88, an empty onexit table). The per-file `_BSS` block is [_edata, xontab); communal storage
+# (`c_common`, paragraph-aligned) is [2b90, _end): word-aligned communals, then the one-byte tail from
+# 6b6c (after the C runtime's 512-byte `__bufin` at 696c). build/workers/o7_bss probes and report.
+BSS_START, BSS_END, COMMON_START, COMMON_BYTE_TAIL, END = 0x27C0, 0x2B88, 0x2B90, 0x6B6C, 0x6B74
 
 
 def bss_layout_violations(groups, recipes):
@@ -958,7 +958,7 @@ def bss_layout_violations(groups, recipes):
     found = set()
     by_path = {owner.get("recipe", ""): recipe for owner, recipe in recipes}
     for path, report in groups.items():
-        recipe = by_path.get(path) or read_json(project_path(path))
+        recipe = by_path.get(path) or read_json_shared(project_path(path))
         if recipe.get("language", "c") != "c":
             continue
         gid = recipe.get("group_id") or recipe["name"]
@@ -969,7 +969,7 @@ def bss_layout_violations(groups, recipes):
                 found.add(f"{gid}:_BSS@{p['placement']:04x}")
         if "binding" not in recipe:
             continue
-        for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+        for name, symbol in read_json_shared(project_path(recipe["binding"])).get("symbols", {}).items():
             if symbol.get("kind") != "dgroup-offset" or type(symbol.get("offset")) is not int:
                 continue
             s = symbol["offset"]
@@ -984,14 +984,14 @@ def _accepted_recipes():
     """(owner, recipe) for every distinct canonical recipe in the manifest; data-only groups
     (manifest `data_groups`, which own no code) come with an empty owner."""
     from common import project_path
-    manifest = read_json(ROOT / "layout/manifest.json")
+    manifest = read_json_shared(ROOT / "layout/manifest.json")
     seen = {}
     for owner in manifest["owners"]:
         if owner["recipe"] not in seen:
-            seen[owner["recipe"]] = (owner, read_json(project_path(owner["recipe"])))
+            seen[owner["recipe"]] = (owner, read_json_shared(project_path(owner["recipe"])))
     for path in manifest.get("data_groups", []):
         if path not in seen:
-            seen[path] = ({}, read_json(project_path(path)))
+            seen[path] = ({}, read_json_shared(project_path(path)))
     return list(seen.values())
 
 
@@ -1023,7 +1023,7 @@ def immediate_witness_violations(recipes, oracle):
         if owner.get("kind") == "PINNED_RUNTIME" or "binding" not in recipe:
             continue
         gid = recipe.get("group_id") or recipe["name"]
-        for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+        for name, symbol in read_json_shared(project_path(recipe["binding"])).get("symbols", {}).items():
             if symbol.get("kind") != "dgroup-offset" or type(symbol.get("offset")) is not int:
                 continue
             rows = [(name, symbol["offset"], symbol.get("witnesses") or [])]
@@ -1063,7 +1063,7 @@ def name_consistency_violations(recipes):
             continue
         gid = recipe.get("group_id") or recipe.get("name")
         entries = {}
-        for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+        for name, symbol in read_json_shared(project_path(recipe["binding"])).get("symbols", {}).items():
             target = symbol.get("entry_target_id")
             if type(target) is str:
                 entries.setdefault(target, set()).add(name)
@@ -1140,7 +1140,7 @@ def _archive_public(name, symbol, oracle):
     for _, other in recipes:
         if "binding" not in other or other.get("kind") not in ("same_source_group", DATA_GROUP_KIND):
             continue
-        other_binding = read_json(project_path(other["binding"]))
+        other_binding = read_json_shared(project_path(other["binding"]))
         lengths = {d["name"]: d["length"] for d in other_binding["declarations"]["segments"]}
         for oseg, q in other_binding.get("placements", {}).items():
             require(not (q < p + length and p < q + lengths[oseg]),
@@ -1207,7 +1207,7 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
         # new placements are checked against the provider separately (own-placement overlap).
         if other.get("kind") != "same_source_group" or other.get("group_id") in {provider_id, group_id} | REPLACING or                 "binding" not in other:
             continue
-        other_binding = read_json(project_path(other["binding"]))
+        other_binding = read_json_shared(project_path(other["binding"]))
         lengths = {d["name"]: d["length"] for d in other_binding["declarations"]["segments"]}
         for oseg, q in other_binding.get("placements", {}).items():
             require(not (q < p + length and p < q + lengths[oseg]),

@@ -52,7 +52,7 @@ def witnesses(oracle, offsets, exclude=()):
                                          "context": f"{insn.mnemonic} {insn.op_str} reached from {entry}"})
     # Overlay code reached from RTLink vector destinations and each overlay's own far entries.
     from tu_census import overlay_vectors
-    overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    overlays = {n: s for n, s in oracle.spaces.items() if s.code_overlay}
     starts = {(v["target_space"], v["target_segment"], v["target_offset"])
               for v in overlay_vectors(oracle, overlays).values()}
     for name, space in overlays.items():

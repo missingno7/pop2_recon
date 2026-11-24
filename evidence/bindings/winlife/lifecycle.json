@@ -331,12 +331,12 @@
     ]
   },
   "dgroup_segment": {
-    "segment": 12531,
+    "segment": 13058,
     "witnesses": [
       {
-        "image_offset": 5473,
-        "relocation_index": 42,
-        "space": "root"
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
       }
     ]
   },
@@ -3619,68 +3619,73 @@
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "CONST": 10050
+    "CONST": 9826
   },
   "schema": 1,
   "symbols": {
     "ADD_PORT_ORIGIN": {
-      "entry_sha256": "40868a5e9a7d0943c5061f9d2b1b7de7e40e7f854d6965bfc730bcd6e5cde9dc",
-      "entry_target_id": "root:1101:c100",
+      "entry_sha256": "3d56c3a02391ff1ba1b6ef4c38228965c6ece6603201cb504c405e289d775968",
+      "entry_target_id": "root:1129:c0e2",
       "kind": "near-code-entry",
-      "offset": 49408,
-      "segment": 4353,
+      "offset": 49378,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 106804,
+          "bytes_hex": "e83b32",
+          "entry": "root:1129:8dac"
+        }
+      ]
     },
     "ALLOCATE_CLIPPED_PORT": {
-      "entry_sha256": "38e3c8ed2e7cb2b23cb39b96c698b501d68feba1b73cd01e6b34ba95c9beb06b",
-      "entry_target_id": "root:1101:51b2",
+      "entry_sha256": "f92dcecfb73bb8394bd3a527ddaed0e91a5da82d7f97b140596be7bbd801fb57",
+      "entry_target_id": "root:1129:5194",
       "kind": "near-code-entry",
-      "offset": 20914,
-      "segment": 4353,
+      "offset": 20884,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "BACKGROUND_ORIGIN_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8414,
+      "offset": 8046,
       "witnesses": [
         {
-          "bytes_hex": "a1de20",
-          "context": "mov ax, word ptr [0x20de] reached from root:1fe6:003b",
-          "entry": "root:1fe6:003b",
-          "image_offset": 130746,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 130890,
+          "bytes_hex": "a16e1f",
+          "entry": "root:1fef:003b"
         }
       ]
     },
     "BACKGROUND_ORIGIN_Y": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8416,
+      "offset": 8048,
       "witnesses": [
         {
-          "bytes_hex": "0b06e020",
-          "context": "or ax, word ptr [0x20e0] reached from root:1fe6:003b",
-          "entry": "root:1fe6:003b",
-          "image_offset": 130749,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 130893,
+          "bytes_hex": "0b06701f",
+          "entry": "root:1fef:003b"
         }
       ]
     },
@@ -3688,69 +3693,89 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 8396,
+      "offset": 8028,
       "witnesses": [
         {
-          "bytes_hex": "c41ecc20",
-          "context": "les bx, ptr [0x20cc] reached from root:107d:0340",
-          "entry": "root:107d:0340",
-          "image_offset": 68636,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 69272,
+          "bytes_hex": "c41e5c1f",
+          "entry": "root:10a5:033c"
         }
       ]
     },
     "CLAMP_POINT_TO_RECT": {
       "entry_sha256": "9512a42300c9bb15c033a6a7d1526222a55a67f1f56dbf8676c00d2e64d4b5a6",
-      "entry_target_id": "root:1101:513e",
+      "entry_target_id": "root:1129:5120",
       "kind": "near-code-entry",
-      "offset": 20798,
-      "segment": 4353,
+      "offset": 20768,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 70948,
+          "bytes_hex": "e8894e",
+          "entry": "root:1129:01bf"
+        }
+      ]
     },
     "CREATE_STRING_HANDLE": {
-      "entry_sha256": "9ec9daedfca3cb098130e886ec60959916b2cc16b48cc13b507fa5b0ea3629fc",
-      "entry_target_id": "root:1101:c2e4",
+      "entry_sha256": "542b63dee000a643403837d6a99c1912454f938d35607f2bc7ef4c45bdbeb155",
+      "entry_target_id": "root:1129:c2c6",
       "kind": "near-code-entry",
-      "offset": 49892,
-      "segment": 4353,
+      "offset": 49862,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 116103,
+          "bytes_hex": "e8cc0f",
+          "entry": "root:1129:b286"
+        }
+      ]
     },
     "DISCARD_QUEUED_EVENTS": {
-      "entry_sha256": "d97c59cd5e6c19261e1e69807b7bd23b4e1c8f63c41649a3d432d85b2c8d0fab",
-      "entry_target_id": "root:1101:bb29",
+      "entry_sha256": "b353991d1e2a0dbb76842180e95acf1dab4267bb53f11d851c37e2907f7cdd23",
+      "entry_target_id": "root:1129:97f7",
       "kind": "near-code-entry",
-      "offset": 47913,
-      "segment": 4353,
+      "offset": 38903,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "DISPOSE_BITMAP_PORT": {
-      "entry_sha256": "2e81d1094099500c33568a58ad7dcbebec0d82fb7b942311ace2cf339c5f0c9a",
-      "entry_target_id": "root:1101:5182",
+      "entry_sha256": "9a52a47e505903037ce8bcdd3852a9568f4bc8658d9bcbc621a63b11ffd8fe43",
+      "entry_target_id": "root:1129:5164",
       "kind": "near-code-entry",
-      "offset": 20866,
-      "segment": 4353,
+      "offset": 20836,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "DISPOSE_HANDLE": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
+      "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
+      "entry_target_id": "root:1129:16e6",
       "kind": "near-code-entry",
-      "offset": 8864,
-      "segment": 4353,
+      "offset": 5862,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 100078,
+          "bytes_hex": "e885a2",
+          "entry": "root:1129:6f4c"
+        }
+      ]
     },
     "DISPOSE_WINDOW_ITEM": {
-      "entry_sha256": "7eced9a4a9aa7b428f580d3f8c4cb8c9b77d5cf46285f70911b8a9cbe7ca69e6",
-      "entry_target_id": "root:1101:8af9",
+      "entry_sha256": "8d509f98a26f6723d55bb2e521fb2c7e27b1940489e2ad87b6e0fec8b19e332f",
+      "entry_target_id": "root:1129:8adb",
       "kind": "near-code-entry",
-      "offset": 35577,
-      "segment": 4353,
+      "offset": 35547,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
@@ -3758,245 +3783,368 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 10048,
+      "offset": 9824,
       "witnesses": [
         {
-          "bytes_hex": "a34027",
-          "context": "mov word ptr [0x2740], ax reached from root:1f74:0266",
-          "entry": "root:1f74:0266",
-          "image_offset": 129456,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 128702,
+          "bytes_hex": "a36026",
+          "entry": "root:1f45:0264"
         }
       ]
     },
     "EMPTYRECT": {
       "entry_sha256": "e9f74bae09bf698fd274a4846acfd9a104821484346ff379d01e3723bf27b632",
-      "entry_target_id": "root:1101:4d6e",
+      "entry_target_id": "root:1129:4d50",
       "kind": "near-code-entry",
-      "offset": 19822,
-      "segment": 4353,
+      "offset": 19792,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "FRAME_RECT": {
-      "entry_sha256": "44c4386a5a87718b453c2a69fd5b45b71d28bc95d43aac1e2371b45a2cad2a51",
-      "entry_target_id": "root:1101:4dac",
+      "entry_sha256": "f09d544e1bf82e29b03d6aef99fa65150cbe3732d01633671096760f253cb63a",
+      "entry_target_id": "root:1129:4d8e",
       "kind": "near-code-entry",
-      "offset": 19884,
-      "segment": 4353,
+      "offset": 19854,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 114780,
+          "bytes_hex": "e8bf9f",
+          "entry": "root:1129:aa76"
+        }
+      ]
     },
     "GRAF": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 9664,
+      "offset": 9296,
       "witnesses": [
         {
-          "bytes_hex": "a3c025",
-          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5116,
+          "bytes_hex": "a35024",
+          "entry": "root:0000:0000"
         }
       ]
     },
     "HGETRSRC": {
       "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
-      "entry_target_id": "root:1101:6f6a",
+      "entry_target_id": "root:1129:6f4c",
       "kind": "near-code-entry",
-      "offset": 28522,
-      "segment": 4353,
+      "offset": 28492,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 71094,
+          "bytes_hex": "e8236c",
+          "entry": "root:1129:01bf"
+        }
+      ]
     },
     "INIT_PORT": {
-      "entry_sha256": "2a75db8c36afaf8d60b0ca610f7dd9ccedc0cda29f00495ac9fab6ce414d6a60",
-      "entry_target_id": "root:1101:4fe0",
+      "entry_sha256": "0cd27a7f54ed80b75e3df33abb64b5bad962859104324d7f5cd671e19244d8c8",
+      "entry_target_id": "root:1129:4fc2",
       "kind": "near-code-entry",
-      "offset": 20448,
-      "segment": 4353,
+      "offset": 20418,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 90473,
+          "bytes_hex": "e8e600",
+          "entry": "root:1129:4e8a"
+        }
+      ]
     },
     "INSETRECT": {
       "entry_sha256": "182d4e7c3e5a692de062d2c420c518cdee9e337466fdf52c60a462758c2f683b",
-      "entry_target_id": "root:1101:502a",
+      "entry_target_id": "root:1129:500c",
       "kind": "near-code-entry",
-      "offset": 20522,
-      "segment": 4353,
+      "offset": 20492,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 114750,
+          "bytes_hex": "e85ba2",
+          "entry": "root:1129:aa76"
+        }
+      ]
     },
     "MOUSE_BUTTON_UNQUEUED": {
-      "entry_sha256": "6aca8ccda41a6dbd6b41044efcff34a0939bb6ef9675fccc71b56a68cdcf3a52",
-      "entry_target_id": "root:1101:bdda",
+      "entry_sha256": "8d40816de4634efc8fd88f1f200e2fb742cadd680586ef0d162247c93787dff4",
+      "entry_target_id": "root:1129:9aa8",
       "kind": "near-code-entry",
-      "offset": 48602,
-      "segment": 4353,
+      "offset": 39592,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 111024,
+          "bytes_hex": "e885fb",
+          "entry": "root:1129:9e42"
+        }
+      ]
     },
     "OFFSETRECT": {
       "entry_sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
-      "entry_target_id": "root:1101:510a",
+      "entry_target_id": "root:1129:50ec",
       "kind": "near-code-entry",
-      "offset": 20746,
-      "segment": 4353,
+      "offset": 20716,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 85084,
+          "bytes_hex": "e81d17",
+          "entry": "root:1129:4fc2"
+        }
+      ]
     },
     "POINT_IN_RECTANGLE": {
       "entry_sha256": "738c1bcb14d5b62ff076d3f38cd7ab9b2ea56601a4ae62cc4ceae6937699d53c",
-      "entry_target_id": "root:1101:c17c",
+      "entry_target_id": "root:1129:c15e",
       "kind": "near-code-entry",
-      "offset": 49532,
-      "segment": 4353,
+      "offset": 49502,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 105823,
+          "bytes_hex": "e88c36",
+          "entry": "root:1129:8aab"
+        }
+      ]
     },
     "POP_PORT_CLIP": {
-      "entry_sha256": "788ab19ec532879933e5407785f5e745f4b6313c1dfe8dfa45af1e7747b4b05d",
-      "entry_target_id": "root:1101:4cb8",
+      "entry_sha256": "aa3c4cc8798cf3a0df1bf26049741df4d0daa8b9a1447ba566ba5cda1318e986",
+      "entry_target_id": "root:1129:4c9a",
       "kind": "near-code-entry",
-      "offset": 19640,
-      "segment": 4353,
+      "offset": 19610,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 111419,
+          "bytes_hex": "e8ecab",
+          "entry": "root:1129:9d95"
+        }
+      ]
     },
     "PORT_ORIGIN": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 9714,
+      "offset": 9346,
       "witnesses": [
         {
-          "bytes_hex": "c416f225",
-          "context": "les dx, ptr [0x25f2] reached from root:1101:06cc",
-          "entry": "root:1101:06cc",
-          "image_offset": 71419,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 71435,
+          "bytes_hex": "c4168224",
+          "entry": "root:1129:045c"
         }
       ]
     },
     "POST_POINTER_EVENT": {
-      "entry_sha256": "4926e9cfd632bf33512683f015e1963f88d65be27d7f720a37796ccba662e3ce",
-      "entry_target_id": "root:1101:bd1e",
+      "entry_sha256": "72cc968b2759fa356d80e2f57fbe909cc7b4b462ca06ffe5619ce9c167332cc0",
+      "entry_target_id": "root:1129:99ec",
       "kind": "near-code-entry",
-      "offset": 48414,
-      "segment": 4353,
+      "offset": 39404,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "PUSH_PORT_CLIP": {
-      "entry_sha256": "f2a124cb8a403ddd7a316ec535fd45f00d956f8a603bb8ff41b2d7b78751448e",
-      "entry_target_id": "root:1101:4c52",
+      "entry_sha256": "89d64d35f188bc1f777d4ac3b88a86b034ab6cececf8b7eeb2bb8dcd39b22ab7",
+      "entry_target_id": "root:1129:4c34",
       "kind": "near-code-entry",
-      "offset": 19538,
-      "segment": 4353,
+      "offset": 19508,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 111410,
+          "bytes_hex": "e88fab",
+          "entry": "root:1129:9d95"
+        }
+      ]
     },
     "READ_MOUSE_EVENT_POSITION": {
-      "entry_sha256": "edfb745dd4bfd9b9d4ae6d65dfef39825b2e45e3cdadaa8d404cf0138ed1e03a",
-      "entry_target_id": "root:1101:bc69",
+      "entry_sha256": "b1f100e8b38672ba4aa8b874db49e5dcbfe242f110a4e7b19d3375056727a152",
+      "entry_target_id": "root:1129:9937",
       "kind": "near-code-entry",
-      "offset": 48233,
-      "segment": 4353,
+      "offset": 39223,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 109452,
+          "bytes_hex": "e83800",
+          "entry": "root:1129:9858"
+        }
+      ]
     },
     "READ_QUEUED_EVENT": {
-      "entry_sha256": "46c32343d8d73e3c9a93bc00a3677212fa4c764c96e0b395bb52a24db4239cd8",
-      "entry_target_id": "root:1101:bb8a",
+      "entry_sha256": "596a56844c5c392eb4cb8849e3e8bc2eeab4e610e2ed2578991e3969e49c1643",
+      "entry_target_id": "root:1129:9858",
       "kind": "near-code-entry",
-      "offset": 48010,
-      "segment": 4353,
+      "offset": 39000,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 106989,
+          "bytes_hex": "e8f808",
+          "entry": "root:1129:8f38"
+        }
+      ]
     },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+      "entry_target_id": "root:1129:15b2",
       "kind": "near-code-entry",
-      "offset": 8556,
-      "segment": 4353,
+      "offset": 5554,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 99723,
+          "bytes_hex": "e8b4a2",
+          "entry": "root:1129:6f4c"
+        }
+      ]
     },
     "SECTRECT": {
       "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
-      "entry_target_id": "root:1101:5284",
+      "entry_target_id": "root:1129:5266",
       "kind": "near-code-entry",
-      "offset": 21124,
-      "segment": 4353,
+      "offset": 21094,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 85080,
+          "bytes_hex": "e89b18",
+          "entry": "root:1129:4fc2"
+        }
+      ]
     },
     "SET_CONTEXT_ORIGIN": {
       "entry_sha256": "13b1f43b46466c654e3a80e0b571f01e02a1230e04ef26ff57acfaf1da365230",
-      "entry_target_id": "root:1101:c142",
+      "entry_target_id": "root:1129:c124",
       "kind": "near-code-entry",
-      "offset": 49474,
-      "segment": 4353,
+      "offset": 49444,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "SET_RECORD_RANGE": {
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
-      "entry_target_id": "root:1101:6650",
+      "entry_target_id": "root:1129:6632",
       "kind": "near-code-entry",
-      "offset": 26192,
-      "segment": 4353,
+      "offset": 26162,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 90522,
+          "bytes_hex": "e82517",
+          "entry": "root:1129:4ef2"
+        }
+      ]
     },
     "SHOW_MOUSE_GRAPHICS": {
-      "entry_sha256": "64394054d48fa9a71f37d635d64db4ea5a927879822d97027be5c00eba45f9f1",
-      "entry_target_id": "root:1101:05a2",
+      "entry_sha256": "48aa49be348a4bf4fd8795b33fa66d1dc74cc4d339c22353167ef62661d52d9c",
+      "entry_target_id": "root:1129:0332",
       "kind": "near-code-entry",
-      "offset": 1442,
-      "segment": 4353,
+      "offset": 818,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 71795,
+          "bytes_hex": "e84cfd",
+          "entry": "root:1129:04ba"
+        }
+      ]
     },
     "STROKE_PORT_RECT": {
-      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
-      "entry_target_id": "root:1101:4d90",
+      "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
+      "entry_target_id": "root:1129:4d72",
       "kind": "near-code-entry",
-      "offset": 19856,
-      "segment": 4353,
+      "offset": 19826,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 90485,
+          "bytes_hex": "e88afe",
+          "entry": "root:1129:4e8a"
+        }
+      ]
     },
     "STROKE_RECTANGLE": {
-      "entry_sha256": "48d1a2c378c949c25de13731f525bab9c033c12296dbe1aa6b243b82e737a753",
-      "entry_target_id": "root:1101:6f1e",
+      "entry_sha256": "24a80788066bd8687b8242f07335b4d70e14f5e7d56d73298b026bc1688fb3b6",
+      "entry_target_id": "root:1129:6f00",
       "kind": "near-code-entry",
-      "offset": 28446,
-      "segment": 4353,
+      "offset": 28416,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 90212,
+          "bytes_hex": "e82921",
+          "entry": "root:1129:4d8e"
+        }
+      ]
     },
     "SUBTRACT_PORT_ORIGIN": {
-      "entry_sha256": "7847411aaf1828f29d5a8cf45b577cb3b1b60fffd4027c6c637cb810682d832b",
-      "entry_target_id": "root:1101:50b8",
+      "entry_sha256": "bd41ee9bedd487f51da25fc22dfe9c708c96a68d2f5e2ee519df5e9066c0c21a",
+      "entry_target_id": "root:1129:509a",
       "kind": "near-code-entry",
-      "offset": 20664,
-      "segment": 4353,
+      "offset": 20634,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 89869,
+          "bytes_hex": "e81a04",
+          "entry": "root:1129:4c34"
+        }
+      ]
     },
     "SUBTRACT_RECTANGLE_STRIP": {
       "entry_sha256": "0b4c74ee20f33746388b4af08b9e5c8314f35a72e27aad89edfb0e3da71cd6b2",
-      "entry_target_id": "root:1101:c05c",
+      "entry_target_id": "root:1129:c03e",
       "kind": "near-code-entry",
-      "offset": 49244,
-      "segment": 4353,
+      "offset": 49214,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
@@ -4004,47 +4152,52 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 9970,
+      "offset": 9746,
       "witnesses": [
         {
-          "bytes_hex": "bef226",
-          "context": "mov si, 0x26f2 reached from root:1101:9dae",
-          "entry": "root:1101:9dae",
-          "image_offset": 110040,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 112040,
+          "bytes_hex": "be1226",
+          "entry": "root:1129:a2fe"
         }
       ]
     },
     "UNIONRECT": {
       "entry_sha256": "133d52d3c840f5135c55060589bd21c1065daa19ac176fbf6de876a76f249705",
-      "entry_target_id": "root:1101:649c",
+      "entry_target_id": "root:1129:647e",
       "kind": "near-code-entry",
-      "offset": 25756,
-      "segment": 4353,
+      "offset": 25726,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "UPDATE_MESSAGE_DISPLAY": {
-      "entry_sha256": "1acf32e291b482f3aaf8ad899994eb23d59917f441859c6aadd5a8f4766e1d79",
-      "entry_target_id": "root:1101:02f6",
+      "entry_sha256": "700af880ac3e95d3b308a3affc7a32a4298127cc35bc92968aa5e81136280c56",
+      "entry_target_id": "root:1129:0086",
       "kind": "near-code-entry",
-      "offset": 758,
-      "segment": 4353,
+      "offset": 134,
+      "segment": 4393,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 71133,
+          "bytes_hex": "e836fd",
+          "entry": "root:1129:04ba"
+        }
+      ]
     },
     "WINDOW_DRAW_PORT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 10100,
+      "offset": 9876,
       "witnesses": [
         {
-          "bytes_hex": "a17427",
-          "context": "mov ax, word ptr [0x2774] reached from root:1101:be92",
-          "entry": "root:1101:be92",
-          "image_offset": 118465,
+          "bytes_hex": "a19426",
+          "entry": "root:1129:9b60",
+          "image_offset": 110095,
           "operand_offset": 1,
           "space": "root"
         }
@@ -4054,14 +4207,14 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 10098,
+      "offset": 9874,
       "witnesses": [
         {
-          "bytes_hex": "8b1e7227",
-          "entry": "root:1f74:004e",
-          "image_offset": 129320,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 128566,
+          "bytes_hex": "8b1e9226",
+          "entry": "root:1f45:004c"
         }
       ]
     },
@@ -4069,53 +4222,52 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [],
-      "offset": 10054,
+      "offset": 9830,
       "witnesses": [
         {
-          "bytes_hex": "bb4627",
-          "context": "mov bx, 0x2746 reached from root:1101:8f21",
-          "entry": "root:1101:8f21",
-          "image_offset": 117635,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 109265,
+          "bytes_hex": "bb6626",
+          "entry": "root:1129:8f03"
         }
       ]
     },
     "__NFREE": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
+      "entry_sha256": "6c8d6437e51e6e44221d027366ec5d2597ca05cffc7791cb3e0f824a273f056e",
+      "entry_target_id": "root:1fef:001a",
       "kind": "far-code-entry",
       "offset": 26,
-      "segment": 8166,
+      "segment": 8175,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5322,
+          "bytes_hex": "9a1a00ef1f",
+          "file_offset": 13514,
+          "relocation_index": 56
         }
       ]
     },
     "__NMALLOC": {
-      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
-      "entry_target_id": "root:1fe6:003b",
+      "entry_sha256": "abd19e80ca3aabcf3263efabd0fa607a10f569effe3df9dbb140ef8d3f06a1e7",
+      "entry_target_id": "root:1fef:003b",
       "kind": "far-code-entry",
       "offset": 59,
-      "segment": 8166,
+      "segment": 8175,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a3b00e61f",
-          "file_offset": 13191,
-          "image_offset": 4999,
-          "relocation_index": 65,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5207,
+          "bytes_hex": "9a3b00ef1f",
+          "file_offset": 13399,
+          "relocation_index": 1
         }
       ]
     }
   },
   "target_id": "group:winlife/lifecycle",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

@@ -1,9 +1,9 @@
 {
   "archive_offset": 16112,
   "binding": "evidence/bindings/crt_fmemmove_medium.json",
-  "binding_sha256": "f9b1d4d828904fd9afaa97281c311789f26feaf7a30ec6d025de3a962b0771ae",
+  "binding_sha256": "c9f94df721a336e6ce4449fa28a470b6511ef39a1a7860c136043acca8f58a82",
   "boundary_evidence": [
-    "Complete independent medium-model hmemcpy.asm OMF member (archive offset 16112, 405 bytes) whose whole 202-byte CODE segment lies at root 0x21e32 (1fe6:1fd2) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent libh.lib member (archive offset 16112, 405 bytes) whose whole 202-byte segment lies at root+0x21ed6 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 8,
   "kind": "PINNED_RUNTIME",
@@ -13,17 +13,17 @@
   "member_sha256": "f93e277ff0040f6597f5cf0f3d2cf187dfe206d4b8f5404aa6f6e90f3fd498cb",
   "name": "crt_fmemmove_medium",
   "object_segment": "_TEXT",
-  "offset": 8146,
+  "offset": 8166,
   "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
   "publics": [
     "__fmemmove"
   ],
   "relocation_indices": [
-    1936
+    1942
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 202,
   "space": "root",
-  "target_sha256": "34d636f98d37e5b1687f527005ff0cf87d5932093a74fe3fdbad386fd301c4e3"
+  "target_sha256": "58374ed939c4b118991926ad5e1a15900845e86730aee33394853d396062a6b4"
 }

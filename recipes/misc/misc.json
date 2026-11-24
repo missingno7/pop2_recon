@@ -1,42 +1,49 @@
 {
   "binding": "evidence/bindings/misc/misc.json",
-  "binding_sha256": "85ac0f71167e1ddf6d9b9511dd264c6a6fca6b47fe903553495946647e0d9def",
+  "binding_sha256": "31af19046c8ef0ecba9e86bebece0d87f75898fdd3daabaa67a33981cc9e9821",
   "claims": [
+    {
+      "fixup_count": 4,
+      "public": "SELECT_ROOM_ARRAYS",
+      "target_id": "root:0f9e:0008"
+    },
     {
       "fixup_count": 9,
       "public": "CELLTOCOL",
-      "target_id": "root:0f77:0036"
+      "target_id": "root:0f9e:0034"
     },
     {
       "fixup_count": 5,
       "public": "CELLTOROW",
-      "target_id": "root:0f77:00aa"
+      "target_id": "root:0f9e:00b4"
     },
     {
       "fixup_count": 5,
       "public": "COMPUTECLIPRECT",
       "relocation_indices": [
-        1329
+        1342
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:0108"
+      "target_id": "root:0f9e:0112"
     },
     {
       "fixup_count": 3,
       "public": "COMPUTEOFFSETCELLRECT",
       "relocation_indices": [
-        1330,
-        1331
+        1328,
+        1341
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:0f77:0164"
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0f9e:016e"
     },
     {
       "fixup_count": 16,
       "public": "GETBELOWARY",
-      "target_id": "root:0f77:02f4"
+      "target_id": "root:0f9e:02fe"
     },
     {
       "fixup_count": 6,
@@ -46,136 +53,117 @@
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:04ec"
+      "target_id": "root:0f9e:04f6"
     },
     {
       "fixup_count": 6,
       "public": "PIECEABOVERIGHTID",
       "relocation_indices": [
-        1334
+        1332
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:057a"
+      "target_id": "root:0f9e:0584"
     },
     {
       "fixup_count": 8,
       "public": "PIECEBELOWID",
       "relocation_indices": [
-        1335
+        1331
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:060e"
+      "target_id": "root:0f9e:0618"
     },
     {
       "fixup_count": 8,
       "public": "PIECELEFTID",
       "relocation_indices": [
-        1336
+        1330
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:06b0"
+      "target_id": "root:0f9e:06ba"
     },
     {
       "fixup_count": 11,
       "public": "PIECERIGHTID",
       "relocation_indices": [
-        1337
+        1335
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:072e"
-    },
-    {
-      "fixup_count": 17,
-      "public": "SETSIDEROOMINFO",
-      "target_id": "root:0f77:08ac"
+      "target_id": "root:0f9e:0738"
     },
     {
       "fixup_count": 26,
       "public": "RELEASE_DISCARDABLE_IMAGES",
       "relocation_indices": [
-        1325,
-        1326,
-        1338,
+        1329,
+        1336,
         1339,
         1340,
-        1341,
         1343,
         1344,
-        1345
+        1345,
+        1346,
+        1347
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:0f77:096e"
+      "target_id": "root:0f9e:0978"
     },
     {
       "fixup_count": 2,
       "public": "REPORT_FATAL_MEMORY",
       "relocation_indices": [
-        1327
+        1338
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:0f77:0a7c"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "SELECT_ROOM_ARRAYS",
-      "target_id": "root:0f77:0002",
-      "unproven": [
-        "SELECTED_ROOM"
-      ]
-    },
-    {
-      "public": "GETABOVEARY",
-      "target_id": "root:0f77:01b0",
-      "unproven": [
-        "ROOM_TILES+0xffff"
-      ]
-    },
-    {
-      "public": "SETLOCVARS",
-      "target_id": "root:0f77:07ca",
-      "unproven": [
-        "CELLRIGHT",
-        "CELLRIGHT+0x1",
-        "CELLRIGHT+0x2"
-      ]
+      "target_id": "root:0f9e:0a86"
     }
   ],
   "drafts": [
     {
-      "object_offset": 924,
+      "object_offset": 434,
+      "public": "GETABOVEARY"
+    },
+    {
+      "object_offset": 928,
       "public": "GETOBJECT"
+    },
+    {
+      "object_offset": 1996,
+      "public": "SETLOCVARS"
+    },
+    {
+      "object_offset": 2222,
+      "public": "SETSIDEROOMINFO"
     }
   ],
-  "emitted_size": 2700,
+  "emitted_size": 2704,
   "flags": [
     "/c",
     "/AM",
-    "/Oegl",
+    "/Oegil",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 3959,
+  "frame": 3998,
   "group_id": "group:misc/misc",
   "kind": "same_source_group",
   "language": "c",
   "name": "misc/misc",
-  "object_sha256": "38c8ce6909dd68cc86178c685e51f8842218d4ad001a7a469f29a4a7f71fdee1",
-  "origin": 63346,
+  "object_sha256": "5ecbd272ede578278a9c721e7bac574d949db7312789d2012f81bd2e4836b802",
+  "origin": 63976,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/misc/misc.c",
-  "source_sha256": "2e6a48aab00fe2dd8f8f0c0ffbe7425bac358e8d5bbc030bae605c70fe3c524b",
+  "source_sha256": "99c250e5ceb34f8cc670ac33ccb1a80662d0c450b0a674402fa4731f5b3a7cee",
   "space": "root"
 }

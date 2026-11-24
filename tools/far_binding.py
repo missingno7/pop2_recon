@@ -17,7 +17,7 @@ FAR_KINDS = ("far-code-entry", "rtlink-vector", "overlay-code-entry", "segment-b
 def _vector(oracle, segment, offset):
     """The original RTLink vector record at root SEGMENT:OFFSET, decoded by the census rules."""
     from tu_census import overlay_vectors
-    overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    overlays = {n: s for n, s in oracle.spaces.items() if s.code_overlay}
     vectors = overlay_vectors(oracle, overlays)
     require((segment, offset) in vectors, "Far callee alias is not an original RTLink vector")
     return vectors[(segment, offset)]
@@ -256,7 +256,7 @@ def _accepted_entry(target_id, oracle):
     """The target's entry is the start of a canonical CODE_EXACT/ASM_EXACT owner or a pinned
     runtime member (same space and position, whatever segment alias names it). The caller
     has already refused any entry inside the candidate, or inside a group's whole object."""
-    from common import ROOT, read_json
+    from common import ROOT, read_json_shared
 
     def position(identifier):
         try:
@@ -270,7 +270,7 @@ def _accepted_entry(target_id, oracle):
         return False
     # Pinned runtime members are exact original library code matched to their archive,
     # so their entries are as well established as reconstructed ones.
-    owners = read_json(ROOT / "layout/manifest.json")["owners"]
+    owners = read_json_shared(ROOT / "layout/manifest.json")["owners"]
     if any(owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME") and
            position(owner["target_id"]) == wanted for owner in owners):
         return True
@@ -289,10 +289,10 @@ def _matched_entry(target_id):
 
 def _runtime_public_positions(owner, position):
     from pathlib import Path
-    from common import project_path, read_json, sha
+    from common import project_path, read_json_shared, sha
     from omf import OmfReader
     try:
-        recipe = read_json(project_path(owner["recipe"]))
+        recipe = read_json_shared(project_path(owner["recipe"]))
         library = Path(recipe["library_path"]).read_bytes()
         raw = library[recipe["archive_offset"]:recipe["archive_offset"] + recipe["member_extent"]]
         if sha(library) != recipe["library_sha256"] or sha(raw) != recipe["member_sha256"]:
@@ -313,12 +313,12 @@ STRUCTURAL_PROLOGUE = bytes((0x55, 0x8b, 0xec))  # push bp; mov bp,sp
 def _extents(oracle):
     """(space, start, end, id, accepted) for every reviewed target, accepted marked by the
     canonical CODE_EXACT/ASM_EXACT/PINNED_RUNTIME owners naming it."""
-    from common import ROOT, read_json
+    from common import ROOT, read_json_shared
     from match import EXTRA_TARGETS
-    owners = {o["target_id"] for o in read_json(ROOT / "layout/manifest.json")["owners"]
+    owners = {o["target_id"] for o in read_json_shared(ROOT / "layout/manifest.json")["owners"]
               if o["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME")}
     rows = []
-    for f in read_json(ROOT / "evidence/targets.json")["functions"] + EXTRA_TARGETS:
+    for f in read_json_shared(ROOT / "evidence/targets.json")["functions"] + EXTRA_TARGETS:
         try:
             lo = oracle.spaces[f["space"]].position(f["segment"], f["offset"])
         except (KeyError, ValueError):
@@ -347,7 +347,7 @@ def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
     candidate object uses the same segment word for a different reviewed entry."""
     root = oracle.spaces["root"]
     data = root.data
-    require(entry < root.position(0x2203, 0), "Structural entry refuses the RTLink manager and vector region")
+    require(entry < root.position(oracle.mz.header["initial_cs"], 0), "Structural entry refuses the RTLink manager and vector region")
     require(data[entry:entry + 3] == STRUCTURAL_PROLOGUE, "Structural entry needs a BP-frame prologue")
     extents = [e for e in _extents(oracle) if e[0] == "root"]
     require(not any(lo < entry < hi for _, lo, hi, _, _ in extents),

@@ -1,10 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "CURRENTPORT",
-      "RELEASE_BUFFER",
-      "__nfree",
-      "RELEASE_PORT"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 58,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -18,213 +62,169 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "RELEASE_PORT",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 58,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "CURRENTPORT",
+      "RELEASE_BUFFER",
+      "__nfree",
+      "RELEASE_PORT"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 3,
-          "kind": "external",
-          "method": 6,
-          "name": "__nfree",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 43,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "__nfree",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 1,
-          "kind": "external",
-          "method": 6,
-          "name": "CURRENTPORT",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 32,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "CURRENTPORT",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "RELEASE_BUFFER",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
       "loc_type": 3,
-      "segment": "UNIT_TEXT",
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 3,
+          "name": "__nfree",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "__nfree",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 32,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "CURRENTPORT",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "CURRENTPORT",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 27,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "RELEASE_BUFFER",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 2,
-        "kind": "external",
-        "method": 6,
         "name": "RELEASE_BUFFER",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 1,
-          "kind": "external",
-          "method": 6,
-          "name": "CURRENTPORT",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 20,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "CURRENTPORT",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
           "kind": "external",
-          "method": 6,
+          "index": 1,
           "name": "CURRENTPORT",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 14,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "CURRENTPORT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 14,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "CURRENTPORT",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "CURRENTPORT",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -239,11 +239,11 @@
           "offset": 2,
           "witnesses": [
             {
-              "bytes_hex": "3b06f025",
-              "entry": "root:1101:072a",
-              "image_offset": 71413,
               "operand_offset": 2,
-              "space": "root"
+              "space": "root",
+              "image_offset": 71429,
+              "bytes_hex": "3b068024",
+              "entry": "root:1129:04ba"
             }
           ]
         },
@@ -251,53 +251,53 @@
           "offset": 14,
           "witnesses": [
             {
-              "bytes_hex": "8706fc25",
-              "entry": "root:1101:4f10",
-              "image_offset": 89926,
               "operand_offset": 2,
-              "space": "root"
+              "space": "root",
+              "image_offset": 90536,
+              "bytes_hex": "87068c24",
+              "entry": "root:1129:4ef2"
             }
           ]
         }
       ],
-      "offset": 9710,
+      "offset": 9342,
       "witnesses": [
         {
-          "bytes_hex": "beee25",
-          "entry": "root:1101:4fe0",
-          "image_offset": 90109,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 90719,
+          "bytes_hex": "be7e24",
+          "entry": "root:1129:4fc2"
         }
       ]
     },
     "RELEASE_BUFFER": {
-      "entry_sha256": "9d630ddd7549c050ab980da7ef6a9ac3514cf68724dade2b3180512c03ed0074",
-      "entry_target_id": "root:1101:64ec",
+      "entry_sha256": "bb478178867019eacbddbade3053a02531fb7f7aefa3158a4faab67dd43f738f",
+      "entry_target_id": "root:1129:64ce",
       "kind": "far-code-entry",
-      "offset": 25836,
-      "segment": 4353,
+      "offset": 25806,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "__nfree": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
+      "entry_sha256": "6c8d6437e51e6e44221d027366ec5d2597ca05cffc7791cb3e0f824a273f056e",
+      "entry_target_id": "root:1fef:001a",
       "kind": "far-code-entry",
       "offset": 26,
-      "segment": 8166,
+      "segment": 8175,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5322,
+          "bytes_hex": "9a1a00ef1f",
+          "file_offset": 13514,
+          "relocation_index": 56
         }
       ]
     }
   },
   "target_id": "group:graf/release_port",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

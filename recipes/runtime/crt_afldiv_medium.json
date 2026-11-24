@@ -2,7 +2,7 @@
   "abi": "MSC far runtime arithmetic helper __aFldiv.",
   "archive_offset": 1664,
   "boundary_evidence": [
-    "Whole __aFldiv member matches original root+0x21a74 (154 bytes); MASM back-patch overwrites 1 byte(s), applied last-write-wins as RTLink 6.10 reproduces (build/workers/runtime_600a/linkprobe)."
+    "Complete independent LIBH.LIB member (archive offset 1664, 286 bytes) whose whole 154-byte segment lies at root+0x21b5e in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -12,7 +12,7 @@
   "member_sha256": "f79431ca0a0a0d6d62049af8c1dac37fece8b6e67fa593326e6e3016fa7fd17e",
   "name": "crt_afldiv_medium",
   "object_segment": "_TEXT",
-  "offset": 6772,
+  "offset": 7006,
   "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
   "publics": [
     "__aFldiv"

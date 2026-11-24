@@ -1,89 +1,105 @@
 {
   "binding": "evidence/bindings/throne/throne.json",
-  "binding_sha256": "b54ab6c76c3726761b2dfd85d5c0f1962390139a4aa9b041bbc47f10cd387bd8",
+  "binding_sha256": "dadf136eee36d1026da6fab4942482bc09bd21f861eddd9d79cecb84e51418bd",
   "claims": [
     {
       "fixup_count": 2,
       "public": "DRAW_THRONE_ROOM_GATE_IN_FORE",
       "relocation_indices": [
-        12
+        26
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-16:2dc2:0000"
+      "target_id": "overlay-16:2fcd:0000"
     },
     {
-      "fixup_count": 3,
+      "fixup_count": 7,
       "public": "LOAD_THRONE_ROOM",
       "relocation_indices": [
-        1,
-        9
+        2,
+        11,
+        12
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-16:2dc2:001c"
+      "target_id": "overlay-16:2fcd:001c"
     },
     {
       "fixup_count": 2,
       "public": "UNLOAD_THRONE_ROOM",
       "relocation_indices": [
-        2
+        1
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-16:2dc2:0046"
+      "target_id": "overlay-16:2fcd:0060"
     },
     {
-      "fixup_count": 29,
+      "fixup_count": 36,
       "public": "PLAY_THRONE_ROOM_NIS",
       "relocation_indices": [
         0,
-        3,
-        4,
         5,
         6,
         7,
         8,
+        9,
         10,
-        11,
         13,
         14,
         15,
         16,
         17,
-        18
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-16:2dc2:0062"
+      "target_id": "overlay-16:2fcd:007c"
+    },
+    {
+      "fixup_count": 3,
+      "public": "OFFSET_THRONE_RECT",
+      "relocation_indices": [
+        3,
+        4
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-16:2fcd:01aa"
     }
   ],
   "drafts": [],
-  "emitted_size": 320,
+  "emitted_size": 476,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zd"
+    "/Gc"
   ],
-  "frame": 11714,
+  "frame": 12237,
   "group_id": "group:throne/throne",
   "kind": "same_source_group",
   "language": "c",
   "name": "throne/throne",
-  "object_sha256": "1f27ca155d0fbb974325fcb6780b6d5528bc5c392f44a72873ee536f95073514",
+  "object_sha256": "42a4e0f87f257cc024e9478ff646d80fa23204bea734e458befa276ef2b835c6",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/throne/throne.c",
-  "source_sha256": "8257872a81b8064220f21c1e75da7e97239df959f7555e9c2a00b5a205de5949",
+  "source_sha256": "d42338b03af57bb24d0d57255fd553f69bc4ad43c718c88326dcb9d5b9759182",
   "space": "overlay-16"
 }

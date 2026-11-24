@@ -48,30 +48,6 @@
         "use32": false,
         "frame": null,
         "frame_offset": null
-      },
-      {
-        "name": "$$SYMBOLS",
-        "class": "DEBSYM",
-        "overlay": "",
-        "length": 2199,
-        "alignment": 1,
-        "combine": 0,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "$$TYPES",
-        "class": "DEBTYP",
-        "overlay": "",
-        "length": 1229,
-        "alignment": 1,
-        "combine": 0,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
       }
     ],
     "groups": [
@@ -92,7 +68,7 @@
         "offset": 622,
         "group_index": 0,
         "frame": null,
-        "type_index": 604
+        "type_index": 0
       },
       {
         "name": "CONVERT_SHAPE",
@@ -101,7 +77,7 @@
         "offset": 1254,
         "group_index": 0,
         "frame": null,
-        "type_index": 629
+        "type_index": 0
       },
       {
         "name": "XLATFONT",
@@ -110,7 +86,7 @@
         "offset": 842,
         "group_index": 0,
         "frame": null,
-        "type_index": 610
+        "type_index": 0
       },
       {
         "name": "MCGATOMCGA",
@@ -119,7 +95,7 @@
         "offset": 206,
         "group_index": 0,
         "frame": null,
-        "type_index": 546
+        "type_index": 0
       },
       {
         "name": "CONVERT_FONT_HANDLE",
@@ -128,7 +104,7 @@
         "offset": 404,
         "group_index": 0,
         "frame": null,
-        "type_index": 582
+        "type_index": 0
       },
       {
         "name": "HALVE_FOR_MODE_TWO",
@@ -137,7 +113,7 @@
         "offset": 790,
         "group_index": 0,
         "frame": null,
-        "type_index": 608
+        "type_index": 0
       },
       {
         "name": "MAPPALINFO",
@@ -146,7 +122,7 @@
         "offset": 530,
         "group_index": 0,
         "frame": null,
-        "type_index": 594
+        "type_index": 0
       },
       {
         "name": "GET1STBANK",
@@ -155,7 +131,7 @@
         "offset": 364,
         "group_index": 0,
         "frame": null,
-        "type_index": 551
+        "type_index": 0
       },
       {
         "name": "ALLOCBANKS",
@@ -164,7 +140,7 @@
         "offset": 0,
         "group_index": 0,
         "frame": null,
-        "type_index": 517
+        "type_index": 0
       },
       {
         "name": "RESETBANKS",
@@ -173,7 +149,7 @@
         "offset": 74,
         "group_index": 0,
         "frame": null,
-        "type_index": 521
+        "type_index": 0
       },
       {
         "name": "COPY_FAR_WORD",
@@ -182,7 +158,7 @@
         "offset": 3350,
         "group_index": 0,
         "frame": null,
-        "type_index": 638
+        "type_index": 0
       },
       {
         "name": "XLATSHAPE",
@@ -191,7 +167,7 @@
         "offset": 1296,
         "group_index": 0,
         "frame": null,
-        "type_index": 632
+        "type_index": 0
       },
       {
         "name": "CONVERT_BANDED_SHAPE",
@@ -200,7 +176,7 @@
         "offset": 2236,
         "group_index": 0,
         "frame": null,
-        "type_index": 634
+        "type_index": 0
       },
       {
         "name": "REMAP_BANDED_PIXELS",
@@ -209,7 +185,7 @@
         "offset": 3092,
         "group_index": 0,
         "frame": null,
-        "type_index": 636
+        "type_index": 0
       },
       {
         "name": "CALCROWBYTES",
@@ -218,12 +194,12 @@
         "offset": 116,
         "group_index": 0,
         "frame": null,
-        "type_index": 541
+        "type_index": 0
       }
     ],
     "externals": [
       "UNPACK_PIXELS",
-      "_far_copy",
+      "__fmemcpy",
       "CONVERT_SHAPE",
       "MASKTOMCGA",
       "XLATFONT",
@@ -235,10 +211,9 @@
       "GET1STBANK",
       "__aFNalshl",
       "__aFlmul",
-      "__aFulmul",
       "ALLOCATED_UNIT_BITS",
       "ALLOCBANKS",
-      "VIDEO_MODE",
+      "GRAPHICS_MODE",
       "CHUNK_BYTE_LIMIT",
       "UNPACKRLEH",
       "NORMALIZEPTR",
@@ -247,7 +222,7 @@
       "TGATOMCGA",
       "UNPACKRLEV",
       "RESTORE_HANDLE_FLAGS",
-      "RESIZE_PAYLOAD",
+      "RESIZE_HANDLE",
       "DETACH_HANDLE_PAYLOAD",
       "UNPACKLZH",
       "RESETBANKS",
@@ -258,21 +233,21 @@
       "UNPACKLZV",
       "CLEAR_PAYLOAD_HEADER",
       "DISPOSE_HANDLE",
-      "__aFldiv",
       "CONVERT_BANDED_SHAPE",
       "ALLOCATE_PAYLOAD_HANDLE",
+      "__aFldiv",
       "CLEAR_HANDLE_OWNED",
       "REMAP_BANDED_PIXELS",
       "CALCROWBYTES"
     ]
   },
   "dgroup_segment": {
-    "segment": 12531,
+    "segment": 13058,
     "witnesses": [
       {
-        "image_offset": 5473,
-        "relocation_index": 42,
-        "space": "root"
+        "space": "root",
+        "image_offset": 5647,
+        "relocation_index": 54
       }
     ]
   },
@@ -281,24 +256,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 62,
+      "segment_offset": 933,
       "loc_type": 1,
       "field_width": 2,
-      "self_relative": false,
+      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
-          "name": "ALLOCATED_UNIT_BITS",
+          "index": 8,
+          "name": "HALVE_FOR_MODE_TWO",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 15,
-        "name": "ALLOCATED_UNIT_BITS",
+        "index": 8,
+        "name": "HALVE_FOR_MODE_TWO",
         "method": 6,
         "zero_displacement": true
       },
@@ -308,24 +283,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 32,
-      "loc_type": 1,
-      "field_width": 2,
+      "segment_offset": 774,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
-          "name": "ALLOCATED_UNIT_BITS",
+          "index": 33,
+          "name": "UNPACKLZV",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 15,
-        "name": "ALLOCATED_UNIT_BITS",
+        "index": 33,
+        "name": "UNPACKLZV",
         "method": 6,
         "zero_displacement": true
       },
@@ -335,24 +310,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 96,
-      "loc_type": 1,
-      "field_width": 2,
+      "segment_offset": 748,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
-          "name": "ALLOCATED_UNIT_BITS",
+          "index": 27,
+          "name": "UNPACKLZH",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 15,
-        "name": "ALLOCATED_UNIT_BITS",
+        "index": 27,
+        "name": "UNPACKLZH",
         "method": 6,
         "zero_displacement": true
       },
@@ -362,24 +337,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 81,
-      "loc_type": 1,
-      "field_width": 2,
+      "segment_offset": 726,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
-          "name": "ALLOCATED_UNIT_BITS",
+          "index": 23,
+          "name": "UNPACKRLEV",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 15,
-        "name": "ALLOCATED_UNIT_BITS",
+        "index": 23,
+        "name": "UNPACKRLEV",
         "method": 6,
         "zero_displacement": true
       },
@@ -389,20 +364,79 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 340,
-      "loc_type": 2,
-      "field_width": 2,
+      "segment_offset": 700,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
       "frame": {
-        "kind": "group",
-        "index": 1,
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 18,
+          "name": "UNPACKRLEH",
+          "method": 6,
+          "zero_displacement": true
+        }
       },
       "target": {
-        "kind": "segment",
+        "kind": "external",
+        "index": 18,
+        "name": "UNPACKRLEH",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 672,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "__fmemcpy",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
         "index": 2,
-        "name": "_DATA",
-        "method": 4,
+        "name": "__fmemcpy",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 599,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 9,
+          "name": "WRITE_DAC_BLOCK",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 9,
+        "name": "WRITE_DAC_BLOCK",
+        "method": 6,
         "zero_displacement": true
       },
       "displacement": null
@@ -419,7 +453,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 35,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -427,7 +461,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "DISPOSE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -446,7 +480,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -454,7 +488,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -473,7 +507,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "MARK_HANDLE_CONVERTED",
           "method": 6,
           "zero_displacement": true
@@ -481,7 +515,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "MARK_HANDLE_CONVERTED",
         "method": 6,
         "zero_displacement": true
@@ -500,7 +534,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "ATTACH_HANDLE_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -508,7 +542,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "ATTACH_HANDLE_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -527,7 +561,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 26,
           "name": "DETACH_HANDLE_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -535,7 +569,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 26,
         "name": "DETACH_HANDLE_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -554,7 +588,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "RESTORE_HANDLE_FLAGS",
           "method": 6,
           "zero_displacement": true
@@ -562,7 +596,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "RESTORE_HANDLE_FLAGS",
         "method": 6,
         "zero_displacement": true
@@ -608,7 +642,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 21,
           "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -616,7 +650,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 21,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -635,7 +669,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 20,
           "name": "SAVE_HANDLE_FLAGS",
           "method": 6,
           "zero_displacement": true
@@ -643,7 +677,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 20,
         "name": "SAVE_HANDLE_FLAGS",
         "method": 6,
         "zero_displacement": true
@@ -654,24 +688,46 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 599,
-      "loc_type": 3,
-      "field_width": 4,
+      "segment_offset": 340,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 96,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
-          "name": "WRITE_DAC_BLOCK",
+          "index": 14,
+          "name": "ALLOCATED_UNIT_BITS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 9,
-        "name": "WRITE_DAC_BLOCK",
+        "index": 14,
+        "name": "ALLOCATED_UNIT_BITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -681,24 +737,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 774,
-      "loc_type": 3,
-      "field_width": 4,
+      "segment_offset": 81,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
-          "name": "UNPACKLZV",
+          "index": 14,
+          "name": "ALLOCATED_UNIT_BITS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 34,
-        "name": "UNPACKLZV",
+        "index": 14,
+        "name": "ALLOCATED_UNIT_BITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -708,24 +764,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 748,
-      "loc_type": 3,
-      "field_width": 4,
+      "segment_offset": 62,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
-          "name": "UNPACKLZH",
+          "index": 14,
+          "name": "ALLOCATED_UNIT_BITS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 28,
-        "name": "UNPACKLZH",
+        "index": 14,
+        "name": "ALLOCATED_UNIT_BITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -735,24 +791,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 726,
-      "loc_type": 3,
-      "field_width": 4,
+      "segment_offset": 32,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
-          "name": "UNPACKRLEV",
+          "index": 14,
+          "name": "ALLOCATED_UNIT_BITS",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 24,
-        "name": "UNPACKRLEV",
+        "index": 14,
+        "name": "ALLOCATED_UNIT_BITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -762,7 +818,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 700,
+      "segment_offset": 1887,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -771,492 +827,6 @@
         "target": {
           "kind": "external",
           "index": 19,
-          "name": "UNPACKRLEH",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 19,
-        "name": "UNPACKRLEH",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 672,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 2,
-          "name": "_far_copy",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "_far_copy",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1194,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 4,
-          "name": "MASKTOMCGA",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "MASKTOMCGA",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1169,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 2,
-          "name": "_far_copy",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "_far_copy",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1102,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "HALVE_FOR_MODE_TWO",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "HALVE_FOR_MODE_TWO",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1005,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 2,
-          "name": "_far_copy",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "_far_copy",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 993,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 22,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 22,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 965,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 39,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 39,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 933,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 8,
-          "name": "HALVE_FOR_MODE_TWO",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 8,
-        "name": "HALVE_FOR_MODE_TWO",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1239,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 40,
-          "name": "CLEAR_HANDLE_OWNED",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 40,
-        "name": "CLEAR_HANDLE_OWNED",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1288,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 33,
-          "name": "XLATSHAPE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 33,
-        "name": "XLATSHAPE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1280,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 30,
-          "name": "COPY_FAR_WORD",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 30,
-        "name": "COPY_FAR_WORD",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2122,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "MCGATOMCGA",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "MCGATOMCGA",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2085,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 4,
-          "name": "MASKTOMCGA",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "MASKTOMCGA",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2060,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 2,
-          "name": "_far_copy",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "_far_copy",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2012,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 23,
-          "name": "TGATOMCGA",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 23,
-        "name": "TGATOMCGA",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2008,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 11,
-          "name": "GET1STBANK",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 11,
-        "name": "GET1STBANK",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1967,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 1,
-          "name": "UNPACK_PIXELS",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 1,
-        "name": "UNPACK_PIXELS",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1882,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 20,
           "name": "NORMALIZEPTR",
           "method": 6,
           "zero_displacement": true
@@ -1264,7 +834,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 19,
         "name": "NORMALIZEPTR",
         "method": 6,
         "zero_displacement": true
@@ -1275,7 +845,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1867,
+      "segment_offset": 1872,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -1283,7 +853,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 19,
           "name": "NORMALIZEPTR",
           "method": 6,
           "zero_displacement": true
@@ -1291,7 +861,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 19,
         "name": "NORMALIZEPTR",
         "method": 6,
         "zero_displacement": true
@@ -1310,16 +880,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1337,16 +907,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1364,7 +934,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 17,
           "name": "CHUNK_BYTE_LIMIT",
           "method": 6,
           "zero_displacement": true
@@ -1372,7 +942,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 17,
         "name": "CHUNK_BYTE_LIMIT",
         "method": 6,
         "zero_displacement": true
@@ -1391,7 +961,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 21,
           "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -1399,7 +969,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 21,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -1418,7 +988,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 37,
           "name": "ALLOCATE_PAYLOAD_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -1426,7 +996,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 37,
         "name": "ALLOCATE_PAYLOAD_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -1445,7 +1015,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 17,
           "name": "CHUNK_BYTE_LIMIT",
           "method": 6,
           "zero_displacement": true
@@ -1453,7 +1023,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 17,
         "name": "CHUNK_BYTE_LIMIT",
         "method": 6,
         "zero_displacement": true
@@ -1499,16 +1069,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
-          "name": "__aFulmul",
+          "index": 13,
+          "name": "__aFlmul",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 14,
-        "name": "__aFulmul",
+        "index": 13,
+        "name": "__aFlmul",
         "method": 6,
         "zero_displacement": true
       },
@@ -1553,16 +1123,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1580,16 +1150,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1661,7 +1231,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CALCROWBYTES",
           "method": 6,
           "zero_displacement": true
@@ -1669,7 +1239,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CALCROWBYTES",
         "method": 6,
         "zero_displacement": true
@@ -1688,16 +1258,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1715,16 +1285,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1742,7 +1312,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 36,
           "name": "CONVERT_BANDED_SHAPE",
           "method": 6,
           "zero_displacement": true
@@ -1750,7 +1320,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 36,
         "name": "CONVERT_BANDED_SHAPE",
         "method": 6,
         "zero_displacement": true
@@ -1761,24 +1331,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2164,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
+      "segment_offset": 1288,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
-          "name": "DISPOSE_HANDLE",
+          "index": 32,
+          "name": "XLATSHAPE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 36,
-        "name": "DISPOSE_HANDLE",
+        "index": 32,
+        "name": "XLATSHAPE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1788,24 +1358,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2211,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
+      "segment_offset": 1280,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
-          "name": "RESIZE_PAYLOAD",
+          "index": 29,
+          "name": "COPY_FAR_WORD",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 26,
-        "name": "RESIZE_PAYLOAD",
+        "index": 29,
+        "name": "COPY_FAR_WORD",
         "method": 6,
         "zero_displacement": true
       },
@@ -1815,7 +1385,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2199,
+      "segment_offset": 1239,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -1823,7 +1393,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "CLEAR_HANDLE_OWNED",
           "method": 6,
           "zero_displacement": true
@@ -1831,7 +1401,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "CLEAR_HANDLE_OWNED",
         "method": 6,
         "zero_displacement": true
@@ -1842,61 +1412,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2945,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 41,
-          "name": "REMAP_BANDED_PIXELS",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 41,
-        "name": "REMAP_BANDED_PIXELS",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2908,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2899,
+      "segment_offset": 1194,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -1923,7 +1439,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2870,
+      "segment_offset": 1169,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -1931,16 +1447,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
-          "name": "TGATOMCGA",
+          "index": 2,
+          "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 23,
-        "name": "TGATOMCGA",
+        "index": 2,
+        "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
       },
@@ -1950,7 +1466,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2866,
+      "segment_offset": 1102,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -1958,16 +1474,97 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
-          "name": "GET1STBANK",
+          "index": 8,
+          "name": "HALVE_FOR_MODE_TWO",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 11,
-        "name": "GET1STBANK",
+        "index": 8,
+        "name": "HALVE_FOR_MODE_TWO",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 1005,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "__fmemcpy",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "__fmemcpy",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 993,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 21,
+          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 21,
+        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 965,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 37,
+          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 37,
+        "name": "ALLOCATE_PAYLOAD_HANDLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2012,7 +1609,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 19,
           "name": "NORMALIZEPTR",
           "method": 6,
           "zero_displacement": true
@@ -2020,7 +1617,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 19,
         "name": "NORMALIZEPTR",
         "method": 6,
         "zero_displacement": true
@@ -2039,7 +1636,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 19,
           "name": "NORMALIZEPTR",
           "method": 6,
           "zero_displacement": true
@@ -2047,7 +1644,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 19,
         "name": "NORMALIZEPTR",
         "method": 6,
         "zero_displacement": true
@@ -2066,7 +1663,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 21,
           "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -2074,7 +1671,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 21,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -2093,16 +1690,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
-          "name": "RESIZE_PAYLOAD",
+          "index": 25,
+          "name": "RESIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 26,
-        "name": "RESIZE_PAYLOAD",
+        "index": 25,
+        "name": "RESIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2120,7 +1717,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "CLEAR_HANDLE_OWNED",
           "method": 6,
           "zero_displacement": true
@@ -2128,7 +1725,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "CLEAR_HANDLE_OWNED",
         "method": 6,
         "zero_displacement": true
@@ -2139,7 +1736,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2591,
+      "segment_offset": 2596,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -2147,16 +1744,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2166,7 +1763,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2584,
+      "segment_offset": 2589,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -2174,16 +1771,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2193,7 +1790,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2567,
+      "segment_offset": 2563,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2201,7 +1798,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 38,
           "name": "__aFldiv",
           "method": 6,
           "zero_displacement": true
@@ -2209,7 +1806,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 38,
         "name": "__aFldiv",
         "method": 6,
         "zero_displacement": true
@@ -2220,7 +1817,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2509,
+      "segment_offset": 2513,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2228,7 +1825,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 21,
           "name": "FETCH_LOCKED_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -2236,7 +1833,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 21,
         "name": "FETCH_LOCKED_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -2247,7 +1844,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2493,
+      "segment_offset": 2497,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2255,7 +1852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 37,
           "name": "ALLOCATE_PAYLOAD_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2263,7 +1860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 37,
         "name": "ALLOCATE_PAYLOAD_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -2282,7 +1879,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 17,
           "name": "CHUNK_BYTE_LIMIT",
           "method": 6,
           "zero_displacement": true
@@ -2290,7 +1887,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 17,
         "name": "CHUNK_BYTE_LIMIT",
         "method": 6,
         "zero_displacement": true
@@ -2363,7 +1960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CALCROWBYTES",
           "method": 6,
           "zero_displacement": true
@@ -2371,7 +1968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CALCROWBYTES",
         "method": 6,
         "zero_displacement": true
@@ -2390,16 +1987,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2417,16 +2014,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2436,61 +2033,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2959,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2952,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 17,
-          "name": "VIDEO_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 17,
-        "name": "VIDEO_MODE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3067,
+      "segment_offset": 2211,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2498,16 +2041,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
-          "name": "RESIZE_PAYLOAD",
+          "index": 25,
+          "name": "RESIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 26,
-        "name": "RESIZE_PAYLOAD",
+        "index": 25,
+        "name": "RESIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2517,7 +2060,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3055,
+      "segment_offset": 2199,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2525,7 +2068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "CLEAR_HANDLE_OWNED",
           "method": 6,
           "zero_displacement": true
@@ -2533,7 +2076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "CLEAR_HANDLE_OWNED",
         "method": 6,
         "zero_displacement": true
@@ -2544,7 +2087,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3020,
+      "segment_offset": 2164,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2552,7 +2095,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 35,
           "name": "DISPOSE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -2560,8 +2103,170 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 35,
         "name": "DISPOSE_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2122,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 6,
+          "name": "MCGATOMCGA",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "MCGATOMCGA",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2085,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 4,
+          "name": "MASKTOMCGA",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "MASKTOMCGA",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2060,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "__fmemcpy",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "__fmemcpy",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2017,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 22,
+          "name": "TGATOMCGA",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 22,
+        "name": "TGATOMCGA",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2013,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 11,
+          "name": "GET1STBANK",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 11,
+        "name": "GET1STBANK",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 1972,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "UNPACK_PIXELS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "UNPACK_PIXELS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2588,18 +2293,288 @@
         "zero_displacement": true
       },
       "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3067,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 25,
+          "name": "RESIZE_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 25,
+        "name": "RESIZE_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3055,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 39,
+          "name": "CLEAR_HANDLE_OWNED",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 39,
+        "name": "CLEAR_HANDLE_OWNED",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3020,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 35,
+          "name": "DISPOSE_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 35,
+        "name": "DISPOSE_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2959,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2952,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2945,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 40,
+          "name": "REMAP_BANDED_PIXELS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 40,
+        "name": "REMAP_BANDED_PIXELS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2908,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 16,
+          "name": "GRAPHICS_MODE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 16,
+        "name": "GRAPHICS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2899,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 4,
+          "name": "MASKTOMCGA",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "MASKTOMCGA",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2870,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 22,
+          "name": "TGATOMCGA",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 22,
+        "name": "TGATOMCGA",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2866,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 11,
+          "name": "GET1STBANK",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 11,
+        "name": "GET1STBANK",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -2610,180 +2585,171 @@
     "ALLOCATED_UNIT_BITS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8392,
+      "offset": 7962,
       "width": 2,
       "witnesses": [
         {
-          "bytes_hex": "2106c820",
-          "context": "Independent original direct DS and word ptr [0x20c8], ax outside the owner (entry relocated far CALL root+0x18f93 index 1499); grounds relative offset and width only.",
-          "image_offset": 102511,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 103121,
+          "bytes_hex": "21061a1f"
         }
       ]
     },
     "ALLOCATE_PAYLOAD_HANDLE": {
-      "entry_sha256": "c5e4b8aa59b6dbd9bd4f754a251919fba52d9448c732507e2ec1731bfb638924",
-      "entry_target_id": "root:1101:2436",
+      "entry_sha256": "c3ec377d3bcae2d5d33123bc8699728ed6babfa311fe110596d625f5cd8cc61b",
+      "entry_target_id": "root:1129:17fc",
       "kind": "far-code-entry",
-      "offset": 9270,
-      "segment": 4353,
+      "offset": 6140,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "ATTACH_HANDLE_PAYLOAD": {
       "entry_sha256": "5c490258d79c0fb470179e354090fbc938a58f593aae1eb6b97f16142ba4d9a4",
-      "entry_target_id": "root:1101:2196",
+      "entry_target_id": "root:1129:15dc",
       "kind": "far-code-entry",
-      "offset": 8598,
-      "segment": 4353,
+      "offset": 5596,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "CLEAR_HANDLE_OWNED": {
       "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
-      "entry_target_id": "root:1101:25b2",
+      "entry_target_id": "root:1129:1978",
       "kind": "far-code-entry",
-      "offset": 9650,
-      "segment": 4353,
+      "offset": 6520,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "CLEAR_PAYLOAD_HEADER": {
       "entry_sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
-      "entry_target_id": "root:1101:25e4",
+      "entry_target_id": "root:1129:19aa",
       "kind": "far-code-entry",
-      "offset": 9700,
-      "segment": 4353,
+      "offset": 6570,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "DETACH_HANDLE_PAYLOAD": {
-      "entry_sha256": "7c1eafb996baae8ad3b5ea75747250f890f666b83ec7fface7e8faab3a387c6b",
-      "entry_target_id": "root:1101:21ce",
+      "entry_sha256": "1fd0a5cd32f71ccd4eb5451971aac2368f9d1c080056bb2d573c468837b32919",
+      "entry_target_id": "root:1129:1614",
       "kind": "far-code-entry",
-      "offset": 8654,
-      "segment": 4353,
+      "offset": 5652,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "DISPOSE_HANDLE": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
+      "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
+      "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
-      "offset": 8864,
-      "segment": 4353,
+      "offset": 5862,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "FETCH_LOCKED_SHAPE_LIST": {
-      "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
-      "entry_target_id": "root:1101:2362",
+      "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
+      "entry_target_id": "root:1129:1728",
       "kind": "far-code-entry",
-      "offset": 9058,
-      "segment": 4353,
+      "offset": 5928,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "MARK_HANDLE_CONVERTED": {
       "entry_sha256": "acd58479c7db44f27fe8728be1702c9e4005e38d2f5be76f532c382ee1e4d71d",
-      "entry_target_id": "root:1101:237c",
+      "entry_target_id": "root:1129:1742",
       "kind": "far-code-entry",
-      "offset": 9084,
-      "segment": 4353,
+      "offset": 5954,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "MASKTOMCGA": {
       "entry_sha256": "b28ee1c6a8b849265ef0ef3d11588453c2b164e9ff21dc39f6dda5254e037459",
-      "entry_target_id": "root:1101:7730",
+      "entry_target_id": "root:1129:7712",
       "kind": "far-code-entry",
-      "offset": 30512,
-      "segment": 4353,
+      "offset": 30482,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "RESTORE_HANDLE_FLAGS": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
-      "entry_target_id": "root:1101:2594",
+      "entry_target_id": "root:1129:195a",
       "kind": "far-code-entry",
-      "offset": 9620,
-      "segment": 4353,
+      "offset": 6490,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "SAVE_HANDLE_FLAGS": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
-      "entry_target_id": "root:1101:22d0",
+      "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",
-      "offset": 8912,
-      "segment": 4353,
+      "offset": 5910,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "UNPACKLZH": {
-      "entry_sha256": "22692e5eb09426bc0b1a24a71c43be4fa53605aa89cbc4a45f1660ce7871fe18",
-      "entry_target_id": "root:1101:77ec",
+      "entry_sha256": "7199a8edcbef684cbc7ade88e052de179e5c1673aab93ae05be0580984086b71",
+      "entry_target_id": "root:1129:77ce",
       "kind": "far-code-entry",
-      "offset": 30700,
-      "segment": 4353,
+      "offset": 30670,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "UNPACKLZV": {
-      "entry_sha256": "ca2e1cde0cccec9e8153e1f0e4b802e1c7b087f93efa025649d2eaaf5262efc4",
-      "entry_target_id": "root:1101:78a5",
+      "entry_sha256": "5e64f0ce82d51844a1bb9ddee83433bdd399db2cf0d81f17b74e36905ac39036",
+      "entry_target_id": "root:1129:7887",
       "kind": "far-code-entry",
-      "offset": 30885,
-      "segment": 4353,
+      "offset": 30855,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "UNPACKRLEH": {
       "entry_sha256": "c55f261e46fb18872dc82f8e80af75fce924911ccd1a98317dfafe6c52611ea5",
-      "entry_target_id": "root:1101:763e",
+      "entry_target_id": "root:1129:7620",
       "kind": "far-code-entry",
-      "offset": 30270,
-      "segment": 4353,
+      "offset": 30240,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "UNPACKRLEV": {
       "entry_sha256": "edd871dda9b0c5b0fde563abadd447b5d5ecd0db84ca0d49949b14aa11d2b73e",
-      "entry_target_id": "root:1101:7686",
+      "entry_target_id": "root:1129:7668",
       "kind": "far-code-entry",
-      "offset": 30342,
-      "segment": 4353,
+      "offset": 30312,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "WRITE_DAC_BLOCK": {
       "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
-      "entry_target_id": "root:1101:79c1",
+      "entry_target_id": "root:1129:79a3",
       "kind": "far-code-entry",
-      "offset": 31169,
-      "segment": 4353,
+      "offset": 31139,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
-    "_far_copy": {
+    "__fmemcpy": {
       "entry_sha256": "753abe2022a393943e6f95c11aa492be1a7dee2bc440aa8d2faa3934fb4c722a",
-      "entry_target_id": "root:1fe6:1e30",
+      "entry_target_id": "root:1fef:1e8a",
       "kind": "far-code-entry",
-      "offset": 7728,
-      "segment": 8166,
+      "offset": 7818,
+      "segment": 8175,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a301ee61f",
-          "file_offset": 32909,
-          "image_offset": 24717,
-          "relocation_index": 537,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     }
   },
   "target_id": "group:xlatgraf/xlatgraf",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

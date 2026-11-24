@@ -96,8 +96,6 @@ sweep_fraction DB 0
 EXTRN DIVIDE_TIMER_INTERVAL:NEAR
 EXTRN INSTALL_TIMER_HOOK:NEAR
 EXTRN REMOVE_TIMER_HOOK:NEAR
-EXTRN INSTALL_TIMER_ENTRY:FAR
-EXTRN REMOVE_TIMER_ENTRY:FAR
 
 PUBLIC START_MIDI_SEQUENCE
 PUBLIC STOP_DRIVER_TIMER
@@ -274,6 +272,7 @@ DRIVER_TIMER_INTERRUPT PROC FAR
     push cx
     push dx
     push ds
+    cld
     mov ax, SEG SOUND_DGROUP
     mov ds, ax
     mov cx, driver_rate
@@ -328,6 +327,7 @@ stop_sequence:
     mov ax, WORD PTR sequence_completion
     or ax, WORD PTR sequence_completion+2
     je restore_interrupt_stack
+    pushf
     call sequence_completion
 restore_interrupt_stack:
     mov ss, di
@@ -677,13 +677,13 @@ CONFIGURE_SOUND_DEVICES PROC FAR
 
     mov di, es
     mov si, OFFSET timer_hooks
-    mov ax, OFFSET INSTALL_TIMER_ENTRY
+    mov ax, OFFSET INSTALL_TIMER_HOOK
     mov [si], ax
-    mov ax, SEG INSTALL_TIMER_ENTRY
+    mov ax, SEG INSTALL_TIMER_HOOK
     mov [si+2], ax
-    mov ax, OFFSET REMOVE_TIMER_ENTRY
+    mov ax, OFFSET REMOVE_TIMER_HOOK
     mov [si+4], ax
-    mov ax, SEG REMOVE_TIMER_ENTRY
+    mov ax, SEG REMOVE_TIMER_HOOK
     mov [si+6], ax
 
     xor bx, bx
@@ -692,7 +692,7 @@ CONFIGURE_SOUND_DEVICES PROC FAR
     call SECOND_PROBE_DRIVER
     test ax, ax
     je digital_ok
-    or driver_status, 4
+    or ACTIVE_SOUND_CHANNELS, 4
     jmp short probe_midi
 digital_ok:
     mov DIGITAL_LOOP_CAPABILITY, bx
@@ -714,7 +714,7 @@ probe_midi:
     call FIRST_PROBE_DRIVER
     test ax, ax
     jge midi_ok
-    or driver_status, 8
+    or ACTIVE_SOUND_CHANNELS, 8
     jmp short update_channels
 midi_ok:
     mov midi_clock_rate, ax
@@ -1025,6 +1025,8 @@ MIDI_COMPLETION_INTERRUPT PROC FAR
     push bx
     push cx
     push dx
+    push di
+    push si
     push ds
     push es
     mov ax, SEG SOUND_DGROUP
@@ -1044,6 +1046,8 @@ midi_stack_ready:
     je midi_finished
     cmp ax, midi_repeat
     jne midi_finished
+    push cs
+    call NEAR PTR STOP_DRIVER_TIMER
     add bx, 1
     push es
     push bx
@@ -1054,8 +1058,6 @@ midi_stack_ready:
     push es
     push ax
     push midi_clock_rate
-    push cs
-    call NEAR PTR STOP_DRIVER_TIMER
     push cs
     call NEAR PTR START_MIDI_SEQUENCE
     jmp short midi_restore
@@ -1069,6 +1071,8 @@ midi_restore:
     mov sp, ax
     pop es
     pop ds
+    pop si
+    pop di
     pop dx
     pop cx
     pop bx
@@ -1163,7 +1167,7 @@ RELEASE_SPEAKER_SOUND PROC NEAR
     cmp ax, SPEAKER_PAYLOAD
     jne speaker_done
     mov dx, es
-    cmp dx, SPEAKER_SEGMENT
+    sub dx, SPEAKER_SEGMENT
     jne speaker_done
 stop_speaker:
     sub cx, cx

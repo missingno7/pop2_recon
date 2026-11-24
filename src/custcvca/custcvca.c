@@ -179,7 +179,7 @@ typedef struct {
 extern LEVELREC Level;
 
 extern void AddSong(int), AddSound(int), release_song_range(int, int);
-extern void set_resource(unsigned int, unsigned int, Byte, Byte);
+extern void set_palette(unsigned int, unsigned int, Byte, Byte);
 extern void far *MATERIALIZE_HANDLE(Handle);
 extern void DISPOSE_HANDLE(Handle), mark_purgeable(Handle);
 extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
@@ -194,12 +194,12 @@ extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern void SaveFChar(void), RestoreFChar(void), init_fchar_rect(void);
 extern void far _fastcall add_char_object(Byte);
 typedef void far pascal DrawCallback(void);
-extern DrawCallback draw_under_actor, draw_carpet_foreground;
+extern DrawCallback mark_move, mark_foreground;
 extern void mark_bufs_for_rect(DrawCallback *, Rect near *, signed char);
 extern void ReadCell(signed char, signed char, signed char);
 extern void make_space(Byte, Byte);
 extern void JumpSeq(int);
-extern void decrement_life_points(Byte), set_char_state(Byte);
+extern void decrement_life_points(Byte), SetKidDeathMethod(Byte);
 extern void far _fastcall draw_custom_room_image(Byte, Byte);
 extern int compute_trob_move_rect(Rect near *, Rect near *);
 extern void * _cdecl _nmalloc(unsigned int);
@@ -223,7 +223,7 @@ void LoadCarpetCode(void)
 void UnloadCarpetCode(void)
 {
     unload_carpet_data();
-    set_resource(750, 32, 16, 0);
+    set_palette(750, 32, 16, 0);
 }
 
 int check_carpet_image(int index)
@@ -313,7 +313,7 @@ void draw_obj_carpet(Byte *unused)
         }
         if (carpet->sitting) {
             palette = carpet->frame - 4;
-            if (palette < 8) set_resource(CARPET_SHAPE_ID, 16, 32, palette);
+            if (palette < 8) set_palette(CARPET_SHAPE_ID, 16, 32, palette);
         }
         ++mid_count; ++carpet->frame;
         if (carpet->saved) {
@@ -339,33 +339,33 @@ int get_carpet_frame(void)
 
 Shape far * far _fastcall get_carpet_shape_info(ShapeRef *ref, int index)
 {
+    Shape far *shape = 0;
+
     if (carpet) {
         char zero = 0;
         ref->sheet = 1;
         ref->col = zero;
         ref->row = zero;
-        ref->handle = check_carpet_image(index);
-        index *= sizeof(CarpetImage);
-        return RESOLVE_HANDLE_TO_FAR_PAYLOAD(((CarpetImage *)((char *)carpet + index))->handle);
+        if (ref->handle = check_carpet_image(index))
+            shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(carpet->images[index].handle);
     }
-    return 0;
+    return shape;
 }
 
 void load_carpet_data(void)
 {
-    register int index;
+    int index;
     carpet = _nmalloc(sizeof(Carpet));
     memset(carpet, 0, sizeof(Carpet));
     index = 0;
     do {
         check_carpet_image(index);
     } while (++index < 10);
-    release_song_range(33, 36);
 }
 
 void map_carpet_colors(void)
 {
-    set_resource(CARPET_SHAPE_ID, 16, 32, 0);
+    set_palette(CARPET_SHAPE_ID, 16, 32, 0);
 }
 
 void setup_carpet(void)
@@ -386,7 +386,7 @@ void setup_carpet(void)
         shape = get_carpet_shape_info(&ref, FChar.image - CARPET_SHAPE_ID);
         MAKESHAPERECT((Rect *)&FChar.clip_top, FChar.y - shape->height, FChar.x, shape);
         add_char_object(13);
-        mark_bufs_for_rect(draw_carpet_foreground, (Rect *)&FChar.clip_top, -1);
+        mark_bufs_for_rect(mark_foreground, (Rect *)&FChar.clip_top, -1);
         RestoreFChar();
     }
 }
@@ -404,13 +404,13 @@ void sitting_on_carpet(void)
             make_space(Cell.room, ((Byte)Cell.index));
             shape = get_carpet_shape_info(&ref, 0);
             MAKESHAPERECT(&rect, carpet_x, carpet_y, shape);
-            mark_bufs_for_rect(draw_under_actor, &rect, -1);
+            mark_bufs_for_rect(mark_move, &rect, -1);
             return;
         }
-        if (!carpet->sitting && ((volatile CHARREC *)&Char)->y < 55 && !cave_bars_open()) {
+        if (!carpet->sitting && Char.y < 55 && !cave_bars_open()) {
             carpet->frame = 1;
             carpet->sitting = 1;
-            ((volatile CHARREC *)&Char)->y = 20;
+            Char.y = 20;
             Char.sequence_group = 10;
             JumpSeq(129);
             AddSound(36);
@@ -418,7 +418,7 @@ void sitting_on_carpet(void)
         }
         if (carpet->sitting && carpet->frame >= 1) {
             decrement_life_points(100);
-            set_char_state(9);
+            SetKidDeathMethod(9);
         }
     }
 }
@@ -427,9 +427,9 @@ void trigger_char_on_carpet(void)
 {
     if (carpet) {
         JumpSeq(128);
-        ((volatile CHARREC *)&Char)->x = 268;
-        if (((volatile CHARREC *)&Char)->direction == 0)
-            ((volatile CHARREC *)&Char)->x = 288;
+        Char.x = 268;
+        if (Char.direction == 0)
+            Char.x = 288;
         if (cave_bars_open()) {
             AddSong(34);
             return;
@@ -501,7 +501,7 @@ void redraw_cave_bars(void)
 {
     Rect rect;
     if (compute_trob_move_rect(&rect, &carpet_animation.bars))
-        mark_bufs_for_rect(draw_under_actor, &rect, -1);
+        mark_bufs_for_rect(mark_move, &rect, -1);
 }
 
 signed char trigger_cave_bars(Byte room, signed char cell)

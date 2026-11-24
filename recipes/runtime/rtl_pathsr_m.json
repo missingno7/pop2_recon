@@ -1,9 +1,9 @@
 {
   "archive_offset": 398592,
   "binding": "evidence/bindings/rtl_pathsr_m.json",
-  "binding_sha256": "4e8237e9984e10f2d08114d58479949f1a27c02a5c9bd57b66c877e90bf59cb1",
+  "binding_sha256": "39469dd25e5dc48de8a541cbc2308f0029cac8d1267e7c9e46ed3f1121dd2ac2",
   "boundary_evidence": [
-    "Complete RTLink/Plus 6.10 RTLUTILS.LIB member pathsr_m.asm (archive offset 0x61500, 202 bytes) whose whole 50-byte $$OVLMGR_UTILS contribution lies at root 0x2340b (22e5:05bb). The member ends exactly at the end of the resident MZ load image (root 0x2343d)."
+    "Complete independent RTLUTILS.LIB member (archive offset 398592, 202 bytes) whose whole 50-byte segment lies at root+0x25179 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 3,
   "kind": "PINNED_RUNTIME",
@@ -13,15 +13,15 @@
   "member_sha256": "c65d318efb5ac8f8cc4d6774c3516f0517d6adebd6dd762113f3cdfdad13310d",
   "name": "rtl_pathsr_m",
   "object_segment": "$$OVLMGR_UTILS",
-  "offset": 1467,
+  "offset": 8793,
   "proof_scope": "Whole pinned RTLink manager member segment with every fixup computed from independently grounded output-segment frames and pinned providers; interior uninitialized bytes linked as zero; natural RTLink placement and behavior unproved",
   "publics": [
     "$$RTLPATHSEARCH_MESSAGES"
   ],
   "schema": 1,
-  "segment": 8933,
+  "segment": 8946,
   "segment_class": "$$OVLMGR_UTILS",
   "size": 50,
   "space": "root",
-  "target_sha256": "b06a409ad7e422a593411ecf94110f3823e936677be4ed9a62339228d12cda80"
+  "target_sha256": "60614f61412fa986fe2052b4efed2c2391da7be1e60bee41daf5c3b25ac43c51"
 }

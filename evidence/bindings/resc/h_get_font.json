@@ -1,9 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "HGETRSRC",
-      "CONVERT_FONT_HANDLE",
-      "HGETFONT"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 32,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -17,152 +62,107 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "HGETFONT",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 32,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "HGETRSRC",
+      "CONVERT_FONT_HANDLE",
+      "HGETFONT"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 21,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
           "kind": "external",
-          "method": 6,
+          "index": 2,
           "name": "CONVERT_FONT_HANDLE",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 21,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "CONVERT_FONT_HANDLE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 15,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
           "kind": "external",
-          "method": 6,
+          "index": 1,
           "name": "HGETRSRC",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 15,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "HGETRSRC",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "mode": "external-far-call-v1",
   "schema": 1,
   "symbols": {
     "CONVERT_FONT_HANDLE": {
-      "entry_sha256": "dac1bd8de7f7d4b3ea60819c2d29b64824671ed29d973aa47253f496b9266122",
-      "entry_target_id": "root:1101:0a1c",
+      "entry_sha256": "f9b5ef338d7a713ccb39620d408a9cf607dd8674bc18c75ae03d3904d4c8934a",
+      "entry_target_id": "root:1129:07ac",
       "kind": "far-code-entry",
-      "offset": 2588,
-      "segment": 4353,
+      "offset": 1964,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "HGETRSRC": {
       "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
-      "entry_target_id": "root:1101:6f6a",
+      "entry_target_id": "root:1129:6f4c",
       "kind": "far-code-entry",
-      "offset": 28522,
-      "segment": 4353,
+      "offset": 28492,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a6a6f0111",
-          "file_offset": 17855,
-          "image_offset": 9663,
-          "relocation_index": 223,
-          "space": "root"
+          "space": "root",
+          "image_offset": 9743,
+          "bytes_hex": "9a4c6f2911",
+          "file_offset": 17935,
+          "relocation_index": 173
         }
       ]
     }
   },
   "target_id": "group:resc/h_get_font",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

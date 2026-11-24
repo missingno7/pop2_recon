@@ -5,7 +5,6 @@ EXTRN INTERRUPT_VECTORS_INSTALLED:WORD
 EXTRN SAVED_PRINT_SCREEN_VECTOR:DWORD
 EXTRN SAVED_KEYBOARD_IRQ_VECTOR:DWORD
 EXTRN SAVED_VIDEO_BIOS_VECTOR:DWORD
-EXTRN SAVED_KEYBOARD_BIOS_VECTOR:DWORD
 _DATA ENDS
 DGROUP GROUP _DATA
 
@@ -39,11 +38,6 @@ install_interrupt_handlers PROC FAR
     int 21h
     mov WORD PTR SAVED_VIDEO_BIOS_VECTOR, bx
     mov WORD PTR SAVED_VIDEO_BIOS_VECTOR+2, es
-    mov al, 16h
-    mov ah, 35h
-    int 21h
-    mov WORD PTR SAVED_KEYBOARD_BIOS_VECTOR, bx
-    mov WORD PTR SAVED_KEYBOARD_BIOS_VECTOR+2, es
 
     push ds
     push cs
@@ -59,10 +53,6 @@ install_interrupt_handlers PROC FAR
     mov al, 10h
     mov ah, 25h
     mov dx, OFFSET filter_video_interrupt
-    int 21h
-    mov al, 16h
-    mov ah, 25h
-    mov dx, OFFSET filter_keyboard_interrupt
     int 21h
     mov al, 23h
     mov ah, 25h
@@ -91,10 +81,6 @@ RESTORE_INTERRUPT_VECTORS PROC FAR
     mov al, 10h
     mov ah, 25h
     lds dx, DWORD PTR ss:[SAVED_VIDEO_BIOS_VECTOR]
-    int 21h
-    mov al, 16h
-    mov ah, 25h
-    lds dx, DWORD PTR ss:[SAVED_KEYBOARD_BIOS_VECTOR]
     int 21h
     pop ds
     retf
@@ -148,48 +134,10 @@ video_done:
     iret
 filter_video_interrupt ENDP
 
-PUBLIC filter_keyboard_interrupt
-filter_keyboard_interrupt PROC FAR
-    push ds
-    push ax
-    mov ax, DGROUP
-    mov ds, ax
-    pop ax
-    test ah, ah
-    jne chain_keyboard_bios
-    mov ah, 1                   ; poll before invoking the original BIOS read
-    pushf
-    call SAVED_KEYBOARD_BIOS_VECTOR
-    mov ax, 0
-    je keyboard_done
-    pushf
-    call SAVED_KEYBOARD_BIOS_VECTOR
-keyboard_done:
-    pop ds
-    iret
-
-chain_keyboard_bios:
-    ; Preserve the caller's DS while putting the old vector on the stack.
-    pop cs:keyboard_caller_ds
-    push WORD PTR SAVED_KEYBOARD_BIOS_VECTOR+2
-    push WORD PTR SAVED_KEYBOARD_BIOS_VECTOR
-    mov ds, cs:keyboard_caller_ds
-    retf                        ; the original BIOS still has the interrupt frame
-keyboard_caller_ds DW 0
-filter_keyboard_interrupt ENDP
-
 PUBLIC ignore_ctrl_break
 ignore_ctrl_break PROC FAR
     iret
 ignore_ctrl_break ENDP
-
-PUBLIC FLUSH_BIOS_KEYBOARD
-FLUSH_BIOS_KEYBOARD PROC FAR
-    mov ax, 0C06h
-    mov dl, 0FFh
-    int 21h
-    retf
-FLUSH_BIOS_KEYBOARD ENDP
 
 PRINCE_TEXT ENDS
 END

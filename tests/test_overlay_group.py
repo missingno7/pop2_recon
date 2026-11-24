@@ -53,7 +53,7 @@ def check(obj, oracle, claims, *, inventory=None, **kw):
     claims = [{"target_id": t, "public": p} for t, p in claims]
     if inventory is None:
         return check_group(obj, claims, oracle, **kw)
-    with patch.object(match, "read_json", return_value=inventory):
+    with patch.object(match, "read_json_shared", return_value=inventory):
         return check_group(obj, claims, oracle, **kw)
 
 
@@ -63,7 +63,7 @@ def no_site_frames():
 
 
 class RealOverlayTests(unittest.TestCase):
-    """Byte-faithful synthetic objects at real overlay-3 targets (OMF fixups, not literal fields)."""
+    """Synthetic OMF objects exercise v1.1 targets in the expanded overlays."""
 
     @classmethod
     def setUpClass(cls):
@@ -74,42 +74,41 @@ class RealOverlayTests(unittest.TestCase):
         cls.inventory = common.read_json(ROOT / "evidence/targets.json")
         cls.get_target = staticmethod(get_target)
 
-    # -- near call and CS frame: AUTO 2344:08b4 (draft) and 2344:08f0 (claim) ------------------
+    # -- near call and CS frame: AUTO 251b:08ac (draft) and 251b:08e8 (claim) ------------------
     def near_object(self):
-        lo, hi = 0x8b4, 0x8f0 + 318
+        lo, hi = 0x8ac, 0x8e8 + 318
         code = bytearray(self.ov3.data[lo:hi])
-        field = 0x92f - lo  # 0E E8 rel16 at 2344:092d calls 2344:08b4
+        field = 0x927 - lo  # 0E E8 rel16 at 251b:0925 calls 251b:08ac
         self.assertEqual(code[field - 2:field], b"\x0e\xe8")
         code[field:field + 2] = bytes(2)
-        return omf(bytes(code), [("AUTO_08B4", 0), ("AUTO_08F0", 0x3c)], ["AUTO_08B4"], [(field, 1, SELF_REL)])
+        return omf(bytes(code), [("AUTO_08AC", 0), ("AUTO_08E8", 0x3c)], ["AUTO_08AC"], [(field, 1, SELF_REL)])
 
     def test_same_overlay_call_witnesses_the_claims_frame(self):
-        report = check(self.near_object(), self.oracle, [("overlay-3:2344:08f0", "AUTO_08F0")])
+        report = check(self.near_object(), self.oracle, [("overlay-3:251b:08e8", "AUTO_08E8")])
         claim = report["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
-        self.assertEqual((report["space"], report["frame"]), ("overlay-3", 0x2344))
+        self.assertEqual((report["space"], report["frame"]), ("overlay-3", 0x251b))
         self.assertEqual([(e["kind"], e["frame"]) for e in claim["frame_evidence"]],
-                         [("same-overlay CALL FAR", 0x2344), ("overlay site frame", 0x2344)])
-        self.assertEqual(claim["frame_evidence"][0]["image_offset"], 0x2f77)
+                         [("same-overlay CALL FAR", 0x251b), ("overlay site frame", 0x251b)])
+        self.assertEqual(claim["frame_evidence"][0]["image_offset"], 0x3065)
         self.assertEqual([e["kind"] for e in claim["equations"]], ["same-object near16"])
 
     def without_calls(self):
         inventory = copy.deepcopy(self.inventory)
-        next(t for t in inventory["functions"] if t["id"] == "overlay-3:2344:08f0")["call_sites"] = []
+        next(t for t in inventory["functions"] if t["id"] == "overlay-3:251b:08e8")["call_sites"] = []
         return inventory
 
     def test_overlay_site_frames_witness_a_claim_without_far_entries(self):
-        # No call reaches 08f0 in this inventory. Overlay-3 records 122 (site 0x07b3) and 101
-        # (site 0x0ae9) bracket it with site frame 2344. The root vector whose jump word 238a
-        # lands inside the object names overlay 2, so it does not enter this object.
-        report = check(self.near_object(), self.oracle, [("overlay-3:2344:08f0", "AUTO_08F0")],
+        # Overlay-3 records 52 (site 0x07ad) and 69 (site 0x0ae1) bracket the claim
+        # with site frame 251b after its direct callers are removed.
+        report = check(self.near_object(), self.oracle, [("overlay-3:251b:08e8", "AUTO_08E8")],
                        inventory=self.without_calls())
         claim = report["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
         self.assertEqual([(e["kind"], e["frame"], e["bracket_relocation_indices"])
-                          for e in claim["frame_evidence"]], [("overlay site frame", 0x2344, [122, 101])])
+                          for e in claim["frame_evidence"]], [("overlay site frame", 0x251b, [52, 69])])
         with no_site_frames():
-            claim = check(self.near_object(), self.oracle, [("overlay-3:2344:08f0", "AUTO_08F0")],
+            claim = check(self.near_object(), self.oracle, [("overlay-3:251b:08e8", "AUTO_08E8")],
                           inventory=self.without_calls())["claims"][0]
         self.assertEqual((claim["state"], claim["frame_evidence"]), ("REFUSED", []))
         self.assertIn("witnessed original frame", claim["reason"])
@@ -122,50 +121,50 @@ class RealOverlayTests(unittest.TestCase):
             at = space.position(target["segment"], target["offset"])
             return module_gate._frame_evidence(target, space, self.oracle, (at, at + target["size"]))
         # ACT GenCtrl/Falling/HitFloor and COLLIDE 000e: root calls are shared with overlay 2.
-        for ident, frame in [("overlay-3:25da:047e", 0x25da), ("overlay-3:25da:0092", 0x25da),
-                             ("overlay-3:25da:01e0", 0x25da), ("overlay-3:2802:000e", 0x2802)]:
+        for ident, frame in [("overlay-3:27bc:048c", 0x27bc), ("overlay-3:27bc:0096", 0x27bc),
+                             ("overlay-3:27bc:01f0", 0x27bc), ("overlay-3:29ef:000c", 0x29ef)]:
             found, refused = evidence(ident)
             self.assertEqual([(e["kind"], e["frame"]) for e in found], [("overlay site frame", frame)], ident)
             self.assertTrue(all("overlay-2" in r["reason"] for r in refused), ident)
-        # 25da:000e precedes every 25da record and follows 2587's: no bracket (its vector still names it).
-        found, refused = evidence("overlay-3:25da:000e")
+        # 27bc:0006 precedes every 27bc record and follows 2763's: no bracket (its vector still names it).
+        found, refused = evidence("overlay-3:27bc:0006")
         self.assertEqual(([e["kind"] for e in found],
                           [r["reason"] for r in refused if r.get("kind") == "overlay site frame"]),
                          (["rtlink-vector"], ["no relocation records of one site frame bracket the claim"]))
-        # Root CALL FAR 29cf:0a80 (root+0xc132) lands in overlay 9's 2a4e frame, but overlays
-        # holding that address bracket it with site frame 29cf: the linker resolved it there.
+        # The 2bda:0b0e link address lies in overlay 9's 2c59 frame, but overlays
+        # holding that address bracket it with site frame 2bda: the linker resolved it there.
         self.assertTrue(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
-                                                         0x29cf, 0x0a80))
-        found, refused = evidence("overlay-9:2a4e:0368")
-        self.assertEqual([(e["kind"], e["frame"]) for e in found], [("overlay site frame", 0x2a4e)])
-        # Root 238a:000c is NIS's first entry in overlay 2, before its first 238a record: the next
-        # record names 238a and earlier ones smaller frames, so it resolves into overlay 2.
+                                                         0x2bda, 0x0b0e))
+        found, refused = evidence("overlay-9:2c59:0368")
+        self.assertEqual([(e["kind"], e["frame"]) for e in found], [("overlay site frame", 0x2c59)])
+        # Root 255a:000c is NIS's first entry in overlay 2, before its first 255a record: the next
+        # record names 255a and earlier ones smaller frames, so it resolves into overlay 2.
         self.assertTrue(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-3"],
-                                                         0x238a, 0x000c))
+                                                         0x255a, 0x000c))
         # A frame no other overlay brackets at that address stays an alias.
         self.assertFalse(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
-                                                          0x2a4f, 0x0a70))
+                                                          0x2c5a, 0x0a70))
 
     def test_root_site_frames_bracket_a_gamelib_claim(self):
-        # ITEMDLG's root 1101:9c4d has no far caller; root MZ records before and after it name 1101.
+        # ITEMDLG's root 1129:a19d has no far caller; root MZ records before and after it name 1129.
         import module_gate
-        target, space, _ = self.get_target("root:1101:9c4d", self.oracle)
+        target, space, _ = self.get_target("root:1129:a19d", self.oracle)
         at = space.position(target["segment"], target["offset"])
         verdict, row = module_gate._site_frame(target, space, self.oracle, (at, at + target["size"]))
-        self.assertEqual((verdict, row["kind"], row["frame"]), ("evidence", "root site frame", 0x1101))
+        self.assertEqual((verdict, row["kind"], row["frame"]), ("evidence", "root site frame", 0x1129))
         found, _ = module_gate._frame_evidence(target, space, self.oracle, (at, at + target["size"]))
-        self.assertEqual([(e["kind"], e["frame"]) for e in found], [("root site frame", 0x1101)])
+        self.assertEqual([(e["kind"], e["frame"]) for e in found], [("root site frame", 0x1129)])
 
     def test_section_start_brackets_final_dispatcher(self):
-        # FINAL 29cf:0000 precedes overlay 10's first record (index 55 at 0x74), which names the
-        # link segment 29cf: the segment holding position 0 has that floor, so the claim does.
+        # FINAL 2bda:0000 precedes overlay 10's first record (index 171 at 0x74), which names the
+        # link segment 2bda: the segment holding position 0 has that floor, so the claim does.
         import module_gate
-        target, space, _ = self.get_target("overlay-10:29cf:0000", self.oracle)
+        target, space, _ = self.get_target("overlay-10:2bda:0000", self.oracle)
         found, refused = module_gate._frame_evidence(target, space, self.oracle, (0, target["size"]))
         self.assertEqual([(e["kind"], e["frame"], e["bracket_relocation_indices"]) for e in found],
-                         [("overlay site frame", 0x29cf, ["section-start", 55])])
-        # 25da:000e has 2587 records before it: the section start never replaces a real record.
-        target, space, _ = self.get_target("overlay-3:25da:000e", self.oracle)
+                         [("overlay site frame", 0x2bda, ["section-start", 171])])
+        # 27bc:0006 has 2763 records before it: the section start never replaces a real record.
+        target, space, _ = self.get_target("overlay-3:27bc:0006", self.oracle)
         at = space.position(target["segment"], target["offset"])
         self.assertEqual(module_gate._site_frame(target, space, self.oracle, (at, at + target["size"]))[0],
                          "refused")
@@ -173,21 +172,21 @@ class RealOverlayTests(unittest.TestCase):
     def test_foreign_frames_from_the_overlays_own_records(self):
         import module_gate
         ov2, ov9 = self.oracle.spaces["overlay-2"], self.oracle.spaces["overlay-9"]
-        # overlay-11+0x835 stores 2802:1044 inside ANIM (frame 28a1); overlay 2's 238a records
-        # run to 0x55d9, past paragraph 2802 (0x4be0): no overlay-2 segment has floor 2802.
-        self.assertTrue(module_gate._foreign_frame(ov2, 0x28a1, 0x2802))
-        self.assertTrue(module_gate._foreign_frame(ov2, 0x28a1, 0x298a))  # above the claim's floor
-        self.assertFalse(module_gate._foreign_frame(ov2, 0x28a1, 0x238a))  # a real overlay-2 floor
-        # root+0x4455 stores 2a93:1374 inside DRAWTEMP (frame 2b4b); 2a4e records run to 0xfd1.
-        self.assertTrue(module_gate._foreign_frame(ov9, 0x2b4b, 0x2a93))
-        self.assertFalse(module_gate._foreign_frame(ov9, 0x2b4b, 0x2a4d))  # below the section
-        target, space, _ = self.get_target("overlay-9:2b4b:0e16", self.oracle)
-        self.assertEqual(module_gate._site_frame(target, space, self.oracle, (0x1026, 0x1ef0))[1]["frame"],
-                         0x2b4b)
+        # Overlay 2's 255a records cross the floor of 29ef. That frame cannot
+        # belong to overlay 2's ANIM segment (2ab1).
+        self.assertTrue(module_gate._foreign_frame(ov2, 0x2ab1, 0x29ef))
+        self.assertTrue(module_gate._foreign_frame(ov2, 0x2ab1, 0x2b96))  # above the claim's floor
+        self.assertFalse(module_gate._foreign_frame(ov2, 0x2ab1, 0x255a))  # a real overlay-2 floor
+        # Root+0x4509 stores 2c9e:136c inside DRAWTEMP (frame 2d56).
+        self.assertTrue(module_gate._foreign_frame(ov9, 0x2d56, 0x2c9e))
+        self.assertFalse(module_gate._foreign_frame(ov9, 0x2d56, 0x2c58))  # below the section
+        target, space, _ = self.get_target("overlay-9:2d56:0e1a", self.oracle)
+        self.assertEqual(module_gate._site_frame(target, space, self.oracle, (0x102a, 0x1ef4))[1]["frame"],
+                         0x2d56)
         with patch.object(module_gate, "_foreign_frame", return_value=False):
-            verdict, row = module_gate._site_frame(target, space, self.oracle, (0x1026, 0x1ef0))
+            verdict, row = module_gate._site_frame(target, space, self.oracle, (0x102a, 0x1ef4))
         self.assertEqual(verdict, "refused")
-        self.assertIn("enters the object with frame 2a93", row["reason"])
+        self.assertIn("enters the object with frame 2c9e", row["reason"])
 
     def far_pointer_row(self, ident, holder, at):
         import match
@@ -200,20 +199,20 @@ class RealOverlayTests(unittest.TestCase):
             return self.get_target(ident, self.oracle)[:2]  # match validates the pointer
 
     def test_far_pointer_to_an_unshared_overlay_address_witnesses_the_frame(self):
-        # overlay-17+0x4492 stores 2b4b:0ee2; no other space holds that link address.
+        # overlay-17+0x4326 stores 2d56:0ee6; no other space holds that link address.
         import module_gate
-        target, space = self.far_pointer_row("overlay-9:2b4b:0ee2", "overlay-17", 0x4492)
+        target, space = self.far_pointer_row("overlay-9:2d56:0ee6", "overlay-17", 0x4326)
         at = space.position(target["segment"], target["offset"])
         found, refused = module_gate._frame_evidence(target, space, self.oracle, (at, at + target["size"]))
         self.assertEqual([(e["kind"], e["frame"], e["space"], e["image_offset"]) for e in found],
-                         [("relocated far pointer (unshared link address)", 0x2b4b, "overlay-17", 0x4492)])
+                         [("relocated far pointer (unshared link address)", 0x2d56, "overlay-17", 0x4326)])
         self.assertEqual([r["reason"] for r in refused],
                          ["no relocation records of one site frame bracket the claim"])
 
     def test_far_pointer_to_a_shared_overlay_address_is_not_frame_evidence(self):
-        # overlay-17+0x4584 stores 29cf:0000, an address overlays 4-7 also hold.
+        # overlay-17+0x4418 stores 2bda:0000, an address overlays 4-7 also hold.
         import module_gate
-        target, space = self.far_pointer_row("overlay-10:29cf:0000", "overlay-17", 0x4584)
+        target, space = self.far_pointer_row("overlay-10:2bda:0000", "overlay-17", 0x4418)
         with no_site_frames():
             found, refused = module_gate._frame_evidence(target, space, self.oracle, (0, target["size"]))
         self.assertEqual(found, [])
@@ -226,47 +225,57 @@ class RealOverlayTests(unittest.TestCase):
         vector = dict(next(v for v in real.values() if v["target_space"] == "overlay-3"))
 
         def run(position):
-            fake = {(0x2203, 0x0d0d): dict(vector, target_segment=0x2344, target_offset=position,
+            fake = {(0x220e, 0x0d0d): dict(vector, target_segment=0x251b, target_offset=position,
                                            target_position=position)}
-            with patch.object(module_gate, "_code_vectors", return_value=fake),                     patch.object(module_gate, "_site_frame", return_value=None):
-                return check(self.near_object(), self.oracle, [("overlay-3:2344:08f0", "AUTO_08F0")],
+            with patch.object(module_gate, "_code_vectors", return_value=fake), \
+                    no_site_frames():
+                return check(self.near_object(), self.oracle, [("overlay-3:251b:08e8", "AUTO_08E8")],
                              inventory=self.without_calls())["claims"][0]
-        claim = run(0x8f0)
+        claim = run(0x8e8)
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
         self.assertEqual(claim["frame_evidence"][0]["kind"], "rtlink-vector")
-        self.assertIn("witnessed original frame", run(0x8b4)["reason"])
+        self.assertIn("witnessed original frame", run(0x8ac)["reason"])
 
     def test_cross_space_call_to_a_shared_link_address_is_not_frame_evidence(self):
-        # Root 0xd791 calls 2344:08b4; overlay 2 shares link segment 2344 and holds that address.
+        # Root 0xd8dd calls 251b:08ac; overlay 2 shares link segment 251b and holds that address.
         inventory = self.without_calls()
-        raw = self.ov3.data[0x8b4:0x8f0]
+        raw = self.ov3.data[0x8ac:0x8e8]
         # The test's own row with exactly this root caller (replacing any canonical review).
-        inventory["functions"] = [f for f in inventory["functions"] if f["id"] != "overlay-3:2344:08b4"]
+        inventory["functions"] = [f for f in inventory["functions"] if f["id"] != "overlay-3:251b:08ac"]
         inventory["functions"].append({
-            "id": "overlay-3:2344:08b4", "space": "overlay-3", "segment": 0x2344, "offset": 0x8b4,
+            "id": "overlay-3:251b:08ac", "space": "overlay-3", "segment": 0x251b, "offset": 0x8ac,
             "size": 0x3c, "sha256": common.sha(raw), "boundary_status": "REVIEWED",
             "boundary_evidence": ["test"], "call_sites": [
-                {"kind": "far_call", "space": "root", "image_offset": 0xd791,
-                 "relocated_segment_site": 0xd794, "file_offset": self.oracle.spaces["root"].file_offset + 0xd791}]})
+                {"kind": "far_call", "space": "root", "image_offset": 0xd8dd,
+                 "relocated_segment_site": 0xd8e0, "file_offset": self.oracle.spaces["root"].file_offset + 0xd8dd}]})
         with no_site_frames():  # this test isolates the cross-space call rule
-            report = check(self.near_object(), self.oracle, [("overlay-3:2344:08b4", "AUTO_08B4"),
-                                                             ("overlay-3:2344:08f0", "AUTO_08F0")], inventory=inventory)
+            report = check(self.near_object(), self.oracle, [("overlay-3:251b:08ac", "AUTO_08AC"),
+                                                             ("overlay-3:251b:08e8", "AUTO_08E8")], inventory=inventory)
         first, second = report["claims"]
         self.assertEqual(first["state"], "CODE_EXACT")  # no near call: needs no frame
         self.assertIn("overlay-2", first["frame_evidence_refused"][0]["reason"])
         self.assertIn("witnessed original frame", second["reason"])
 
-    # -- far calls, overlay relocations and v4 data: ACT 25da:0016 -------------------------------
-    FAR = {0x11: "root:1101:6f6a", 0x68: "root:02cc:0360", 0x70: "root:02cc:027e"}  # 9A operand offsets
-    DATA = {0x1b: 0x5c17, 0x1f: 0x5c19, 0x23: 0x5c15, 0x29: 0x5c06, 0x30: 0x5c06, 0x49: 0x5c01,
-            0x50: 0x5c01, 0x55: 0x5c07, 0x5d: 0x5c07, 0x6d: 0x5c02}
+    # FINAL MoveFireball retains its three relocated resident calls and DGROUP accesses in v1.1.
+    FAR = {0x65: "root:1129:83d2", 0x86: "root:0dee:01c6", 0xA7: "root:0790:2b1c"}
+    DATA = {0x03: 0x6667, 0x0D: 0x666D, 0x14: 0x666D, 0x20: 0x6667,
+            0x2C: 0x6669, 0x33: 0x6669, 0x3A: 0x6669, 0x42: 0x6669,
+            0x49: 0x6669, 0x4D: 0x6669, 0x51: 0x6662, 0x55: 0x6666,
+            0x5C: 0x6667, 0x72: 0x666D, 0x8C: 0x6667, 0x93: 0x5B48,
+            0xB0: 0x666D, 0xB5: 0x666D}
+    # Independent resident accesses, with their reviewed entries and encoded disp16 offsets.
+    DATA_WITNESSES = {0x6667: (52475, "a36766", 1, "root:0b52:0006"),
+                      0x666D: (52487, "c7066d660000", 2, "root:0b52:0006"),
+                      0x6669: (52465, "c70669660000", 2, "root:0b52:0006"),
+                      0x6662: (52436, "a36266", 1, "root:0b52:0006"),
+                      0x6666: (52462, "a26666", 1, "root:0b52:0006"),
+                      0x5B48: (4137, "a0485b", 1, "root:0000:02be")}
 
-    def act_case(self, literal_far=()):
+    def fireball_case(self, literal_far=()):
         from binding import OPERAND_MODE, declarations, fixes
-        from dgroup_witness import witnesses
         from omf import OmfReader
-        start = 0x2976
-        code = bytearray(self.ov3.data[start:start + 124])
+        _, _, original = self.get_target("overlay-10:2bda:1ed0", self.oracle)
+        code = bytearray(original)
         names, fixups, symbols = [], [], {}
         for at, ident in self.FAR.items():
             if ident in literal_far:
@@ -285,53 +294,53 @@ class RealOverlayTests(unittest.TestCase):
                                "relocation_index": next(r["index"] for r in root.relocations
                                                         if r["image_offset"] == c["image_offset"] + 3),
                                "file_offset": c["file_offset"]} for c in calls[:1]]}
-        found = witnesses(self.oracle, sorted(set(self.DATA.values())))
         for at, value in self.DATA.items():
             name = "D_%04x" % value
             if name not in names:
                 names.append(name)
+                pos, raw, operand, entry = self.DATA_WITNESSES[value]
                 symbols[name] = {"kind": "dgroup-offset", "group": "DGROUP", "offset": value,
-                                 "witnesses": [{k: v for k, v in w.items() if k != "context"}
-                                               for w in found[value] if w["space"] == "root"][:1]}
+                                 "witnesses": [{"space": "root", "image_offset": pos, "bytes_hex": raw,
+                                                "operand_offset": operand, "entry": entry}]}
             code[at:at + 2] = bytes(2)
             fixups.append((at, names.index(name) + 1, OFFSET16))
-        obj = omf(bytes(code), [("ACT_0016", 0)], names, fixups)
+        obj = omf(bytes(code), [("MOVE_FIREBALL", 0)], names, fixups)
         module = OmfReader().read(obj)
         frame = common.read_json(ROOT / "evidence/bindings/convert_text_handle.json")["frame"]
-        binding = {"schema": 1, "mode": OPERAND_MODE, "target_id": "group:overlay_act",
+        binding = {"schema": 1, "mode": OPERAND_MODE, "target_id": "group:overlay_fireball",
                    "target_sha256": common.sha(self.oracle.data), "frame": frame, "symbols": symbols,
                    "fixups": fixes(module), "declarations": declarations(module)}
         return obj, binding
 
     def test_overlay_far_calls_and_v4_data_are_exact(self):
-        obj, binding = self.act_case()
-        report = check(obj, self.oracle, [("overlay-3:25da:0016", "ACT_0016")], binding=binding,
-                       group_id="group:overlay_act")
+        obj, binding = self.fireball_case()
+        report = check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOVE_FIREBALL")], binding=binding,
+                       group_id="group:overlay_fireball")
         claim = report["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
-        self.assertEqual(claim["covered_relocation_indices"], [207, 272, 354])  # overlay-3's own table
+        self.assertEqual(claim["covered_relocation_indices"], [29, 109, 155])  # overlay-10's own table
         self.assertEqual(sorted(e["kind"] for e in claim["equations"]).count("far-call"), 3)
-        self.assertEqual(report["frame"], 0x25da)
+        self.assertEqual(report["frame"], 0x2bda)
 
     def test_overlay_relocation_not_generated_by_a_proven_field_is_refused(self):
-        obj, binding = self.act_case(literal_far=("root:1101:6f6a",))
-        claim = check(obj, self.oracle, [("overlay-3:25da:0016", "ACT_0016")], binding=binding,
-                      group_id="group:overlay_act")["claims"][0]
+        obj, binding = self.fireball_case(literal_far=("root:1129:83d2",))
+        claim = check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOVE_FIREBALL")], binding=binding,
+                      group_id="group:overlay_fireball")["claims"][0]
         self.assertEqual(claim["state"], "REFUSED")
         self.assertIn("relocation site set differs", claim["reason"])
 
     def test_data_witness_inside_the_object_is_refused(self):
-        obj, binding = self.act_case()
-        binding["symbols"]["D_5c17"]["witnesses"] = [
-            {"space": "overlay-3", "image_offset": 0x298f, "bytes_hex": self.ov3.data[0x298f:0x2993].hex(),
-             "operand_offset": 2, "entry": "overlay-3:25da:0016"}]
+        obj, binding = self.fireball_case()
+        binding["symbols"]["D_6667"]["witnesses"] = [
+            {"space": "overlay-10", "image_offset": 0x1ED1, "bytes_hex": "833e676600",
+             "operand_offset": 2, "entry": "overlay-10:2bda:1ed0"}]
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
-            check(obj, self.oracle, [("overlay-3:25da:0016", "ACT_0016")], binding=binding,
-                  group_id="group:overlay_act")
+            check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOVE_FIREBALL")], binding=binding,
+                  group_id="group:overlay_fireball")
 
     def test_direct_call_into_an_overlapping_overlay_is_refused(self):
         from far_binding import ground_symbol
-        hull = {"id": "group:overlay_act", "space": "overlay-3", "segment": 0x25da, "offset": 0x16, "size": 124}
+        hull = {"id": "group:overlay_coexist", "space": "overlay-3", "segment": 0x27bc, "offset": 0xe, "size": 136}
 
         def symbol(ident):
             callee, space, _ = self.get_target(ident, self.oracle)
@@ -347,22 +356,23 @@ class RealOverlayTests(unittest.TestCase):
             return {"kind": "overlay-code-entry", "space": space.name, "segment": callee["segment"],
                     "offset": callee["offset"], "entry_target_id": ident, "entry_sha256": callee["sha256"],
                     "witnesses": witnesses}
-        # Overlay 4 (link 29cf, accepted owner at 0a12) lies above overlay 3's 1489 paragraphs
-        # at 2344: both can be resident.
-        self.assertEqual(ground_symbol(symbol("overlay-4:29cf:0a12"), hull, self.oracle)["kind"],
+        # Overlay 4 (link 2bda, accepted owner at 0aa0) lies above overlay 3's allocation
+        # at 251b: both can be resident.
+        self.assertEqual(ground_symbol(symbol("overlay-4:2bda:0aa0"), hull, self.oracle)["kind"],
                          "overlay-code-entry")
-        # Overlay 2 shares link segment 2344 with overlay 3 (its reviewed 0e68 entry, test-marked direct).
+        # Overlay 2 shares link segment 251b with overlay 3 (its reviewed 2ab1:0e22 entry).
         import match
         inventory = copy.deepcopy(self.inventory)
-        next(t for t in inventory["functions"] if t["id"] == "overlay-2:28a1:0e68")["entry_kind"] = "direct-code"
-        with patch.object(match, "read_json", return_value=inventory), \
+        next(t for t in inventory["functions"] if t["id"] == "overlay-2:2ab1:0e22")["entry_kind"] = "direct-code"
+        with patch.object(match, "read_json_shared", return_value=inventory), \
                 self.assertRaisesRegex(ValueError, "resident together"):
-            ground_symbol(symbol("overlay-2:28a1:0e68"), hull, self.oracle)
+            ground_symbol(symbol("overlay-2:2ab1:0e22"), hull, self.oracle)
 
     def test_older_resident_data_modes_still_refuse_overlay_owners(self):
         from binding import ground
-        obj, binding = self.act_case()
-        target = {"id": "group:overlay_act", "space": "overlay-3", "segment": 0x25da, "offset": 0x16, "size": 124}
+        _, binding = self.fireball_case()
+        target, _, _ = self.get_target("overlay-10:2bda:1ed0", self.oracle)
+        target = dict(target, id="group:overlay_fireball")
         with self.assertRaisesRegex(ValueError, "Unsupported owner space"):
             ground(dict(binding, mode="external-dgroup-offset16-v1", symbols={}), target, self.oracle)
 

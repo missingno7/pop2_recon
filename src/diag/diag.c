@@ -13,8 +13,7 @@ typedef struct heap_block {
     int handle;
 } heap_block;
 
-typedef union {
-    unsigned long value;
+typedef struct {
     char bytes[4];
 } resource_type;
 
@@ -71,7 +70,7 @@ extern int left_edge_x, right_edge_x;
 extern long tick_count;
 extern drawing_context ScreenPort, *Graf;
 extern int Row2PixelY[5];
-extern heap_block far *far *heap_start;
+extern heap_block far *far *heap_state;
 extern char screen_name[];
 static null_area null_snapshot;
 
@@ -104,7 +103,7 @@ extern void wait_key(void);
 extern int get_base_x(void);
 extern void MOVETO(int, int);
 extern void draw_axis_segment(int, int);
-extern void set_pen_color(int);
+extern void SetFont(int);
 extern int hSetFont(int);
 extern void DRAW_NUL_TERMINATED_TEXT(const char far *);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
@@ -117,7 +116,7 @@ extern void wait_sound(int);
 extern void dispatch_sound(int);
 extern const char *find_option(const char far *);
 extern void reclaim_heap_blocks(unsigned long);
-extern void compact_heap(unsigned long);
+extern void COMPACT_HEAP_BLOCKS(unsigned long);
 extern unsigned block_capacity(const heap_block far *);
 extern resource_metadata far *lookup_shape_metadata(resource_metadata far *, int);
 extern heap_block far *next_heap_block(heap_block far *);
@@ -157,7 +156,7 @@ void limit_frame_rate(void)
             if (show_actor_position) {
                 copy_kid_to_char();
                 get_frame_info();
-                sprintf(message, position_format, (*(int near *)&Kid.frame));
+                sprintf(message, position_format, Kid.frame);
                 draw_message(message);
             }
             wait_key();
@@ -175,7 +174,7 @@ void report_ticks(const char *label)
     }
 }
 
-void plot_edge_offset(register int distance)
+void plot_edge_offset(int distance)
 {
     int x;
 
@@ -198,13 +197,13 @@ void plot_actor_offset(int distance)
 
 void plot_position(int x, int color)
 {
-    register int y;
-    register drawing_context *saved_port = Graf;
-    volatile int saved_color;
+    int y;
+    drawing_context *saved_port = Graf;
+    int saved_color;
     Graf = &ScreenPort;
     saved_color = ScreenPort.pen_color;
-    y = (*(volatile int near *)&Row2PixelY[Char.row + 1]) - 5;
-    ScreenPort.pen_color = color;
+    y = Row2PixelY[Char.row + 1] - 5;
+    Graf->pen_color = color;
     MOVETO(x, y);
     draw_axis_segment(x, y + 2);
     Graf->pen_color = saved_color;
@@ -220,7 +219,7 @@ void draw_ruler_marks(void)
     Graf = &ScreenPort;
     saved_color = ScreenPort.pen_color;
     saved_attribute = ScreenPort.pen_attribute;
-    set_pen_color(100);
+    SetFont(100);
     {
         int bottom = Row2PixelY[Char.row + 1];
         y = bottom - 5;
@@ -280,7 +279,7 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
 {
     char filename[66];
     resource_metadata metadata;
-    union { unsigned long value; char bytes[5]; } type;
+    struct { resource_type code; char end; } type;
     file_handle *out;
     heap_block far *block;
     int size, flags;
@@ -290,7 +289,7 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
     volatile int preview = find_option("SPECIAL") ? -1 : 0;
 
     reclaim_heap_blocks(0x00ffffffL);
-    compact_heap(0x00ffffffL);
+    COMPACT_HEAP_BLOCKS(0x00ffffffL);
     if (name)
         strcpy(filename, name);
     else {
@@ -306,8 +305,8 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
         if (!summary_only)
             fprintf(out, "BTYPE\tBYTES\tLOCK\tPURGE\tRSRC?\tRTYPE\tID\n");
 
-        block = *heap_start;
-        type.bytes[4] = '\0';
+        block = *heap_state;
+        type.end = '\0';
         if ((block->size_and_flags & 0xc000) != 0x4000) {
             do {
                 size = block_capacity(block);
@@ -324,16 +323,16 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
 
                             if (lookup_shape_metadata(&metadata, block->handle)) {
                                 char byte;
-                                type.value = metadata.type.value;
-                                byte = type.bytes[3];
-                                type.bytes[3] = type.bytes[0];
-                                type.bytes[0] = byte;
-                                byte = type.bytes[2];
-                                type.bytes[2] = type.bytes[1];
-                                type.bytes[1] = byte;
+                                type.code = metadata.type;
+                                byte = type.code.bytes[3];
+                                type.code.bytes[3] = type.code.bytes[0];
+                                type.code.bytes[0] = byte;
+                                byte = type.code.bytes[2];
+                                type.code.bytes[2] = type.code.bytes[1];
+                                type.code.bytes[1] = byte;
                                 fprintf(out, "%s\t%5.u\t%s\t%s\t%s\t%4s\t%4.d\n",
                                         movable_text, size, purge_label, lock_label,
-                                        resource_label, type.bytes, metadata.id);
+                                        resource_label, (const char *)&type, metadata.id);
                             } else {
                                 fprintf(out, "%s\t%5.u\t%s\t%s\t%s\n",
                                         movable_text, size, purge_label, lock_label,
@@ -366,13 +365,13 @@ void check_heaps(const char *label)
     if (check_far_heap()) {
         strcpy(message, label);
         if (strlen(message) < 120)
-            strcat(message, " far heap trashed.");
+            strcat(message, ". Far heap trashed.");
         abort_with_message(0, message);
     }
     if (check_near_heap()) {
         strcpy(message, label);
         if (strlen(message) < 120)
-            strcat(message, " Near heap trashed.");
+            strcat(message, ". Near heap trashed.");
         abort_with_message(0, message);
     }
 }

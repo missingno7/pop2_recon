@@ -1,5 +1,7 @@
 # Bootstrap status — 2026-10-04
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 Historical snapshot. For current ownership, blockers and validation, see
 [reconstruction progress](reconstruction-progress.md) and the
 [convergence audit](convergence-audit.md).

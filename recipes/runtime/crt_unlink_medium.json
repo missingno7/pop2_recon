@@ -1,9 +1,9 @@
 {
   "archive_offset": 116896,
   "binding": "evidence/bindings/crt_unlink_medium.json",
-  "binding_sha256": "2095cda7f9c4da5a6c837c8905d20706e350000d810f46401e01a878ce6396f4",
+  "binding_sha256": "d74dc10e27269958c6924b3e44ceb46ff05f60352cbfc5c46ce999a12442400d",
   "boundary_evidence": [
-    "Complete independent medium-model dos\\unlink.asm OMF member (archive offset 116896, 177 bytes) whose whole 13-byte CODE segment lies at root 0x219b8 (1fe6:1b58) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent mlibcr.lib member (archive offset 116896, 177 bytes) whose whole 13-byte segment lies at root+0x21aa2 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 1,
   "kind": "PINNED_RUNTIME",
@@ -13,15 +13,15 @@
   "member_sha256": "51c8925de649b6d15962f89f4b79690357ff897581f33e2b0a34223421895e27",
   "name": "crt_unlink_medium",
   "object_segment": "_TEXT",
-  "offset": 7000,
+  "offset": 7090,
   "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
   "publics": [
     "_remove",
     "_unlink"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 13,
   "space": "root",
-  "target_sha256": "d117eebcdacf79b61b9fdacf3ad046bf0906a8eec63581e78bf1afee0114b27d"
+  "target_sha256": "9139466456a159ec1e57772ee22dae4c474d1d13edebefc1e8fc4d9e63944018"
 }

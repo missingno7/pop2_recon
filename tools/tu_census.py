@@ -21,18 +21,18 @@ VECTOR_SIZE = 10
 # Reviewed internal transitions in the locked image. Each window is four
 # bytes before and four after the boundary (far-return tail or pad -> entry).
 OVERLAY_BOUNDARIES = {
-    "overlay-2": {0x046c: "8be55dcb558bec83", 0x55dc: "330111cb558bec57", 0x6466: "ca020090558bec83"},
-    "overlay-3": {0x2434: "ca040090558bec83", 0x296e: "0000cb90c706205e", 0x4bee: "cc02cb90558bec83"},
-    "overlay-6": {0x0c4a: "aa5fcb90558bec83"},
+    "overlay-2": {0x03fe: "8be55dcb558bec83", 0x5964: "2911cb00558bec57", 0x67b0: "ca020090558bec83"},
+    "overlay-3": {0x248a: "5dca0400558bec83", 0x2a16: "0000cb90c706962b", 0x4d4c: "dc02cb90558bec83"},
+    "overlay-6": {0x0c42: "f3aa5fcb558bec83"},
     "overlay-7": {0x046c: "5dca0400558bec83"},
-    "overlay-8": {0x026c: "0100cb90558bec83"},
-    "overlay-9": {0x0fd6: "2dcbcb90558bec83"},
+    "overlay-8": {0x0272: "2b0100cb558bec83"},
+    "overlay-9": {0x0fda: "2fcbcb90558bec83"},
 }
 # These two callers use the same address with different callee-pop ABIs.
 # Only these reviewed edges use this filter. See frames.md for both paths.
 REVIEWED_ABI_CALLS = {
-    0x453a: ("overlay-8", 0x453a, "9a00004e2a5e5f8be55dcb"),
-    0xc13b: ("overlay-9", 0xc132, "569ac40bcf29eb06569a00004e2a5e8be55dca0200"),
+    0x45ee: ("overlay-8", 0x45ee, "9a0000592c5e5f8be55dcb"),
+    0xc241: ("overlay-9", 0xc238, "569ac20bda2beb06569a0000592c5e8be55dca0200"),
 }
 
 
@@ -51,7 +51,7 @@ def held_in(space, segment, offset):
 
 
 def overlay_vectors(oracle, code_overlays):
-    """Decode the format checked by original manager code at 2203:064c."""
+    """Decode the format checked by original manager code at 220e:064c."""
     root = oracle.spaces["root"]
     cs = oracle.mz.header["initial_cs"]
     base = cs * 16
@@ -170,7 +170,7 @@ def attribute_overlay_call(source, call, overlays, extents):
 
 
 def overlay_pointer_candidates(spaces, overlays, extents):
-    """Relocated records from Prince's main data contribution at overlay-17:30f7.
+    """Relocated records from Prince's main data contribution at overlay-17:3306.
 
     A two-word pointer shape witnesses a candidate entry, without proving
     that the program calls it. Some of the contribution contains data pointers.
@@ -181,7 +181,7 @@ def overlay_pointer_candidates(spaces, overlays, extents):
     rows = []
     for record in source.relocations:
         p = record["image_offset"]
-        if record["segment"] != 0x30f7 or p < 2:
+        if record["segment"] != 0x3306 or p < 2:
             continue
         offset = struct.unpack_from("<H", source.data, p - 2)[0]
         segment = record["stored_word"]
@@ -201,7 +201,7 @@ def census(oracle):
     targets = read_json(ROOT / "evidence/targets.json")["functions"]
     # On this locked image descriptor 17 has flag 01h and is preloaded data
     # / driver material. Merely bearing a relocation does not make it CODE.
-    overlays = {name: s for name, s in spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    overlays = {name: s for name, s in spaces.items() if s.code_overlay}
     groups = {name: relocation_frames(s) for name, s in overlays.items()}
     entries = collections.defaultdict(lambda: collections.defaultdict(set))
     callers = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
@@ -243,7 +243,7 @@ def census(oracle):
             name, rule, possible = attribute_overlay_call(space, call, overlays, extents)
             if space is root and call["site"] in REVIEWED_ABI_CALLS:
                 reviewed, start, window = REVIEWED_ABI_CALLS[call["site"]]
-                require(name is None and (segment, offset) == (0x2a4e, 0)
+                require(name is None and (segment, offset) == (0x2c59, 0)
                         and set(possible) == {"overlay-8", "overlay-9"}
                         and root.data[start:start + len(window) // 2].hex() == window,
                         "Changed overlay-call ABI witness")

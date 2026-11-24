@@ -1,156 +1,155 @@
 {
   "binding": "evidence/bindings/movespik/movespik.json",
-  "binding_sha256": "644762ed63128cc3c1628c8bf9cb981df854922a2ce9889615ed8aeb154b50ae",
+  "binding_sha256": "a6df962c88964cd253ec8a3de1ea6369d47ae0bc1a7284c0706597b235228fa4",
   "claims": [
     {
-      "fixup_count": 22,
+      "fixup_count": 23,
       "public": "ATMSPIKES",
       "relocation_indices": [
-        1361,
-        1362,
-        1368
+        1356,
+        1360,
+        1361
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:101f:000e"
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1047:0008"
     },
     {
       "fixup_count": 29,
       "public": "CHECKIMPALE",
       "relocation_indices": [
-        1354,
-        1363,
-        1367
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:101f:00a0"
-    },
-    {
-      "fixup_count": 18,
-      "public": "CHECKSPIKES",
-      "relocation_indices": [
         1348,
-        1355,
-        1359
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:101f:01ae"
-    },
-    {
-      "fixup_count": 11,
-      "public": "CHECKSPIKESJAMMED",
-      "relocation_indices": [
-        1346
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:101f:022a"
-    },
-    {
-      "fixup_count": 26,
-      "public": "DOIMPALE",
-      "relocation_indices": [
-        1349,
-        1352,
-        1358,
-        1360,
-        1364,
-        1366,
-        1369,
+        1362,
         1370
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:101f:02ae"
+      "target_id": "root:1047:009c"
     },
     {
-      "fixup_count": 0,
-      "public": "GETSPIKEIDX",
-      "target_id": "root:101f:03fc"
-    },
-    {
-      "fixup_count": 1,
-      "public": "GETSPIKEMOBROOMROW",
+      "fixup_count": 18,
+      "public": "CHECKSPIKES",
       "relocation_indices": [
-        1353
+        1349,
+        1355,
+        1369
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:101f:041c"
+      "target_id": "root:1047:01aa"
     },
     {
-      "fixup_count": 1,
-      "public": "GETSPIKES",
-      "target_id": "root:101f:0462"
+      "fixup_count": 11,
+      "public": "CHECKSPIKESJAMMED",
+      "relocation_indices": [
+        1363
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1047:0226"
     },
     {
-      "fixup_count": 13,
-      "public": "MOBSPIKES",
+      "fixup_count": 26,
+      "public": "DOIMPALE",
       "relocation_indices": [
         1350,
-        1356,
-        1357
+        1351,
+        1352,
+        1353,
+        1354,
+        1358,
+        1365,
+        1368
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "root:101f:0490"
-    },
-    {
-      "fixup_count": 15,
-      "public": "TRIGGERSPIKES",
-      "relocation_indices": [
-        1347,
-        1351
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:101f:0536"
+      "target_id": "root:1047:02aa"
     },
     {
       "fixup_count": 12,
       "public": "DRAWOBJSPIKES",
       "relocation_indices": [
-        1365
+        1357
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:101f:0390"
+      "target_id": "root:1047:038c"
+    },
+    {
+      "fixup_count": 0,
+      "public": "GETSPIKEIDX",
+      "target_id": "root:1047:03f8"
+    },
+    {
+      "fixup_count": 1,
+      "public": "GETSPIKEMOBROOMROW",
+      "relocation_indices": [
+        1359
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1047:0418"
+    },
+    {
+      "fixup_count": 1,
+      "public": "GETSPIKES",
+      "target_id": "root:1047:045e"
+    },
+    {
+      "fixup_count": 13,
+      "public": "MOBSPIKES",
+      "relocation_indices": [
+        1367,
+        1371,
+        1372
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1047:048c"
+    },
+    {
+      "fixup_count": 15,
+      "public": "TRIGGERSPIKES",
+      "relocation_indices": [
+        1364,
+        1366
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1047:0532"
     }
   ],
   "drafts": [],
-  "emitted_size": 1502,
+  "emitted_size": 1504,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 4127,
+  "frame": 4167,
   "group_id": "group:movespik/movespik",
   "kind": "same_source_group",
   "language": "c",
   "name": "movespik/movespik",
-  "object_sha256": "95b5dae3fb3a26d7e06affdf07d9c900032832a043bb371a7a1fb2997d7a1b54",
-  "origin": 66046,
+  "object_sha256": "3343cb2fa44ee99316e3ec3a97df3f753ac0a5d37461e262ed19ac036fada1f3",
+  "origin": 66680,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/movespik/movespik.c",
-  "source_sha256": "cd2124f0d7eaffdd1160e1d132922e84a23307e832ba5dfd777c06f38d64dce4",
+  "source_sha256": "c95143a6d2a7f59e4f0c976897811578d3feff80e3a5a13444860d4a2c7485cb",
   "space": "root"
 }

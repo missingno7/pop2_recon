@@ -95,9 +95,9 @@ extern void UNIONRECT(DrawRect far *out, const DrawRect far *a, const DrawRect f
 extern int visible_above_piece(CellCoord column, CellCoord row);
 extern int EMPTYRECT(const DrawRect far *rect);
 extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int add_foreground_image(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int add_back_foreground_to_back(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int add_middle_item(Byte, int, CellCoord, CellCoord, Byte, Byte);
+extern int add_back_foreground_to_front(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern Byte PieceLeftId(CellCoord, CellCoord);
 extern int IsWall(Byte);
 extern Byte PieceBelowId(CellCoord, CellCoord);
@@ -176,7 +176,7 @@ void draw_temple_back_wall(TempleCell *cell)
                 modifier += 36;
                 AddBImgToBTable(modifier, image, cell->column, cell->row, 0, 0);
                 if (paired)
-                    AddBFImgToBTable(modifier, -2, cell->column, cell->row, 0, 0);
+                    add_back_foreground_to_back(modifier, -2, cell->column, cell->row, 0, 0);
             }
             clip_rect.top = saved_top;
         }
@@ -207,14 +207,14 @@ void draw_temple_block(TempleCell *cell)
             shape_offsets->block_y = 0;
         }
         if (image != -1)
-            add_foreground_image(20, image, cell->column, cell->row, 10, 0);
+            add_middle_item(20, image, cell->column, cell->row, 10, 0);
         image = (CELL_INFO_WORD(cell, 0) & 7) + 24;
         left = PieceLeftId(cell->column, cell->row);
         if (image <= 25 && IsWall(left))
-            add_foreground_image(20, 61, cell->column, cell->row, 0, 0);
+            add_middle_item(20, 61, cell->column, cell->row, 0, 0);
         if (IsWall(PieceBelowId(cell->column, cell->row))) {
             image = IsWall(left) ? 63 : 62;
-            add_foreground_image(20, image, cell->column, cell->row, 0, 0);
+            add_middle_item(20, image, cell->column, cell->row, 0, 0);
         }
         break;
     case 2:
@@ -222,9 +222,9 @@ void draw_temple_block(TempleCell *cell)
         image = (cell->modifier & 7) + 24;
         if ((image == 24 || image > 25) && !IsWall(PieceRightId(cell->column, cell->row))) {
             if (cell->pass == 5)
-                add_image = AddBFImgToBTable;
+                add_image = add_back_foreground_to_back;
             else
-                add_image = AddBFImgToFTable;
+                add_image = add_back_foreground_to_front;
             add_image(20, -2, cell->column, cell->row, 10, 0);
         }
         break;
@@ -241,14 +241,14 @@ void draw_temple_exit_left(TempleCell *cell)
             draw_temple_back_wall(cell);
         break;
     case 1:
-        add_image = add_foreground_image;
+        add_image = add_middle_item;
         layer = 0;
         break;
     case 2:
-        add_image = AddBFImgToFTable;
+        add_image = add_back_foreground_to_front;
         goto alternate_layer;
     case 5:
-        add_image = AddBFImgToBTable;
+        add_image = add_back_foreground_to_back;
     alternate_layer:
         layer = 10;
         break;
@@ -269,14 +269,14 @@ void draw_temple_exit_right(TempleCell *cell)
         }
         break;
     case 1:
-        add_image = add_foreground_image;
+        add_image = add_middle_item;
         layer = 0;
         break;
     case 2:
-        add_image = AddBFImgToFTable;
+        add_image = add_back_foreground_to_front;
         goto alternate_layer;
     case 5:
-        add_image = AddBFImgToBTable;
+        add_image = add_back_foreground_to_back;
     alternate_layer:
         layer = 10;
         break;
@@ -303,7 +303,7 @@ void draw_temple_exit_movable(TempleCell *cell)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 0, 0);
             shape_offsets->exit_y = -(19 + ((CELL_INFO_WORD(cell, 0) & 255) < 42 ? (CELL_INFO_WORD(cell, 0) & 255) : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
-            add_image = Kid.frame >= 217 && Kid.frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
+            add_image = Kid.frame >= 217 && Kid.frame <= 226 ? add_back_foreground_to_front : add_back_foreground_to_back;
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
         clip_rect = saved_clip;
@@ -320,14 +320,14 @@ void draw_temple_floor(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        add_image = add_foreground_image;
+        add_image = add_middle_item;
         layer = 0;
         break;
     case 2:
-        add_image = AddBFImgToFTable;
+        add_image = add_back_foreground_to_front;
         goto alternate_layer;
     case 5:
-        add_image = AddBFImgToBTable;
+        add_image = add_back_foreground_to_back;
     alternate_layer:
         layer = 10;
         detail = cell->modifier & 3;
@@ -346,9 +346,9 @@ void draw_temple_floor_detail(TempleCell *cell)
     AddImage add_image;
 
     if (cell->pass == 5)
-        add_image = AddBFImgToBTable;
+        add_image = add_back_foreground_to_back;
     else if (cell->pass == 2)
-        add_image = AddBFImgToFTable;
+        add_image = add_back_foreground_to_front;
     else
         add_image = 0;
     if (add_image) {
@@ -367,13 +367,13 @@ void draw_temple_gate(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = add_foreground_image;
+        draw = add_middle_item;
         break;
     case 2:
-        draw = AddBFImgToFTable;
+        draw = add_back_foreground_to_front;
         break;
     case 5:
-        draw = AddBFImgToBTable;
+        draw = add_back_foreground_to_back;
         break;
     }
     if (draw) {
@@ -396,10 +396,10 @@ void draw_temple_gate_movable(TempleCell *cell)
         shape_offsets->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
         case 2:
-            draw = AddBFImgToFTable;
+            draw = add_back_foreground_to_front;
             break;
         case 5:
-            draw = AddBFImgToBTable;
+            draw = add_back_foreground_to_back;
             break;
         default:
             draw = 0;
@@ -430,7 +430,7 @@ void draw_temple_loose(TempleCell *cell)
         if (image == 13)
             break;
         if (image)
-            add_foreground_image(11, image + 35, cell->column, cell->row, 10, 0);
+            add_middle_item(11, image + 35, cell->column, cell->row, 10, 0);
         else
             draw_temple_floor(&floor_cell);
         break;
@@ -438,7 +438,7 @@ void draw_temple_loose(TempleCell *cell)
         if (image == 13)
             break;
         if (image)
-            AddBFImgToFTable(11, image + 33, cell->column, cell->row, 10, 0);
+            add_back_foreground_to_front(11, image + 33, cell->column, cell->row, 10, 0);
         else
             draw_temple_floor(&floor_cell);
         break;
@@ -446,7 +446,7 @@ void draw_temple_loose(TempleCell *cell)
         if (image == 13)
             break;
         if (image)
-            AddBFImgToBTable(11, image + 33, cell->column, cell->row, 10, 0);
+            add_back_foreground_to_back(11, image + 33, cell->column, cell->row, 10, 0);
         else
             draw_temple_floor(&floor_cell);
         break;
@@ -461,7 +461,7 @@ void draw_temple_pillar_bottom(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = add_foreground_image;
+        draw = add_middle_item;
         break;
     case 5:
         draw = AddBImgToBTable;
@@ -479,7 +479,7 @@ void draw_temple_pillar_top(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = add_foreground_image;
+        draw = add_middle_item;
         break;
     case 5:
         draw = AddBImgToBTable;
@@ -503,7 +503,7 @@ void draw_temple_down_plate(TempleCell *cell)
     case 1:
         tile = pressed ? 6 : 5;
         image = 33;
-        draw = add_foreground_image;
+        draw = add_middle_item;
         break;
     case 2:
     case 5:
@@ -514,7 +514,7 @@ void draw_temple_down_plate(TempleCell *cell)
             tile = 1;
             image = -2;
         }
-        draw = cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable;
+        draw = cell->pass == 5 ? add_back_foreground_to_back : add_back_foreground_to_front;
         break;
     }
     if (draw)
@@ -532,12 +532,12 @@ void draw_temple_up_plate(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = add_foreground_image;
+        draw = add_middle_item;
         image = 32;
         break;
     case 2:
     case 5:
-        draw = cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable;
+        draw = cell->pass == 5 ? add_back_foreground_to_back : add_back_foreground_to_front;
         image = 30;
         break;
     }
@@ -556,9 +556,9 @@ void draw_temple_posts(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        if (!image) { draw = add_foreground_image; image = 44; }
+        if (!image) { draw = add_middle_item; image = 44; }
         else if (!draw_pass_mode || image == 1) {
-            draw = add_foreground_image;
+            draw = add_middle_item;
             shape_offsets->posts_y = 0;
             if (image == 2)
                 shape_offsets->posts_y -= 32;
@@ -567,13 +567,13 @@ void draw_temple_posts(TempleCell *cell)
         break;
     case 2:
         if (!image) {
-            draw = AddBFImgToFTable;
+            draw = add_back_foreground_to_front;
             image = 43;
         }
         break;
     case 5:
         if (!image) {
-            draw = AddBFImgToBTable;
+            draw = add_back_foreground_to_back;
             image = 43;
         }
         break;
@@ -584,10 +584,10 @@ void draw_temple_posts(TempleCell *cell)
             if (shape_offsets->posts_y == 0 && PieceLeftId(cell->column, cell->row) != 3) {
                 saved_y = shape_offsets->block_overlay_y;
                 shape_offsets->block_overlay_y -= 54;
-                add_foreground_image(20, 38, cell->column, cell->row, 10, 0);
+                add_middle_item(20, 38, cell->column, cell->row, 10, 0);
                 shape_offsets->block_overlay_y = saved_y;
             }
-            shape_offsets->posts_y = -1;
+            shape_offsets->posts_y = 0;
         }
     }
 }
@@ -606,13 +606,13 @@ void draw_temple_rubble_pieces(TempleCell *cell)
     AddImage draw;
     switch (cell->pass) {
     case 1:
-        draw = add_foreground_image;
+        draw = add_middle_item;
         break;
     case 2:
-        draw = AddBFImgToFTable;
+        draw = add_back_foreground_to_front;
         break;
     case 5:
-        draw = AddBFImgToBTable;
+        draw = add_back_foreground_to_back;
         break;
     default:
         draw = 0;
@@ -684,7 +684,7 @@ void draw_temple_torch(TempleCell *cell)
         break;
     case 5:
         draw_temple_floor(&floor_cell);
-        AddBFImgToBTable(19, frame + 51, cell->column, cell->row, 0, 0);
+        add_back_foreground_to_back(19, frame + 51, cell->column, cell->row, 0, 0);
         break;
     }
 }

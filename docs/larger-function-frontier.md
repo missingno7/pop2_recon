@@ -1,5 +1,7 @@
 # Larger-function follow-up — 2026-10-23
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 The complete 160-byte `FALLBACK_TILE_KIND` at `root:02cc:016a` is accepted as
 CODE_EXACT through the existing resident DGROUP gate. This raises reconstructed
 C from 2,189 to 2,349 bytes across 57 components; the prior largest component was

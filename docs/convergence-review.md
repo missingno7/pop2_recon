@@ -1,5 +1,7 @@
 # Convergence review: evidence model, structural blockers, lessons from other projects
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 Date: 2026-11-22. Baseline `5b54402` (1,401 exact functions); see the end for the state after this work.
 Research inputs (scratch, not tracked): `build/research/siblings_toolchain.md` (SimAnt DOS/Win16, Stunts,
 Rayman), `build/research/siblings_wholeimage.md` (duke1, dave, sam, tales, blupi, lemmings, ugh, gp),

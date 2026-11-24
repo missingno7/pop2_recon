@@ -1,9 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "HSETFONT",
-      "HGETFONT",
-      "SETFONT"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 24,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -17,126 +62,81 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "SETFONT",
-        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 24,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "HSETFONT",
+      "HGETFONT",
+      "SETFONT"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 13,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
           "kind": "external",
-          "method": 6,
+          "index": 1,
           "name": "HSETFONT",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 13,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "HSETFONT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 7,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
           "kind": "external",
-          "method": 6,
+          "index": 2,
           "name": "HGETFONT",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 7,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "HGETFONT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     }
   ],
   "mode": "external-far-call-v1",
   "relocation_indices": [
-    1453,
-    1654
+    1527,
+    1602
   ],
   "review_notes": [
     "Original extent, far-entry callsites and both callee entries reviewed independently in this worktree. No original bytes or bindings are fitted from candidate fields.",
@@ -145,117 +145,117 @@
   "schema": 1,
   "symbols": {
     "HGETFONT": {
-      "entry_sha256": "c6f7d1676eac2ecfa81767740f5393c4e0f8ed61b404abdb74032c621a795ffd",
-      "entry_target_id": "root:1101:4faa",
+      "entry_sha256": "dfac26a78c9928121e3873aeb2d31e78bf500dfeb292fc7793b202c43833efd1",
+      "entry_target_id": "root:1129:4f8c",
       "kind": "far-code-entry",
-      "offset": 20394,
-      "segment": 4353,
+      "offset": 20364,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 29481,
-          "image_offset": 21289,
-          "relocation_index": 466,
-          "space": "root"
+          "space": "root",
+          "image_offset": 21511,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 29703,
+          "relocation_index": 527
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 29557,
-          "image_offset": 21365,
-          "relocation_index": 467,
-          "space": "root"
+          "space": "root",
+          "image_offset": 21587,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 29779,
+          "relocation_index": 526
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 30231,
-          "image_offset": 22039,
-          "relocation_index": 468,
-          "space": "root"
+          "space": "root",
+          "image_offset": 22261,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 30453,
+          "relocation_index": 523
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 30216,
-          "image_offset": 22024,
-          "relocation_index": 469,
-          "space": "root"
+          "space": "root",
+          "image_offset": 22246,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 30438,
+          "relocation_index": 524
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 30201,
-          "image_offset": 22009,
-          "relocation_index": 470,
-          "space": "root"
+          "space": "root",
+          "image_offset": 22231,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 30423,
+          "relocation_index": 525
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 31641,
-          "image_offset": 23449,
-          "relocation_index": 471,
-          "space": "root"
+          "space": "root",
+          "image_offset": 23663,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 31855,
+          "relocation_index": 528
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 31630,
-          "image_offset": 23438,
-          "relocation_index": 472,
-          "space": "root"
+          "space": "root",
+          "image_offset": 23652,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 31844,
+          "relocation_index": 529
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 31553,
-          "image_offset": 23361,
-          "relocation_index": 473,
-          "space": "root"
+          "space": "root",
+          "image_offset": 23575,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 31767,
+          "relocation_index": 530
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 31542,
-          "image_offset": 23350,
-          "relocation_index": 474,
-          "space": "root"
+          "space": "root",
+          "image_offset": 23564,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 31756,
+          "relocation_index": 531
         },
         {
-          "bytes_hex": "9aaa4f0111",
-          "file_offset": 38638,
-          "image_offset": 30446,
-          "relocation_index": 475,
-          "space": "root"
+          "space": "root",
+          "image_offset": 30526,
+          "bytes_hex": "9a8c4f2911",
+          "file_offset": 38718,
+          "relocation_index": 532
         }
       ]
     },
     "HSETFONT": {
-      "entry_sha256": "cd1e308d4f1b4e4a89185dcf8378dfebef88ec0005f336fdedd2440375016606",
-      "entry_target_id": "root:1101:4fca",
+      "entry_sha256": "ad9cc52e8782435f9a523409ae6b0be29a1da25a98ebae1db91cd41a04104114",
+      "entry_target_id": "root:1129:4fac",
       "kind": "far-code-entry",
-      "offset": 20426,
-      "segment": 4353,
+      "offset": 20396,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9aca4f0111",
-          "file_offset": 76277,
-          "image_offset": 68085,
-          "relocation_index": 1426,
-          "space": "root"
+          "space": "root",
+          "image_offset": 68721,
+          "bytes_hex": "9aac4f2911",
+          "file_offset": 76913,
+          "relocation_index": 1415
         },
         {
-          "bytes_hex": "9aca4f0111",
-          "file_offset": 128987,
-          "image_offset": 120795,
-          "relocation_index": 1719,
-          "space": "root"
+          "space": "root",
+          "image_offset": 121405,
+          "bytes_hex": "9aac4f2911",
+          "file_offset": 129597,
+          "relocation_index": 1706
         },
         {
-          "bytes_hex": "9aca4f0111",
-          "file_offset": 128950,
-          "image_offset": 120758,
-          "relocation_index": 1720,
-          "space": "root"
+          "space": "root",
+          "image_offset": 121368,
+          "bytes_hex": "9aac4f2911",
+          "file_offset": 129560,
+          "relocation_index": 1707
         }
       ]
     }
   },
-  "target_id": "root:1000:62fe",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_id": "root:1129:52d0",
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

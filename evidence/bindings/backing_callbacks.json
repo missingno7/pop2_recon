@@ -1,13 +1,30 @@
 {
   "declarations": {
-    "externals": [
-      "BACKING_DRIVER",
-      "BACKING_POSITION_HIGH",
-      "BACKING_FREE_LOW",
-      "BACKING_POSITION",
-      "BACKING_DRIVER_SEGMENT",
-      "BACKING_FREE_HIGH",
-      "BACKING_FULL"
+    "segments": [
+      {
+        "name": "GAMELIB_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 499,
+        "alignment": 1,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -19,1037 +36,1020 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "READ_BACKING_HEADER",
+        "segment": "GAMELIB_TEXT",
+        "segment_index": 1,
         "offset": 431,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "WRITE_BACKING_HEADER",
+        "segment": "GAMELIB_TEXT",
+        "segment_index": 1,
         "offset": 456,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "ALLOCATE_BACKING_RECORD",
+        "segment": "GAMELIB_TEXT",
+        "segment_index": 1,
         "offset": 0,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "SELECT_BACKING_EXTENDED",
-        "offset": 490,
-        "segment": "UNIT_TEXT",
+        "segment": "GAMELIB_TEXT",
         "segment_index": 1,
+        "offset": 490,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "SELECT_BACKING_POSITION",
-        "offset": 481,
-        "segment": "UNIT_TEXT",
+        "segment": "GAMELIB_TEXT",
         "segment_index": 1,
+        "offset": 481,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 499,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "BACKING_DRIVER",
+      "BACKING_POSITION_HIGH",
+      "BACKING_FREE_LOW",
+      "BACKING_POSITION",
+      "BACKING_DRIVER_SEGMENT",
+      "BACKING_FREE_HIGH",
+      "BACKING_FULL"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 12,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "BACKING_DRIVER",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 16,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "external",
         "index": 5,
-        "kind": "external",
-        "method": 6,
         "name": "BACKING_DRIVER_SEGMENT",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 44,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "BACKING_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 53,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
-      "target": {
+      "frame": {
+        "kind": "group",
         "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "BACKING_DRIVER",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 431,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 56,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 431
     },
     {
-      "displacement": 291,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 66,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 291
     },
     {
-      "displacement": 282,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 81,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 282
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 92,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": 431,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 95,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 431
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 110,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 137,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": 456,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 143,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 456
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 185,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": 456,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 190,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 456
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 211,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 220,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 224,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "BACKING_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 228,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "BACKING_POSITION_HIGH",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 456,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 251,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 456
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 264,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_FREE_LOW",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "BACKING_FREE_LOW",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 268,
-      "self_relative": false,
-      "target": {
-        "index": 6,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_FREE_HIGH",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "BACKING_FREE_HIGH",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 272,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "BACKING_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 293,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 7,
         "kind": "external",
-        "method": 6,
+        "index": 7,
         "name": "BACKING_FULL",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 303,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": 481,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 325,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 481
     },
     {
-      "displacement": 456,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 335,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 456
     },
     {
-      "displacement": 490,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 352,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 490
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 356,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_POSITION",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "BACKING_POSITION",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 360,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "BACKING_POSITION_HIGH",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 456,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 368,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 456
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 378,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_FREE_LOW",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "BACKING_FREE_LOW",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 382,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
-        "index": 6,
         "kind": "external",
-        "method": 6,
+        "index": 6,
         "name": "BACKING_FREE_HIGH",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 42,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 385,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 42
     },
     {
-      "displacement": 77,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 388,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 77
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 392,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "external",
         "index": 7,
-        "kind": "external",
-        "method": 6,
         "name": "BACKING_FULL",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 408,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "external",
         "index": 6,
-        "kind": "external",
-        "method": 6,
         "name": "BACKING_FREE_HIGH",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 416,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "external",
         "index": 3,
-        "kind": "external",
-        "method": 6,
         "name": "BACKING_FREE_LOW",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 423,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "external",
         "index": 4,
-        "kind": "external",
-        "method": 6,
         "name": "BACKING_POSITION",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 426,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
       "target": {
+        "kind": "external",
         "index": 2,
-        "kind": "external",
-        "method": 6,
         "name": "BACKING_POSITION_HIGH",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": 42,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 429,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": true,
-      "target": {
-        "index": 1,
+      "frame": {
         "kind": "segment",
-        "method": 0,
-        "name": "UNIT_TEXT"
-      }
+        "index": 1,
+        "name": "GAMELIB_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 1,
+        "name": "GAMELIB_TEXT",
+        "method": 0
+      },
+      "displacement": 42
     },
     {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 449,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "BACKING_DRIVER",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 474,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "BACKING_DRIVER",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
       "segment_offset": 487,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 1,
       "field_width": 2,
+      "self_relative": false,
       "frame": {
-        "index": 1,
         "kind": "group",
+        "index": 1,
         "name": "DGROUP"
       },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 496,
-      "self_relative": false,
       "target": {
-        "index": 1,
         "kind": "external",
-        "method": 6,
+        "index": 1,
         "name": "BACKING_DRIVER",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "GAMELIB_TEXT",
+      "segment_offset": 496,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "BACKING_DRIVER",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "frame": {
     "entry_path": {
-      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
-      "image_offset": 140968,
+      "bytes_hex": "2e8c0682092e8c1e8409bb0e228edb",
+      "image_offset": 141144,
       "space": "root"
     },
-    "segment": 8707,
+    "segment": 8718,
     "witness": {
-      "bytes_hex": "bb03228edb",
-      "image_offset": 140978,
+      "bytes_hex": "bb0e228edb",
+      "image_offset": 141154,
       "space": "root"
     }
   },
@@ -1059,82 +1059,78 @@
     "BACKING_DRIVER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8400,
+      "offset": 8032,
       "witnesses": [
         {
-          "bytes_hex": "a1d020",
-          "context": "mov ax, word ptr [0x20d0] reached from root:1101:2731",
-          "entry": "root:1101:2731",
-          "image_offset": 79681,
           "operand_offset": 1,
-          "space": "root"
+          "space": "root",
+          "image_offset": 80360,
+          "bytes_hex": "a1601f",
+          "entry": "root:1129:2758"
         }
       ]
     },
     "BACKING_DRIVER_SEGMENT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8402,
+      "offset": 8034,
       "witnesses": [
         {
-          "bytes_hex": "0b06d220",
-          "context": "or ax, word ptr [0x20d2] reached from root:1101:2731",
-          "entry": "root:1101:2731",
-          "image_offset": 79684,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 80363,
+          "bytes_hex": "0b06621f",
+          "entry": "root:1129:2758"
         }
       ]
     },
     "BACKING_FREE_HIGH": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8410,
+      "offset": 8042,
       "witnesses": [
         {
-          "bytes_hex": "1106da20",
-          "context": "adc word ptr [0x20da], ax reached from root:1101:042f",
-          "entry": "root:1101:042f",
-          "image_offset": 79468,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 80147,
+          "bytes_hex": "11066a1f",
+          "entry": "root:1129:01bf"
         }
       ]
     },
     "BACKING_FREE_LOW": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8408,
+      "offset": 8040,
       "witnesses": [
         {
-          "bytes_hex": "0116d820",
-          "context": "add word ptr [0x20d8], dx reached from root:1101:042f",
-          "entry": "root:1101:042f",
-          "image_offset": 79464,
           "operand_offset": 2,
-          "space": "root"
+          "space": "root",
+          "image_offset": 80143,
+          "bytes_hex": "0116681f",
+          "entry": "root:1129:01bf"
         }
       ]
     },
     "BACKING_FULL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8412,
+      "offset": 8044,
       "witnesses": []
     },
     "BACKING_POSITION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8404,
+      "offset": 8036,
       "witnesses": []
     },
     "BACKING_POSITION_HIGH": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8406,
+      "offset": 8038,
       "witnesses": []
     }
   },
   "target_id": "group:backing_callbacks",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

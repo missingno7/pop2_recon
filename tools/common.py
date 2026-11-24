@@ -18,6 +18,20 @@ def read_json(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+_PARSED = {}
+
+
+def read_json_shared(path):
+    """Parsed JSON that the caller must not modify. The file is read every time and parsed again only when its bytes
+    changed, so a shared document is never stale."""
+    path = str(path)
+    raw = Path(path).read_bytes()
+    cached = _PARSED.get(path)
+    if cached is None or cached[0] != raw:
+        cached = _PARSED[path] = (raw, json.loads(raw.decode("utf-8")))
+    return cached[1]
+
+
 def json_bytes(value):
     return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
 

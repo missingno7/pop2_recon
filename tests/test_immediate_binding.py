@@ -11,7 +11,7 @@ from binding import IMMEDIATE_MODE, declarations, fixes
 from compiler import compile_c, load_lock
 from match import check_object, compile_and_check
 from omf import OmfReader
-import test_binding as legacy
+from tests import test_binding as legacy
 
 ROOT = Path(__file__).resolve().parents[1]
 

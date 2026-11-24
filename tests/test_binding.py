@@ -13,7 +13,7 @@ from common import sha
 from match import check_object
 from omf import OmfReader
 from oracle import Space
-from test_match import make_omf, omf_record
+from tests.test_match import make_omf, omf_record
 
 
 def bound_object(code=b"\xa1\x00\x00\xcb", *, fix_body=b"\xc4\x01\x56\x01"):

@@ -23,7 +23,7 @@ static char allocation_message[] = "ERROR:  Couldn't allocate backport.";
 
 void near * far cdecl _nmalloc(unsigned);
 void far cdecl _nfree(void near *);
-void far * far cdecl memcpy(void far *, const void far *, unsigned);
+void far * far cdecl _fmemcpy(void far *, const void far *, unsigned);
 int far cdecl memcmp(const void far *, const void far *, unsigned);
 int far pascal create_port(void near *, const Rect far *);
 void far pascal abort_with_message(int, const char far *);
@@ -56,7 +56,7 @@ void far pascal CycleColors(int first, int count, int setting)
     READ_DAC_BLOCK(first, count, *palette_buffer);
     {
         Color saved = colors[0];
-        memcpy(colors, colors + 1, bytes - 3);
+        _fmemcpy(colors, colors + 1, bytes - 3);
         *(Color far *)((char far *)colors + bytes - 3) = saved;
     }
     WRITE_DAC_BLOCK(first, count, colors, setting);

@@ -1,5 +1,7 @@
 # Game C leaf match
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 `root:02cc:08c2` is a complete 20-byte root-space function with a reviewed entry and exit. The far call at root image position `0x1999` (with its relocated segment word at `0x199c`) encodes `02cc:08c2`, which maps to root position `0x3582`; the caller pushes the signed word followed by a near pointer. The candidate body decrements the signed word when negative, stores it through the pointer, and returns with `RETF 4`.
 
 The accepted historical C is [floor_adjust.c](../src/floor_adjust.c), with its pinned [recipe](../recipes/floor_adjust.json). It uses an explicit far Pascal function and an explicit near data pointer. Microsoft C 6.00 with `/c /AM /Oe /Gs /Zl /Gc` emits one complete 20-byte CODE segment matching the entire reviewed extent byte for byte. The independent candidate and callsite evidence is [game_leaf.json](../evidence/matching/game_leaf.json).

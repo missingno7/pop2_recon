@@ -1,5 +1,7 @@
 # External data binding proofs
 
+Examples with addresses recorded before 2026-11-24 refer to the earlier build (tag `oracle-dos-1565`); the rules are unchanged.
+
 `tools/binding.py` accepts deliberately small resident OMF modes: LOC1 offset16,
 segment-relative, external T6, F5 target-derived frame, omitted displacement
 and zero raw LEDATA addend in `external-dgroup-offset16-v1`. The source must own one complete initialized CODE
@@ -444,15 +446,15 @@ segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocat
 
 ## BSS layout (bss-layout-v1, 2026-11-22; refutation only)
 
-Original anchors (C startup, root image): `_edata` = 2930 (`mov di` at 0x1ff57), `_end` = 6cd6 (`mov cx` at
-0x1ff5a), xontab = 2cea (`mov si`/`mov di` at 0x200b7/0x200ba; the onexit table is empty). RTLink 6.10 with MSC
+Original anchors (C startup, root image): `_edata` = 27c0 (`mov di` at 0x1ffe7), `_end` = 6b74 (`mov cx` at
+0x1ffea), xontab = 2b88 (`mov si`/`mov di` at 0x20147/0x2014a; the onexit table is empty). RTLink 6.10 with MSC
 6.00 objects (probes in build/workers/o7_bss): each object's statics form its own `_BSS` piece in declaration
-order, pieces in link order inside the per-file block [2930, 2cea); non-static uninitialized globals are near
-COMDEF communals in `c_common` [2cf0, 6cd6): word-aligned multi-byte communals first, then one-byte communals in a
-tail from 6ccc (after the runtime's 512-byte `__bufin` at 6acc). Consequently validation flags, per C group:
-a placed `_BSS` piece outside [2930, 2cea) or at an odd start; a v4 symbol starting inside [2930, 2cea) (an address
+order, pieces in link order inside the per-file block [27c0, 2b88); non-static uninitialized globals are near
+COMDEF communals in `c_common` [2b90, 6b74): word-aligned multi-byte communals first, then one-byte communals in a
+tail from 6b6c (after the runtime's 512-byte `__bufin` at 696c). Consequently validation flags, per C group:
+a placed `_BSS` piece outside [27c0, 2b88) or at an odd start; a v4 symbol starting inside [27c0, 2b88) (an address
 there is some file's own static, never another C file's extern); a v4 symbol starting at an odd address in
-[2cf0, 6ccc) (a member of a larger variable, not a variable). Existing cases are listed in
+[2b90, 6b6c) (a member of a larger variable, not a variable). Existing cases are listed in
 evidence/bss-layout-debt.json, which validation keeps equal to the violations, so the list only shrinks: republish
 the group with the real static, communal or member-of-base model. The rule proves nothing; single-use BSS fields
 stay unproven (o7_bss: genuinely underdetermined without an original map), see CODE_MATCH in docs/acceptance.md.
@@ -489,7 +491,7 @@ piece made only of selector words when both hold:
 - every other CONST position with the same relocated content has a word loaded by reached code outside the object, so
   that position is another file's.
 
-CONST starts at DS:2836, the end of the C termination table that the exit code walks (root+200c0/200c3). The report
+CONST starts at DS:26c6, the end of the C termination table that the exit code walks (root+20150/20153). The report
 basis says `exclusive selector words`.
 
 A witness displacement with an ES/CS override or a BP base (without a DS override) addresses something else and is

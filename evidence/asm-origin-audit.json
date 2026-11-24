@@ -1,32 +1,33 @@
 {
   "authority": "FM Towns debug source names (evidence/fmtowns/symbols.json) via reviewed DOS-FM function pairs (evidence/modules.json); 2026-11-21 audit after the rule that only genuine original assembly is matched as MASM",
-  "genuine_asm_by_fm_source": [
-    "root:0000:1344",
-    "root:1101:8670",
-    "root:1101:763e",
-    "root:1101:7686",
-    "root:1101:7730",
-    "root:1101:7782",
-    "root:1101:77ec",
-    "root:1101:78a5"
-  ],
   "c_origin_debt": [
-    "root:1101:4d6e"
+    "root:1129:4d50"
   ],
   "c_origin_debt_note": "EmptyRect (FM PTOOL.C) shows only MSC-compatible code and remains a MASM transcription to be replaced by C.",
-  "unpaired_asm_note": "Unpaired ASM owners must be listed with verdict asm in evidence/asm-origin-review.json (byte-level non-MSC evidence).",
+  "carried_from": "Addresses translated from the dos-1565 build (tag oracle-dos-1565) by instruction alignment; addresses inside prose refer to that build.",
   "dos_native_asm": {
-    "root:1101:649c": "UnionRect: non-MSC markers per evidence/asm-origin-review.json method (MASM USES-style epilogue/register idioms)",
-    "root:1101:5284": "SectRect: non-MSC markers (lodsw/stosw sequences, pop di; pop bp epilogue)",
-    "root:1101:510a": "OffsetRect: lodsw/stosw with pop di; pop bp (no MSC 6.00 C component emits these)",
-    "root:1101:4fe0": "InitPort: non-MSC markers per review method",
-    "root:1101:502a": "InsetRect: push ds; lds si,[bp+0a]; ... pop di; pop bp without mov sp,bp (verified 2026-11-21)",
-    "root:1101:50f6": "MoveTo: non-MSC markers per review method",
-    "root:1101:02c3": "MakeShapeRect: odd entry address and pushf/popf (never in MSC 6.00 C components)",
-    "root:1101:4dac": "FrameRect: locals via add sp,-0Ch (MSC emits sub sp,n; verified 2026-11-21)",
-    "root:1101:5070": "DrawAxisSegment: non-MSC markers per review method",
-    "root:1101:6f6a": "hGetRsrc: plain E8 near calls without PUSH CS to register-ABI helpers",
-    "root:1101:5306": "SetOrigin: non-MSC markers per review method; group with register-ABI helpers 5334/5352/537a"
+    "root:1129:13b3": "MakeShapeRect: odd entry address and pushf/popf (never in MSC 6.00 C components)",
+    "root:1129:4d8e": "FrameRect: locals via add sp,-0Ch (MSC emits sub sp,n; verified 2026-11-21)",
+    "root:1129:4fc2": "InitPort: non-MSC markers per review method",
+    "root:1129:500c": "InsetRect: push ds; lds si,[bp+0a]; ... pop di; pop bp without mov sp,bp (verified 2026-11-21)",
+    "root:1129:5052": "DrawAxisSegment: non-MSC markers per review method",
+    "root:1129:50d8": "MoveTo: non-MSC markers per review method",
+    "root:1129:50ec": "OffsetRect: lodsw/stosw with pop di; pop bp (no MSC 6.00 C component emits these)",
+    "root:1129:5266": "SectRect: non-MSC markers (lodsw/stosw sequences, pop di; pop bp epilogue)",
+    "root:1129:52e8": "SetOrigin: non-MSC markers per review method; group with register-ABI helpers 5334/5352/537a",
+    "root:1129:647e": "UnionRect: non-MSC markers per evidence/asm-origin-review.json method (MASM USES-style epilogue/register idioms)",
+    "root:1129:6f4c": "hGetRsrc: plain E8 near calls without PUSH CS to register-ABI helpers"
   },
-  "dos_native_asm_note": "Paired with an FM Towns .C module, but the DOS bytes carry markers no accepted MSC 6.00 C component produces (evidence/asm-origin-review.json method): the DOS build hand-assembled these routines; the later FM port has C versions."
+  "dos_native_asm_note": "Paired with an FM Towns .C module, but the DOS bytes carry markers no accepted MSC 6.00 C component produces (evidence/asm-origin-review.json method): the DOS build hand-assembled these routines; the later FM port has C versions.",
+  "genuine_asm_by_fm_source": [
+    "root:0000:1414",
+    "root:1129:8652",
+    "root:1129:7620",
+    "root:1129:7668",
+    "root:1129:7712",
+    "root:1129:7764",
+    "root:1129:77ce",
+    "root:1129:7887"
+  ],
+  "unpaired_asm_note": "Unpaired ASM owners must be listed with verdict asm in evidence/asm-origin-review.json (byte-level non-MSC evidence)."
 }

@@ -1,4 +1,4 @@
-"""RTLink bucket projection, qualified recipes, and the real 24-byte 62fe case."""
+"""RTLink bucket projection, qualified recipes, and the real 24-byte 52d0 case."""
 import copy
 from pathlib import Path
 import sys
@@ -12,7 +12,7 @@ from match import check_object, get_target
 from omf import OmfReader
 from oracle import Oracle
 from validate import check_relocation_order
-from test_match import make_omf, omf_record
+from tests.test_match import make_omf, omf_record
 
 
 class RelocationOrderTests(unittest.TestCase):
@@ -105,9 +105,9 @@ class RelocationOrderTests(unittest.TestCase):
         check_relocation_order({'relocation_order': 'GROUPED', 'relocation_order_debt': ORDER_DEBT}, report)
         check_relocation_order({}, self.check(fields=list(reversed(self.fields))))
 
-    def test_real_62fe_complete_two_callee_shape_with_independent_original_grounding(self):
+    def test_real_52d0_complete_two_callee_shape_with_independent_original_grounding(self):
         oracle = Oracle.load()
-        target, space, expected = get_target('root:1000:62fe', oracle)
+        target, space, expected = get_target('root:1129:52d0', oracle)
         # A complete synthetic OMF fixture of the independently compiled 24-byte
         # source shape, with both raw pointer operands still zero and unedited.
         code = bytes.fromhex('558becff76069a00000000509a000000008be55dca020090')
@@ -122,11 +122,11 @@ class RelocationOrderTests(unittest.TestCase):
                               binding=binding, oracle=oracle)
         self.assertTrue(result['exact'])
         self.assertEqual(result['emitted_size'], 24)
-        self.assertEqual(result['covered_relocation_indices'], [1453, 1654])
+        self.assertEqual(result['covered_relocation_indices'], [1527, 1602])
         self.assertEqual(result['relocation_order'], 'GROUPED')
         self.assertEqual([e['offset'] for e in result['equations']], [13, 7])
         self.assertEqual(result['ordinary_bytes_compared'], 16)
-        self.assertEqual(result['generated_relocation_indices'], [1654, 1453])
+        self.assertEqual(result['generated_relocation_indices'], [1602, 1527])
 
 
 if __name__ == '__main__':

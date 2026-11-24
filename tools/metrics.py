@@ -35,11 +35,8 @@ def metrics(oracle=None, manifest=None):
     targets = read_json(ROOT / "evidence/targets.json")["functions"]
     accepted = {r["target_id"] for r in manifest["owners"] if r["kind"] in ("MATCHING_C", "MATCHING_ASM")}
     game = [r for r in targets if r.get("classification") == "GAME_C"]
-    research = [read_json(p) for p in sorted((ROOT / "evidence/matching").glob("*.json"))]
-    attempted = {(r["target"]["space"], r["target"]["position"]) for r in research
-                 if r.get("state") == "CANDIDATE_C_NO_MATCH"}
-    attempted.update((r["space"], oracle.spaces[r["space"]].position(r["segment"], r["offset"]))
-                     for r in targets if r.get("state") == "CANDIDATE_C" and r["id"] not in accepted)
+    attempted = {(r["space"], oracle.spaces[r["space"]].position(r["segment"], r["offset"]))
+                 for r in targets if r.get("state") == "CANDIDATE_C" and r["id"] not in accepted}
     report = {"schema": 1, "spaces": rows,
               "total_payload_bytes": sum(r["payload_bytes"] for r in rows),
               "matching_c_bytes": sum(r["matching_c_bytes"] for r in rows),

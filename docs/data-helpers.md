@@ -1,5 +1,7 @@
 # Additional complete data-helper C matches — 2026-10-05
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 This records the earlier 112-byte C milestone. The later
 [state-helper continuation](state-helpers.md) brings matching C to 216 bytes.
 

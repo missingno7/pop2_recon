@@ -9,7 +9,7 @@ from types import SimpleNamespace
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"tools"))
 from omf import OmfReader
 from runtime_scan import archive_members, scan_archive, whole_code
-from test_runtime import runtime_omf, omf_record
+from tests.test_runtime import runtime_omf, omf_record
 
 
 def archive(member, dictionary_payload=b"dictionary"):

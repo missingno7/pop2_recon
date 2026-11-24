@@ -48,7 +48,7 @@ extern int cdecl sprintf(char *buffer, const char *format, ...);
 extern void abort_with_message(int fatal, const char far *text);
 extern int SAVE_HANDLE_FLAGS(Handle handle);
 extern void far *FETCH_LOCKED_SHAPE_LIST(Handle handle);
-extern Handle load_mapping(unsigned char id);
+extern Handle AllocBanks(unsigned char id);
 extern void MapPalInfo(unsigned long address);
 extern void RESTORE_HANDLE_FLAGS(Handle handle, int flags);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle handle);
@@ -59,7 +59,7 @@ extern FarPointer cdecl _fmemset(void far *dst, int value, unsigned int size);
 extern Handle HGETRSRC(unsigned long type, int id);
 extern Handle mark_fixed(Handle handle);
 extern void mark_purgeable(Handle handle);
-extern void far *deref_handle(Handle handle);
+extern void far *MATERIALIZE_HANDLE(Handle handle);
 extern Handle convert_shape(const void far *packed, const void far *mapping, int mode);
 extern void paint_four_bit(const void far *image, int x, int y, int mode, int page);
 extern void paint_rle(const void far *image, int x, int y, int page);
@@ -68,7 +68,7 @@ extern void paint_plain(const void far *image, int x, int y, int page);
 extern void release_shape_list(Handle handle);
 extern void cdecl _nfree(void *pointer);
 extern Handle new_shape_item(int group, int item, int mode);
-extern void MIRRORMCGABLOCK(unsigned char far *pixels, int width, int format);
+extern void MIRRORMCGABLOCK(unsigned char far *, int, int);
 
 extern const unsigned char far builtin_mapping[];
 extern unsigned int loaded_mapping_flags;
@@ -81,9 +81,9 @@ static struct ShapeErrors {
     "PrinceNewShpItem().  BaseId = %d. item = %d.  usedExisting = %d."
 };
 
-ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int mode);
-void PrinceFreeShp(int id);
-ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result);
+ShapeInfo far *PrinceNewShpItem(Handle, int, ShapeInfo far *, int);
+void PrinceFreeShp(int);
+ShapeInfo far *get_list_item(ShapeList *, int, ShapeInfo far *);
 
 void FreeShpInfo(ShapeInfo far *info)
 {
@@ -110,7 +110,7 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
     resource = FETCH_LOCKED_SHAPE_LIST(handle);
     if (!resource->mapping) {
         if (!mapping)
-            mapping = load_mapping(resource->mapping_id);
+            mapping = AllocBanks(resource->mapping_id);
         resource->mapping = mapping;
         loaded_mapping_flags |= mapping;
         if (prepare) {
@@ -123,7 +123,7 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
     return handle;
 }
 
-int IsOverlayLoaded(ShapeList *list, register int index)
+int IsOverlayLoaded(ShapeList *list, int index)
 {
     int loaded = 0;
     int far *shape;
@@ -138,10 +138,10 @@ int IsOverlayLoaded(ShapeList *list, register int index)
     return loaded;
 }
 
-ShapeList *load_shape_list(register int id, Handle mapping, signed char *mode, int prepare)
+ShapeList *load_shape_list(int id, Handle mapping, signed char *mode, int prepare)
 {
-    Handle image;
     int index;
+    Handle image;
     ShapeInfo *entry;
     ShapeList *list;
     int flags;
@@ -190,7 +190,7 @@ ShapeList *load_shape_list(register int id, Handle mapping, signed char *mode, i
 
 void overlay_shape_list(ShapeList *list, int id, int first, int last, signed char *mode)
 {
-    int base_id = *(int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(find_shape_list(list->id));
+    int base_id = *(int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(list->resource = find_shape_list(list->id));
     int index;
 
     id += 2;
@@ -206,12 +206,12 @@ void overlay_shape_list(ShapeList *list, int id, int first, int last, signed cha
                 dispose_handle(list->items[index].image);
                 list->items[index].image = 0;
             }
-            PrinceNewShpItem(list->resource, id - base_id + index,
+            PrinceNewShpItem(list->resource, index - base_id + id,
                              &list->items[index], item_mode);
-            PrinceFreeShp(id + index - 1);
+            PrinceFreeShp(index + id - 1);
         } else {
             memset(&list->items[index], 0, sizeof(ShapeInfo));
-            list->items[index].image = mark_fixed(HGETRSRC(0x53484150UL, id + index - 1));
+            list->items[index].image = mark_fixed(HGETRSRC(0x53484150UL, index + id - 1));
         }
     }
 }
@@ -260,7 +260,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     list_flags = SAVE_HANDLE_FLAGS(list);
     resource = FETCH_LOCKED_SHAPE_LIST(list);
 
-    if (info->image && deref_handle(info->image)) {
+    if (info->image && MATERIALIZE_HANDLE(info->image)) {
         handle = info->image;
         reused = 1;
     } else {
@@ -327,6 +327,11 @@ ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result)
 
     *result = *entry;
     if (!entry->mode) {
+        if (!list->resource || !MATERIALIZE_HANDLE(list->resource)) {
+            if (list->resource)
+                dispose_handle(list->resource);
+            list->resource = find_shape_list(list->id);
+        }
         PrinceNewShpItem(list->resource, index, result, 1);
         result->temporary = 1;
         result->flags = 0;
@@ -389,18 +394,11 @@ void UnloadShapeList(ShapeList *list)
 {
     int index = 0;
     Handle handle;
-    Handle *image;
-
-    if (index < list->count) {
-        image = &list->items[0].image;
-        do {
-            if (*image) {
-                dispose_handle(*image);
-                *image = 0;
-            }
-            image += 3;
-            ++index;
-        } while (index < ((volatile ShapeList *)list)->count);
+    for (; index < list->count; ++index) {
+        if (list->items[index].image) {
+            dispose_handle(list->items[index].image);
+            list->items[index].image = 0;
+        }
     }
     handle = find_shape_list(list->id);
     if (handle)

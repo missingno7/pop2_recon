@@ -2,7 +2,7 @@
 same-library selection among duplicate pinned publics (E6).
 
 Uses the immutable original, the accepted nmalloc owners and the pinned MSC 6.00
-medium-model library; skipped when the independent library is not installed.
+medium-model library. The not-yet-published CRT bindings are kept as test fixtures.
 """
 import copy
 import sys
@@ -19,13 +19,12 @@ from common import read_json, sha
 import runtime_fixups
 
 LIBRARY = "C:/tools/msc-6.00/LIB/mlibcr.lib"
-AVAILABLE = Path(LIBRARY).exists() and (ROOT / "evidence/bindings/crt_malloc_medium.json").exists()
-FRAME = 0x1fe6
+FRAME = 0x1fef
 _real_read_json = common.read_json
 
-# name -> (archive offset, frame offset, size)
-MEMBERS = {"crt_malloc_medium": (25664, 0x1440, 5), "crt_free_medium": (25824, 0x1446, 5),
-           "crt_ncalloc_medium": (52240, 0x17ee, 46), "crt_strdup_medium": (79120, 0x213a, 40)}
+# name -> (archive offset, frame offset)
+MEMBERS = {"crt_malloc_medium": (25664, 0x1440), "crt_ncalloc_medium": (52240, 0x17ee),
+           "crt_strdup_medium": (79120, 0x214e)}
 FAKE = "build/workers/test_providers/crt_malloc_medium.json"
 
 
@@ -38,12 +37,13 @@ def member(archive_offset):
 
 
 def recipe(name):
-    offset, frame_offset, _ = MEMBERS[name]
+    if name == "crt_free_medium":
+        return read_json(ROOT / "recipes/runtime/crt_free_medium.json")
+    offset, frame_offset = MEMBERS[name]
     return dict(member(offset), name=name, space="root", segment=FRAME, offset=frame_offset,
                 object_segment="_TEXT", binding=f"evidence/bindings/{name}.json")
 
 
-@unittest.skipUnless(AVAILABLE, "pinned MSC 6.00 medium-model library not installed")
 class RuntimeProviderTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -56,33 +56,33 @@ class RuntimeProviderTests(unittest.TestCase):
         binding = binding or read_json(ROOT / r["binding"])
         module, overwritten = runtime_fixups.read_member(r)
         code = module.segments["_TEXT"]
-        start = FRAME*16+r["offset"]
+        start = self.oracle.spaces["root"].position(r["segment"], r["offset"])
 
         def fake_read(path):
             key = Path(path).resolve().relative_to(ROOT).as_posix() if Path(path).is_absolute() else str(path)
             return copy.deepcopy(fake[key]) if fake and key in fake else _real_read_json(path)
-        with mock.patch("common.read_json", fake_read):
+        with mock.patch("common.read_json_shared", fake_read):
             return runtime_fixups.prove(module, overwritten, "_TEXT", code,
                                         self.oracle.spaces["root"].data[start:start+len(code)], binding, r,
                                         self.oracle, manifest or self.manifest)
 
     def binding(self, name):
-        return read_json(ROOT / f"evidence/bindings/{name}.json")
+        return read_json(ROOT / recipe(name)["binding"])
 
     def with_malloc(self):
         """The manifest after publishing the _malloc trampoline (recipe served from memory)."""
-        if any(o["target_id"] == "root:1fe6:1440" for o in self.manifest["owners"]):
+        if any(o["target_id"] == "root:1fef:1440" for o in self.manifest["owners"]):
             return self.manifest, {}
         manifest = copy.deepcopy(self.manifest)
         manifest["owners"].append({"space": "root", "segment": FRAME, "offset": 0x1440, "size": 5,
-                                   "target_id": "root:1fe6:1440", "kind": "PINNED_RUNTIME",
+                                   "target_id": "root:1fef:1440", "kind": "PINNED_RUNTIME",
                                    "state": "PINNED_RUNTIME", "recipe": FAKE})
         return manifest, {FAKE: recipe("crt_malloc_medium")}
 
     # E7 accepted external code providers
     def test_accepted_owner_provides_far_target(self):
-        for name, symbol, relocation in (("crt_malloc_medium", "__nmalloc", 1931), ("crt_free_medium", "__nfree", 1915),
-                                         ("crt_ncalloc_medium", "__nmalloc", 1932)):
+        for name, symbol, relocation in (("crt_malloc_medium", "__nmalloc", 1905), ("crt_free_medium", "__nfree", 1920),
+                                         ("crt_ncalloc_medium", "__nmalloc", 1906)):
             report = self.prove(name)
             self.assertTrue(report["exact"], name)
             self.assertEqual(report["relocation_indices"], [relocation])
@@ -92,10 +92,10 @@ class RuntimeProviderTests(unittest.TestCase):
 
     def test_frame_witness_must_be_reviewed_and_outside(self):
         binding = self.binding("crt_malloc_medium")
-        binding["external_providers"][0]["frame_witness"] = 0x212a1   # the trampoline's own far pointer
+        binding["external_providers"][0]["frame_witness"] = 0x21331   # the trampoline's own far pointer
         with self.assertRaisesRegex(ValueError, "witness lies inside the judged member"):
             self.prove("crt_malloc_medium", binding=binding)
-        binding["external_providers"][0]["frame_witness"] = 4998
+        binding["external_providers"][0]["frame_witness"] = 0x1456
         with self.assertRaisesRegex(ValueError, "not a reviewed relocated far call/pointer"):
             self.prove("crt_malloc_medium", binding=binding)
 
@@ -105,8 +105,8 @@ class RuntimeProviderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "not one accepted exact resident owner"):
             self.prove("crt_malloc_medium", binding=binding)
         binding = self.binding("crt_malloc_medium")
-        binding["external_providers"][0]["target_id"] = "root:1fe6:001a"
-        binding["external_providers"][0]["frame_witness"] = 5114
+        binding["external_providers"][0]["target_id"] = "root:1fef:001a"
+        binding["external_providers"][0]["frame_witness"] = 0x14ca
         with self.assertRaisesRegex(ValueError, "does not name __nmalloc"):
             self.prove("crt_malloc_medium", binding=binding)
         recipe_path = "recipes/nmalloc/nmalloc.json"
@@ -120,8 +120,8 @@ class RuntimeProviderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "duplicates a pinned or bound provider"):
             self.prove("crt_malloc_medium", binding=binding)
         binding = self.binding("crt_malloc_medium")
-        binding["external_providers"].append({"symbol": "__nfree", "target_id": "root:1fe6:001a",
-                                              "frame_witness": 5114})
+        binding["external_providers"].append({"symbol": "__nfree", "target_id": "root:1fef:001a",
+                                              "frame_witness": 0x14ca})
         with self.assertRaisesRegex(ValueError, "Unused runtime provider bindings"):
             self.prove("crt_malloc_medium", binding=binding)
 
@@ -139,7 +139,7 @@ class RuntimeProviderTests(unittest.TestCase):
         manifest, fake = self.with_malloc()
         report = self.prove("crt_strdup_medium", manifest=manifest, fake=fake)
         self.assertTrue(report["exact"])
-        self.assertEqual(report["relocation_indices"], [1903, 1919, 1929])
+        self.assertEqual(report["relocation_indices"], [1919, 1924, 1929])
 
     def test_same_library_selection_refusals(self):
         manifest, fake = self.with_malloc()

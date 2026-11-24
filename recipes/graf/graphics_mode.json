@@ -1,41 +1,41 @@
 {
   "binding": "evidence/bindings/graf/graphics_mode.json",
-  "binding_sha256": "618fdba0971e9367d9f964348adf78ffa02c7196d4106b534f678c161cb9ddfa",
+  "binding_sha256": "4f9c80ed4d3794ccf4cee3048af61db88bdae739f49a954d0ef59be650b57499",
   "claims": [
     {
       "fixup_count": 1,
       "public": "COPY_CURRENT_PORT_ORIGIN",
-      "target_id": "root:1101:4e8e"
+      "target_id": "root:1129:4e70"
     },
     {
       "fixup_count": 11,
       "public": "INITIALIZE_GRAPHICS_MODE",
-      "target_id": "root:1101:4ea8"
+      "target_id": "root:1129:4e8a"
     },
     {
       "fixup_count": 12,
       "public": "SHUTDOWN_GRAPHICS_MODE",
       "relocation_indices": [
-        1456
+        1533
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "root:1101:4f10"
+      "target_id": "root:1129:4ef2"
     },
     {
       "fixup_count": 3,
       "public": "SELECT_GRAPHICS_MODE",
-      "target_id": "root:1101:4f5e"
+      "target_id": "root:1129:4f40"
     },
     {
       "fixup_count": 3,
       "public": "CHECK_GRAPHICS_MODE",
-      "target_id": "root:1101:4f84"
+      "target_id": "root:1129:4f66"
     }
   ],
   "data_publics": [
     {
-      "address": 9682,
+      "address": 9314,
       "name": "SCREEN_WIDTH",
       "offset": 2,
       "segment": "_DATA",
@@ -43,7 +43,7 @@
       "unique": true
     },
     {
-      "address": 9686,
+      "address": 9318,
       "name": "PIXELS_PER_BYTE",
       "offset": 6,
       "segment": "_DATA",
@@ -51,7 +51,7 @@
       "unique": true
     },
     {
-      "address": 9694,
+      "address": 9326,
       "name": "RELEASE_BUFFER_CALLBACK",
       "offset": 14,
       "segment": "_DATA",
@@ -59,7 +59,7 @@
       "unique": true
     },
     {
-      "address": 9698,
+      "address": 9330,
       "name": "ALLOCATE_BUFFER_CALLBACK",
       "offset": 18,
       "segment": "_DATA",
@@ -67,7 +67,7 @@
       "unique": true
     },
     {
-      "address": 9700,
+      "address": 9332,
       "name": "MEASURE_TEXT_CALLBACK",
       "offset": 20,
       "segment": "_DATA",
@@ -75,7 +75,7 @@
       "unique": true
     },
     {
-      "address": 9702,
+      "address": 9334,
       "name": "AXIS_SEGMENT_CALLBACK",
       "offset": 22,
       "segment": "_DATA",
@@ -83,7 +83,7 @@
       "unique": true
     },
     {
-      "address": 9704,
+      "address": 9336,
       "name": "PAINT_FOUR_BIT_CALLBACK",
       "offset": 24,
       "segment": "_DATA",
@@ -91,7 +91,7 @@
       "unique": true
     },
     {
-      "address": 9706,
+      "address": 9338,
       "name": "STROKE_RECTANGLE_CALLBACK",
       "offset": 26,
       "segment": "_DATA",
@@ -99,7 +99,7 @@
       "unique": true
     },
     {
-      "address": 9708,
+      "address": 9340,
       "name": "PAINT_PLAIN_CALLBACK",
       "offset": 28,
       "segment": "_DATA",
@@ -107,7 +107,7 @@
       "unique": true
     },
     {
-      "address": 9710,
+      "address": 9342,
       "name": "DEFAULT_PORT",
       "offset": 30,
       "segment": "_DATA",
@@ -115,7 +115,7 @@
       "unique": true
     },
     {
-      "address": 9712,
+      "address": 9344,
       "name": "DEFAULT_PORT_SEGMENT",
       "offset": 32,
       "segment": "_DATA",
@@ -123,7 +123,7 @@
       "unique": true
     },
     {
-      "address": 9714,
+      "address": 9346,
       "name": "DEFAULT_PORT_ORIGIN",
       "offset": 34,
       "segment": "_DATA",
@@ -131,7 +131,7 @@
       "unique": true
     },
     {
-      "address": 9718,
+      "address": 9350,
       "name": "DEFAULT_PORT_LIMITS",
       "offset": 38,
       "segment": "_DATA",
@@ -139,7 +139,7 @@
       "unique": true
     },
     {
-      "address": 9726,
+      "address": 9358,
       "name": "DEFAULT_PORT_MOUSE_BOUNDS",
       "offset": 46,
       "segment": "_DATA",
@@ -147,7 +147,7 @@
       "unique": true
     },
     {
-      "address": 9732,
+      "address": 9364,
       "name": "DEFAULT_PORT_MOUSE_MAX_X",
       "offset": 52,
       "segment": "_DATA",
@@ -158,13 +158,13 @@
   "drafts": [],
   "emitted_size": 284,
   "flags": [],
-  "frame": 4353,
+  "frame": 4393,
   "group_id": "group:graf/graphics_mode",
   "kind": "same_source_group",
   "language": "asm",
   "name": "graf/graphics_mode",
   "object_sha256": "42fe74c19496fa51c26b46b259bf3c91961233f7a691a0ad3b5795b66b3eea47",
-  "origin": 89758,
+  "origin": 90368,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,

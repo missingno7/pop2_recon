@@ -95,6 +95,7 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 
+extern sbyte desert_column, previous_column;
 extern CHARREC Char;
 #pragma pack(1)
 typedef struct {
@@ -113,7 +114,6 @@ typedef struct {
 typedef struct {
     signed char room, cell;
 } REBIRTHPOINT;
-extern sbyte desert_column, previous_column;
 
 typedef struct {
     signed char count;
@@ -148,7 +148,8 @@ typedef struct {
 #pragma pack()
 extern LEVELREC Level;
 extern uword BlueSpec;
-extern int fade_active, FrameNum;
+extern int fade_active;
+extern unsigned long FrameNum;
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -167,7 +168,7 @@ static Rect stone_bounds = {49, 11, 70, 54};
 static sbyte desert_variant = -1;
 extern DesertRoom *custom_room;
 extern uword *background_shapes;
-extern Rect draw_clip, GamePlayRect;
+extern Rect clip_rect, GamePlayRect;
 extern int sprite_width;
 extern sbyte animation_tile, animation_remove;
 extern PeelRecord peel_records[];
@@ -187,8 +188,6 @@ extern uword PrinceUnpackShape(uword, int, void far *);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(uword);
 extern Rect far *MAKESHAPERECT(Rect far *, int, int, void far *);
 extern void mark_move(sbyte, Rect *);
-/* The callback address and direct calls have different relocation forms. */
-extern void redraw_callback(sbyte, Rect *);
 extern void mark_bufs_for_rect(void (far *)(sbyte, Rect *), Rect *, sbyte);
 extern void far _fastcall draw_custom_room_image(sbyte, sbyte);
 extern int get_trob_room_cell(sbyte, int);
@@ -349,8 +348,8 @@ int is_selected_code(int code)
 {
     int selected;
 
-    if (code == 15 || code == 109 || code == 7 || code == 11 ||
-        code == 13 || code == 38 || code == 44 || code == 28 ||
+    if (code == 15 || code == 109 || code == 7 || code == 46 ||
+        (code >= 11 && code <= 14) || code == 38 || code == 44 || code == 26 ||
         code == 158)
         selected = 1;
     else if (code == 170 || code == 171)
@@ -398,8 +397,8 @@ void setup_sand(void)
     Rect *bounds;
 
     if (Char.sequence == 27) {
-        saved_clip = draw_clip;
-        index = (ubyte)(FrameNum % 2) + 3;
+        saved_clip = clip_rect;
+        index = (ubyte)(FrameNum & 1) + 3;
         piece = &custom_room->pieces[index];
         piece->x = 119;
         piece->y = FChar.x;
@@ -407,11 +406,11 @@ void setup_sand(void)
             piece->y -= sprite_width;
         bounds = &piece->rect;
         MAKESHAPERECT(bounds, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle));
-        mark_bufs_for_rect(redraw_callback, bounds, -1);
-        draw_clip = *bounds;
+        mark_bufs_for_rect(mark_move, bounds, -1);
+        clip_rect = *bounds;
         draw_custom_room_image(index, piece->pass = 1);
         piece->pass = 11;
-        draw_clip = saved_clip;
+        clip_rect = saved_clip;
     }
 }
 
@@ -421,27 +420,25 @@ void animate_desert_exit(void)
     Piece *piece;
     Rect *bounds;
 
-    if (check_trob_visibility()) {
-        frame = BlueSpec & 31;
-        if (frame == 20) {
-            animation_remove = -1;
-            dispatch_sound(10007);
-        } else {
-            ++frame;
-            if (!query_sound(10045))
-                AddSound(7);
-        }
-        BlueSpec &= ~31;
-        BlueSpec |= frame;
-        piece = &custom_room->pieces[2];
-        piece->rect.top -= 2;
-        bounds = &piece->rect;
-        mark_move(animation_tile, bounds);
-        mark_move(animation_tile + 1, bounds);
-        mark_move(animation_tile - 10, bounds);
-        mark_move(animation_tile - 9, bounds);
-        RestoreKeepCustomPeel(piece->shape);
+    frame = BlueSpec & 31;
+    if (frame == 20) {
+        animation_remove = -1;
+        dispatch_sound(10007);
+    } else {
+        ++frame;
+        if (!query_sound(10045))
+            AddSound(7);
     }
+    BlueSpec &= ~31;
+    BlueSpec |= frame;
+    piece = &custom_room->pieces[2];
+    piece->rect.top -= 2;
+    bounds = &piece->rect;
+    mark_move(animation_tile, bounds);
+    mark_move(animation_tile + 1, bounds);
+    mark_move(animation_tile - 10, bounds);
+    mark_move(animation_tile - 9, bounds);
+    RestoreKeepCustomPeel(piece->shape);
 }
 
 void draw_desert_exit(Piece *piece)
@@ -494,10 +491,10 @@ void draw_desert_planks(Piece *piece)
 
     if (piece->shape == 11) {
         index = ((piece_state(piece) >> 1) & 7) + 1;
-        saved_clip = draw_clip;
-        draw_clip = GamePlayRect;
+        saved_clip = clip_rect;
+        clip_rect = GamePlayRect;
         draw_custom_room_image(index, 11);
-        draw_clip = saved_clip;
+        clip_rect = saved_clip;
     }
 }
 
@@ -524,10 +521,10 @@ void draw_desert_rocks(Piece *piece)
 
     if (piece->shape == 11) {
         index = ((piece_state(piece) >> 1) & 7) + 1;
-        saved_clip = draw_clip;
-        draw_clip = GamePlayRect;
+        saved_clip = clip_rect;
+        clip_rect = GamePlayRect;
         draw_custom_room_image(index, 11);
-        draw_clip = saved_clip;
+        clip_rect = saved_clip;
     }
 }
 

@@ -1,84 +1,87 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "444e31016866e845dd8cddcfbabad9f4a145eac427ed0bbd78d0d888f178c6a8",
+  "binding_sha256": "cedc00ee2ddcb01b6a70174e4e840374d67ec1cbb863a250b937d1a14677a746",
   "claims": [
     {
-      "fixup_count": 62,
+      "fixup_count": 63,
       "public": "CHECKBARR",
       "relocation_indices": [
-        433,
-        465,
-        466,
-        467,
-        480,
-        481,
-        482
+        458,
+        459,
+        460,
+        505,
+        506,
+        507,
+        518
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-3:2802:000e"
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:29ef:000c"
     },
     {
       "fixup_count": 12,
       "public": "CHECKWEIGHTLESSBARR",
       "relocation_indices": [
-        444,
-        460,
-        470,
-        483
+        448,
+        474,
+        480,
+        510
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-3:2802:0178"
+      "target_id": "overlay-3:29ef:0180"
+    },
+    {
+      "fixup_count": 15,
+      "public": "INITCOLDETBUFS",
+      "target_id": "overlay-3:29ef:01ce"
     },
     {
       "fixup_count": 6,
       "public": "GETBARRCODE",
-      "target_id": "overlay-3:2802:0250"
+      "target_id": "overlay-3:29ef:0258"
     },
     {
       "fixup_count": 16,
       "public": "GETCOLDETDATA",
-      "target_id": "overlay-3:2802:02d4"
+      "target_id": "overlay-3:29ef:02dc"
     },
     {
       "fixup_count": 5,
       "public": "GETLEFTBARR",
       "relocation_indices": [
-        445
+        509
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:038a"
+      "target_id": "overlay-3:29ef:0374"
     },
     {
       "fixup_count": 4,
       "public": "GETRIGHTBARR",
       "relocation_indices": [
-        446
+        513
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:03c6"
+      "target_id": "overlay-3:29ef:03b0"
     },
     {
       "fixup_count": 8,
       "public": "COLLIDE_WITH_BARRIERS",
-      "target_id": "overlay-3:2802:0402"
+      "target_id": "overlay-3:29ef:03ec"
     },
     {
       "fixup_count": 14,
       "public": "RIGHT_COLLISION",
       "relocation_indices": [
-        489
+        491
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:0438"
+      "target_id": "overlay-3:29ef:0422"
     },
     {
       "fixup_count": 15,
@@ -88,282 +91,273 @@
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:0490"
+      "target_id": "overlay-3:29ef:047a"
     },
     {
       "fixup_count": 4,
       "public": "CHECK_COLLISION_COL",
       "relocation_indices": [
-        447
+        512
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:04ea"
+      "target_id": "overlay-3:29ef:04d4"
     },
     {
       "fixup_count": 9,
       "public": "CHECK_COLLISION_TILE",
-      "target_id": "overlay-3:2802:052c"
+      "target_id": "overlay-3:29ef:0516"
     },
     {
       "fixup_count": 5,
       "public": "ADJUSTROOM",
-      "target_id": "overlay-3:2344:5178"
+      "target_id": "overlay-3:251b:52c2"
     },
     {
       "fixup_count": 24,
       "public": "APPLY_COLLISION",
       "relocation_indices": [
-        441,
-        448,
-        450,
-        451,
-        484
+        443,
+        444,
+        475,
+        511,
+        517
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-3:2802:05d8"
-    },
-    {
-      "fixup_count": 7,
-      "public": "APPLY_AIR_BUMP",
-      "relocation_indices": [
-        461,
-        471,
-        491
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-3:2802:069e"
-    },
-    {
-      "fixup_count": 1,
-      "public": "BUMPSOUND",
-      "target_id": "overlay-3:2802:0840"
-    },
-    {
-      "fixup_count": 5,
-      "public": "INITCOLLISIONDETECTION",
-      "target_id": "overlay-3:2802:0848"
-    },
-    {
-      "fixup_count": 4,
-      "public": "CREVICEBARR",
-      "target_id": "overlay-3:2802:087c"
-    },
-    {
-      "fixup_count": 13,
-      "public": "GATE_BLOCKS_STANDING",
-      "relocation_indices": [
-        449,
-        454,
-        477,
-        503
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-3:2802:08fa"
-    },
-    {
-      "fixup_count": 7,
-      "public": "SCYTHE_BLOCKS_PASSAGE",
-      "relocation_indices": [
-        469
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:098e"
-    },
-    {
-      "fixup_count": 53,
-      "public": "GET_CHAR_EDGES",
-      "relocation_indices": [
-        468,
-        487,
-        488,
-        499,
-        500,
-        501,
-        502
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-3:2802:09ca"
+      "target_id": "overlay-3:29ef:05c2"
     },
     {
       "fixup_count": 8,
-      "public": "GET_SWORD_WIDTH",
+      "public": "APPLY_AIR_BUMP",
       "relocation_indices": [
-        486,
-        498
+        440,
+        452,
+        471,
+        481
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-3:2802:0b22"
+      "target_id": "overlay-3:29ef:0688"
     },
     {
-      "fixup_count": 27,
-      "public": "GET_FORWARD_DISTANCE",
+      "fixup_count": 41,
+      "public": "APPLY_GROUND_BUMP",
       "relocation_indices": [
-        427,
-        428,
         439,
-        442,
+        441,
+        449,
+        450,
+        451,
+        454,
         455,
-        485,
-        495,
-        496,
-        497
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-3:2802:0b70"
-    },
-    {
-      "fixup_count": 26,
-      "public": "CHECK_GATE_FOR_OPPONENT",
-      "relocation_indices": [
-        429,
-        456,
+        464,
+        472,
+        482,
+        492,
+        497,
         504
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-3:2802:0c94"
+      "target_id": "overlay-3:29ef:06ba"
     },
     {
-      "fixup_count": 21,
-      "public": "CHECK_GATE_FOR_PLAYER",
+      "fixup_count": 2,
+      "public": "BUMPSOUND",
+      "target_id": "overlay-3:29ef:082e"
+    },
+    {
+      "fixup_count": 5,
+      "public": "INITCOLLISIONDETECTION",
+      "target_id": "overlay-3:29ef:083c"
+    },
+    {
+      "fixup_count": 4,
+      "public": "CREVICEBARR",
+      "target_id": "overlay-3:29ef:0870"
+    },
+    {
+      "fixup_count": 8,
+      "public": "GATE_BLOCKS_PASSAGE",
+      "target_id": "overlay-3:29ef:0896"
+    },
+    {
+      "fixup_count": 13,
+      "public": "GATE_BLOCKS_STANDING",
       "relocation_indices": [
-        430,
-        440,
-        457,
-        463,
-        505
+        453,
+        461,
+        499,
+        514
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:29ef:08ee"
+    },
+    {
+      "fixup_count": 7,
+      "public": "SCYTHE_BLOCKS_PASSAGE",
+      "relocation_indices": [
+        479
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:29ef:0982"
+    },
+    {
+      "fixup_count": 53,
+      "public": "GET_CHAR_EDGES",
+      "relocation_indices": [
+        468,
+        469,
+        493,
+        494,
+        495,
+        496,
+        498
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-3:2802:0d56"
+      "target_id": "overlay-3:29ef:09be"
+    },
+    {
+      "fixup_count": 8,
+      "public": "GET_SWORD_WIDTH",
+      "relocation_indices": [
+        470,
+        515
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:29ef:0b16"
+    },
+    {
+      "fixup_count": 27,
+      "public": "GET_FORWARD_DISTANCE",
+      "relocation_indices": [
+        465,
+        466,
+        467,
+        476,
+        477,
+        488,
+        502,
+        508,
+        516
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:29ef:0b64"
+    },
+    {
+      "fixup_count": 28,
+      "public": "CHECK_GATE_FOR_OPPONENT",
+      "relocation_indices": [
+        463,
+        487,
+        501
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:29ef:0c88"
+    },
+    {
+      "fixup_count": 22,
+      "public": "CHECK_GATE_FOR_PLAYER",
+      "relocation_indices": [
+        462,
+        483,
+        485,
+        486,
+        500
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:29ef:0d58"
     },
     {
       "fixup_count": 20,
       "public": "PUSH_AWAY_FROM_GATE",
       "relocation_indices": [
-        478
+        456
       ],
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
-      "target_id": "overlay-3:2802:0df4"
+      "target_id": "overlay-3:29ef:0e00"
     },
     {
-      "fixup_count": 39,
+      "fixup_count": 40,
       "public": "COLLIDE_ENEMY_WITH_BARRIER",
       "relocation_indices": [
-        431,
-        437,
-        438,
-        443,
-        452,
-        453,
-        458,
-        464,
-        479,
-        493
+        442,
+        445,
+        446,
+        447,
+        457,
+        473,
+        478,
+        484,
+        489,
+        503
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-3:2802:0e82"
+      "target_id": "overlay-3:29ef:0e8e"
     },
     {
       "fixup_count": 12,
       "public": "BARRIER_DISTANCE_FROM_FACE",
-      "target_id": "overlay-3:2802:1044"
+      "target_id": "overlay-3:29ef:105a"
     },
     {
       "fixup_count": 11,
       "public": "BARRIER_DISTANCE_FROM_BACK",
-      "target_id": "overlay-3:2802:10b8"
+      "target_id": "overlay-3:29ef:10ce"
     },
     {
       "fixup_count": 1,
       "public": "RESET_BARRIER_STATE",
-      "target_id": "overlay-3:2802:111e"
-    },
-    {
-      "fixup_count": 41,
-      "public": "APPLY_GROUND_BUMP",
-      "relocation_indices": [
-        432,
-        434,
-        435,
-        436,
-        459,
-        462,
-        472,
-        473,
-        474,
-        475,
-        476,
-        492,
-        494
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-3:2802:06cc"
-    },
-    {
-      "fixup_count": 15,
-      "public": "INITCOLDETBUFS",
-      "target_id": "overlay-3:2802:01c6"
-    },
-    {
-      "fixup_count": 8,
-      "public": "GATE_BLOCKS_PASSAGE",
-      "target_id": "overlay-3:2802:08a2"
+      "target_id": "overlay-3:29ef:1134"
     }
   ],
   "drafts": [],
-  "emitted_size": 4376,
+  "emitted_size": 4400,
   "flags": [
     "/c",
     "/AM",
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10242,
+  "frame": 10735,
   "group_id": "group:collide/collide",
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "cb7bb2f1b4367ff7642bee519cda8091df64bf9ad268c1163790f950a6e24d3c",
-  "origin": 19438,
+  "object_sha256": "f43afb003c11829e4b01e2c97f934192ddec314ffa5e442a813275c00901c1c1",
+  "origin": 19788,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "2f1ce7bbd88953701754f57beee38497822194daaa4d0d31fbfef9d886660474",
+  "source_sha256": "c27bff5d96c5a3bd52852049302baceea9b727423ffaf778eb639a0397aec5c6",
   "space": "overlay-3"
 }

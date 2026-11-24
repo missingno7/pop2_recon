@@ -6,6 +6,7 @@ import struct
 from common import ROOT, read_json, require, sha, write_json
 from inventory import verify_assets
 from mz import MZ
+from overlay_expand import COMPRESSED, expand
 
 
 @dataclass(frozen=True)
@@ -20,6 +21,11 @@ class Space:
     @property
     def size(self):
         return len(self.data)
+
+    @property
+    def code_overlay(self):
+        """An RTLink code overlay (descriptor flag 4), stored compressed (20h) or not."""
+        return bool(self.descriptor) and self.descriptor["flags"] & ~COMPRESSED == 4
 
     def position(self, segment, offset):
         """Link address to space-relative position; never picks a different overlay."""
@@ -103,20 +109,25 @@ class Oracle:
             if cursor < rpos:
                 self.gaps.append({"file_offset": cursor, "size": rpos-cursor,
                                   "sha256": sha(self.data[cursor:rpos]), "kind": "unowned_file_gap"})
-            rows = []
-            for j in range(nrel):
-                offset, segment = struct.unpack_from("<HH", self.data, rpos + j*4)
-                pos = (segment-seg)*16 + offset
-                require(0 <= pos and pos+2 <= size, f"Relocation outside overlay {overlay_id}")
-                rows.append({"index": j, "segment": segment, "offset": offset,
-                             "image_offset": pos,
-                             "stored_word": struct.unpack_from("<H", self.data, code+pos)[0]})
             descriptor.update(relocation_file_offset=rpos, payload_file_offset=code,
                               relocation_padding_size=code-rpos-nrel*4,
                               relocation_padding_sha256=sha(self.data[rpos+nrel*4:code]))
             name = f"overlay-{overlay_id}"
-            self.spaces[name] = Space(name, seg, code, self.data[code:code+size], tuple(rows), descriptor)
             cursor = code+size
+            image = self.data[code:cursor]
+            if descriptor["flags"] & COMPRESSED:
+                # The payload is compressed; the overlay image is what the original's own expander writes.
+                image = expand(self.data, self.mz, p, overlay_id, image, descriptor["f8"])
+            descriptor["image_size"] = len(image)
+            rows = []
+            for j in range(nrel):
+                offset, segment = struct.unpack_from("<HH", self.data, rpos + j*4)
+                pos = (segment-seg)*16 + offset
+                require(0 <= pos and pos+2 <= len(image), f"Relocation outside overlay {overlay_id}")
+                rows.append({"index": j, "segment": segment, "offset": offset,
+                             "image_offset": pos,
+                             "stored_word": struct.unpack_from("<H", image, pos)[0]})
+            self.spaces[name] = Space(name, seg, code, image, tuple(rows), descriptor)
         if cursor < len(self.data):
             self.gaps.append({"file_offset": cursor, "size": len(self.data)-cursor,
                               "sha256": sha(self.data[cursor:]), "kind": "unowned_file_tail"})

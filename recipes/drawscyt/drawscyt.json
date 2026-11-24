@@ -1,17 +1,19 @@
 {
   "binding": "evidence/bindings/drawscyt/drawscyt.json",
-  "binding_sha256": "0406b1daf167dc6fc864ef326c19d3c9250d5841eeb10657c5db51902b3f279b",
+  "binding_sha256": "cb7edc713cab50fba67c16b4db0ad12a547b6f187a93995eb08353e6c71e905b",
   "claims": [
     {
       "fixup_count": 3,
       "public": "CHECKSCYTHEFORRUBBLE",
       "relocation_indices": [
-        22,
-        33
+        26,
+        27
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-7:2a15:000c"
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-7:2c20:000c"
     },
     {
       "fixup_count": 21,
@@ -19,22 +21,22 @@
       "relocation_indices": [
         23,
         25,
-        27,
         29,
-        31
+        31,
+        33
       ],
       "relocation_order": "GROUPED",
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-7:2a15:0050"
+      "target_id": "overlay-7:2c20:0050"
     },
     {
       "fixup_count": 24,
       "public": "DRAWSCYTHE2",
       "relocation_indices": [
+        22,
         24,
-        26,
         28,
         30,
         32
@@ -43,7 +45,7 @@
       "relocation_order_debt": [
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
-      "target_id": "overlay-7:2a15:01d6"
+      "target_id": "overlay-7:2c20:01d6"
     }
   ],
   "drafts": [],
@@ -54,15 +56,14 @@
     "/Oegl",
     "/Gs",
     "/Zl",
-    "/Gc",
-    "/Zi"
+    "/Gc"
   ],
-  "frame": 10773,
+  "frame": 11296,
   "group_id": "group:drawscyt/drawscyt",
   "kind": "same_source_group",
   "language": "c",
   "name": "drawscyt/drawscyt",
-  "object_sha256": "8657ee6a2e1f14721adc052c1765d091fb7daf42a7390239bdce29a64f6be0be",
+  "object_sha256": "64a8aab170fe8a72c8359c3cd886b0d7613960c22bb0309696e73c66fb0e7041",
   "origin": 1132,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",

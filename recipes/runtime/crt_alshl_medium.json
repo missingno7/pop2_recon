@@ -1,9 +1,9 @@
 {
   "archive_offset": 3344,
   "binding": "evidence/bindings/crt_alshl_medium.json",
-  "binding_sha256": "d3f8777b3333d43ae6f74cc3abc3aa49d2433530189fca5b326cd00a245cee3d",
+  "binding_sha256": "59c455474d75129223e8bf4f6202e249b54d927df27d26e371a88e36aa411279",
   "boundary_evidence": [
-    "Complete independent medium-model alshl.asm OMF member (archive offset 3344, 189 bytes) whose whole 29-byte CODE segment lies at root 0x21b4c (1fe6:1cec) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+    "Complete independent libh.lib member (archive offset 3344, 189 bytes) whose whole 29-byte segment lies at root+0x21c36 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 1,
   "kind": "PINNED_RUNTIME",
@@ -13,13 +13,13 @@
   "member_sha256": "f2c817eba147c8178dd7c13eaaa6cac55bd8f35dcd2e9694dbf5985e9e54abf2",
   "name": "crt_alshl_medium",
   "object_segment": "_TEXT",
-  "offset": 7404,
+  "offset": 7494,
   "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
   "publics": [
     "__aFNalshl"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 29,
   "space": "root",
   "target_sha256": "88815c49883aca091e2e19784d3bb72b2b4eebf6536b446df8bdb4ceac57a929"

@@ -46,7 +46,7 @@ typedef struct {
 
 #pragma pack()
 
-extern CHARREC Char, Kid, Opp, RoomOpp[5];
+extern CHARREC Opp, Char, Kid, RoomOpp[5];
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -108,7 +108,6 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern ROOMREC Room;
-extern signed char CutRoom;
 #pragma pack(1)
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -120,14 +119,15 @@ typedef struct {
 } FCHARREC;
 #pragma pack()
 extern FCHARREC FChar;
-extern int shadow_timer, Pause, FrameNum, flame_y;
+extern int shadow_timer, Pause, flame_y;
+extern unsigned long FrameNum;
 
 int abs(int value);
 #pragma intrinsic(abs)
 
 extern int far pascal AddCharX(int distance);
 extern void far pascal load_kid_with_opponent(signed char index);
-extern int far pascal install_palette_resource(unsigned int palette, int first, unsigned char count, unsigned char bank);
+extern void far pascal set_palette(unsigned int palette, int first, unsigned char count, unsigned char bank);
 extern int far pascal HGetSnd(int id);
 extern int far pascal decrement_life_points(signed char amount);
 extern void far pascal JumpSeq(int sequence);
@@ -144,7 +144,6 @@ extern void far pascal save_actor_slot(void);
 extern void far pascal copy_kid_to_char(void);
 extern void far pascal DrawKidMeter(int health, int max_health);
 extern void far pascal load_actor_slot(signed char index);
-extern signed char far pascal register_actor_room(void);
 extern void far pascal remove_char(void);
 extern void far pascal SaveFChar(void);
 extern int far pascal AddFCharX(int distance);
@@ -189,7 +188,7 @@ void far pascal CheckShadowmanCreate(void)
     if (Char.character_kind == 0 && Char.sequence == 5) {
         if (++shadow_timer >= 4) {
             if (shadow_timer == 4) {
-                install_palette_resource(2000, 48, 16, IsShadowImbued() != 0);
+                set_palette(2000, 48, 16, IsShadowImbued() != 0);
                 HGetSnd(10261);
             }
             if (!decrement_life_points(1))
@@ -217,6 +216,19 @@ void far pascal CheckShadowmanCreate(void)
     }
 }
 
+extern void far pascal restore_game_play_palette(void);
+extern void near *far pascal get_mob_type_item(unsigned char kind, int occurrence);
+
+void far pascal update_shadow_gameplay_palette(void)
+{
+    if (Char.room == 4 && Level.level_number == 13 && Char.sequence_group == 13) {
+        restore_game_play_palette();
+        return;
+    }
+    if (Char.sequence == 242 && !get_mob_type_item(12, 1) && Char.life_points <= 2)
+        set_palette(2000, 48, 16, 0);
+}
+
 void far pascal CheckShadowPaletteChange(void)
 {
     signed char bank = -1;
@@ -226,7 +238,7 @@ void far pascal CheckShadowPaletteChange(void)
     else if (Kid.life_points <= 2 && Kid.life_points + Kid.life_delta > 2)
         bank = 1;
     if (bank != -1)
-        install_palette_resource(2000, 48, 16, bank);
+        set_palette(2000, 48, 16, bank);
 }
 
 void far pascal CheckTurnSeqs(void)
@@ -234,7 +246,7 @@ void far pascal CheckTurnSeqs(void)
     if (Char.frame == 15)
         shadow_timer = 0;
     else if (Char.frame >= 45 && Char.frame <= 52 &&
-             !((Char.room == 1 || Char.room == 2) && (signed char)Level.environment_kind == 14)) {
+             !((Char.room == 1 || Char.room == 2) && Level.level_number == 14)) {
         if (shadow_timer >= 4)
             Char.field_34 = IsShadowBlinkOn(Char.frame, shadow_timer) ? 8 : 0;
     } else if (Char.sequence != 5 && shadow_timer != 0) {
@@ -281,31 +293,28 @@ void far pascal CreateKidAsOpp(void)
 void far pascal CutToKidRoom(void)
 {
     CHARREC near *kid;
-    signed char room;
+    CHARREC saved;
 
     kid = &Kid;
     *kid = Char;
     DrawKidMeter(Char.life_points, Char.life_initial);
     load_actor_slot(GetKidIdxAsOpp());
+    saved = Char;
     Char.slot = 10;
     Char.field_34 = 0;
     Char.life_points = Kid.life_points;
     Char.life_initial = Kid.life_initial;
     Char.life_delta = Kid.life_delta;
-    room = register_actor_room();
-    if ((signed char)Room.number != room) {
-        CutRoom = room;
-        Char.room = room;
-    }
-    if ((room == 7 || room == 8) && (signed char)Level.environment_kind == 6)
-        AddSound(262);
     Kid = Char;
+    Char = saved;
+    remove_char();
+    copy_kid_to_char();
 }
 
 signed char far pascal GetKidIdxAsOpp(void)
 {
     signed char index = 0;
-    signed char count = Level.room_objects[(unsigned char)Char.room - 1].opponent_count;
+    signed char count = Level.room_objects[Room.number - 1].opponent_count;
 
     if (count > 0) {
         do {

@@ -1,5 +1,7 @@
 # Historical compiler and OMF probes
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 `tools/compiler.py` runs external, locally installed Microsoft C compilers through
 the pinned MS-DOS Player. `layout/toolchain.lock.json` records the runner,
 compiler pass paths, and SHA-256 values. The executable files stay outside the

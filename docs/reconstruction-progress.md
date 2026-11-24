@@ -1,5 +1,7 @@
 # Reconstruction progress
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
 Release identity is unconfirmed. All 62 supplied asset identities, root/overlay

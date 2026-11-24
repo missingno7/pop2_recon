@@ -38,12 +38,9 @@ EXTRN RELEASE_BACKGROUND_PORT:NEAR
 EXTRN ALLOCATE_BACKGROUND_PORT:NEAR
 EXTRN DISPOSE_WINDOW:NEAR
 EXTRN ACTIVATE_WINDOW:NEAR
-EXTRN select_grid_item:NEAR
-EXTRN grid_index_to_coordinates:NEAR
 EXTRN SET_RECORD_RANGE:NEAR
 EXTRN HGETRSRC:NEAR
 EXTRN PLAY_SOUND:NEAR
-EXTRN draw_grid_items:NEAR
 EXTRN PAINT_PENDING_WINDOW:NEAR
 EXTRN RESTORE_WINDOW_CLIP:NEAR
 EXTRN LOCATE_WINDOW_AT_POINT:NEAR
@@ -103,9 +100,6 @@ PUBLIC COPY_LIST_TEXT
 PUBLIC FILL_BEFORE_GRID_HANDLER
 PUBLIC GRID_ITEM_HANDLER
 PUBLIC UPDATE_GRID_ITEM_BOUNDS
-PUBLIC FILL_BEFORE_GRID_PAINT
-PUBLIC PAINT_GRID_ITEMS
-PUBLIC DRAW_INDEXED_ITEM
 
 ; Far item callback. BP+8 selects a command; BP+6 carries its payload.
 ; Creation joins the shared register restore without saving a port.
@@ -2397,75 +2391,5 @@ UPDATE_GRID_ITEM_BOUNDS PROC NEAR
     mov word ptr [bp-12h], ax
     ret
 UPDATE_GRID_ITEM_BOUNDS ENDP
-
-FILL_BEFORE_GRID_PAINT LABEL BYTE
-    db 0  ; Original alignment byte between routines.
-
-; Visit the grid row by row, saving loop coordinates around each callback.
-PAINT_GRID_ITEMS PROC FAR
-    push bp
-    mov bp, sp
-    push di
-    mov di, word ptr [bp+6]
-    sub dx, dx
-start_grid_row:
-    sub cx, cx
-paint_next_grid_cell:
-    push cx
-    push dx
-    push di
-    add cx, word ptr [di+2ch]
-    push cx
-    add dx, word ptr [di+2ah]
-    push dx
-    call draw_grid_items
-    pop dx
-    pop cx
-    inc cx
-    cmp cx, word ptr [di+28h]
-    jl paint_next_grid_cell
-    inc dx
-    cmp dx, word ptr [di+26h]
-    jl start_grid_row
-    pop di
-    pop bp
-    retf 2
-PAINT_GRID_ITEMS ENDP
-
-DRAW_INDEXED_ITEM PROC FAR
-    push bp
-    mov bp, sp
-    push di
-    mov di, word ptr [bp+0ah]
-    mov cx, word ptr [bp+8]
-    jcxz return_grid_cell_update
-    cmp cx, word ptr [di+30h]
-    jg return_grid_cell_update
-    push cx
-    mov ax, 5
-    mul cx
-    xchg bx, ax
-    and byte ptr [bx+di+2dh], 0feh
-    cmp word ptr [bp+6], 0
-    jne repaint_indexed_grid_cell
-    or byte ptr [bx+di+2dh], 1
-    sub cx, word ptr [di+2eh]
-    jne repaint_indexed_grid_cell
-    push di
-    push cx
-    push cs
-    call select_grid_item
-repaint_indexed_grid_cell:
-    pop ax
-    call grid_index_to_coordinates
-    push di
-    push dx
-    push ax
-    call draw_grid_items
-return_grid_cell_update:
-    pop di
-    pop bp
-    retf 6
-DRAW_INDEXED_ITEM ENDP
 
 END

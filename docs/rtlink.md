@@ -1,5 +1,30 @@
 # RTLink overlay structure investigation
 
+## The v1.1 target (2026-11-23)
+
+The project target is `assets/pop2_11/PRINCE.EXE` (v1.1, 259,583 bytes, SHA-256 `c92298b6...`), locked in
+`layout/oracle.lock.json`. The earlier target (the leaked pre-1.0 "IR" build, binary-patched in `SHOW_DIALOG_NOTICE`)
+is frozen at tag `oracle-dos-1565`; the text below this section describes that file.
+
+- MZ root image 151,979 bytes after an 8,192-byte header; entry `220e:0678`; 2,036 MZ relocations. The overlay table
+  (16 records of 18 bytes, IDs 2 to 17) is at file offset 0x24bfb = 2000h + 220eh*16 + 0b1bh, the location the manager's
+  `getsectionptr` computes. The first overlay relocation block starts at 160,176, after five padding bytes.
+- Descriptor flags: 24h (overlays 2 to 15: code, compressed), 04h (overlay 16: code, stored), 01h (overlay 17: preloaded
+  data). Field `f8` is the memory extent and the last field the file extent, both in paragraphs; relocation tables are
+  stored uncompressed and name positions in the expanded image.
+- A compressed payload is expanded by the original `$$RTLEXPANDSECTION` at `22f2:1296`, which OVLMGR calls (root
+  `220e:030b` tests `cs:[bx+7],20h`) instead of reading the overlay itself. The expander is an adaptive-Huffman LZ decoder
+  (stream magic 9CB5h). `tools/overlay_expand.py` runs those original instructions in a CPU emulator, requires that they
+  write one contiguous block filling the declared memory paragraphs, and compares it with the SHA-256 pins in
+  `layout/oracle-format.json`. Every overlay relocation lies inside the expanded image.
+- DGROUP is paragraph `3302` in overlay 17 (position 0x2940 of its payload); overlay 17 again ends one byte short of its
+  declared last paragraph.
+
+Evidence carried over from the earlier build was translated by instruction alignment (1,654 of 1,683 reviewed targets
+located) and every binding, owner and runtime pin was proven again from the v1.1 bytes by the unchanged gates.
+
+## The earlier build (tag oracle-dos-1565)
+
 Direct byte inspection confirms that `assets/DOS/PRINCE.EXE` has a conventional MZ root image of 152,637 bytes, followed by 137,778 bytes of appended overlay material. The root ends at byte `0x2543d`; the first overlay relocation block begins at 152,640, after three zero padding bytes. The overlay descriptor table is located inside the root at decimal offset 150,347 (`0x24b4b`), and contains 16 records of 18 bytes, IDs 2 through 17. The earlier offset `0x24a8b` is 192 bytes before that table and is not its start.
 
 Each descriptor decodes as `<HHHBBHHHHH>`: link segment, filename-record pointer `f2`, relocation position in paragraphs, high relocation-position byte, flags, memory size in paragraphs `f8`, relocation count, ancestor table index `fc`, overlay ID `fe`, and file size in paragraphs. The relocation byte offset is `(pos + hi*65536) * 16`. A relocation record is four bytes (`<HH>`: offset, segment). The relocation area occupies `ceil(nrel/4) * 16` bytes, so code starts at `relocation_offset + ceil(nrel/4)*16`; the code length is `size*16` bytes. For each relocation, the site inside code is `(rseg-link_segment)*16 + roff`. The original relocation loop derives its addend from saved startup ES plus `0x10`; the fixed `0x0100` in the reference loader is an observation model. The original skips a write when adding the record segment to that base carries. This is static instruction evidence, without a runtime trace.

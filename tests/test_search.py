@@ -10,7 +10,7 @@ from common import sha
 from match import CompiledObjectRejected, compile_and_check
 from omf import OmfReader
 from search import rejection_report
-from test_match import make_omf
+from tests.test_match import make_omf
 
 
 class RejectedSearchTests(unittest.TestCase):

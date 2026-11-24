@@ -1,16 +1,54 @@
 {
   "declarations": {
-    "externals": [
-      "QUERY_SOUND",
-      "HGETSND",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "DISPATCH_RESOURCE_POINTER",
-      "PROCESS_SOUND_HANDLE",
-      "QUERY_SOUND_PAYLOAD",
-      "FLAG_SOUND_PAYLOAD",
-      "FLAG_SOUND_RESOURCE",
-      "DISPATCH_SOUND",
-      "PLAY_SOUND"
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 208,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
     ],
     "groups": [
       {
@@ -24,490 +62,452 @@
     ],
     "publics": [
       {
-        "frame": null,
-        "group_index": 0,
         "name": "QUERY_SOUND",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
         "offset": 144,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "FLAG_SOUND_RESOURCE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
         "offset": 0,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "DISPATCH_SOUND",
-        "offset": 60,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 60,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       },
       {
-        "frame": null,
-        "group_index": 0,
         "name": "PLAY_SOUND",
-        "offset": 120,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
+        "offset": 120,
+        "group_index": 0,
+        "frame": null,
         "type_index": 0
       }
     ],
-    "segments": [
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CODE",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 208,
-        "name": "UNIT_TEXT",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "DATA",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_DATA",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
-      }
+    "externals": [
+      "QUERY_SOUND",
+      "HGETSND",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "DISPATCH_RESOURCE_POINTER",
+      "PROCESS_SOUND_HANDLE",
+      "QUERY_SOUND_PAYLOAD",
+      "FLAG_SOUND_PAYLOAD",
+      "FLAG_SOUND_RESOURCE",
+      "DISPATCH_SOUND",
+      "PLAY_SOUND"
     ]
   },
   "fixups": [
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 6,
-          "kind": "external",
-          "method": 6,
-          "name": "QUERY_SOUND_PAYLOAD",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 197,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 6,
+          "name": "QUERY_SOUND_PAYLOAD",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 6,
-        "kind": "external",
-        "method": 6,
         "name": "QUERY_SOUND_PAYLOAD",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 3,
-          "kind": "external",
-          "method": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 174,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
           "kind": "external",
+          "index": 3,
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
-          "name": "HGETSND",
           "zero_displacement": true
         }
       },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 168,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "HGETSND",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
           "kind": "external",
+          "index": 2,
+          "name": "HGETSND",
           "method": 6,
-          "name": "PROCESS_SOUND_HANDLE",
           "zero_displacement": true
         }
       },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "HGETSND",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 133,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 5,
+          "name": "PROCESS_SOUND_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 5,
-        "kind": "external",
-        "method": 6,
         "name": "PROCESS_SOUND_HANDLE",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "HGETSND",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 127,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "HGETSND",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
           "kind": "external",
+          "index": 2,
+          "name": "HGETSND",
           "method": 6,
-          "name": "DISPATCH_RESOURCE_POINTER",
           "zero_displacement": true
         }
       },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "HGETSND",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 108,
+      "loc_type": 3,
+      "field_width": 4,
       "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 4,
+          "name": "DISPATCH_RESOURCE_POINTER",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
       "target": {
+        "kind": "external",
         "index": 4,
-        "kind": "external",
-        "method": 6,
         "name": "DISPATCH_RESOURCE_POINTER",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 3,
-          "kind": "external",
-          "method": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-          "zero_displacement": true
-        }
-      },
       "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
       "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 90,
-      "self_relative": false,
-      "target": {
-        "index": 3,
-        "kind": "external",
-        "method": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "HGETSND",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
       "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 84,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "HGETSND",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
           "kind": "external",
-          "method": 6,
-          "name": "FLAG_SOUND_PAYLOAD",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 48,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "FLAG_SOUND_PAYLOAD",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
           "index": 3,
-          "kind": "external",
-          "method": 6,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 30,
-      "self_relative": false,
       "target": {
-        "index": 3,
         "kind": "external",
-        "method": 6,
+        "index": 3,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
     },
     {
-      "displacement": null,
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 84,
+      "loc_type": 3,
       "field_width": 4,
+      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
           "kind": "external",
-          "method": 6,
+          "index": 2,
           "name": "HGETSND",
+          "method": 6,
           "zero_displacement": true
         }
       },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 24,
-      "self_relative": false,
       "target": {
-        "index": 2,
         "kind": "external",
-        "method": 6,
+        "index": 2,
         "name": "HGETSND",
+        "method": 6,
         "zero_displacement": true
-      }
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 48,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 7,
+          "name": "FLAG_SOUND_PAYLOAD",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 7,
+        "name": "FLAG_SOUND_PAYLOAD",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 30,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 3,
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 24,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "HGETSND",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "HGETSND",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
     }
   ],
   "mode": "external-far-call-v1",
   "schema": 1,
   "symbols": {
     "DISPATCH_RESOURCE_POINTER": {
-      "entry_sha256": "e6068354b13a1685398e7113be37df1d16c53b233ff98d9a3e53c8671de9eed7",
-      "entry_target_id": "root:1101:3342",
+      "entry_sha256": "e899c95ed8109a843713ea408a50cd9cb6ee106253c3e1f1db8c765577555bee",
+      "entry_target_id": "root:1129:3320",
       "kind": "far-code-entry",
-      "offset": 13122,
-      "segment": 4353,
+      "offset": 13088,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a42330111",
-          "file_offset": 110826,
-          "image_offset": 102634,
-          "relocation_index": 1441,
-          "space": "root"
+          "space": "root",
+          "image_offset": 103244,
+          "bytes_hex": "9a20332911",
+          "file_offset": 111436,
+          "relocation_index": 1623
         }
       ]
     },
     "FLAG_SOUND_PAYLOAD": {
-      "entry_sha256": "ae62185819e8ba7d57f2df6143289ae41bcbf4baa465256e1d4cb2577c2c44df",
-      "entry_target_id": "root:1101:32e8",
+      "entry_sha256": "099b788cc65c4043650d159ee2c157db02b93b724d200138b272350f1ac5bfc8",
+      "entry_target_id": "root:1129:32c6",
       "kind": "far-code-entry",
-      "offset": 13032,
-      "segment": 4353,
+      "offset": 12998,
+      "segment": 4393,
       "space": "root",
       "witnesses": []
     },
     "HGETSND": {
-      "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
-      "entry_target_id": "root:1101:807a",
+      "entry_sha256": "bdb357f79b9111cd525cb92e88c5460029d5f6f8c110acf001a5937e04354900",
+      "entry_target_id": "root:1129:805c",
       "kind": "far-code-entry",
-      "offset": 32890,
-      "segment": 4353,
+      "offset": 32860,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 53608,
-          "image_offset": 45416,
-          "relocation_index": 956,
-          "space": "root"
+          "space": "root",
+          "image_offset": 45698,
+          "bytes_hex": "9a5c802911",
+          "file_offset": 53890,
+          "relocation_index": 908
         }
       ]
     },
     "PROCESS_SOUND_HANDLE": {
-      "entry_sha256": "e899d01859e3d81019f7290d59e0559859ff51e8a52206efc9baf889687aa057",
-      "entry_target_id": "root:1101:80b0",
+      "entry_sha256": "b9f305885775ef06b4c54c86bcd5510abe56294cbe29b597b61f5a79f4279f96",
+      "entry_target_id": "root:1129:8092",
       "kind": "far-code-entry",
-      "offset": 32944,
-      "segment": 4353,
+      "offset": 32914,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ab0800111",
-          "file_offset": 66277,
-          "image_offset": 58085,
-          "relocation_index": 1136,
-          "space": "root"
+          "space": "root",
+          "image_offset": 58453,
+          "bytes_hex": "9a92802911",
+          "file_offset": 66645,
+          "relocation_index": 1120
         }
       ]
     },
     "QUERY_SOUND_PAYLOAD": {
-      "entry_sha256": "683b03b56691fc4c1422aad5c86e9ae237327dd7bd8c62f87a8094ffa6f881ba",
-      "entry_target_id": "root:1101:33f0",
+      "entry_sha256": "3012e10c7df8bf83c1258041df124413b55de022de871a5d1764980c6ce9c21a",
+      "entry_target_id": "root:1129:33ce",
       "kind": "far-code-entry",
-      "offset": 13296,
-      "segment": 4353,
+      "offset": 13262,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9af0330111",
-          "file_offset": 110812,
-          "image_offset": 102620,
-          "relocation_index": 1536,
-          "space": "root"
+          "space": "root",
+          "image_offset": 103230,
+          "bytes_hex": "9ace332911",
+          "file_offset": 111422,
+          "relocation_index": 1589
         }
       ]
     },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+      "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
-      "offset": 8556,
-      "segment": 4353,
+      "offset": 5554,
+      "segment": 4393,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
-          "space": "root"
+          "space": "root",
+          "image_offset": 5995,
+          "bytes_hex": "9ab2152911",
+          "file_offset": 14187,
+          "relocation_index": 177
         }
       ]
     }
   },
   "target_id": "group:sound2/sound_controls",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
 }

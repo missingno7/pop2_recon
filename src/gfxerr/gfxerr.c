@@ -24,7 +24,7 @@ extern int graphics_mode;
 extern int window_style;
 extern struct rectangle NullRect;
 
-extern struct window_item *far pascal find_window_item(void *, int);
+extern struct window_item *far pascal ITEM_BY_INDEX(void *, int);
 extern void far pascal STROKE_PORT_RECT(const void far *);
 extern int far pascal get_current_dos_directory(char far *);
 extern int far pascal set_current_dos_directory(const char far *);
@@ -79,7 +79,7 @@ void far pascal run_window_item_effect(void *port, int id)
     struct window_item *item;
 
     Graf = port;
-    item = find_window_item(port, id);
+    item = ITEM_BY_INDEX(port, id);
     STROKE_PORT_RECT(item->effect_name);
     item->action(item, 2, item->argument);
     Graf = saved_port;
@@ -173,7 +173,7 @@ void far pascal set_window_item_text(void *port, int id, const void *text)
 
     saved_port = Graf;
     Graf = port;
-    item = find_window_item(port, id);
+    item = ITEM_BY_INDEX(port, id);
     push_port_clip(&NullRect);
     item->action(item, 9, text);
     pop_port_clip();
@@ -191,3 +191,23 @@ void far pascal SET_NEAR_RECORD_WORD20(struct Record *record,
     record->word20 = value;
 }
 
+typedef struct {
+    unsigned fields_before_key[5];
+    unsigned key;
+    unsigned fields_after_key;
+} QueuedEvent;
+
+extern int far pascal read_queued_event(QueuedEvent *event, int mask);
+
+unsigned far pascal read_queued_key(void)
+{
+    QueuedEvent event;
+    unsigned key;
+
+    discard_queued_events(-9);
+    if (read_queued_event(&event, 8))
+        key = event.key;
+    else
+        key = 0;
+    return key;
+}

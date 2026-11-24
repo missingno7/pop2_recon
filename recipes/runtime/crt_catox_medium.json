@@ -2,10 +2,7 @@
   "abi": "Shared far cdecl parser: near string pointer BP6, signed32 result DX:AX, savesSI/DI. Original caller uses low wordAX. DF and overflow behavior untraced.",
   "archive_offset": 30448,
   "boundary_evidence": [
-    "Whole independent medium atox.asm member has84 complete initialized CODE bytes, sole public __catox0, no fixups or secondary storage; archive/member pinned.",
-    "All84 original bytes match literally at root0x214d2, logical1fe6:1672; complete original CFG including loops reaches sole RETF at0x21525. Next independent entry begins0x21526.",
-    "Independent relocated far CALL at root0x29ee encodes1fe6:166e, complete original3-byte conversion stub E90100 followed by unowned zero alignment. Its exact near equation enters1fe6:1672. A checked structural instruction path from original caller entry0x2926 reaches this far CALL; an unrelated indirect-switch branch remains unreviewed.",
-    "Compact original proof in evidence/matching/wave8-runtime-review.json. Stub owns zero bytes; no bound stub, original symbol/TU/library order, natural placement or runtime behavior recovered."
+    "Complete independent mlibcr.lib member (archive offset 30448, 205 bytes) whose whole 84-byte segment lies at root+0x21562 in v1.1; located by its fixup-masked code and the instruction alignment with the earlier build (tag oracle-dos-1565)."
   ],
   "fixup_count": 0,
   "kind": "PINNED_RUNTIME",
@@ -21,7 +18,7 @@
     "__catox"
   ],
   "schema": 1,
-  "segment": 8166,
+  "segment": 8175,
   "size": 84,
   "space": "root",
   "target_sha256": "e4690636042be2f069dec352c0ba68c21819da95d93c85470f6209c6cf4ebe6b"

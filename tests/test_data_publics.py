@@ -241,8 +241,8 @@ class DataOnlyGroupTests(unittest.TestCase):
     def setUpClass(cls):
         from oracle import Oracle
         cls.oracle = Oracle.load()
-        diag = json.loads((ROOT / "evidence/bindings/diag/diag.json").read_text())
-        cls.base = {k: diag[k] for k in ("schema", "mode", "target_sha256", "frame", "dgroup_segment")}
+        binding = common.read_json(ROOT / "evidence/bindings/custcvca/custcvca.json")
+        cls.base = {k: binding[k] for k in ("schema", "mode", "target_sha256", "frame", "dgroup_segment")}
 
     def judge(self, source, placement, name):
         from binding import declarations, fixes
@@ -256,21 +256,21 @@ class DataOnlyGroupTests(unittest.TestCase):
         return module_gate.check_data_group(r.obj_bytes, self.oracle, binding=binding, group_id="group:t/" + name)
 
     def test_unique_string_is_placed_and_published(self):
-        # "Pos=%d" occurs once in the original DGROUP, at DS:111e.
-        report = self.judge('char pos_format[] = "Pos=%d";\n', 0x111E, "pos")
+        # "Pos=%d" occurs once in the original DGROUP, at DS:109e.
+        report = self.judge('char pos_format[] = "Pos=%d";\n', 0x109E, "pos")
         self.assertTrue(report["placements"]["_DATA"]["unique"])
-        self.assertEqual([(d["name"], d["address"]) for d in report["data_publics"]], [("POS_FORMAT", 0x111E)])
+        self.assertEqual([(d["name"], d["address"]) for d in report["data_publics"]], [("POS_FORMAT", 0x109E)])
         with self.assertRaisesRegex(ValueError, "differs"):
-            self.judge('char pos_format[] = "Pos=%d";\n', 0x1120, "pos_wrong")
+            self.judge('char pos_format[] = "Pos=%d";\n', 0x10A0, "pos_wrong")
 
     def test_code_is_refused(self):
         with self.assertRaisesRegex(ValueError, "emits no code"):
-            self.judge('char pos_format[] = "Pos=%d";\nint f(void) { return 1; }\n', 0x111E, "pos_code")
+            self.judge('char pos_format[] = "Pos=%d";\nint f(void) { return 1; }\n', 0x109E, "pos_code")
 
 
 class AggregateExtentTests(unittest.TestCase):
     """An original block copy anchored at S proves [S, S+L) is one copied unit (MOVE's 13-byte mob
-    records: `lea si,[bx+2aa4]; ...; mov cx,6; rep movsw; movsb`)."""
+    records: `lea si,[bx+293e]; ...; mov cx,6; rep movsw; movsb`)."""
 
     @classmethod
     def setUpClass(cls):
@@ -279,12 +279,12 @@ class AggregateExtentTests(unittest.TestCase):
 
     def test_source_and_destination_copies_give_the_record_length(self):
         from binding import block_copy_extent
-        self.assertEqual(block_copy_extent(self.root.data[0xCE7F:0xCE8B], 0xCE7F, 0x2AA4), 13)
-        self.assertEqual(block_copy_extent(self.root.data[0xCE9F:0xCEB0], 0xCE9F, 0x2AA4), 13)
+        self.assertEqual(block_copy_extent(self.root.data[0xCF9F:0xCFAB], 0xCF9F, 0x293E), 13)
+        self.assertEqual(block_copy_extent(self.root.data[0xCFBF:0xCFD0], 0xCFBF, 0x293E), 13)
 
     def test_other_base_or_control_transfer_proves_nothing(self):
         from binding import block_copy_extent
-        self.assertIsNone(block_copy_extent(self.root.data[0xCE7F:0xCE8B], 0xCE7F, 0x2AA5))
+        self.assertIsNone(block_copy_extent(self.root.data[0xCF9F:0xCFAB], 0xCF9F, 0x293F))
         # lea si,[bx+2aa4]; jmp short $+2; mov cx,6; rep movsw: a jump inside the window
         with self.assertRaisesRegex(ValueError, "straight-line"):
             block_copy_extent(bytes.fromhex("8db7a42aeb00b90600f3a5"), 0, 0x2AA4)
@@ -318,8 +318,8 @@ class ImmediateWitnessTests(unittest.TestCase):
         from oracle import Oracle
         from binding import immediate_is_address
         oracle = Oracle.load()
-        self.assertFalse(immediate_is_address(oracle, "root", 30261))   # mov ax,5a (a number, DIALOG)
-        self.assertTrue(immediate_is_address(oracle, "root", 0x2FF3))   # mov ax,5e10 -> di (GetFrameInfo copy)
+        self.assertFalse(immediate_is_address(oracle, "root", 0x7684))   # mov ax,5a (a number, DIALOG)
+        self.assertTrue(immediate_is_address(oracle, "root", 0x3109))   # mov ax,5cc6 -> di (GetFrameInfo copy)
 
 
 class SwitchReachTests(unittest.TestCase):
@@ -328,9 +328,9 @@ class SwitchReachTests(unittest.TestCase):
     def test_original_switch_cases_are_reached(self):
         from oracle import Oracle
         from binding import reachable_from_entry
-        reached = reachable_from_entry(Oracle.load(), "root:02cc:0296")   # GetFrameInfo: 13 cases
-        self.assertTrue({0x2F9C, 0x2FBC, 0x2FE8, 0x2FF3} <= reached)
-        self.assertFalse(any(0x2F82 <= at < 0x2F9C for at in reached))    # the table itself is data
+        reached = reachable_from_entry(Oracle.load(), "root:02dc:02ac")   # GetFrameInfo: 13 cases
+        self.assertTrue({0x30B2, 0x30D2, 0x30FE, 0x3109} <= reached)
+        self.assertFalse(any(0x3098 <= at < 0x30B2 for at in reached))    # the table itself is data
 
     def test_only_an_unsigned_bound_directly_before_the_jump_counts(self):
         from binding import _switch_targets
@@ -352,11 +352,11 @@ class ExtendedCopyTests(unittest.TestCase):
         return block_copy_extent(bytes.fromhex(code), 0, base)
 
     def test_original_frame_record_copy_through_ax(self):
-        # root+2ff3: mov ax,5e10; ...; push ds; mov di,ax; push ds; pop es; mov ds,cx; movsw x3; movsb
+        # root+3109: mov ax,5cc6; ...; push ds; mov di,ax; push ds; pop es; mov ds,cx; movsw x3; movsb
         from oracle import Oracle
         from binding import block_copy_extent
         root = Oracle.load().spaces["root"]
-        self.assertEqual(block_copy_extent(root.data[0x2FF3:0x3018], 0x2FF3, 0x5E10), 7)
+        self.assertEqual(block_copy_extent(root.data[0x3109:0x312E], 0x3109, 0x5CC6), 7)
 
     def test_unrolled_run_ends_at_the_first_other_instruction(self):
         self.assertEqual(self.extent("bea42a1e07a5a5a4"), 5)
@@ -379,9 +379,9 @@ class PointerExtentTests(unittest.TestCase):
         from oracle import Oracle
         from binding import pointer_extent
         root = Oracle.load().spaces["root"]
-        self.assertEqual(pointer_extent(root.data[0x1532:0x1537], 0x1ED6), 4)     # lds dx,ss:[1ed6]
-        self.assertEqual(pointer_extent(root.data[0x1582:0x1586], 0x1EDA), 4)     # call far [1eda]
-        self.assertIsNone(pointer_extent(root.data[0x1582:0x1586], 0x1EDC))
+        self.assertEqual(pointer_extent(root.data[0x15EB:0x15F0], 0x1D68), 4)     # lds dx,ss:[1d68]
+        self.assertEqual(pointer_extent(root.data[0x1630:0x1634], 0x1D6C), 4)     # call far [1d6c]
+        self.assertIsNone(pointer_extent(root.data[0x1630:0x1634], 0x1D6E))
 
     def test_other_accesses_do_not(self):
         from binding import pointer_extent
@@ -393,16 +393,16 @@ class PointerExtentTests(unittest.TestCase):
         from binding import ground
         oracle = Oracle.load()
         real = common.read_json(ROOT / "evidence/bindings/custcvca/custcvca.json")
-        symbol = {"kind": "dgroup-offset", "group": "DGROUP", "offset": 0x1ED6, "witnesses": [],
+        symbol = {"kind": "dgroup-offset", "group": "DGROUP", "offset": 0x1D68, "witnesses": [],
                   "members": [{"offset": 2, "witnesses": []}],
                   "extent": {"kind": "pointer", "length": 4, "witness": {
-                      "space": "root", "entry": "root:0000:1529", "image_offset": 0x1532, "bytes_hex": "36c516d61e"}}}
+                      "space": "root", "entry": "root:0000:15e2", "image_offset": 0x15EB, "bytes_hex": "36c516681d"}}}
         binding = {**real, "target_id": "group:t/t", "symbols": {"V": symbol}}
-        target = {"id": "group:t/t", "space": "root", "segment": 0, "offset": 0x14AE, "size": 0x12B}
-        ground(binding, target, oracle, claimed=[(0x1529, 0x155C)])     # a pointer access may be claimed
+        target = {"id": "group:t/t", "space": "root", "segment": 0, "offset": 0x157E, "size": 0x12F}
+        ground(binding, target, oracle, claimed=[(0x15E2, 0x160A)])     # a pointer access may be claimed
         symbol["extent"]["kind"] = "index"
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
-            ground(binding, target, oracle, claimed=[(0x1529, 0x155C)])
+            ground(binding, target, oracle, claimed=[(0x15E2, 0x160A)])
 
 
 class IndexExtentTests(unittest.TestCase):
@@ -412,8 +412,8 @@ class IndexExtentTests(unittest.TestCase):
         from oracle import Oracle
         from binding import index_extent
         root = Oracle.load().spaces["root"]
-        self.assertEqual(index_extent(root.data[0x155D:0x157F], 0x1E7B), 0x59)
-        self.assertIsNone(index_extent(root.data[0x155D:0x157F], 0x1E7C))
+        self.assertEqual(index_extent(root.data[0x160B:0x162D], 0x1D0D), 0x59)
+        self.assertIsNone(index_extent(root.data[0x160B:0x162D], 0x1D0E))
 
     def test_every_part_of_the_bound_is_required(self):
         from binding import index_extent
@@ -430,9 +430,9 @@ class ArchivePublicTests(unittest.TestCase):
     """A pinned library member's unique data can be the provider of an extern."""
     ARCHIVE = {"library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
                "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
-               "archive_offset": 32704, "segment": "_DATA", "placement": 0x24BA,
-               "dgroup_segment": {"segment": 12531, "witnesses": [
-                   {"space": "root", "image_offset": 5473, "relocation_index": 42}]},
+               "archive_offset": 32704, "segment": "_DATA", "placement": 0x234A,
+               "dgroup_segment": {"segment": 13058, "witnesses": [
+                   {"space": "root", "image_offset": 5647, "relocation_index": 54}]},
                "member_sha256": "9b7dd91fa60b803dfa5a4f7b3b03e45022c44e42291fc9c813ac55481839a1a2"}
 
     @classmethod
@@ -444,17 +444,17 @@ class ArchivePublicTests(unittest.TestCase):
         cls.extent = next(n for n in range(16, 4096)
                           if common.sha(library[start:start + n]) == cls.ARCHIVE["member_sha256"])
 
-    def ground(self, name="__ctype", offset=0x24BA, **archive):
+    def ground(self, name="__ctype", offset=0x234A, **archive):
         symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": "runtime", "offset": offset,
                   "archive": {**self.ARCHIVE, "member_extent": self.extent, **archive}}
         return module_gate._provider_public(name, symbol, self.oracle, "group:x/x", set())
 
     def test_ctype_is_grounded_by_the_pinned_member(self):
-        self.assertEqual((self.ground()["offset"], self.ground()["span"]), (0x24BA, 257))
+        self.assertEqual((self.ground()["offset"], self.ground()["span"]), (0x234A, 257))
 
     def test_other_placements_names_and_members_are_refused(self):
         with self.assertRaisesRegex(ValueError, "unique original DGROUP content"):
-            self.ground(offset=0x24BC, placement=0x24BC)
+            self.ground(offset=0x234C, placement=0x234C)
         with self.assertRaisesRegex(ValueError, "single data public"):
             self.ground(name="__other")
         with self.assertRaisesRegex(ValueError, "identity changed"):
@@ -465,7 +465,7 @@ class ArchivePublicTests(unittest.TestCase):
 
 class CallArgumentExtentTests(unittest.TestCase):
     """A callee's copy through a near-pointer argument proves the passed object's extent."""
-    INIT_PORT = (0x15FF0, 0x16004)
+    INIT_PORT = (0x16252, 0x16266)
 
     @classmethod
     def setUpClass(cls):
@@ -475,13 +475,13 @@ class CallArgumentExtentTests(unittest.TestCase):
     def test_init_port_copies_44_bytes_into_screen_port(self):
         from binding import block_copy_extent, call_arguments
         lo, hi = self.INIT_PORT
-        at = self.root.data.find(bytes.fromhex("b8625e50b8e01f1e509ae04f0111"))
-        self.assertEqual(at, 0x131E)
+        at = self.root.data.find(bytes.fromhex("b80a5d50b82a1f1e509ac24f2911"))
+        self.assertEqual(at, 0x13EE)
         arguments = call_arguments(self.root.data[at:at + 14])
-        self.assertEqual(arguments, {6: 0x1FE0, 10: 0x5E62})
-        self.assertEqual(block_copy_extent(self.root.data[lo:hi], lo, 0x5E62, arguments), 44)
-        self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x1FE0, arguments))   # not the copied argument
-        self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x5E62, {6: 0x5E62}))  # another slot
+        self.assertEqual(arguments, {6: 0x1F2A, 10: 0x5D0A})
+        self.assertEqual(block_copy_extent(self.root.data[lo:hi], lo, 0x5D0A, arguments), 44)
+        self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x1F2A, arguments))   # not the copied argument
+        self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x5D0A, {6: 0x5D0A}))  # another slot
 
     def test_call_window_must_be_one_straight_line_call(self):
         from binding import call_arguments
@@ -500,16 +500,16 @@ class ProviderRelocationTests(unittest.TestCase):
     def test_load_level_frame_procs_grounds_by_name(self):
         from oracle import Oracle
         recipe = common.read_json(ROOT / "recipes/load/load.json")
-        public = next(d for d in recipe["data_publics"] if d["address"] == 0x06D4)
-        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x06D4}
+        public = next(d for d in recipe["data_publics"] if d["name"] == "LEVEL_FRAME_PROCS")
+        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x0654}
         grounded = module_gate._provider_public(public["name"], symbol, Oracle.load(), "group:other", set())
-        self.assertEqual(grounded["offset"], 0x06D4)
+        self.assertEqual(grounded["offset"], 0x0654)
 
     def test_an_unexplained_relocated_word_is_refused(self):
         from oracle import Oracle
         recipe = common.read_json(ROOT / "recipes/load/load.json")
-        public = next(d for d in recipe["data_publics"] if d["address"] == 0x06D4)
-        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x06D4}
+        public = next(d for d in recipe["data_publics"] if d["name"] == "LEVEL_FRAME_PROCS")
+        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x0654}
         real = json.loads
         def without_fixups(raw, *a, **k):
             data = real(raw, *a, **k)
@@ -527,17 +527,17 @@ class BssLayoutTests(unittest.TestCase):
         from oracle import Oracle
         root = Oracle.load().spaces["root"]
         word = lambda at: struct.unpack_from("<H", root.data, at)[0]
-        self.assertEqual((root.data[0x1FF57], word(0x1FF58)), (0xBF, module_gate.BSS_START))   # mov di,_edata
-        self.assertEqual((root.data[0x1FF5A], word(0x1FF5B)), (0xB9, module_gate.END))         # mov cx,_end
-        self.assertEqual((root.data[0x200B7], word(0x200B8)), (0xBE, module_gate.BSS_END))     # mov si,xontab
-        self.assertEqual((root.data[0x200BA], word(0x200BB)), (0xBF, module_gate.BSS_END))     # mov di,xontab
+        self.assertEqual((root.data[0x1FFE7], word(0x1FFE8)), (0xBF, module_gate.BSS_START))   # mov di,_edata
+        self.assertEqual((root.data[0x1FFEA], word(0x1FFEB)), (0xB9, module_gate.END))         # mov cx,_end
+        self.assertEqual((root.data[0x20147], word(0x20148)), (0xBE, module_gate.BSS_END))     # mov si,xontab
+        self.assertEqual((root.data[0x2014A], word(0x2014B)), (0xBF, module_gate.BSS_END))     # mov di,xontab
 
     def test_violations(self):
         recipe = {"language": "c", "group_id": "group:t/t", "name": "t/t"}
-        groups = {"r.json": {"placements": {"_BSS": {"placement": 0x3FC2, "length": 4}}}}
+        groups = {"r.json": {"placements": {"_BSS": {"placement": 0x3E78, "length": 4}}}}
         self.assertEqual(module_gate.bss_layout_violations(groups, [({"recipe": "r.json"}, recipe)]),
-                         {"group:t/t:_BSS@3fc2"})
-        ok = {"r.json": {"placements": {"_BSS": {"placement": 0x2AA4, "length": 4}}}}
+                         {"group:t/t:_BSS@3e78"})
+        ok = {"r.json": {"placements": {"_BSS": {"placement": 0x293E, "length": 4}}}}
         self.assertEqual(module_gate.bss_layout_violations(ok, [({"recipe": "r.json"}, recipe)]), set())
         asm = dict(recipe, language="asm")
         self.assertEqual(module_gate.bss_layout_violations(groups, [({"recipe": "r.json"}, asm)]), set())

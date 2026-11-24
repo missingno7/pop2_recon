@@ -46,14 +46,12 @@ void far cdecl initialize_sound_drivers(int wait_for_sound)
     midi_driver = load_sound_driver(midi_mode ? sound_files.midi : (char *)0);
 
     if (!probe_second_sound_driver(digital_parameters) && digital_mode != -1) {
-        configuration->digital_mode = 0;
-        digital_mode = configuration->digital_mode;
+        digital_mode = 0;
     }
 
     first_driver_ready = probe_first_sound_driver(midi_parameters);
     if (!first_driver_ready && midi_mode != -1) {
-        configuration->midi_mode = first_driver_ready;
-        midi_mode = configuration->midi_mode;
+        midi_mode = first_driver_ready;
     }
 
     if (digital_mode == 0 && midi_mode > 32)

@@ -6,12 +6,8 @@ typedef struct {
     int left, top, right, bottom;
 } Rect;
 
-typedef union {
-    unsigned long value;
-    struct {
-        unsigned int low, high;
-    } words;
-    byte bytes[4];
+typedef struct {
+    unsigned int modifier, extra;
 } TileInfo;
 
 typedef struct {
@@ -26,7 +22,6 @@ typedef struct {
     unsigned char below_left, below_right;             /* 07-08 */
     unsigned char custom;                             /* 09 */
 } ROOMREC;
-extern ROOMREC Room;
 extern sbyte view_row, view_col;
 extern Rect GamePlayRect, cell_clip;
 typedef struct {
@@ -37,6 +32,7 @@ typedef struct {
     unsigned char left, right, above, below;
 } ROOMLINKS;
 
+extern ROOMREC Room;
 typedef struct {
     signed char opponent_count;
     unsigned char opponent_data[5][23];
@@ -88,8 +84,7 @@ extern byte drawn_tile_kind;
 extern byte *tile_override;
 extern int force_full_clip;
 extern byte room_tiles[][30];
-extern unsigned int selected_room;
-extern byte *selected_tiles;
+extern byte *room_kinds;
 extern TileInfo *BlueS;
 
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
@@ -102,12 +97,9 @@ extern void * _cdecl memset(void *, int, unsigned int);
 
 void select_room_arrays(byte room)
 {
-    volatile int index;
-    index = room;
-    selected_room = room;
-    if (room != 0) {
-        selected_tiles = (byte *)room_tiles + 30 * index;
-        BlueS = (TileInfo *) &Level.cell_info[index - 1][0];
+    if (room) {
+        room_kinds = room_tiles[room];
+        BlueS = (TileInfo *) &Level.cell_info[room - 1][0];
     }
 }
 
@@ -133,11 +125,11 @@ sbyte CellToRow(byte room, int cell)
 {
     sbyte row = cell / 10;
 
-    if (room == Room.number || room == Room.left || room == Room.right) {
+    if (Room.number == room || Room.left == room || Room.right == room) {
         /* Keep the local row. */
-    } else if (room == Room.above && row == 2) {
+    } else if (Room.above == room && row == 2) {
         row = -1;
-    } else if (room == Room.below && row == 0) {
+    } else if (Room.below == room && row == 0) {
         row = 3;
     } else {
         row = 30;
@@ -198,14 +190,13 @@ void GetAboveAry(void)
                       info = &above_tiles[col].info, missing);
             if (Room.custom && view_row == 0 && Level.environment_kind == 3 &&
                 is_open_tile(room_tiles[Room.number][col - 1])) {
-                TileInfo *field = *(TileInfo * volatile *)&info;
-                field->words.low = (field->words.low & 0x3fff) | 0x4000;
+                above_tiles[col].info.modifier = (above_tiles[col].info.modifier & 0x3fff) | 0x4000;
             }
         }
         select_room_arrays(query.side_room);
         GetObject(query.side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
         if (tile_override && view_row == 0)
-            above_tiles[0].info.words.low = above_tiles[col].info.words.low | 0xc000;
+            above_tiles[0].info.modifier = above_tiles[col].info.modifier | 0xc000;
         select_room_arrays(Room.number);
         Room.below = query.saved_below;
     }
@@ -242,32 +233,32 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
         row = 2;
     if (col == -1) {
         *tile = left_tiles[row].tile;
-        info->value = left_tiles[row].info.value;
+        *info = left_tiles[row].info;
     } else if (col == 10) {
         *tile = right_tiles[row].tile;
-        info->value = right_tiles[row].info.value;
+        *info = right_tiles[row].info;
     } else if (room) {
         cell = FirstInRow(row) + col;
-        *tile = selected_tiles[cell];
-        info->value = BlueS[cell].value;
+        *tile = room_kinds[cell];
+        *info = BlueS[cell];
     } else {
         *tile = missing;
         if (Level.environment_kind == 3 && (missing == 1 || missing == 20) && Room.below) {
             if (!tile_has_side_edge(room_tiles[Room.below][col])) {
-                info->words.low = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
-                info->words.high = 0;
+                info->modifier = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
+                info->extra = 0;
             } else {
                 memset(info, 0, sizeof(*info));
             }
         } else if (Level.environment_kind == 2) {
-            info->words.low = 0;
-            info->words.high = 9;
+            info->modifier = 0;
+            info->extra = 9;
         } else if (Level.environment_kind == 4) {
-            info->words.low = 0;
-            info->words.high = 0;
+            info->modifier = 0;
+            info->extra = 0;
         } else {
-            info->words.low = 0;
-            info->words.high = ((col % 2) << 8) | 9;
+            info->modifier = 0;
+            info->extra = ((col % 2) << 8) | 9;
         }
     }
     return *tile;
@@ -408,9 +399,9 @@ void SetLocVars(void)
     GetObject(Room.number, view_col - 1, view_row, &CellLeft.tile, &CellLeft.info, missing);
     GetObject(Room.number, view_col + 1, view_row, &CellRight.tile, &CellRight.info, missing);
     if (view_row == -1 && tile_override) {
-        BlueSpec.bytes[1] |= 0xc0;
-        CellLeft.info.bytes[1] |= 0xc0;
-        CellRight.info.bytes[1] |= 0xc0;
+        BlueSpec.modifier |= 0xc000;
+        CellLeft.info.modifier |= 0xc000;
+        CellRight.info.modifier |= 0xc000;
     }
 }
 
@@ -428,9 +419,9 @@ void SetSideRoomInfo(void)
         GetObject(Room.left, 9, row, &left_tiles[row].tile,
                   state.info = &left_tiles[row].info, state.missing);
         if (tile_override && (tile_override[1] != 31 || row != 2))
-            state.info->bytes[1] |= 0xc0;
+            state.info->modifier |= 0xc000;
         else
-            state.info->bytes[1] &= 0x3f;
+            state.info->modifier &= 0x3fff;
     }
     select_room_arrays(Room.right);
     for (row = 0; row < 3; ++row)
@@ -452,9 +443,9 @@ typedef struct {
     ImageEntry image[219];
 } ImageTable;
 
-extern ImageTable * volatile first_image_table;
+extern ImageTable *first_image_table;
 extern ImageTable *second_image_table;
-extern ImageTable * volatile background_shapes;
+extern ImageTable *background_shapes;
 extern int fallback_images_released;
 extern const char low_memory_message[];
 static const char fatal_memory_message[] = "Insufficient near Memory.";
@@ -472,32 +463,23 @@ int release_discardable_images(void)
 
     if (query_sound(0)) {
         dispatch_sound(0);
-        goto done;
-    }
-    if (first_image_table && !(*first_image_table->image[0].handle & 0x4000)) {
+    } else if (first_image_table && !(*first_image_table->image[0].handle & 0x4000)) {
         PrinceMarkImgsPurgeable(first_image_table, 0, first_image_table->count - 1);
-        goto done;
-    }
-    if (!second_image_table || (*second_image_table->image[0].handle & 0x4000))
-        goto check_fallback;
-    PrinceMarkImgsPurgeable(second_image_table, 0, second_image_table->count - 1);
-    for (i = 131; i <= 132; ++i)
-        if (second_image_table->image[i].handle)
-            MARK_FIXED(second_image_table->image[i].handle);
-    for (i = 216; i <= 218; ++i)
-        if (second_image_table->image[i].handle)
-            MARK_FIXED(second_image_table->image[i].handle);
-    goto done;
-
-check_fallback:
-    if (background_shapes && !fallback_images_released) {
+    } else if (second_image_table && !(*second_image_table->image[0].handle & 0x4000)) {
+        PrinceMarkImgsPurgeable(second_image_table, 0, second_image_table->count - 1);
+        for (i = 131; i <= 132; ++i)
+            if (second_image_table->image[i].handle)
+                MARK_FIXED(second_image_table->image[i].handle);
+        for (i = 216; i <= 218; ++i)
+            if (second_image_table->image[i].handle)
+                MARK_FIXED(second_image_table->image[i].handle);
+    } else if (background_shapes && !fallback_images_released) {
         PrinceMarkImgsPurgeable(background_shapes, 0, background_shapes->count - 1);
         fallback_images_released = 1;
-        goto done;
+    } else {
+        save_cleanup_state(0, low_memory_message, (void *)0);
+        abort_with_message(1, low_memory_message);
     }
-    save_cleanup_state(0, low_memory_message, (void *)0);
-    abort_with_message(1, low_memory_message);
-done:
     return 1;
 }
 

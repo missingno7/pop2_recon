@@ -1,13 +1,15 @@
-/* DOS CUSTOM.C, resident frame 04a6. Function order follows the DOS image. */
+/* DOS CUSTOM.C, resident frame 04b3. Function order follows the DOS image. */
 #pragma pack(1)
 typedef struct {
     int left, top, right, bottom;
 } CustomRect;
 
 typedef unsigned int ShapeHandle;
+typedef struct { int x, y; } CustomPosition;
+
 typedef struct {
     signed char shape;
-    int x, y;
+    CustomPosition position;
     unsigned char pass, palette;
     int resource;
     ShapeHandle handle;
@@ -193,18 +195,17 @@ static RoomTemplate *template_table[] = {
 
 RoomTemplate *room_template = &templates[TEMPLATE_DEFAULT];
 extern unsigned int *background_shapes;
-extern CustomRect empty_piece_rect;
+extern CustomRect NullRect;
 extern struct Rect {
     int top, left, bottom, right;
 } BridgeRect;
-extern void far custom_floor_image(void);
+extern void far mark_move(void);
 
 extern void far _fastcall add_peel(int top, int bottom, int left, int width,
                                    unsigned char id, unsigned char kind);
 extern int find_character_peel(unsigned char id, int restore);
 extern void stroke_port_rect(const int far *rect);
 extern void check_roof_room(void);
-extern void final_noop(void);
 extern void DISPOSE_HANDLE(ShapeHandle handle);
 extern void OFFSETRECT(CustomRect far *dst, CustomRect far *src, int dy, int dx);
 extern void far _fastcall draw_custom_room_image(char index, char pass);
@@ -251,9 +252,6 @@ void CheckRoomSpecific(void)
     case 5:
         check_roof_room();
         break;
-    case 6:
-        final_noop();
-        break;
     }
     if (room_specific_handle) {
         DISPOSE_HANDLE(room_specific_handle);
@@ -261,28 +259,36 @@ void CheckRoomSpecific(void)
     }
 }
 
+CustomPiece *offset_custom_piece(CustomPiece *piece, signed char column, signed char row);
+
 void DrawCustomRoomImgAtInfo(unsigned char index, signed char *info)
 {
     CustomPiece *piece = &custom_room->pieces[index];
-    struct {
-        CustomRect rect;
-        long position;
-        int dy, dx;
-    } saved;
+    CustomRect saved_rect;
+    CustomPosition saved_position;
     unsigned char saved_pass;
 
-    saved.rect = piece->rect;
-    saved.position = *(long *)&piece->x;
-
-    piece->x += (saved.dx = (info[2] + 1) * 63);
-    piece->y += (saved.dy = info[1] * 32);
-    OFFSETRECT(&piece->rect, &piece->rect, saved.dy, saved.dx);
+    saved_rect = piece->rect;
+    saved_position = piece->position;
+    piece = offset_custom_piece(piece, info[1], info[2]);
     saved_pass = piece->pass;
     piece->pass = info[0];
     draw_custom_room_image(index, info[0]);
-    *(long *)&piece->x = saved.position;
+    piece->position = saved_position;
     piece->pass = saved_pass;
-    piece->rect = saved.rect;
+    piece->rect = saved_rect;
+}
+
+CustomPiece *offset_custom_piece(CustomPiece *piece, signed char column, signed char row)
+{
+    int dx = (row + 1) * 63;
+    int dy;
+
+    piece->position.x += dx;
+    dy = column * 32;
+    piece->position.y += dy;
+    OFFSETRECT(&piece->rect, &piece->rect, dy, dx);
+    return piece;
 }
 
 void GetCustomAboveAry(void)
@@ -398,7 +404,7 @@ void LoadCustomRoomData(unsigned char room_number_arg)
 
 void LoadCustomRoomShapes(CustomRoom *room)
 {
-    int old_count, bytes, shape_base, i, position;
+    int i, old_count, bytes, shape_base, position;
 
     ShapeHandle *old_shapes = 0, *new_shapes;
     void far *archive;
@@ -448,17 +454,17 @@ void LoadCustomRoomShapes(CustomRoom *room)
                 }
                 piece->handle = new_shapes[piece->shape];
                 bitmap = RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle);
-                MAKESHAPERECT(&rect, piece->x, piece->y, bitmap);
+                MAKESHAPERECT(&rect, piece->position.x, piece->position.y, bitmap);
                 if (EMPTYRECT(&piece->rect)) {
                     piece->rect = rect;
                 } else {
-                    OFFSETRECT(&piece->rect, &piece->rect, piece->y, piece->x);
+                    OFFSETRECT(&piece->rect, &piece->rect, piece->position.y, piece->position.x);
                     SECTRECT(&piece->rect, &piece->rect, &rect);
                 }
                 piece->resource = i + shape_base;
             } else {
                 piece->handle = 0;
-                piece->rect = empty_piece_rect;
+                piece->rect = NullRect;
                 piece->resource = -1;
             }
         } while (++i < room->count);
@@ -539,7 +545,6 @@ void UnloadCustomRoomShapes(int all)
     signed char i;
     ShapeHandle *released;
     unsigned int bytes;
-    signed char count;
 
     if (custom_room) {
         bytes = (custom_room->last_shape + 1) * sizeof(ShapeHandle);
@@ -558,12 +563,12 @@ void UnloadCustomRoomShapes(int all)
             if (!all && piece->pass == 11) {
                 if (custom_room->template_id == 33) {
                     if (custom_room->count - i - 1 == 0)
-                        mark_bufs_for_rect(custom_floor_image, (CustomRect *)&BridgeRect, -1);
+                        mark_bufs_for_rect(mark_move, (CustomRect *)&BridgeRect, -1);
                 } else {
-                    mark_bufs_for_rect(custom_floor_image, &piece->rect, -1);
+                    mark_bufs_for_rect(mark_move, &piece->rect, -1);
                 }
             }
-        } while (count = custom_room->count, ++i < count);
+        } while (++i < custom_room->count);
         _nfree(released);
     }
 }

@@ -32,9 +32,9 @@ extern void far pascal MEASURE_TEXT(int slot, int port, fade_state far *draw,
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(void near *handle);
 typedef struct { int top, left, bottom, right; } Rect;
 extern void far pascal SET_RECORD_RANGE(const Rect far *bounds, int color);
-extern void far *far cdecl _fmemset(void far *, int, unsigned);
-extern void far *far cdecl _fmemcpy(void far *, const void far *, unsigned);
-extern int far cdecl _fmemcmp(const void far *, const void far *, unsigned);
+extern void far *far cdecl _fmemset(void far *buffer, int value, unsigned count);
+extern void far *far cdecl _fmemcpy(void far *dest, const void far *src, unsigned count);
+extern int far cdecl _fmemcmp(const void far *left, const void far *right, unsigned count);
 
 extern int fade_delay;
 extern int Graf;
@@ -48,12 +48,6 @@ void far pascal set_dac_blocks(unsigned, component far *);
 fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int delay);
 void far pascal QuitFadeTo(void far *block);
 int far pascal fade_to_step(fade_state far *state);
-void far pascal blend_palette(component far *out, component far *first,
-    component far *last, int first_factor, int last_factor);
-void far pascal STORE_THREE_COMPONENT_BYTES();
-void far pascal add_three_components(component far *, component far *);
-void far pascal scale_three_component_bytes63(component far *, component far *, int);
-
 int far pascal fade_in_port(fade_header near *port, unsigned blocks)
 {
     int result = 0;
@@ -123,8 +117,7 @@ void far pascal read_dac_blocks(unsigned blocks, component far *colors)
     unsigned bit, offset;
     int first;
 
-    if (blocks == 0xffff)
-        READ_DAC_BLOCK(0, 256, colors);
+    if (blocks == 0xffff) READ_DAC_BLOCK(0, 256, colors);
     else {
         bit = 1;
         first = 0; offset = 0;
@@ -152,7 +145,7 @@ void far pascal set_dac_blocks(unsigned blocks, component far *colors)
         else
             WRITE_DAC_BLOCK(16, 240, (component far *)0L, 1);
     } else if (blocks == 0xfff8) {
-        if (*(component far *volatile *)&colors)
+        if (colors)
             WRITE_DAC_BLOCK(48, 208, colors + 144, 1);
         else
             WRITE_DAC_BLOCK(48, 208, (component far *)0L, 1);
@@ -247,81 +240,6 @@ int far pascal fade_to_step(fade_state far *state)
         done = elapsed == 64;
     }
     return done;
-}
-
-void far pascal fade_palette_up(component far *first, component far *last)
-{
-    palette colors;
-    int step;
-
-    step = 0;
-    do {
-        blend_palette(colors, first, last, 63 - step, step);
-        WRITE_DAC_BLOCK(0, 128, colors, 1);
-        WRITE_DAC_BLOCK(128, 128, colors + 384, 1);
-    } while (++step < 64);
-}
-
-void far pascal fade_palette_down(component far *first, component far *last)
-{
-    palette colors;
-    int step;
-
-    step = 63;
-    do {
-        blend_palette(colors, first, last, 63 - step, step);
-        WRITE_DAC_BLOCK(0, 128, colors, 1);
-        WRITE_DAC_BLOCK(128, 128, colors + 384, 1);
-    } while (--step >= 0);
-}
-
-void far pascal blend_palette(component far *out, component far *first,
-    component far *last, int first_factor, int last_factor)
-{
-    int block, color, offset, index;
-    component scaled[3];
-
-    block = offset = 0;
-    do {
-        color = 0;
-        index = block * 3;
-        block += 16;
-        do {
-            STORE_THREE_COMPONENT_BYTES(&out[index], 0, 0, 0);
-            scale_three_component_bytes63(scaled, &first[offset], first_factor);
-            add_three_components(&out[index], scaled);
-            scale_three_component_bytes63(scaled, &last[color], last_factor);
-            add_three_components(&out[index], scaled);
-            index += 3;
-            color += 3;
-        } while (color < 48);
-        offset += 3;
-    } while (offset < 48);
-}
-
-void far pascal STORE_THREE_COMPONENT_BYTES(
-    unsigned char far *p,
-    unsigned char a,
-    unsigned char b,
-    unsigned char c)
-{
-    p[0] = a;
-    p[1] = b;
-    p[2] = c;
-}
-
-void far pascal add_three_components(component far *out, component far *in)
-{
-    out[0] += in[0];
-    out[1] += in[1];
-    out[2] += in[2];
-}
-
-void far pascal scale_three_component_bytes63(component far *out, component far *in, int scale)
-{
-    out[0] = in[0] * scale / 63;
-    out[1] = in[1] * scale / 63;
-    out[2] = in[2] * scale / 63;
 }
 
 extern int (far *poll_input)(void);

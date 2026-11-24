@@ -1,5 +1,7 @@
 # Four complete state-helper C matches — 2026-10-05
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 This earlier milestone accepted four independently reviewed resident helpers.
 They pass CODE_EXACT under pinned
 MSC 6.00 `/c /AM /Oe /Gs /Zl /Gc`. They add 104 bytes to the preceding

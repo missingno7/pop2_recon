@@ -3,10 +3,10 @@ typedef struct {
     int top, left, bottom, right;
 } Rect;
 
-unsigned long random_state;
+static long random_state;
 static int random_seeded = 0;
 
-void far * far cdecl memcpy(void far *, const void far *, unsigned);
+void far * far cdecl _fmemcpy(void far *, const void far *, unsigned);
 int far pascal HGETRSRC(unsigned long, int);
 unsigned far pascal convert_text_handle(int);
 void far pascal RESIZE_DOS_HEAP(unsigned long);
@@ -20,7 +20,7 @@ Rect far * far pascal AlterRect(register Rect far *destination,
                                const Rect far *source,
                                int left, int top, int right, int bottom)
 {
-    memcpy(destination, source, sizeof(*destination));
+    _fmemcpy(destination, source, sizeof(*destination));
     destination->left += left;
     destination->top += top;
     destination->right += right;
@@ -41,21 +41,32 @@ void far pascal expand_memory_limits(void)
 
 unsigned far pascal Rnd(unsigned maximum)
 {
-    if (!random_seeded) {
+    if (!random_seeded)
         SetRndSeed(0);
-        random_seeded = 1;
-    }
-    return ((random_state = random_state * 214013UL + 2531011UL) >> 16)
+    return ((unsigned long)(random_state = random_state * 214013L + 2531011L) >> 16)
            % (unsigned long)(maximum + 1);
 }
 
 void far pascal SetRndSeed(unsigned seed)
 {
-    if (seed == 0) {
-        _bios_timeofday(0, (long near *)&random_state);
-        return;
+    if (seed == 0)
+        _bios_timeofday(0, &random_state);
+    else
+        random_state = seed;
+    random_seeded = 1;
+}
+
+void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned handle);
+
+void far pascal store_scene_rect(int resource, const Rect far *bounds)
+{
+    unsigned handle = HGETRSRC(0x00534352UL, resource);
+    Rect far *scene;
+
+    if (handle) {
+        scene = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+        *scene = *bounds;
     }
-    random_state = seed;
 }
 
 void far pascal wait_for_action(int action)

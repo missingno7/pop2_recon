@@ -26,6 +26,9 @@ update the closed-family list instead of repeating its experiments.
 | FLAG-11 | The whole game is one build: MSC 6.00A (`msc600a_bound`) `/c /AM /Oegl /Gs /Zl /Gc` (`/Zi` on most modules) and no `#pragma optimize`. Measured 2026-11-23 over every same-source group with all pragmas stripped, each function judged at its own original address: 14 of about 1,000 claims fail under `/Oegl`, 60 under `/Oeg`, 134 under `/Oe`; MSC 6.00 `/Oegl` fails 86; adding `/Oa`, `/Ow`, `/Oz` fails 29-95, `/Or` or `/Os` 520-750. Earlier per-file flags (FLAG-1, FLAG-10) and pragma regions fitted single drafts. Library pieces (PTOOL) are not covered. | `build/workers/cg/nopragma.py`, `sweep4.py` (2026-11-23) | CONFIRMED |
 | FLAG-12 | A trailing `#pragma optimize("x", off)` disables x for the rest of the file even when the command line enables it: strip pragmas before comparing flags. | DRAW (36 pragma lines) | CONFIRMED |
 | DRAFT-1 | Explicit byte offsets, scaled temporaries, `volatile` casts, `goto` and `register` in a draft often imitate `/Og` common subexpressions or `/Ol` induction variables. Start from plain C (`array[i].field` in a `for`, `x \|= y`, a `min`-style ternary): ANIMATE_SPIDER, CLIP_CHARACTER_AT_WATER, MOVE_ROCK_RECORD, CHOOSE_CUT_SIDE matched that way. | accepted sources | CONFIRMED |
+| FLAG-13 | The v1.1 build was compiled without debug information (omitting `/Zi` reproduces the within-symbol relocation order of CTRL, CUSTCVCA, MISC, COLLIDE and DESERT; only the library modules FADE, INTRFACE `/Zi` and DLGHELP `/Zd` keep it). NIS.C is `/Os` (12 of 54 functions equal with `/Oegl`, all 59 with `/Os`); MOVE, MISC and LOAD are `/Oegil`; every other game module is `/Oegl`. | v1.1 ports of 2026-11-23, strict gate | CONFIRMED |
+| LOOP-12 | A loop index that only a later dead statement reads still gets its exit value stored (`add [index],count` before a counted-down loop): DRAW_OPPONENT_METER needed the natural `++index;` after the half-cell image although the next loop restarts it. | `src/draw/draw.c` | CONFIRMED |
+| DRAFT-2 | `volatile` temporaries, unions over a local and XOR comparisons were imitations: MOVE_DART_MOB is exact with plain `int x; unsigned char tile;`, a block-local `int next_x = x;` and repeated `next_x / 32` (the compiler makes the CSE slot and packs the dead slots); CHECK_REBIRTH_POINTS with a plain `==` after one real extern moved. | `src/movecave/movecave.c`, `src/top/top.c` | CONFIRMED |
 
 ## ABI, frames and alignment
 | ID | Rule | Evidence | Status |
@@ -112,9 +115,8 @@ update the closed-family list instead of repeating its experiments.
 - SimAnt "slots follow first use", Stunts L1 "BP homes follow identifier hash": relevant to the swap's `[BP-2]`.
 - SimAnt ZI-1/ZD-1: `/Zi`/`/Zd` move LEDATA breaks only — matters for relocation order, not CODE.
 
-## Binary-patched original function
-- **root+0x6562 SHOW_DIALOG_NOTICE (330 B).** The supplied EXE is hand-patched here: +0b `cmp word [03e2],0; je` became
-  `mov byte [03e2],1; nop; nop` and +df `cmp [bp-0ch],si` became `cmp si,si; nop` (copy protection disabled). `src/dialog/dialog.c`
-  reproduces every other byte; no C construct may be fitted to the patch, so the function stays a draft.
+## Fallback optimization
+- The earlier target's hand-patched SHOW_DIALOG_NOTICE (docs/rtlink.md, tag oracle-dos-1565) is unpatched in v1.1 and exact:
+  the notice answer is the record's second word.
 - **ANIM_NEW, ANIM_IDLE.** Both match far better with all of e, g and l off for just these two functions (40 and 112 bytes off) than
-  with `/Oegl`: the pattern of MSC's "function too large for global optimizations" fallback. Open.
+  with `/Oegl`: the pattern of MSC's "function too large for global optimizations" fallback. ANIM_NEW is exact in v1.1; ANIM_IDLE is open.

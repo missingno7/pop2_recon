@@ -1,5 +1,7 @@
 # Initial function discovery
 
+> Historical: this page describes the earlier build (tag `oracle-dos-1565`). Its addresses, hashes and counts are not those of the v1.1 target; evidence files it cites are at that tag.
+
 `tools/discover.py` creates a candidate inventory from immutable bytes exposed by
 `Oracle.load()`. It uses the supplied Capstone 5.0.3 package at
 `C:\tools\capstone-5.0.3`; it does not install or download dependencies. Run it

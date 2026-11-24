@@ -1,14 +1,3 @@
-#pragma pack(1)
-extern struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} Cell;
-#pragma pack()
 #define KIND_SAME_ROW (Room.number)
 #define KIND_ROW_ABOVE (Room.left)
 #define KIND_ROW_BELOW (Room.right)
@@ -33,6 +22,17 @@ typedef struct {
 } ROOMREC;
 #pragma pack()
 extern ROOMREC Room;
+#pragma pack(1)
+extern struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} Cell;
+#pragma pack()
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -199,7 +199,7 @@ void CheckBarr(void)
     signed char col;
 
     right_barrier_col = left_barrier_col = -1;
-    if ((unsigned char)Char.action == 7 || Char.sequence == 78)
+    if ((unsigned char)Char.action == 7 || Char.sequence == 78 || Char.sequence == 70)
         goto weightless;
     if (Level.background_overlays[5] && slide_rock_on_row(Char.room, Char.row) && Char.sequence_group == 4)
         goto weightless;
@@ -311,13 +311,17 @@ void GetColDetData(signed char row, unsigned char *rooms, unsigned char *edges)
 {
     signed char col;
     int left, right;
+    unsigned char flags;
 
     collision_x = ColEdgeX[first_col + 5] + 14;
     col = first_col;
     if (col <= last_col) do {
         left = GetLeftBarr(Char.room, col, row);
         right = GetRightBarr(Char.room, col, row);
-        edges[Cell.column] = ((right_edge > left) * 15) | (-((left_edge < right) << 4));
+        flags = right_edge > left ? 0x0f : 0;
+        if (right > left_edge)
+            flags |= 0xf0;
+        edges[Cell.column] = flags;
         rooms[Cell.column] = Cell.room;
         collision_x += 32;
     } while (++col <= last_col);
@@ -428,9 +432,9 @@ int far pascal AdjustRoom(unsigned char kind, int value)
     /* The first matching kind leaves the signed offset unchanged. */
     if (KIND_SAME_ROW == kind) {
         /* unchanged */
-    } else if (KIND_ROW_ABOVE == kind || (*(volatile unsigned char *)&Room.below_left) == kind) {
+    } else if (KIND_ROW_ABOVE == kind || Room.below_left == kind) {
         value -= 320;
-    } else if (KIND_ROW_BELOW == kind || (*(volatile unsigned char *)&Room.below_right) == kind) {
+    } else if (KIND_ROW_BELOW == kind || Room.below_right == kind) {
         value += 320;
     }
     return value;
@@ -471,6 +475,7 @@ void apply_air_bump(void)
         AnimChar();
     }
     BumpSound();
+    reread_cells();
 }
 
 
@@ -534,7 +539,8 @@ void apply_ground_bump(signed char direction)
 
 void BumpSound(void)
 {
-    bump_pending = 1;
+    if (Char.character_kind != 1)
+        bump_pending = 1;
 }
 
 void InitCollisionDetection(void)
@@ -783,7 +789,11 @@ void check_gate_for_opponent(void)
 {
     int left, right;
 
-    if (get_under_foot() != 4 && get_behind() != 4 && get_cells_ahead(1) != 4)
+    unsigned char cell = get_under_foot();
+
+    if (Char.alive >= 0)
+        return;
+    if (cell != 4 && get_behind() != 4 && get_cells_ahead(1) != 4)
         return;
     if ((Cell.room == 9 && ((unsigned char)Level.level_number) == 8) || Char.character_kind == 12 || !gate_blocks_passage())
         return;
@@ -810,6 +820,8 @@ void check_gate_for_player(void)
 {
     unsigned char cell = get_under_foot();
 
+    if (Char.alive >= 0)
+        return;
     if (Char.sequence == 118 || (cell != 4 && get_behind() != 4 && get_cells_ahead(1) != 4))
         return;
     if (Cell.room == 9 && ((unsigned char)Level.level_number) == 8)
@@ -854,7 +866,7 @@ void collide_enemy_with_barrier(void)
     if ((signed char)(unsigned char)Char.action != ((Char.character_kind == 7 || Char.character_kind == 8) ? 0 : 1) &&
         ((Char.character_kind != 7 && Char.character_kind != 8) || Char.sequence == 164))
         return;
-    if ((Char.alive >= 0 && !airborne) || Char.stance != 1)
+    if ((Char.alive >= 0 && !airborne) || Char.stance != 1 || Char.sequence == 70)
         return;
     cell = get_under_foot();
     if (!IsWall(cell) && (cell != 4 || !gate_blocks_passage())) {
