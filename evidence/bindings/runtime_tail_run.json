@@ -1,0 +1,94 @@
+{
+  "above": {
+    "group": "group:add/add",
+    "segment": "CONST"
+  },
+  "below": {
+    "group": "group:ems/ems_driver",
+    "segment": "BACKING_DATA"
+  },
+  "code_anchors": [
+    {
+      "archive_offset": 16,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1208,
+      "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c",
+      "name": "anchor_crt0",
+      "object_segment": "_TEXT",
+      "offset": 116
+    },
+    {
+      "archive_offset": 16528,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 537,
+      "member_sha256": "04fe9b8946e03cedd958139e54f18f4df8fb4660041ea0f4c69c130fd137697c",
+      "name": "anchor_fflush",
+      "object_segment": "_TEXT",
+      "offset": 2738
+    }
+  ],
+  "dgroup_paragraph": 13058,
+  "end": 9926,
+  "members": [
+    {
+      "archive_offset": 16,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1208,
+      "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c"
+    },
+    {
+      "archive_offset": 1232,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1969,
+      "member_sha256": "688e55ceb3ec0c7a6867f9749f44b6efe3a8ef794c516a46aa31ed29787ab8a2"
+    },
+    {
+      "archive_offset": 13616,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 212,
+      "member_sha256": "3f282e819bfa93fd9587ddd3978dc7a40695ba767652caaf32188bf01f2b7c24"
+    }
+  ],
+  "mode": "dgroup-tail-run-v1",
+  "note": "DATA-class segments behind _DATA: crt0 and crt0dat SEGDEF order, _cflush's XP pointer to _flushall; between the EMS/XMS workspace and ADD's CONST",
+  "schema": 1,
+  "segment_bases": {
+    "C_ETEXT": {
+      "segment": 12398,
+      "witnesses": [
+        {
+          "image_offset": 12488,
+          "relocation_index": 358,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "segments": [
+    "XIQC",
+    "DBDATA",
+    "CDATA",
+    "XIFB",
+    "XIF",
+    "XIFE",
+    "XIB",
+    "XI",
+    "XIE",
+    "XPB",
+    "XP",
+    "XPE",
+    "XCB",
+    "XC",
+    "XCE",
+    "XCFB",
+    "XCF",
+    "XCFE"
+  ],
+  "start": 9892,
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+}

@@ -41,6 +41,7 @@ from pathlib import Path
 from binding import fixes
 from common import require, sha
 from omf import OmfReader
+from runtime_layout import (communal, empty_consensus, linker_symbol, second_code, segment_base, start_entry, tail_run)
 
 MODE = "runtime-symbolic-v1"
 _MEMBERS = {}
@@ -91,7 +92,7 @@ def code_providers(manifest, oracle, exclude=None):
         module, _ = read_member(recipe)
         start = oracle.spaces[recipe["space"]].position(recipe["segment"], recipe["offset"])
         for public in module.publics:
-            if public["segment"] == recipe["object_segment"] and public["group_index"] == 0:
+            if public["segment"] == recipe["object_segment"] and public["group_index"] == 0 and not public.get("local"):
                 table.setdefault(public["name"], []).append((recipe["name"], start+public["offset"]))
     return table
 
@@ -334,6 +335,13 @@ def external_provider(row, oracle, manifest, owner_span):
     target, space, _ = get_target(target_id, oracle)
     require(space is root and root.position(target["segment"], target["offset"]) == position,
             "External provider target row disagrees with its owner")
+    if at == "group-frame":
+        # The only far call to the owner is the judged member's (crt0 calls main): the frame its accepted group proves.
+        frame = recipe.get("frame")
+        require(recipe.get("kind") == "same_source_group" and recipe["space"] == "root" and type(frame) is int and
+                0 <= position-frame*16 <= 0xffff, f"External provider {target_id} has no proven group frame")
+        return position, frame, {"symbol": symbol, "target_id": target_id, "public": public, "case_folded": folded,
+                                 "frame": frame, "witness": at, "witness_kind": "group-frame"}
     sites = [c for c in target.get("call_sites", []) if c["space"] == "root" and c["image_offset"] == at and
              c["kind"] in ("far_call", "far_pointer")]
     require(len(sites) == 1, "External provider frame witness is not a reviewed relocated far call/pointer of its target")
@@ -353,6 +361,7 @@ class Context:
                 binding.get("target_sha256") == sha(oracle.data), "Unsupported/foreign runtime fixup binding")
         self.oracle = oracle
         self.space = oracle.spaces[recipe["space"]]
+        self.judged = [("root", *owner_span)]
         require(recipe["space"] == "root", "Runtime symbolic proof supports resident members only")
         identifier = f"{recipe['space']}:{recipe['segment']:04x}:{recipe['offset']:04x}"
         self.providers = code_providers(manifest, oracle, exclude=identifier)
@@ -410,13 +419,25 @@ class Context:
                         rows[0]["frame"] == 0, f"Absolute provider does not define {symbol} at frame 0")
                 require(symbol not in self.absolute, "Duplicate absolute provider")
                 self.absolute[symbol] = rows[0]["offset"]
-        self.tiles, self.runs, self.used_runs = {}, [], set()
+        self.tiles, self.runs, self.used_runs, self.tail = {}, [], set(), {}
+        self.bases = {n: segment_base(spec, self) for n, spec in binding.get("segment_bases", {}).items()}
+        for row in binding.get("tail_runs", []):
+            tiles, equations, receipt = tail_run(row["path"], row["sha256"], self, manifest)
+            self.tiles.update({key: (placement, row["path"]) for key, placement in tiles.items()})
+            self.tail.update(equations)
+            self.runs.append(receipt)
         for row in binding.get("class_runs", []):
             tiles, receipt = verify_class_run(row["path"], row["sha256"], self)
             require(not set(tiles) & set(self.tiles), "Class runs overlap")
             self.tiles.update({key: (placement, row["path"]) for key, placement in tiles.items()})
             self.runs.append(receipt)
         self.data, self.placed = {}, []
+        for symbol, spec in binding.get("linker_symbols", {}).items():
+            self.data[symbol] = linker_symbol(symbol, spec, self, manifest, recipe["member_sha256"])
+        for spec in binding.get("communals", []):
+            require(spec["name"] not in self.data, "Duplicate communal")
+            self.data[spec["name"]] = communal(spec, read_member(spec["member"])[0], oracle)
+        self.linked = set(self.data)    # values the linker makes, also usable inside provider data
         for spec in binding.get("data_providers", []):
             module, overwritten = read_member(spec)
             report = place_segment(module, overwritten, spec["segment"], spec["placement"], self,
@@ -496,6 +517,12 @@ def place_segment(module, overwritten, name, placement, ctx, placements, provide
     require(type(placement) is int and 0 <= placement and placement+seg["length"] <= 0x10000 and
             seg["length"] > 0, f"Placement of {name} outside DGROUP")
     content = module.segments.get(name)
+    if (member_sha256, name) in ctx.tail:
+        # The tail run compared the whole linked run, this contribution's fields included.
+        return {"segment": name, "placement": placement, "length": seg["length"], "space": home.name,
+                "position": base+placement, "equations": ctx.tail[(member_sha256, name)],
+                "common": seg["combine"] == 6, "relocation_indices": [],
+                "basis": f"tail run {tile[1]}"}
     if not module.initialized_ranges.get(name):
         require(not provider, f"Provider segment {name} has no bytes to compare")
         require(len(code_uses or set()) >= 2, f"Uninitialized placed segment {name} needs two distinct proven addends")
@@ -516,10 +543,12 @@ def place_segment(module, overwritten, name, placement, ctx, placements, provide
                 f"Unsupported self-relative/overlapping fixup in data {name}")
         addend = _addend(content, at, width)
         disp = fix["displacement"] or 0
-        if fix["loc_type"] == 1 and frame.get("kind") == "group" and frame.get("name") == "DGROUP":
+        linked = target["kind"] == "external" and target["name"] in ctx.linked and \
+            _code_frame(frame, module, target["name"]) and frame.get("kind") != "segment"
+        if fix["loc_type"] == 1 and width == 2 and (linked or frame.get("kind") == "group" and frame.get("name") == "DGROUP"):
             if target["kind"] == "segment" and target["name"] in placements:
                 value = placements[target["name"]]+disp+addend
-            elif target["kind"] == "external" and target["name"] in ctx.data and not provider:
+            elif target["kind"] == "external" and target["name"] in ctx.data and (not provider or target["name"] in ctx.linked):
                 ctx.used.add(("data", target["name"]))
                 value = ctx.data[target["name"]]+disp+addend
             else:
@@ -572,17 +601,27 @@ def prove(module, overwritten, code_name, actual, expected, binding, recipe, ora
     placements = binding.get("placements", {})
     dgroup_names = _dgroup_members(module)
     # Secondary storage: every other non-empty segment must be a placed DGROUP segment.
+    second = binding.get("second_code", {})
+    empty = empty_consensus(binding["empty_consensus"], module, dgroup_names, ctx) if "empty_consensus" in binding else {}
+    tiled = {n: p for (m, n), (p, _) in ctx.tiles.items() if m == recipe["member_sha256"]}
     for seg in module.segment_defs:
         if seg["name"] == code_name or not seg["length"]:
+            continue
+        if seg["class"] == "STACK" and seg["combine"] == 5 and not module.initialized_ranges.get(seg["name"]) and \
+                not any(f["target"].get("name") == seg["name"] for f in fixes(module)):
+            continue  # a stack reservation: no image bytes, no reference; the linker sets its size
+        if seg["name"] in second:
             continue
         require(seg["name"] in placements, f"Unplaced secondary storage {seg['name']} ({seg['class']})")
     require(set(placements) <= {s["name"] for s in module.segment_defs if s["length"]} and
             set(placements) <= dgroup_names, "Placement for a segment the member does not contribute")
-    require(not getattr(module, "communals", []) and not getattr(module, "start_address", None),
-            "Runtime member with communals or a program start address is unsupported")
+    require(not getattr(module, "communals", []), "Runtime member with communals is unsupported")
+    require(bool(module.start_address) == ("start" in binding), "Program start address without its original witness")
+    entry = start_entry(module, code_name, binding["start"], origin, (start, start+len(actual)), ctx) \
+        if module.start_address else None
     rows = fixes(module)
     occupied, generated, keys, equations, diffs = set(), [], {}, [], []
-    code_uses = {}
+    code_uses, empty_uses = {}, {}
     for fix in rows:
         if fix["segment"] != code_name:
             continue
@@ -626,7 +665,16 @@ def prove(module, overwritten, code_name, actual, expected, binding, recipe, ora
                 require(origin <= value <= origin+len(actual), "Own-segment offset leaves the member")
         elif fix["loc_type"] == 1 and width == 2 and ((frame.get("kind") == "group" and frame.get("name") == "DGROUP")
                                                       or (tkind == "external" and target_derived)):
-            if tkind == "segment" and tname in placements and frame.get("kind") == "group":
+            if tkind == "segment" and tname in empty and frame.get("kind") == "group":
+                require(disp == addend == 0, "Field into an empty consensus segment with an addend")
+                value = empty[tname]
+                empty_uses.setdefault(tname, set()).add(at)
+            elif tkind == "segment" and tname in tiled and tname not in placements and frame.get("kind") == "group" and \
+                    not next(s for s in module.segment_defs if s["name"] == tname)["length"]:
+                value = tiled[tname]+disp+addend
+                require(disp == addend == 0, "Field into an empty tail run segment with an addend")
+                ctx.used_runs.add(ctx.tiles[(recipe["member_sha256"], tname)][1])
+            elif tkind == "segment" and tname in placements and frame.get("kind") == "group":
                 value = placements[tname]+disp+addend
                 code_uses.setdefault(tname, set()).add(disp+addend)
             elif tkind == "external" and tname in ctx.data:
@@ -664,19 +712,24 @@ def prove(module, overwritten, code_name, actual, expected, binding, recipe, ora
                                    code_uses=code_uses.get(name, set()),
                                    member_sha256=recipe["member_sha256"])
             placed.append(dict(report, member_sha256=recipe["member_sha256"], owned=False))
+        require(set(empty_uses) == set(empty), "Empty segment consensus needs an equal field for each segment")
+        code_rows = [second_code(spec, name, module, overwritten, ctx, manifest, start+len(actual))
+                     for name, spec in second.items()]
+    if diffs:
+        code_rows = []
     unused = ({("code", s) for s in ctx.code} | {("data", s) for s in ctx.data} |
-              {("absolute", s) for s in ctx.absolute}) - ctx.used
+              {("absolute", s) for s in ctx.absolute} | {("base", s) for s in ctx.bases}) - ctx.used
     require(not unused, f"Unused runtime provider bindings: {sorted(s for _, s in unused)}")
     require(diffs or {r["path"] for r in ctx.runs} <= ctx.used_runs, "Unused class run evidence")
     indices = _relocation_check(space, start, len(actual), generated, keys, "Runtime member") if not diffs else []
-    proven = len(equations)+sum(len(row.get("equations", [])) for row in placed)
+    proven = len(equations)+sum(len(row.get("equations", [])) for row in placed+([] if diffs else code_rows))
     require(diffs or proven == len(rows), "Some runtime member fixups were not proven")
     return {"exact": not diffs, "first_difference": min(diffs, default=None), "fixups": proven,
             "relocations": len(generated), "relocation_indices": indices, "equations": equations,
             "code_frame": {"segment": ctx.frame, "witnesses": ctx.frame_receipts},
             "data_placements": ctx.placed+placed,
             "code_anchors": [{k: v for k, v in a.items() if k != "publics"} for a in ctx.anchors.values()],
-            "class_runs": ctx.runs,
+            "class_runs": ctx.runs, "second_code": [] if diffs else code_rows, "start": entry,
             "external_providers": ctx.external,
             "same_library_selection": ctx.selected,
             "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded "

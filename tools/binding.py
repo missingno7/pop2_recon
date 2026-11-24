@@ -818,6 +818,22 @@ def fits_once(position, length, low, high, even):
     return length > 0 and places == [position]
 
 
+def fit_bounds(below, above):
+    """(low, high) between two original instructions: the end of a direct access, and the address of another access."""
+    from disasm import _capstone
+    memory = _capstone()[1].X86_OP_MEM
+    brows = instructions(below)
+    operands = [o for o in brows[0].operands if o.type == memory] if len(brows) == 1 else []
+    require(len(operands) == 1 and not _not_dgroup(operands[0]) and not operands[0].mem.base and
+            not operands[0].mem.index and brows[0].disp_size == 2, "Fit's lower neighbour is not a direct access")
+    arows = instructions(above)
+    require(len(arows) == 1, "Fit's upper neighbour is not one instruction")
+    upper = [o for o in arows[0].operands if o.type == memory]
+    require(len(upper) == 1 and not _not_dgroup(upper[0]) and arows[0].disp_size == 2 and
+            arows[0].mnemonic != "lea", "Fit's upper neighbour is not a memory access")
+    return (operands[0].mem.disp & 0xFFFF) + operands[0].size, upper[0].mem.disp & 0xFFFF
+
+
 def ground(binding, target, oracle, claimed=None):
     """Recheck frozen original witnesses outside the contribution being judged.
 
@@ -974,20 +990,13 @@ def ground(binding, target, oracle, claimed=None):
                 """One object of `size` bytes has no other place between the two named neighbours."""
                 require(set(fit) == {"below", "above"} and internal, "Unsupported fit evidence")
                 bat, braw = witness(fit["below"], draft_ok=True, anywhere=True)
-                brows = instructions(braw)
-                operands = [o for o in brows[0].operands if o.type == _capstone()[1].X86_OP_MEM] if len(brows) == 1 else []
-                require("entry" in fit["below"] and bat in reachable_from_entry(oracle, fit["below"]["entry"]) and
-                        len(operands) == 1 and not _not_dgroup(operands[0]) and not operands[0].mem.base and
-                        not operands[0].mem.index and brows[0].disp_size == 2, "Fit's lower neighbour is not a direct access")
-                low = (operands[0].mem.disp & 0xFFFF) + operands[0].size
+                require("entry" in fit["below"] and bat in reachable_from_entry(oracle, fit["below"]["entry"]),
+                        "Fit's lower neighbour is not reached")
                 aat, araw = witness(fit["above"], draft_ok=True, anywhere=True)
-                arows = instructions(araw)
-                require(len(arows) == 1 and "entry" in fit["above"] and
-                        aat in reachable_from_entry(oracle, fit["above"]["entry"]), "Fit's upper neighbour is not reached")
-                above = [o for o in arows[0].operands if o.type == _capstone()[1].X86_OP_MEM]
-                require(len(above) == 1 and not _not_dgroup(above[0]) and arows[0].disp_size == 2 and
-                        arows[0].mnemonic != "lea", "Fit's upper neighbour is not a memory access")
-                require(fits_once(position, size, low, above[0].mem.disp & 0xFFFF, even),
+                require("entry" in fit["above"] and aat in reachable_from_entry(oracle, fit["above"]["entry"]),
+                        "Fit's upper neighbour is not reached")
+                low, high = fit_bounds(braw, araw)
+                require(fits_once(position, size, low, high, even),
                         "The object fits in another place between its neighbours")
             if "fit" in symbol:
                 require(not symbol["witnesses"] and length, "A fitted symbol needs an extent and no witness")

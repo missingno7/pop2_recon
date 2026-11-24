@@ -17,9 +17,9 @@ def verify_member(recipe, oracle, manifest=None):
     # A member owns one CODE segment, or (RTLink manager library) one `$$` manager segment.
     segment_class = recipe.get("segment_class", "CODE")
     code_defs = [s for s in obj.segment_defs if s["class"] == segment_class]
-    require(len(code_defs) == 1 and code_defs[0]["name"] == recipe["object_segment"],
-            "Runtime pin must own a complete single CODE segment")
-    segment = code_defs[0]
+    owned = [s for s in code_defs if s["name"] == recipe["object_segment"]]
+    require(len(owned) == 1, "Runtime pin must own a complete single CODE segment")
+    segment, others = owned[0], {s["name"] for s in code_defs} - {recipe["object_segment"]}
     manager = segment_class != "CODE"
     if manager:
         from rtlink_fixups import check_segment
@@ -35,6 +35,9 @@ def verify_member(recipe, oracle, manifest=None):
     from runtime_fixups import MODE
     from rtlink_fixups import MODE as RTLINK_MODE
     mode = binding.get("mode") if binding is not None else None
+    # Another CODE segment (crt0dat's EMULATOR_TEXT) is placed and compared by the symbolic mode, never owned.
+    require(not others or mode == MODE and others == set(binding.get("second_code", {})) and
+            len(code_defs) == len(others) + 1, "Runtime pin must own a complete single CODE segment")
     require(mode != RTLINK_MODE or manager, "RTLink manager binding for a non-manager member")
     require(not manager or binding is None or mode == RTLINK_MODE, "RTLink manager member needs its own binding mode")
     symbolic = mode in (MODE, RTLINK_MODE)

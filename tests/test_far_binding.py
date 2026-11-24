@@ -496,27 +496,13 @@ class AcceptedEntryTests(unittest.TestCase):
         self.assertEqual(self.ground("root:02dc:000c")["grounded_by"], "accepted exact entry")
 
     def test_reviewed_but_unaccepted_entry_needs_a_witness(self):
-        # Any reviewed root direct-code entry that no canonical owner starts at, chosen at run time
-        # because accepted owners grow with every wave.
-        from common import ROOT, read_json
-        from far_binding import _accepted_entry, _matched_entry
-        from oracle import Oracle
-        oracle = Oracle.load()
-        from far_binding import _structural_entry
-
-        def structural(t):
-            try:
-                at = oracle.spaces["root"].position(t["segment"], t["offset"])
-                _structural_entry(oracle, at, t["segment"], t["offset"], t["size"], "root", 0, 0)
-                return True
-            except ValueError:
-                return False
-        unaccepted = next(t["id"] for t in read_json(ROOT / "evidence/targets.json")["functions"]
-                          if t["space"] == "root" and t.get("entry_kind") == "direct-code" and
-                          not _accepted_entry(t["id"], oracle) and not _matched_entry(t["id"]) and
-                          not structural(t))
-        with self.assertRaisesRegex(ValueError, "accepted exact entry"):
-            self.ground(unaccepted)
+        # Every reviewed direct-code entry of the image is accepted now, so the case removes one owner: __dos_open.
+        import far_binding
+        real = far_binding._accepted_entry
+        self.assertEqual(self.ground("root:1fef:1c45")["grounded_by"], "accepted exact entry")
+        with patch.object(far_binding, "_accepted_entry", lambda t, o: t != "root:1fef:1c45" and real(t, o)), \
+                self.assertRaisesRegex(ValueError, "accepted exact entry"):
+            self.ground("root:1fef:1c45")
 
 
 class StructuralEntryTests(unittest.TestCase):

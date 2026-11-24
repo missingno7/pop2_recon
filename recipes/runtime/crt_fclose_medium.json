@@ -1,0 +1,34 @@
+{
+  "archive_offset": 10608,
+  "binding": "evidence/bindings/crt_fclose_medium.json",
+  "binding_sha256": "cea23e62f62bc9bbc624ef55977ba2aacb44ac903b07ec0719da7decf249c321",
+  "boundary_evidence": [
+    "Complete independent mlibcr.lib member (archive offset 10608, 529 bytes) whose whole 186-byte segment lies at root+0x20542 in v1.1; located by its fixup-masked code inside the runtime run of frame 1fef."
+  ],
+  "fixup_count": 11,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 529,
+  "member_sha256": "8f552b6e06074b8be218529ce69feac8b2f54f22e35236dd13abd84ac2e16433",
+  "name": "crt_fclose_medium",
+  "object_segment": "_TEXT",
+  "offset": 1618,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "_fclose"
+  ],
+  "relocation_indices": [
+    1908,
+    1914,
+    1918,
+    1925,
+    1940,
+    1943
+  ],
+  "schema": 1,
+  "segment": 8175,
+  "size": 186,
+  "space": "root",
+  "target_sha256": "80d95b3752c51e9036609be9ec0a5d4d68c447854a9b6b781935b5bcfe3287f0"
+}

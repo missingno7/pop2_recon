@@ -211,20 +211,46 @@ published first; `stdalloc` and `strdup` need `malloc`.
 - Two `_strcpy` definitions cannot both carry that name in one link. The llibcr pins'
   public names are themselves hypotheses.
 
-## Refused, with the exact blocker
+## Linker-made values (2026-11-24, v1.1)
 
-- `crt0` (program start address, STACK, common `XIQC`, `_end`/`_edata`, `_main`),
-  `crt0dat` (second CODE segment `EMULATOR_TEXT`; `__cintDIV`, `__fptrap`,
-  `__nullcheck` providers missing).
-- `__bufin` near communal in `_file.c`'s `_DATA` (only zero-addend references; not
-  placeable): blocks `__iob`/`__iob2`/`__lastiob` and therefore `stream.c`,
-  `_open.c`, `fflush.c`, `fclose.c`, `_flsbuf`, `_getbuf`, `_sftbuf`, `printf.c`.
-  (Anchors only give their code positions.)
-- `_end` (linker-defined) in `chkstk`'s `_DATA`: blocks `chkstk` and `stackava`
-  (`STKHQQ`).
-- crt0's common `DBDATA` (code offsets, `C_ETEXT` base): blocks `nmsghdr`, `d_rdwr`,
-  `write`.
-- `chkstk` also needs crt0's `__amsg_exit` (available as an anchor) besides `_end`.
+Some fields name a value that no single member stores: the linker makes it. `tools/runtime_layout.py` computes each from
+pinned library declarations and original bytes outside the judged field; none of these rules owns bytes. Offsets below are
+v1.1 (frame `1fef`, DGROUP `3302`).
+
+- **Near communal** (`communals`): the COMDEF's declared length has one even place between two original direct accesses in
+  reached code (`binding.fit_bounds`, as for a v4 fit). `__bufin` (512 bytes, `_file.c`): `mov dx,[696a]` ends at `696c`,
+  `mov al,[6b6c]` is the next variable.
+- **`_end`** (`linker_symbols`, `code` or `data` witness): every field naming it in *another* pinned member stores the same
+  value, after A + D. The member's code is located by its unique signature, or its data segment by a pinned owner's placement.
+  `chkstk` uses crt0's two fields, crt0 uses chkstk's `_DATA` word: `6b74`.
+- **`_edata`** (`bss-start`): the start of the BSS class, the first word at or after the initialized payload: `27c0`.
+- **DATA tail run** (`tail_runs`, evidence/bindings/runtime_tail_run.json): XIQC, DBDATA, CDATA, XIFB..XIE, XPB..XCFE behind
+  `_DATA`. The SEGDEF order of crt0, crt0dat and `_cflush` gives the segment order, their lengths the placements (common: the
+  longest, public: the sum, word-aligned), also of the empty marker segments. The linked bytes of `26a4`-`26c6`, fields
+  included, equal the original with exactly the generated relocations and occur once; an accepted group's segment ends at
+  the start (the EMS/XMS workspace) and one begins at the end (ADD's CONST).
+- **Empty segment base** (`segment_bases`): the paragraph of an empty segment, grounded like a far segment base by other
+  original relocated words. `C_ETEXT` (class ENDCODE) must also be the paragraph where the data overlay begins, `306e`;
+  `EMULATOR_DATA` is `313b`.
+- **Empty BSS markers** (`empty_consensus`): XOB and XOE, with only empty segments between them, are one word address behind
+  the payload, and the fields for both read it (`2b88`).
+- **Second CODE segment** (`second_code`): crt0dat's 2-byte EMULATOR_TEXT, at the first paragraph after the last owned code
+  behind zero padding; its linked word equals the original, with its relocation, and no other root relocation stores it.
+  Compared, not owned.
+- **Program start** (`start`): an original relocated far pointer outside the member (RTLink manager, root `0x2279d`) names
+  exactly `frame:entry`.
+- **Stack**: an uninitialized STACK-class segment without references is a reservation without image bytes.
+- **`main`** (`external_providers`, `frame_witness: "group-frame"`): the only far call is crt0's own, so the frame is the
+  one the accepted group proves.
+
+### Pinned with these rules (16 members, 2,366 bytes)
+
+`chkstk`, `stackava`, `atoi`, `nmsghdr`, `d_rdwr`, `write`, `stream`, `_getbuf`, `_open`, `fflush`, `_flsbuf`, `_sftbuf`,
+`printf`, `fclose`, `crt0dat`, `crt0`. With them the whole `_TEXT` run `1fef:001a`-`1fef:21d4` is owned except the linker's
+single alignment bytes. `atoi.asm` and `atol.asm` have the same 3 bytes; the accepted callers name `_atoi`.
+
+**Limits.** The EMULATOR_DATA base is only known to be a far data paragraph that another relocated word stores: which empty
+position RTLink chose follows from its load order, as in the whole link, and is not proven here.
 
 Original TU, natural RTLink placement, library order and behaviour remain unproved;
 the placed DGROUP bytes are evidence, not owned data.

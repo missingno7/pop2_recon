@@ -662,6 +662,13 @@ class FarConsensusTests(unittest.TestCase):
         symbol = {"kind": "far-code-entry", "space": "root", "segment": callee["segment"], "offset": callee["offset"],
                   "entry_target_id": callee["id"], "entry_sha256": callee["sha256"], "witnesses": [], "consensus": True}
         target = next(t for t in rows if t["id"] == "root:053b:0516")
+        # An accepted owner grounds it directly; consensus is for an entry without one.
+        self.assertEqual(ground_symbol(symbol, target, oracle, claimed=[])["grounded_by"], "accepted exact entry")
+        import far_binding
+        real = far_binding._accepted_entry
+        unaccepted = patch.object(far_binding, "_accepted_entry", lambda t, o: t != callee["id"] and real(t, o))
+        unaccepted.start()
+        self.addCleanup(unaccepted.stop)
         self.assertEqual(ground_symbol(symbol, target, oracle, claimed=[])["grounded_by"], "internal consensus")
         with self.assertRaisesRegex(ValueError, "group rule"):
             ground_symbol(symbol, target, oracle)

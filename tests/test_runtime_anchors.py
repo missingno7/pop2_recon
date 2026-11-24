@@ -97,8 +97,13 @@ class RuntimeAnchorTests(unittest.TestCase):
     def test_shifted_or_short_or_ambiguous_anchor_refused(self):
         binding = self.binding("crt_fopen_medium")
         binding["code_anchors"][1]["offset"] -= 1        # unowned alignment byte before stream
-        with self.assertRaisesRegex(ValueError, "ordinary bytes differ"):
+        with self.assertRaisesRegex(ValueError, "overlaps owner"):
             self.prove("crt_fopen_medium", binding=binding)
+        unpinned = copy.deepcopy(self.manifest)
+        unpinned["owners"] = [o for o in unpinned["owners"]
+                              if not str(o.get("recipe", "")).endswith("crt_stream_medium.json")]
+        with self.assertRaisesRegex(ValueError, "ordinary bytes differ"):
+            self.prove("crt_fopen_medium", binding=binding, manifest=unpinned)
         trampoline = dict(member(0x6440), name="anchor_malloc", object_segment="_TEXT", offset=0x1440)
         binding = self.binding("crt_fopen_medium")
         binding["code_anchors"].append(trampoline)

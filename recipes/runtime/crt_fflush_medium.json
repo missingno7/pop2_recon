@@ -1,0 +1,32 @@
+{
+  "archive_offset": 16528,
+  "binding": "evidence/bindings/crt_fflush_medium.json",
+  "binding_sha256": "eb61cb3ba8e91d8e846f4956a391284fe9bd9c8d80550ff5ae6e214c1760b15a",
+  "boundary_evidence": [
+    "Complete independent mlibcr.lib member (archive offset 16528, 537 bytes) whose whole 200-byte segment lies at root+0x209a2 in v1.1; located by its fixup-masked code inside the runtime run of frame 1fef."
+  ],
+  "fixup_count": 8,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 537,
+  "member_sha256": "04fe9b8946e03cedd958139e54f18f4df8fb4660041ea0f4c69c130fd137697c",
+  "name": "crt_fflush_medium",
+  "object_segment": "_TEXT",
+  "offset": 2738,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "flsall",
+    "_fflush",
+    "_flushall"
+  ],
+  "relocation_indices": [
+    1915,
+    1933
+  ],
+  "schema": 1,
+  "segment": 8175,
+  "size": 200,
+  "space": "root",
+  "target_sha256": "e2f604546b4098f5e53422c3e221c16e4461e598be13a4016d6352e4aa361446"
+}

@@ -1,0 +1,102 @@
+{
+  "absolute_providers": [
+    {
+      "archive_offset": 16,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1208,
+      "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c",
+      "symbols": [
+        "__aDBdoswp"
+      ]
+    }
+  ],
+  "code_anchors": [
+    {
+      "archive_offset": 16,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1208,
+      "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c",
+      "name": "anchor_crt0",
+      "object_segment": "_TEXT",
+      "offset": 116
+    }
+  ],
+  "code_frame": {
+    "segment": 8175,
+    "witnesses": [
+      {
+        "image_offset": 24528,
+        "provider": "crt_dos_open",
+        "relocation_index": 627,
+        "symbol": "__dos_open"
+      }
+    ]
+  },
+  "code_providers": {
+    "__cintDIV": "anchor_crt0",
+    "__fptrap": "crt_crt0fp_medium",
+    "__nullcheck": "crt_chksum_medium"
+  },
+  "data_providers": [
+    {
+      "archive_offset": 16,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1208,
+      "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c",
+      "placement": 9894,
+      "segment": "DBDATA",
+      "symbols": [
+        "___aDBswpflg",
+        "___aDBexit"
+      ]
+    }
+  ],
+  "dgroup": {
+    "segment": 13058,
+    "witnesses": [
+      {
+        "image_offset": 5647,
+        "relocation_index": 54,
+        "space": "root"
+      }
+    ]
+  },
+  "empty_consensus": {
+    "XOB": 11144,
+    "XOE": 11144
+  },
+  "mode": "runtime-symbolic-v1",
+  "placements": {
+    "CDATA": 9908,
+    "XIQC": 9892,
+    "_DATA": 8452
+  },
+  "schema": 1,
+  "second_code": {
+    "EMULATOR_TEXT": {
+      "image_offset": 139472
+    }
+  },
+  "segment_bases": {
+    "EMULATOR_DATA": {
+      "segment": 12603,
+      "witnesses": [
+        {
+          "image_offset": 5207,
+          "relocation_index": 18,
+          "space": "overlay-17"
+        }
+      ]
+    }
+  },
+  "tail_runs": [
+    {
+      "path": "evidence/bindings/runtime_tail_run.json",
+      "sha256": "f5c6b744eb75bbf633ce7434c952404cf1b0f0ebdeb222380c3e1cab04510435"
+    }
+  ],
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+}
