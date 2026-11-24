@@ -90,7 +90,7 @@ extern TileInfo *BlueS;
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern int is_open_tile(byte);
-extern int tile_has_side_edge(byte);
+extern int IsWall(byte);
 extern sbyte FirstInRow(sbyte);
 extern void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
@@ -244,7 +244,7 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
     } else {
         *tile = missing;
         if (Level.environment_kind == 3 && (missing == 1 || missing == 20) && Room.below) {
-            if (!tile_has_side_edge(room_tiles[Room.below][col])) {
+            if (!IsWall(room_tiles[Room.below][col])) {
                 info->modifier = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
                 info->extra = 0;
             } else {

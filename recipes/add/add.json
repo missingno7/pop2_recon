@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "182441cae168a4cf8b47e53ec5c3fd1b5e5b4f0cfdfb623196641c7dec76a50b",
+  "binding_sha256": "9b3e6f4dcb59867614990b6e7e3fce0e197cd465facadc06b5f34f99d5d821b3",
   "claims": [
     {
       "fixup_count": 10,
@@ -363,18 +363,26 @@
       "target_id": "root:0170:108a"
     }
   ],
+  "code_matches": [
+    {
+      "public": "@add_peel",
+      "target_id": "root:0170:04f0",
+      "unproven": [
+        "PEEL_ENTRIES+0x3"
+      ]
+    },
+    {
+      "public": "CLEAR_ROW_HANDLES",
+      "target_id": "root:0170:118c",
+      "unproven": [
+        "ROOMOPP+0x166"
+      ]
+    }
+  ],
   "drafts": [
     {
       "object_offset": 0,
       "public": "@add_image_info"
-    },
-    {
-      "object_offset": 1256,
-      "public": "@add_peel"
-    },
-    {
-      "object_offset": 4484,
-      "public": "CLEAR_ROW_HANDLES"
     }
   ],
   "emitted_size": 4502,

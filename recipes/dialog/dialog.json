@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "ec40eb77d58b21d081016800b788c2746e2cb384dd80e941b24d570510d761a2",
+  "binding_sha256": "06a69d18136388afa3079422367fe21b473554c1c47742fe14574dbbd1f6bc98",
   "claims": [
     {
       "fixup_count": 32,
@@ -117,6 +117,33 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:053b:02b4"
+    },
+    {
+      "fixup_count": 31,
+      "public": "DIALOGRESETTOGAMEPLAY",
+      "relocation_indices": [
+        437,
+        464,
+        486,
+        523,
+        524,
+        525,
+        553,
+        554,
+        555,
+        624,
+        634,
+        636,
+        657,
+        663,
+        664,
+        700
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:053b:02d4"
     },
     {
       "fixup_count": 5,
@@ -730,11 +757,16 @@
       "target_id": "root:053b:2402"
     }
   ],
-  "drafts": [
+  "code_matches": [
     {
-      "object_offset": 712,
-      "public": "DIALOGRESETTOGAMEPLAY"
-    },
+      "public": "DRAW_MENU_ICON",
+      "target_id": "root:053b:2032",
+      "unproven": [
+        "ACQUIRE_FRAME_SHAPE"
+      ]
+    }
+  ],
+  "drafts": [
     {
       "object_offset": 3072,
       "public": "READ_SAVE_SLOT_TABLE"
@@ -742,10 +774,6 @@
     {
       "object_offset": 4264,
       "public": "PREPARE_SAVED_ROOM_OBJECTS"
-    },
-    {
-      "object_offset": 8230,
-      "public": "DRAW_MENU_ICON"
     }
   ],
   "emitted_size": 9542,

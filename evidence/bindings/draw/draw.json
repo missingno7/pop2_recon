@@ -660,7 +660,7 @@
       "SELECT_DRAW_CELL",
       "FLASK_BUBBLE_COLOR",
       "DRAW_CUSTOM_ABOVE_ROW",
-      "DRAW_OVERLAY_OBJECT_86",
+      "DRAW_OBJECT_SLIDE_ROCK",
       "GET_SET_SHAPE_ITEM",
       "REDRAW_ROOM_SURE",
       "SET_PALETTE",
@@ -17357,7 +17357,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "DRAW_OVERLAY_OBJECT_86",
+          "name": "DRAW_OBJECT_SLIDE_ROCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -17365,7 +17365,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "DRAW_OVERLAY_OBJECT_86",
+        "name": "DRAW_OBJECT_SLIDE_ROCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -26618,6 +26618,37 @@
         }
       ]
     },
+    "ABOVE_TILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 5,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 6,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 8,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        }
+      ],
+      "offset": 24904,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 19592,
+          "bytes_hex": "c687486100",
+          "entry": "root:04b3:0142"
+        }
+      ]
+    },
     "ACTIVE_OBJECT_OFFSET": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26731,6 +26762,54 @@
         }
       ],
       "consensus": true
+    },
+    "BELOW_TILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "operand_offset": 1,
+              "space": "root",
+              "image_offset": 64874,
+              "bytes_hex": "b8ab61",
+              "entry": "root:0f9e:02fe"
+            }
+          ]
+        },
+        {
+          "offset": 3,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 5,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 6,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 8,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        }
+      ],
+      "offset": 25002,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 64870,
+          "bytes_hex": "b8aa61",
+          "entry": "root:0f9e:02fe"
+        }
+      ]
     },
     "BLUESPEC": {
       "group": "DGROUP",
@@ -26982,6 +27061,18 @@
               "entry": "root:0170:029a"
             }
           ]
+        },
+        {
+          "offset": 19,
+          "witnesses": [
+            {
+              "bytes_hex": "c606c95a03",
+              "entry": "overlay-3:251b:0042",
+              "image_offset": 79,
+              "operand_offset": 2,
+              "space": "overlay-3"
+            }
+          ]
         }
       ],
       "offset": 23222,
@@ -27076,6 +27167,23 @@
       "segment": 11353,
       "space": "overlay-9",
       "witnesses": []
+    },
+    "CONVERT_SHAPE": {
+      "entry_sha256": "2a197d5884751681b03627ead5bf4b3e6c6f42b9a4cd6da9c82e0cf3d99944fa",
+      "entry_target_id": "root:1129:0afe",
+      "kind": "far-code-entry",
+      "offset": 2814,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 121183,
+          "bytes_hex": "9afe0a2911",
+          "file_offset": 129375,
+          "relocation_index": 1668
+        }
+      ]
     },
     "COPY_KID_TO_CHAR": {
       "entry_sha256": "b2fc25b438e7e651ec372411e18cca2a3c657dfa1a144467f5f2739816cb53d8",
@@ -27181,8 +27289,7 @@
       "offset": 322,
       "segment": 1203,
       "space": "root",
-      "witnesses": [],
-      "consensus": true
+      "witnesses": []
     },
     "DRAW_GATE": {
       "group": "DGROUP",
@@ -27444,6 +27551,23 @@
         }
       ]
     },
+    "FIND_SHAPE_LIST": {
+      "entry_sha256": "06b64f6d92c19b25be13c543f236a5061f92b5593cb68e8f5c374ba19e334e9e",
+      "entry_target_id": "root:1129:7f78",
+      "kind": "far-code-entry",
+      "offset": 32632,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 23222,
+          "bytes_hex": "9a787f2911",
+          "file_offset": 31414,
+          "relocation_index": 457
+        }
+      ]
+    },
     "FIRSTINROW": {
       "entry_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
       "entry_target_id": "root:02dc:07d4",
@@ -27634,6 +27758,41 @@
           "relocation_index": 173
         }
       ]
+    },
+    "HORSE_SHAPE_REF": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 2,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 3,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        },
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 19347,
+              "bytes_hex": "833e846100",
+              "entry": "root:04b3:003a"
+            }
+          ]
+        }
+      ],
+      "offset": 24960,
+      "witnesses": []
     },
     "INIT_FCHAR_RECT": {
       "entry_sha256": "45d00ee2470bd00baadab5ca203eddde5329c47bbb073b86041ff8fc0264c688",
@@ -27986,6 +28145,23 @@
       "space": "root",
       "witnesses": []
     },
+    "MATERIALIZE_HANDLE": {
+      "entry_sha256": "c638859e9080a7e89676e888413d78484e93d303b320533be8af0abc16e08c4a",
+      "entry_target_id": "root:1129:25c0",
+      "kind": "far-code-entry",
+      "offset": 9664,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 9460,
+          "bytes_hex": "9ac0252911",
+          "file_offset": 17652,
+          "relocation_index": 161
+        }
+      ]
+    },
     "MESSAGE_COUNTER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -28023,6 +28199,20 @@
           "image_offset": 3526,
           "bytes_hex": "a3da5c",
           "entry": "root:0000:0d5a"
+        }
+      ]
+    },
+    "METER_PHASE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27505,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 24974,
+          "bytes_hex": "a2716b",
+          "entry": "root:053b:0544"
         }
       ]
     },
@@ -28282,6 +28472,34 @@
               }
             }
           ]
+        },
+        {
+          "offset": 65532,
+          "offset_witnesses": [
+            {
+              "space": "overlay-10",
+              "image_offset": 7834,
+              "entry": "overlay-10:2bda:1e72",
+              "kind": "selector-access",
+              "bytes_hex": "8e06da2626c787f4110800",
+              "selector_offset": 9946,
+              "relocation_index": 157,
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset": 65535,
+          "unproven": "No independent original witness; Far address lacks a second equal claimed site: DRAW_OVERLAY_OBJECT_13+0, MIDDLE_QUEUE+65535"
         }
       ],
       "offset": 4600,
@@ -28481,8 +28699,7 @@
       "offset": 442,
       "segment": 3998,
       "space": "root",
-      "witnesses": [],
-      "consensus": true
+      "witnesses": []
     },
     "PRINCECOPY": {
       "entry_sha256": "2c44d9ae039c59ce74972842c2cc429c3da512234db7ea8537cb24b809fb7e5b",
@@ -28502,6 +28719,15 @@
           "relocation_index": 1241
         }
       ]
+    },
+    "PRINCEPAINTSHAPEIDX": {
+      "entry_sha256": "24edf4230ad1ea7bfd6fb0d1b0e8127d169424e7e2afe5458ef462354468724e",
+      "entry_target_id": "root:1e99:0592",
+      "kind": "far-code-entry",
+      "offset": 1426,
+      "segment": 7833,
+      "space": "root",
+      "witnesses": []
     },
     "PUSH_PORT_CLIP": {
       "entry_sha256": "89d64d35f188bc1f777d4ac3b88a86b034ab6cececf8b7eeb2bb8dcd39b22ab7",
@@ -28526,6 +28752,27 @@
           "bytes_hex": "9a69792911",
           "file_offset": 30205,
           "relocation_index": 461
+        }
+      ]
+    },
+    "REDRAW_BACK_CELLS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        }
+      ],
+      "offset": 25850,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 51621,
+          "bytes_hex": "bafa64",
+          "entry": "root:0b52:1476"
         }
       ]
     },
@@ -28557,6 +28804,61 @@
         }
       ]
     },
+    "REDRAW_FLOOR_CELLS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "offset": 25550,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 51641,
+          "bytes_hex": "bace63",
+          "entry": "root:0b52:1476"
+        }
+      ]
+    },
+    "REDRAW_FORE_CELLS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "unproven": "Single original operand with no independent witness for this address",
+          "witnesses": []
+        }
+      ],
+      "offset": 25160,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 51631,
+          "bytes_hex": "ba4862",
+          "entry": "root:0b52:1476"
+        }
+      ]
+    },
+    "REDRAW_HALF_CELL": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25490,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 50061,
+          "bytes_hex": "c78792630100",
+          "entry": "root:0b52:0e56"
+        }
+      ]
+    },
     "REDRAW_TOP_CELLS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -28582,6 +28884,20 @@
           "image_offset": 49834,
           "bytes_hex": "83bfe46100",
           "entry": "root:0b52:01f4"
+        }
+      ]
+    },
+    "REDRAW_WHOLE_CELL": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 26150,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 50112,
+          "bytes_hex": "c78726660100",
+          "entry": "root:0b52:0e8c"
         }
       ]
     },
@@ -28910,8 +29226,7 @@
       "offset": 2004,
       "segment": 3998,
       "space": "root",
-      "witnesses": [],
-      "consensus": true
+      "witnesses": []
     },
     "SETSIDEROOMINFO": {
       "entry_sha256": "f3f6670a78e1c13baf57f05d8d2ace2dc371f43fe3a158a0ca9d5b02d3a0bc67",
@@ -29163,6 +29478,70 @@
       "space": "root",
       "witnesses": []
     },
+    "DRAW_BRIDGE_MOB_OBJECT": {
+      "entry_sha256": "7463f8837a2f639c8f7150044de5df2dc0efa2f30d17c4686235d080f23e2ae5",
+      "entry_target_id": "overlay-14:2fcd:08d2",
+      "kind": "overlay-code-entry",
+      "offset": 2258,
+      "segment": 12237,
+      "space": "overlay-14",
+      "witnesses": []
+    },
+    "DRAW_OBJECT_TRAPDOOR": {
+      "entry_sha256": "2117cd3a0b5f04f89d8d9e6f2bf9cea52567b7e2299f18151562debeaa6789c7",
+      "entry_target_id": "overlay-9:2c59:0f5e",
+      "kind": "overlay-code-entry",
+      "offset": 3934,
+      "segment": 11353,
+      "space": "overlay-9",
+      "witnesses": []
+    },
+    "DRAW_OBJECT_SLIDE_ROCK": {
+      "entry_sha256": "718d269fbcba7e9530ffefb88076507747991bfe440188a7ce90a3faac6d2964",
+      "entry_target_id": "overlay-9:2c59:02d6",
+      "kind": "overlay-code-entry",
+      "offset": 726,
+      "segment": 11353,
+      "space": "overlay-9",
+      "witnesses": []
+    },
+    "DRAWOBJSPIKES": {
+      "entry_sha256": "6fa648d378beb5ba8ac1a1451f1333cdc3ba3bc0e8cb4a7d83e616b2f13e2f66",
+      "entry_target_id": "root:1047:038c",
+      "kind": "far-code-entry",
+      "offset": 908,
+      "segment": 4167,
+      "space": "root",
+      "witnesses": []
+    },
+    "DRAW_OVERLAY_OBJECT_13": {
+      "entry_sha256": "b81dc07daf7fb175cf36221a2d9a971ac05003177552e83686a38dc4b4fbf840",
+      "entry_target_id": "overlay-13:2fcd:023a",
+      "kind": "overlay-code-entry",
+      "offset": 570,
+      "segment": 12237,
+      "space": "overlay-13",
+      "witnesses": [],
+      "unproven": "No independent original witness; Far address lacks a second equal claimed site: DRAW_OVERLAY_OBJECT_13+0, MIDDLE_QUEUE+65535"
+    },
+    "DRAW_FIREBALL_OBJECT": {
+      "entry_sha256": "1c2f66628845cb3a87f9dfa976750239c1b9238939bc597743a9df937c8d98d2",
+      "entry_target_id": "overlay-10:2bda:1e72",
+      "kind": "overlay-code-entry",
+      "offset": 7794,
+      "segment": 11226,
+      "space": "overlay-10",
+      "witnesses": []
+    },
+    "PICK_HIDDEN_ACTOR": {
+      "entry_sha256": "93ae81bad1e0389db6d2d6588ab20e113cdf92e4631cdbff39b77a814d901816",
+      "entry_target_id": "overlay-3:251b:08e8",
+      "kind": "overlay-code-entry",
+      "offset": 2280,
+      "segment": 9499,
+      "space": "overlay-3",
+      "witnesses": []
+    },
     "__fmemcpy": {
       "entry_sha256": "753abe2022a393943e6f95c11aa492be1a7dee2bc440aa8d2faa3934fb4c722a",
       "entry_target_id": "root:1fef:1e8a",
@@ -29171,6 +29550,46 @@
       "segment": 8175,
       "space": "root",
       "witnesses": []
+    },
+    "MIDDLE_COUNT": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 24822,
+      "witnesses": [
+        {
+          "bytes_hex": "833ef6601e",
+          "entry": "root:0170:03cc",
+          "image_offset": 6880,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "SCREEN_BOUNDS": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7978,
+      "witnesses": [
+        {
+          "bytes_hex": "b82a1f",
+          "entry": "root:053b:0544",
+          "image_offset": 22046,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ],
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": [],
+          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: SCREEN_BOUNDS+4"
+        },
+        {
+          "offset": 6,
+          "witnesses": [],
+          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: SCREEN_BOUNDS+6"
+        }
+      ]
     },
     "FINAL_LEVEL_SPEC": {
       "kind": "dgroup-public",

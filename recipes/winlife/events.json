@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/winlife/events.json",
-  "binding_sha256": "a78ab525367a4e44d2ab53c7107be276f500386a311f09e75f58b756700cac55",
+  "binding_sha256": "73696e4f954478951c8c23e6524c54a7911762da05d26c6688bea07fcb7be2bb",
   "claims": [
     {
       "fixup_count": 1,
@@ -78,6 +78,24 @@
       "target_id": "root:1129:9cfd"
     }
   ],
+  "code_matches": [
+    {
+      "public": "DOS_CRITICAL_ERROR",
+      "target_id": "root:1129:9b60",
+      "unproven": [
+        "ABORT_REQUESTED",
+        "ERROR_ACTION_LABEL",
+        "ERROR_CANCEL_HANDLER_SEGMENT"
+      ]
+    },
+    {
+      "public": "DOS_MOUSE_EVENT",
+      "target_id": "root:1129:9cbb",
+      "unproven": [
+        "HANDLE_MOUSE_CALLBACK"
+      ]
+    }
+  ],
   "drafts": [
     {
       "object_offset": 464,
@@ -94,14 +112,6 @@
     {
       "object_offset": 912,
       "public": "KEYBOARD_INTERRUPT_FILTER"
-    },
-    {
-      "object_offset": 976,
-      "public": "DOS_CRITICAL_ERROR"
-    },
-    {
-      "object_offset": 1323,
-      "public": "DOS_MOUSE_EVENT"
     }
   ],
   "emitted_size": 1390,
@@ -111,12 +121,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "winlife/events",
-  "object_sha256": "189edb7bb0dbd6f1d0ffd66a1e18ea893ebb2f12c94f533c1800f187e21eaf7a",
+  "object_sha256": "c95fbc1acc65aea0f1cf35e5a35832d5baca6151c50d0b6c5c1679f35c41be69",
   "origin": 109088,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/winlife/events.asm",
-  "source_sha256": "7ab99b3b172e01d486ca068c9ef4dcc17b8064b15116b4e09742190f913c39fe",
+  "source_sha256": "accf1749fac550180f42b34aa7c1cd53c1dda80558f036373073916c32db32b5",
   "space": "root"
 }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "84ae12892c15caa7dbb7f75c7e3a9b179516f90a9ec2e28831b514c1b4423215",
+  "binding_sha256": "e2f9e3fcc3b07173400912032dd78d5f62cad673b2ae60c46759350e577b44db",
   "claims": [
     {
       "fixup_count": 16,
@@ -415,6 +415,22 @@
       "target_id": "root:0e78:123e"
     }
   ],
+  "code_matches": [
+    {
+      "public": "NEXT_FRAME",
+      "target_id": "root:0e78:05e0",
+      "unproven": [
+        "CHECK_STAB"
+      ]
+    },
+    {
+      "public": "INIT_LEVEL_SPECIFIC",
+      "target_id": "root:0e78:0fb4",
+      "unproven": [
+        "INITIALIZE_BRIDGE"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 2430,
@@ -433,16 +449,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 1498,
-      "public": "NEXT_FRAME"
-    },
-    {
-      "object_offset": 4014,
-      "public": "INIT_LEVEL_SPECIFIC"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 4706,
   "flags": [
     "/c",

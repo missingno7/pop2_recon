@@ -233,7 +233,7 @@
       "SECTRECT",
       "OFFSETRECT",
       "IS_OPEN_TILE",
-      "TILE_HAS_SIDE_EDGE",
+      "ISWALL",
       "FIRSTINROW",
       "SELECT_ROOM_ARRAYS",
       "FIRST_IMAGE_TABLE",
@@ -3266,7 +3266,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "TILE_HAS_SIDE_EDGE",
+          "name": "ISWALL",
           "method": 6,
           "zero_displacement": true
         }
@@ -3274,7 +3274,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "TILE_HAS_SIDE_EDGE",
+        "name": "ISWALL",
         "method": 6,
         "zero_displacement": true
       },
@@ -6012,6 +6012,34 @@
         }
       ]
     },
+    "ABOVE_TILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 19597,
+              "bytes_hex": "c787496100c0",
+              "entry": "root:04b3:0142"
+            }
+          ]
+        }
+      ],
+      "offset": 24904,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 19592,
+          "bytes_hex": "c687486100",
+          "entry": "root:04b3:0142"
+        }
+      ]
+    },
     "BACKGROUND_SHAPES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6068,6 +6096,107 @@
         }
       ]
     },
+    "BLUESPEC": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 3191,
+              "bytes_hex": "f606f15c10",
+              "entry": "root:0000:0b78"
+            }
+          ]
+        }
+      ],
+      "offset": 23792,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 32264,
+          "bytes_hex": "a1f05c",
+          "entry": "root:0790:0002"
+        }
+      ]
+    },
+    "CELLLEFT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "operand_offset": 1,
+              "space": "root",
+              "image_offset": 32294,
+              "bytes_hex": "a18f61",
+              "entry": "root:0790:0002"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "operand_offset": 1,
+              "space": "root",
+              "image_offset": 36950,
+              "bytes_hex": "a09061",
+              "entry": "root:0790:01e4"
+            }
+          ]
+        }
+      ],
+      "offset": 24974,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 32288,
+          "bytes_hex": "a08e61",
+          "entry": "root:0790:0002"
+        }
+      ]
+    },
+    "CELLRIGHT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "unproven": "No independent original operand witness for DGROUP offset 0x62ef; used at root+0xffed.",
+          "witnesses": []
+        },
+        {
+          "offset": 2,
+          "unproven": "No independent original operand witness for DGROUP offset 0x62f0; used at root+0x10012.",
+          "witnesses": []
+        }
+      ],
+      "offset": 24980,
+      "unproven": "No independent original operand witness for DGROUP offset 0x62ee; used at root+0xffe9.",
+      "witnesses": []
+    },
+    "CELL_CLIP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24798,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 6091,
+          "bytes_hex": "b8de60",
+          "entry": "root:0170:0008"
+        }
+      ]
+    },
     "DISPATCH_SOUND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
@@ -6082,6 +6211,20 @@
           "bytes_hex": "9ad2832911",
           "file_offset": 9500,
           "relocation_index": 72
+        }
+      ]
+    },
+    "DRAWN_TILE_KIND": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27506,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 32258,
+          "bytes_hex": "a0726b",
+          "entry": "root:0790:0002"
         }
       ]
     },
@@ -6130,6 +6273,20 @@
         }
       ]
     },
+    "FORCE_FULL_CLIP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24846,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 10359,
+          "bytes_hex": "a10e61",
+          "entry": "root:0170:029a"
+        }
+      ]
+    },
     "GAMEPLAYRECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6143,6 +6300,42 @@
           "entry": "root:02dc:08be"
         }
       ]
+    },
+    "IS_OPEN_TILE": {
+      "entry_sha256": "8561a2d56f74fd02d3f48a10486f328c0f4a9262d6831c2835e591c6bc560aa1",
+      "entry_target_id": "root:0790:2810",
+      "kind": "far-code-entry",
+      "offset": 10256,
+      "segment": 1936,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 16993,
+          "bytes_hex": "9a10289007",
+          "file_offset": 25185,
+          "relocation_index": 343
+        }
+      ]
+    },
+    "LEFT_TILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [],
+          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEFT_TILES+0, LEFT_TILES+1, RIGHT_TILES+0, RIGHT_TILES+1"
+        },
+        {
+          "offset": 3,
+          "witnesses": [],
+          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEFT_TILES+3, RIGHT_TILES+3"
+        }
+      ],
+      "offset": 23796,
+      "witnesses": [],
+      "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEFT_TILES+0, LEFT_TILES+1, RIGHT_TILES+0, RIGHT_TILES+1"
     },
     "LEVEL": {
       "group": "DGROUP",
@@ -6188,6 +6381,25 @@
               "image_offset": 5116,
               "bytes_hex": "8a877543",
               "entry": "overlay-3:251b:133a"
+            }
+          ]
+        },
+        {
+          "offset": 6213,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 164,
+              "bytes_hex": "c606fd4300",
+              "entry": "root:0000:0000"
+            },
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 3184,
+              "bytes_hex": "803efd4306",
+              "entry": "root:0000:0e72"
             }
           ]
         }
@@ -6291,6 +6503,25 @@
           "relocation_index": 350
         }
       ]
+    },
+    "RIGHT_TILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [],
+          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEFT_TILES+0, LEFT_TILES+1, RIGHT_TILES+0, RIGHT_TILES+1"
+        },
+        {
+          "offset": 3,
+          "witnesses": [],
+          "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEFT_TILES+3, RIGHT_TILES+3"
+        }
+      ],
+      "offset": 24986,
+      "witnesses": [],
+      "unproven": "No independent original witness; v4 address without witness lacks a second equal claimed site: LEFT_TILES+0, LEFT_TILES+1, RIGHT_TILES+0, RIGHT_TILES+1"
     },
     "ROOM": {
       "group": "DGROUP",
@@ -6447,6 +6678,13 @@
     "ROOM_TILES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 65535,
+          "unproven": "No independent original operand witness for DGROUP offset 0x2ce3; used at root+0xf9e7.",
+          "witnesses": []
+        }
+      ],
       "offset": 11162,
       "witnesses": [
         {
@@ -6512,6 +6750,34 @@
         }
       ]
     },
+    "TILE_OVERRIDE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 428,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 6938,
+          "bytes_hex": "8b1eac01",
+          "entry": "root:0170:03cc"
+        }
+      ]
+    },
+    "VIEW_COL": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27503,
+      "witnesses": [
+        {
+          "operand_offset": 1,
+          "space": "root",
+          "image_offset": 6114,
+          "bytes_hex": "a06f6b",
+          "entry": "root:0170:0008"
+        }
+      ]
+    },
     "VIEW_ROW": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6525,6 +6791,15 @@
           "entry": "root:0790:0712"
         }
       ]
+    },
+    "ISWALL": {
+      "entry_sha256": "3bb9a10f92f46b7f96139b0bc7af6f5a2623869420b95a5e0c9873df81e44486",
+      "entry_target_id": "root:0790:290a",
+      "kind": "far-code-entry",
+      "offset": 10506,
+      "segment": 1936,
+      "space": "root",
+      "witnesses": []
     },
     "COL2PIXELX": {
       "kind": "dgroup-public",

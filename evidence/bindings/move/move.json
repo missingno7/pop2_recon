@@ -1061,7 +1061,7 @@
       "DREW_PRESSED_TILE",
       "MARK_BUFS_FOR_RECT",
       "ANIMTROB",
-      "REDRAW_CAVE_BARS",
+      "ANIMATE_BRIDGE_MOB",
       "ISWALL",
       "CELL",
       "FRAMENUM",
@@ -20367,7 +20367,7 @@
         "target": {
           "kind": "external",
           "index": 189,
-          "name": "REDRAW_CAVE_BARS",
+          "name": "ANIMATE_BRIDGE_MOB",
           "method": 6,
           "zero_displacement": true
         }
@@ -20375,7 +20375,7 @@
       "target": {
         "kind": "external",
         "index": 189,
-        "name": "REDRAW_CAVE_BARS",
+        "name": "ANIMATE_BRIDGE_MOB",
         "method": 6,
         "zero_displacement": true
       },
@@ -26150,6 +26150,16 @@
         }
       ]
     },
+    "ADD_MOB_KIND_12": {
+      "entry_sha256": "7634b20e02ac73bb6e2e8af978dcff1df6460e209d34c9e708c4685ed72256fc",
+      "entry_target_id": "overlay-10:2bda:1be6",
+      "kind": "overlay-code-entry",
+      "offset": 7142,
+      "segment": 11226,
+      "space": "overlay-10",
+      "witnesses": [],
+      "unproven": "No independent original witness; Far address lacks a second equal claimed site: ADD_MOB_KIND_12+0"
+    },
     "ANIMATE_CRYSTAL": {
       "entry_sha256": "fa2ae50f1b0fe1b8985d93e3f0c10219f387e9c77f825679f2f8fff9db1b6966",
       "entry_target_id": "overlay-10:2bda:17ac",
@@ -26274,6 +26284,15 @@
       "offset": 0,
       "segment": 11226,
       "space": "overlay-7",
+      "witnesses": []
+    },
+    "ATMSPIKES": {
+      "entry_sha256": "47838d5f134f92a8811971e2947cbe225cd086ebe2b058f08c2e6a99996c9085",
+      "entry_target_id": "root:1047:0008",
+      "kind": "far-code-entry",
+      "offset": 8,
+      "segment": 4167,
+      "space": "root",
       "witnesses": []
     },
     "BLUES": {
@@ -27744,11 +27763,118 @@
         }
       ]
     },
+    "MOB_DRAW_COUNT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24824,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 6583,
+          "bytes_hex": "833ef8601e",
+          "entry": "root:0170:029a"
+        }
+      ]
+    },
+    "MOB_DRAW_LIST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 37809,
+              "bytes_hex": "8b873c5d",
+              "entry": "root:0790:01e4"
+            }
+          ]
+        },
+        {
+          "offset": 4,
+          "unproven": "Root+0x948e loads DS:5e96 into SI; the fall-through of the branch at root+0x9493 dereferences SI at root+0x9495. The immediate verifier stops at that conditional branch; the only qualifying memory operand is inside ADD_MOB_OBJ.",
+          "witnesses": []
+        },
+        {
+          "offset": 5,
+          "unproven": "No independent original operand witness for DGROUP offset 0x5e97; used at root+0xd6f0.",
+          "witnesses": []
+        },
+        {
+          "offset": 7,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 37761,
+              "bytes_hex": "8b87415d",
+              "entry": "root:0790:01e4"
+            }
+          ]
+        },
+        {
+          "offset": 10,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 37768,
+              "bytes_hex": "8a87445d",
+              "entry": "root:0790:01e4"
+            }
+          ]
+        },
+        {
+          "offset": 11,
+          "witnesses": [
+            {
+              "operand_offset": 1,
+              "space": "overlay-13",
+              "image_offset": 760,
+              "bytes_hex": "b9455d",
+              "entry": "overlay-13:2fcd:023a"
+            }
+          ]
+        },
+        {
+          "offset": 20,
+          "unproven": "No independent original operand witness for DGROUP offset 0x5ea6; used at root+0xd705.",
+          "witnesses": []
+        },
+        {
+          "offset": 22,
+          "unproven": "No independent original operand witness for DGROUP offset 0x5ea8; used at root+0xd70d.",
+          "witnesses": []
+        }
+      ],
+      "offset": 23866,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 37828,
+          "bytes_hex": "8b873a5d",
+          "entry": "root:0790:01e4"
+        }
+      ]
+    },
     "MOVE_DART_MOB": {
       "entry_sha256": "e10bea74de9f0b25f4ad5b8bb07f460b6917018a179f249a6142d19c773ea872",
       "entry_target_id": "overlay-6:2bda:02ac",
       "kind": "overlay-code-entry",
       "offset": 684,
+      "segment": 11226,
+      "space": "overlay-6",
+      "witnesses": []
+    },
+    "MOVE_DART_TO_TILE": {
+      "entry_sha256": "6ca93a8f0212a63efa78fa50ac7d5e366965422e02f881f777099c2a91c939eb",
+      "entry_target_id": "overlay-6:2bda:01a2",
+      "kind": "overlay-code-entry",
+      "offset": 418,
       "segment": 11226,
       "space": "overlay-6",
       "witnesses": []
@@ -27781,6 +27907,24 @@
       "entry_target_id": "overlay-9:2c59:07d4",
       "kind": "overlay-code-entry",
       "offset": 2004,
+      "segment": 11353,
+      "space": "overlay-9",
+      "witnesses": []
+    },
+    "MOVE_SLIDE_ROCK": {
+      "entry_sha256": "61812675d3c7c512224dcf82fbccde430254f78babebecc4e616d8f5142175e0",
+      "entry_target_id": "overlay-9:2c59:0084",
+      "kind": "overlay-code-entry",
+      "offset": 132,
+      "segment": 11353,
+      "space": "overlay-9",
+      "witnesses": []
+    },
+    "MOVE_TRAPDOOR": {
+      "entry_sha256": "d7ff81eddd29b31f8798bc9c416aa37a8e5a451dbf0fed206e44161921dc6327",
+      "entry_target_id": "overlay-9:2c59:0c22",
+      "kind": "overlay-code-entry",
+      "offset": 3106,
       "segment": 11353,
       "space": "overlay-9",
       "witnesses": []
@@ -28205,6 +28349,23 @@
         }
       ]
     },
+    "SET_OBJECT_CELL": {
+      "entry_sha256": "f81ec28f3b5894524b7ddd523e09ac6cc2aa64a27f60a60993c2dc35f2845142",
+      "entry_target_id": "root:0790:1eaa",
+      "kind": "far-code-entry",
+      "offset": 7850,
+      "segment": 1936,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 6680,
+          "bytes_hex": "9aaa1e9007",
+          "file_offset": 14872,
+          "relocation_index": 151
+        }
+      ]
+    },
     "SHAKE_BONES": {
       "entry_sha256": "fd6f9c5e639b072346c6b55a13102a4ae3d3e3f84672af1907e6e92534dfa888",
       "entry_target_id": "overlay-12:2e49:1294",
@@ -28288,6 +28449,11 @@
       "members": [
         {
           "offset": 2,
+          "witnesses": []
+        },
+        {
+          "offset": 3,
+          "unproven": "The only reached address field for TROBS+3 is the induction base at GetTrobById+0x16.",
           "witnesses": []
         }
       ],
@@ -28419,6 +28585,15 @@
       "offset": 2878,
       "segment": 11353,
       "space": "overlay-9",
+      "witnesses": []
+    },
+    "ANIMATE_BRIDGE_MOB": {
+      "entry_sha256": "278e1f9f17ecb09cb019ab511f066daceb5da3713000b7f775b61e62f9382a2b",
+      "entry_target_id": "overlay-14:2fcd:0782",
+      "kind": "overlay-code-entry",
+      "offset": 1922,
+      "segment": 12237,
+      "space": "overlay-14",
       "witnesses": []
     },
     "PLAYER_START": {

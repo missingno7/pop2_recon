@@ -12316,6 +12316,23 @@
         }
       ]
     },
+    "ALLOCATE_CLIPPED_PORT": {
+      "entry_sha256": "f92dcecfb73bb8394bd3a527ddaed0e91a5da82d7f97b140596be7bbd801fb57",
+      "entry_target_id": "root:1129:5194",
+      "kind": "far-code-entry",
+      "offset": 20884,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 30399,
+          "bytes_hex": "9a94512911",
+          "file_offset": 38591,
+          "relocation_index": 582
+        }
+      ]
+    },
     "AUTO_FORWARD": {
       "entry_sha256": "bc1770f032882ac0d9c5cb6617e735707dfa72eacc71a3a05e44117105ea5ca3",
       "entry_target_id": "overlay-12:2e49:0002",
@@ -12745,6 +12762,23 @@
       "segment": 4393,
       "space": "root",
       "witnesses": []
+    },
+    "EMPTYRECT": {
+      "entry_sha256": "e9f74bae09bf698fd274a4846acfd9a104821484346ff379d01e3723bf27b632",
+      "entry_target_id": "root:1129:4d50",
+      "kind": "far-code-entry",
+      "offset": 19792,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 20657,
+          "bytes_hex": "9a504d2911",
+          "file_offset": 28849,
+          "relocation_index": 395
+        }
+      ]
     },
     "FCHAR": {
       "group": "DGROUP",
@@ -13652,6 +13686,11 @@
               "entry": "root:04b3:0684"
             }
           ]
+        },
+        {
+          "offset": 3,
+          "unproven": "No independent original operand witness for DGROUP offset 0x6149; used at root+0x1c28.",
+          "witnesses": []
         }
       ],
       "offset": 24558,
@@ -13798,6 +13837,56 @@
           "image_offset": 2948,
           "bytes_hex": "a0de5c",
           "entry": "root:0000:0e72"
+        }
+      ]
+    },
+    "ROOMOPP": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "space": "root",
+          "image_offset": 13804,
+          "bytes_hex": "8db7765b1e07b92000f3a5",
+          "entry": "root:02dc:080a"
+        }
+      },
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 38,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 1637,
+              "bytes_hex": "c7879c5b0000",
+              "entry": "root:0000:02be"
+            }
+          ]
+        },
+        {
+          "offset": 358,
+          "unproven": "No independent original operand witness for DGROUP offset 0x5e26; used at root+0x2849.",
+          "witnesses": [
+            {
+              "bytes_hex": "813edc5c5802",
+              "entry": "root:0790:25d4",
+              "image_offset": 40831,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 23414,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 13804,
+          "bytes_hex": "8db7765b",
+          "entry": "root:02dc:080a"
         }
       ]
     },

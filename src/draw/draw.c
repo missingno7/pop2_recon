@@ -1390,7 +1390,7 @@ extern int middle_count;
 extern int far _fastcall add_middle_image(unsigned char set, int image, int x, int y, unsigned char order);
 extern void draw_overlay_object_13(unsigned char type);
 extern void DrawObjSpikes(unsigned char type);
-extern void draw_overlay_object_86(unsigned char type);
+extern void draw_object_slide_rock(unsigned char type);
 extern void draw_object_trapdoor(unsigned char type);
 extern void draw_bridge_mob_object(unsigned char type);
 extern void draw_fireball_object(unsigned char type);
@@ -1430,7 +1430,7 @@ void draw_cell_object(signed char index)
         DrawObjSpikes(type);
         return;
     case 0x86: case 0x87: case 0x88: case 0x89:
-        draw_overlay_object_86(type);
+        draw_object_slide_rock(type);
         return;
     case 0x8a:
         draw_object_trapdoor(type);

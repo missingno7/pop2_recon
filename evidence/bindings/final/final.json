@@ -20643,6 +20643,23 @@
       "space": "root",
       "witnesses": []
     },
+    "@add_middle_image": {
+      "entry_sha256": "eb0f12d451bcd0eb5eb34a8ba8fdf7e7f92a072eebc150d6a67880582f3ff31b",
+      "entry_target_id": "root:0170:03cc",
+      "kind": "far-code-entry",
+      "offset": 972,
+      "segment": 368,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 38411,
+          "bytes_hex": "9acc037001",
+          "file_offset": 46603,
+          "relocation_index": 804
+        }
+      ]
+    },
     "@draw_custom_room_image": {
       "entry_sha256": "fafd215e8f2fdf15ac07d49c5f60513d72d28ec67e4b8f74a3972c3eb95d077a",
       "entry_target_id": "root:0790:0712",
@@ -21355,6 +21372,18 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "operand_offset": 2,
+              "space": "root",
+              "image_offset": 12639,
+              "bytes_hex": "0116fc60",
+              "entry": "root:02dc:0390"
+            }
+          ]
+        },
         {
           "offset": 4,
           "witnesses": [
@@ -22278,6 +22307,20 @@
       "offset": 2064,
       "provider": "group:move/move"
     },
+    "OBJECT_COUNTER": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24822,
+      "witnesses": [
+        {
+          "operand_offset": 2,
+          "space": "root",
+          "image_offset": 6880,
+          "bytes_hex": "833ef6601e",
+          "entry": "root:0170:03cc"
+        }
+      ]
+    },
     "OFFSETRECT": {
       "entry_sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
       "entry_target_id": "root:1129:50ec",
@@ -22939,6 +22982,36 @@
           "space": "overlay-17",
           "image_offset": 20490,
           "relocation_index": 155
+        }
+      ],
+      "members": [
+        {
+          "offset": 65534,
+          "unproven": "No independent original operand witness for this address."
+        },
+        {
+          "offset": 65532,
+          "offset_witnesses": [
+            {
+              "space": "root",
+              "image_offset": 38377,
+              "entry": "root:0790:1c32",
+              "kind": "selector-access",
+              "bytes_hex": "8e06ce26a10b61268987f411",
+              "selector_offset": 9934,
+              "relocation_index": 156,
+              "dgroup_segment": {
+                "segment": 13058,
+                "witnesses": [
+                  {
+                    "space": "root",
+                    "image_offset": 5647,
+                    "relocation_index": 54
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },

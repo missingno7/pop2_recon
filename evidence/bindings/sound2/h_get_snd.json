@@ -1,0 +1,213 @@
+{
+  "declarations": {
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 54,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "HGETSND",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "HGETRSRC",
+      "CONVERT_SOUND_HANDLE",
+      "DISPOSE_HANDLE",
+      "HGETSND"
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 38,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 3,
+          "name": "DISPOSE_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "DISPOSE_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 28,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "CONVERT_SOUND_HANDLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "CONVERT_SOUND_HANDLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 16,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "HGETRSRC",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "HGETRSRC",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "schema": 1,
+  "symbols": {
+    "CONVERT_SOUND_HANDLE": {
+      "entry_sha256": "0d3f0aa2b1617fb708dfc9198e7eaa3b6ac024cc0686050ebae87df1006239ba",
+      "entry_target_id": "root:1129:8118",
+      "kind": "far-code-entry",
+      "offset": 33048,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": []
+    },
+    "DISPOSE_HANDLE": {
+      "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
+      "entry_target_id": "root:1129:16e6",
+      "kind": "far-code-entry",
+      "offset": 5862,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 9487,
+          "bytes_hex": "9ae6162911",
+          "file_offset": 17679,
+          "relocation_index": 197
+        }
+      ]
+    },
+    "HGETRSRC": {
+      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "entry_target_id": "root:1129:6f4c",
+      "kind": "far-code-entry",
+      "offset": 28492,
+      "segment": 4393,
+      "space": "root",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 9743,
+          "bytes_hex": "9a4c6f2911",
+          "file_offset": 17935,
+          "relocation_index": 173
+        }
+      ]
+    }
+  },
+  "target_id": "group:sound2/h_get_snd",
+  "target_sha256": "c92298b62fc04fe66a0270fbaf082d7d7a5e37d0b5b7ed5adafccd43b26a67d7"
+}

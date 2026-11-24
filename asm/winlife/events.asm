@@ -19,14 +19,14 @@ EXTRN WINDOW_HEAD:WORD
 EXTRN WINDOW_LIST:BYTE
 .CODE
 EXTRN ACTIVATE_WINDOW:NEAR
-EXTRN ALLOCATE_WINDOW_DRAW_PORT:NEAR
+EXTRN ALLOCATE_BACKGROUND_PORT:NEAR
 EXTRN CREATE_WINDOW_FROM_RESOURCE:NEAR
 EXTRN DISPOSE_WINDOW:NEAR
-EXTRN FIND_EVENT_ITEM:NEAR
+EXTRN ITEM_BY_INDEX:NEAR
 EXTRN FORMAT_ERROR_DETAIL:FAR
-EXTRN FREE_NEAR:FAR
-EXTRN FREE_WINDOW_DRAW_PORT:NEAR
-EXTRN GET_TAGGED_RESOURCE:NEAR
+EXTRN __NFREE:FAR
+EXTRN RELEASE_BACKGROUND_PORT:NEAR
+EXTRN LOAD_RESOURCE_COPY:NEAR
 EXTRN HANDLE_MOUSE_CALLBACK:FAR
 EXTRN LOOKUP_PREFIXED_STRING:NEAR
 EXTRN PLAY_SOUND:NEAR
@@ -630,14 +630,14 @@ open_error_window:
     sbb ax, ax
     je save_background
     lea ax, [di+3eh]
-    call ALLOCATE_WINDOW_DRAW_PORT
+    call ALLOCATE_BACKGROUND_PORT
 save_background:
     mov [bp-4ah], ax
     push di
     mov ax, 2
     push ax
     push cs
-    call NEAR PTR FIND_EVENT_ITEM
+    call NEAR PTR ITEM_BY_INDEX
     push ax
     push ERROR_ACTION_LABEL
     push cs
@@ -649,7 +649,7 @@ save_background:
     mov ax, 1
     push ax
     push cs
-    call NEAR PTR FIND_EVENT_ITEM
+    call NEAR PTR ITEM_BY_INDEX
     push ax
     sub ax, ax
     push ax
@@ -693,7 +693,7 @@ load_error_resource:
     mov ax, 0ff9ch
     push ax
     push cs
-    call GET_TAGGED_RESOURCE
+    call LOAD_RESOURCE_COPY
     push ax
     push ds
     push ax
@@ -708,13 +708,13 @@ load_error_resource:
     push si
     call FORMAT_ERROR_DETAIL
     add sp, 6
-    call FREE_NEAR
+    call __NFREE
     add sp, 2
     push di
     mov ax, 4
     push ax
     push cs
-    call NEAR PTR FIND_EVENT_ITEM
+    call NEAR PTR ITEM_BY_INDEX
     xchg bx, ax
     push bx
     mov ax, 9
@@ -737,7 +737,7 @@ wait_for_action:
     mov cx, [bp-4ah]
     jcxz close_error_window
     xchg cx, ax
-    call FREE_WINDOW_DRAW_PORT
+    call RELEASE_BACKGROUND_PORT
     sub cx, cx
     xchg [di+2ch], cx
     mov WINDOW_HEAD, cx

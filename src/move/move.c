@@ -1780,7 +1780,7 @@ void add_mob_obj(int y);
 int opp_under_mob(OpponentPosition *opp);
 int loose_hits_actor(void);
 
-extern void redraw_cave_bars(void);
+extern void animate_bridge_mob(void);
 extern void move_dart_to_tile(void);
 extern void ATMSpikes(void);
 extern void move_slide_rock(void);
@@ -1843,7 +1843,7 @@ void add_mob_to_frame(void)
         move_trapdoor();
         return;
     case 11:
-        redraw_cave_bars();
+        animate_bridge_mob();
         return;
     case 12:
         add_mob_kind_12();

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "969d6d29ff59a1a132f688ea45dda81b136a18ce4754a5b0a9aed08900127441",
+  "binding_sha256": "5379f478b8c28d5ecd5076c4f43ea0d5d9230cab3b7f4e7a60c118f17aa847f1",
   "claims": [
     {
       "fixup_count": 15,
@@ -628,6 +628,67 @@
       "target_id": "root:0790:2cbc"
     }
   ],
+  "code_matches": [
+    {
+      "public": "DRAW_CELL_OBJECT",
+      "target_id": "root:0790:1c32",
+      "unproven": [
+        "DRAW_OVERLAY_OBJECT_13",
+        "MIDDLE_QUEUE+0xffff"
+      ]
+    },
+    {
+      "public": "DRAW_OPPONENT_METER",
+      "target_id": "root:0790:25d4",
+      "unproven": [
+        "SCREEN_BOUNDS+0x4",
+        "SCREEN_BOUNDS+0x6"
+      ]
+    },
+    {
+      "public": "REDRAW_CELL_FAST",
+      "target_id": "root:0790:01e4",
+      "unproven": [
+        "REDRAW_BACK_CELLS+0x2",
+        "REDRAW_FORE_CELLS+0x2"
+      ]
+    },
+    {
+      "public": "DRAW_BACK_IMAGE",
+      "target_id": "root:0790:03dc",
+      "unproven": [
+        "BELOW_TILES+0x3",
+        "BELOW_TILES+0x5",
+        "BELOW_TILES+0x6",
+        "BELOW_TILES+0x8"
+      ]
+    },
+    {
+      "public": "DRAW_FORE_IMAGE",
+      "target_id": "root:0790:0858",
+      "unproven": [
+        "ABOVE_TILES+0x5",
+        "ABOVE_TILES+0x6",
+        "ABOVE_TILES+0x8"
+      ]
+    },
+    {
+      "public": "@load_horse_shape",
+      "target_id": "root:0790:21ac",
+      "unproven": [
+        "HORSE_SHAPE_REF+0x1",
+        "HORSE_SHAPE_REF+0x2",
+        "HORSE_SHAPE_REF+0x3"
+      ]
+    },
+    {
+      "public": "DRAWKIDMETER",
+      "target_id": "root:0790:24ea",
+      "unproven": [
+        "SCREEN_BOUNDS+0x4"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 1114,
@@ -654,36 +715,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 482,
-      "public": "REDRAW_CELL_FAST"
-    },
-    {
-      "object_offset": 986,
-      "public": "DRAW_BACK_IMAGE"
-    },
-    {
-      "object_offset": 2134,
-      "public": "DRAW_FORE_IMAGE"
-    },
-    {
-      "object_offset": 7216,
-      "public": "DRAW_CELL_OBJECT"
-    },
-    {
-      "object_offset": 8618,
-      "public": "@load_horse_shape"
-    },
-    {
-      "object_offset": 9448,
-      "public": "DRAWKIDMETER"
-    },
-    {
-      "object_offset": 9682,
-      "public": "DRAW_OPPONENT_METER"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 11572,
   "flags": [
     "/c",
@@ -698,12 +730,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "5b51e1bd6348715a29c5b3cc99b930df77cccbcbe237bc3547c6252bd2429797",
+  "object_sha256": "a41b19e10c68202864c4f92fac3c4e065a2fa89c1c2ec6beb40f951d6fc6c5e6",
   "origin": 30978,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "f33379b141de806cd4b15d23b82f250a6ee0be9dc4318ca4adc9e004fd78263f",
+  "source_sha256": "750676f4ddb7e657e1637fa6acf987d5904283cb700142f5c14a3e34dc26f9ee",
   "space": "root"
 }

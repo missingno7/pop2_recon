@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/intrface/intrface.json",
-  "binding_sha256": "0e1566d3acb31ca8e6923cd6a35c9b567de0091cd1349a766b7b1e187dc7f70e",
+  "binding_sha256": "9f8bf92588749497e86027ece339050f34c608a26ee17fc1f0d439a0a97462aa",
   "claims": [
     {
       "fixup_count": 7,
@@ -137,6 +137,28 @@
       "fixup_count": 2,
       "public": "STDRSRCVERIFY",
       "target_id": "root:1f74:031a"
+    },
+    {
+      "fixup_count": 2,
+      "public": "FILE_EXISTS",
+      "relocation_indices": [
+        1897,
+        1902
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1f74:032a"
+    }
+  ],
+  "code_matches": [
+    {
+      "public": "RESET_INTERFACE",
+      "target_id": "root:1f74:004a",
+      "unproven": [
+        "RESTORE_DOS_VECTORS"
+      ]
     }
   ],
   "data_publics": [
@@ -165,16 +187,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 64,
-      "public": "RESET_INTERFACE"
-    },
-    {
-      "object_offset": 800,
-      "public": "FILE_EXISTS"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 850,
   "flags": [
     "/c",
