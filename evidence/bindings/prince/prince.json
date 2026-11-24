@@ -476,7 +476,7 @@
       "LASTRESUME",
       "DEMO_CHANGED",
       "PRELOAD_ROOM_DATA",
-      "DEMO_PENDING",
+      "NIS_SKIP_REQUESTED",
       "RESETGAME",
       "KEY_DOWN",
       "INITIALIZE_ROOM_ACTORS",
@@ -1249,7 +1249,7 @@
         "target": {
           "kind": "external",
           "index": 162,
-          "name": "DEMO_PENDING",
+          "name": "NIS_SKIP_REQUESTED",
           "method": 6,
           "zero_displacement": true
         }
@@ -1257,7 +1257,7 @@
       "target": {
         "kind": "external",
         "index": 162,
-        "name": "DEMO_PENDING",
+        "name": "NIS_SKIP_REQUESTED",
         "method": 6,
         "zero_displacement": true
       },
@@ -1438,7 +1438,7 @@
         "target": {
           "kind": "external",
           "index": 162,
-          "name": "DEMO_PENDING",
+          "name": "NIS_SKIP_REQUESTED",
           "method": 6,
           "zero_displacement": true
         }
@@ -1446,7 +1446,7 @@
       "target": {
         "kind": "external",
         "index": 162,
-        "name": "DEMO_PENDING",
+        "name": "NIS_SKIP_REQUESTED",
         "method": 6,
         "zero_displacement": true
       },
@@ -5256,7 +5256,7 @@
         "target": {
           "kind": "external",
           "index": 162,
-          "name": "DEMO_PENDING",
+          "name": "NIS_SKIP_REQUESTED",
           "method": 6,
           "zero_displacement": true
         }
@@ -5264,7 +5264,7 @@
       "target": {
         "kind": "external",
         "index": 162,
-        "name": "DEMO_PENDING",
+        "name": "NIS_SKIP_REQUESTED",
         "method": 6,
         "zero_displacement": true
       },
@@ -16875,21 +16875,6 @@
         }
       ]
     },
-    "DEMO_PENDING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 5010,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 22278,
-          "bytes_hex": "833e921300",
-          "entry": "root:053b:02d4"
-        }
-      ]
-    },
     "DISPATCH_SOUND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
@@ -18627,6 +18612,12 @@
       "segment": 0,
       "space": "root",
       "witnesses": []
+    },
+    "NIS_SKIP_REQUESTED": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:nis/nis",
+      "offset": 5010
     },
     "DIGITAL_DRIVER": {
       "kind": "dgroup-offset",

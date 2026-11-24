@@ -1429,7 +1429,7 @@ int far pascal choose_weapon_draw(void)
 }
 
 extern unsigned int next_opponent_toggle;
-extern int room_event_pending;
+extern int bridge_break;
 extern int far pascal bridge_skeleton_must_advance(void);
 
 extern void far pascal load_kid_with_opponent(signed char slot);
@@ -1486,7 +1486,7 @@ void far pascal control_fighting(void)
         }
         if (Char.slot == 10 && direction_back < 0 &&
             (direction_action == -1 || direction_action == 1) &&
-            (Level.level_number != 5 || Char.room != 10 || room_event_pending <= 0)) {
+            (Level.level_number != 5 || Char.room != 10 || bridge_break <= 0)) {
             turn_engarde();
             direction_action = 2;
             direction_back = ClrAll();

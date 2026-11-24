@@ -1,16 +1,37 @@
 /* NIS.C. Function and field declarations reflect the reviewed DOS ABI. */
+typedef struct {
+    int top, left, bottom, right;
+} Rect;
+
+typedef struct {
+    int y, x;
+} Point;
+
+char nis_file[] = "NIS.DAT";
+char transition_file[] = "TRANS.DAT";
+char caverns_file[] = "CAVERNS.DAT";
+char ruins_file[] = "RUINS.DAT";
+int nis_skip_requested = 0;
+char *nis_data_files[6] = { "NISIBM.DAT", "NISDIGI.DAT", "NISMIDI.DAT", 0, 0, "NIS3VC.DAT" };
+Rect dialog_rect = { 157, 23, 197, 296 }, extended_dialog_rect = { 10, 23, 50, 296 };
+Rect nis_clip = { 32, 40, 152, 280 };
+Rect small_throne_bounds = { 126, 140, 175, 180 };
+Point princess_shadow = { 137, 90 };
+Rect ending_fill_bounds = { 0, 0, 8, 320 };
+unsigned int alternate_dialog = 0;
+unsigned int extended_dialog = 0;
+
 typedef unsigned int Handle;
 typedef struct {
     unsigned long animation_key;
     int shape_mode;
 } ShapeList;
 
-extern Handle HGETRSRC(unsigned long type, int resource_id);
-extern Handle MARK_FIXED(Handle handle);
+extern Handle HGETRSRC(unsigned long, int);
+extern Handle MARK_FIXED(Handle);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle handle);
-extern int cdecl sprintf(char *destination, const char *format, ...);
+extern int cdecl sprintf(char *, const char *, ...);
 extern void abort_with_message(int status, const char far *message);
-static const char shape_list_error[] = "hGetSL(%d)";
 
 Handle hGetSL(int resource_id, int mode)
 {
@@ -24,7 +45,7 @@ Handle hGetSL(int resource_id, int mode)
             list->shape_mode = mode;
             return handle;
         } else {
-            sprintf(message, shape_list_error, resource_id);
+            sprintf(message, "hGetSL(%d)", resource_id);
             abort_with_message(1, message);
         }
     }
@@ -111,10 +132,6 @@ void FreeDialog(void)
 }
 
 typedef struct {
-    int top, left, bottom, right;
-} Rect;
-
-typedef struct {
     char private_fields[40];
     int color;
     char private_tail[2];
@@ -125,9 +142,6 @@ typedef struct {
     Rect clip;
 } ImagePort;
 
-extern unsigned int extended_dialog;
-extern unsigned int alternate_dialog;
-extern Rect dialog_rect, extended_dialog_rect;
 extern DrawPort *Graf;
 extern ImagePort *alternate_port, *extended_port;
 extern int pending_decoration, decoration_shape, decoration_x, decoration_y;
@@ -298,14 +312,12 @@ int tree_callback(void *playback, int frame)
 typedef int (far *AnimationCallback)(void *playback, int frame);
 typedef struct TitleAnimationState TitleAnimationState;
 
-extern const char nis_file[];
-extern const char *nis_data_files[6];
 extern int (far *saved_poll_input)(void);
-extern void open_level_resources(const char * const *files);
+extern void open_level_resources(char **files);
 extern void install_nis_input(void);
 extern void open_verified_resource(const char *name);
 extern void close_resource_file(const char *name);
-extern void close_level_resources(const char * const *files);
+extern void close_level_resources(char **files);
 extern void WRITE_DAC_BLOCK(int first, int count, const void far *colors, int sync);
 extern int play_anim(Handle shapes, int resource, int scene, int mode,
                               AnimationCallback callback, int x, int y, int options);
@@ -364,7 +376,6 @@ void tree_check(int scene)
     close_level_resources(nis_data_files);
 }
 
-extern const char transition_file[], caverns_file[], ruins_file[];
 extern Rect screen_bounds, GamePlayRect;
 extern int transition_animation_state;
 extern ImagePort *title_patch;
@@ -600,12 +611,10 @@ int trans_princess_room(Handle shapes)
     int interrupted;
     Handle shadow;
 
-    extern int princess_shadow_x, princess_shadow_y;
-
     transition_animation_state = 265;
     draw_princess_room(shapes);
     shadow = hGetSL(TRANSITION_RESOURCE + 1, 2);
-    PaintShapeItem(shadow, 249, princess_shadow_x, princess_shadow_y, 10, 1);
+    PaintShapeItem(shadow, 249, princess_shadow.x, princess_shadow.y, 10, 1);
     dispose_handle(shadow);
     play_sound(PRINCESS_MUSIC);
     transition_palette = TRANSITION_COLORS(0);
@@ -642,7 +651,6 @@ typedef struct {
     void far *fade;
 } AnimationState;
 
-extern Rect small_throne_bounds;
 extern void draw_dead_kid(int ruined);
 extern ImagePort *allocate_clipped_port(const Rect far *bounds);
 extern DrawPort *AllocBackPort(const Rect far *bounds);
@@ -961,7 +969,6 @@ void erase_static_jaffar(DrawPort *port)
 
 extern void *cdecl memset(void *destination, int value, unsigned int length);
 
-extern Rect nis_clip;
 extern Handle nis_palette;
 extern int delay_count;
 extern int wait_timer(int timer);
@@ -1717,7 +1724,6 @@ int opening_two(void)
 
 
 
-extern Rect nis_clip;
 extern Handle nis_palette;
 extern void PAINTRLESHAPE_ASM(const void far *shape, int x, int y, int mode);
 
@@ -1852,7 +1858,7 @@ extern void PUSH_PORT_CLIP(const Rect far *bounds);
 extern void POP_PORT_CLIP(void);
 extern void DISPOSE_BITMAP_PORT(ImagePort *patch);
 extern Handle MARK_PURGEABLE(Handle shape);
-extern Rect ending_fill_bounds, ending_patch_bounds;
+extern Rect ending_patch_bounds;
 extern Handle ending_shapes, ending_sprite;
 extern Handle ending_palette_one, ending_palette_two, ending_palette_three, ending_palette_four;
 extern Handle discovery_shapes;
@@ -2072,7 +2078,7 @@ void draw_happy_dialog(int resource, int line, int voice)
 extern int POLL_DOS_KEY(void);
 extern void toggle_sound(void);
 extern void read_controls(void);
-extern int nis_skip_requested, nis_button_latched;
+extern int nis_button_latched;
 extern unsigned char nis_button_held;
 
 int check_nis_input(void)

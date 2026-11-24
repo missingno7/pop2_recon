@@ -478,7 +478,7 @@
       "ADDCHARX",
       "ANIM_MOBS",
       "ROOMOPP",
-      "PREVIEW_MODE",
+      "NIS_SKIP_REQUESTED",
       "GETOPPINFOIDX",
       "ANIMTROBS",
       "VIEW_RETRY",
@@ -3616,7 +3616,7 @@
         "target": {
           "kind": "external",
           "index": 155,
-          "name": "PREVIEW_MODE",
+          "name": "NIS_SKIP_REQUESTED",
           "method": 6,
           "zero_displacement": true
         }
@@ -3624,7 +3624,7 @@
       "target": {
         "kind": "external",
         "index": 155,
-        "name": "PREVIEW_MODE",
+        "name": "NIS_SKIP_REQUESTED",
         "method": 6,
         "zero_displacement": true
       },
@@ -18761,8 +18761,7 @@
       "offset": 3098,
       "segment": 11226,
       "space": "overlay-6",
-      "witnesses": [],
-      "unproven": "No independent original witness; Far address lacks a second equal claimed site: INITIALIZE_BRIDGE+0"
+      "witnesses": []
     },
     "INITINPUT": {
       "entry_sha256": "afc63b3fc1fc2287018b79d45f5f7bc97fc6d3ca6a19fc3aba86391a14cfd0aa",
@@ -19887,20 +19886,6 @@
         }
       ]
     },
-    "PREVIEW_MODE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 5010,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 630,
-          "bytes_hex": "833e921300",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
     "PRINCECOPY": {
       "entry_sha256": "2c44d9ae039c59ce74972842c2cc429c3da512234db7ea8537cb24b809fb7e5b",
       "entry_target_id": "root:0000:1326",
@@ -20652,6 +20637,12 @@
       "group": "DGROUP",
       "provider": "group:tables/tables",
       "offset": 3324
+    },
+    "NIS_SKIP_REQUESTED": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:nis/nis",
+      "offset": 5010
     },
     "FADE_ACTIVE": {
       "kind": "dgroup-offset",

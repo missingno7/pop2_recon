@@ -246,7 +246,7 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
         if (bridge_break == 3) {
             col = 7;
             do {
-                if (!falling_floors[col]) {
+                if (!falling_floors[col - 1]) {
                     trigger_bridge_floor_mob(10, col + 10);
                     break;
                 }
@@ -672,7 +672,7 @@ void trigger_bridge_floor_mob(unsigned char room, signed char cell)
         Mob.flags = 0;
         speed = 1;
     }
-    falling_floors[col] = speed;
+    falling_floors[col - 1] = speed;
     Mob.flags |= speed << 4;
     Mob.room = room;
     Mob.row = row;

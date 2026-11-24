@@ -68,7 +68,7 @@ extern int restart_from_demo;
 
 extern int demo_level;
 extern int demo_changed;
-extern int demo_pending;
+extern int nis_skip_requested;
 extern int minutes_remaining;
 static char title[] = "PRINCE OF PERSIA 2 v1.1";
 /* FM Towns names these adjacent lookup tables OppCharId and CharOppId. */
@@ -233,7 +233,7 @@ next_opening_clip:
     }
     level = selected_level;
     reset_level_overlays();
-    if (demo_pending)
+    if (nis_skip_requested)
         level = poll_and_clear_pending_state();
     return level;
 }
@@ -246,7 +246,7 @@ next_opening_clip:
         level = selected_level = LevelIdx;
         demo_changed = 0;
     }
-    demo_pending = 0;
+    nis_skip_requested = 0;
     return level;
 }
 
@@ -360,7 +360,7 @@ unsigned int far pascal prince_poll(void)
                 if (IsValidTimeForDialog()) load_game_dialog();
                 copy_kid_to_char();
             } else {
-                demo_pending = 1;
+                nis_skip_requested = 1;
             }
             break;
         case 0x2f00: message = title; break;

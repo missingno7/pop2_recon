@@ -584,7 +584,7 @@
       "READ_DAC_BLOCK",
       "SETOPTIONSFROMDISK",
       "DRAWDIALOGFRAME",
-      "DEMO_PENDING",
+      "NIS_SKIP_REQUESTED",
       "WRITE_DAC_BLOCK",
       "MEASURE_TEXT",
       "ISVALIDTIMEFORSAVEGAME",
@@ -1054,7 +1054,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "DEMO_PENDING",
+          "name": "NIS_SKIP_REQUESTED",
           "method": 6,
           "zero_displacement": true
         }
@@ -1062,7 +1062,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "DEMO_PENDING",
+        "name": "NIS_SKIP_REQUESTED",
         "method": 6,
         "zero_displacement": true
       },
@@ -19336,21 +19336,6 @@
         }
       ]
     },
-    "DEMO_PENDING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [],
-      "offset": 5010,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 630,
-          "bytes_hex": "833e921300",
-          "entry": "root:0000:0000"
-        }
-      ]
-    },
     "DIALOG_BLOCKED": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -20901,6 +20886,12 @@
       "segment": 7550,
       "space": "root",
       "witnesses": []
+    },
+    "NIS_SKIP_REQUESTED": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:nis/nis",
+      "offset": 5010
     },
     "SCREEN_BOUNDS": {
       "kind": "dgroup-offset",

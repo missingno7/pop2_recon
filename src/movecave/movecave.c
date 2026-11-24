@@ -232,10 +232,8 @@ static struct {
 
 static sbyte lava_sequence_0[] = {0, 1, 2, 3, 4, 5, 6, 14, 13, -1};
 static sbyte lava_sequence_1[] = {0, 1, 2, 3, -2, 4, 16, 12, -1};
-static struct {
-    int ticks;
-    ubyte state[8];
-} bridge;
+extern int bridge_break;
+extern ubyte falling_floors[8];
 
 #define dart_redraw_type cave_motion.dart_redraw[0]
 #define lava_redraw_type cave_motion.lava_redraw[0]
@@ -279,7 +277,7 @@ extern void add_gate_sound(int);
 extern sbyte FirstInRow(sbyte);
 extern void redraw_gate(void);
 extern void frame_water_effect(void);
-extern void SetResource(int, int, ubyte, ubyte);
+extern void set_palette(int, int, ubyte, ubyte);
 extern void show_message(const char far *, int);
 extern void *cdecl _nmalloc(uword);
 extern void cdecl _nfree(void *);
@@ -845,7 +843,7 @@ void cave_frame(void)
 
 void initialize_bridge(void)
 {
-    SetResource(3500, 64, 160, 0);
-    bridge.ticks = 0;
-    memset(bridge.state, 0, sizeof(bridge.state));
+    set_palette(3500, 64, 160, 0);
+    bridge_break = 0;
+    memset(falling_floors, 0, sizeof(falling_floors));
 }

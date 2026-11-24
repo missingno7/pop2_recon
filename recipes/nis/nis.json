@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/nis/nis.json",
-  "binding_sha256": "1c49a230729eb2b3f743df23dda44336d99d73103a2e8f84a133d47c20c8d002",
+  "binding_sha256": "5320306fd62b6999e2097decdcfbecd4ff497dfff384e17812f6bf24a22f88db",
   "claims": [
     {
       "fixup_count": 63,
@@ -384,6 +384,29 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-2:255a:0708"
+    },
+    {
+      "fixup_count": 22,
+      "public": "TRANS_PRINCESS_ROOM",
+      "relocation_indices": [
+        61,
+        93,
+        192,
+        341,
+        342,
+        368,
+        411,
+        454,
+        520,
+        521,
+        588,
+        726
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:255a:117a"
     },
     {
       "fixup_count": 8,
@@ -1246,14 +1269,118 @@
       "target_id": "overlay-2:255a:5569"
     }
   ],
-  "code_matches": [
+  "data_publics": [
     {
-      "public": "TRANS_PRINCESS_ROOM",
-      "target_id": "overlay-2:255a:117a",
-      "unproven": [
-        "PRINCESS_SHADOW_X",
-        "PRINCESS_SHADOW_Y"
-      ]
+      "address": 4970,
+      "name": "NIS_FILE",
+      "offset": 58,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 4978,
+      "name": "TRANSITION_FILE",
+      "offset": 66,
+      "segment": "_DATA",
+      "span": 10,
+      "unique": true
+    },
+    {
+      "address": 4988,
+      "name": "CAVERNS_FILE",
+      "offset": 76,
+      "segment": "_DATA",
+      "span": 12,
+      "unique": true
+    },
+    {
+      "address": 5000,
+      "name": "RUINS_FILE",
+      "offset": 88,
+      "segment": "_DATA",
+      "span": 10,
+      "unique": true
+    },
+    {
+      "address": 5010,
+      "name": "NIS_SKIP_REQUESTED",
+      "offset": 98,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 5012,
+      "name": "NIS_DATA_FILES",
+      "offset": 100,
+      "segment": "_DATA",
+      "span": 12,
+      "unique": true
+    },
+    {
+      "address": 5024,
+      "name": "DIALOG_RECT",
+      "offset": 112,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 5032,
+      "name": "EXTENDED_DIALOG_RECT",
+      "offset": 120,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 5040,
+      "name": "NIS_CLIP",
+      "offset": 128,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 5048,
+      "name": "SMALL_THRONE_BOUNDS",
+      "offset": 136,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 5056,
+      "name": "PRINCESS_SHADOW",
+      "offset": 144,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 5060,
+      "name": "ENDING_FILL_BOUNDS",
+      "offset": 148,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 5068,
+      "name": "ALTERNATE_DIALOG",
+      "offset": 156,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 5070,
+      "name": "EXTENDED_DIALOG",
+      "offset": 158,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
     }
   ],
   "drafts": [],
@@ -1271,12 +1398,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "nis/nis",
-  "object_sha256": "ed9de2a5352a97217cf5c63758b46b8cd4016eb0015cce38f2a8308f16a581c9",
+  "object_sha256": "a276598e7486b37be0f017ed6868bfa44c349a2d008cf272ef1c3b709abeead0",
   "origin": 1022,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/nis/nis.c",
-  "source_sha256": "fde94a1297857d4c79a11558a9d362ae8cfafd15723d068d7df32e6d926af45c",
+  "source_sha256": "11ff353d69a1d3ca8c9baead13f40d16e8713fc0fe1debde4e81d46fe4dbe2c3",
   "space": "overlay-2"
 }

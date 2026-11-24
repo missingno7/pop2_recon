@@ -3,7 +3,6 @@
 .MODEL MEDIUM
 .DATA
 EXTRN screen_bits:DWORD
-EXTRN screen_segment:WORD
 EXTRN Graf:WORD
 EXTRN screen_row_origin:WORD
 EXTRN screen_x_origin:WORD
@@ -1050,7 +1049,7 @@ loc_4153:
     ror ah, cl
     ror ah, cl
     mov cl, BYTE PTR [bp-18h]
-    mov ds, WORD PTR [screen_segment]
+    mov ds, WORD PTR [screen_bits+2]
     jmp SHORT loc_4194
 
 line_replace:

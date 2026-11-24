@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "f59119701a63fa7e97e53beab7373ced4e96d4d465b3b6374fa4dea244fcf00b",
+  "binding_sha256": "21539a1e0a0b52e686d6d2be6202a0c6cbb99f79b72ed99079a968105a9f7dfd",
   "claims": [
     {
       "fixup_count": 16,
@@ -390,6 +390,19 @@
       "target_id": "root:0e78:0f72"
     },
     {
+      "fixup_count": 10,
+      "public": "INIT_LEVEL_SPECIFIC",
+      "relocation_indices": [
+        1199,
+        1257
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e78:0fb4"
+    },
+    {
       "fixup_count": 47,
       "public": "CHECK_ALERT",
       "relocation_indices": [
@@ -439,15 +452,6 @@
       "target_id": "root:0e78:123e"
     }
   ],
-  "code_matches": [
-    {
-      "public": "INIT_LEVEL_SPECIFIC",
-      "target_id": "root:0e78:0fb4",
-      "unproven": [
-        "INITIALIZE_BRIDGE"
-      ]
-    }
-  ],
   "data_publics": [
     {
       "address": 2430,
@@ -481,12 +485,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "a94ae6b21bde9a33bd71accf33d0dcbd85196f385eea6ef256d2ab657100747a",
+  "object_sha256": "805247d6f5d148e9262b0d0909e9d9fcb54daabf9e4c11fd7a5725a988980c15",
   "origin": 59270,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "109c0a28434a3a829767d67d3ab9549c1c39d8d9a286a9f8f34761c0122de735",
+  "source_sha256": "577e00c2d9cfe10ea958208aedb2faf9518d34476f725354a2f93481cbbaa10d",
   "space": "root"
 }

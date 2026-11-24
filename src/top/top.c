@@ -156,7 +156,7 @@ extern int resource_index;                         /* ds:0902 */
 extern int last_sound;                             /* ds:08fe */
 extern int last_track;                             /* ds:0900 */
 extern int option_flags;                           /* ds:1142 */
-extern int preview_mode;                           /* ds:1504 */
+extern int nis_skip_requested;                           /* ds:1504 */
 extern int view_retry;                             /* ds:6296 */
 extern int kid_step;                      /* ds:6298 */
 extern int action_timer;                           /* ds:629a */
@@ -363,7 +363,7 @@ int restart_level(signed char requested)
             break;
         if (!resume_mode) {
             reload = CheckPlayNIS(LevelIdx, requested);
-            if (preview_mode) {
+            if (nis_skip_requested) {
                 previous_request = game_request;
                 game_request = requested;
                 requested = poll_and_clear_pending_state();

@@ -586,7 +586,7 @@
       "ADVANCE_ACTOR",
       "CONTROL_DROP",
       "DECREMENT_LIFE_POINTS",
-      "ROOM_EVENT_PENDING",
+      "BRIDGE_BREAK",
       "CONTROL_CROUCHING",
       "BRIDGE_SKELETON_MUST_ADVANCE",
       "GETSHADOWTOKIDDIST",
@@ -20240,7 +20240,7 @@
         "target": {
           "kind": "external",
           "index": 74,
-          "name": "ROOM_EVENT_PENDING",
+          "name": "BRIDGE_BREAK",
           "method": 6,
           "zero_displacement": true
         }
@@ -20248,7 +20248,7 @@
       "target": {
         "kind": "external",
         "index": 74,
-        "name": "ROOM_EVENT_PENDING",
+        "name": "BRIDGE_BREAK",
         "method": 6,
         "zero_displacement": true
       },
@@ -27381,20 +27381,6 @@
         }
       ]
     },
-    "ROOM_EVENT_PENDING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26942,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "overlay-14",
-          "image_offset": 38,
-          "bytes_hex": "833e3e6900",
-          "entry": "overlay-14:2fcd:0000"
-        }
-      ]
-    },
     "ROW2PIXELY": {
       "group": "DGROUP",
       "kind": "dgroup-public",
@@ -27624,6 +27610,20 @@
           "image_offset": 15673,
           "operand_offset": 2,
           "space": "root"
+        }
+      ]
+    },
+    "BRIDGE_BREAK": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 26942,
+      "witnesses": [
+        {
+          "bytes_hex": "833e3e6900",
+          "entry": "overlay-14:2fcd:0000",
+          "image_offset": 38,
+          "operand_offset": 2,
+          "space": "overlay-14"
         }
       ]
     }

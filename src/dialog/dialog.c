@@ -201,7 +201,7 @@ int far pascal DialogFadeOut(void)
 }
 extern struct dialog_rect GamePlayRect;
 extern int gameplay_dialog_active;
-extern int demo_pending;
+extern int nis_skip_requested;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -295,7 +295,7 @@ void far pascal DialogResetToGamePlay(int restart_input)
     DISPOSE_HANDLE(hGetFont(11));
     DISPOSE_HANDLE(hGetFont(12));
     DISPOSE_HANDLE(hGetFont(13));
-    if (restart_input && !demo_pending) {
+    if (restart_input && !nis_skip_requested) {
         clear_row_handles();
         PrepCut(0);
         gameplay_dialog_active = 1;
