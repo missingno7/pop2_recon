@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/winlife/events.json",
-  "binding_sha256": "73696e4f954478951c8c23e6524c54a7911762da05d26c6688bea07fcb7be2bb",
+  "binding_sha256": "eadc00b81ab2b0f717c12d4d6e9ff341f30e1500f47ff797cee9ac12fef71963",
   "claims": [
     {
       "fixup_count": 1,
@@ -33,6 +33,11 @@
       "target_id": "root:1129:9937"
     },
     {
+      "fixup_count": 16,
+      "public": "INSTALL_DOS_VECTORS",
+      "target_id": "root:1129:9960"
+    },
+    {
       "fixup_count": 0,
       "public": "LOWERCASE_EVENT_CHARACTER",
       "target_id": "root:1000:ac68"
@@ -46,6 +51,11 @@
       "fixup_count": 4,
       "public": "INSERT_QUEUED_EVENT",
       "target_id": "root:1129:9a0f"
+    },
+    {
+      "fixup_count": 5,
+      "public": "RESTORE_DOS_VECTORS",
+      "target_id": "root:1129:9a73"
     },
     {
       "fixup_count": 3,
@@ -63,6 +73,11 @@
       "target_id": "root:1129:9aed"
     },
     {
+      "fixup_count": 3,
+      "public": "NOTIFY_EVENT_HOOK",
+      "target_id": "root:1129:9afd"
+    },
+    {
       "fixup_count": 2,
       "public": "VIDEO_INTERRUPT_FILTER",
       "relocation_indices": [
@@ -71,6 +86,16 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1129:9b0c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "KEYBOARD_INTERRUPT_FILTER",
+      "relocation_indices": [
+        1553
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1129:9b20"
     },
     {
       "fixup_count": 0,
@@ -96,24 +121,7 @@
       ]
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 464,
-      "public": "INSTALL_DOS_VECTORS"
-    },
-    {
-      "object_offset": 739,
-      "public": "RESTORE_DOS_VECTORS"
-    },
-    {
-      "object_offset": 877,
-      "public": "NOTIFY_EVENT_HOOK"
-    },
-    {
-      "object_offset": 912,
-      "public": "KEYBOARD_INTERRUPT_FILTER"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 1390,
   "flags": [],
   "frame": 4393,

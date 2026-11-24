@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/intrface/intrface.json",
-  "binding_sha256": "9f8bf92588749497e86027ece339050f34c608a26ee17fc1f0d439a0a97462aa",
+  "binding_sha256": "41630f2fc2d527242e933ce0d9729bd69e289942acc6479841851a10ab43837f",
   "claims": [
     {
       "fixup_count": 7,
@@ -15,6 +15,25 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:1f74:000a"
+    },
+    {
+      "fixup_count": 14,
+      "public": "RESET_INTERFACE",
+      "relocation_indices": [
+        1881,
+        1882,
+        1883,
+        1887,
+        1888,
+        1896,
+        1898,
+        1899
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1f74:004a"
     },
     {
       "fixup_count": 3,
@@ -150,15 +169,6 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:1f74:032a"
-    }
-  ],
-  "code_matches": [
-    {
-      "public": "RESET_INTERFACE",
-      "target_id": "root:1f74:004a",
-      "unproven": [
-        "RESTORE_DOS_VECTORS"
-      ]
     }
   ],
   "data_publics": [

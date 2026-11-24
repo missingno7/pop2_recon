@@ -126,7 +126,8 @@ bytes compare literally, except for these fixup fields:
     source's choice. Each field into such a segment is proven only by internal
     consensus, the same `(segment, addend)` at two or more distinct original
     instruction starts inside CODE_EXACT claims; different addends never support each
-    other (as for v4). A claim with an unsupported field is refused. Data that another
+    other (as for v4). One exception (2026-11-24): an equal LDS/LES/CALL FAR/JMP FAR field at A is also a site
+    of A+2, because that original instruction reads the dword at P+A as one far pointer. A claim with an unsupported field is refused. Data that another
     file also addresses is better bound as an extern v4 symbol with an outside witness.
   - Placed segments of different accepted groups must be disjoint: two files cannot
     define the same original DGROUP bytes. Overlaps accepted before 2026-11-22 are listed

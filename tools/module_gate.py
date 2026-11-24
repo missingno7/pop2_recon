@@ -30,7 +30,7 @@ overlay relocation site frames, see `_frame_evidence`), so
 import re
 import struct
 
-from binding import operand_field as operand_field_of
+from binding import operand_field as operand_field_of, pointer_extent
 from disasm import _capstone
 from binding import (IMMEDIATE_MODE, OPERAND_MODE, data_context, data_equations, declarations, fixes, ground,
                      instructions, preserve_segments)
@@ -463,7 +463,9 @@ def _placed_support(placement_report, states, reports):
     """Fields into a placed segment without unique initialized content are proven only by
     internal consensus: the same (segment, addend) at two or more distinct original instruction
     starts inside CODE_EXACT claims (as _internal_support for v4). Different addends never support
-    each other: P + A is one unknown per field once the layout is the source's choice. Runs to a
+    each other: P + A is one unknown per field once the layout is the source's choice. The one
+    exception is an original far pointer: an equal LDS/LES/CALL FAR/JMP FAR field at A is also a site
+    of A+2, because that instruction itself reads the dword at P+A (`binding.pointer_extent`). Runs to a
     fixpoint, since a refused claim withdraws its sites.
 
     Claims accepted under the earlier rule (content equality alone, or two distinct uninitialized
@@ -488,6 +490,8 @@ def _placed_support(placement_report, states, reports):
             for field in states[public]["placed"]:
                 if field["key"][0] in weak and field["equal"]:
                     sites.setdefault(field["key"], set()).add(field["insn"])
+                    if field.get("pointer"):  # LDS/LES/CALL FAR [P+A]: the original reads [P+A, P+A+4) as one far pointer
+                        sites.setdefault((field["key"][0], field["key"][1] + 2), set()).add(field["insn"])
         for public in exact:
             lacking = sorted({f["key"] for f in states[public]["placed"]
                               if f["key"][0] in weak and len(sites.get(f["key"], ())) < 2})
@@ -1585,7 +1589,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         placed_uses.setdefault(seg_name, set()).add(addend)
                     insn = next(i for i in rows if i.address <= at < i.address + i.size)
                     state["placed"].append({"key": (seg_name, addend), "equal": value == observed,
-                                            "insn": state["position"] + insn.address, "offset": at})
+                                            "insn": state["position"] + insn.address, "offset": at,
+                                            "pointer": pointer_extent(expected[insn.address:insn.address + insn.size],
+                                                                      observed) == 4})
                 elif (fix["loc_type"] == 2 and not fix["self_relative"] and fix["field_width"] == 2 and
                       ((fix["target"].get("kind") == "group" and fix["target"].get("name") == "DGROUP") or
                        (fix["target"].get("kind") == "segment" and fix["target"].get("name") in dgroup_members and

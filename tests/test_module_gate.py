@@ -856,6 +856,24 @@ class PlacedSupportTests(unittest.TestCase):
     def test_same_key_at_two_sites_is_consensus(self):
         self.assertEqual(self.run_support([0, 0])[0], ["CODE_EXACT", "CODE_EXACT"])
 
+    def test_far_pointer_read_is_a_site_of_its_segment_half_only(self):
+        import module_gate
+
+        def run(rows):
+            states = {f"P{i}": {"placed": [dict(key=("_BSS", k), equal=e, insn=0x100 * i + 4, offset=5, pointer=p)],
+                                "equations": []} for i, (k, p, e) in enumerate(rows)}
+            reports = [{"public": f"P{i}", "target_id": f"t{i}", "exact": True, "state": "CODE_EXACT"} for i in range(len(rows))]
+            with patch.object(module_gate, "PLACEMENT_DEBT", set()):
+                module_gate._placed_support({"_BSS": {"unique": False}}, states, reports)
+            return [r["state"] for r in reports]
+        exact, refused = "CODE_EXACT", "REFUSED"
+        # store +0, store +2, LDS [+0]: both halves have two sites
+        self.assertEqual(run([(0, False, True), (2, False, True), (0, True, True)]), [exact] * 3)
+        self.assertEqual(run([(0, False, True), (2, False, True), (0, False, True)]), [exact, refused, exact])  # a word read
+        self.assertEqual(run([(0, False, True), (4, False, True), (0, True, True)]), [exact, refused, exact])  # beyond the dword
+        self.assertEqual(run([(2, False, True), (0, True, False)]), [refused, refused])  # an unequal pointer read supports nothing
+        self.assertEqual(run([(2, False, True), (0, True, True)]), [refused, refused])  # the pointer itself has one site
+
     def test_listed_debt_keeps_claim_and_reports_it(self):
         states, reports = self.run_support([0], debt={"t0"})
         self.assertEqual(states, ["CODE_EXACT"])
