@@ -149,7 +149,7 @@ typedef struct {
 } GameOptions;
 
 extern GameOptions *configuration;
-extern unsigned char active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 extern void far *digital_driver, far *midi_driver;
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern void far pascal show_init_message(const char *message);
@@ -198,7 +198,7 @@ void far pascal ResetData(void);
         sprintf(message, "DType:%d MType:%d\rDDrv:%d MDrv: %d\rDInit:%d MInit:%d",
                 configuration->digital_type != 0, configuration->midi_type != 0,
                 digital_driver ? 1 : 0, midi_driver ? 1 : 0,
-                (active_sound_channels & 1) != 0, (active_sound_channels & 2) != 0);
+                (Midi.channels & 1) != 0, (Midi.channels & 2) != 0);
         show_init_message(message);
     }
     SetOptionsFromDisk();
@@ -418,11 +418,11 @@ unsigned int far pascal prince_poll(void)
 extern int Minutes, MsgTimer, MsgTimerStart, TimeRequest;
 extern int pause_on_frame, show_actor_position, show_reference_position;
 extern int show_ruler, debug_show_door_links, debug_show_meters;
-extern int debug_kid_x, debug_kid_y;
+extern struct { int y, x; } DebugKid;
 
 
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
-extern void far pascal draw_message(const char *message);
+extern void far pascal draw_message(const char *);
 extern void far pascal LoadCustomRoomData(unsigned char room);
 extern void far pascal STROKE_PORT_RECT(const char far *asset);
 extern void far pascal ToggleInvertState(void);
@@ -595,28 +595,28 @@ void far pascal handle_debug_input(unsigned int key)
         switch (key) {
         case '1':
             copy_kid_to_char();
-            debug_kid_x = Char.x;
+            DebugKid.x = Char.x;
             Kid = Char;
             memcpy(text, debug_messages.kid_x_saved_message, sizeof(debug_messages.kid_x_saved_message));
             message = text;
             break;
         case '2':
             copy_kid_to_char();
-            Char.x = debug_kid_x;
+            Char.x = DebugKid.x;
             Kid = Char;
             memcpy(text, debug_messages.kid_x_restored_message, sizeof(debug_messages.kid_x_restored_message));
             message = text;
             break;
         case '3':
             copy_kid_to_char();
-            debug_kid_y = Char.y;
+            DebugKid.y = Char.y;
             Kid = Char;
             memcpy(text, debug_messages.kid_y_saved_message, sizeof(debug_messages.kid_y_saved_message));
             message = text;
             break;
         case '4':
             copy_kid_to_char();
-            Char.y = debug_kid_y;
+            Char.y = DebugKid.y;
             Kid = Char;
             memcpy(text, debug_messages.kid_y_restored_message, sizeof(debug_messages.kid_y_restored_message));
             message = text;
@@ -682,7 +682,6 @@ void far pascal handle_debug_input(unsigned int key)
 
 extern char one_second_left[], seconds_left[], minutes_left[], time_expired[];
 
-extern signed char sound_volume;
 extern void far pascal SET_SOUND_LEVEL(signed char level);
 extern void far pascal SaveOptionsToDisk(void);
 
@@ -690,7 +689,7 @@ int far pascal toggle_sound(void)
 {
     int enabled;
 
-    if (sound_volume == 0) {
+    if (Midi.volume == 0) {
         SET_SOUND_LEVEL(15);
         enabled = 1;
     } else {
@@ -716,7 +715,7 @@ extern void *cdecl memset(void *destination, int value, unsigned int size);
 char *far pascal joystick_status(void)
 {
     char *message;
-    if ((active_sound_channels & 1) && configuration->midi_type == 32) {
+    if ((Midi.channels & 1) && configuration->midi_type == 32) {
         message = joystick_unavailable_message;
     } else {
         configuration->control_mode = 2;

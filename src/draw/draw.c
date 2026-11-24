@@ -323,8 +323,8 @@ Tile CellLeft, CellRight, ScrRight[3], ScrLeft[3];
 Tile Above[11], Below[11];
 int NewRoom;
 extern DrawRect GamePlayRect;
-DrawEntry far BackTable[130];
-DrawEntry far ForeTable[100];
+extern DrawEntry far BackTable[];
+extern DrawEntry far ForeTable[];
 
 extern int far pascal IsWall(char kind);
 extern unsigned char back_image_start_pass(void);
@@ -704,7 +704,7 @@ typedef struct MiddleEntry {
 #pragma pack()
 
 ShapeTable *Pics[5];
-MiddleEntry far MidTable[30];
+extern MiddleEntry far MidTable[];
 extern ShapeBitmap far *resolve_handle_to_far_payload(unsigned int handle);
 extern ShapeBitmap far *fetch_locked_shape_list(unsigned int handle);
 extern unsigned int save_handle_flags(unsigned int handle);

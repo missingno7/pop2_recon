@@ -209,8 +209,8 @@ def link(out):
     return (stage / "POP.EXE").read_bytes(), (stage / "POP.MAP").read_text(encoding="latin1"), generated
 
 
-def compare(candidate, oracle):
-    """Per space: size, differing bytes, relocation sets; plus the MZ header and the overlay payload bytes."""
+def load_linked(candidate, oracle):
+    """The linker's output through the oracle reader (its own descriptor table, its own overlay expander)."""
     import overlay_expand
     import oracle as oracle_module
     profile = dict(oracle.profile)
@@ -223,9 +223,14 @@ def compare(candidate, oracle):
     oracle_module.expand = lambda data, mz, prof, overlay_id, payload, paragraphs: overlay_expand.emulate(
         data, mz, prof["expander_entry"], payload, paragraphs)
     try:
-        linked = Oracle(candidate, profile)
+        return Oracle(candidate, profile)
     finally:
         oracle_module.expand = original_expand
+
+
+def compare(candidate, oracle):
+    """Per space: size, differing bytes, relocation sets; plus the MZ header and the overlay payload bytes."""
+    linked = load_linked(candidate, oracle)
     report = {"mz_header_equal": candidate[:0x1E] == oracle.data[:0x1E], "file_size": len(candidate),
               "original_file_size": len(oracle.data), "spaces": {}}
     for space_name, space in oracle.spaces.items():

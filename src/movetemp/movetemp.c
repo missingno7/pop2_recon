@@ -86,7 +86,7 @@ typedef struct {
 #pragma pack()
 
 extern FCHARREC FChar;
-extern struct { int heights[13], widths[13]; } mob_dimensions;
+extern int MobHeight[13], MobWidth[13];
 static struct {
     int bolt_y_2, bolt_x_2;
     int bolt_y_3, bolt_x_3;
@@ -198,17 +198,17 @@ void move_slide_rock(void)
     if (Mob.velocity != -1) {
         row = GetRow(Mob.y); FChar.index = IndexCell1(Mob.x / 32, row);
         if (is_visible_room_cell(Mob.room, (unsigned char)FChar.index)) {
-            sequence = mob_dimensions.heights[7];
+            sequence = MobHeight[7];
             if (!probe_floors_toward_rock(-1, 52)) {
-                y = Mob.y; Mob.y -= 59; old_speed = mob_dimensions.widths[6];
-                mob_dimensions.widths[6] = (int)(Mob.flags - Mob.x) <= old_speed ? (int)(Mob.flags - Mob.x) : old_speed;
-                mob_dimensions.widths[7] = (int)(Mob.flags - Mob.x) <= mob_dimensions.widths[7] ? (int)(Mob.flags - Mob.x) : mob_dimensions.widths[7];
+                y = Mob.y; Mob.y -= 59; old_speed = MobWidth[6];
+                MobWidth[6] = (int)(Mob.flags - Mob.x) <= old_speed ? (int)(Mob.flags - Mob.x) : old_speed;
+                MobWidth[7] = (int)(Mob.flags - Mob.x) <= MobWidth[7] ? (int)(Mob.flags - Mob.x) : MobWidth[7];
                 Mob.x += 5;
-                mob_dimensions.heights[7] = mob_dimensions.heights[6] = 9; mark_mob_redraw(2);
-                Mob.y = y; Mob.x -= 5; mob_dimensions.widths[7] = mob_dimensions.widths[6] = old_speed;
-                mob_dimensions.heights[7] = mob_dimensions.heights[6] = sequence;
+                MobHeight[7] = MobHeight[6] = 9; mark_mob_redraw(2);
+                Mob.y = y; Mob.x -= 5; MobWidth[7] = MobWidth[6] = old_speed;
+                MobHeight[7] = MobHeight[6] = sequence;
             } else
-                mob_dimensions.heights[7] = mob_dimensions.heights[6] = 58;
+                MobHeight[7] = MobHeight[6] = 58;
             Mob.kind = 7; add_mob_obj(Mob.y);
             x = Mob.x; Mob.x += 32; y = Mob.y;
             if (Mob.flags > (unsigned int)Mob.x) {
@@ -228,7 +228,7 @@ void move_slide_rock(void)
                 move_slide_bolt();
             }
             Mob.x = x; Mob.y = y;
-            Mob.kind = 6; mob_dimensions.heights[7] = mob_dimensions.heights[6] = sequence;
+            Mob.kind = 6; MobHeight[7] = MobHeight[6] = sequence;
         }
     }
 }
@@ -723,12 +723,12 @@ void move_trapdoor(void)
         Mob.x = x;
         if (get_set_image_size(Pics[4], temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
             int left_edge;
-            mob_dimensions.heights[10] = bounds.top + 1;
+            MobHeight[10] = bounds.top + 1;
             left_edge = column * 32 - Mob.x + 57;
             ++bounds.left;
             if (left_edge > bounds.left)
                 bounds.left = left_edge;
-            mob_dimensions.widths[10] = bounds.left;
+            MobWidth[10] = bounds.left;
         }
         mark_mob_redraw(0);
         if (Mob.velocity != -1) {

@@ -688,6 +688,21 @@ class UnwitnessedExtentTests(unittest.TestCase):
         self.assertEqual(self.run_rule({"G": [(5, 3)]}), {"G": False})
         self.assertEqual(self.run_rule({"G": [(5, 3)]}, witnesses=[{}]), {"G": True})
 
+    def test_member_extent_covers_members_behind_a_supported_member(self):
+        from module_gate import _internal_support
+
+        def run(fields, length=6):
+            symbols = {"A": {"kind": "dgroup-offset", "offset": 8, "witnesses": [{}], "members": [
+                {"offset": 2, "witnesses": [], "extent": {"length": length}}, {"offset": 5, "witnesses": []}]}}
+            states = {p: {"v4": [{"key": ("A", k), "insn": at, "equal": True, "offset": at} for k, at in rows],
+                          "equations": []} for p, rows in fields.items()}
+            reports = [{"public": p, "exact": True} for p in fields]
+            _internal_support(symbols, states, reports, set())
+            return {r["public"]: r["exact"] for r in reports}
+        self.assertEqual(run({"F": [(2, 1), (2, 2)], "G": [(5, 3)]}), {"F": True, "G": True})
+        self.assertEqual(run({"F": [(2, 1), (2, 2)], "G": [(5, 3)]}, length=3), {"F": True, "G": False})
+        self.assertEqual(run({"F": [(2, 1)], "G": [(5, 3)]}), {"F": False, "G": False})
+
 
 class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""

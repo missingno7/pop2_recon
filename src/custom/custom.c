@@ -128,7 +128,10 @@ extern struct {
 /* Rectangle passed to StrokePortRect for the style-4 border. */
 extern const int TopRowRect[4];
 extern AboveCell Above[];
-extern PeelRecord Peels[];
+extern struct {
+    int count;
+    PeelRecord entries[40];
+} PeelInfo;
 extern void far pascal LoadCarpetCode(void);
 extern void far pascal UnloadCarpetCode(void);
 extern void far pascal load_bridge_code(void);
@@ -146,57 +149,40 @@ extern void far pascal load_chess(void);
 extern void far pascal setup_crystal_room(void);
 extern void far pascal load_tower_top(void);
 
-enum {
-    TEMPLATE_CARPET,
-    TEMPLATE_BRIDGE,
-    TEMPLATE_DESERT,
-    TEMPLATE_THRONE,
-    TEMPLATE_RUINS_PALETTE,
-    TEMPLATE_PLATEAU,
-    TEMPLATE_ALTAR,
-    TEMPLATE_INSCRIPTION,
-    TEMPLATE_CHESS,
-    TEMPLATE_CRYSTAL,
-    TEMPLATE_TOWER_TOP,
-    TEMPLATE_DEFAULT
-};
-
 /* The reserved fields are zero in each 28-byte DOS template record. */
 #define UNUSED_TEMPLATE_FIELDS { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-static RoomTemplate templates[] = {
-    { { LoadCarpetCode }, { UnloadCarpetCode }, UNUSED_TEMPLATE_FIELDS },
-    { { load_bridge_code }, { unload_bridge_code }, UNUSED_TEMPLATE_FIELDS },
-    { { LoadDsrtCode }, { 0 }, UNUSED_TEMPLATE_FIELDS },
-    { { load_throne_room }, { unload_throne_room }, UNUSED_TEMPLATE_FIELDS },
-    { { load_ruins_start_palette }, { unload_ruins_start_palette }, UNUSED_TEMPLATE_FIELDS },
-    { { load_plateau_room }, { 0 }, UNUSED_TEMPLATE_FIELDS },
-    { { load_altar_room }, { unload_altar_room }, UNUSED_TEMPLATE_FIELDS },
-    { { load_inscription_room }, { 0 }, UNUSED_TEMPLATE_FIELDS },
-    { { load_chess }, { 0 }, UNUSED_TEMPLATE_FIELDS },
-    { { setup_crystal_room }, { 0 }, UNUSED_TEMPLATE_FIELDS },
-    { { load_tower_top }, { 0 }, UNUSED_TEMPLATE_FIELDS },
-    { { 0 }, { 0 }, UNUSED_TEMPLATE_FIELDS }
-};
+RoomTemplate CVCarpetPlate = { { LoadCarpetCode }, { UnloadCarpetCode }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate CVBridgePlate = { { load_bridge_code }, { unload_bridge_code }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate DSExitPlate = { { LoadDsrtCode }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate RNThronePlate = { { load_throne_room }, { unload_throne_room }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate RNStart6Plate = { { load_ruins_start_palette }, { unload_ruins_start_palette }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate RNPlateauPlate = { { load_plateau_room }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate TMAltarPlate = { { load_altar_room }, { unload_altar_room }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate TMInscriptionPlate = { { load_inscription_room }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate FNChessPlate = { { load_chess }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate FNCrystalPlate = { { setup_crystal_room }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate FNTowerTopPlate = { { load_tower_top }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate NullPlate = { { 0 }, { 0 }, UNUSED_TEMPLATE_FIELDS };
 
 #undef UNUSED_TEMPLATE_FIELDS
 
 static RoomTemplate *template_table[] = {
-    &templates[TEMPLATE_CARPET], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
-    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
-    &templates[TEMPLATE_DESERT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
-    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
-    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
-    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
-    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_PLATEAU],
-    &templates[TEMPLATE_PLATEAU], &templates[TEMPLATE_RUINS_PALETTE], &templates[TEMPLATE_TOWER_TOP],
-    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_CHESS], &templates[TEMPLATE_CHESS],
-    &templates[TEMPLATE_CHESS], &templates[TEMPLATE_CRYSTAL], &templates[TEMPLATE_CRYSTAL],
-    &templates[TEMPLATE_CRYSTAL], &templates[TEMPLATE_INSCRIPTION], &templates[TEMPLATE_ALTAR],
-    &templates[TEMPLATE_BRIDGE], &templates[TEMPLATE_THRONE]
+    &CVCarpetPlate, &NullPlate, &NullPlate,
+    &NullPlate, &NullPlate, &NullPlate,
+    &DSExitPlate, &NullPlate, &NullPlate,
+    &NullPlate, &NullPlate, &NullPlate,
+    &NullPlate, &NullPlate, &NullPlate,
+    &NullPlate, &NullPlate, &NullPlate,
+    &NullPlate, &NullPlate, &RNPlateauPlate,
+    &RNPlateauPlate, &RNStart6Plate, &FNTowerTopPlate,
+    &NullPlate, &FNChessPlate, &FNChessPlate,
+    &FNChessPlate, &FNCrystalPlate, &FNCrystalPlate,
+    &FNCrystalPlate, &TMInscriptionPlate, &TMAltarPlate,
+    &CVBridgePlate, &RNThronePlate
 };
 
-RoomTemplate *room_template = &templates[TEMPLATE_DEFAULT];
+RoomTemplate *CustomTemplate = &NullPlate;
 extern unsigned int *Pics[5];
 extern CustomRect NullRect;
 extern struct Rect {
@@ -394,7 +380,7 @@ void LoadCustomRoomData(unsigned char room_number_arg)
                 load_song_range(room->sound_first, room->sound_last);
                 SetCustomRoomTemplate(custom_room->template_id);
             }
-            if ((load = room_template->load.address) != 0)
+            if ((load = CustomTemplate->load.address) != 0)
                 ((void (far *)(void))load)();
         }
     } else if (custom_room) {
@@ -498,7 +484,7 @@ int RestoreKeepCustomPeel(unsigned char id)
 {
     int peel = find_character_peel((unsigned char)(id + 100), 1);
     if (peel != -1)
-        Peels[peel].keep = 0;
+        PeelInfo.entries[peel].keep = 0;
     return peel;
 }
 
@@ -521,10 +507,10 @@ void SaveCustomRoomPeels(void)
 void SetCustomRoomTemplate(unsigned char type)
 {
     if (type < 35) {
-        room_template = template_table[type];
+        CustomTemplate = template_table[type];
         return;
     }
-    room_template = &templates[TEMPLATE_DEFAULT];
+    CustomTemplate = &NullPlate;
 }
 
 void UnloadCustomRoomData(void)
@@ -534,7 +520,7 @@ void UnloadCustomRoomData(void)
     if (custom_room) {
         UnloadCustomRoomShapes(1);
         release_song_range(custom_room->sound_first, custom_room->sound_last);
-        if ((unload = room_template->unload.address) != 0)
+        if ((unload = CustomTemplate->unload.address) != 0)
             ((void (far *)(void))unload)();
         _nfree(custom_room);
         custom_room = 0;

@@ -62,6 +62,15 @@
     ],
     "publics": [
       {
+        "name": "STDRSRCVERIFY",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 784,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "FILE_EXISTS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -249,18 +258,10 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
-      },
-      {
-        "name": "STDRSRCVERIFY",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 784,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
       }
     ],
     "externals": [
+      "STDRSRCVERIFY",
       "FILE_EXISTS",
       "WAIT_SOUND",
       "DISPATCH_RESOURCE_POINTER",
@@ -292,25 +293,24 @@
       "_exit",
       "__fstrstr",
       "_open",
-      "WAIT_TIMER",
       "_close",
+      "WAIT_TIMER",
       "DOS_VECTORS_INSTALLED",
       "INTERFACE_BUFFER",
-      "CLOSE_LEVEL_RESOURCES",
       "TIMEVAL",
+      "CLOSE_LEVEL_RESOURCES",
       "INTERRUPT_VECTORS_INSTALLED",
       "GRAPHICS_MODE",
       "BACKING_DRIVER_ACTIVE",
-      "WAIT_TIMER_NO_POLL",
       "TIMER",
       "SHAPE_METADATA_LIST",
-      "ACTIVE_SOUND_CHANNELS",
+      "WAIT_TIMER_NO_POLL",
+      "MIDI",
       "CONFIGURATION",
       "SYSTEM_ERROR",
       "STDRSRCERROR",
       "WAIT_TICKS",
-      "POLL_USER",
-      "STDRSRCVERIFY"
+      "POLL_USER"
     ],
     "communals": [
       {
@@ -353,7 +353,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 15,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -361,7 +361,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 15,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -380,7 +380,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 34,
           "name": "WAIT_TIMER",
           "method": 6,
           "zero_displacement": true
@@ -388,7 +388,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 34,
         "name": "WAIT_TIMER",
         "method": 6,
         "zero_displacement": true
@@ -461,7 +461,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 24,
           "name": "CHECK_WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
@@ -469,7 +469,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 24,
         "name": "CHECK_WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
@@ -515,7 +515,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 23,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -523,7 +523,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 23,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -542,7 +542,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 14,
           "name": "READ_QUEUED_KEY",
           "method": 6,
           "zero_displacement": true
@@ -550,7 +550,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 14,
         "name": "READ_QUEUED_KEY",
         "method": 6,
         "zero_displacement": true
@@ -569,7 +569,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 30,
           "name": "_exit",
           "method": 6,
           "zero_displacement": true
@@ -577,7 +577,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 30,
         "name": "_exit",
         "method": 6,
         "zero_displacement": true
@@ -596,7 +596,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 20,
           "name": "RESET_INTERFACE",
           "method": 6,
           "zero_displacement": true
@@ -604,7 +604,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 20,
         "name": "RESET_INTERFACE",
         "method": 6,
         "zero_displacement": true
@@ -623,7 +623,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 23,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -631,7 +631,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 23,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -650,7 +650,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 13,
           "name": "SHOW_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -658,7 +658,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 13,
         "name": "SHOW_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -677,7 +677,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 47,
           "name": "SYSTEM_ERROR",
           "method": 6,
           "zero_displacement": true
@@ -685,7 +685,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 47,
         "name": "SYSTEM_ERROR",
         "method": 6,
         "zero_displacement": true
@@ -770,7 +770,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "RELEASE_HEAP_SEGMENT",
           "method": 6,
           "zero_displacement": true
@@ -778,7 +778,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "RELEASE_HEAP_SEGMENT",
         "method": 6,
         "zero_displacement": true
@@ -797,7 +797,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "SHUTDOWN_BACKING_DRIVER",
           "method": 6,
           "zero_displacement": true
@@ -805,7 +805,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "SHUTDOWN_BACKING_DRIVER",
         "method": 6,
         "zero_displacement": true
@@ -824,7 +824,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 41,
           "name": "BACKING_DRIVER_ACTIVE",
           "method": 6,
           "zero_displacement": true
@@ -832,7 +832,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 41,
         "name": "BACKING_DRIVER_ACTIVE",
         "method": 6,
         "zero_displacement": true
@@ -851,7 +851,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "SHUTDOWN_GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -859,7 +859,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "SHUTDOWN_GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -878,7 +878,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 40,
           "name": "GRAPHICS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -886,7 +886,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 40,
         "name": "GRAPHICS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -905,7 +905,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 9,
           "name": "RESTORE_INTERRUPT_VECTORS",
           "method": 6,
           "zero_displacement": true
@@ -913,7 +913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "RESTORE_INTERRUPT_VECTORS",
         "method": 6,
         "zero_displacement": true
@@ -932,7 +932,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 39,
           "name": "INTERRUPT_VECTORS_INSTALLED",
           "method": 6,
           "zero_displacement": true
@@ -940,7 +940,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 39,
         "name": "INTERRUPT_VECTORS_INSTALLED",
         "method": 6,
         "zero_displacement": true
@@ -959,7 +959,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 7,
           "name": "RESTORE_DOS_VECTORS",
           "method": 6,
           "zero_displacement": true
@@ -967,7 +967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "RESTORE_DOS_VECTORS",
         "method": 6,
         "zero_displacement": true
@@ -986,7 +986,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 35,
           "name": "DOS_VECTORS_INSTALLED",
           "method": 6,
           "zero_displacement": true
@@ -994,7 +994,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 35,
         "name": "DOS_VECTORS_INSTALLED",
         "method": 6,
         "zero_displacement": true
@@ -1013,7 +1013,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 6,
           "name": "RESET_TIMER_HOOK",
           "method": 6,
           "zero_displacement": true
@@ -1021,7 +1021,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "RESET_TIMER_HOOK",
         "method": 6,
         "zero_displacement": true
@@ -1040,7 +1040,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 5,
           "name": "RESET_SOUND_DRIVERS",
           "method": 6,
           "zero_displacement": true
@@ -1048,7 +1048,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "RESET_SOUND_DRIVERS",
         "method": 6,
         "zero_displacement": true
@@ -1067,7 +1067,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "DISPATCH_RESOURCE_POINTER",
           "method": 6,
           "zero_displacement": true
@@ -1075,7 +1075,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "DISPATCH_RESOURCE_POINTER",
         "method": 6,
         "zero_displacement": true
@@ -1148,7 +1148,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 30,
           "name": "_exit",
           "method": 6,
           "zero_displacement": true
@@ -1156,7 +1156,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 30,
         "name": "_exit",
         "method": 6,
         "zero_displacement": true
@@ -1175,7 +1175,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 29,
           "name": "_printf",
           "method": 6,
           "zero_displacement": true
@@ -1183,7 +1183,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 29,
         "name": "_printf",
         "method": 6,
         "zero_displacement": true
@@ -1224,7 +1224,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 20,
           "name": "RESET_INTERFACE",
           "method": 6,
           "zero_displacement": true
@@ -1232,7 +1232,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 20,
         "name": "RESET_INTERFACE",
         "method": 6,
         "zero_displacement": true
@@ -1251,7 +1251,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 28,
           "name": "__nfree",
           "method": 6,
           "zero_displacement": true
@@ -1259,7 +1259,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 28,
         "name": "__nfree",
         "method": 6,
         "zero_displacement": true
@@ -1278,7 +1278,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 36,
           "name": "INTERFACE_BUFFER",
           "method": 6,
           "zero_displacement": true
@@ -1286,7 +1286,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 36,
         "name": "INTERFACE_BUFFER",
         "method": 6,
         "zero_displacement": true
@@ -1305,7 +1305,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 36,
           "name": "INTERFACE_BUFFER",
           "method": 6,
           "zero_displacement": true
@@ -1313,7 +1313,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 36,
         "name": "INTERFACE_BUFFER",
         "method": 6,
         "zero_displacement": true
@@ -1332,7 +1332,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 23,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -1340,7 +1340,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 23,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -1381,7 +1381,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "CLOSE_RESOURCE_FILE",
           "method": 6,
           "zero_displacement": true
@@ -1389,7 +1389,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "CLOSE_RESOURCE_FILE",
         "method": 6,
         "zero_displacement": true
@@ -1408,7 +1408,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 15,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1416,7 +1416,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 15,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1435,7 +1435,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 22,
           "name": "OPEN_VERIFIED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -1443,7 +1443,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 22,
         "name": "OPEN_VERIFIED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -1462,7 +1462,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 46,
           "name": "CONFIGURATION",
           "method": 6,
           "zero_displacement": true
@@ -1470,7 +1470,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 46,
         "name": "CONFIGURATION",
         "method": 6,
         "zero_displacement": true
@@ -1489,16 +1489,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
-          "name": "ACTIVE_SOUND_CHANNELS",
+          "index": 45,
+          "name": "MIDI",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 44,
-        "name": "ACTIVE_SOUND_CHANNELS",
+        "index": 45,
+        "name": "MIDI",
         "method": 6,
         "zero_displacement": true
       },
@@ -1516,7 +1516,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 22,
           "name": "OPEN_VERIFIED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -1524,7 +1524,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 22,
         "name": "OPEN_VERIFIED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -1543,16 +1543,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
-          "name": "ACTIVE_SOUND_CHANNELS",
+          "index": 45,
+          "name": "MIDI",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 44,
-        "name": "ACTIVE_SOUND_CHANNELS",
+        "index": 45,
+        "name": "MIDI",
         "method": 6,
         "zero_displacement": true
       },
@@ -1570,7 +1570,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 22,
           "name": "OPEN_VERIFIED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -1578,7 +1578,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 22,
         "name": "OPEN_VERIFIED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -1597,16 +1597,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
-          "name": "ACTIVE_SOUND_CHANNELS",
+          "index": 45,
+          "name": "MIDI",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 44,
-        "name": "ACTIVE_SOUND_CHANNELS",
+        "index": 45,
+        "name": "MIDI",
         "method": 6,
         "zero_displacement": true
       },
@@ -1624,16 +1624,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
-          "name": "ACTIVE_SOUND_CHANNELS",
+          "index": 45,
+          "name": "MIDI",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 44,
-        "name": "ACTIVE_SOUND_CHANNELS",
+        "index": 45,
+        "name": "MIDI",
         "method": 6,
         "zero_displacement": true
       },
@@ -1651,7 +1651,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 31,
           "name": "__fstrstr",
           "method": 6,
           "zero_displacement": true
@@ -1659,7 +1659,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 31,
         "name": "__fstrstr",
         "method": 6,
         "zero_displacement": true
@@ -1678,7 +1678,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 19,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -1686,7 +1686,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 19,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -1754,7 +1754,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 18,
           "name": "MOUNT_RESOURCE_CATALOG",
           "method": 6,
           "zero_displacement": true
@@ -1762,7 +1762,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 18,
         "name": "MOUNT_RESOURCE_CATALOG",
         "method": 6,
         "zero_displacement": true
@@ -1781,7 +1781,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 21,
           "name": "FIND_RESOURCE_MAP",
           "method": 6,
           "zero_displacement": true
@@ -1789,7 +1789,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 21,
         "name": "FIND_RESOURCE_MAP",
         "method": 6,
         "zero_displacement": true
@@ -1808,7 +1808,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 16,
           "name": "CLOSE_RESOURCE_CATALOG",
           "method": 6,
           "zero_displacement": true
@@ -1816,7 +1816,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 16,
         "name": "CLOSE_RESOURCE_CATALOG",
         "method": 6,
         "zero_displacement": true
@@ -1835,7 +1835,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 21,
           "name": "FIND_RESOURCE_MAP",
           "method": 6,
           "zero_displacement": true
@@ -1843,7 +1843,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 21,
         "name": "FIND_RESOURCE_MAP",
         "method": 6,
         "zero_displacement": true
@@ -1862,7 +1862,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 24,
           "name": "CHECK_WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
@@ -1870,7 +1870,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 24,
         "name": "CHECK_WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
@@ -1889,7 +1889,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 15,
           "name": "QUERY_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -1897,7 +1897,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 15,
         "name": "QUERY_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -1916,7 +1916,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 24,
           "name": "CHECK_WAIT_FUNCTION",
           "method": 6,
           "zero_displacement": true
@@ -1924,7 +1924,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 24,
         "name": "CHECK_WAIT_FUNCTION",
         "method": 6,
         "zero_displacement": true
@@ -1970,7 +1970,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 32,
           "name": "_open",
           "method": 6,
           "zero_displacement": true
@@ -1978,7 +1978,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 32,
         "name": "_open",
         "method": 6,
         "zero_displacement": true
@@ -1997,7 +1997,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 23,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -2005,7 +2005,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 23,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -2046,7 +2046,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 1,
           "name": "STDRSRCVERIFY",
           "method": 6,
           "zero_displacement": true
@@ -2054,7 +2054,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 1,
         "name": "STDRSRCVERIFY",
         "method": 6,
         "zero_displacement": true
@@ -2073,7 +2073,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 50,
           "name": "POLL_USER",
           "method": 6,
           "zero_displacement": true
@@ -2081,7 +2081,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 50,
         "name": "POLL_USER",
         "method": 6,
         "zero_displacement": true
@@ -2108,20 +2108,6 @@
   },
   "schema": 1,
   "symbols": {
-    "ACTIVE_SOUND_CHANNELS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8325,
-      "witnesses": [
-        {
-          "operand_offset": 2,
-          "space": "root",
-          "image_offset": 2843,
-          "bytes_hex": "f606852001",
-          "entry": "root:0000:0b1a"
-        }
-      ]
-    },
     "CLOSE_RESOURCE_CATALOG": {
       "entry_sha256": "9b2abcb2e827a9ee168ed008179a0e7fc1140d0b1ee916b2c9a559bd1f5e5675",
       "entry_target_id": "root:1129:70f4",
@@ -2451,6 +2437,12 @@
       "group": "DGROUP",
       "provider": "group:timer_hooks",
       "offset": 9444
+    },
+    "MIDI": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound2/dos_sound_runtime",
+      "offset": 8325
     },
     "SHAPE_METADATA_LIST": {
       "kind": "dgroup-public",

@@ -77,7 +77,7 @@ typedef struct {
 } AmbientState;
 
 extern LEVELREC Level;
-extern unsigned char active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -184,7 +184,6 @@ extern void *memset(void *, int, unsigned int);
 void AddSong(int song);
 void AddSound(int effect);
 int GetLeaveLevelSongId(void);
-int special_no_ambient_case(void);
 SoundData load_song(int song);
 void release_song_range(int first, int last);
 void load_song_range(int first, int last);
@@ -318,7 +317,7 @@ int GetLeaveLevelSongId(void)
 void init_ambient(AmbientState *state)
 {
     memset(state, 0, sizeof(*state));
-    state->enabled = active_sound_channels & 2;
+    state->enabled = Midi.channels & 2;
 }
 
 int is_leave_level_music_on(void)
@@ -440,7 +439,7 @@ int should_replace_effect(int effect, int playing)
     int replace = 0;
 
     if (effect != -1 &&
-        ((active_sound_channels & 3) || current_song == -1 || !query_sound(current_song + 10000))) {
+        ((Midi.channels & 3) || current_song == -1 || !query_sound(current_song + 10000))) {
         if (!query_sound(playing + 10000)) {
             replace = 1;
         } else {
@@ -517,7 +516,7 @@ int _fastcall should_change_ambient(AmbientState *state)
 char *toggle_ambient(void)
 {
     char *message;
-    if (active_sound_channels & 2) {
+    if (Midi.channels & 2) {
         ambient_state.enabled = !ambient_state.enabled;
         message = ambient_state.enabled ? ambient_on_message : ambient_off_message;
         if (!ambient_state.enabled && ambient_state.song && pending_song != ambient_state.song)

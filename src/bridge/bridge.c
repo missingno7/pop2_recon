@@ -207,10 +207,7 @@ typedef struct {
 
 extern ROOMREC Room;
 extern MOBREC Mob;
-extern struct {
-    int heights[13];
-    int widths[13];
-} mob_dimensions;
+extern int MobHeight[13], MobWidth[13];
 
 int bridge_watch_kid(void);
 int bridge_watch_opponent(void);
@@ -624,8 +621,8 @@ void animate_bridge_mob(void)
         old_x = Mob.x;
         Mob.x += floor_x_adjustment[phase];
         if (GetCustomPieceSize(image, &bounds)) {
-            mob_dimensions.heights[11] = bounds.width + 1;
-            mob_dimensions.widths[11] = bounds.height + 1;
+            MobHeight[11] = bounds.width + 1;
+            MobWidth[11] = bounds.height + 1;
         }
         mark_mob_redraw(0);
         if (Mob.velocity != -1) {

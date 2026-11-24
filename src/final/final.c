@@ -1503,11 +1503,9 @@ void far pascal trigger_gargoyle(sbyte row, sbyte col)
 }
 
 extern MOBREC Mob;
-extern struct {
-    int heights[13], widths[13];
-} mob_dimensions;
-#define fireball_half_width mob_dimensions.widths[12]
-#define fireball_height mob_dimensions.heights[12]
+extern int MobHeight[13], MobWidth[13];
+#define fireball_half_width MobWidth[12]
+#define fireball_height MobHeight[12]
 extern int CDLeftEdge;
 extern unsigned int Pics[5];
 

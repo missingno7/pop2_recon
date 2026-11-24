@@ -86,8 +86,8 @@ static int *opponent_overlay_last[11] = {
 
 static int sword_overlay_first[1] = { 47 };
 static int sword_overlay_last[1] = { 57 };
-static int background_overlay_first[8] = { 115, 127, 90, 95, 100, 79, 91, 105 };
-static const int background_overlay_last[8] = { 126, 161, 91, 114, 103, 90, 94, 108 };
+int Need1stImg[8] = { 115, 127, 90, 95, 100, 79, 91, 105 };
+int NeedLastImg[8] = { 126, 161, 91, 114, 103, 90, 94, 108 };
 static const int kid_overlay_first[11] = { 263, 223, 241, 244, 249, 269, 222, 271, 280, 290, 300 };
 static const int kid_overlay_last[11] = { 268, 240, 243, 248, 262, 270, 222, 279, 289, 298, 313 };
 static const int kid_image_first[9] = { 15, 44, 99, 120, 133, 160, 219, 222, -1 };
@@ -329,9 +329,9 @@ void far pascal check_background_overlays(void)
 
     for (i = 0; i < 8; ++i) {
         if (Level.background_overlays[i]) {
-            if (background_overlay_first[i] != -1)
-                overlay_shape_list(Pics[4], 3700, background_overlay_first[i] - 1,
-                                   background_overlay_last[i] - 1, 1);
+            if (Need1stImg[i] != -1)
+                overlay_shape_list(Pics[4], 3700, Need1stImg[i] - 1,
+                                   NeedLastImg[i] - 1, 1);
             if (background_intro_group[i] != -1)
                 load_song_range(background_intro_group[i], background_intro_number[i]);
         }

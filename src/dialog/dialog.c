@@ -1568,7 +1568,7 @@ void far pascal draw_main_menu(void)
     draw_menu_icon(0, 1);
 }
 
-extern unsigned char sound_volume;
+extern struct { unsigned char channels, volume; } Midi;
 extern struct {
     unsigned char enabled;
     signed char cue;
@@ -1591,7 +1591,7 @@ void far pascal draw_menu_label(int index, int selected)
         range.first = 0;
         switch (index) {
         case 0:
-            label = sound_volume ? sound_on_message
+            label = Midi.volume ? sound_on_message
                                  : sound_off_message;
             break;
         case 1:
@@ -1664,7 +1664,7 @@ void far pascal SaveOptionsToDisk(void)
     unsigned written;
     int file;
 
-    options.sound = sound_volume == 15 ? 1 : 0;
+    options.sound = Midi.volume == 15 ? 1 : 0;
     options.music = ambient_state.enabled;
     if (!_dos_open(options_path, 1, &file) || !_dos_creat(options_path, 0, &file)) {
         _dos_write(file, &options, sizeof(options), &written);
@@ -1700,7 +1700,7 @@ int far pascal change_menu_option(int option)
 
     switch (option) {
     case 0:
-        SET_SOUND_LEVEL((unsigned char)(!sound_volume * 15));
+        SET_SOUND_LEVEL((unsigned char)(!Midi.volume * 15));
         break;
     case 1:
         changed = ambient_state.enabled;

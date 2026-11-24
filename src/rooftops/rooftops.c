@@ -183,14 +183,18 @@ typedef struct {
 extern FCHARREC FChar;
 extern int NewRoom;
 extern int ImWidth;
-extern int Timer[4], active_sound_channels;
+extern int Timer[4];
+extern struct { unsigned char channels, volume; } Midi;
 extern CHARREC Kid;
 extern Rect CellClipRect, NullRect, GamePlayRect;
 static SplashImage splash_images[] = {
     {29, 0}, {30, 0}, {31, 0},
     {29, 0}, {32, 0}, {33, 0}, {29, 0}
 };
-extern PeelSlot Peels[];
+extern struct {
+    int count;
+    PeelSlot entries[40];
+} PeelInfo;
 
 extern DrawList near *custom_room;
 typedef void (far pascal *RedrawCallback)(void);
@@ -327,7 +331,7 @@ void far pascal kill_kid_on_wharf(void)
     int hp;
 
     if (Char.x > 513) {
-        if ((active_sound_channels & 1) && !query_sound(10032) && !query_sound(10047)) {
+        if ((Midi.channels & 1) && !query_sound(10032) && !query_sound(10047)) {
             AddSound(32);
             return;
         }
@@ -661,7 +665,7 @@ void far pascal update_ship_peel(sbyte slot, int bottom)
     Peel near *peel;
 
     if (slot >= 0) {
-        peel = Peels[slot].peel;
+        peel = PeelInfo.entries[slot].peel;
         if (peel->top < bottom && peel->bottom > bottom)
             peel->bottom = bottom;
     }

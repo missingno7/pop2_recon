@@ -45,3 +45,24 @@ probe link:
   This is evidence, not a solved order.
 - With original target addresses as identities, every accepted segment's groups are contiguous. Candidate
   names break this: PIECELEFTID in DRAWRUIN and in DRAWTEMP are different symbols.
+
+## v1.1, natural whole link (2026-11-24)
+
+`tools/whole_link.py` links v1.1 without generated symbols, so the same model applies to it (scratch
+`build/workers/o21_reloc/`). Library members register in library file order. The model reproduces 60 of the 64
+tables of our own link, and all but the library `GAMELIB_TEXT`, `_TEXT`, `CATALOG_FAR` and `_DATA` of them completely.
+
+Against the original:
+- Every original table is one run per symbol under the accepted names (no symbol is split), except `GAMELIB_TEXT`.
+- With ids counted from the original's own start (36 vectors, 10 linker names), PRINCE's FIXUP-registered symbols 98-162
+  match exactly. This fixes the number of PRINCE's publics and communals.
+- From there a small number of extra or missing symbols per object explains every other C table. Each one is a fact about
+  the source: PRINCE has two names less (the sound byte pair is one variable, the debug position is one), ADD defines the
+  three far tables and one `PeelInfo`, CUSTOM has twelve public plates more (the FM Towns names), LOAD two tables, MOVE
+  separate `MobHeight`/`MobWidth`.
+- PUBDEF and COMDEF records come out in symbol-number order modulo 64 (probe), so the order of a file's publics in the
+  original tells in which order it declared them. The ids the tables allow for single publics are few (often one).
+
+Open per object (ids missing in our source, from the fit): CHECKNIS -1, CTRL +1 before `GRAB_ROOF_SHIP` and +1 before
+`APPLY_INPUT`, CUSTOM +2 among its references, DRAW -2, ENGLISH or MISC +1, TABLES or DIAG +7, DIAG -1 before
+`CHECK_HEAP_CHAIN`, INIT and NIS unresolved; the order of every file's publics; the library objects.

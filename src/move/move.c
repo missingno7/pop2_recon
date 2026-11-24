@@ -714,7 +714,7 @@ extern struct {
     signed char argument, entrance_mode, sword_kind, death_countdown;
     int field_4, shadow_timer;
 } KidInfo;
-extern byte active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 
 extern void AddSound(int value), dispatch_sound(int);
 void stop_gate(int height);
@@ -867,7 +867,7 @@ void animate_exit(void)
                 height = 0;
                 Trob.state = -1;
                 AddSound(9);
-            } else if (Trob.state == 4 && (active_sound_channels & 1))
+            } else if (Trob.state == 4 && (Midi.channels & 1))
                 AddSound(7);
         } else {
             ++height;
@@ -1552,16 +1552,8 @@ void select_trob_cell(int cell)
     ObjId = BlueT[cell];
 }
 
-struct {
-    int heights[13];
-    int widths[13];
-} mob_dimensions = {
-    {18, 18, 2, 16, 27, 39, 69, 69, 12, 12, 37, 37, 18},
-    {50, 50, 4, 57, 27, 31, 52, 52, 24, 24, 69, 57, 17}
-};
-
-#define mob_heights mob_dimensions.heights
-#define mob_widths mob_dimensions.widths
+int MobHeight[13] = {18, 18, 2, 16, 27, 39, 69, 69, 12, 12, 37, 37, 18};
+int MobWidth[13] = {50, 50, 4, 57, 27, 31, 52, 52, 24, 24, 69, 57, 17};
 
 void anim_mobs(void)
 {
@@ -1642,7 +1634,7 @@ void mob_loose(void)
         Mob.y += Mob.velocity;
 
         if (!Mob.room) {
-            if (mob_heights[(byte)Mob.kind] + 192 <= Mob.y) {
+            if (MobHeight[(byte)Mob.kind] + 192 <= Mob.y) {
                 Mob.velocity = -2;
                 return;
             }
@@ -1859,7 +1851,7 @@ void add_loose_to_frame(void)
     sbyte column, row, cell;
     MoveRect rect;
     int x;
-    int height = mob_heights[(byte)Mob.kind];
+    int height = MobHeight[(byte)Mob.kind];
 
     if (Room.number == Mob.room) {
         if (height + 191 <= Mob.y)
@@ -1874,7 +1866,7 @@ void add_loose_to_frame(void)
             y = Mob.y - 191;
         else
             visible = 0;
-    } else if (Room.left == Mob.room && mob_widths[(byte)Mob.kind] + (x = Mob.x) > 320) {
+    } else if (Room.left == Mob.room && MobWidth[(byte)Mob.kind] + (x = Mob.x) > 320) {
         Mob.x = x - 320;
         if (Room.left == Mob.room)
             Mob.room = Room.number;
@@ -1903,10 +1895,10 @@ void compute_mob_rect(MoveRect *rect)
 {
     int x, y;
 
-    rect->edges[0] = Mob.y - mob_heights[(byte)Mob.kind];
+    rect->edges[0] = Mob.y - MobHeight[(byte)Mob.kind];
     rect->edges[1] = Mob.x;
     rect->edges[2] = Mob.y + 1;
-    rect->edges[3] = rect->edges[1] + mob_widths[(byte)Mob.kind];
+    rect->edges[3] = rect->edges[1] + MobWidth[(byte)Mob.kind];
     if (Room.number != Mob.room) {
         if (Room.left == Mob.room || Room.above_left == Mob.room
                 || Room.below_left == Mob.room || Room.right == Mob.room

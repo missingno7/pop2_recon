@@ -92,8 +92,7 @@ int debug_show_door_links = 0;
 int debug_show_meters = 0;
 int show_ruler = 0;
 int pause_on_frame = 0;
-int debug_kid_y = 63;
-int debug_kid_x = 140;
+struct { int y, x; } DebugKid = { 63, 140 };
 static int diagnostic_position_defaults[4] = { 20, 79, 34, 109 };
 
 extern void copy_kid_to_char(void);

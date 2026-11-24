@@ -77,7 +77,7 @@
     ],
     "externals": [
       "CONFIGURATION",
-      "ACTIVE_SOUND_CHANNELS",
+      "MIDI",
       "JOYSTICK_STATE",
       "POLL_GAME_PORT",
       "CHECK_ROM_SIGNATURE",
@@ -368,7 +368,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "ACTIVE_SOUND_CHANNELS",
+          "name": "MIDI",
           "method": 6,
           "zero_displacement": true
         }
@@ -376,7 +376,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "ACTIVE_SOUND_CHANNELS",
+        "name": "MIDI",
         "method": 6,
         "zero_displacement": true
       },
@@ -420,20 +420,6 @@
           "bytes_hex": "8b1eb81f",
           "entry": "root:1f74:0260",
           "image_offset": 129505,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTIVE_SOUND_CHANNELS": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 8325,
-      "witnesses": [
-        {
-          "bytes_hex": "f606852001",
-          "entry": "root:1129:3380",
-          "image_offset": 83493,
           "operand_offset": 2,
           "space": "root"
         }
@@ -508,6 +494,12 @@
           ]
         }
       ]
+    },
+    "MIDI": {
+      "kind": "dgroup-public",
+      "group": "DGROUP",
+      "provider": "group:sound2/dos_sound_runtime",
+      "offset": 8325
     }
   },
   "frame": {

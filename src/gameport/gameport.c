@@ -14,7 +14,7 @@ typedef struct {
 #pragma pack()
 
 extern GameOptions *configuration;
-extern unsigned char active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 extern GameportState joystick_state;
 extern void POLL_GAME_PORT(void);
 extern int CHECK_ROM_SIGNATURE(void);
@@ -24,7 +24,7 @@ int check_game_port(void)
     int present = 0;
 
     if (configuration->control_mode == 2 &&
-        (!(active_sound_channels & 1) || configuration->midi_type != 0x20)) {
+        (!(Midi.channels & 1) || configuration->midi_type != 0x20)) {
         POLL_GAME_PORT();
         joystick_state.center_y = joystick_state.y;
         joystick_state.center_x = joystick_state.x;

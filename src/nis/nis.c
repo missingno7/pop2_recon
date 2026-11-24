@@ -29,7 +29,7 @@ typedef struct {
 
 extern Handle HGETRSRC(unsigned long, int);
 extern Handle MARK_FIXED(Handle);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle handle);
+extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
 extern int cdecl sprintf(char *, const char *, ...);
 extern void abort_with_message(int status, const char far *message);
 
@@ -56,7 +56,7 @@ unsigned int GetStrLCt(int resource_id)
     return *(unsigned char far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(HGETRSRC(0x5354524cUL, resource_id));
 }
 
-extern unsigned char active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 extern union {
     unsigned long count;
     struct {
@@ -72,7 +72,7 @@ extern int check_wait_function(void);
 
 void start_timed_music(int sound, unsigned int duration)
 {
-    if (active_sound_channels & 1) play_sound(sound);
+    if (Midi.channels & 1) play_sound(sound);
     else
         music_deadline = TimeVal.count + duration;
 }
@@ -89,7 +89,7 @@ int await_timed_music(int sound)
 {
     int interrupted = 0;
 
-    if (active_sound_channels & 1) {
+    if (Midi.channels & 1) {
         interrupted = wait_sound(sound);
     } else {
         do {
@@ -1109,7 +1109,7 @@ int aboard_ship(void)
             aborted = wait_ticks(0, 6);
     }
     if (!aborted) {
-        if (active_sound_channels & 3)
+        if (Midi.channels & 3)
             play_sound(30500);
         clear_nis(&port, 0);
         add_nis(&port, sheet, 9, 38, 27, 0);

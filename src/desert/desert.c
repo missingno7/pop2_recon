@@ -46,7 +46,7 @@ typedef struct {
 } PeelRecord;
 #pragma pack()
 
-extern ubyte active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 #pragma pack(1)
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -181,14 +181,16 @@ extern DesertRoom *custom_room;
 extern uword *Pics[5];
 extern Rect CellClipRect, GamePlayRect;
 extern int ImWidth;
-typedef struct {
+extern struct {
     signed char tile;
     unsigned char room;
     signed char state;
     unsigned char field_3;
-} TrobRecord;
-extern TrobRecord Trob;
-extern PeelRecord Peels[];
+} Trob;
+extern struct {
+    int count;
+    PeelRecord entries[40];
+} PeelInfo;
 
 extern void AddSong(int), AddSound(int);
 extern void CycleColors(int, int, int);
@@ -232,7 +234,7 @@ int trigger_stone_at(ubyte, sbyte, sbyte);
 
 void add_desert_ambient(void)
 {
-    if (active_sound_channels & 2)
+    if (Midi.channels & 2)
         AddSong(251);
 }
 
@@ -629,14 +631,14 @@ void remove_last_stone_peel(sbyte column)
     do {
         slot = find_character_peel(114, occurrence);
         if (slot != -1) {
-            bounds = &Peels[slot].peel->bounds;
+            bounds = &PeelInfo.entries[slot].peel->bounds;
             if (bounds->top == x || bounds->bottom == x) {
-                Peels[slot].active = 0;
+                PeelInfo.entries[slot].active = 0;
                 if (++matches == 2)
                     slot = -1;
             } else if (bounds->top < x && bounds->bottom > x &&
                        bounds->left == 114 && bounds->right == 127) {
-                Peels[slot].active = 0;
+                PeelInfo.entries[slot].active = 0;
                 slot = -1;
             }
         }

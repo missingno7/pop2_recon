@@ -109,13 +109,25 @@ extern void PrinceNewShpItem(unsigned int list, int index, ShapeItem far *info, 
 extern void MARK_PURGEABLE(unsigned int handle);
 extern void PrinceFreeShp(int id);
 extern TileImages *pieces;
-extern BFItem far BackTable[];
-extern BFItem far ForeTable[];
+BFItem far BackTable[130];
+BFItem far ForeTable[100];
+typedef struct {
+    int x;
+    int y;
+    Byte set;
+    int image;
+    Rect clip;
+    Byte order;
+    int reserved;
+    Byte visible;
+    Byte depth;
+} MidItem;
+MidItem far MidTable[30];
 
 extern void check_background_shape(int index);
-extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
+extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int);
 extern void MAKESHAPERECT(Rect far *, int, int, int far *);
-extern int SECTRECT(Rect far *result, Rect far *bounds, Rect far *clip);
+extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 
 int far _fastcall add_image_info(Byte set, ImagePlacement *placement, int image,
                                BFItem far *item, Offset x, Offset y,
@@ -339,24 +351,12 @@ int add_middle_item(Byte tile, int image, Offset x, Offset y,
     return added;
 }
 
-typedef struct {
-    int x;
-    int y;
-    Byte set;
-    int image;
-    Rect clip;
-    Byte order;
-    int reserved;
-    Byte visible;
-    Byte depth;
-} MidItem;
 
 typedef struct {
     int height;
     int width;
 } ImageSize;
 
-extern MidItem far MidTable[];
 typedef struct {
     int left, top, right, bottom;
 } CustomRect;
@@ -430,8 +430,10 @@ typedef struct {
     unsigned int handle;
     PeelDetails details;
 } PeelEntry;
-int PeelCt;
-PeelEntry Peels[40];
+struct {
+    int count;
+    PeelEntry entries[40];
+} PeelInfo;
 extern void free_record_pair(unsigned int handle);
 
 extern int EMPTYRECT(Rect far *rect);
@@ -451,37 +453,37 @@ void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, O
 {
     Rect rect;
 
-    if (PeelCt >= 40) return;
+    if (PeelInfo.count >= 40) return;
     rect.left = y; rect.right = bottom;
     rect.top = x;
     rect.bottom = x + width;
     if (EMPTYRECT(&rect)) return;
 
-    Peels[PeelCt].handle = ALLOCATE_CLIPPED_PORT(&rect);
+    PeelInfo.entries[PeelInfo.count].handle = ALLOCATE_CLIPPED_PORT(&rect);
     {
-        Offset *character = &Peels[PeelCt].details.character;
+        Offset *character = &PeelInfo.entries[PeelInfo.count].details.character;
         *character = actor;
     }
     {
-        Offset *peel_mode = &Peels[PeelCt].details.mode;
+        Offset *peel_mode = &PeelInfo.entries[PeelInfo.count].details.mode;
         *peel_mode = mode;
     }
-    if (mode != 2 && mode != 3) Peels[PeelCt].details.retain = 0;
-    else Peels[PeelCt].details.retain = 1;
-    ++PeelCt;
+    if (mode != 2 && mode != 3) PeelInfo.entries[PeelInfo.count].details.retain = 0;
+    else PeelInfo.entries[PeelInfo.count].details.retain = 1;
+    ++PeelInfo.count;
 }
 
 void save_character_peel(Offset actor, Offset occurrence)
 {
     int index = find_character_peel(actor, occurrence);
     if (index != -1)
-        Peels[index].details.retain = 1;
+        PeelInfo.entries[index].details.retain = 1;
 }
 
 void mark_peel_front_buffers(void)
 {
-    int remaining = PeelCt;
-    PeelDetails *details = &Peels[remaining].details;
+    int remaining = PeelInfo.count;
+    PeelDetails *details = &PeelInfo.entries[remaining].details;
 
     for (; details = (PeelDetails *)((char *)details - sizeof(PeelEntry)),
            remaining--; ) {
@@ -507,15 +509,15 @@ int find_character_peel(Offset actor, int occurrence)
     int index, occurrences;
 
     index = occurrences = 0;
-    if (index < PeelCt) {
+    if (index < PeelInfo.count) {
         do {
             if (found != -1) break;
-            if (actor == Peels[index].details.character) {
+            if (actor == PeelInfo.entries[index].details.character) {
                 ++occurrences;
                 if (occurrence == occurrences) found = index;
             }
             ++index;
-        } while (index < PeelCt);
+        } while (index < PeelInfo.count);
     }
     return found;
 }
@@ -525,8 +527,8 @@ extern void add_dirty_rectangle(unsigned int handle);
 void restore_peels(void)
 {
     int keep[40];
-    int index = PeelCt;
-    int *retain = &Peels[index].details.retain;
+    int index = PeelInfo.count;
+    int *retain = &PeelInfo.entries[index].details.retain;
     int *saved = &keep[index];
     int remaining;
 
@@ -543,31 +545,31 @@ void restore_peels(void)
         }
     }
     index = remaining = 0;
-    if (index < PeelCt) {
+    if (index < PeelInfo.count) {
         do {
             if (keep[index]) {
-                PeelEntry *source = &Peels[index];
-                Peels[remaining] = *source;
-                if (Peels[remaining].details.character < 100)
-                    Peels[remaining].details.retain = 0;
+                PeelEntry *source = &PeelInfo.entries[index];
+                PeelInfo.entries[remaining] = *source;
+                if (PeelInfo.entries[remaining].details.character < 100)
+                    PeelInfo.entries[remaining].details.retain = 0;
                 ++remaining;
             }
-        } while (++index < PeelCt);
+        } while (++index < PeelInfo.count);
     }
-    PeelCt = remaining;
+    PeelInfo.count = remaining;
 }
 
 void clear_peels(void)
 {
-    int count = PeelCt;
+    int count = PeelInfo.count;
     PeelEntry *entry;
     if (count > 0) {
-        entry = Peels + count;
+        entry = PeelInfo.entries + count;
         do {
             free_record_pair((--entry)->handle);
         } while (--count > 0);
     }
-    PeelCt = 0;
+    PeelInfo.count = 0;
 }
 
 BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte palette)

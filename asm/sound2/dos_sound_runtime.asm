@@ -48,7 +48,8 @@ channel_map DB 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 ; Playback state shared by the three device routes.
 EVEN
 driver_status DB 0
-PUBLIC ACTIVE_SOUND_CHANNELS, SOUND_VOLUME, MIDI_CUE
+PUBLIC Midi, MIDI_CUE
+Midi LABEL BYTE
 ACTIVE_SOUND_CHANNELS DB 0
 SOUND_VOLUME DB 0
 MIDI_CUE DB 0

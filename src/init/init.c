@@ -12,7 +12,7 @@ typedef struct
 typedef int (far pascal *InputPoll)(void);
 
 extern Configuration *configuration;
-extern unsigned char active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 typedef struct {
     int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
     int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
@@ -74,9 +74,9 @@ extern const char digital_sound_error[], midi_sound_error[];
 void init_sound(void)
 {
     initialize_sound_drivers(0);
-    if (configuration->sound_report && !(active_sound_channels & 1))
+    if (configuration->sound_report && !(Midi.channels & 1))
         show_init_message(digital_sound_error);
-    if (configuration->midi_sound_mode && !(active_sound_channels & 2))
+    if (configuration->midi_sound_mode && !(Midi.channels & 2))
         show_init_message(midi_sound_error);
 }
 

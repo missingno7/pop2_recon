@@ -29,7 +29,7 @@ extern int graphics_mode;
 int backing_driver_active;
 extern volatile int Timer[4];
 extern ResourceMap SHAPE_METADATA_LIST;
-extern unsigned char active_sound_channels;
+extern struct { unsigned char channels, volume; } Midi;
 extern struct LevelState *configuration;
 extern const char system_error[];
 
@@ -202,13 +202,13 @@ ResourceMap find_resource_map(const char *name)
 void open_level_resources(const char **names)
 {
 
-    if (!(active_sound_channels & 2) || !(active_sound_channels & 1)) {
+    if (!(Midi.channels & 2) || !(Midi.channels & 1)) {
         if (names[0])
             open_verified_resource(names[0]);
     }
-    if ((active_sound_channels & 1) && names[1])
+    if ((Midi.channels & 1) && names[1])
         open_verified_resource(names[1]);
-    if (active_sound_channels & 2) {
+    if (Midi.channels & 2) {
         if (configuration->level != 0x20 && configuration->level != 0x29) {
             if (names[2])
                 open_verified_resource(names[2]);

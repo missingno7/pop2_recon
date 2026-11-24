@@ -458,6 +458,10 @@ Added 2026-11-24 (each re-decoded from reached, straight-line original code; sam
   width w: extent k+w. First use: `__nheap_desc` (`cmp [si+8],bx` in `__nfree`), whose +6/+8 words ALLOCATE_EMPTY_HANDLE
   reads and writes directly.
 
+A member S+h may carry an `extent` of these kinds at S+h (2026-11-24): an array inside the variable, after other members.
+Members inside [S+h, S+h+L) are then as supported as S+h itself, which still needs a witness or two equal claimed sites.
+First use: `PeelInfo` (a count, then the 6-byte peel records the program steps through).
+
 A field into the object's own placed segment without unique content (zero data) may also be proven by an outside
 original operand equal to P+A: `placed_witnesses` rows {segment, addend, witnesses}, grounded exactly as a v4 address
 (2026-11-24). A row may instead hold a `squeeze`: a bounds-checked index proves N bytes at P+A, a witnessed object with a

@@ -1356,7 +1356,10 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
     with that value is proven only if equal fields of the same symbol and k occur at two or
     more distinct original instruction starts, all inside CODE_EXACT claims. One unknown S
     then meets two equations. Different k never support each other. A claim losing support
-    withdraws its fields, so the check runs to a fixpoint."""
+    withdraws its fields, so the check runs to a fixpoint.
+
+    A member S+h may carry an `extent` L (an array inside the variable, e.g. the records after a count): the original
+    shows that [S+h, S+h+L) is one object, so a member inside it is as supported as S+h (2026-11-24)."""
     need, provided = set(), {n for n, s in symbols.items() if s.get("kind") == PUBLIC_KIND}
     for name, symbol in symbols.items():
         if symbol.get("kind") != "dgroup-offset" or symbol.get("unproven"):
@@ -1366,6 +1369,8 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
         extent = (symbol.get("extent") or {}).get("length", 0)
         need.update((name, m["offset"]) for m in symbol.get("members", [])
                     if not m.get("witnesses") and not m["offset"] < extent and not m.get("unproven"))
+    inner = [(name, m["offset"], m["extent"]["length"]) for name, s in symbols.items() if s.get("kind") == "dgroup-offset"
+             for m in s.get("members", []) if m.get("extent")]
     by_public = {r["public"]: r for r in reports}
     # An aggregate whose base has no witness: its in-extent members stand only on the base's own consensus.
     bases = {name: s["extent"]["length"] for name, s in symbols.items()
@@ -1393,9 +1398,15 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
             for field in states[public]["v4"]:
                 if field["key"] in need and field["equal"]:
                     sites.setdefault(field["key"], set()).add(field["insn"])
+
+        def supported(key):
+            return key not in need or len(sites.get(key, ())) >= 2
+        covered = [(name, base, length) for name, base, length in inner if supported((name, base))]
         for public in exact:
             lacking = sorted({f["key"] for f in states[public]["v4"]
-                              if f["key"] in need and len(sites.get(f["key"], ())) < 2} |
+                              if not supported(f["key"]) and
+                              not any(f["key"][0] == name and base < f["key"][1] < base + length
+                                      for name, base, length in covered)} |
                              {(f["key"][0], 0) for f in states[public]["v4"]
                               if f["key"][1] < bases.get(f["key"][0], 0) and len(sites.get((f["key"][0], 0), ())) < 2})
             if lacking:
@@ -1579,6 +1590,15 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         else:
             require(binding["mode"] in ("external-far-call-v1",) + DATA_MODES, "Unsupported group binding mode")
             symbols, mode = {}, binding["mode"]
+
+    # Member extents: the same evidence kinds as a symbol's aggregate extent, at S+h.
+    for symbol in ((binding or {}).get("symbols", {}).values() if binding and binding.get("mode") == OPERAND_MODE else ()):
+        for member in symbol.get("members", []) if symbol.get("kind") == "dgroup-offset" else ():
+            if "extent" in member:
+                ground({**binding, "symbols": {"MEMBER": {
+                    "kind": "dgroup-offset", "group": "DGROUP", "offset": (symbol["offset"] + member["offset"]) & 0xFFFF,
+                    "witnesses": [], "extent": member["extent"]}}}, hull, oracle,
+                    claimed=[(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved])
 
     # Independent witnesses of addresses inside the object's own placed segments: the operand equals P + A.
     placed_witnessed, placed_extents = set(), []
