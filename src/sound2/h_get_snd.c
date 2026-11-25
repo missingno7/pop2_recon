@@ -1,10 +1,11 @@
-typedef unsigned Handle;
+#include "types.h"
+#include "resc.h"
+#include "snd.h"
+#include "level.h"
+#include "heap.h"
 
-extern Handle far pascal hGetRsrc(unsigned long type, unsigned id);
-extern Handle far pascal convert_sound_handle(Handle sound);
-extern void far pascal hFree(Handle handle);
 
-Handle far pascal hGetSnd(unsigned id)
+Handle hGetSnd(word id)
 {
     Handle sound = hGetRsrc(0x00534e44UL, id);
     if (sound && !convert_sound_handle(sound)) {

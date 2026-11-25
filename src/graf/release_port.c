@@ -1,17 +1,12 @@
-typedef struct Port {
-    void far *buffer;
-    char reserved[10];
-    void *row_offsets;
-} Port;
+#include <malloc.h>
+#include "types.h"
+#include "graf.h"
 
-extern Port DEFAULT_PORT;
-extern void far pascal RELEASE_BUFFER(void far *buffer);
-extern void far cdecl _nfree(void *memory);
 
-void FreePort(Port *port)
+void FreePort(PORT *port)
 {
-    if (port->buffer != DEFAULT_PORT.buffer)
-        RELEASE_BUFFER(port->buffer);
-    if (port->row_offsets != DEFAULT_PORT.row_offsets)
-        _nfree(port->row_offsets);
+    if (port->map.pixels != default_port.map.pixels)
+        release_buffer(port->map.pixels);
+    if (port->map.row_offsets != default_port.map.row_offsets)
+        _nfree(port->map.row_offsets);
 }

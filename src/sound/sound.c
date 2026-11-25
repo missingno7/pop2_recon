@@ -1,22 +1,43 @@
+#include <string.h>
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "heap.h"
 #include "char.h"
 #include "game.h"
-extern signed char LastOppTypeLoaded;
+#include "draw.h"
+#include "act.h"
+#include "custcvca.h"
+#include "autoguar.h"
+#include "ctrl.h"
+#include "dlghelp.h"
+#include "auto.h"
+#include "autoshad.h"
+#include "dialog.h"
+#include "english.h"
+#include "fade.h"
+#include "prince.h"
+#include "drawruin.h"
+#include "load.h"
+#include "sound.h"
+#include "checknis.h"
+#include "tables.h"
+#include "top.h"
+#include "util.h"
+
 
 #pragma pack(1)
 
-typedef unsigned int SoundHandle;
-typedef unsigned char far *SoundData;
 
 typedef struct {
-    unsigned char mode;
-    unsigned char priority;
-    unsigned char attribute;
+    byte mode;
+    byte priority;
+    byte attribute;
 } SoundRule;
 
-extern LEVELREC Level;
-extern struct { unsigned char channels, volume; } Midi;
+
 int CueSnd = -1, CueSong = -1;
 int current_effect = -1, current_song = -1;
 static int death_songs[] = {
@@ -45,7 +66,7 @@ static int *ambient_first[] = {0, 0, level2_songs, level3_songs, level4_songs,
                               level5_songs, 0};
 static int *ambient_count[] = {0, 0, level2_song_counts, level3_song_counts,
                               level4_song_counts, level5_song_counts, 0};
-static signed char ambient_special[] = {-1, 1, 2, 2, 2, -1, -1};
+static sbyte ambient_special[] = {-1, 1, 2, 2, 2, -1, -1};
 
 int background_intro_group[] = {77, 97, -1, 83, 80, 53, 94, -1};
 int background_intro_number[] = {79, 99, -1, 85, 82, 55, 95, -1};
@@ -53,58 +74,11 @@ int background_intro_number[] = {79, 99, -1, 85, 82, 55, 95, -1};
 static char no_load_sound[] = "NOLOADSOUND";
 static char no_sounds[] = "NOSOUNDS";
 
-extern CHARREC Char;
-extern CHARREC Kid;
-extern CHARREC RoomOpp[5];
-extern SoundRule Snd[];
-extern AmbientState ambient_state;
-extern ROOMREC Room;
 
-extern int WeightlessTimer;
-SoundHandle sound_handles[273];
-extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
+Handle sound_handles[273];
 
-extern int SndOn(int resource);
-extern int OppToFight(void);
-extern void *GetOppGenPtOnRow(unsigned char room, signed char column);
-extern void LoadShad(signed char sound);
-extern SoundData MATERIALIZE_HANDLE(SoundHandle handle);
-extern void hFree(SoundHandle handle);
-extern SoundHandle hGetSnd(int resource);
-extern SoundHandle hPurge(SoundHandle handle);
-extern SoundData h2p(SoundHandle handle);
-extern int find_option(const char far *option);
-extern void LoadKid(void);
-extern unsigned RND(unsigned limit);
-extern signed char FIRSTINROW(signed char room);
-extern void ResetSnd(int resource);
-extern void process_handle(SoundHandle handle);
-extern int IsExitChasingSkel(signed char room);
-extern void SaveOptionsToDisk(void);
-extern void *memset(void *, int, unsigned int);
-#pragma intrinsic(memset)
 
-void AddSong(int song);
-void AddSound(int effect);
-int GetLeaveLevelSongId(void);
-SoundData CheckSnd(int song);
-void UnloadSounds(int first, int last);
-void LoadSounds(int first, int last);
-int _fastcall TimeForNewAmbient(AmbientState *state);
-int SpecialMusic(int special);
-void play_song(int song);
-int should_replace_effect(int effect, int playing);
-void UpdateAmbient(AmbientState *state, int song);
-
-void AddSFX(void);
-void AddOppDeathSong(void);
-void AddKidDeathSong(signed char kind);
-void _fastcall AddKidScream(unsigned char room);
-void AddLeaveLevelSong(void);
-void change_song_range(signed char range);
-void InitAmbient(AmbientState *state);
-
-void AddKidDeathSong(signed char kind)
+void AddKidDeathSong(sbyte kind)
 {
     AddSong(death_songs[kind]);
 }
@@ -117,7 +91,7 @@ void AddLeaveLevelSong(void)
         AddSong(song);
 }
 
-void _fastcall AddKidScream(unsigned char room)
+void _fastcall AddKidScream(byte room)
 {
     if ((Char.character_kind == 0 && Level.environment_kind != 5) ||
         (Level.environment_kind == 5 && room != 19 && room != 16 && room != 15))
@@ -164,7 +138,7 @@ void AddOppDeathSong(void)
 
 void AddSFX(void)
 {
-    signed char sound = Kid.opponent_index;
+    sbyte sound = Kid.opponent_index;
 
     if (sound != -1) {
         LoadShad(sound);
@@ -193,7 +167,7 @@ SoundData CheckSnd(int song)
 {
     SoundData data;
 
-    data = sound_handles[song] ? MATERIALIZE_HANDLE(sound_handles[song]) : (SoundData)0;
+    data = sound_handles[song] ? materialize_handle(sound_handles[song]) : (SoundData)0;
     if (!data) {
         if (sound_handles[song])
             hFree(sound_handles[song]);
@@ -244,7 +218,7 @@ int IsLeaveLevelMusicOn(void)
     return playing;
 }
 
-void change_song_range(signed char range)
+void change_song_range(sbyte range)
 {
     if (range != LastOppTypeLoaded && LastOppTypeLoaded != -1 && track_first[LastOppTypeLoaded] != -1)
         UnloadSounds(track_first[range], track_last[range]);
@@ -255,7 +229,7 @@ void change_song_range(signed char range)
 void LoadSounds(int first, int last)
 {
     int song;
-    SoundHandle *handle;
+    Handle *handle;
     int start;
 
     if (!find_option(no_load_sound))
@@ -267,8 +241,8 @@ void LoadSounds(int first, int last)
             handle = &sound_handles[song];
             do {
                 if (*handle)
-                    MATERIALIZE_HANDLE(*handle);
-                if (!*handle || !MATERIALIZE_HANDLE(*handle)) {
+                    materialize_handle(*handle);
+                if (!*handle || !materialize_handle(*handle)) {
                     if (*handle)
                         hFree(*handle);
                     *handle = hGetSnd(song + 10000);
@@ -283,7 +257,7 @@ void LoadSounds(int first, int last)
 void PlayAmbient(AmbientState *state)
 {
     int special, song, first, count;
-    signed char cue, cell;
+    sbyte cue, cell;
     int *songs;
 
     if (Kid.room) {
@@ -295,7 +269,7 @@ void PlayAmbient(AmbientState *state)
             song = SpecialMusic(special);
             if (song == -1) {
                 if (!special) {
-                    cell = FIRSTINROW(Char.row) + Char.column;
+                    cell = FirstInRow(Char.row) + Char.column;
                     cue = Level.ambient_cues[Char.room - 1][cell];
                 } else {
                     cue = ambient_special[Level.environment_kind];
@@ -303,7 +277,7 @@ void PlayAmbient(AmbientState *state)
                 songs = ambient_first[Level.environment_kind];
                 first = songs[cue];
                 count = ambient_count[Level.environment_kind][cue];
-                song = songs[cue] + RND(count);
+                song = songs[cue] + Rnd(count);
                 if (state->song == song) {
                     if (first + count != song)
                         ++song;
@@ -339,7 +313,7 @@ void PlaySounds(void)
 
 void play_song(int song)
 {
-    if (!sound_handles[song] || !MATERIALIZE_HANDLE(sound_handles[song]))
+    if (!sound_handles[song] || !materialize_handle(sound_handles[song]))
         sound_handles[song] = hGetSnd(song + 10000);
     process_handle(sound_handles[song]);
 }
@@ -398,7 +372,7 @@ int _fastcall TimeForNewAmbient(AmbientState *state)
     int change = 0;
     int special;
     union {
-        signed char value;
+        sbyte value;
         int word;
     } cue;
 
@@ -423,7 +397,7 @@ int _fastcall TimeForNewAmbient(AmbientState *state)
     return change;
 }
 
-char *toggle_ambient(void)
+sbyte *toggle_ambient(void)
 {
     char *message;
     if (Midi.channels & 2) {
@@ -451,7 +425,7 @@ void UpdateAmbient(AmbientState *state, int song)
 void UnloadSounds(int first, int last)
 {
     int song;
-    SoundHandle *handle;
+    Handle *handle;
     int start;
 
     if (first != -1) {

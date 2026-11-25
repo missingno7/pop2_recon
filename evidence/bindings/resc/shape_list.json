@@ -65,7 +65,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 277,
+        "length": 1947,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -86,22 +86,13 @@
     ],
     "publics": [
       {
-        "name": "HMAPSHPLIST",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 112,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 545
-      },
-      {
         "name": "HFREESHPLIST",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
         "group_index": 0,
         "frame": null,
-        "type_index": 529
+        "type_index": 938
       },
       {
         "name": "HGETSHPLIST",
@@ -110,25 +101,34 @@
         "offset": 80,
         "group_index": 0,
         "frame": null,
-        "type_index": 531
+        "type_index": 941
+      },
+      {
+        "name": "HMAPSHPLIST",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 112,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 943
       }
     ],
     "externals": [
-      "ALLOCBANKS",
-      "MAPPALINFO",
+      "RELEASE_TAGGED_RESOURCE",
+      "HFREESHPLIST",
+      "HGETSHPLIST",
+      "HMAPSHPLIST",
+      "UNLINK_SHAPE_LIST",
+      "H2P",
+      "HFREE",
       "HGETSTATE",
       "HLOCK",
-      "HSETSTATE",
       "BANKSTATUS",
-      "HMAPSHPLIST",
-      "H2P",
-      "RELEASE_TAGGED_RESOURCE",
-      "UNLINK_SHAPE_LIST",
-      "HFREE",
-      "HGETRSRC",
+      "ALLOCBANKS",
       "HNOPURGE",
-      "HFREESHPLIST",
-      "HGETSHPLIST"
+      "HSETSTATE",
+      "HGETRSRC",
+      "MAPPALINFO"
     ]
   },
   "fixups": [
@@ -144,7 +144,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 7,
           "name": "HFREE",
           "method": 6,
           "zero_displacement": true
@@ -152,7 +152,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 7,
         "name": "HFREE",
         "method": 6,
         "zero_displacement": true
@@ -171,7 +171,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 5,
           "name": "UNLINK_SHAPE_LIST",
           "method": 6,
           "zero_displacement": true
@@ -179,7 +179,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 5,
         "name": "UNLINK_SHAPE_LIST",
         "method": 6,
         "zero_displacement": true
@@ -198,7 +198,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 1,
           "name": "RELEASE_TAGGED_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -206,7 +206,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 1,
         "name": "RELEASE_TAGGED_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -225,7 +225,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 6,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -233,7 +233,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 6,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -252,7 +252,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 6,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -260,7 +260,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 6,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -279,7 +279,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 12,
           "name": "HNOPURGE",
           "method": 6,
           "zero_displacement": true
@@ -287,7 +287,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 12,
         "name": "HNOPURGE",
         "method": 6,
         "zero_displacement": true
@@ -306,7 +306,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 14,
           "name": "HGETRSRC",
           "method": 6,
           "zero_displacement": true
@@ -314,7 +314,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 14,
         "name": "HGETRSRC",
         "method": 6,
         "zero_displacement": true
@@ -333,7 +333,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 13,
           "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
@@ -341,7 +341,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 13,
         "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
@@ -360,7 +360,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 12,
           "name": "HNOPURGE",
           "method": 6,
           "zero_displacement": true
@@ -368,7 +368,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 12,
         "name": "HNOPURGE",
         "method": 6,
         "zero_displacement": true
@@ -387,7 +387,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 13,
           "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
@@ -395,7 +395,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 13,
         "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
@@ -414,7 +414,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 15,
           "name": "MAPPALINFO",
           "method": 6,
           "zero_displacement": true
@@ -422,7 +422,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 15,
         "name": "MAPPALINFO",
         "method": 6,
         "zero_displacement": true
@@ -441,7 +441,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 10,
           "name": "BANKSTATUS",
           "method": 6,
           "zero_displacement": true
@@ -449,7 +449,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 10,
         "name": "BANKSTATUS",
         "method": 6,
         "zero_displacement": true
@@ -468,7 +468,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 11,
           "name": "ALLOCBANKS",
           "method": 6,
           "zero_displacement": true
@@ -476,7 +476,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 11,
         "name": "ALLOCBANKS",
         "method": 6,
         "zero_displacement": true
@@ -495,7 +495,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 9,
           "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
@@ -503,7 +503,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 9,
         "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
@@ -522,7 +522,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 8,
           "name": "HGETSTATE",
           "method": 6,
           "zero_displacement": true
@@ -530,7 +530,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 8,
         "name": "HGETSTATE",
         "method": 6,
         "zero_displacement": true

@@ -1,24 +1,21 @@
 /* MOVESCYT.C, DOS scythe movement and collision. */
 #include "types.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "act.h"
+#include "ctrl.h"
+#include "fade.h"
+#include "move.h"
+#include "movescyt.h"
+#include "prince.h"
+#include "sound.h"
+#include "tables.h"
+#include "top.h"
 
-typedef struct {
-    word modifier;
-    word extra;
-} RoomCell;
-
-extern word BlueSpec;
-
-extern TROBREC Trob;
-extern CHARREC Char;
-
-extern CELLREC Cell;
-extern LEVELREC Level;
-extern RoomCell near *BlueS;
-extern int ColEdgeX[20];
-extern int LeftEdge;
 
 static Rect redraw_bounds = {26, -24, 43, 52};
 static Rect first_blade = {26, 20, 33, 57};
@@ -28,64 +25,43 @@ int ScytheImg[20] = {
     97, 97, 97, 97, 97, 97, 99, 100, 101, 0
 };
 
-extern void far pascal AddSound(int sound);
-extern char far pascal ReadCell(byte room, sbyte column, sbyte row);
-extern int far pascal SectRect(Rect far *out, const Rect far *left, const Rect far *right);
-extern void far pascal JumpSeq(int seq);
-extern void far pascal SetKidDeathMethod(sbyte method);
-extern void far pascal AnimChar(void);
-extern int far pascal DecLifePts(sbyte amount);
-extern Rect far *far pascal UnionRect(Rect far *out, const Rect far *left, const Rect far *right);
-extern Rect far *far pascal OffsetRect(Rect far *out, const Rect far *in, int x, int y);
-extern int far pascal CheckTrobVis(void);
-extern int far pascal ComputeTrobMoveRect(Rect near *out, const Rect near *in);
-extern void far pascal MarkMove(sbyte cell, const Rect near *rect);
-extern void far pascal MarkBufsForRect(void (far pascal *mark)(sbyte, const Rect near *),
-                                             const Rect near *rect, sbyte cell);
-extern void far pascal AddTrob(byte room, sbyte index, sbyte mode, byte kind);
 
-int far pascal GetScytheHitType();
-int far pascal ScytheBladeExtended();
-int far pascal ComputeBladeHitRect(Rect near *bounds);
-void far pascal RedrawScythe(int bloody);
-void far pascal TriggerScythe(byte room, sbyte index);
-
-void far pascal AnimScythe(void)
+void AnimScythe(void)
 {
-    int frame = BlueSpec & 31;
+    int frame = BlueSpec.modifier & 31;
     if (frame < 19) {
-        ++BlueSpec;
+        ++BlueSpec.modifier;
         if (ScytheImg[frame] != ScytheImg[frame + 1])
             RedrawScythe(0);
         if (frame == 0)
             AddSound(84);
         else if (frame == 15)
             AddSound(83);
-        else if (frame >= 16 && (BlueSpec & 0x40) && !(BlueSpec & 0x80)) {
-            BlueSpec |= 0x80;
+        else if (frame >= 16 && (BlueSpec.modifier & 0x40) && !(BlueSpec.modifier & 0x80)) {
+            BlueSpec.modifier |= 0x80;
             RedrawScythe(1);
         }
     } else {
-        BlueSpec &= ~31;
+        BlueSpec.modifier &= ~31;
         Trob.state = -1;
     }
     ReadCell(Trob.room, Trob.cell % 10 - 1, Trob.cell / 10);
     *(byte near *)&Cell.modifier = 0;
     Level.cell_info[Cell.room - 1][Cell.index].modifier =
-        (Cell.modifier |= (byte)BlueSpec);
+        (Cell.modifier |= (byte)BlueSpec.modifier);
 }
 
-void far pascal CheckScythe(void)
+void CheckScythe(void)
 {
     if (Char.character_kind != 7 && Char.character_kind != 8 && Char.character_kind != 11 &&
         Char.alive < 0 && Char.row * 63 + 40 <= Char.y) {
-        char kind = ReadCell(Char.room, Char.column, Char.row);
+        sbyte kind = ReadCell(Char.room, Char.column, Char.row);
         if ((kind == 12 || kind == 13) && ColEdgeX[Char.column + 5] + 18 < Char.x)
             TriggerScythe(Cell.room, Cell.index);
     }
 }
 
-void far pascal CheckScytheHit(void)
+void CheckScytheHit(void)
 {
     int done = 0;
     sbyte column, kind;
@@ -127,7 +103,7 @@ void far pascal CheckScytheHit(void)
     }
 }
 
-int far pascal ComputeBladeHitRect(Rect near *bounds)
+int ComputeBladeHitRect(Rect *bounds)
 {
     int valid = 1;
     int phase = Cell.modifier & 31;
@@ -145,20 +121,20 @@ int far pascal ComputeBladeHitRect(Rect near *bounds)
     return valid;
 }
 
-int far pascal GetScytheHitType(unsigned char value)
+int GetScytheHitType(word value)
 {
-    unsigned int low5 = value & 31U;
+    word low5 = value & 31;
 
-    if (low5 == 2U || (low5 >= 16U && low5 <= 17U)) {
-        low5 = 1U;
+    if (low5 == 2 || (low5 >= 16 && low5 <= 17)) {
+        low5 = 1;
     } else {
-        low5 = 0U;
+        low5 = 0;
     }
 
     return low5;
 }
 
-void far pascal RedrawScythe(int bloody)
+void RedrawScythe(int bloody)
 {
     Rect bounds;
     if (CheckTrobVis()) {
@@ -174,10 +150,10 @@ void far pascal RedrawScythe(int bloody)
     }
 }
 
-int far pascal ScytheBarrToStandUp(void)
+int ScytheBarrToStandUp(void)
 {
     int blocked = 0;
-    char kind = ReadCell(Char.room, Char.column, Char.row);
+    sbyte kind = ReadCell(Char.room, Char.column, Char.row);
     if (kind == 12 && ScytheBladeExtended(Cell.modifier)) {
         blocked = 1;
     } else if (kind == 13) {
@@ -189,12 +165,12 @@ int far pascal ScytheBarrToStandUp(void)
     return blocked;
 }
 
-int far pascal ScytheBladeExtended(unsigned char value)
+int ScytheBladeExtended(word value)
 {
-    unsigned int low5 = value & 31U;
-    return low5 >= 3U && low5 <= 15U;
+    word low5 = value & 31;
+    return low5 >= 3 && low5 <= 15;
 }
-void far pascal TriggerScythe(byte room, sbyte index)
+void TriggerScythe(byte room, sbyte index)
 {
     if (Cell.kind == 12) {
         ReadCell(room, Cell.column + 1, Cell.row);

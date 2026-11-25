@@ -1,0 +1,47 @@
+/* AUTO */
+
+extern int unused_auto_flag;
+
+void AddOpponent(void);
+void AddOppToRoom(int room, OPPONENT *record);
+void AutoCtrl(void);
+void AutoRelease(void);
+int CanOppFollowKid(void);
+void CheckOppGenPts(byte room);
+void CheckSideRoomsForVisibleOpps(void);
+void CheckStab(void);
+void CheckStrike(void);
+int Cut(int direction);
+void CutAllOpponents(void);
+int CutChar(void);
+void CutCheck(void);
+void CutOpponent(void);
+void GenerateOpponent(GENERATOR *point, byte room);
+void _fastcall GetCharStrikeRanges(int *minimum, int *maximum);
+GENERATOR *GetOppGenPtIdx(byte room, sbyte index);
+void *GetOppGenPtOnRow(byte room, sbyte column);
+sbyte GetOppIdxClosestToKid(sbyte direction);
+OPPONENT *GetOppInfoIdx(int room, int index);
+void GuardProg(void);
+int IsActiveOppGenPt(GENERATOR *point, sbyte column);
+int IsAdvancableId(sbyte tile, word modifier);
+int IsCharClosestToKid(void);
+int IsCharInKidRoom(void);
+int IsOppGenPtWithTumbleOn(byte room);
+int IsStrikingPos(sbyte kind, word action);
+int IsTheStrikePos(sbyte kind, int value);
+int IsTimeToGenOpp(GENERATOR *point, byte room);
+void _fastcall PresetOppBanks(byte kind);
+sbyte RegisterCharInRoom(void);
+void RemoveOppFromRoom(byte room, int index);
+void reset_overlay_state(void);
+void SetOppBanks(void);
+void SetOppLifePts(OPPONENT *record);
+void SetOppMaxLifePts(OPPONENT *record);
+void SetSpecialOppInfo(OPPONENT *record);
+void ShadowProg(void);
+void StabChar(void);
+void StabKillChar(void);
+void TestStrike(void);
+void TransferOppInfo(void);
+int UpdateOppInfo(void);

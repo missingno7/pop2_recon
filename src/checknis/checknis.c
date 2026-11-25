@@ -1,14 +1,30 @@
-/* CHECKNIS.C reconstruction. External aliases describe the observed uses. */
+#include <stdlib.h>
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "heap.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "checknis.h"
+#include "custcvca.h"
+#include "diag.h"
+#include "dlghelp.h"
+#include "dialog.h"
+#include "fade.h"
+#include "anim.h"
+#include "hnewshpi.h"
+#include "intrface.h"
+#include "lgraf.h"
+#include "load.h"
+#include "nis.h"
+#include "prince.h"
+#include "top.h"
 
-signed char quote_index = -1;
-extern int IsTimeForNIS(int, int);
-extern int PlayNIS(int);
+sbyte quote_index = -1;
 
-extern GAMESTATE GameState;
 
 int CheckPlayNIS(int level, int previous_level)
 {
@@ -50,16 +66,8 @@ int EraseScreenBeforeNIS(int sequence)
     return result;
 }
 
-/* Field aliases, original long type, signedness, and purpose are hypotheses. */
-extern LEVELREC Level;
-extern unsigned long hRebirthSaved;
-extern unsigned int Resume;
 
-extern CHARREC Kid;
-
-extern unsigned char CutRoom;
-
-int far pascal IsLevelStartWithNISScreen(void)
+int IsLevelStartWithNISScreen(void)
 {
     int result = 0;
     if (hRebirthSaved == 0L && Resume == 0 && GameState.nis_room_restored == 0) {
@@ -75,26 +83,16 @@ int far pascal IsLevelStartWithNISScreen(void)
     return result;
 }
 
-extern signed char StartLevel;
-extern struct { int done; } notice_state;
-extern unsigned int Minutes;
-extern int frame_diagnostics;
-extern int LevelRsrcFiles[];
-extern char *find_option(const char far *);
-extern int cdecl atoi(const char *);
-extern void OpenRsrcVerify(int);
-extern void CloseRsrcFile(int);
-extern void SetSnd(int sound);
 
 int IsTimeForNIS(int level, int previous_level)
 {
     int sequence = 0;
     struct {
         char *arg;
-        signed char quote;
+        sbyte quote;
     } options;
 
-    if (StartLevel > 2 && !notice_state.done) {
+    if (StartLevel > 2 && !notice_state) {
         sequence = 100;
     } else if (StartLevel) {
         if (level == 0 || (previous_level != level && previous_level != -1)) {
@@ -114,7 +112,7 @@ int IsTimeForNIS(int level, int previous_level)
                 sequence = 20;
                 quote_index = 0;
             } else {
-                options.quote = (1 - (int)Minutes) / 9 + 7;
+                options.quote = (1 - Minutes) / 9 + 7;
                 if (options.quote > quote_index) {
                     sequence = options.quote + 20;
                     quote_index = options.quote;
@@ -143,24 +141,11 @@ int IsTimeForNIS(int level, int previous_level)
     return sequence;
 }
 
-extern int BPort;
-extern char ScreenPortRect[];
-extern void UnloadLevel(int mode);
-extern void RemoveRebirthPt(void);
-extern void DeallocBackPort(int sound);
-extern void SetDACBlock(int first, int count, const unsigned char far *colors, int sync);
-extern void EraseRect(const char far *rect);
-extern void CopyProtectionDialog(void);
-extern void TreeCheck(int quote);
-extern int Transition(int sequence);
-extern int NIS(int sequence);
-extern void ResetStdPalette(void);
-extern void SetKidPalette(unsigned char room);
 
 int PlayNIS(int sequence)
 {
     int result = 1;
-    unsigned char room;
+    byte room;
 
     GameState.playing_nis = result;
     room = Level.environment_kind;
@@ -174,8 +159,8 @@ int PlayNIS(int sequence)
         }
     }
     if (EraseScreenBeforeNIS(sequence)) {
-        SetDACBlock(0, 256, (const unsigned char far *)0, 1);
-        EraseRect(ScreenPortRect);
+        SetDACBlock(0, 256, (const byte far *)0, 1);
+        EraseRect(&ScreenPortRect);
     }
     if (sequence == 100) {
         CopyProtectionDialog();
@@ -194,38 +179,24 @@ int PlayNIS(int sequence)
             result = 2;
     }
     if (EraseScreenAfterNIS(sequence))
-        EraseRect(ScreenPortRect);
+        EraseRect(&ScreenPortRect);
     ResetStdPalette();
     SetKidPalette(room);
     GameState.playing_nis = 0;
     return result;
 }
 
-extern signed char LevelIdx;
-extern ROOMREC Room;
-extern int NextLevel, Graf;
-extern void reset_level_overlays(void);
-extern void LoadLevelMap(signed char room);
-extern void LoadBGSet(int visible);
-extern void LoadPiecesData(void);
-extern void LoadCodeOverlays(unsigned char room, unsigned char tile);
-extern void SetPrinceLevelSpecPtrs(unsigned char room);
-extern void PrepCut(int mode);
-extern void DoCleanCut(void);
-extern void UnloadSet(int pass);
-extern void UnloadPiecesData(void);
-extern void nis_noop(void);
 
-void DrawRoomFromNIS(signed char room, signed char level)
+void DrawRoomFromNIS(sbyte room, sbyte level)
 {
-    unsigned char old_room;
-    int saved_sound;
+    byte old_room;
+    PORT *saved_port;
 
     reset_level_overlays();
     old_room = Level.environment_kind;
     LevelIdx = room;
     NextLevel = room;
-    saved_sound = BPort;
+    saved_port = BPort;
     BPort = Graf;
     LoadLevelMap(room);
     OpenRsrcVerify(LevelRsrcFiles[Level.environment_kind]);
@@ -243,31 +214,17 @@ void DrawRoomFromNIS(signed char room, signed char level)
     UnloadPiecesData();
     CloseRsrcFile(LevelRsrcFiles[Level.environment_kind]);
     Level.environment_kind = 0;
-    BPort = saved_sound;
+    BPort = saved_port;
     nis_noop();
 }
 
-typedef struct {
-    int first;
-    int second;
-    int third;
-    unsigned char pixels[1];
-} image_header;
-
-extern unsigned int hGetSL(int resource_id, int mode);
-extern int hNewShpItem1(int asset, int frame, int type);
-extern image_header far *h2p(int image);
-extern void Mirror4BitBlock(unsigned char far *pixels, int first, int second, int third);
-extern void PAINT_INDEXED_SHAPE(image_header far *image, int x, int y, int mode, int plane);
-extern void hFree(int image);
-
-extern void SetPalette(int id, unsigned int size, unsigned char type, unsigned char bank);
 
 void DrawDeadKid(int install_palette)
 {
-    unsigned int shapes;
-    int frame, x;
-    image_header far *image;
+    Handle shapes;
+    Handle frame;
+    int x;
+    SHAPE far *image;
 
     shapes = hGetSL(25001, 2);
     frame = hNewShpItem1(shapes, 80, 2);
@@ -275,10 +232,10 @@ void DrawDeadKid(int install_palette)
         x = Kid.x - 137;
         image = h2p(frame);
         if (Kid.direction == 0) {
-            Mirror4BitBlock(image->pixels, image->first, image->second, image->third);
+            Mirror4BitBlock(image->pixels, image->height, image->width, image->format);
             x -= 19;
         }
-        PAINT_INDEXED_SHAPE(image, x, Kid.y - 10, 10, 2);
+        paint_indexed_shape(image, x, Kid.y - 10, 10, 2);
         hFree(frame);
         hFree(shapes);
     }
@@ -286,7 +243,7 @@ void DrawDeadKid(int install_palette)
     shapes = hGetSL(1000, 0x8000);
     frame = hNewShpItem1(shapes, 11, 2);
     if (frame) {
-        PAINT_INDEXED_SHAPE(h2p(frame), 170, 181, 10, 0x8000);
+        paint_indexed_shape(h2p(frame), 170, 181, 10, 0x8000);
         hFree(frame);
         hFree(shapes);
     }

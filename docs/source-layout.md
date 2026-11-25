@@ -15,8 +15,13 @@ overlay regions to those modules:
 
 - `src/MODULE/` and `asm/MODULE/` use the lowercase original module name, e.g.
   `src/ctrl/`, `src/draw/`, `asm/mcga1/`.
-- `include/` holds what several files share: `types.h`, `level.h` (a level and the room shown), `char.h` (characters and
-  the cell under examination), `game.h` (game state, moving objects, changing cells). A type is declared there once.
+- `include/MODULE.h` is the interface of a module: its types, its variables in the order of their addresses, its functions
+  in alphabetical order. `types.h` (scalars, `Rect`, `Handle`), `level.h`, `char.h` and `game.h` hold the records of the
+  game, `graf.h`, `shape.h`, `resc.h`, `heap.h`, `snd.h`, `system.h`, `window.h` the library, `tables.h` and `english.h` the
+  data modules. A name is declared once. Headers include nothing themselves and have no guards; a file includes what it
+  needs before it, after the compiler's own headers.
+- The order of the includes, and a header that a file does not use, are not free: they give the symbol numbers behind the
+  operand order of the original code (codegen-rules FRAME-7). LOAD declares its private functions itself for the same reason.
 - Components whose module is not anchored stay at the top of `src/`.
 - Recipes and bindings mirror the same paths (`recipes/ctrl/…`,
   `evidence/bindings/ctrl/…`).

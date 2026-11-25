@@ -1,44 +1,21 @@
 /* MOVERUIN.C, DOS overlay 8 code frame 2a4e. */
 #include "types.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "act.h"
+#include "ctrl.h"
+#include "fade.h"
+#include "move.h"
+#include "moveruin.h"
+#include "prince.h"
+#include "sound.h"
+#include "tables.h"
+#include "top.h"
 
-extern CELLREC Cell;
-extern CHARREC Char;
-
-extern LEVELREC Level;
-extern CHARREC Kid;
-extern int CDLeftEdge;
-extern int CDRightEdge;
-
-extern FCHARREC FChar;
-
-extern ROOMREC Room;
-extern MOBREC Mob;
-
-extern Directions Dir;
-extern byte CutRoom;
-extern byte *ruins_start_actor;
-extern int ColEdgeX[20];
-
-extern GAMESTATE GameState;
-extern int Minutes;
-
-extern sbyte GetCol(int);
-extern byte ReadCell(sbyte, sbyte, sbyte);
-extern int IsWall(byte);
-extern int IsSpace(byte);
-extern void AddMob(void);
-extern void MakeSpace(sbyte, sbyte);
-extern void MarkMobRedraw(byte);
-extern void JumpSeq(int);
-extern void ResetCharY(void);
-extern void AnimChar(void);
-extern void Entrance(void);
-extern byte ClrAll(void);
-extern int SetPalette(unsigned int, int, byte, byte);
-extern void AddSong(int);
 
 void RuinsClipChar(void)
 {
@@ -49,7 +26,7 @@ void RuinsClipChar(void)
     clip_lower = Char.character_kind == 7 || Char.character_kind == 8;
     column = GetCol(CDRightEdge);
     if (IsWall(ReadCell(Char.room, column, Char.row))) {
-        left_column = ReadCell(Char.room, column, (Cell.top_row));
+        left_column = ReadCell(Char.room, column, Cell.top_row);
         if (IsWall(left_column) && left_column != 7 && Char.room == Cell.room)
             FChar.clip.right = Cell.column * 32;
     }
@@ -63,7 +40,7 @@ void RuinsClipChar(void)
             if (previous_cell_remaining > current_cell_offset)
                 --column;
         }
-        if (!IsSpace(ReadCell(Char.room, column, (Cell.top_row))))
+        if (!IsSpace(ReadCell(Char.room, column, Cell.top_row)))
             FChar.clip.top = 63 * ((sbyte)Cell.bottom_row) + 3;
     }
 }
@@ -74,13 +51,13 @@ void BreakTotalLoose(void)
 
     Mob.x = (Cell.index % 10) * 32;
     Mob.y = 63 * Cell.row + 66;
-    Mob.room = (Cell.room);
+    Mob.room = Cell.room;
     Mob.velocity = Mob.auxiliary = 0;
     Mob.kind = 3;
     Mob.row = Cell.row;
     Mob.flags = 0;
     AddMob();
-    MakeSpace((Cell.room), Cell.index);
+    MakeSpace(Cell.room, Cell.index);
     saved_x = Mob.x;
     if (Room.left == Mob.room)
         Mob.x -= 320;
@@ -126,11 +103,11 @@ void LoadRuinsMoveCode(void)
 void LoadPlateauRoomFunc(void)
 {
     if (Kid.column >= 9) {
-        if (Room.number == 16 && (Level.level_number) == 9) {
+        if (Room.number == 16 && Level.level_number == 9) {
             AddSong(92);
             return;
         }
-    } else if (Room.number == 2 && (Level.level_number) == 9 && !GameState.plateau_loaded
+    } else if (Room.number == 2 && Level.level_number == 9 && !GameState.plateau_loaded
                && Kid.column < 5) {
         AddSong(91);
         GameState.plateau_loaded = 1;

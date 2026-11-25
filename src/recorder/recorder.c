@@ -1,29 +1,24 @@
+#include <string.h>
 #include "types.h"
+#include "resc.h"
+#include "graf.h"
+#include "level.h"
+#include "heap.h"
 #include "char.h"
 #include "game.h"
+#include "ctrl.h"
+#include "dlghelp.h"
+#include "dialog.h"
+#include "intrface.h"
+#include "prince.h"
+#include "recorder.h"
+#include "top.h"
+#include "util.h"
 #pragma pack(1)
-typedef struct {
-    signed char level;
-    int end_tick;
-    int data_size;
-    signed char data[1];
-} Recording;
+
 
 typedef struct {
-    int tick;
-    signed char count;
-} RecordedFrame;
-
-typedef struct {
-    unsigned int x : 2;
-    unsigned int y : 2;
-    unsigned int horizontal : 2;
-    unsigned int vertical : 2;
-    unsigned int action : 5;
-} PackedDirection;
-
-typedef struct {
-    signed char character;
+    sbyte character;
     PackedDirection direction;
 } RecordedInput;
 
@@ -32,31 +27,11 @@ static struct {
     int offset;
     int input_index;
     PackedDirection saved_directions[6];
-    unsigned int handle;
+    Handle handle;
 } playback;
 
-extern unsigned long FrameNum;
-extern signed char Char;
-extern signed char LevelIdx;
 
-extern Directions Dir;
-
-extern GAMESTATE GameState;
-extern signed char StartLevel;
-
-extern void far *far pascal h2p(unsigned int handle);
-extern void far pascal hFree(unsigned int handle);
-extern void far pascal abort_with_message(int exit_status, char far *message);
-extern void far pascal SetRndSeed(int enabled);
-extern int far pascal Rnd(int value);
-extern void far pascal RemoveRebirthPt(void);
-extern void *cdecl memset(void *, int, unsigned int);
-#pragma intrinsic(memset)
-
-void far pascal ConvertRecDirToDir(PackedDirection far *direction);
-RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recording);
-
-int far pascal CheckForEndOfRecording(void)
+int CheckForEndOfRecording(void)
 {
     int result = -2;
     unsigned long tick;
@@ -77,19 +52,19 @@ int far pascal CheckForEndOfRecording(void)
     return result;
 }
 
-void far pascal CheckRecordedDirForChar(void)
+void CheckRecordedDirForChar(void)
 {
     Recording far *recording;
     RecordedFrame far *frame;
     RecordedInput far *input;
     PackedDirection far *direction;
-    signed char character;
+    sbyte character;
 
     if (playback.mode == 3 && playback.handle) {
-        if (Char == 10)
+        if (Char.slot == 10)
             character = 5;
         else
-            character = Char;
+            character = Char.slot;
         recording = h2p(playback.handle);
         if (playback.offset < recording->data_size) {
             frame = (RecordedFrame far *)(recording->data + playback.offset);
@@ -109,13 +84,13 @@ void far pascal CheckRecordedDirForChar(void)
     }
 }
 
-void far pascal CheckRecordedGamePlayer(void)
+void CheckRecordedGamePlayer(void)
 {
     if (playback.mode == 4)
         LevelIdx = -1;
 }
 
-void far pascal ConvertDirToRecDir(PackedDirection far *direction)
+void ConvertDirToRecDir(PackedDirection far *direction)
 {
     direction->x = Dir.forward + 1;
     direction->y = Dir.back + 1;
@@ -124,7 +99,7 @@ void far pascal ConvertDirToRecDir(PackedDirection far *direction)
     direction->action = Dir.action + 2;
 }
 
-void far pascal ConvertRecDirToDir(PackedDirection far *direction)
+void ConvertRecDirToDir(PackedDirection far *direction)
 {
     Dir.forward = direction->x - 1;
     Dir.back = direction->y - 1;
@@ -133,7 +108,7 @@ void far pascal ConvertRecDirToDir(PackedDirection far *direction)
     Dir.action = direction->action - 2;
 }
 
-RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recording)
+RecordedFrame far *IncRecordedGameToNextFrame(Recording far *recording)
 {
     RecordedFrame far *frame;
 
@@ -149,15 +124,15 @@ RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recordin
     return frame;
 }
 
-static unsigned int DEFAULT_HANDLE_TAG;
-extern unsigned int far pascal HGETRSRC(void far *value, unsigned int tag);
+static word DEFAULT_HANDLE_TAG;
 
-unsigned int far pascal LoadRecordedGameFromDisk(void)
+
+Handle LoadRecordedGameFromDisk(void)
 {
-    return HGETRSRC((void far *)0, DEFAULT_HANDLE_TAG);
+    return hGetRsrc(0, DEFAULT_HANDLE_TAG);
 }
 
-void far pascal StartPlayingRecordedGame(void)
+void StartPlayingRecordedGame(void)
 {
     if (playback.mode == 4 || playback.mode == 3) {
         playback.mode = 3;
@@ -175,13 +150,13 @@ void far pascal StartPlayingRecordedGame(void)
     }
 }
 
-int far pascal ToggleRecorder(void)
+int ToggleRecorder(void)
 {
     playback.mode = playback.mode != 4 ? 4 : 0;
     return playback.mode != 0;
 }
 
-void far pascal TurnRecordedGamePlayerOff(void)
+void TurnRecordedGamePlayerOff(void)
 {
     GameState.recording_mode = 0;
     playback.mode = 0;
@@ -191,9 +166,9 @@ void far pascal TurnRecordedGamePlayerOff(void)
     }
 }
 
-void far pascal TurnRecordedGamePlayerOn(void)
+void TurnRecordedGamePlayerOn(void)
 {
-    unsigned int handle;
+    Handle handle;
     Recording far *recording;
 
     playback.mode = 4;

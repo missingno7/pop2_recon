@@ -1,251 +1,59 @@
-/* AUTOHEAD.C. Routines in original DOS order. */
+#include <stdlib.h>
+#include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
+#include "level.h"
+#include "heap.h"
+#include "char.h"
+#include "game.h"
+#include "movescyt.h"
+#include "draw.h"
+#include "act.h"
+#include "add.h"
+#include "autohead.h"
+#include "auto.h"
+#include "fade.h"
+#include "collide.h"
+#include "ctrl.h"
+#include "moveruin.h"
+#include "move.h"
+#include "prince.h"
+#include "sound.h"
+#include "tables.h"
+#include "top.h"
+#include "util.h"
 
 #pragma pack(1)
-typedef struct {
-    int x, y;
-    unsigned char kind;
-    int frame;
-    int step;
-    unsigned char reserved[6];
-    unsigned char opponent_kind, padding;
-    signed char opponent_mode;
-} HeadSprite;
+
 
 typedef struct {
-    int height, width;
-} SpriteBounds;
-
-typedef struct {
-    signed char x, y;
+    sbyte x, y;
 } NeckPoint;
 #pragma pack()
 
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-#pragma pack()
 
-
-#pragma pack(1)
-typedef struct {
-    signed char index, flipped;                       /* 00-01 */
-    int x, y, image;                                   /* 02,04,06 */
-    unsigned char image_set;                          /* 08 */
-    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
-    int depth;                                        /* 11 */
-    unsigned char object_type;                        /* 13 */
-} FCHARREC;
-#pragma pack()
-extern FCHARREC FChar;
-extern CHARREC Kid;
-extern CHARREC Opp;
-extern CHARREC Char;
-extern void near *Pics[5];
-extern unsigned int hHeadChompFrame;
-
-extern HeadSprite near *far pascal GetObjTableType(char kind, unsigned char index);
-extern NeckPoint far *far pascal hLock(unsigned int handle);
-extern int far *far pascal GetSetImgSize(void near *sheet, int frame, SpriteBounds far *bounds);
-extern void far pascal hUnlock(unsigned int handle);
-
-typedef struct HeadPlan HeadPlan;
-
-#pragma pack(1)
-typedef struct {
-    unsigned char unknown_00;
-    int spawn_x;
-    unsigned char spawn_direction, skill;
-    unsigned char unknown_05[10], kind, reserved;
-    signed char mode, column, row;
-    int timer;
-    unsigned char sound_played;
-} OpponentRecord;
-#pragma pack()
-
-
-
-#pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-#pragma pack()
-extern CELLREC Cell;
-extern unsigned char OppCharId[];
-
-
-#pragma pack(1)
-typedef struct {
-    int image, equipment_image;                       /* 00,02 */
-    signed char x, y;                                 /* 04-05 */
-    unsigned char flags;                              /* 06 */
-} FRAMEREC;
-#pragma pack()
-extern FRAMEREC Frame;
-extern int ImWidth;
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
-extern LEVELREC Level;
-static const signed char first_chomp[12] = {
+static const sbyte first_chomp[12] = {
     1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 99
 };
-static const signed char last_chomp[12] = {
+static const sbyte last_chomp[12] = {
     1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 99
 };
 static const int flee_length[12] = {
     70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15
 };
 typedef int COL_EDGE_X[20];                           /* DS:0d7c */
-extern COL_EDGE_X ColEdgeX;
-extern signed char Plus1[2];
-extern signed char Minus1[2];
 
-extern signed char far pascal ReadCell(unsigned char room, signed char column, signed char row);
-extern int far pascal IsWall(signed char tile);
-extern int far pascal IsSpace(signed char tile);
-extern int far pascal GetBarrCode(unsigned char tile);
-extern int far pascal IsCharClosestToKid(void);
-extern int far pascal GateBarr(void);
-extern int far pascal Rnd(int maximum);
-extern void far pascal ResetCharY(void);
-extern void far pascal ClearCharVel(void);
-extern void far pascal AddSound(int sound);
-extern void far pascal AddSong(int sound);
-extern int far pascal SndOn(int sound);
-extern int far pascal DecLifePts(signed char amount);
-extern int far pascal AddCharX(int amount);
-extern void far pascal JumpSeq(int sequence);
-extern int far pascal GetBarrDistFromFace(unsigned char room, unsigned char column, unsigned char row);
-extern signed char far pascal GetCellCol(void);
-extern signed char far pascal GetCharCol(int room);
-extern int far pascal GetBaseX(void);
-extern int far pascal GetOppDist(void);
-extern void far pascal SaveShad(void);
-extern void far pascal DrawOppMeter(signed char id, int x, int y);
-extern void far pascal LoadShad(signed char id);
-extern OpponentRecord near *far pascal GetOppInfoIdx(int room, int id);
-extern void far pascal LoadShadwOpp(signed char id);
-extern void far pascal SaveShadwOpp(void);
-extern void far pascal GetFrameInfo(void);
-extern void far pascal GetCharEdges(void);
-extern int far pascal IsFloor(signed char tile);
-extern signed char far pascal Get1stWallColInDir(unsigned char room, signed char column,
-                                                signed char row, signed char direction);
-extern signed char far pascal GetUnderFt(void);
-extern int far pascal GetDist(void);
 
-int far pascal HeadClearInDir(int direction);
-int far pascal HeadGoToDest(HeadPlan near *plan);
-void far pascal HeadFaceKid(void);
-void far pascal HeadGetAngry(HeadPlan near *plan);
-void far pascal HeadGetPeaceful(HeadPlan near *plan);
-void far pascal HeadFocusOnNeck(HeadPlan near *plan);
-int far pascal HeadSetToFleeMode(void);
-int far pascal IsAbleToFleeInRoom(unsigned char room);
-int far pascal JustStartVerticalSeq(void);
-int far pascal XWithinMiddleOfCell(int first, int second);
-int far pascal YWithinMiddleOfCell(int value, int half_width);
-int far pascal SnakeSlitheringTowardOpp(void);
-void far pascal SnakeAttack(void);
-void far pascal SnakeComeOutOfHole(OpponentRecord near *record);
-void far pascal SnakeGoIntoHole(OpponentRecord near *record);
-
-int abs(int value);
-#pragma intrinsic(abs)
-
-void far pascal unused_head_entry(void)
+void unused_head_entry(void)
 {
 }
 
-void far pascal AlignHeadOnKidNeck(void)
+void AlignHeadOnKidNeck(void)
 {
-    signed char neck_x;
-    SpriteBounds bounds;
-    HeadSprite near *body;
+    sbyte neck_x;
+    SHAPESIZE bounds;
+    OBJITEM *body;
     NeckPoint far *neck;
 
     body = GetObjTableType(2, 0);
@@ -254,17 +62,17 @@ void far pascal AlignHeadOnKidNeck(void)
 
     neck = hLock(hHeadChompFrame);
     if (Kid.direction != Char.direction)
-        neck_x = neck[body->frame].y;
+        neck_x = neck[body->image].y;
     else {
         GetSetImgSize(Pics[3], FChar.image, &bounds);
-        neck_x = -((Char.character_kind == 7 ? 10 : 16) + neck[body->frame].y + (signed char)bounds.width);
+        neck_x = -((Char.character_kind == 7 ? 10 : 16) + neck[body->image].y + bounds.width);
     }
     if (Char.character_kind == 8)
         neck_x += 6;
     if (Char.direction == 0)
         neck_x = -neck_x;
     FChar.x = body->x + neck_x;
-    FChar.y = body->y + ((signed char far *)neck)[body->frame * 2];
+    FChar.y = body->y + ((sbyte far *)neck)[body->image * 2];
     hUnlock(hHeadChompFrame);
     Char.x = FChar.x + 130;
 }
@@ -272,9 +80,9 @@ void far pascal AlignHeadOnKidNeck(void)
 /* FM Towns CharCanSeeOpp: the same statements and the same order of locals. */
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-int far pascal CharCanSeeOpp(void)
+int CharCanSeeOpp(void)
 {
-    signed char end_column, end_row, column, row, columns, rows, step_column, step_row, straight_error, diagonal, error, tile;
+    sbyte end_column, end_row, column, row, columns, rows, step_column, step_row, straight_error, diagonal, error, tile;
     int clear = 1;
     int result;
 
@@ -365,25 +173,12 @@ int far pascal CharCanSeeOpp(void)
     return result;
 }
 
-#pragma pack(1)
-struct HeadPlan {
-    signed char mode, column, row;
-    union {
-        struct {
-            signed char direction;
-            unsigned char flags;
-        } attack;
-        int flee_timer;
-    } state;
-    unsigned char sound_played;
-};
-#pragma pack()
 
-int far pascal ChompAgain(HeadPlan near *plan)
+int ChompAgain(HEADPLAN *plan)
 {
-    unsigned char room_skill = Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4];
+    byte room_skill = Level.room_objects[Char.room - 1].opponents[Char.slot].skill;
     int result;
-    signed char column;
+    sbyte column;
 
     if (plan->column < first_chomp[room_skill])
         result = 1;
@@ -394,22 +189,22 @@ int far pascal ChompAgain(HeadPlan near *plan)
     return result;
 }
 
-HeadSprite near *far pascal HeadAddOpponent(HeadSprite near *sprite)
+OPPONENT *HeadAddOpponent(OPPONENT *opponent)
 {
-    if (sprite->opponent_kind == 0) {
-        sprite->opponent_kind = 5;
+    if (opponent->kind == 0) {
+        opponent->kind = 5;
         Char.character_kind = OppCharId[5];
         ResetCharY();
     }
     if (Char.character_kind == 11) {
         if (Char.alive < 0) {
-            if (sprite->opponent_mode <= 0) {
-                sprite->frame = 170;
-                sprite->step = 0;
-                sprite->opponent_mode = -1;
+            if (opponent->u.head.mode <= 0) {
+                opponent->action = 170;
+                opponent->saved_sequence = 0;
+                opponent->u.head.mode = -1;
             } else {
-                sprite->frame = 175;
-                sprite->step = 0;
+                opponent->action = 175;
+                opponent->saved_sequence = 0;
                 Char.sequence_group = 6;
             }
             Char.stance = 1;
@@ -419,22 +214,22 @@ HeadSprite near *far pascal HeadAddOpponent(HeadSprite near *sprite)
     } else {
         Char.x = ColEdgeX[Char.column + 5] + 30;
         Char.direction = -1;
-        sprite->frame = 130;
-        sprite->step = 0;
-        sprite->opponent_mode = Char.stance = 0;
+        opponent->action = 130;
+        opponent->saved_sequence = 0;
+        opponent->u.head.mode = Char.stance = 0;
     }
-    return sprite;
+    return opponent;
 }
 
-void far pascal HeadAttackProg(HeadPlan near *plan)
+void HeadAttackProg(HEADPLAN *plan)
 {
-    unsigned char dx, dy;
+    byte dx, dy;
     int direction, vertical_sequence;
 
     if (Char.sequence == 140 || Char.sequence == 152 ||
         Char.sequence == 156 || Char.sequence == 162)
         return;
-    if ((int)Char.sequence >= 147 && (int)Char.sequence <= 151) {
+    if (Char.sequence >= 147 && Char.sequence <= 151) {
         HeadFocusOnNeck(plan);
         return;
     }
@@ -505,7 +300,7 @@ void far pascal HeadAttackProg(HeadPlan near *plan)
     }
 }
 
-int far pascal HeadBlocked(void)
+int HeadBlocked(void)
 {
     int sequence;
     if (DecLifePts(1))
@@ -518,9 +313,9 @@ int far pascal HeadBlocked(void)
     return sequence;
 }
 
-int far pascal HeadClearInDir(int direction)
+int HeadClearInDir(int direction)
 {
-    signed char tile;
+    sbyte tile;
     int clear = 0;
     switch (direction) {
     case 0:
@@ -556,19 +351,19 @@ int far pascal HeadClearInDir(int direction)
     return clear;
 }
 
-void far pascal HeadDoneAttackingKid(HeadPlan near *plan)
+void HeadDoneAttackingKid(HEADPLAN *plan)
 {
     HeadGetPeaceful(plan);
     Char.sequence_group = 0;
 }
 
-int far pascal HeadEnemyCollide(int minimum_gap)
+int HeadEnemyCollide(int minimum_gap)
 {
     int sequence = -1;
     int gap;
 
     if (Char.sequence_group != 1) {
-        gap = GetBarrDistFromFace((unsigned char)Cell.kind, Cell.room, (unsigned char)Cell.column);
+        gap = GetBarrDistFromFace(Cell.kind, Cell.room, Cell.column);
         if (gap < 5 && minimum_gap <= gap && gap < 5 && -ImWidth <= gap) {
             Char.x = AddCharX(-(gap + 14));
             if (Char.alive < 0 && Char.sequence != 153)
@@ -588,9 +383,9 @@ int far pascal HeadEnemyCollide(int minimum_gap)
     return sequence;
 }
 
-void far pascal HeadFaceKid(void)
+void HeadFaceKid(void)
 {
-    signed char column = Char.column;
+    sbyte column = Char.column;
     if (column < Opp.column) {
         if (Char.direction != 0) {
             Char.x = AddCharX(-14);
@@ -602,7 +397,7 @@ void far pascal HeadFaceKid(void)
     }
 }
 
-void far pascal HeadFleeProg(HeadPlan near *plan)
+void HeadFleeProg(HEADPLAN *plan)
 {
     if (Char.sequence != 153) {
         if (Char.sequence == 159) {
@@ -611,7 +406,7 @@ void far pascal HeadFleeProg(HeadPlan near *plan)
                     HeadGetAngry(plan);
                 else {
                     JumpSeq(160);
-                    plan->state.flee_timer = flee_length[Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4]];
+                    plan->state.flee_timer = flee_length[Level.room_objects[Char.room - 1].opponents[Char.slot].skill];
                 }
             }
         } else if (Char.row == Opp.row && abs(Char.column - Opp.column) < 3 &&
@@ -637,7 +432,7 @@ void far pascal HeadFleeProg(HeadPlan near *plan)
     }
 }
 
-void far pascal HeadFocusOnNeck(HeadPlan near *plan)
+void HeadFocusOnNeck(HEADPLAN *plan)
 {
     int low, high, distance;
     if (Char.sequence == 147 || Char.sequence == 144 || Char.sequence == 143) {
@@ -666,7 +461,7 @@ void far pascal HeadFocusOnNeck(HeadPlan near *plan)
     }
 }
 
-void far pascal HeadGetAngry(HeadPlan near *plan)
+void HeadGetAngry(HEADPLAN *plan)
 {
     plan->mode = 1;
     plan->row = Opp.row;
@@ -686,11 +481,10 @@ void far pascal HeadGetAngry(HeadPlan near *plan)
     AddSound(87);
 }
 
-void far pascal HeadGetPeaceful(HeadPlan near *plan)
+void HeadGetPeaceful(HEADPLAN *plan)
 {
-    signed char zero = 0;
-    plan->mode = zero;
-    Char.stance = zero;
+    plan->mode = 0;
+    Char.stance = 0;
     ClearCharVel();
     JumpSeq(139);
     Char.column = GetCharCol(GetBaseX());
@@ -699,7 +493,7 @@ void far pascal HeadGetPeaceful(HeadPlan near *plan)
     Char.alert_delay = 0;
 }
 
-int far pascal HeadGoToDest(HeadPlan near *plan)
+int HeadGoToDest(HEADPLAN *plan)
 {
     int clear = 0;
     int sequence;
@@ -732,10 +526,10 @@ int far pascal HeadGoToDest(HeadPlan near *plan)
     return clear;
 }
 
-void far pascal HeadLockedProg(HeadPlan near *plan)
+void HeadLockedProg(HEADPLAN *plan)
 {
     int lost = 0;
-    OpponentRecord near *record;
+    OPPONENT *record;
     if ((Char.sequence == 150 && Char.frame == 167 && Char.sequence_group != 1) ||
         (Char.sequence == 151 && Char.frame == 166)) {
         if (ChompAgain(plan)) {
@@ -743,7 +537,7 @@ void far pascal HeadLockedProg(HeadPlan near *plan)
                 ++plan->column;
                 JumpSeq(150 + (Char.sequence == 150));
             } else {
-                record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
+                record = GetOppInfoIdx(Char.room, Char.slot);
                 if (record && record->skill >= 11)
                     JumpSeq(165);
             }
@@ -760,20 +554,20 @@ void far pascal HeadLockedProg(HeadPlan near *plan)
     }
 }
 
-void far pascal HeadOnAlert(void)
+void HeadOnAlert(void)
 {
 }
 
-void far pascal HeadPeacefulProg(void)
+void HeadPeacefulProg(void)
 {
     int direction, sequence;
     if (Char.frame != 150)
         return;
     direction = Rnd(3);
     if (direction == 3) {
-        if ((int)Char.sequence >= 131 && (int)Char.sequence <= 133)
+        if (Char.sequence >= 131 && Char.sequence <= 133)
             direction = 0;
-        else if ((int)Char.sequence >= 134 && (int)Char.sequence <= 136)
+        else if (Char.sequence >= 134 && Char.sequence <= 136)
             direction = 1;
         else
             direction = -1;
@@ -792,16 +586,16 @@ void far pascal HeadPeacefulProg(void)
     }
 }
 
-void far pascal HeadProg(void)
+void HeadProg(void)
 {
-    OpponentRecord near *record;
-    HeadPlan near *plan;
+    OPPONENT *record;
+    HEADPLAN *plan;
     if (Char.alive >= 0)
         return;
-    record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
+    record = GetOppInfoIdx(Char.room, Char.slot);
     if (!record)
         return;
-    plan = (HeadPlan near *)&record->mode;
+    plan = &record->u.head;
     LoadShadwOpp(Char.slot);
     GetFrameInfo();
     if (Frame.image != -1) {
@@ -836,19 +630,19 @@ void far pascal HeadProg(void)
     SaveShadwOpp();
 }
 
-int far pascal HeadSetToFleeMode(void)
+int HeadSetToFleeMode(void)
 {
-    unsigned char skill;
-    signed char column;
+    byte skill;
+    sbyte column;
     int clear, edge, initial_column;
-    OpponentRecord near *record;
+    OPPONENT *record;
 
-    skill = Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4];
+    skill = Level.room_objects[Char.room - 1].opponents[Char.slot].skill;
     if (IsAbleToFleeInRoom(Char.room) && Rnd(skill / 3 + 1) == 0 &&
         ((Char.direction == 0 && Char.column >= 3) ||
          (Char.direction == -1 && Char.column + 3 <= 10))) {
         clear = 1;
-        initial_column = *(volatile signed char *)&column = Char.column;
+        initial_column = *(volatile sbyte *)&column = Char.column;
         edge = Char.direction == 0 ? -1 : 10;
         if (initial_column != edge)
             do {
@@ -868,12 +662,12 @@ int far pascal HeadSetToFleeMode(void)
         if (clear) {
             Char.stance = 0;
             Char.alert_delay = 1;
-            record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
-            record->mode = 2;
-            record->column = column;
-            record->row = Char.row;
-            record->timer = -1;
-            record->sound_played = 0;
+            record = GetOppInfoIdx(Char.room, Char.slot);
+            record->u.head.mode = 2;
+            record->u.head.column = column;
+            record->u.head.row = Char.row;
+            record->u.head.state.flee_timer = -1;
+            record->u.head.sound_played = 0;
             SaveShad();
             DrawOppMeter(Char.slot, 0, Char.life_initial);
             LoadShad(Char.slot);
@@ -885,13 +679,13 @@ int far pascal HeadSetToFleeMode(void)
     return clear;
 }
 
-int far pascal IsAbleToFleeInRoom(unsigned char room)
+int IsAbleToFleeInRoom(byte room)
 {
-    signed char slot, count;
+    sbyte slot, count;
     int room_number = room;
     int available;
 
-    count = (unsigned char)Level.room_objects[room_number - 1].opponent_count;
+    count = Level.room_objects[room_number - 1].opponent_count;
     if (count > 1) {
         available = 1;
         slot = 0;
@@ -899,7 +693,7 @@ int far pascal IsAbleToFleeInRoom(unsigned char room)
             if (!(slot < count))
                 break;
             {
-                int can_flee = GetOppInfoIdx(room, slot)->mode != 2;
+                int can_flee = GetOppInfoIdx(room, slot)->u.head.mode != 2;
                 available = can_flee;
                 ++slot;
                 if (!can_flee)
@@ -911,18 +705,17 @@ int far pascal IsAbleToFleeInRoom(unsigned char room)
     return available;
 }
 
-extern signed char far pascal GetCellsInFront(signed char direction);
 
-int far pascal IsHeadLockedOn(unsigned char room, int slot)
+int IsHeadLockedOn(byte room, int slot)
 {
-    OpponentRecord near *record;
+    OPPONENT *record;
     int result;
     record = GetOppInfoIdx(room, slot);
-    result = record != 0 && record->mode == 3;
+    result = record != 0 && record->u.head.mode == 3;
     return result;
 }
 
-int far pascal JustStartVerticalSeq(void)
+int JustStartVerticalSeq(void)
 {
     int baseline = Char.row * 63 + 37;
     int result;
@@ -939,7 +732,7 @@ int far pascal JustStartVerticalSeq(void)
     return result;
 }
 
-int far pascal XWithinMiddleOfCell(int first, int second)
+int XWithinMiddleOfCell(int first, int second)
 {
     int result;
     first = (first - 144) % 32;
@@ -947,7 +740,7 @@ int far pascal XWithinMiddleOfCell(int first, int second)
     return result;
 }
 
-int far pascal YWithinMiddleOfCell(int value, int half_width)
+int YWithinMiddleOfCell(int value, int half_width)
 {
     int result;
     value = (value - 3) % 63;
@@ -955,14 +748,14 @@ int far pascal YWithinMiddleOfCell(int value, int half_width)
     return result;
 }
 
-void far pascal SnakeProg(void)
+void SnakeProg(void)
 {
-    OpponentRecord near *record;
+    OPPONENT *record;
     if (Char.alive < 0) {
-        record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
+        record = GetOppInfoIdx(Char.room, Char.slot);
         if (record) {
             LoadShadwOpp(Char.slot);
-            if (record->mode < 0) {
+            if (record->u.head.mode < 0) {
                 if (SnakeSlitheringTowardOpp())
                     SnakeAttack();
                 else
@@ -974,11 +767,11 @@ void far pascal SnakeProg(void)
     }
 }
 
-void far pascal SnakeAttack(void)
+void SnakeAttack(void)
 {
     int hit = 0;
     int distance = GetOppDist();
-    signed char tile;
+    sbyte tile;
     if (distance >= 13 && distance <= 45) {
         if (Char.frame == 278 || Char.frame == 279 ||
             (Char.sequence == 176 &&
@@ -1007,17 +800,17 @@ void far pascal SnakeAttack(void)
     }
 }
 
-void far pascal SnakeComeOutOfHole(OpponentRecord near *record)
+void SnakeComeOutOfHole(OPPONENT *record)
 {
-    signed char tile;
-    signed char left, right;
-    if (--record->mode > 0)
+    sbyte tile;
+    sbyte left, right;
+    if (--record->u.head.mode > 0)
         return;
-    record->mode = -1;
+    record->u.head.mode = -1;
     left = Get1stWallColInDir(Char.room, Char.column, Char.row, -1);
     right = Get1stWallColInDir(Char.room, Char.column, Char.row, 1);
     tile = GetUnderFt();
-    if ((unsigned char)Opp.room == (unsigned char)Char.room && Char.row == Opp.row &&
+    if (Opp.room == Char.room && Char.row == Opp.row &&
         Char.column > left && Char.column < right) {
         if (Char.column <= Opp.column &&
             (!IsWall(tile) || IsFloor(tile) || (tile == 7 && (Cell.modifier & 128))))
@@ -1035,9 +828,9 @@ void far pascal SnakeComeOutOfHole(OpponentRecord near *record)
     Char.sequence_group = 0;
 }
 
-void far pascal SnakeGoIntoHole(OpponentRecord near *record)
+void SnakeGoIntoHole(OPPONENT *record)
 {
-    signed char tile;
+    sbyte tile;
     int distance;
     if (Opp.alive >= 0) {
         if (Char.sequence != 176 && Char.frame != 278 && Char.frame != 279)
@@ -1046,7 +839,7 @@ void far pascal SnakeGoIntoHole(OpponentRecord near *record)
     }
     if (Char.sequence != 171 && Char.sequence != 172 && Char.sequence_group != 9) {
         GetUnderFt();
-        if ((((unsigned char *)&Cell.modifier)[1] & 15) == 12) {
+        if ((((byte *)&Cell.modifier)[1] & 15) == 12) {
             distance = (Char.x - 144) % 32;
             if (distance >= 14 && distance <= 18) {
                 distance = 16 - distance;
@@ -1091,12 +884,12 @@ void far pascal SnakeGoIntoHole(OpponentRecord near *record)
         }
         if (Char.frame == 264) {
             Char.sequence_group = 6;
-            record->mode = Char.alert_delay == 2 ? 6 : Rnd(60) + 36;
+            record->u.head.mode = Char.alert_delay == 2 ? 6 : Rnd(60) + 36;
         }
     }
 }
 
-int far pascal SnakeSlitheringTowardOpp(void)
+int SnakeSlitheringTowardOpp(void)
 {
     int result = 0;
     if (Char.sequence != 171 && Char.alert_delay >= 2) {
@@ -1107,21 +900,21 @@ int far pascal SnakeSlitheringTowardOpp(void)
     return result;
 }
 
-void far pascal SnakeUpdateOppInfo(OpponentRecord near *record)
+void SnakeUpdateOppInfo(OPPONENT *record)
 {
-    signed char tile;
+    sbyte tile;
     if (Char.sequence == 171 || Char.sequence_group == 9) {
         Char.sequence_group = 6;
-        record->mode = Rnd(60) + 36;
+        record->u.head.mode = Rnd(60) + 36;
     } else {
         tile = GetCellsInFront(1);
         if (!IsFloor(tile) && (tile != 7 || !(Cell.modifier & 128)) &&
             (Char.sequence == 176 || Char.sequence == 168 || Char.sequence == 170)) {
-            record->spawn_direction = ~Char.direction;
-            record->spawn_x = AddCharX(-32);
+            record->direction = ~Char.direction;
+            record->x = AddCharX(-32);
             return;
         }
     }
 }
 
-unsigned int hHeadChompFrame = 0;
+Handle hHeadChompFrame = 0;

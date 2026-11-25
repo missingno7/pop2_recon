@@ -1,56 +1,50 @@
 /* THRONE.C, overlay 16. DOS entry order. */
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
+#include "level.h"
+#include "heap.h"
 #include "char.h"
 #include "game.h"
-#pragma pack(1)
+#include "draw.h"
+#include "custom.h"
+#include "act.h"
+#include "checknis.h"
+#include "ctrl.h"
+#include "fade.h"
+#include "load.h"
+#include "move.h"
+#include "prince.h"
+#include "sound.h"
+#include "throne.h"
+#include "top.h"
+#include "util.h"
 
-typedef unsigned int Handle;
-typedef struct { byte unused[5]; byte foreground; } GateDraw;
-typedef struct { byte bytes[12025]; } RoomState;
 
-#pragma pack()
+                   /* DS:0228 */
 
-extern byte *CustomRoom;                   /* DS:0228 */
 
-extern CHARREC Kid;
+                 /* DS:2d02 */
 
-extern GAMESTATE GameState;
-extern int CDLeftEdge;
-extern AmbientState ambient_state;
-extern RoomState Level;                 /* DS:2d02 */
-extern byte Room;                   /* DS:5e34 */
-extern CHARREC Char;
-extern byte CutRoom;                     /* DS:6ccd */
-extern byte LevelIdx;                    /* DS:0a18 */
+                   /* DS:5e34 */
 
-extern Directions Dir;
 
-extern void far _fastcall DrawCustomRoomImg(byte, byte);
-extern void SetPalette(int, unsigned int, byte, byte), AddSong(int);
-extern Handle hNew(long);
-extern RoomState far *h2p(Handle);
-extern void hFree(Handle);
-extern int PlayNIS(int);
-extern void reset_level_overlays(void), LoadKid(void), ResetCharY(void);
-extern void JumpSeq(int);
-extern void LoadLevel(byte);
-extern void LoadCustomRoomData(byte);
-typedef void far pascal DrawCallback(void);
-extern DrawCallback MarkMove;
-extern void MarkBufsForRect(DrawCallback *, Rect *, byte);
-extern void AnimChar(void), ClrAll(void);
-extern void LoadCodeOverlays(byte, byte), MarkRedraw(int);
-extern int SndOn(int);
-extern void UpdateAmbient(int *, int);
-extern void OffsetRect(Rect far *, Rect far *, int, int);
-extern void SetScriptRect(int, Rect far *);
+                     /* DS:6ccd */
+
+                    /* DS:0a18 */
+
+
+typedef void DrawCallback(void);
+
 
 void DrawThroneRoomGateInFore(void)
 {
-    GateDraw *gate = (GateDraw *)(CustomRoom + 203);
-    gate->foreground = 1;
+    CUSTOMPIECE *piece = &CustomRoom->pieces[7];
+
+    piece->pass = 1;
     DrawCustomRoomImg(7, 1);
-    gate->foreground = 0;
+    piece->pass = 0;
 }
 
 void LoadRNThroneFunc(void)
@@ -76,14 +70,14 @@ void PlayThroneRoomNIS(void)
 {
     Handle saved_handle;
     int nis_result;
-    RoomState far *saved;
+    LEVELREC far *saved;
 
-    saved_handle = hNew(sizeof(RoomState));
+    saved_handle = hNew(sizeof(LEVELREC));
     saved = h2p(saved_handle);
     *saved = Level;
     nis_result = PlayNIS(6);
     if (nis_result == 2)
-        Room = 0;
+        Room.number = 0;
     reset_level_overlays();
     LoadCodeOverlays(4, 5);
     LoadKid();
@@ -99,7 +93,7 @@ void PlayThroneRoomNIS(void)
     GameState.throne_nis_played = 1;
     if (nis_result != 2)
         LoadCustomRoomData(9);
-    MarkBufsForRect(MarkMove, (Rect *)&Kid.bounds, 10);
+    MarkBufsForRect(MarkMove, &Kid.bounds, 10);
     MarkRedraw(25);
     AnimChar();
     Kid = Char;

@@ -1,10 +1,24 @@
-/* MOVESPIK.C, resident DOS frame 101f.
- * External names describe DOS uses. Structure members outside the accessed
- * fields are placeholders for the observed offsets and strides.
- */
 #include "types.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
 #include "char.h"
+#include "game.h"
+#include "draw.h"
+#include "act.h"
+#include "add.h"
+#include "autoguar.h"
+#include "ctrl.h"
+#include "movetemp.h"
+#include "fade.h"
+#include "misc.h"
+#include "move.h"
+#include "collide.h"
+#include "movespik.h"
+#include "prince.h"
+#include "sound.h"
+#include "tables.h"
+#include "top.h"
 
 #pragma pack(1)
 typedef union SpikeState {
@@ -16,30 +30,9 @@ typedef union SpikeState {
     } byte;
 } SpikeState;
 
-typedef struct TileState {
-    SpikeState spikes;
-    word other;
-} TileState;
 
 #pragma pack()
 
-#pragma pack(1)
-typedef struct {
-    int x, y;                                         /* 00,02 */
-    unsigned char room;                               /* 04 */
-    int velocity, auxiliary;                          /* 05,07 */
-    signed char kind, row;                             /* 09-0a */
-    SpikeState spikes;                               /* 0b */
-} MOBREC;
-
-#pragma pack()
-
-extern ROOMREC Room;
-extern MOBREC Mob;
-
-extern CHARREC Char;
-
-extern LEVELREC Level;
 
 #pragma pack(1)
 
@@ -50,39 +43,10 @@ typedef union {
 
 #pragma pack()
 
-extern CELLREC Cell;
-extern FCHARREC FChar;
-extern int XCo;
-extern int CDLeftEdge;
-extern int ImWidth;
-extern int ColEdgeX[20];
+
 static const int spike_images_a[] = {0, 116, 117, 118, 119, 120, 117, 116, 120};
 static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
-extern TileState *BlueS;
 
-extern byte FirstInRow(sbyte row);
-extern void AddMobObj(int y);
-extern int IsDeadPos(word frame);
-extern byte ReadCell(byte room, sbyte column, sbyte row);
-extern int SlideRockNearSpikes(void);
-extern sbyte GetCellCol(void);
-extern int GetSwordWidth(void);
-extern void AddMob(void);
-extern MOBREC *GetMobTypeItem(byte kind, int index);
-extern void SkelDoImpale(void);
-extern void JumpSeq(word sequence);
-extern void AddSound(int sound);
-extern void DecLifePts(byte amount);
-extern void AnimChar(void);
-extern void ResetCharY(void);
-extern void select_room_arrays(byte room);
-/* The sprite entry consumes kind, image and context in AX, DX and BX. */
-extern void _fastcall AddMid(byte kind, int image, int context, int x, byte height);
-
-int GetSpikes(void);
-MOBREC *GetSpikeMobRoomRow(byte room, sbyte row);
-void DoImpale(void);
-void TriggerSpikes(byte room, int index);
 
 /* ATMSpikes */
 void ATMSpikes(void)
@@ -100,7 +64,7 @@ void ATMSpikes(void)
         }
     }
     if (Mob.velocity != -1) {
-        FChar.index = FirstInRow(Mob.row) + column;
+        FChar.cell = FirstInRow(Mob.row) + column;
         AddMobObj(Mob.y);
         Mob.kind = 5;
         Mob.x -= 4;
@@ -140,9 +104,9 @@ void CheckImpale(void)
                     DoImpale();
                     mob = GetSpikeMobRoomRow(Char.room, Char.row);
                     if (mob) {
-                        mob->spikes.word &= 0xff00;
-                        mob->spikes.word |= 0xf0;
-                        (&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].modifier = mob->spikes.word;
+                        mob->flags &= 0xff00;
+                        mob->flags |= 0xf0;
+                        Level.cell_info[Cell.room - 1][Cell.index].modifier = mob->flags;
                     }
                 }
             }
@@ -176,21 +140,19 @@ void CheckSpikesJammed(byte room, int index)
 {
     union { sbyte value; byte raw; word storage; } row;
     word state;
-    int zero;
 
     if (GetSpikeMobRoomRow(room, row.value = index / 10) == 0) {
-        state = (&Level.cell_info[0][0])[room * 30 + index - 30].modifier;
+        state = Level.cell_info[room - 1][index].modifier;
         if ((byte)state == 0xf0) {
             Mob.x = (index % 10) * 32 + 46;
             /* Narrow the stored byte before multiplying. */
             Mob.y = (row.value = row.raw) * 63 + 47;
             Mob.row = row.value;
             Mob.room = room;
-            zero = 0;
-            Mob.auxiliary = zero;
-            Mob.velocity = zero;
+            Mob.auxiliary = 0;
+            Mob.velocity = 0;
             Mob.kind = 4;
-            Mob.spikes.word = state;
+            Mob.flags = state;
             AddMob();
         }
     }
@@ -199,21 +161,21 @@ void CheckSpikesJammed(byte room, int index)
 /* DoImpale */
 void DoImpale(void)
 {
-    SpikeState *state;
+    word *state;
     MOBREC *mob;
     word sequence;
 
-    state = (SpikeState *)&(&Level.cell_info[0][0])[Cell.room * 30 + Cell.index - 30].modifier;
+    state = &Level.cell_info[Cell.room - 1][Cell.index].modifier;
     if (Char.character_kind != 4) {
         byte flags = ((byte *)&Cell.modifier)[1] & 8;
-        state->word = 0xf0 + (flags << 8);
+        *state = 0xf0 + (flags << 8);
     } else {
-        state->signed_word = 0x8f;
+        *(int *)state = 0x8f;
     }
 
     mob = GetMobTypeItem(4, 1);
     if (mob && mob->room == Cell.room && mob->row == Cell.row)
-        mob->spikes.word = state->word;
+        mob->flags = *state;
 
     ResetCharY();
     Char.vertical_step = 0;
@@ -312,7 +274,7 @@ int GetSpikes(void)
 void MobSpikes(void)
 {
     word state;
-    TileState *room;
+    LEVELCELL *room;
 
     ReadCell(Mob.room, Mob.x / 32 - 1, Mob.row);
     state = *(byte *)&Cell.modifier;
@@ -334,24 +296,18 @@ void MobSpikes(void)
         }
         select_room_arrays(Cell.room);
         room = BlueS;
-        room[Cell.index].spikes.word = (state += Cell.modifier & 0x800);
-        Mob.spikes.word = state;
+        room[Cell.index].modifier = (state += Cell.modifier & 0x800);
+        Mob.flags = state;
     }
 }
 
-/* TriggerSpikes */
 void TriggerSpikes(byte room, int index)
 {
-    word next;
-    SpikeState *spikes;
-    word state;
+    word state, next;
     sbyte row;
     MOBREC *mob;
-    int zero;
 
-    spikes = &BlueS[index].spikes;
-    /* Taking the addresses of the pointer locals affects MSC allocation. */
-    state = (*(&spikes))->byte.phase;
+    state = BlueS[index].modifier & 255;
     if (state == 0 || (state & 0x80)) {
         if (state == 0) {
             Mob.x = (index % 10) * 32 + 46;
@@ -359,21 +315,19 @@ void TriggerSpikes(byte room, int index)
             Mob.y = row * 63 + 47;
             Mob.row = row;
             Mob.room = room;
-            zero = 0;
-            Mob.auxiliary = zero;
-            Mob.velocity = zero;
+            Mob.velocity = Mob.auxiliary = 0;
             Mob.kind = 4;
-            next = spikes->word + 1;
-            spikes->word = next;
-            Mob.spikes.word = next;
+            next = BlueS[index].modifier + 1;
+            BlueS[index].modifier = next;
+            Mob.flags = next;
             AddMob();
             AddSound(78);
         } else if (state != 0xf0) {
             next = (Cell.modifier & 0x800) + 0x8f;
-            spikes->word = next;
+            BlueS[index].modifier = next;
             mob = GetSpikeMobRoomRow(Char.room, Char.row);
             if (mob)
-                (*(&mob))->spikes.word = next;
+                mob->flags = next;
         }
     }
 }

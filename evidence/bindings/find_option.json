@@ -62,15 +62,6 @@
     ],
     "publics": [
       {
-        "name": "LOAD_SOUND_SETTINGS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 90,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
         "name": "FIND_OPTION",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -78,22 +69,31 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "LOAD_SOUND_SETTINGS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 90,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
       "__ncalloc",
-      "__dos_read",
-      "__dos_close",
       "__nfree",
-      "LOAD_SOUND_SETTINGS",
-      "___argc",
-      "___argv",
+      "_filelength",
+      "CONFIGURATION",
+      "FIND_OPTION",
       "__fstrlen",
       "__fstrnicmp",
-      "FIND_OPTION",
-      "CONFIGURATION",
+      "LOAD_SOUND_SETTINGS",
+      "__dos_close",
+      "___argc",
+      "___argv",
       "__dos_open",
-      "_filelength"
+      "__dos_read"
     ]
   },
   "fixups": [
@@ -109,7 +109,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 4,
           "name": "CONFIGURATION",
           "method": 6,
           "zero_displacement": true
@@ -117,7 +117,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 4,
         "name": "CONFIGURATION",
         "method": 6,
         "zero_displacement": true
@@ -136,7 +136,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 2,
           "name": "__nfree",
           "method": 6,
           "zero_displacement": true
@@ -144,7 +144,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "__nfree",
         "method": 6,
         "zero_displacement": true
@@ -163,7 +163,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 9,
           "name": "__dos_close",
           "method": 6,
           "zero_displacement": true
@@ -171,7 +171,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 9,
         "name": "__dos_close",
         "method": 6,
         "zero_displacement": true
@@ -190,7 +190,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 13,
           "name": "__dos_read",
           "method": 6,
           "zero_displacement": true
@@ -198,7 +198,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 13,
         "name": "__dos_read",
         "method": 6,
         "zero_displacement": true
@@ -244,7 +244,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 3,
           "name": "_filelength",
           "method": 6,
           "zero_displacement": true
@@ -252,7 +252,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 3,
         "name": "_filelength",
         "method": 6,
         "zero_displacement": true
@@ -298,7 +298,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 11,
           "name": "___argv",
           "method": 6,
           "zero_displacement": true
@@ -306,7 +306,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 11,
         "name": "___argv",
         "method": 6,
         "zero_displacement": true
@@ -325,7 +325,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 10,
           "name": "___argc",
           "method": 6,
           "zero_displacement": true
@@ -333,7 +333,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 10,
         "name": "___argc",
         "method": 6,
         "zero_displacement": true
@@ -352,7 +352,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 7,
           "name": "__fstrnicmp",
           "method": 6,
           "zero_displacement": true
@@ -360,7 +360,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 7,
         "name": "__fstrnicmp",
         "method": 6,
         "zero_displacement": true
@@ -379,7 +379,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 11,
           "name": "___argv",
           "method": 6,
           "zero_displacement": true
@@ -387,7 +387,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 11,
         "name": "___argv",
         "method": 6,
         "zero_displacement": true
@@ -406,7 +406,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 6,
           "name": "__fstrlen",
           "method": 6,
           "zero_displacement": true
@@ -414,7 +414,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 6,
         "name": "__fstrlen",
         "method": 6,
         "zero_displacement": true
@@ -433,7 +433,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 10,
           "name": "___argc",
           "method": 6,
           "zero_displacement": true
@@ -441,7 +441,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 10,
         "name": "___argc",
         "method": 6,
         "zero_displacement": true

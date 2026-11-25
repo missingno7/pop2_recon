@@ -62,19 +62,10 @@
     ],
     "publics": [
       {
-        "name": "CHECK_HEAPS",
+        "name": "REPORT_TICKS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1592,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "PREVIEW_RESOURCE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 554,
+        "offset": 84,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -89,83 +80,11 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_FRAME_DIAGNOSTICS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 2040,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "DUMP_HEAP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 820,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "PLOT_POSITION",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 246,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "CHECK_FAR_HEAP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1850,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "CHECK_NEAR_HEAP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1832,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "CHECK_NULL_AREA",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1914,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "NULL_AREA_MATCHES",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 1876,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
         "name": "FRAME_DIAGNOSTICS",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 36,
         "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "LIMIT_FRAME_RATE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 0,
-        "group_index": 0,
         "frame": null,
         "type_index": 0
       },
@@ -215,15 +134,6 @@
         "type_index": 0
       },
       {
-        "name": "REPORT_TICKS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 84,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
         "name": "DEBUG_CHECK_2",
         "segment": "_DATA",
         "segment_index": 2,
@@ -237,15 +147,6 @@
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 52,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "VOLUME_FORMAT",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 424,
         "group_index": 1,
         "frame": null,
         "type_index": 0
@@ -283,15 +184,6 @@
         "segment_index": 2,
         "offset": 60,
         "group_index": 1,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "PLOT_EDGE_OFFSET",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 146,
-        "group_index": 0,
         "frame": null,
         "type_index": 0
       },
@@ -341,10 +233,55 @@
         "type_index": 0
       },
       {
-        "name": "PLOT_ACTOR_OFFSET",
+        "name": "VOLUME_FORMAT",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 424,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CHECK_FAR_HEAP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 198,
+        "offset": 1850,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CHECK_HEAPS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1592,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CHECK_NEAR_HEAP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1832,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CHECK_NULL_AREA",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1914,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "DRAW_FRAME_DIAGNOSTICS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 2040,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -357,68 +294,131 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
+      },
+      {
+        "name": "DUMP_HEAP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 820,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "LIMIT_FRAME_RATE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "NULL_AREA_MATCHES",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 1876,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "PLOT_ACTOR_OFFSET",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 198,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "PLOT_EDGE_OFFSET",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 146,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "PLOT_POSITION",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 246,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "PREVIEW_RESOURCE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 554,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
       }
     ],
     "externals": [
-      "EXPAND_MEMORY_LIMITS",
-      "CHECK_HEAP_CHAIN",
-      "ABORT_WITH_MESSAGE",
-      "CHECK_HEAPS",
-      "_sprintf",
-      "KID",
-      "PREVIEW_RESOURCE",
-      "_itoa",
-      "CHAR",
-      "_fopen",
-      "LEFTEDGE",
-      "_fprintf",
-      "RIGHTEDGE",
-      "_fclose",
-      "TIMEVAL",
-      "__memmax",
-      "SCREENPORT",
-      "__heapchk",
-      "GRAF",
-      "ROW2PIXELY",
-      "HEAP_STATE",
-      "SCREENPORTRECT",
-      "SNAPSHOT_NULL_AREA",
-      "DRAW_FRAME_DIAGNOSTICS",
-      "DUMP_HEAP",
-      "PLOT_POSITION",
-      "CHECK_FAR_HEAP",
-      "CHECK_NEAR_HEAP",
-      "CHECK_NULL_AREA",
-      "NULL_AREA_MATCHES",
-      "LIMIT_FRAME_RATE",
-      "REPORT_TICKS",
-      "PLOT_EDGE_OFFSET",
-      "PLOT_ACTOR_OFFSET",
-      "LOADKID",
-      "GETFRAMEINFO",
-      "DRAWMESSAGE",
-      "WAITKEY",
-      "GETBASEX",
-      "MOVETO",
       "DRAW_AXIS_SEGMENT",
-      "SETFONT",
-      "HSETFONT",
-      "DRAWSTRING",
-      "H2P",
-      "ERASERECT",
-      "DRAW_RULER_MARKS",
-      "PAINTSHAPE",
-      "PAINT_INDEXED_SHAPE",
-      "PAINTRLESHAPE_ASM",
-      "START_SOUND_PAYLOAD",
-      "WAITSND",
-      "RESETSND",
+      "REPORT_TICKS",
+      "SNAPSHOT_NULL_AREA",
+      "GETBASEX",
+      "_sprintf",
+      "NORMALIZE_BANKED_POINTER",
       "FIND_OPTION",
-      "HEAPPURGE",
-      "HEAPCOMPACT",
+      "DRAWSTRING",
+      "ERASERECT",
+      "DRAWMESSAGE",
+      "HSETFONT",
+      "WAITKEY",
+      "HEAP_STATE",
+      "PAINT_INDEXED_SHAPE",
+      "GETFRAMEINFO",
+      "WAITSND",
+      "ROW2PIXELY",
+      "PAINTRLESHAPE_ASM",
+      "RESETSND",
       "BANKED_POINTER_CAPACITY",
+      "CHECK_HEAP_CHAIN",
       "LOOKUP_SHAPE_METADATA",
-      "NORMALIZE_BANKED_POINTER"
+      "_fclose",
+      "PAINTSHAPE",
+      "H2P",
+      "EXPAND_MEMORY_LIMITS",
+      "CHAR",
+      "LEFTEDGE",
+      "RIGHTEDGE",
+      "KID",
+      "SCREENPORT",
+      "GRAF",
+      "_fopen",
+      "_fprintf",
+      "CHECK_FAR_HEAP",
+      "SETFONT",
+      "CHECK_HEAPS",
+      "CHECK_NEAR_HEAP",
+      "__heapchk",
+      "CHECK_NULL_AREA",
+      "DRAW_FRAME_DIAGNOSTICS",
+      "SCREENPORTRECT",
+      "DRAW_RULER_MARKS",
+      "__memmax",
+      "DUMP_HEAP",
+      "LOADKID",
+      "LIMIT_FRAME_RATE",
+      "NULL_AREA_MATCHES",
+      "ABORT_WITH_MESSAGE",
+      "HEAPCOMPACT",
+      "TIMEVAL",
+      "PLOT_ACTOR_OFFSET",
+      "HEAPPURGE",
+      "START_SOUND_PAYLOAD",
+      "PLOT_EDGE_OFFSET",
+      "_itoa",
+      "PLOT_POSITION",
+      "MOVETO",
+      "PREVIEW_RESOURCE"
     ]
   },
   "dgroup_segment": {
@@ -444,7 +444,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 56,
           "name": "_itoa",
           "method": 6,
           "zero_displacement": true
@@ -452,7 +452,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 56,
         "name": "_itoa",
         "method": 6,
         "zero_displacement": true
@@ -537,7 +537,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 56,
+          "index": 50,
           "name": "HEAPCOMPACT",
           "method": 6,
           "zero_displacement": true
@@ -545,7 +545,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 56,
+        "index": 50,
         "name": "HEAPCOMPACT",
         "method": 6,
         "zero_displacement": true
@@ -564,7 +564,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 53,
           "name": "HEAPPURGE",
           "method": 6,
           "zero_displacement": true
@@ -572,7 +572,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 53,
         "name": "HEAPPURGE",
         "method": 6,
         "zero_displacement": true
@@ -591,7 +591,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 7,
           "name": "FIND_OPTION",
           "method": 6,
           "zero_displacement": true
@@ -599,7 +599,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 7,
         "name": "FIND_OPTION",
         "method": 6,
         "zero_displacement": true
@@ -640,7 +640,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 53,
+          "index": 19,
           "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
@@ -648,7 +648,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 53,
+        "index": 19,
         "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
@@ -667,7 +667,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 16,
           "name": "WAITSND",
           "method": 6,
           "zero_displacement": true
@@ -675,7 +675,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 16,
         "name": "WAITSND",
         "method": 6,
         "zero_displacement": true
@@ -694,7 +694,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 54,
           "name": "START_SOUND_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -702,7 +702,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 54,
         "name": "START_SOUND_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -721,7 +721,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 25,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -729,7 +729,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 25,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -770,7 +770,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 12,
           "name": "WAITKEY",
           "method": 6,
           "zero_displacement": true
@@ -778,7 +778,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 12,
         "name": "WAITKEY",
         "method": 6,
         "zero_displacement": true
@@ -797,7 +797,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 8,
           "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
@@ -805,7 +805,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 8,
         "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
@@ -846,7 +846,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 58,
           "name": "MOVETO",
           "method": 6,
           "zero_displacement": true
@@ -854,7 +854,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 58,
         "name": "MOVETO",
         "method": 6,
         "zero_displacement": true
@@ -917,7 +917,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 18,
           "name": "PAINTRLESHAPE_ASM",
           "method": 6,
           "zero_displacement": true
@@ -925,7 +925,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 18,
         "name": "PAINTRLESHAPE_ASM",
         "method": 6,
         "zero_displacement": true
@@ -966,7 +966,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 14,
           "name": "PAINT_INDEXED_SHAPE",
           "method": 6,
           "zero_displacement": true
@@ -974,7 +974,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 14,
         "name": "PAINT_INDEXED_SHAPE",
         "method": 6,
         "zero_displacement": true
@@ -1015,7 +1015,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 24,
           "name": "PAINTSHAPE",
           "method": 6,
           "zero_displacement": true
@@ -1023,7 +1023,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 24,
         "name": "PAINTSHAPE",
         "method": 6,
         "zero_displacement": true
@@ -1064,7 +1064,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1072,7 +1072,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1091,7 +1091,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1099,7 +1099,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1118,7 +1118,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 9,
           "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
@@ -1126,7 +1126,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 9,
         "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
@@ -1145,7 +1145,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 42,
           "name": "SCREENPORTRECT",
           "method": 6,
           "zero_displacement": true
@@ -1153,7 +1153,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 42,
         "name": "SCREENPORTRECT",
         "method": 6,
         "zero_displacement": true
@@ -1194,7 +1194,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 25,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -1202,7 +1202,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 25,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -1221,7 +1221,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1229,7 +1229,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1248,7 +1248,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 11,
           "name": "HSETFONT",
           "method": 6,
           "zero_displacement": true
@@ -1256,7 +1256,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 11,
         "name": "HSETFONT",
         "method": 6,
         "zero_displacement": true
@@ -1275,7 +1275,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1283,7 +1283,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1302,7 +1302,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 8,
           "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
@@ -1310,7 +1310,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 8,
         "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
@@ -1329,7 +1329,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 56,
           "name": "_itoa",
           "method": 6,
           "zero_displacement": true
@@ -1337,7 +1337,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 56,
         "name": "_itoa",
         "method": 6,
         "zero_displacement": true
@@ -1356,7 +1356,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 58,
           "name": "MOVETO",
           "method": 6,
           "zero_displacement": true
@@ -1364,7 +1364,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 58,
         "name": "MOVETO",
         "method": 6,
         "zero_displacement": true
@@ -1383,7 +1383,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 1,
           "name": "DRAW_AXIS_SEGMENT",
           "method": 6,
           "zero_displacement": true
@@ -1391,7 +1391,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 1,
         "name": "DRAW_AXIS_SEGMENT",
         "method": 6,
         "zero_displacement": true
@@ -1410,7 +1410,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 1,
           "name": "DRAW_AXIS_SEGMENT",
           "method": 6,
           "zero_displacement": true
@@ -1418,7 +1418,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 1,
         "name": "DRAW_AXIS_SEGMENT",
         "method": 6,
         "zero_displacement": true
@@ -1437,7 +1437,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 58,
           "name": "MOVETO",
           "method": 6,
           "zero_displacement": true
@@ -1445,7 +1445,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 58,
         "name": "MOVETO",
         "method": 6,
         "zero_displacement": true
@@ -1464,7 +1464,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1472,7 +1472,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1491,7 +1491,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 17,
           "name": "ROW2PIXELY",
           "method": 6,
           "zero_displacement": true
@@ -1499,7 +1499,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 17,
         "name": "ROW2PIXELY",
         "method": 6,
         "zero_displacement": true
@@ -1518,7 +1518,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 27,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1526,7 +1526,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 27,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1545,7 +1545,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 36,
           "name": "SETFONT",
           "method": 6,
           "zero_displacement": true
@@ -1553,7 +1553,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 36,
         "name": "SETFONT",
         "method": 6,
         "zero_displacement": true
@@ -1572,7 +1572,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1580,7 +1580,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1599,7 +1599,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1607,7 +1607,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1626,7 +1626,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1634,7 +1634,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1653,7 +1653,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1661,7 +1661,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1680,7 +1680,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1688,7 +1688,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1707,7 +1707,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1715,7 +1715,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1734,7 +1734,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1742,7 +1742,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1761,7 +1761,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 1,
           "name": "DRAW_AXIS_SEGMENT",
           "method": 6,
           "zero_displacement": true
@@ -1769,7 +1769,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 1,
         "name": "DRAW_AXIS_SEGMENT",
         "method": 6,
         "zero_displacement": true
@@ -1788,7 +1788,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 58,
           "name": "MOVETO",
           "method": 6,
           "zero_displacement": true
@@ -1796,7 +1796,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 58,
         "name": "MOVETO",
         "method": 6,
         "zero_displacement": true
@@ -1815,7 +1815,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1823,7 +1823,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1842,7 +1842,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 17,
           "name": "ROW2PIXELY",
           "method": 6,
           "zero_displacement": true
@@ -1850,7 +1850,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 17,
         "name": "ROW2PIXELY",
         "method": 6,
         "zero_displacement": true
@@ -1869,7 +1869,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 27,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1877,7 +1877,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 27,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1896,7 +1896,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1904,7 +1904,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1923,7 +1923,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 31,
           "name": "SCREENPORT",
           "method": 6,
           "zero_displacement": true
@@ -1931,7 +1931,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 31,
         "name": "SCREENPORT",
         "method": 6,
         "zero_displacement": true
@@ -1950,7 +1950,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1958,7 +1958,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1977,7 +1977,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 32,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -1985,7 +1985,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 32,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2004,7 +2004,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 57,
           "name": "PLOT_POSITION",
           "method": 6,
           "zero_displacement": true
@@ -2012,7 +2012,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 57,
         "name": "PLOT_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -2031,7 +2031,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 27,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2039,7 +2039,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 27,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2058,7 +2058,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 4,
           "name": "GETBASEX",
           "method": 6,
           "zero_displacement": true
@@ -2066,7 +2066,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 4,
         "name": "GETBASEX",
         "method": 6,
         "zero_displacement": true
@@ -2085,7 +2085,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 57,
           "name": "PLOT_POSITION",
           "method": 6,
           "zero_displacement": true
@@ -2093,7 +2093,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 57,
         "name": "PLOT_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -2112,7 +2112,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 28,
           "name": "LEFTEDGE",
           "method": 6,
           "zero_displacement": true
@@ -2120,7 +2120,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 28,
         "name": "LEFTEDGE",
         "method": 6,
         "zero_displacement": true
@@ -2139,7 +2139,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 29,
           "name": "RIGHTEDGE",
           "method": 6,
           "zero_displacement": true
@@ -2147,7 +2147,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 29,
         "name": "RIGHTEDGE",
         "method": 6,
         "zero_displacement": true
@@ -2166,7 +2166,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 27,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2174,7 +2174,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 27,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2193,7 +2193,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 45,
           "name": "DUMP_HEAP",
           "method": 6,
           "zero_displacement": true
@@ -2201,7 +2201,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 45,
         "name": "DUMP_HEAP",
         "method": 6,
         "zero_displacement": true
@@ -2269,7 +2269,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 51,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -2277,7 +2277,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 51,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -2296,7 +2296,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 51,
           "name": "TIMEVAL",
           "method": 6,
           "zero_displacement": true
@@ -2304,7 +2304,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 51,
         "name": "TIMEVAL",
         "method": 6,
         "zero_displacement": true
@@ -2345,7 +2345,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 12,
           "name": "WAITKEY",
           "method": 6,
           "zero_displacement": true
@@ -2353,7 +2353,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 12,
         "name": "WAITKEY",
         "method": 6,
         "zero_displacement": true
@@ -2372,7 +2372,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 10,
           "name": "DRAWMESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -2380,7 +2380,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 10,
         "name": "DRAWMESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -2448,7 +2448,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -2456,7 +2456,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -2475,7 +2475,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 15,
           "name": "GETFRAMEINFO",
           "method": 6,
           "zero_displacement": true
@@ -2483,7 +2483,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 15,
         "name": "GETFRAMEINFO",
         "method": 6,
         "zero_displacement": true
@@ -2502,7 +2502,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 46,
           "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
@@ -2510,7 +2510,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 46,
         "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
@@ -2573,7 +2573,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 41,
           "name": "DRAW_FRAME_DIAGNOSTICS",
           "method": 6,
           "zero_displacement": true
@@ -2581,7 +2581,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 41,
         "name": "DRAW_FRAME_DIAGNOSTICS",
         "method": 6,
         "zero_displacement": true
@@ -2600,7 +2600,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 46,
           "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
@@ -2608,7 +2608,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 46,
         "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
@@ -2693,7 +2693,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 21,
           "name": "CHECK_HEAP_CHAIN",
           "method": 6,
           "zero_displacement": true
@@ -2701,7 +2701,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 21,
         "name": "CHECK_HEAP_CHAIN",
         "method": 6,
         "zero_displacement": true
@@ -2720,7 +2720,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 39,
           "name": "__heapchk",
           "method": 6,
           "zero_displacement": true
@@ -2728,7 +2728,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 39,
         "name": "__heapchk",
         "method": 6,
         "zero_displacement": true
@@ -2747,7 +2747,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 49,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -2755,7 +2755,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 49,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -2796,7 +2796,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 38,
           "name": "CHECK_NEAR_HEAP",
           "method": 6,
           "zero_displacement": true
@@ -2804,7 +2804,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 38,
         "name": "CHECK_NEAR_HEAP",
         "method": 6,
         "zero_displacement": true
@@ -2823,7 +2823,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 49,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -2831,7 +2831,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 49,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -2872,7 +2872,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 35,
           "name": "CHECK_FAR_HEAP",
           "method": 6,
           "zero_displacement": true
@@ -2880,7 +2880,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 35,
         "name": "CHECK_FAR_HEAP",
         "method": 6,
         "zero_displacement": true
@@ -2899,7 +2899,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 23,
           "name": "_fclose",
           "method": 6,
           "zero_displacement": true
@@ -2907,7 +2907,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 23,
         "name": "_fclose",
         "method": 6,
         "zero_displacement": true
@@ -2926,7 +2926,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -2934,7 +2934,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -2975,7 +2975,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 44,
           "name": "__memmax",
           "method": 6,
           "zero_displacement": true
@@ -2983,7 +2983,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 44,
         "name": "__memmax",
         "method": 6,
         "zero_displacement": true
@@ -3002,7 +3002,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3010,7 +3010,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3051,7 +3051,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 26,
           "name": "EXPAND_MEMORY_LIMITS",
           "method": 6,
           "zero_displacement": true
@@ -3059,7 +3059,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 26,
         "name": "EXPAND_MEMORY_LIMITS",
         "method": 6,
         "zero_displacement": true
@@ -3078,7 +3078,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3086,7 +3086,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3127,7 +3127,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3135,7 +3135,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3176,7 +3176,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 6,
           "name": "NORMALIZE_BANKED_POINTER",
           "method": 6,
           "zero_displacement": true
@@ -3184,7 +3184,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 6,
         "name": "NORMALIZE_BANKED_POINTER",
         "method": 6,
         "zero_displacement": true
@@ -3203,7 +3203,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 59,
           "name": "PREVIEW_RESOURCE",
           "method": 6,
           "zero_displacement": true
@@ -3211,7 +3211,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 59,
         "name": "PREVIEW_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -3230,7 +3230,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 7,
           "name": "FIND_OPTION",
           "method": 6,
           "zero_displacement": true
@@ -3238,7 +3238,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 7,
         "name": "FIND_OPTION",
         "method": 6,
         "zero_displacement": true
@@ -3279,7 +3279,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3287,7 +3287,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3394,7 +3394,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3402,7 +3402,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3465,7 +3465,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3473,7 +3473,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3536,7 +3536,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 22,
           "name": "LOOKUP_SHAPE_METADATA",
           "method": 6,
           "zero_displacement": true
@@ -3544,7 +3544,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 22,
         "name": "LOOKUP_SHAPE_METADATA",
         "method": 6,
         "zero_displacement": true
@@ -3695,7 +3695,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 20,
           "name": "BANKED_POINTER_CAPACITY",
           "method": 6,
           "zero_displacement": true
@@ -3703,7 +3703,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 20,
         "name": "BANKED_POINTER_CAPACITY",
         "method": 6,
         "zero_displacement": true
@@ -3722,7 +3722,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 13,
           "name": "HEAP_STATE",
           "method": 6,
           "zero_displacement": true
@@ -3730,7 +3730,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 13,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -3749,7 +3749,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3757,7 +3757,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3798,7 +3798,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 34,
           "name": "_fprintf",
           "method": 6,
           "zero_displacement": true
@@ -3806,7 +3806,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 34,
         "name": "_fprintf",
         "method": 6,
         "zero_displacement": true
@@ -3847,7 +3847,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 33,
           "name": "_fopen",
           "method": 6,
           "zero_displacement": true
@@ -3855,7 +3855,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 33,
         "name": "_fopen",
         "method": 6,
         "zero_displacement": true
@@ -3918,7 +3918,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 57,
           "name": "PLOT_POSITION",
           "method": 6,
           "zero_displacement": true
@@ -3926,7 +3926,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 57,
         "name": "PLOT_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -3945,7 +3945,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 27,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3953,7 +3953,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 27,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3994,7 +3994,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 47,
+          "index": 43,
           "name": "DRAW_RULER_MARKS",
           "method": 6,
           "zero_displacement": true
@@ -4002,7 +4002,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 47,
+        "index": 43,
         "name": "DRAW_RULER_MARKS",
         "method": 6,
         "zero_displacement": true
@@ -4043,7 +4043,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 57,
           "name": "PLOT_POSITION",
           "method": 6,
           "zero_displacement": true
@@ -4051,7 +4051,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 57,
         "name": "PLOT_POSITION",
         "method": 6,
         "zero_displacement": true
@@ -4070,7 +4070,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 4,
           "name": "GETBASEX",
           "method": 6,
           "zero_displacement": true
@@ -4078,7 +4078,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 4,
         "name": "GETBASEX",
         "method": 6,
         "zero_displacement": true
@@ -4097,7 +4097,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 15,
           "name": "GETFRAMEINFO",
           "method": 6,
           "zero_displacement": true
@@ -4105,7 +4105,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 15,
         "name": "GETFRAMEINFO",
         "method": 6,
         "zero_displacement": true
@@ -4146,7 +4146,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 49,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -4154,7 +4154,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 49,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -4195,7 +4195,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 48,
           "name": "NULL_AREA_MATCHES",
           "method": 6,
           "zero_displacement": true
@@ -4203,7 +4203,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 48,
         "name": "NULL_AREA_MATCHES",
         "method": 6,
         "zero_displacement": true

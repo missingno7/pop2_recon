@@ -1,69 +1,32 @@
 /* DISSOLVE.C */
+#include <malloc.h>
 #include "types.h"
+#include "system.h"
+#include "snd.h"
+#include "graf.h"
+#include "dissolve.h"
+#include "init.h"
+#include "util.h"
+#include "intrface.h"
 
-typedef void (far pascal *StepFunc)(unsigned long, int);
 
-typedef struct
-{
-    int mode;
-    int source;
-    int destination;
-    unsigned char temporary[44];
-    int increment;
-    int half_step_time;
-    long duration;
-    long start;
-    int level;
-    Rect rect;
-    StepFunc step;
-    unsigned long step_argument;
-    int pattern;
-} Dissolve;
-
-extern int Graf;
-extern volatile int DITHER_SEED;
-extern volatile long TimeVal;
-extern char ScreenPort[];
 static const char dissolve_option[] = "NODIS";
-typedef struct {
-    int mode;
-    long area, time;
-} DISSOLVEENV;
+
 DISSOLVEENV DissolveEnv;
-typedef union
-{
-    long value;
-    struct { unsigned int low; int high; } words;
-} LongWords;
 
-extern int CheckWaitFunc(void);
-extern void CopyBits(int source, int destination, const Rect far *source_rect,
-                      const Rect far *destination_rect, int mode);
-extern void FreePort(void near *port);
-extern int BackPort(void near *port, const Rect far *rect);
-extern int find_option(const char far *option);
-extern void COPY_DITHERED_PORT_REGION(int source, int destination, const Rect far *source_rect,
-                      const Rect far *destination_rect, int level);
-extern void near *cdecl _nmalloc(unsigned int size);
-extern void cdecl _nfree(void near *pointer);
 
-Dissolve *DissolveNew(int mode, int source, const Rect far *bounds, long duration);
-void DissolveFree(Dissolve *record, int restore);
-int DissolveStep(Dissolve *record);
-void DissolveSetIncAmt(Dissolve *record);
-
-int DissolveDoAll(int mode, int source, const Rect far *bounds, long duration)
+int DissolveDoAll(int mode, PORT *source, const Rect far *bounds, long duration)
 {
     int interrupted = 0;
     int more;
-    Dissolve *record;
+    DISSOLVE *record;
 
     record = DissolveNew(mode, source, bounds, duration);
     if (record) {
         do {
             interrupted = CheckWaitFunc();
             more = DissolveStep(record) == 0;
-            CopyBits(ScreenPort, record->destination,
+            CopyBits(&ScreenPort, record->destination,
                       &record->rect, &record->rect, 0);
         } while (!interrupted && more);
         DissolveFree(record, 0);
@@ -71,7 +34,7 @@ int DissolveDoAll(int mode, int source, const Rect far *bounds, long duration)
     return interrupted;
 }
 
-void DissolveFree(Dissolve *record, int restore)
+void DissolveFree(DISSOLVE *record, int restore)
 {
     if (restore)
         CopyBits(record->destination, record->source, &record->rect, &record->rect, 0);
@@ -80,9 +43,9 @@ void DissolveFree(Dissolve *record, int restore)
     _nfree(record);
 }
 
-Dissolve *DissolveNew(int mode, int source, const Rect far *bounds, long duration)
+DISSOLVE *DissolveNew(int mode, PORT *source, const Rect far *bounds, long duration)
 {
-    Dissolve *record;
+    DISSOLVE *record;
 
     record = _nmalloc(sizeof(*record));
     if (record) {
@@ -95,7 +58,7 @@ Dissolve *DissolveNew(int mode, int source, const Rect far *bounds, long duratio
         record->step_argument = 0;
         record->mode = mode;
         record->pattern = 0x4583;
-        DITHER_SEED = 0x4583;
+        dither_seed = 0x4583;
 
         if (record->mode == 2) {
             if (BackPort(&record->temporary, bounds))
@@ -113,12 +76,13 @@ Dissolve *DissolveNew(int mode, int source, const Rect far *bounds, long duratio
     return record;
 }
 
-void DissolveSetIncAmt(Dissolve *record)
+void DissolveSetIncAmt(DISSOLVE *record)
 {
     long area;
     unsigned long elapsed;
     long start;
-    int saved_destination, steps;
+    PORT *saved_destination;
+    int steps;
 
     area = (record->rect.bottom - record->rect.top) *
            (record->rect.right - record->rect.left);
@@ -152,25 +116,15 @@ void DissolveSetIncAmt(Dissolve *record)
     record->half_step_time = (int)((unsigned long)record->duration / (255 / record->increment));
 }
 
-struct RECORD_WITH_LONG_PAIR
-{
-    unsigned char prefix[72];
-    unsigned long first;
-    unsigned long second;
-};
 
-void far pascal DissolveSetStepFunc(
-    struct RECORD_WITH_LONG_PAIR near *record,
-    unsigned long first,
-    unsigned long second)
+void DissolveSetStepFunc(DISSOLVE *record, void (*step)(unsigned long, int), unsigned long argument)
 {
-    record->first = first;
-    record->second = second;
+    record->step = step;
+    record->step_argument = argument;
 }
 
-int DissolveStep(Dissolve *record)
+int DissolveStep(DISSOLVE *record)
 {
-    LongWords scratch;
     int finished;
 
     finished = 0;
@@ -178,9 +132,10 @@ int DissolveStep(Dissolve *record)
         record->start = TimeVal;
         record->level = record->increment;
     } else {
-        scratch.value = TimeVal - record->start;
-        if (record->duration - record->half_step_time / 2 >= scratch.value) {
-            record->level = (int)((unsigned long)(255L * scratch.value) / record->duration);
+        long elapsed = TimeVal - record->start;
+
+        if (record->duration - record->half_step_time / 2 >= elapsed) {
+            record->level = (int)((unsigned long)(255L * elapsed) / record->duration);
             if (!record->level)
                 record->level = 1;
         } else {
@@ -191,18 +146,19 @@ int DissolveStep(Dissolve *record)
     if (record->step)
         record->step(record->step_argument, record->level);
     if (!finished) {
-        scratch.words.high = Graf;
+        PORT *saved = Graf;
+
         Graf = record->destination;
         if (record->mode == 1)
-            DITHER_SEED = record->pattern;
+            dither_seed = record->pattern;
         else if (record->mode == 2)
             CopyBits(record->destination, &record->temporary,
                       &record->rect, &record->rect, 0);
         if (!find_option(dissolve_option))
-            COPY_DITHERED_PORT_REGION(record->destination, record->source, &record->rect, &record->rect, record->level);
+            copy_dithered_port_region(record->destination, record->source, &record->rect, &record->rect, record->level);
         else
             CopyBits(record->destination, record->source, &record->rect, &record->rect, 2);
-        Graf = scratch.words.high;
+        Graf = saved;
     } else {
         CopyBits(record->destination, record->source, &record->rect, &record->rect, 0);
     }

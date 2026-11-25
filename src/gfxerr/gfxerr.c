@@ -1,116 +1,73 @@
+#include <string.h>
+#include <malloc.h>
 #include "types.h"
-struct Record;
-struct window_item {
-    char prefix[4];
-    void (far pascal *action)(struct window_item *, int, const void *);
-    char effect_header[4];
-    char effect_name[26];
-    const void *argument;
-};
+#include "resc.h"
+#include "system.h"
+#include "graf.h"
+#include "level.h"
+#include "heap.h"
+#include "gfxerr.h"
+#include "init.h"
+#include "util.h"
+#include "window.h"
 
-struct window {
-    char prefix[70];
-    int needs_update;
-};
-typedef int (far pascal *dialog_proc)(int, int, int);
 
-extern void *Graf;
-extern struct {
-    char surface[32];
-    int background, private_words[3], foreground;
-} DEFAULT_PORT;
-extern char ScreenPort[];
-extern struct window *window_head;
-extern int graphics_mode;
-extern int draw_record_range;
-extern Rect NullRect;
-
-extern struct window_item *far pascal ITEM_BY_INDEX(void *, int);
-extern void far pascal EraseRect(const void far *);
-extern int far pascal get_current_dos_directory(char far *);
-extern int far pascal set_current_dos_directory(const char far *);
-extern void far pascal discard_queued_events(int);
-extern unsigned far pascal HGETRSRC(unsigned long, int);
-extern struct Record *far pascal create_window_from_resource(int);
-extern unsigned far cdecl _fstrlen(const char far *);
-extern void *far cdecl _nmalloc(unsigned);
-extern char far *far cdecl _fstrcpy(char far *, const char far *);
-extern int far pascal wait_for_window_result(void (far pascal *)(void));
-extern void far cdecl _nfree(void *);
-extern void far pascal dispose_window(struct Record *);
-extern void far pascal RestoreRect(void *);
-extern unsigned far pascal hGetState(unsigned);
-extern Rect far *far pascal hLock(unsigned);
-extern Rect far *far pascal InsetRect(Rect far *,
-                                                  const Rect far *, int, int);
-extern void *far pascal SaveRect(const Rect far *);
-extern void far pascal hSetState(unsigned, unsigned);
-/* These two DOS helpers leave and then consume the same saved clip state. */
-extern void far pascal ClipRect(Rect far *);
-extern void far pascal ClipRestore(void);
-
-int far pascal show_resource_dialog(int, int, const char far *, int);
-void far pascal restore_dialog_port(void *);
-void *far pascal create_dialog_port(int);
-void far pascal set_window_item_text(void *, int, const void *);
-void far pascal SET_NEAR_RECORD_WORD20(struct Record *, unsigned int);
-
-int far pascal confirm_action(const char far *message)
+int confirm_action(const char far *message)
 {
     if (show_resource_dialog(-20, 3, message, 1) == 1)
         return 1;
     return 0;
 }
 
-int far pascal show_message(const char far *message, int replace_port)
+int show_message(const char far *message, int replace_port)
 {
     return show_resource_dialog(-30, 2, message, replace_port);
 }
 
-int far pascal confirm_quit(const char far *message)
+int confirm_quit(const char far *message)
 {
     if (show_resource_dialog(-40, 3, message, 1) == 1)
         return 1;
     return 0;
 }
 
-void far pascal run_window_item_effect(void *port, int id)
+void run_window_item_effect(void *port, int id)
 {
     void *saved_port = Graf;
-    struct window_item *item;
+    WINDOWITEM *item;
 
     Graf = port;
-    item = ITEM_BY_INDEX(port, id);
-    EraseRect(item->effect_name);
+    item = item_by_index(port, id);
+    EraseRect(&item->bounds);
     item->action(item, 2, item->argument);
     Graf = saved_port;
 }
 
-int far pascal run_dialog_preserving_directory(dialog_proc show, int first, int second, int third)
+int run_dialog_preserving_directory(int (*show)(int, int, int), int first, int second, int third)
 {
     char directory[66];
     int result;
 
     get_current_dos_directory(directory);
-    DEFAULT_PORT.foreground = 0;
-    DEFAULT_PORT.background = 15;
+    default_port.foreground = 0;
+    default_port.background = 15;
     result = show(first, second, third);
     set_current_dos_directory(directory);
-    DEFAULT_PORT.foreground = 15;
-    DEFAULT_PORT.background = 0;
+    default_port.foreground = 15;
+    default_port.background = 0;
     discard_queued_events(12);
     return result;
 }
 
-unsigned far pascal allocate_gold_handle(int id)
+Handle allocate_gold_handle(int id)
 {
-    return HGETRSRC(0x444c4f47UL, id); /* GOLD */
+    return hGetRsrc(0x444c4f47UL, id); /* GOLD */
 }
 
-int far pascal show_resource_dialog(int resource, int item, const char far *message, int replace_port)
+int show_resource_dialog(int resource, int item, const char far *message, int replace_port)
 {
     void *saved_port = Graf;
-    struct Record *window;
+    PORT *window;
     char *text;
     int result;
     void *port;
@@ -120,7 +77,7 @@ int far pascal show_resource_dialog(int resource, int item, const char far *mess
     window = create_window_from_resource(resource);
     _fstrcpy(text = _nmalloc(_fstrlen(message) + 1), message);
     set_window_item_text(window, item, text);
-    SET_NEAR_RECORD_WORD20(window, 15);
+    set_near_record_word20(window, 15);
     result = wait_for_window_result(0);
     _nfree(text);
     dispose_window(window);
@@ -130,26 +87,26 @@ int far pascal show_resource_dialog(int resource, int item, const char far *mess
     return result;
 }
 
-void far pascal restore_dialog_port(void *port)
+void restore_dialog_port(void *port)
 {
     void *saved_port = Graf;
 
-    Graf = ScreenPort;
+    Graf = &ScreenPort;
     RestoreRect(port);
     Graf = saved_port;
     window_head->needs_update = 0;
 }
 
-void *far pascal create_dialog_port(int resource)
+void *create_dialog_port(int resource)
 {
     void *saved_port = Graf;
-    unsigned handle;
-    unsigned saved_flags;
+    Handle handle;
+    word saved_flags;
     void *port;
     Rect bounds;
 
-    Graf = ScreenPort;
-    handle = HGETRSRC(0x444c4f47UL, resource);
+    Graf = &ScreenPort;
+    handle = hGetRsrc(0x444c4f47UL, resource);
     saved_flags = hGetState(handle);
     InsetRect(&bounds, hLock(handle), -3, -2);
     port = SaveRect(&bounds);
@@ -158,7 +115,7 @@ void *far pascal create_dialog_port(int resource)
     return port;
 }
 
-void far pascal set_mode_flag_value(void)
+void set_mode_flag_value(void)
 {
     if (graphics_mode == 2) {
         draw_record_range = 7;
@@ -167,43 +124,31 @@ void far pascal set_mode_flag_value(void)
     draw_record_range = 0;
 }
 
-void far pascal set_window_item_text(void *port, int id, const void *text)
+void set_window_item_text(void *port, int id, const void *text)
 {
     void *saved_port;
-    struct window_item *item;
+    WINDOWITEM *item;
 
     saved_port = Graf;
     Graf = port;
-    item = ITEM_BY_INDEX(port, id);
+    item = item_by_index(port, id);
     ClipRect(&NullRect);
     item->action(item, 9, text);
     ClipRestore();
     Graf = saved_port;
 }
 
-struct Record {
-    unsigned char prefix[32];
-    unsigned int word20;
-};
 
-void far pascal SET_NEAR_RECORD_WORD20(struct Record *record,
-                                      unsigned int value)
+void set_near_record_word20(PORT *record,
+                                      word value)
 {
-    record->word20 = value;
+    record->background = value;
 }
 
-typedef struct {
-    unsigned fields_before_key[5];
-    unsigned key;
-    unsigned fields_after_key;
-} QueuedEvent;
-
-extern int far pascal read_queued_event(QueuedEvent *event, int mask);
-
-unsigned far pascal read_queued_key(void)
+word read_queued_key(void)
 {
-    QueuedEvent event;
-    unsigned key;
+    EVENT event;
+    word key;
 
     discard_queued_events(-9);
     if (read_queued_event(&event, 8))

@@ -1,10 +1,21 @@
-unsigned int BankStatus = 1;
+#include <string.h>
+#include "types.h"
+#include "unpack.h"
+#include "graf.h"
+#include "shape.h"
+#include "level.h"
+#include "auto.h"
+#include "heap.h"
+#include "fade.h"
+#include "anim.h"
+#include "xlatgraf.h"
+word BankStatus = 1;
 
-unsigned int far pascal AllocBanks(unsigned char request)
+word AllocBanks(byte request)
 {
-    unsigned char units;
-    unsigned int selected;
-    unsigned int bit;
+    byte units;
+    word selected;
+    word bit;
 
     selected = 0;
     bit = 1;
@@ -24,9 +35,9 @@ unsigned int far pascal AllocBanks(unsigned char request)
     return selected;
 }
 
-void far pascal ResetBanks(unsigned int banks)
+void ResetBanks(word banks)
 {
-    unsigned int bit;
+    word bit;
 
     BankStatus = 0;
     bit = 1;
@@ -36,54 +47,50 @@ void far pascal ResetBanks(unsigned int banks)
     }
 }
 
+
 typedef union ShapeLayout {
     unsigned short word;
-    unsigned char bytes[2];
+    byte bytes[2];
     struct {
-        unsigned bands:7;
-        unsigned reserved:1;
-        unsigned packing:4;
-        unsigned planes:3;
-        unsigned indexed:1;
+        word bands:7;
+        word reserved:1;
+        word packing:4;
+        word planes:3;
+        word indexed:1;
     } bits;
 } ShapeLayout;
 
-typedef struct ShapeHeader {
-    short height, width;
-    ShapeLayout format;
-} ShapeHeader;
-
-int far pascal CalcRowBytes(const ShapeHeader far *shape)
+int CalcRowBytes(const SHAPE far *shape)
 {
     ShapeLayout code;
     const ShapeLayout *format;
 
-    code = shape->format;
+    code = *(ShapeLayout far *)&shape->format;
     format = &code;
 
     if (!format->bits.indexed)
-        return ((int)shape->width + 7) / 8;
+        return (shape->width + 7) / 8;
     return ((format->bits.planes + 1) * shape->width + 7) / 8;
 }
 
-void far pascal MCGAToMCGA(const ShapeHeader far *shape,
-                           unsigned char far *pixels, unsigned banks)
+void MCGAToMCGA(const SHAPE far *shape,
+                           byte far *pixels, word banks)
 {
-    unsigned char map[16];
+    byte map[16];
     int mapped = 0;
-    unsigned bit = 1;
-    unsigned bank;
-    unsigned char far *cursor;
-    unsigned row;
+    word bit = 1;
+    word bank;
+    byte far *cursor;
+    word row;
 
     for (bank = 0; bank < 16; ++bank, bit <<= 1) {
         if (banks & bit)
-            map[mapped++] = (unsigned char)(bank * 16);
+            map[mapped++] = (byte)(bank * 16);
     }
 
     cursor = pixels;
     for (row = 0; row < shape->height; ++row) {
-        unsigned column;
+        word column;
         for (column = 0; column < shape->width; ++column) {
             if (*cursor)
                 *cursor = (*cursor & 15) | map[*cursor >> 4];
@@ -93,10 +100,10 @@ void far pascal MCGAToMCGA(const ShapeHeader far *shape,
 }
 
 
-int far pascal Get1stBank(unsigned banks)
+int Get1stBank(word banks)
 {
     int index = 0;
-    unsigned bit = 1;
+    word bit = 1;
 
     do {
         if (banks & bit) {
@@ -108,41 +115,19 @@ int far pascal Get1stBank(unsigned banks)
     return 0;
 }
 
-typedef unsigned Handle;
-
-typedef struct FontHeader {
-    unsigned char first;
-    unsigned char last;
-    unsigned char metrics[8];
-    unsigned glyph_offset[1];
-} FontHeader;
 
 typedef struct Glyph {
     int height;
     int width;
     int row_bytes;
-    unsigned char bits[1];
+    byte bits[1];
 } Glyph;
 
-extern unsigned far pascal hGetState(Handle handle);
-extern void far *far pascal hLock(Handle handle);
-extern void far pascal hSetState(Handle handle, unsigned flags);
-extern void far *far pascal detach_handle_payload(Handle handle);
-extern int far pascal attach_handle_payload(Handle handle, void far *payload);
-extern void far pascal mark_handle_converted(Handle handle);
-extern void far pascal clear_payload_header(void far *payload);
-extern void far pascal hFree(Handle handle);
-extern Handle far pascal hNew(unsigned long size);
-extern Handle far pascal hUnlock(Handle handle);
-extern void far *far cdecl _fmemcpy(void far *destination, const void far *source, unsigned length);
-extern void far pascal MaskToMCGA(Glyph far *glyph, unsigned char far *bits);
 
-Handle far pascal XlatFont(FontHeader far *font);
-
-Handle far pascal convert_font_handle(Handle handle)
+Handle convert_font_handle(Handle handle)
 {
-    unsigned flags;
-    FontHeader far *source;
+    word flags;
+    FONT far *source;
     void far *replacement;
     Handle temporary;
 
@@ -165,16 +150,8 @@ Handle far pascal convert_font_handle(Handle handle)
     return handle;
 }
 
-typedef struct PaletteInfo {
-    unsigned banks;
-    unsigned char format;
-    unsigned char colors[16][48];
-} PaletteInfo;
 
-extern void far pascal SetDACBlock(int first_color, int color_count,
-                                      const unsigned char far *colors, int flags);
-
-void far pascal MapPalInfo(const PaletteInfo far *palette)
+void MapPalInfo(const PALINFO far *palette)
 {
     int first_color;
     int bank;
@@ -184,22 +161,16 @@ void far pascal MapPalInfo(const PaletteInfo far *palette)
         bank = stored_bank;
         first_color = bank;
         do {
-            if (palette->banks & (unsigned short)(1U << (unsigned short)bank))
-                SetDACBlock(first_color, 16, palette->colors[stored_bank++], 1);
+            if (palette->banks & (unsigned short)(1 << (unsigned short)bank))
+                SetDACBlock(first_color, 16, palette->vga + 16 * stored_bank++, 1);
             ++bank;
             first_color += 16;
         } while (first_color < 256);
     }
 }
 
-extern int far pascal UnpackRLEH(void far *destination, const void far *source, int length);
-extern int far pascal UnpackRLEV(void far *destination, const void far *source,
-                                int length, int stride, int rows);
-extern int far pascal UnpackLZH(void far *destination, const void far *source, int length);
-extern int far pascal UnpackLZV(void far *destination, const void far *source,
-                               int length, int stride, int rows);
 
-int far pascal unpack_pixels(void far *destination, const void far *source,
+int unpack_pixels(void far *destination, const void far *source,
                              int length, int stride, int rows, int codec, int wide)
 {
     int result;
@@ -227,28 +198,28 @@ int far pascal unpack_pixels(void far *destination, const void far *source,
     return result;
 }
 
-int far pascal halve_for_mode_two(int value, int mode)
+int halve_for_mode_two(int value, int mode)
 {
     if (mode == 2)
         return value % 2 + value / 2;
     return value;
 }
 
-Handle far pascal XlatFont(FontHeader far *font)
+Handle XlatFont(FONT far *font)
 {
-    unsigned count;
-    unsigned size, offset;
+    word count;
+    word size, offset;
     Glyph far *glyph;
     Glyph far *output;
-    FontHeader far *translated;
+    FONT far *translated;
     Handle handle;
     int converted_width;
-    unsigned bytes;
+    word bytes;
 
-    count = (unsigned)font->last - font->first + 1;
+    count = font->last - font->first + 1;
     size = count * (2 + 6) + 10;
     {
-        unsigned i;
+        word i;
         for (i = 0; i < count; ++i) {
             Glyph far *cell = (Glyph far *)((unsigned long)font + font->glyph_offset[i]);
             size += halve_for_mode_two(cell->width, 1) * cell->height;
@@ -260,7 +231,7 @@ Handle far pascal XlatFont(FontHeader far *font)
         translated = hLock(handle);
         _fmemcpy(translated, font, 10); offset = (count + 5) * 2;
         {
-            unsigned index;
+            word index;
             for (index = 0; index < count; ++index) {
                 translated->glyph_offset[index] = offset; glyph = (Glyph far *)((unsigned long)font + font->glyph_offset[index]);
                 converted_width = halve_for_mode_two(glyph->width, 1); glyph->row_bytes = (glyph->width + 7) / 8;
@@ -277,25 +248,17 @@ Handle far pascal XlatFont(FontHeader far *font)
     return handle;
 }
 
-extern int graphics_mode;
-unsigned MaxPackSize = 0;
-extern unsigned char far *far pascal NormalizePtr(unsigned char far *pointer);
-extern void far pascal TgaToMCGA(ShapeHeader far *shape, unsigned char far *pixels, int bank);
-extern int far pascal hSetSize(Handle handle, unsigned long bytes);
+word MaxPackSize = 0;
 
-unsigned *far pascal copy_far_word(unsigned *out, const unsigned far *in);
-Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode);
-Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks);
-void far pascal remap_banded_pixels(ShapeHeader far *shape, unsigned char far *pixels, unsigned banks);
 
-Handle far pascal convert_shape(ShapeHeader far *shape, const unsigned far *banks, int mode)
+Handle convert_shape(void far *shape, const void far *banks, int mode)
 {
-    unsigned local_banks[256];
+    word local_banks[256];
 
     return XlatShape(shape, copy_far_word(local_banks, banks), mode);
 }
 
-Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
+Handle XlatShape(SHAPE far *shape, word *banks, int mode)
 {
     ShapeLayout layout;
     const ShapeLayout *format;
@@ -303,74 +266,72 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
     unsigned long input_allocation;
     unsigned long output_allocation;
     unsigned long input_left, output_left;
-    unsigned rows_left, band_rows, output_bytes, input_bytes;
-    unsigned output_stride;
+    word rows_left, band_rows, output_bytes, input_bytes;
+    word output_stride;
     Handle handle;
-    ShapeHeader far *output;
-    unsigned char far *input_bits;
-    unsigned char far *output_bits;
+    SHAPE far *output;
+    byte far *input_bits;
+    byte far *output_bits;
 
-    layout = shape->format;
+    layout = *(ShapeLayout far *)&shape->format;
     format = &layout;
     if (format->bits.bands)
         return convert_banded_shape(shape, banks);
     indexed = !format->bits.indexed;
     mask = indexed && !format->bits.planes;
     wide = (graphics_mode == 6 || graphics_mode == 4) && indexed && format->bits.planes == 3;
-    shape->format.word = CalcRowBytes(shape);
-    input_allocation = (long)(short)shape->format.word * (short)shape->height;
+    shape->format = CalcRowBytes(shape);
+    input_allocation = (long)(short)shape->format * (short)shape->height;
     if (wide)
         input_allocation <<= 2;
     input_left = input_allocation;
-    input_allocation += sizeof(ShapeHeader);
+    input_allocation += sizeof(SHAPEHEADER);
     output_stride = halve_for_mode_two(shape->width, mode);
     output_allocation = (1L * (1 + 3 * (!mask * (graphics_mode == 4 || graphics_mode == 6)))) *
                         (short)shape->height * output_stride;
     output_left = output_allocation;
     MaxPackSize = (unsigned long)((long)(short)shape->height * (short)shape->width) > 64100UL
-                       ? 58240U : 64100U;
-    output_allocation += sizeof(ShapeHeader);
+                       ? 58240 : 64100;
+    output_allocation += sizeof(SHAPEHEADER);
     handle = hNew(output_allocation < input_allocation ? input_allocation : output_allocation);
     if (handle) {
         output = hLock(handle);
-        *output = *shape;
+        *(SHAPEHEADER far *)output = *(SHAPEHEADER far *)shape;
         band_rows = MaxPackSize / shape->width < shape->height ? MaxPackSize / shape->width : shape->height;
         rows_left = shape->height;
-        input_bytes = band_rows * shape->format.word;
+        input_bytes = band_rows * shape->format;
         if (wide)
             input_bytes <<= 2;
         output_bytes = (1 + 3 * (!mask * (graphics_mode == 4 || graphics_mode == 6))) * output_stride * band_rows;
-        input_bits = (unsigned char far *)(shape + 1);
-        output_bits = (unsigned char far *)(output + 1);
-        if (rows_left) {
-            do {
-                output_bytes = (unsigned)(output_left < output_bytes ? output_left : output_bytes);
-                input_bits = NormalizePtr(input_bits);
-                output_bits = NormalizePtr(output_bits);
-                band_rows = rows_left < band_rows ? rows_left : band_rows;
-                output->height = band_rows;
-                input_bits += unpack_pixels(output_bits, input_bits,
-                                            input_bytes = (unsigned)(input_bytes > input_left ? input_left : input_bytes), shape->format.word,
-                                            band_rows, format->bits.packing, wide);
-                if (!indexed && format->bits.planes == 3) {
-                    if (mode == 1)
-                        TgaToMCGA(output, output_bits, Get1stBank(*banks));
-                    else if (mode == 2) {
-                        unsigned pixels = (short)output->width * (short)output->height;
-                        _fmemcpy(output + 1, output_bits, (pixels & 1) + (pixels >> 1));
-                    }
-                } else if (mask) {
-                    MaskToMCGA((Glyph far *)output, output_bits);
-                } else if (!indexed && format->bits.planes == 7) {
-                    MCGAToMCGA(output, output_bits, *banks);
-                } else {
-                    goto discard;
+        input_bits = shape->pixels;
+        output_bits = output->pixels;
+        while (rows_left) {
+            output_bytes = (word)(output_left < output_bytes ? output_left : output_bytes);
+            input_bits = NormalizePtr(input_bits);
+            output_bits = NormalizePtr(output_bits);
+            band_rows = rows_left < band_rows ? rows_left : band_rows;
+            output->height = band_rows;
+            input_bits += unpack_pixels(output_bits, input_bits,
+                                        input_bytes = (word)(input_bytes > input_left ? input_left : input_bytes), shape->format,
+                                        band_rows, format->bits.packing, wide);
+            if (!indexed && format->bits.planes == 3) {
+                if (mode == 1)
+                    TgaToMCGA(output, output_bits, Get1stBank(*banks));
+                else if (mode == 2) {
+                    word pixels = (short)output->width * (short)output->height;
+                    _fmemcpy(output->pixels, output_bits, (pixels & 1) + (pixels >> 1));
                 }
-                input_left -= input_bytes;
-                output_left -= output_bytes;
-                output_bits += output_bytes;
-                rows_left -= band_rows;
-            } while (rows_left);
+            } else if (mask) {
+                MaskToMCGA((Glyph far *)output, output_bits);
+            } else if (!indexed && format->bits.planes == 7) {
+                MCGAToMCGA(output, output_bits, *banks);
+            } else {
+                goto discard;
+            }
+            input_left -= input_bytes;
+            output_left -= output_bytes;
+            output_bits += output_bytes;
+            rows_left -= band_rows;
         }
         goto finish;
 
@@ -381,91 +342,89 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
 
     finish:
         output->height = shape->height;
-        output->format.word = output_stride;
+        output->format = output_stride;
         hSetSize(hUnlock(handle), output_allocation);
     }
 
 restore_format:
-    shape->format = layout;
+    *(ShapeLayout far *)&shape->format = layout;
     return handle;
 }
 
-Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
+Handle convert_banded_shape(SHAPE far *shape, word *banks)
 {
     ShapeLayout layout;
     const ShapeLayout *format;
     int indexed, mask, wide;
-    unsigned output_stride, band_rows, rows_left;
-    unsigned input_bytes, output_bytes;
+    word output_stride, band_rows, rows_left;
+    word input_bytes, output_bytes;
     unsigned long input_allocation, input_left, output_size, output_left;
     Handle handle;
-    ShapeHeader far *output;
-    unsigned char far *input_bits;
-    unsigned char far *output_bits;
+    SHAPE far *output;
+    byte far *input_bits;
+    byte far *output_bits;
 
-    layout = shape->format;
+    layout = *(ShapeLayout far *)&shape->format;
     format = &layout;
     indexed = !format->bits.indexed;
     mask = indexed && !format->bits.planes;
     wide = (graphics_mode == 6 || graphics_mode == 4) && indexed && format->bits.planes == 3;
-    shape->format.word = CalcRowBytes(shape);
-    input_allocation = *(unsigned far *)(shape + 1);
+    shape->format = CalcRowBytes(shape);
+    input_allocation = *(word far *)shape->pixels;
     if (wide)
         input_allocation <<= 2;
     input_left = input_allocation;
-    input_allocation += sizeof(ShapeHeader);
+    input_allocation += sizeof(SHAPEHEADER);
     output_stride = halve_for_mode_two(shape->width, 1);
     output_left = output_size = 0;
     MaxPackSize = (unsigned long)((long)(short)shape->width * (short)shape->height) > 64100UL
-                       ? 58240U : 64100U;
+                       ? 58240 : 64100;
     if (mask)
         output_size += 6;                  /* glyph header */
     else
-        output_size += sizeof(ShapeHeader);
+        output_size += sizeof(SHAPEHEADER);
     handle = hNew(output_size < input_allocation ? input_allocation : output_size);
     if (handle) {
         output = hLock(handle);
-        *output = *shape;
+        *(SHAPEHEADER far *)output = *(SHAPEHEADER far *)shape;
         band_rows = 58238L / (long)(short)((shape->width + 1) * 2);
-        band_rows = band_rows < (unsigned)shape->height ? band_rows : shape->height;
+        band_rows = band_rows < shape->height ? band_rows : shape->height;
         rows_left = shape->height;
-        input_bytes = band_rows * shape->format.word;
+        input_bytes = band_rows * shape->format;
         if (wide)
             input_bytes <<= 2;
         output_bytes = (1 + 3 * (!mask * (graphics_mode == 4 || graphics_mode == 6))) * output_stride * band_rows;
-        input_bits = (unsigned char far *)(shape + 1);
-        if (rows_left) {
-            do {
-                band_rows = rows_left < band_rows ? rows_left : band_rows;
-                input_bytes = output_bytes = *(unsigned far *)input_bits;
-                input_bits += 2;
-                hUnlock(handle);
-                if (hSetSize(handle, output_bytes + output_size))
-                    goto discard;
-                output = hLock(handle);
-                output_bits = (unsigned char far *)output + output_size;
-                output_size += output_bytes;
-                input_bits = NormalizePtr(input_bits);
-                output_bits = NormalizePtr(output_bits);
-                output->height = band_rows;
-                input_bits += unpack_pixels(output_bits, input_bits, input_bytes, shape->format.word,
-                                            band_rows, format->bits.packing, wide);
-                if (!indexed && format->bits.planes == 3)
-                    TgaToMCGA(output, output_bits, Get1stBank(*banks));
-                else if (mask)
-                    MaskToMCGA((Glyph far *)output, output_bits);
-                else if (graphics_mode == 5 && !indexed && format->bits.planes == 7)
-                    remap_banded_pixels(output, output_bits, *banks);
-                else if (!((graphics_mode == 6 || graphics_mode == 4) && indexed && format->bits.planes == 3))
-                    goto discard;
-                input_left -= input_bytes;
-                output_left -= output_bytes;
-                output_bits += output_bytes;
-                rows_left -= band_rows;
-            } while (rows_left);
+        input_bits = shape->pixels;
+        while (rows_left) {
+            band_rows = rows_left < band_rows ? rows_left : band_rows;
+            input_bytes = output_bytes = *(word far *)input_bits;
+            input_bits += 2;
+            hUnlock(handle);
+            if (hSetSize(handle, output_bytes + output_size))
+                goto discard;
+            output = hLock(handle);
+            output_bits = (byte far *)output + output_size;
+            output_size += output_bytes;
+            input_bits = NormalizePtr(input_bits);
+            output_bits = NormalizePtr(output_bits);
+            output->height = band_rows;
+            input_bits += unpack_pixels(output_bits, input_bits, input_bytes, shape->format,
+                                        band_rows, format->bits.packing, wide);
+            if (!indexed && format->bits.planes == 3)
+                TgaToMCGA(output, output_bits, Get1stBank(*banks));
+            else if (mask)
+                MaskToMCGA((Glyph far *)output, output_bits);
+            else if (graphics_mode == 5 && !indexed && format->bits.planes == 7)
+                remap_banded_pixels(output, output_bits, *banks);
+            else if (!((graphics_mode == 6 || graphics_mode == 4) && indexed && format->bits.planes == 3))
+                goto discard;
+            input_left -= input_bytes;
+            output_left -= output_bytes;
+            output_bits += output_bytes;
+            rows_left -= band_rows;
         }
         output->height = shape->height;
-        output->format.word = output_stride;
+        output->format = output_stride;
         hSetSize(hUnlock(handle), output_size);
     }
     goto restore_format;
@@ -474,33 +433,33 @@ discard:
     hFree(handle);
     handle = 0;
 restore_format:
-    shape->format = layout;
+    *(ShapeLayout far *)&shape->format = layout;
     return handle;
 }
 
-void far pascal remap_banded_pixels(ShapeHeader far *shape, unsigned char far *pixels, unsigned banks)
+void remap_banded_pixels(SHAPE far *shape, byte far *pixels, word banks)
 {
-    unsigned char map[16];
+    byte map[16];
     int mapped = 0;
-    unsigned bit = 1;
-    unsigned bank;
-    unsigned row;
-    unsigned char far *cursor;
+    word bit = 1;
+    word bank;
+    word row;
+    byte far *cursor;
 
     for (bank = 0; bank < 16; ++bank, bit <<= 1) {
         if (banks & bit)
-            map[mapped++] = (unsigned char)(bank * 16);
+            map[mapped++] = (byte)(bank * 16);
     }
 
     cursor = pixels;
     for (row = 0; row < shape->height; ++row) {
-        unsigned column;
-        unsigned char count;
+        word column;
+        byte count;
         cursor += 2;
         for (column = 0; column < shape->width; column += count) {
-            unsigned char run = *cursor++;
+            byte run = *cursor++;
             count = (run & 0x7f) + 1;
-            if ((signed char)run < 0) {
+            if ((sbyte)run < 0) {
                 if (*cursor)
                     *cursor = (*cursor & 15) | map[*cursor >> 4];
                 ++cursor;
@@ -515,7 +474,7 @@ void far pascal remap_banded_pixels(ShapeHeader far *shape, unsigned char far *p
     }
 }
 
-unsigned *far pascal copy_far_word(unsigned *out, const unsigned far *in)
+word *copy_far_word(word *out, const word far *in)
 {
     *out = *in;
     return out;

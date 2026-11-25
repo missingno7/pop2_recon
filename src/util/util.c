@@ -1,21 +1,20 @@
 /* UTIL.C: rectangle offsets, text resources, memory limits, and RNG. */
+#include <string.h>
+#include <bios.h>
 #include "types.h"
+#include "resc.h"
+#include "system.h"
+#include "level.h"
+#include "heap.h"
+#include "intrface.h"
+#include "util.h"
 
 static long random_state;
 static int random_seeded = 0;
 Rect NullRect = { 0, 0, 0, 0 };
 
-void far * far cdecl _fmemcpy(void far *, const void far *, unsigned);
-int far pascal HGETRSRC(unsigned long, int);
-unsigned far pascal hXlatTxt4(int);
-void far pascal RESIZE_DOS_HEAP(unsigned long);
-void far pascal HeapCompact(unsigned long);
-unsigned far cdecl _bios_timeofday(unsigned, long near *);
-int far pascal mouse_button_unqueued(int);
-void far pascal CheckWaitFunc(void);
-void far pascal SetRndSeed(unsigned);
 
-Rect far * far pascal AlterRect(register Rect far *destination,
+Rect far * AlterRect(register Rect far *destination,
                                const Rect far *source,
                                int left, int top, int right, int bottom)
 {
@@ -27,18 +26,18 @@ Rect far * far pascal AlterRect(register Rect far *destination,
     return destination;
 }
 
-unsigned far pascal hGetTxt4(int id)
+Handle hGetTxt4(int id)
 {
-    return hXlatTxt4(HGETRSRC(0x54585434UL, id));
+    return hXlatTxt4(hGetRsrc(0x54585434UL, id));
 }
 
-void far pascal expand_memory_limits(void)
+unsigned long expand_memory_limits(void)
 {
-    RESIZE_DOS_HEAP(0x00ffffffUL);
+    resize_dos_heap(0x00ffffffUL);
     HeapCompact(0x00ffffffUL);
 }
 
-unsigned far pascal Rnd(unsigned maximum)
+word Rnd(word maximum)
 {
     if (!random_seeded)
         SetRndSeed(0);
@@ -46,7 +45,7 @@ unsigned far pascal Rnd(unsigned maximum)
            % (unsigned long)(maximum + 1);
 }
 
-void far pascal SetRndSeed(unsigned seed)
+void SetRndSeed(word seed)
 {
     if (seed == 0)
         _bios_timeofday(0, &random_state);
@@ -55,11 +54,10 @@ void far pascal SetRndSeed(unsigned seed)
     random_seeded = 1;
 }
 
-void far *far pascal h2p(unsigned handle);
 
-void far pascal SetScriptRect(int resource, const Rect far *bounds)
+void SetScriptRect(int resource, const Rect far *bounds)
 {
-    unsigned handle = HGETRSRC(0x00534352UL, resource);
+    Handle handle = hGetRsrc(0x00534352UL, resource);
     Rect far *scene;
 
     if (handle) {
@@ -68,11 +66,9 @@ void far pascal SetScriptRect(int resource, const Rect far *bounds)
     }
 }
 
-void far pascal wait_for_action(int action)
+void wait_for_action(int action)
 {
-    if (mouse_button_unqueued(action)) {
-        do {
-            CheckWaitFunc();
-        } while (mouse_button_unqueued(action));
+    while (mouse_button_unqueued(action)) {
+        CheckWaitFunc();
     }
 }

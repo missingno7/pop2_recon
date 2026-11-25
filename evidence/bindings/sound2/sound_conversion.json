@@ -69,7 +69,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 359,
+        "length": 1691,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -90,13 +90,13 @@
     ],
     "publics": [
       {
-        "name": "SOUND_PAYLOAD_CALLBACK",
+        "name": "CONVERT_SOUND_HANDLE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 108,
+        "offset": 134,
         "group_index": 0,
         "frame": null,
-        "type_index": 561
+        "type_index": 893
       },
       {
         "name": "PROCESS_HANDLE",
@@ -105,42 +105,42 @@
         "offset": 0,
         "group_index": 0,
         "frame": null,
-        "type_index": 559
+        "type_index": 889
       },
       {
-        "name": "CONVERT_SOUND_HANDLE",
+        "name": "SOUND_PAYLOAD_CALLBACK",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 134,
+        "offset": 108,
         "group_index": 0,
         "frame": null,
-        "type_index": 563
+        "type_index": 891
       }
     ],
     "externals": [
-      "SOUND_PAYLOAD_CALLBACK",
-      "PROCESS_HANDLE",
-      "CONVERT_SOUND_HANDLE",
-      "H2P",
-      "QUERY_SOUND_PAYLOAD",
       "RESETSOUND",
+      "START_SOUND_PAYLOAD",
+      "DIVIDE_TIMER_INTERVAL",
+      "H2P",
+      "CONVERT_SOUND_HANDLE",
+      "HGETSIZE",
       "HGETSTATE",
       "HLOCK",
-      "START_SOUND_PAYLOAD",
-      "HSETSTATE",
-      "P2H",
-      "HUNLOCK",
-      "MATERIALIZE_HANDLE",
-      "HGETSIZE",
-      "DIVIDE_TIMER_INTERVAL",
       "MULTIPLY_TIMER_INTERVAL",
       "HSETSIZE",
-      "MOVE_HUGE_BYTES",
+      "PROCESS_HANDLE",
+      "HSETSTATE",
+      "HUNLOCK",
       "RESAMPLE_SOUND",
-      "UNPACK_DELTA_BITS",
+      "SOUND_PAYLOAD_CALLBACK",
       "MARK_HANDLE_CONVERTED",
+      "UNPACK_DELTA_BITS",
+      "MATERIALIZE_HANDLE",
       "DIGITAL_RATE",
-      "DIGITAL_TYPE"
+      "DIGITAL_TYPE",
+      "MOVE_HUGE_BYTES",
+      "P2H",
+      "QUERY_SOUND_PAYLOAD"
     ]
   },
   "fixups": [
@@ -156,7 +156,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 12,
           "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
@@ -164,7 +164,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 12,
         "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
@@ -183,7 +183,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 2,
           "name": "START_SOUND_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -191,7 +191,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 2,
         "name": "START_SOUND_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -210,7 +210,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 15,
           "name": "SOUND_PAYLOAD_CALLBACK",
           "method": 6,
           "zero_displacement": true
@@ -218,7 +218,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 15,
         "name": "SOUND_PAYLOAD_CALLBACK",
         "method": 6,
         "zero_displacement": true
@@ -237,7 +237,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 15,
           "name": "SOUND_PAYLOAD_CALLBACK",
           "method": 6,
           "zero_displacement": true
@@ -245,7 +245,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 15,
         "name": "SOUND_PAYLOAD_CALLBACK",
         "method": 6,
         "zero_displacement": true
@@ -318,7 +318,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 1,
           "name": "RESETSOUND",
           "method": 6,
           "zero_displacement": true
@@ -326,7 +326,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 1,
         "name": "RESETSOUND",
         "method": 6,
         "zero_displacement": true
@@ -345,7 +345,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 23,
           "name": "QUERY_SOUND_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -353,7 +353,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 23,
         "name": "QUERY_SOUND_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -399,7 +399,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 13,
           "name": "HUNLOCK",
           "method": 6,
           "zero_displacement": true
@@ -407,7 +407,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 13,
         "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
@@ -426,7 +426,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 22,
           "name": "P2H",
           "method": 6,
           "zero_displacement": true
@@ -434,7 +434,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 22,
         "name": "P2H",
         "method": 6,
         "zero_displacement": true
@@ -453,7 +453,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 20,
           "name": "DIGITAL_TYPE",
           "method": 6,
           "zero_displacement": true
@@ -461,7 +461,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 20,
         "name": "DIGITAL_TYPE",
         "method": 6,
         "zero_displacement": true
@@ -480,7 +480,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 16,
           "name": "MARK_HANDLE_CONVERTED",
           "method": 6,
           "zero_displacement": true
@@ -488,7 +488,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 16,
         "name": "MARK_HANDLE_CONVERTED",
         "method": 6,
         "zero_displacement": true
@@ -507,7 +507,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 10,
           "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
@@ -515,7 +515,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 10,
         "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
@@ -534,7 +534,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 17,
           "name": "UNPACK_DELTA_BITS",
           "method": 6,
           "zero_displacement": true
@@ -542,7 +542,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 17,
         "name": "UNPACK_DELTA_BITS",
         "method": 6,
         "zero_displacement": true
@@ -561,7 +561,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 21,
           "name": "MOVE_HUGE_BYTES",
           "method": 6,
           "zero_displacement": true
@@ -569,7 +569,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 21,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -615,7 +615,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 10,
           "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
@@ -623,7 +623,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 10,
         "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
@@ -642,7 +642,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 16,
           "name": "MARK_HANDLE_CONVERTED",
           "method": 6,
           "zero_displacement": true
@@ -650,7 +650,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 16,
         "name": "MARK_HANDLE_CONVERTED",
         "method": 6,
         "zero_displacement": true
@@ -669,7 +669,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 10,
           "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
@@ -677,7 +677,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 10,
         "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
@@ -696,7 +696,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 9,
           "name": "MULTIPLY_TIMER_INTERVAL",
           "method": 6,
           "zero_displacement": true
@@ -704,7 +704,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 9,
         "name": "MULTIPLY_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -723,7 +723,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 9,
           "name": "MULTIPLY_TIMER_INTERVAL",
           "method": 6,
           "zero_displacement": true
@@ -731,7 +731,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 9,
         "name": "MULTIPLY_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -750,7 +750,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 14,
           "name": "RESAMPLE_SOUND",
           "method": 6,
           "zero_displacement": true
@@ -758,7 +758,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 14,
         "name": "RESAMPLE_SOUND",
         "method": 6,
         "zero_displacement": true
@@ -777,7 +777,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 21,
           "name": "MOVE_HUGE_BYTES",
           "method": 6,
           "zero_displacement": true
@@ -785,7 +785,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 21,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -831,7 +831,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 10,
           "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
@@ -839,7 +839,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 10,
         "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
@@ -858,7 +858,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 9,
           "name": "MULTIPLY_TIMER_INTERVAL",
           "method": 6,
           "zero_displacement": true
@@ -866,7 +866,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 9,
         "name": "MULTIPLY_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -885,7 +885,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 3,
           "name": "DIVIDE_TIMER_INTERVAL",
           "method": 6,
           "zero_displacement": true
@@ -893,7 +893,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 3,
         "name": "DIVIDE_TIMER_INTERVAL",
         "method": 6,
         "zero_displacement": true
@@ -912,7 +912,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 19,
           "name": "DIGITAL_RATE",
           "method": 6,
           "zero_displacement": true
@@ -920,7 +920,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 19,
         "name": "DIGITAL_RATE",
         "method": 6,
         "zero_displacement": true
@@ -966,7 +966,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 6,
           "name": "HGETSIZE",
           "method": 6,
           "zero_displacement": true
@@ -974,7 +974,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 6,
         "name": "HGETSIZE",
         "method": 6,
         "zero_displacement": true
@@ -993,7 +993,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 18,
           "name": "MATERIALIZE_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -1001,7 +1001,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 18,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true

@@ -65,7 +65,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 300,
+        "length": 1416,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -86,22 +86,13 @@
     ],
     "publics": [
       {
-        "name": "DRAW_TEXT_HANDLE_IN_RECT",
+        "name": "CREATE_STRING_HANDLE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 114,
+        "offset": 46,
         "group_index": 0,
         "frame": null,
-        "type_index": 551
-      },
-      {
-        "name": "MEASURE_TEXT_HANDLE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 176,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 553
+        "type_index": 825
       },
       {
         "name": "DRAW_TEXT_HANDLE",
@@ -110,30 +101,39 @@
         "offset": 0,
         "group_index": 0,
         "frame": null,
-        "type_index": 539
+        "type_index": 823
       },
       {
-        "name": "CREATE_STRING_HANDLE",
+        "name": "DRAW_TEXT_HANDLE_IN_RECT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 46,
+        "offset": 114,
         "group_index": 0,
         "frame": null,
-        "type_index": 543
+        "type_index": 827
+      },
+      {
+        "name": "MEASURE_TEXT_HANDLE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 176,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 829
       }
     ],
     "externals": [
-      "DRAW_TEXT_HANDLE_IN_RECT",
-      "MEASURE_TEXT_HANDLE",
-      "__fstrlen",
-      "__fstrcpy",
-      "HNEW",
       "H2P",
-      "DRAWSTRING",
-      "DRAW_TEXT_HANDLE",
+      "__fstrcpy",
       "CREATE_STRING_HANDLE",
-      "STRINGRECT",
-      "MEASURE_NUL_TERMINATED_TEXT"
+      "DRAW_TEXT_HANDLE",
+      "__fstrlen",
+      "DRAWSTRING",
+      "DRAW_TEXT_HANDLE_IN_RECT",
+      "HNEW",
+      "MEASURE_TEXT_HANDLE",
+      "MEASURE_NUL_TERMINATED_TEXT",
+      "STRINGRECT"
     ]
   },
   "fixups": [
@@ -149,7 +149,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 6,
           "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
@@ -157,7 +157,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 6,
         "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
@@ -176,7 +176,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 1,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -184,7 +184,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 1,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -203,7 +203,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 2,
           "name": "__fstrcpy",
           "method": 6,
           "zero_displacement": true
@@ -211,7 +211,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "__fstrcpy",
         "method": 6,
         "zero_displacement": true
@@ -230,7 +230,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 1,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -238,7 +238,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 1,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -257,7 +257,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 8,
           "name": "HNEW",
           "method": 6,
           "zero_displacement": true
@@ -265,7 +265,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 8,
         "name": "HNEW",
         "method": 6,
         "zero_displacement": true
@@ -284,7 +284,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 5,
           "name": "__fstrlen",
           "method": 6,
           "zero_displacement": true
@@ -292,7 +292,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 5,
         "name": "__fstrlen",
         "method": 6,
         "zero_displacement": true
@@ -311,7 +311,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
@@ -319,7 +319,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
@@ -338,7 +338,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 1,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -346,7 +346,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 1,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -365,7 +365,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 10,
           "name": "MEASURE_NUL_TERMINATED_TEXT",
           "method": 6,
           "zero_displacement": true
@@ -373,7 +373,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 10,
         "name": "MEASURE_NUL_TERMINATED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -392,7 +392,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 1,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -400,7 +400,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 1,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true

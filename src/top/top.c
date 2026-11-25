@@ -1,339 +1,225 @@
-/* TOP.C candidate, DOS frame 0e56. Definitions follow original order.
- * Address comments identify the observed operands behind external declarations. */
-extern signed char LevelIdx;                          /* ds:0a18 */
-#pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    signed char room;                  /* 0e */
-    signed char field_0f;              /* 0f */
-    signed char stance;                /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    unsigned int sequence;             /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    signed char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    volatile int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-struct GetOppInfoIdx { char prefix[7]; int active; };
-typedef void (far pascal *frame_proc)(void);
+#include <string.h>
+#include <stdlib.h>
+#include "types.h"
+#include "level.h"
+#include "snd.h"
+#include "system.h"
+#include "shape.h"
+#include "util.h"
+#include "graf.h"
+#include "char.h"
+#include "movescyt.h"
+#include "draw.h"
+#include "game.h"
+#include "movecave.h"
+#include "act.h"
+#include "add.h"
+#include "auto.h"
+#include "autoguar.h"
+#include "autoshad.h"
+#include "checknis.h"
+#include "collide.h"
+#include "ctrl.h"
+#include "movetemp.h"
+#include "dlghelp.h"
+#include "dialog.h"
+#include "fade.h"
+#include "intrface.h"
+#include "custom.h"
+#include "diag.h"
+#include "lgraf.h"
+#include "movespik.h"
+#include "load.h"
+#include "anim.h"
+#include "final.h"
+#include "misc.h"
+#include "prince.h"
+#include "sound.h"
+#include "move.h"
+#include "nis.h"
+#include "recorder.h"
+#include "drawruin.h"
+#include "tables.h"
+#include "top.h"
 
-extern CHARREC Opp;                    /* ds:5c40 */
-extern CHARREC Char;                     /* ds:5c00 */
-extern CHARREC RoomOpp[5];                /* ds:5cc0 */
-#pragma pack(1)
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
-
-typedef struct {
-    unsigned char left, right, above, below;
-} ROOMLINKS;
-
-typedef struct {
-    signed char opponent_count;
-    unsigned char opponent_data[5][23];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    unsigned char points[3][10];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
-#pragma pack()
-
-extern frame_proc LevelFrameFunc[];             /* ds:06d4 */
-extern int far *hRebirthSaved;                      /* ds:5bfc */
-signed char StartLevel;                   /* ds:6ccc */
-signed char CutRoom;                   /* ds:6ccd */
-signed char OrigLifePts;                /* ds:6cd1 */
-extern int Resume;                            /* ds:5e00 */
-typedef struct {
-    signed char argument, entrance_mode, sword_kind, death_countdown;
-    int field_4, shadow_timer;
-} KIDINFO;
-extern KIDINFO KidInfo;
-extern int BPort;                      /* ds:5e0c */
-extern int Player;                           /* ds:5e0e */
-extern int RedrawFlag;                            /* ds:5e18 */
-extern int DoBlackOut;                           /* ds:5e1a */
-extern int BlackOut;                         /* ds:5e1c */
-typedef struct {
-    unsigned char enabled;
-    signed char cue;
-    int song;
-    int delay;
-    int reserved;
-} AmbientState;
-extern AmbientState ambient_state;                           /* ds:5e22 */
-unsigned Minutes;                 /* ds:5e2a */
-int RestartLevel;                        /* ds:5e2c */
-int TimeRequest;                             /* ds:5e2e */
-#pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-#pragma pack()
-extern ROOMREC Room;
-extern LEVELREC Level;
-int BackToLife;                           /* ds:5e3e */
-int MsgTimer;                    /* ds:5e40 */
-int MsgTimerStart;                       /* ds:5e42 */
-int SixtiethsCtr;                        /* ds:5e44 */
-int NextLevel;                             /* ds:5e46 */
-int CutPlan;                           /* ds:5e5e */
-unsigned long FrameNum;                             /* ds:5e60 */
-int Invert;                         /* ds:5e8e */
-int WeightlessTimer;                       /* ds:5e90 */
-extern volatile int Timer[4];                             /* ds:264e */
-typedef struct {
-    int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
-    int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
-} GAMESTATE;
-extern GAMESTATE GameState;
-int CutTimer;                              /* ds:6a4a */
-int GuardTimer, Refract, JustBlocked, CutDir;
-extern int NewRoom;                          /* ds:6266 */
-extern int Graf;                           /* ds:25c0 */
-extern int CustomRoom;                          /* ds:0228 */
-extern int NeedShadow;                       /* ds:0a16 */
-extern int current_effect;                         /* ds:0902 */
-extern int CueSnd;                             /* ds:08fe */
-extern int CueSong;                             /* ds:0900 */
-extern int frame_diagnostics;                           /* ds:1142 */
-extern int nis_skip_requested;                           /* ds:1504 */
-int ShakeFloor;                             /* ds:6296 */
-int AlertGuard;                      /* ds:6298 */
-int DroppedOut;                           /* ds:629a */
-int Screamed;                            /* ds:629c */
-int Stunned;                           /* ds:629e */
-extern int MobCt;                      /* ds:62de */
-extern int TrobCt;                     /* ds:67cc */
-extern char quote_index;                            /* ds:01d6 */
-#pragma pack(1)
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-#pragma pack()
+int Minutes;
+int RestartLevel;
+int TimeRequest;
+int BackToLife;
+int MsgTimer;
+int MsgTimerStart;
+word SixtiethsCtr;
+int NextLevel;
+int CutPlan;
+unsigned long FrameNum;
+int Invert;
+int WeightlessTimer;
+int CutTimer;
+int GuardTimer;
+int Refract;
+int JustBlocked;
+int CutDir;
+int ShakeFloor;
+int AlertGuard;
+int DroppedOut;
+int Screamed;
+int Stunned;
 CELLREC Cell;
-extern int ColEdgeX[20];
-extern char Ct[10];
-extern unsigned char *BlueT;                   /* ds:6294 */
+sbyte StartLevel;
+byte CutRoom;
+sbyte OrigLifePts;
+
+#pragma pack(1)
+
+typedef void (*frame_proc)(void);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static char level_option[] = "LEVEL";
-struct char_bounds GamePlayRect = { 0, 0, 192, 320 };
-extern char ScreenPortRect[];                         /* ds:1fe0 */
-
-extern void CheckBPort(void);              /* far:0a5c:004e */
-extern int find_option(char far *);                  /* far:1101:29aa */
-extern int CheckPlayNIS(int level, int previous_level);             /* far:0284:000e */
-extern char poll_and_clear_pending_state(void);             /* far:0000:0210 */
-extern void LoadLevel(char level);                       /* far:0a5c:01b4 */
-extern void LoadLevelMinimum(char);               /* far:0a5c:02f4 */
-extern void InitCollisionDetection(void);        /* far:2802:0848 */
-extern void InitInput(void);                        /* far:02cc:1404 */
-extern void StartPlayingRecordedGame(void);                  /* far:0da4:0252 */
-extern void CheckRecordedGamePlayer(void);                 /* far:0da4:0122 */
-extern void ZeroPeels(void);                     /* far:0169:0794 */
-extern void reset_actor_alert(void);                   /* far:2203:0d21 */
-extern void reset_overlay_state(void);                   /* far:2203:0d0d */
-extern void reset_shadow_overlay_state(void);                   /* far:2203:0d17 */
-extern void reset_barrier_state(void);                   /* far:2203:0d2b */
-extern int SetRebirthPtKidStatus(void);                 /* far:052d:1234 */
-extern void JumpSeq(int);                    /* far:25da:0016 */
-extern void AnimChar(void);               /* far:02cc:0394 */
-extern void ResetCharY(void);                   /* far:02cc:07a2 */
-extern void ClearCharVel(void);                    /* far:02cc:0944 */
-extern void select_room_arrays(char);                       /* far:0f77:0002 */
-extern void CloseExit(char, char);               /* far:0b41:16fa */
-extern void hGetSnd(int);                        /* far:1101:807a */
-extern int PrepCut(int);                  /* far:0000:0dd4 */
-extern int IsLevelStartWithNISScreen(void);                         /* far:0284:0096 */
-extern void EraseRect(char far *);          /* far:1101:4d90 */
-extern void ClrMessage(int);                    /* far:078a:213a */
-extern void DrawKidMeter(int, int);                /* far:078a:24ee */
-extern void ClearKeyboard(void);                     /* far:0000:125a */
-extern void FillRect(char far *, int);         /* far:1101:6650 */
-extern void DoSure(void);                  /* far:078a:0000 */
-extern void CheckRoomSpecific(void);                   /* far:04a6:003e */
-extern void DrawAll(void);                 /* far:078a:13b2 */
-extern void UnloadCustomRoomShapes(int);                 /* far:04a6:0784 */
-extern void DoFast(void);                        /* far:078a:12e4 */
-extern void InvertBitMap(char far *);            /* far:1ead:01a2 */
-extern void SetOppBanks(void);              /* far:2344:0f4e */
-extern void PrinceCopy(char far *);               /* far:0000:1268 */
-extern void RestoreGamePlayPalette(void);                 /* far:078a:293a */
-extern int IsLeaveLevelMusicOn(void);                         /* far:0dd7:02ce */
-extern int SndOn(int);                  /* far:1101:8444 */
-extern void ResetSnd(int);                        /* far:1101:83f0 */
-extern void RemoveRebirthPt(void);                /* far:052d:109e */
-extern void WaitTimerNoPoll(int);                    /* far:1de8:015a */
-extern void limit_frame_rate(void);                 /* far:107d:000c */
-extern void AnimMobs(void);                /* far:0b41:1a42 */
-extern void AnimTrobs(void);                    /* far:0b41:000c */
-extern void OpponentRise(void);              /* far:2c3e:0f6c */
-extern void CheckOppGenPts(unsigned char);   /* far:2344:0a52 */
-extern void CheckStrike(void);              /* far:2344:1f0e */
-extern void CheckStab(void);              /* far:2344:198e */
-extern void AddSFX(void);                     /* far:0dd7:016c */
-extern void ChangeMeters(void);              /* far:0000:0f70 */
-extern void CutCheck(void);               /* far:2344:1088 */
-extern void CutOpponent(void);               /* far:2344:0fae */
-extern void KeepTime(void);                      /* far:0000:0cbc */
-extern void LoadKid(void);                         /* far:02cc:1d94 */
-extern int IsUndefinedRoom(void);            /* far:02cc:0eb6 */
-extern signed char GetOppIdxClosestToKid(signed char);       /* far:2344:08f0 */
-extern void LoadKidwOpp(signed char);               /* far:02cc:07fc */
-extern void RereadCells(void);           /* far:02cc:027e */
-extern int CtrlPlayer(void);                       /* far:02cc:116e */
-extern void Gravity(void);                  /* far:02cc:08d6 */
-extern void AddCharVel(void);                       /* far:02cc:090e */
-extern void SetupChar(void);                   /* far:0169:09ee */
-extern void GetCharEdges(void);                 /* far:2802:09ca */
-extern void CheckBarr(void);                    /* far:2802:000e */
-extern void Collisions(void);                    /* far:2802:0402 */
-extern void CheckGateForKid(void);                  /* far:2802:0d56 */
-extern void CheckFloor(void);                    /* far:0b41:06f8 */
-extern void CheckPress(void);                     /* far:0b41:075e */
-extern void CheckSpikes(void);                 /* far:101f:01ae */
-extern void CheckTrapDoor(void);                /* far:2a4e:0e44 */
-extern void CheckImpale(void);                  /* far:101f:00a0 */
-extern void CheckScythe(void);                /* far:29cf:00b2 */
-extern void CheckScytheHit(void);                 /* far:29cf:0118 */
-extern void CheckDartHit(void);                /* far:29cf:01f4 */
-extern void CheckLavaBoil(void);                 /* far:29cf:06e8 */
-extern void AddSound(int);                    /* far:0dd7:01ce */
-extern void FallingInUndefinedRoom(void);        /* far:02cc:0dda */
-extern void LoadShad(char);                      /* far:02cc:1d42 */
-extern void LoadShadwOpp(char);              /* far:02cc:086a */
-extern void ShadCtrl(void);                   /* far:02cc:12e4 */
-extern void GetRooms(void);                 /* far:078a:0024 */
-extern void CheckMultipleDeadBodies(void);                      /* far:2c3e:0052 */
-extern void EnemyCollide(void);              /* far:2802:0e82 */
-extern void CheckGateForOpp(void);              /* far:2802:0c94 */
-extern void CheckFireballHitChar(void);                 /* far:29cf:1b60 */
-extern char GetRow(int);                      /* far:02cc:1102 */
-extern void HasJinneeRunAway(void);                 /* far:2c3e:1674 */
-extern void SaveShad(void);                       /* far:02cc:1cf6 */
-extern void RemoveOppFromRoom(unsigned char, int);       /* far:2344:07bc */
-extern void LoadCustomRoomData(char);                  /* far:04a6:02b0 */
-extern void DrawMeters(void);               /* far:078a:2590 */
-extern void CopyDRects(void);                    /* far:078a:218e */
-extern void ToggleInvertState(void);                 /* far:0000:12de */
-extern void PlaySounds(void);                       /* far:0dd7:04d0 */
-extern void PlayAmbient(AmbientState *);              /* far:0dd7:03cc */
-extern void DrawRestartMessage(void);                     /* far:078a:20a8 */
-extern int SetSnd(unsigned);                    /* far:1101:842c */
-extern void MarkBufsForRect(void far *, struct char_bounds *, char); /* far:0b41:0f62 */
-extern void MarkFRedraw(void);        /* far:0b41:0f1e */
-extern int IndexCell(char, char);               /* far:02cc:020a */
-extern void MarkHalf(int);                 /* far:0b41:0e60 */
-extern void MarkFloor(int, struct char_bounds *);           /* far:0b41:0e1c */
-extern char FirstInRow(char);                     /* far:02cc:07c6 */
-extern void SaveRebirthPtStatus(int);               /* far:052d:0fc4 */
-extern void ShakeEm(char, char);            /* far:0b41:190c */
-extern int GetOppDist(void);                  /* far:02cc:1cac */
-extern int AddCharX(int);                     /* far:02cc:0360 */
-extern struct GetOppInfoIdx *GetOppInfoIdx(int, int); /* far:2344:08b4 */
-extern void InitLavaGlobals(void);                  /* far:29cf:08c6 */
-extern void InitBridgeGlobals(void);            /* far:29cf:0c1c */
-extern int IsWall(char);                  /* far:078a:28fe */
-extern int IsImpassable(char);                 /* far:078a:2830 */
-extern int IsSpace(char);               /* far:078a:28c8 */
-extern void SaveGamePlayPalette(void);               /* far:078a:29a6 */
-extern void *memset(void *, int, unsigned);
-#pragma intrinsic(memset)
-int cdecl abs(int);
-#pragma intrinsic(abs)
-int Restart(signed char requested);
-void reset_level_overlays(void);
-void StartKid(void);
-void StartKid1(void);
-void StartKidSpecialEntrance(void);
-void Entrance(void);
-int FirstFrame(signed char requested);
-void DoCleanCut(void);
-int MainLoop(void);
-int NextFrame(void);
-int DoKid(void);
-extern CHARREC Kid;                      /* ds:5c80 */
-void DoShad(void);
-int FrameAdv(void);
-void ResetFrameVars(void);
-void QuickFG(void);
-void QuickFloor(void);
-void CheckRebirthPts(void);
-void ShakeLoose(void);
-void MiscTimers(void);
-void FirstGuard(void);
-void InitGuards(void);
-void InitLevelSpecific(void);
-void CheckAlert(void);
-void CheckLevelFrameFunc(void);
-signed char ResetLevel(void);
-void YouLose(void);
+Rect GamePlayRect = { 0, 0, 192, 320 };
 
 
-int Start(signed char requested)
+
+              /* far:0a5c:004e */
+                  /* far:1101:29aa */
+             /* far:0284:000e */
+             /* far:0000:0210 */
+                       /* far:0a5c:01b4 */
+               /* far:0a5c:02f4 */
+        /* far:2802:0848 */
+                        /* far:02cc:1404 */
+                  /* far:0da4:0252 */
+                 /* far:0da4:0122 */
+                     /* far:0169:0794 */
+                   /* far:2203:0d21 */
+                   /* far:2203:0d0d */
+                   /* far:2203:0d17 */
+                   /* far:2203:0d2b */
+                 /* far:052d:1234 */
+                    /* far:25da:0016 */
+               /* far:02cc:0394 */
+                   /* far:02cc:07a2 */
+                    /* far:02cc:0944 */
+                       /* far:0f77:0002 */
+               /* far:0b41:16fa */
+                        /* far:1101:807a */
+                  /* far:0000:0dd4 */
+                         /* far:0284:0096 */
+          /* far:1101:4d90 */
+                    /* far:078a:213a */
+                /* far:078a:24ee */
+                     /* far:0000:125a */
+         /* far:1101:6650 */
+                  /* far:078a:0000 */
+                   /* far:04a6:003e */
+                 /* far:078a:13b2 */
+                 /* far:04a6:0784 */
+                        /* far:078a:12e4 */
+            /* far:1ead:01a2 */
+              /* far:2344:0f4e */
+               /* far:0000:1268 */
+                 /* far:078a:293a */
+                         /* far:0dd7:02ce */
+                  /* far:1101:8444 */
+                        /* far:1101:83f0 */
+                /* far:052d:109e */
+                    /* far:1de8:015a */
+                 /* far:107d:000c */
+                /* far:0b41:1a42 */
+                    /* far:0b41:000c */
+              /* far:2c3e:0f6c */
+   /* far:2344:0a52 */
+              /* far:2344:1f0e */
+              /* far:2344:198e */
+                     /* far:0dd7:016c */
+              /* far:0000:0f70 */
+               /* far:2344:1088 */
+               /* far:2344:0fae */
+                      /* far:0000:0cbc */
+                         /* far:02cc:1d94 */
+            /* far:02cc:0eb6 */
+       /* far:2344:08f0 */
+               /* far:02cc:07fc */
+           /* far:02cc:027e */
+                       /* far:02cc:116e */
+                  /* far:02cc:08d6 */
+                       /* far:02cc:090e */
+                   /* far:0169:09ee */
+                 /* far:2802:09ca */
+                    /* far:2802:000e */
+                    /* far:2802:0402 */
+                  /* far:2802:0d56 */
+                    /* far:0b41:06f8 */
+                     /* far:0b41:075e */
+                 /* far:101f:01ae */
+                /* far:2a4e:0e44 */
+                  /* far:101f:00a0 */
+                /* far:29cf:00b2 */
+                 /* far:29cf:0118 */
+                /* far:29cf:01f4 */
+                 /* far:29cf:06e8 */
+                    /* far:0dd7:01ce */
+        /* far:02cc:0dda */
+                      /* far:02cc:1d42 */
+              /* far:02cc:086a */
+                   /* far:02cc:12e4 */
+                 /* far:078a:0024 */
+                      /* far:2c3e:0052 */
+              /* far:2802:0e82 */
+              /* far:2802:0c94 */
+                 /* far:29cf:1b60 */
+                      /* far:02cc:1102 */
+                 /* far:2c3e:1674 */
+                       /* far:02cc:1cf6 */
+       /* far:2344:07bc */
+                  /* far:04a6:02b0 */
+               /* far:078a:2590 */
+                    /* far:078a:218e */
+                 /* far:0000:12de */
+                       /* far:0dd7:04d0 */
+              /* far:0dd7:03cc */
+                     /* far:078a:20a8 */
+                    /* far:1101:842c */
+ /* far:0b41:0f62 */
+        /* far:0b41:0f1e */
+               /* far:02cc:020a */
+                 /* far:0b41:0e60 */
+           /* far:0b41:0e1c */
+                     /* far:02cc:07c6 */
+               /* far:052d:0fc4 */
+            /* far:0b41:190c */
+                  /* far:02cc:1cac */
+                     /* far:02cc:0360 */
+ /* far:2344:08b4 */
+                  /* far:29cf:08c6 */
+            /* far:29cf:0c1c */
+                  /* far:078a:28fe */
+                 /* far:078a:2830 */
+               /* far:078a:28c8 */
+               /* far:078a:29a6 */
+
+
+
+
+int Start(sbyte requested)
 {
     CheckBPort();
     reset_level_overlays();
@@ -343,7 +229,7 @@ int Start(signed char requested)
         SixtiethsCtr = 719;
         OrigLifePts = 3;
         if (frame_diagnostics && find_option(level_option)) {
-            signed char health = Level.level_number;
+            sbyte health = Level.level_number;
             health = health < 3 ? 3 : health;
             OrigLifePts = health > 12 ? 12 : health;
         }
@@ -351,12 +237,12 @@ int Start(signed char requested)
     return requested = Restart(requested);
 }
 
-int Restart(signed char requested)
+int Restart(sbyte requested)
 {
     int reload;
-    signed char previous_request;
+    sbyte previous_request;
 
-    if (requested) do {
+    while (requested) {
         if (requested == -1 || requested > 14)
             break;
         if (!Resume) {
@@ -404,7 +290,7 @@ int Restart(signed char requested)
                 NextLevel = 0;
             }
         }
-    } while (requested);
+    }
     return requested;
 }
 
@@ -419,7 +305,7 @@ void reset_level_overlays(void)
 void StartKid(void)
 {
     int seq;
-    signed char repeat;
+    sbyte repeat;
 
     Char.character_kind = 0;
     if (Level.level_number == 7)
@@ -469,7 +355,7 @@ void StartKid1(void)
     Char.character_kind = 0;
     Char.alert_delay = 3;
     Char.sequence_group = 0;
-    Char.field_34 = 0;
+    *(volatile int *)&Char.image_bank = 0;
     Char.opponent_index = Char.alive = -1;
     ResetCharY();
     ClearCharVel();
@@ -484,17 +370,17 @@ void StartKidSpecialEntrance(void)
     if (KidInfo.entrance_mode == 2) {
         Level.entry_room = 4;
         Level.entry_cell = 25;
-        Level.cell_info[31][24].modifier = (unsigned) ((unsigned char *)&Level.cell_info[31][24].modifier)[1] << 8;
+        Level.cell_info[31][24].modifier = (word) ((byte *)&Level.cell_info[31][24].modifier)[1] << 8;
     } else {
         Level.entry_room = 32;
         Level.entry_cell = 24;
-        Level.cell_info[3][25].modifier = (unsigned) ((unsigned char *)&Level.cell_info[3][25].modifier)[1] << 8;
+        Level.cell_info[3][25].modifier = (word) ((byte *)&Level.cell_info[3][25].modifier)[1] << 8;
     }
 }
 
 void Entrance(void)
 {
-    signed char cell;
+    sbyte cell;
 
     if (Kid.room == Level.entry_room || Level.level_number == 7 || Level.level_number == 6) {
         select_room_arrays(Kid.room);
@@ -508,24 +394,22 @@ void Entrance(void)
     }
 }
 
-int FirstFrame(signed char requested)
+int FirstFrame(sbyte requested)
 {
     int result;
     CutRoom = Kid.room;
     result = PrepCut(requested != -2 ? 1 : 0);
     if (result == -2) {
         if (!IsLevelStartWithNISScreen())
-            EraseRect(ScreenPortRect);
+            EraseRect(&ScreenPortRect);
         else
             ClrMessage(1);
         MsgTimer = MsgTimerStart = 0;
         DoCleanCut();
         DrawKidMeter(Kid.life_points, Kid.life_initial);
         Timer[1] = 5;
-        if (Timer[1]) {
-            do {
-                ClearKeyboard();
-            } while (Timer[1]);
+        while (Timer[1]) {
+            ClearKeyboard();
         }
     }
     return result;
@@ -535,7 +419,7 @@ void DoCleanCut(void)
 {
     CutPlan = 0;
     if (BlackOut) {
-        FillRect((char *)&GamePlayRect, 12);
+        FillRect(&GamePlayRect, 12);
     } else {
         NewRoom = 1;
         ClearKeyboard();
@@ -554,14 +438,14 @@ void DoCleanCut(void)
         DrawAll();
         ClearKeyboard();
         if (Invert)
-            InvertBitMap((char *)BPort);
+            InvertBitMap(&BPort->map);
         ClearKeyboard();
         SetOppBanks();
-        PrinceCopy((char *)&GamePlayRect);
+        PrinceCopy(&GamePlayRect);
         RestoreGamePlayPalette();
         ClearKeyboard();
         if (Invert)
-            InvertBitMap((char *)BPort);
+            InvertBitMap(&BPort->map);
         ClearKeyboard();
     }
     CutTimer = 2;
@@ -569,7 +453,7 @@ void DoCleanCut(void)
 
 int MainLoop(void)
 {
-    signed char request;
+    sbyte request;
 
     do {
         ResetFrameVars();
@@ -609,7 +493,7 @@ int NextFrame(void)
 
     AnimMobs();
     AnimTrobs();
-    if (((signed char)Level.preferred_opponent) == 2 || RoomOpp[0].character_kind == 10)
+    if (Level.preferred_opponent == 2 || RoomOpp[0].character_kind == 10)
         OpponentRise();
     CheckOppGenPts(Room.number);
     CheckAlert();
@@ -648,7 +532,7 @@ int NextFrame(void)
 
 int DoKid(void)
 {
-    signed char opponent;
+    sbyte opponent;
     int saved_result;
     int result;
 
@@ -723,7 +607,7 @@ int DoKid(void)
 
 void DoShad(void)
 {
-    signed char index, count;
+    sbyte index, count;
 
     if (!Room.number)
         return;
@@ -733,15 +617,15 @@ void DoShad(void)
     if (count > 0) do {
         LoadShad(index);
         if (Char.direction == 0x56 || IsUndefinedRoom() ||
-            (Char.y > 254 && !Level.room_links[(unsigned char)Char.room - 1].below)) {
+            (Char.y > 254 && !Level.room_links[Char.room - 1].below)) {
             FallingInUndefinedRoom();
         } else {
-            unsigned char old_room;
+            byte old_room;
             LoadShadwOpp(index);
             RereadCells();
             ShadCtrl();
             old_room = Room.number;
-            if (old_room != (unsigned char)Char.room) {
+            if (old_room != Char.room) {
                 Room.number = Char.room;
                 GetRooms();
             }
@@ -784,7 +668,7 @@ void DoShad(void)
             }
             if (Char.character_kind == 12)
                 HasJinneeRunAway();
-            if (old_room != (unsigned char)Char.room) {
+            if (old_room != Char.room) {
                 Room.number = old_room;
                 GetRooms();
             }
@@ -832,12 +716,12 @@ int FrameAdv(void)
         DrawMeters();
     } else {
         memset(Ct, 0, sizeof(Ct)); DoFast(); DrawAll();
-        if (BlackOut) EraseRect((char *)&GamePlayRect);
+        if (BlackOut) EraseRect(&GamePlayRect);
         if (Invert)
-            InvertBitMap((char *)BPort);
+            InvertBitMap(&BPort->map);
         CopyDRects();
         if (Invert) {
-            InvertBitMap((char *)BPort);
+            InvertBitMap(&BPort->map);
             if (Invert == 1)
                 ToggleInvertState();
             else if (Kid.alive < 0)
@@ -859,8 +743,8 @@ int FrameAdv(void)
         if (MsgTimerStart == 600) {
             if (Room.number == 4 && Level.level_number == 13 && !NeedShadow)
                 NeedShadow = 1;
-            if ((unsigned)MsgTimer < 120) {
-                phase = (unsigned)MsgTimer % 12;
+            if ((word)MsgTimer < 120) {
+                phase = (word)MsgTimer % 12;
                 if (phase > 3) {
                     ClrMessage(0);
                 } else if (phase == 3) {
@@ -875,7 +759,7 @@ int FrameAdv(void)
 
 void ResetFrameVars(void)
 {
-    signed char index, count;
+    sbyte index, count;
 
     Timer[1] = Kid.stance == 1 ? 6 : 5;
     Kid.life_delta = 0;
@@ -898,25 +782,25 @@ void ResetFrameVars(void)
 void QuickFG(void)
 {
     if (Char.slot == 10)
-        MarkBufsForRect((void far *)MarkFRedraw, &Char.bounds, -1);
+        MarkBufsForRect(MarkFRedraw, &Char.bounds, -1);
 }
 
 void QuickFloor(void)
 {
-    signed char left_edge;
+    sbyte left_edge;
     int floor = Char.action;
-    unsigned seq = Char.frame;
+    word seq = Char.frame;
 
     if (seq >= 135 && seq < 145 && !Char.direction) {
-        MarkHalf(IndexCell(Cell.last_col, ((signed char)Cell.top_row)));
+        MarkHalf(IndexCell(Cell.last_col, Cell.top_row));
         return;
     }
     if (floor != 2 && floor != 3 && floor != 4 && floor != 6 && seq != 79 && seq != 81) {
         if ((Char.character_kind == 7 || Char.character_kind == 8) &&
             (Char.sequence == 137 || Char.sequence == 138 || Char.sequence == 143 ||
-             (int)Char.sequence <= 144 || Char.sequence == 143 || Char.sequence == 144)) {
+             Char.sequence <= 144 || Char.sequence == 143 || Char.sequence == 144)) {
             if ((Cell.column = Cell.last_col) >= Cell.first_col) do {
-                MarkFloor(IndexCell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
+                MarkFloor(IndexCell(Cell.column, Cell.top_row), &Char.bounds);
                 left_edge = Cell.first_col;
                 --Cell.column;
             } while (Cell.column >= left_edge);
@@ -926,10 +810,10 @@ void QuickFloor(void)
     }
     if ((Cell.column = Cell.last_col) >= Cell.first_col) do {
         if (floor != 2)
-            MarkFloor(IndexCell(Cell.column, ((signed char)Cell.bottom_row)), &Char.bounds);
-        if (((signed char)Cell.bottom_row) != ((signed char)Cell.top_row) &&
+            MarkFloor(IndexCell(Cell.column, Cell.bottom_row), &Char.bounds);
+        if (Cell.bottom_row != Cell.top_row &&
             !(Char.sequence == 28 && (Char.room == 7 || Char.room == 8) && Level.environment_kind == 6))
-            MarkFloor(IndexCell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
+            MarkFloor(IndexCell(Cell.column, Cell.top_row), &Char.bounds);
         left_edge = Cell.first_col;
         --Cell.column;
     } while (Cell.column >= left_edge);
@@ -944,7 +828,7 @@ void CheckRebirthPts(void)
         Kid.character_kind != 1 && (Kid.room != 9 || Level.level_number != 8 || KidInfo.sword_kind == 1)) {
         for (index = 0; index < 2; ++index) {
             if (Kid.room == Level.rebirth_points[index].room && FirstInRow(Kid.row) + Kid.column == Level.rebirth_points[index].cell &&
-                (!hRebirthSaved || *hRebirthSaved - index != 1))
+                (!hRebirthSaved || hRebirthSaved->point_id - index != 1))
                 SaveRebirthPtStatus(index + 1);
         }
     }
@@ -953,7 +837,7 @@ void CheckRebirthPts(void)
 void ShakeLoose(void)
 {
     if (ShakeFloor) {
-        ShakeEm(Char.room, (signed char)(Char.row - (ShakeFloor >= 1 ? 1 : 0)));
+        ShakeEm(Char.room, (sbyte)(Char.row - (ShakeFloor >= 1 ? 1 : 0)));
         ShakeFloor = 0;
     }
 }
@@ -988,9 +872,9 @@ void FirstGuard(void)
 
 void InitGuards(void)
 {
-    unsigned char room, limit;
+    byte room, limit;
     int index;
-    struct GetOppInfoIdx *guard;
+    OPPONENT *guard;
 
     room = 1;
     if (Level.room_count >= 1) {
@@ -999,7 +883,7 @@ void InitGuards(void)
             do {
                 guard = GetOppInfoIdx(room, index++);
                 if (guard)
-                    guard->active = 0;
+                    guard->saved_sequence = 0;
             } while (guard);
             limit = Level.room_count;
             ++room;
@@ -1020,18 +904,18 @@ void InitLevelSpecific(void)
     }
 }
 
-extern char ReadCell(char room, char column, char row);              /* far:02cc:00f0 */
+              /* far:02cc:00f0 */
 
 void CheckAlert(void)
 {
-    signed char swap, index, left, right, kind, second, first, count;
-    unsigned int sequence;
+    sbyte swap, index, left, right, kind, second, first, count;
+    word sequence;
 
     if (Kid.room) {
         sequence = Kid.frame;
         first = GetOppIdxClosestToKid(0);
         second = GetOppIdxClosestToKid(-1);
-        count = Level.room_objects[(unsigned char)Kid.room - 1].opponent_count;
+        count = Level.room_objects[Kid.room - 1].opponent_count;
         index = 0;
         if (count > 0) do {
             LoadShad(index);
@@ -1056,9 +940,9 @@ void CheckAlert(void)
                             break;
                         kind = ReadCell(Kid.room, left, Kid.row);
                         if (IsWall(kind) &&
-                            !(Char.character_kind == 11 && kind == 7 && ((*(unsigned char *)&Cell.modifier) & 0x80))) {
+                            !(Char.character_kind == 11 && kind == 7 && (Cell.modifier & 0x80))) {
                             Char.alert_delay = 0;
-                        } else if ((kind == 4 && (*(unsigned char *)&Cell.modifier) < 0x70) ||
+                        } else if ((kind == 4 && (byte)Cell.modifier < 0x70) ||
                                    (IsImpassable(kind) && Char.character_kind != 10) ||
                                    (IsSpace(kind) && Char.character_kind != 10 &&
                                     Char.character_kind != 7 && Char.character_kind != 8)) {
@@ -1085,12 +969,12 @@ void CheckLevelFrameFunc(void)
         ((frame_proc)address)();
 }
 
-signed char ResetLevel(void)
+sbyte ResetLevel(void)
 {
     RestartLevel = 0;
     if (LevelIdx == NextLevel) {
         SaveGamePlayPalette();
-        EraseRect((char *)&GamePlayRect);
+        EraseRect(&GamePlayRect);
         if (StartLevel)
             return LevelIdx;
         return 0;
@@ -1098,7 +982,7 @@ signed char ResetLevel(void)
     return NextLevel;
 }
 
-extern int PlayNIS(int);                   /* far:0284:0226 */
+                   /* far:0284:0226 */
 
 void YouLose(void)
 {
@@ -1113,7 +997,7 @@ void YouLose(void)
 }
 
 const int TopRowRect[4] = { 0, 0, 3, 320 };
-struct char_bounds MsgRect = { 193, 98, 202, 235 };
+Rect MsgRect = { 193, 98, 202, 235 };
 int NeedShadow = 0;
-signed char LevelIdx = 0;
+sbyte LevelIdx = 0;
 int unused_flag = 1;                                /* never referenced */

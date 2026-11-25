@@ -1,46 +1,31 @@
 /* ROOFTOPS.C: DOS overlay 4. Descriptive names mark unresolved symbols. */
 #include "types.h"
+#include "graf.h"
+#include "system.h"
+#include "snd.h"
 #include "level.h"
+#include "shape.h"
+#include "heap.h"
+#include "lgraf.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "custom.h"
+#include "act.h"
+#include "add.h"
+#include "ctrl.h"
+#include "fade.h"
+#include "moveruin.h"
+#include "prince.h"
+#include "intrface.h"
+#include "rooftops.h"
+#include "move.h"
+#include "sound.h"
+#include "top.h"
+#include "util.h"
 
 #pragma pack(1)
 
-typedef struct {
-    sbyte kind;
-    int y, x;
-    byte pass;
-    byte reserved[3];
-    int image_set;
-    Rect bounds;
-    byte tail[6];
-} DrawPiece;
-
-typedef struct {
-    sbyte piece_count;
-    byte bank;
-    byte reserved[26];
-    DrawPiece pieces[80];
-} DrawList;
-
-typedef struct {
-    sbyte kind;
-    sbyte column, row;
-    byte reserved;
-    word frame;
-} RoofAnimation;
-
-typedef struct {
-    byte reserved[18];
-    int top;
-    int left;
-    int bottom;
-} PEELPORT;
-
-typedef struct {
-    PEELPORT near *peel;
-    byte reserved[4];
-} PeelSlot;
 
 typedef struct {
     byte index;
@@ -48,79 +33,28 @@ typedef struct {
 } SplashImage;
 #pragma pack()
 
-typedef struct {
-    signed char character, frame;
-    int x;
-    unsigned char low;
-} WATERSTATE;
+
 WATERSTATE InWater;
 static sbyte palette_bank;
 
-extern LEVELREC Level;
 
-extern CHARREC Char;
-extern ROOMREC Room;
-
-extern TROBREC Trob;
-
-extern GAMESTATE GameState;
-extern unsigned long FrameNum;
-extern word BlueSpec;
-
-extern FCHARREC FChar;
-extern int NewRoom;
-extern int ImWidth;
-extern int Timer[4];
-extern struct { unsigned char channels, volume; } Midi;
-extern CHARREC Kid;
-extern Rect CellClipRect, NullRect, GamePlayRect;
 static SplashImage splash_images[] = {
     {29, 0}, {30, 0}, {31, 0},
     {29, 0}, {32, 0}, {33, 0}, {29, 0}
 };
-extern struct {
-    int count;
-    PeelSlot entries[40];
-} PeelInfo;
 
-extern DrawList near *CustomRoom;
-typedef void (far pascal *RedrawCallback)(void);
-extern void far pascal MarkMove(void), MarkFRedraw(void);
-extern int far pascal SECTRECT(Rect far *, Rect far *, Rect far *);
-extern void far pascal MarkBufsForRect(RedrawCallback, Rect near *, sbyte);
-extern void far pascal DecLifePts(sbyte), SetKidDeathMethod(sbyte);
-extern int far pascal SetPalette(word, int, byte, sbyte);
-extern void far pascal CycleColors(int, int, int);
-extern int far pascal SndOn(int);
-extern void far pascal AddSound(int), AddLeaveLevelSong(void), play_song(int);
-extern void far pascal WaitSnd(int), WaitTimer(int), ChangeMeters(void);
-extern void far pascal CheckMeters(void), LoadKid(void);
-extern void far pascal ResetCharY(void), JumpSeq(int), flag_sound_resource(int);
-extern void far pascal LoadShad(sbyte), SaveShad(void);
-extern int far pascal CheckTrobVis(void);
-extern void far *far pascal h2p(int);
-extern Rect far *far pascal MAKESHAPERECT(Rect far *, int, int, void far *);
-extern void far _fastcall DrawCustomRoomImg(byte, byte);
-extern sbyte far pascal RestoreKeepCustomPeel(byte);
 
-void far pascal RoofCheckCharInWater(void);
-void far pascal RoofCycleColors(void);
-void far pascal RoofWatchKid(void), RoofWatchOpps(void);
-void far pascal RoofTriggerCharInWater(void);
-Rect near *far pascal RoofMakeWaterTestRect(Rect near *);
-int far pascal DrawPillarInBack(DrawPiece near *);
-int far pascal RoofClimbingIntoShip(void);
-int far pascal RoofHangingFromShip(void);
-void far pascal UpdateShipPeel(sbyte, int);
+typedef void (*RedrawCallback)(void);
 
-int far _fastcall DrawRoofLedgeInBack(DrawPiece near *piece)
+
+int _fastcall DrawRoofLedgeInBack(CUSTOMPIECE *piece)
 {
     Rect intersection;
     int result;
 
-    if ((piece->kind == 35 || piece->kind == 22 ||
-         piece->kind == 72 || piece->kind == 23) &&
-        SECTRECT(&intersection, &piece->bounds, (Rect far *)&Kid.bounds) &&
+    if ((piece->shape == 35 || piece->shape == 22 ||
+         piece->shape == 72 || piece->shape == 23) &&
+        SectRect(&intersection, &piece->clip, &Kid.bounds) &&
         Kid.sequence != 68 &&
         (Kid.action == 3 || Kid.action == 4))
         result = 1;
@@ -129,7 +63,7 @@ int far _fastcall DrawRoofLedgeInBack(DrawPiece near *piece)
     return result;
 }
 
-void far pascal LoadRoofCode(void)
+void LoadRoofCode(void)
 {
     sbyte inactive = -1;
 
@@ -138,7 +72,7 @@ void far pascal LoadRoofCode(void)
     InWater.character = inactive;
 }
 
-void far pascal RoofCheckCharInWater(void)
+void RoofCheckCharInWater(void)
 {
     if (InWater.character == -1) {
         if (Char.y >= 172 && Char.sequence != 68 && Char.sequence != 15 &&
@@ -146,9 +80,9 @@ void far pascal RoofCheckCharInWater(void)
             RoofTriggerCharInWater();
     } else if (Char.slot == InWater.character) {
         if (InWater.frame < 7) {
-            if (CustomRoom->bank != 18 && CustomRoom->bank != 19)
+            if (CustomRoom->kind != 18 && CustomRoom->kind != 19)
                 return;
-            MarkBufsForRect(MarkMove, &CustomRoom->pieces[splash_images[InWater.frame - 1].index].bounds, -1);
+            MarkBufsForRect(MarkMove, &CustomRoom->pieces[splash_images[InWater.frame - 1].index].clip, -1);
         } else if (InWater.frame >= 8) {
             InWater.frame = 0;
             InWater.character = -1;
@@ -163,7 +97,7 @@ void far pascal RoofCheckCharInWater(void)
     }
 }
 
-void far pascal RoofCheckPalette(sbyte room)
+void RoofCheckPalette(sbyte room)
 {
     sbyte bank = -1;
 
@@ -177,12 +111,12 @@ void far pascal RoofCheckPalette(sbyte room)
         SetPalette(3500, 64, 176, bank);
 }
 
-void far pascal RoofCheckRoomSpecific(void)
+void RoofCheckRoomSpecific(void)
 {
     RoofCheckPalette(Room.number);
 }
 
-void far pascal RoofClipChar(void)
+void RoofClipChar(void)
 {
     int limit;
 
@@ -195,7 +129,7 @@ void far pascal RoofClipChar(void)
     }
 }
 
-void far pascal RoofCycleColors(void)
+void RoofCycleColors(void)
 {
     if (!GameState.fade_active && (Room.number == 19 || Room.number == 16 || Room.number == 15) &&
         FrameNum % 3 == 0) {
@@ -205,14 +139,14 @@ void far pascal RoofCycleColors(void)
     }
 }
 
-void far pascal RoofFrameFunc(void)
+void RoofFrameFunc(void)
 {
     RoofCycleColors();
     RoofWatchKid();
     RoofWatchOpps();
 }
 
-void far pascal RoofKillKidOnWharf(void)
+void RoofKillKidOnWharf(void)
 {
     int hp;
 
@@ -244,7 +178,7 @@ void far pascal RoofKillKidOnWharf(void)
     }
 }
 
-Rect near *far pascal RoofMakeWaterTestRect(Rect near *rect)
+Rect *RoofMakeWaterTestRect(Rect *rect)
 {
     if (InWater.frame && InWater.frame <= 7) {
         if (InWater.low == 1)
@@ -260,7 +194,7 @@ Rect near *far pascal RoofMakeWaterTestRect(Rect near *rect)
     return rect;
 }
 
-void far pascal RoofTriggerCharInWater(void)
+void RoofTriggerCharInWater(void)
 {
     if (!InWater.frame) {
         InWater.character = Char.slot;
@@ -275,7 +209,7 @@ void far pascal RoofTriggerCharInWater(void)
     }
 }
 
-void far pascal RoofWatchKid(void)
+void RoofWatchKid(void)
 {
     if (Kid.room == 19 || Kid.room == 16 || InWater.character == 10) {
         LoadKid();
@@ -289,7 +223,7 @@ void far pascal RoofWatchKid(void)
     }
 }
 
-void far pascal RoofWatchOpps(void)
+void RoofWatchOpps(void)
 {
     sbyte count = Level.room_objects[Room.number - 1].opponent_count;
     sbyte index;
@@ -308,98 +242,94 @@ void far pascal RoofWatchOpps(void)
     }
 }
 
-void far pascal SetupSplash(void)
+void SetupSplash(void)
 {
     Rect clip;
-    DrawPiece near *piece;
+    CUSTOMPIECE *piece;
     byte image;
 
     if (Char.slot == InWater.character && InWater.frame != 0 && InWater.frame < 7 &&
-        (CustomRoom->bank == 18 || CustomRoom->bank == 19)) {
+        (CustomRoom->kind == 18 || CustomRoom->kind == 19)) {
         clip = CellClipRect;
         image = splash_images[InWater.frame - 1].index;
         piece = &CustomRoom->pieces[image];
-        piece->y = piece->bounds.top - piece->bounds.bottom + 176;
+        piece->pos.y = piece->clip.top - piece->clip.bottom + 176;
         if (Char.action == 9)
-            piece->y += 14;
-        piece->x = (piece->bounds.left - piece->bounds.right) / 2 + InWater.x;
-        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, h2p(piece->image_set));
-        CellClipRect = piece->bounds;
+            piece->pos.y += 14;
+        piece->pos.x = (piece->clip.left - piece->clip.right) / 2 + InWater.x;
+        MakeShapeRect(&piece->clip, piece->pos.y, piece->pos.x, h2p(piece->handle));
+        CellClipRect = piece->clip;
         piece->pass = 1;
         DrawCustomRoomImg(image, piece->pass);
         piece->pass = 11;
         if (Char.action != 9)
-            MarkBufsForRect(MarkFRedraw, &piece->bounds, -1);
+            MarkBufsForRect(MarkFRedraw, &piece->clip, -1);
         CellClipRect = clip;
     }
 }
 
-void far pascal AnimRoofGlass(void)
+void AnimRoofGlass(void)
 {
-    if (BlueSpec >= 11) {
+    if (BlueSpec.modifier >= 11) {
         Trob.state = -1;
         return;
     }
-    ++BlueSpec;
-    if (BlueSpec == 1)
+    ++BlueSpec.modifier;
+    if (BlueSpec.modifier == 1)
         AddSound(49);
-    MarkBufsForRect(MarkMove, &CustomRoom->pieces[(byte)(BlueSpec + 30)].bounds, -1);
+    MarkBufsForRect(MarkMove, &CustomRoom->pieces[(byte)(BlueSpec.modifier + 30)].clip, -1);
 }
 
-void far pascal DrawRoofGlass(RoofAnimation near *animation)
+void DrawRoofGlass(DRAWCELL *animation)
 {
     Rect clip;
     byte image;
 
-    if (animation->kind == 11 && animation->frame < 11) {
+    if (animation->pass == 11 && animation->info.modifier < 11) {
         clip = CellClipRect;
         CellClipRect = GamePlayRect;
-        image = (byte)(animation->frame + 31);
+        image = (byte)(animation->info.modifier + 31);
         DrawCustomRoomImg(image, 11);
-        if (image + 1 < CustomRoom->piece_count)
-            MarkBufsForRect(MarkFRedraw, &CustomRoom->pieces[image + 1].bounds, -1);
+        if (image + 1 < CustomRoom->count)
+            MarkBufsForRect(MarkFRedraw, &CustomRoom->pieces[image + 1].clip, -1);
         CellClipRect = clip;
     }
 }
 
-extern void far pascal OFFSETRECT(Rect far *, Rect far *, int, int);
-extern DrawPiece near *far pascal CustomPieceOffsetToColRow(DrawPiece near *, sbyte, sbyte);
-extern void far pascal DrawCustomRoomImgAtInfo(byte, signed char near *);
-DrawPiece near *far pascal RoofOffsetPillarWaterToFore(DrawPiece near *);
 
-void far pascal AnimRoofPillar(void)
+void AnimRoofPillar(void)
 {
-    DrawPiece near *piece;
+    CUSTOMPIECE *piece;
     long position;
     Rect water, bounds;
-    unsigned int step;
+    word step;
 
     if (CheckTrobVis()) {
-        step = BlueSpec & 15;
+        step = BlueSpec.modifier & 15;
         if (step == 7)
             step = 0;
         else
             ++step;
-        BlueSpec &= 0xfff0;
-        BlueSpec |= step;
+        BlueSpec.modifier &= 0xfff0;
+        BlueSpec.modifier |= step;
         RoofMakeWaterTestRect(&water);
         piece = &CustomRoom->pieces[25];
-        bounds = piece->bounds;
-        position = *(long *)&piece->y;
+        bounds = piece->clip;
+        position = *(long *)&piece->pos.y;
         piece = CustomPieceOffsetToColRow(piece, Trob.cell % 10, Trob.cell / 10);
-        if (!InWater.frame || !SECTRECT(&water, &water, &piece->bounds)) {
-            MarkBufsForRect(MarkMove, &piece->bounds, -1);
+        if (!InWater.frame || !SectRect(&water, &water, &piece->clip)) {
+            MarkBufsForRect(MarkMove, &piece->clip, -1);
             RoofOffsetPillarWaterToFore(piece);
-            MarkBufsForRect(MarkMove, &piece->bounds, -1);
+            MarkBufsForRect(MarkMove, &piece->clip, -1);
         }
-        *(long *)&piece->y = position;
-        piece->bounds = bounds;
+        *(long *)&piece->pos.y = position;
+        piece->clip = bounds;
     }
 }
 
-void far pascal DrawRoofPillar(RoofAnimation near *animation)
+void DrawRoofPillar(DRAWCELL *animation)
 {
-    DrawPiece near *piece;
+    CUSTOMPIECE *piece;
     struct {
         long position;
         sbyte kind;
@@ -407,111 +337,111 @@ void far pascal DrawRoofPillar(RoofAnimation near *animation)
     } saved;
     Rect bounds;
 
-    if (animation->kind == 11 || (animation->kind == 0 && NewRoom)) {
-        saved.kind = animation->kind;
-        animation->kind = 0;
-        saved.image = ((animation->frame >> 1) & 7) + 25;
-        DrawCustomRoomImgAtInfo(saved.image, (signed char *)animation);
+    if (animation->pass == 11 || (animation->pass == 0 && NewRoom)) {
+        saved.kind = animation->pass;
+        animation->pass = 0;
+        saved.image = ((animation->info.modifier >> 1) & 7) + 25;
+        DrawCustomRoomImgAtInfo(saved.image, animation);
         piece = &CustomRoom->pieces[saved.image];
-        bounds = piece->bounds;
-        saved.position = *(long *)&piece->y;
+        bounds = piece->clip;
+        saved.position = *(long *)&piece->pos.y;
         piece = CustomPieceOffsetToColRow(piece, animation->column, animation->row);
         if (!DrawPillarInBack(piece))
-            animation->kind = 1;
-        *(long *)&piece->y = saved.position;
-        piece->bounds = bounds;
+            animation->pass = 1;
+        *(long *)&piece->pos.y = saved.position;
+        piece->clip = bounds;
         RoofOffsetPillarWaterToFore(piece);
-        DrawCustomRoomImgAtInfo(saved.image, (signed char *)animation);
-        *(long *)&piece->y = saved.position;
-        piece->bounds = bounds;
-        animation->kind = saved.kind;
+        DrawCustomRoomImgAtInfo(saved.image, animation);
+        *(long *)&piece->pos.y = saved.position;
+        piece->clip = bounds;
+        animation->pass = saved.kind;
     }
 }
 
-int far pascal DrawPillarInBack(DrawPiece near *piece)
+int DrawPillarInBack(CUSTOMPIECE *piece)
 {
     Rect water;
     int result = 0;
 
-    if (InWater.frame && InWater.low == 1 && piece->kind >= 6 && piece->kind <= 11) {
+    if (InWater.frame && InWater.low == 1 && piece->shape >= 6 && piece->shape <= 11) {
         RoofMakeWaterTestRect(&water);
-        if (SECTRECT(&water, &water, &piece->bounds))
+        if (SectRect(&water, &water, &piece->clip))
             result = 1;
     }
     return result;
 }
 
-DrawPiece near *far pascal RoofOffsetPillarWaterToFore(DrawPiece near *piece)
+CUSTOMPIECE *RoofOffsetPillarWaterToFore(CUSTOMPIECE *piece)
 {
-    piece->y += 12;
-    piece->x -= 30;
-    OFFSETRECT(&piece->bounds, &piece->bounds, -30, 12);
+    piece->pos.y += 12;
+    piece->pos.x -= 30;
+    OffsetRect(&piece->clip, &piece->clip, -30, 12);
     return piece;
 }
 
-void far pascal AnimRoofShip(void)
+void AnimRoofShip(void)
 {
     Rect bounds;
     sbyte slot;
-    DrawPiece near *piece;
+    CUSTOMPIECE *piece;
 
-    ++BlueSpec;
-    if (BlueSpec > 176) {
+    ++BlueSpec.modifier;
+    if (BlueSpec.modifier > 176) {
         Trob.state = -1;
         return;
     }
     if (Room.number == Trob.room) {
         piece = &CustomRoom->pieces[19];
-        piece->x = -BlueSpec;
-        MAKESHAPERECT(&bounds, piece->y, piece->x, h2p(piece->image_set));
+        piece->pos.x = -BlueSpec.modifier;
+        MakeShapeRect(&bounds, piece->pos.y, piece->pos.x, h2p(piece->handle));
         ++bounds.right;
         MarkBufsForRect(MarkMove, &bounds, -1);
-        slot = RestoreKeepCustomPeel(piece->kind);
+        slot = RestoreKeepCustomPeel(piece->shape);
         UpdateShipPeel(slot, bounds.right);
 
-        piece = &CustomRoom->pieces[(sbyte)(((BlueSpec - 1) & 3) + 21)];
-        piece->x = 1 - BlueSpec;
-        MAKESHAPERECT(&bounds, piece->y, piece->x, h2p(piece->image_set));
+        piece = &CustomRoom->pieces[(sbyte)(((BlueSpec.modifier - 1) & 3) + 21)];
+        piece->pos.x = 1 - BlueSpec.modifier;
+        MakeShapeRect(&bounds, piece->pos.y, piece->pos.x, h2p(piece->handle));
         ++bounds.right;
         MarkBufsForRect(MarkMove, &bounds, -1);
     }
 }
 
-void far pascal DrawRoofShip(RoofAnimation near *animation)
+void DrawRoofShip(DRAWCELL *animation)
 {
     Rect clip;
-    DrawPiece near *piece;
+    CUSTOMPIECE *piece;
     word position;
     int ship_x;
     sbyte image;
 
-    if (animation->kind == 11 && animation->frame <= 176) {
+    if (animation->pass == 11 && animation->info.modifier <= 176) {
         clip = CellClipRect;
         CellClipRect = GamePlayRect;
-        position = animation->frame;
+        position = animation->info.modifier;
         piece = &CustomRoom->pieces[19];
-        piece->x = -position;
-        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, h2p(piece->image_set));
+        piece->pos.x = -position;
+        MakeShapeRect(&piece->clip, piece->pos.y, piece->pos.x, h2p(piece->handle));
         DrawCustomRoomImg(19, 11);
 
         piece = &CustomRoom->pieces[20];
         ship_x = position;
-        piece->x = 45 - ship_x;
-        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, h2p(piece->image_set));
+        piece->pos.x = 45 - ship_x;
+        MakeShapeRect(&piece->clip, piece->pos.y, piece->pos.x, h2p(piece->handle));
         piece->pass = 1;
         DrawCustomRoomImg(20, 1);
         piece->pass = 11;
 
         image = (position & 3) + 21;
         piece = &CustomRoom->pieces[image];
-        piece->x = -ship_x;
-        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, h2p(piece->image_set));
+        piece->pos.x = -ship_x;
+        MakeShapeRect(&piece->clip, piece->pos.y, piece->pos.x, h2p(piece->handle));
         DrawCustomRoomImg(image, 11);
         CellClipRect = clip;
     }
 }
 
-int far pascal RoofClimbingIntoShip(void)
+int RoofClimbingIntoShip(void)
 {
     int result;
     if (Char.room == 19 && Char.sequence == 59)
@@ -521,7 +451,7 @@ int far pascal RoofClimbingIntoShip(void)
     return result;
 }
 
-int far pascal RoofGrabShip(void)
+int RoofGrabShip(void)
 {
     int result = 0;
     int height;
@@ -534,7 +464,7 @@ int far pascal RoofGrabShip(void)
     return result;
 }
 
-int far pascal RoofHangingFromShip(void)
+int RoofHangingFromShip(void)
 {
     int result;
 
@@ -546,19 +476,18 @@ int far pascal RoofHangingFromShip(void)
     return result;
 }
 
-void far pascal UpdateShipPeel(sbyte slot, int bottom)
+void UpdateShipPeel(sbyte slot, int bottom)
 {
-    PEELPORT near *peel;
+    SAVEDRECT *peel;
 
     if (slot >= 0) {
-        peel = PeelInfo.entries[slot].peel;
-        if (peel->top < bottom && peel->bottom > bottom)
-            peel->bottom = bottom;
+        peel = PeelInfo.items[slot].saved;
+        if (peel->rect.left < bottom && peel->rect.right > bottom)
+            peel->rect.right = bottom;
     }
 }
 
-typedef void (far pascal *LevelTileProc)(RoofAnimation near *);
-LevelTileProc DrawRoofFunc[] = {
+DRAWPROC DrawRoofFunc[] = {
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,

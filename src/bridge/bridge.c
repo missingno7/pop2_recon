@@ -1,110 +1,48 @@
-/* BRIDGE.C, DOS overlay 14. Names and packed layouts reflect the observed uses. */
+#include <stdlib.h>
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
 #include "char.h"
+#include "draw.h"
 #include "game.h"
+#include "custom.h"
+#include "movecave.h"
+#include "act.h"
+#include "add.h"
+#include "autoguar.h"
+#include "bridge.h"
+#include "ctrl.h"
+#include "sound.h"
+#include "fade.h"
+#include "move.h"
+#include "prince.h"
+#include "misc.h"
+#include "tables.h"
+#include "util.h"
 #pragma pack(1)
 
-typedef struct Gate {
-    int timer;
-    unsigned char state;
-} Gate;
 
-typedef struct TileAnim {
-    unsigned char type;
-    signed char col;
-    int unknown;
-    unsigned char modifier;
-} TileAnim;
+static byte floor_mask;
 
-typedef struct Image {
-    char unused;
-    int y;
-    char other[8];
-    char rect[14];
-} Image;
-
-typedef struct ImageTable {
-    char header[28];
-    Image images[1];
-} ImageTable;
-
-typedef struct Tile {
-    unsigned int modifier;
-    unsigned int extra;
-} Tile;
-
-extern CHARREC Kid, Char, RoomOpp[5], Opp;
-
-extern LEVELREC Level;
-extern FRAMEREC Frame;
-static unsigned char floor_mask;
-typedef struct {
-    int wait, broken;
-    unsigned char floors[8];
-} BRIDGEREC;
 BRIDGEREC Bridge;
-extern int Col2PixelX[13], Row2PixelY[5];
+
+
 Rect BridgeRect = {106, 35, 126, 314};
-static signed char bridge_y[] = {0, 1, 2, 3, 3, 2, 1, 0};
-static signed char bridge_images[] = {7, 9, 6, 9, 10, 7, 9, 6, 3, 9};
+static sbyte bridge_y[] = {0, 1, 2, 3, 3, 2, 1, 0};
+static sbyte bridge_images[] = {7, 9, 6, 9, 10, 7, 9, 6, 3, 9};
 static int floor_y_adjustment[] = {6, 20, 20, 20, 20, 20, 26, 36, 51, 87};
 static int floor_x_adjustment[] = {8, 18, 24, 18, 24, 10, 20, 23, 19, 23};
-extern Tile near *BlueS;
-extern ImageTable near *CustomRoom;
-extern int Rnd(int);
-int abs(int);
-#pragma intrinsic(abs)
-extern void AddSound(int), AddSong(int);
-extern void LoadKid(void), LoadShad(char), SaveShad(void), GetFrameInfo(void);
-extern int AddCharX(int); /* Column-to-X helper at 02cc:0360. */
-extern void RemoveChar(void); /* Removes the current character at 02cc:1bd6. */
-extern void DoOppStartRun(void); /* Starts the RoomOpp running at overlay-12:2c3e:00d6. */
-extern void DoTurnEngarde(void), JumpSeq(int);
-extern void TriggerGateWithRevPlate(char, char);
-extern Gate near *GetTrobRoomCell(char, int);
-extern unsigned char ReadCell(char, char, char);
-extern void SetPalette(int, unsigned int, unsigned char, unsigned char);
-extern int SndOn(int);
 
-extern void DrawCustomRoomImgAtInfo(char, TileAnim near *);
-extern void OFFSETRECT(void far *, void far *, int, int);
-extern void ComputeOffsetCellRect(Rect near *, void near *, int, int);
-typedef void far pascal DrawCallback(char cell, Rect near *rect);
-extern DrawCallback MarkMove, MarkFloor;
-extern void MarkBufsForRect(DrawCallback *, Rect near *, char);
-extern void AddTrob(char, char, char, char);
-extern char far pascal FirstInRow(signed char);
-extern signed char far pascal IndexCell1(signed char, signed char);
-typedef struct {
-    unsigned int width, height;
-} ShapeSize;
-extern ShapeSize far *GetCustomPieceSize(unsigned char, ShapeSize far *);
-extern void MarkMobRedraw(char), ComputeMobRect(Rect near *), AddMobObj(int), AddMob(void);
-extern void far _fastcall AddMid(char, int, void near *, int, char);
 
-extern FCHARREC FChar;
-extern unsigned int BlueSpec;
+ /* Column-to-X helper at 02cc:0360. */
+ /* Removes the current character at 02cc:1bd6. */
+ /* Starts the RoomOpp running at overlay-12:2c3e:00d6. */
 
-extern TROBREC Trob;
 
-extern ROOMREC Room;
-extern MOBREC Mob;
-extern int MobHeight[13], MobWidth[13];
+typedef void DrawCallback(sbyte cell, Rect near *rect);
 
-int BridgeWatchKid(void);
-int BridgeWatchOpp(void);
-void MarkBrgFloorsForChars(int, int);
-void BridgeCheckBreak(int, int);
-void TriggerBrgFloorMob(unsigned char, signed char);
-int IsCharOnBridge(void);
-void TweakCharYOnBridge(void);
-int IsBrgGateOpen(void);
-int BrgSkelToPlate(void);
-void MarkBridgeForCol(char);
-void RedrawBrgFloor(int, char);
-int far _fastcall OffsetBrgFloorY(unsigned char, char);
-void far _fastcall RestoreBrgFloorY(unsigned char, int);
 
 void BridgeFrameFunc(void)
 {
@@ -116,7 +54,7 @@ void BridgeFrameFunc(void)
 
 void BridgeCheckBreak(int kid_on_bridge, int opponent_on_bridge)
 {
-    signed char col;
+    sbyte col;
 
     if (Bridge.broken == 0) {
         if (kid_on_bridge && opponent_on_bridge) {
@@ -133,13 +71,12 @@ void BridgeCheckBreak(int kid_on_bridge, int opponent_on_bridge)
         }
     } else if (Bridge.broken > 0) {
         if (Bridge.broken == 3) {
-            col = 7;
-            do {
+            for (col = 7; col >= 3; --col) {
                 if (!Bridge.floors[col - 1]) {
                     TriggerBrgFloorMob(10, col + 10);
                     break;
                 }
-            } while (--col >= 3);
+            }
             if (col == 7) {
                 AddSound(68);
                 AddSong(66);
@@ -157,7 +94,7 @@ void BridgeCheckBreak(int kid_on_bridge, int opponent_on_bridge)
     }
 }
 
-char far pascal BridgeGetCharCol(char kind, char value)
+sbyte BridgeGetCharCol(sbyte kind, sbyte value)
 {
     if (Level.level_number == 5 && kind == 7)
         value -= 10;
@@ -202,7 +139,7 @@ int BridgeWatchOpp(void)
 
 int BrgSkelMustAdvance(void)
 {
-    signed char col = BridgeGetCharCol(Char.room, Char.column);
+    sbyte col = BridgeGetCharCol(Char.room, Char.column);
     int advance;
 
     if (Char.direction == 0) {
@@ -223,7 +160,7 @@ int BrgSkelMustAdvance(void)
 
 int BrgSkelProg(void)
 {
-    signed char col = BridgeGetCharCol(Char.room, Char.column);
+    sbyte col = BridgeGetCharCol(Char.room, Char.column);
     int keep_going = 1;
 
     if (Char.action != 5) {
@@ -261,7 +198,7 @@ int BrgSkelProg(void)
 
 int BrgSkelToPlate(void)
 {
-    signed char col = BridgeGetCharCol(Opp.room, Opp.column);
+    sbyte col = BridgeGetCharCol(Opp.room, Opp.column);
     int open = IsBrgGateOpen();
     if (open) {
         if (Opp.direction == 0 && col < 2)
@@ -276,7 +213,7 @@ int BrgSkelToPlate(void)
 
 int IsBrgGateOpen(void)
 {
-    Gate near *gate = GetTrobRoomCell(7, 13);
+    TROBREC *gate = GetTrobRoomCell(7, 13);
     int open;
 
     if (gate && (gate->state == 0 || gate->state == 2))
@@ -288,7 +225,7 @@ int IsBrgGateOpen(void)
 
 int IsOKForBrgSkelToAdvance(void)
 {
-    signed char col = BridgeGetCharCol(Char.room, Char.column);
+    sbyte col = BridgeGetCharCol(Char.room, Char.column);
     int advance;
     if (Char.direction == 0) {
         if (col < 3)
@@ -313,7 +250,7 @@ int IsCharOnBridge(void)
 
 void LoadBridgeCode(void)
 {
-    if (Level.level_number == 5 && (Room.number) == 10)
+    if (Level.level_number == 5 && Room.number == 10)
         SetPalette(3500, 64, 160, 1);
     floor_mask = 0;
     Bridge.wait = 0;
@@ -338,7 +275,7 @@ void MarkBrgFloorsForChars(int kid_on_bridge, int opponent_on_bridge)
         AddSound(67);
 }
 
-void MarkBridgeForCol(char col)
+void MarkBridgeForCol(sbyte col)
 {
     int right = col + 1;
     int left;
@@ -346,11 +283,8 @@ void MarkBridgeForCol(char col)
     right = (right > 8 ? 8 : right) - 1;
     left = col - 1;
     left = left < 1 ? 1 : left;
-    col = left - 1;
-    if (col <= right) {
-        do {
-            floor_mask |= 1 << col;
-        } while (++col <= right);
+    for (col = left - 1; col <= right; ++col) {
+        floor_mask |= 1 << col;
     }
 }
 
@@ -363,7 +297,7 @@ void TweakCharYOnBridge(void)
         Char.y += bridge_y[Char.column - 1];
         GetFrameInfo();
         if (Frame.flags & 64) {
-            modifier = Level.cell_info[9][(signed char)(Char.column + 10)].modifier & 15;
+            modifier = Level.cell_info[9][(sbyte)(Char.column + 10)].modifier & 15;
             if (modifier == 1)
                 --Char.y;
             else if (modifier == 2)
@@ -379,12 +313,12 @@ void UnloadBridgeCode(void)
 
 void AnimBrgFloor(void)
 {
-    unsigned char phase, old_phase;
+    byte phase, old_phase;
 
-    if (Level.level_number == 5 && (Room.number) == 10) {
-        old_phase = BlueSpec & 15;
-        BlueSpec &= 0xfff0;
-        if (!(floor_mask & (1 << (Trob.cell % (signed char)10 - 1)))) {
+    if (Level.level_number == 5 && Room.number == 10) {
+        old_phase = BlueSpec.modifier & 15;
+        BlueSpec.modifier &= 0xfff0;
+        if (!(floor_mask & (1 << (Trob.cell % 10 - 1)))) {
             phase = 0;
         } else {
             phase = Rnd(3);
@@ -393,7 +327,7 @@ void AnimBrgFloor(void)
                     phase = 0;
                 else {
                     --phase;
-                    BlueSpec |= phase;
+                    BlueSpec.modifier |= phase;
                 }
             } else {
                 phase = old_phase;
@@ -405,55 +339,55 @@ void AnimBrgFloor(void)
     }
 }
 
-void DrawBrgFloor(TileAnim near *tile)
+void DrawBrgFloor(DRAWCELL *tile)
 {
-    unsigned char image;
+    byte image;
     int old_y;
 
-    if (tile->type == 5 || tile->type == 2) {
-        image = (tile->modifier & 15) + 3;
-        old_y = OffsetBrgFloorY(image, tile->col);
+    if (tile->pass == 5 || tile->pass == 2) {
+        image = (tile->info.modifier & 15) + 3;
+        old_y = OffsetBrgFloorY(image, tile->column);
         DrawCustomRoomImgAtInfo(image, tile);
         RestoreBrgFloorY(image, old_y);
     }
 }
 
-int far _fastcall OffsetBrgFloorY(unsigned char image, char col)
+int _fastcall OffsetBrgFloorY(byte image, sbyte col)
 {
-    Image near *entry = &CustomRoom->images[image];
-    int old_y = entry->y;
+    CUSTOMPIECE *entry = &CustomRoom->pieces[image];
+    int old_y = entry->pos.y;
     int delta = bridge_y[col - 1];
 
-    entry->y += delta;
-    OFFSETRECT(entry->rect, entry->rect, 0, delta);
+    entry->pos.y += delta;
+    OffsetRect(&entry->clip, &entry->clip, 0, delta);
     return old_y;
 }
 
-void far _fastcall RestoreBrgFloorY(unsigned char image, int old_y)
+void _fastcall RestoreBrgFloorY(byte image, int old_y)
 {
-    Image near *entry = &CustomRoom->images[image];
-    int delta = entry->y - old_y;
+    CUSTOMPIECE *entry = &CustomRoom->pieces[image];
+    int delta = entry->pos.y - old_y;
 
-    entry->y = old_y;
-    OFFSETRECT(entry->rect, entry->rect, 0, -delta);
+    entry->pos.y = old_y;
+    OffsetRect(&entry->clip, &entry->clip, 0, -delta);
 }
 
-void RedrawBrgFloor(int phase, char cell)
+void RedrawBrgFloor(int phase, sbyte cell)
 {
     Rect rect;
-    unsigned char image = phase + 3;
-    signed char col = cell % (signed char)10;
+    byte image = phase + 3;
+    sbyte col = cell % 10;
     int old_y = OffsetBrgFloorY(image, col);
 
-    ComputeOffsetCellRect(&rect, CustomRoom->images[image].rect, col, cell / (signed char)10 + 1);
+    ComputeOffsetCellRect(&rect, &CustomRoom->pieces[image].clip, col, cell / 10 + 1);
     --rect.top;
     MarkBufsForRect(&MarkMove, &rect, -1);
     RestoreBrgFloorY(image, old_y);
 }
 
-void TriggerBrgFloor(char room, char cell)
+void TriggerBrgFloor(sbyte room, sbyte cell)
 {
-    Tile near *tiles = BlueS;
+    LEVELCELL *tiles = BlueS;
     int phase = tiles[cell].modifier & 0xfff0;
     tiles[cell].modifier = phase;
 
@@ -464,14 +398,14 @@ void TriggerBrgFloor(char room, char cell)
 void ATMBrgFloor(void)
 {
     int x = Mob.x, y = Mob.y;
-    signed char room = Mob.room;
-    signed char col, image;
+    sbyte room = Mob.room;
+    sbyte col, image;
     int phase;
     int old_x, old_y;
-    ShapeSize bounds;
+    SHAPESIZE bounds;
     Rect redraw;
 
-    if (room != (signed char)Room.number) {
+    if (room != (sbyte)Room.number) {
         if (Room.below == Mob.room) {
             y += 191;
             room = Room.number;
@@ -481,18 +415,18 @@ void ATMBrgFloor(void)
         } else if (Mob.room == Room.left) {
             x -= 320;
             room = Room.number;
-        } else if ((signed char)Mob.room == (signed char)Room.right) {
+        } else if (Mob.room == Room.right) {
             x += 320;
             room = Room.number;
         }
     }
     col = x / 32;
-    FChar.index = IndexCell1(col, y / 63);
-    if (FChar.index != 30) {
+    FChar.cell = IndexCell1(col, y / 63);
+    if (FChar.cell != 30) {
         if (col)
-            --FChar.index;
-        if (FChar.index < 20)
-            FChar.index += 10;
+            --FChar.cell;
+        if (FChar.cell < 20)
+            FChar.cell += 10;
     }
     FirstInRow(Mob.row);
     phase = Mob.flags & 15;
@@ -504,8 +438,8 @@ void ATMBrgFloor(void)
         old_x = Mob.x;
         Mob.x += floor_x_adjustment[phase];
         if (GetCustomPieceSize(image, &bounds)) {
-            MobHeight[11] = bounds.width + 1;
-            MobWidth[11] = bounds.height + 1;
+            MobHeight[11] = bounds.height + 1;
+            MobWidth[11] = bounds.width + 1;
         }
         MarkMobRedraw(0);
         if (Mob.velocity != -1) {
@@ -519,17 +453,17 @@ void ATMBrgFloor(void)
     }
 }
 
-void DrawObjBrgFloor(int unused)
+void DrawObjBrgFloor(byte unused)
 {
-    AddMid(4, (unsigned char)bridge_images[FChar.image & 15] + 1,
-               (*(void near **)&FChar.x), FChar.y - 1, 10);
+    AddMid(4, (byte)bridge_images[FChar.image & 15] + 1,
+               FChar.x, FChar.y - 1, 10);
 }
 
 void MobBrgFloor(void)
 {
     int phase, speed;
 
-    if (Level.level_number == 5 && (Room.number) == 10) {
+    if (Level.level_number == 5 && Room.number == 10) {
         phase = Mob.flags & 15;
         speed = (Mob.flags & 0x30) >> 4;
         if ((speed == 1 && phase != 4) || (speed == 2 && phase != 9)) {
@@ -543,16 +477,16 @@ void MobBrgFloor(void)
     }
 }
 
-void TriggerBrgFloorMob(unsigned char room, signed char cell)
+void TriggerBrgFloorMob(byte room, sbyte cell)
 {
-    signed char col, row;
+    sbyte col, row;
     int speed;
 
     Level.cell_kinds[9][cell] = 0;
     Level.cell_info[9][cell].modifier = 0xc000;
     Mob.velocity = Mob.auxiliary = 0;
-    col = cell % (signed char)10;
-    row = cell / (signed char)10;
+    col = cell % 10;
+    row = cell / 10;
     Mob.x = Col2PixelX[col + 1];
     if (Rnd(1)) {
         Mob.flags = 5;

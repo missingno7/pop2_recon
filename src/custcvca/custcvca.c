@@ -1,48 +1,45 @@
 /* CUSTCVCA.C, overlay 13. DOS entry order. */
+#include <string.h>
+#include <malloc.h>
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "heap.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "custom.h"
+#include "act.h"
+#include "add.h"
+#include "ctrl.h"
+#include "custcvca.h"
+#include "fade.h"
+#include "move.h"
+#include "prince.h"
+#include "sound.h"
+#include "top.h"
 #pragma pack(1)
 
-typedef unsigned int Handle;
 
-typedef struct { int height, width; byte flags, unknown, colors; byte data[96]; } Shape;
-typedef struct { byte sheet; signed char col; byte flags; signed char row; Handle handle; } ShapeRef;
-typedef struct { byte data[4]; Handle handle; } CarpetImage;
 typedef struct {
-    CarpetImage images[10];
+    SHAPEINFO images[10];
     int frame, sitting, saved;
 } Carpet;
-typedef struct {
-    signed char sheet, flags;
-    unsigned int colors;
-    int x, y;
-    byte col, row;
-    Rect bounds;
-    byte order, unused;
-} CarpetDraw;
-typedef struct {
-    int x, y;
-    byte sheet;
-    unsigned int image;
-    Rect clip;
-    byte order;
-    int reserved;
-    byte invisible, depth;
-} MidItem;
-typedef struct { int dy, dx; } CarpetStep;
-typedef struct { byte kind; byte row; byte unknown[2]; byte modifier; } TileAnim;
+
+
 #pragma pack()
 
 static Carpet *carpet;                /* DS:2cdc */
-extern unsigned int *Pics[5];
+
+
 #define CARPET_SHAPE_ID 0x62d7
 int carpet_x = 0xb0, carpet_y = 0x55;
 static struct {
     int images[10];
-    signed char scroll[10];
-    CarpetStep steps[10];
+    sbyte scroll[10];
+    POINT steps[10];
     Rect bars;
 } carpet_animation = {
     {0, 1, 2, 3, 4, 5, 6, 7, 1, 8},
@@ -51,66 +48,22 @@ static struct {
      {7, -39}, {5, -43}, {7, -42}, {8, -46}, {8, -46}},
     {5, -88, 26, 7}
 };
-extern int NewRoom;                 /* DS:6266 */
-extern int Ct[5];
-extern FCHARREC FChar;
-extern byte ColNo, RowNo, ObjId;       /* DS:6ccf,6cce,6cd2 */
-extern CarpetDraw far BackTable[];       /* 2fae:0000 */
-extern MidItem far MidTable[];
-#pragma pack(1)
-typedef struct {
-    int x, y;
-    unsigned char kind;
-    int image;
-    unsigned char flags[4];
-    Rect clip;
-    unsigned char state;
-} DrawObject;
-#pragma pack()
-extern DrawObject ObjTable[];                /* DS:5e92 */
+                 /* DS:6266 */
 
-extern CHARREC Char;
-extern CELLREC Cell;
-extern unsigned int BlueSpec;               /* DS:5e48 */
 
-extern TROBREC Trob;
-extern Rect CellClipRect, GamePlayRect;         /* DS:6236,09fe */
-extern LEVELREC Level;
+       /* DS:6ccf,6cce,6cd2 */
 
-extern void AddSong(int), AddSound(int), UnloadSounds(int, int);
-extern void SetPalette(unsigned int, unsigned int, byte, byte);
-extern void far *MATERIALIZE_HANDLE(Handle);
-extern void hFree(Handle), hPurge(Handle);
-extern Handle hNew(long);
-extern Shape far *h2p(Handle);
-extern void PrinceNewShpItem(Handle, int, CarpetImage far *, int);
-extern void PrinceFreeShp(int);
-extern void ResetSnd(int);
-extern void MAKESHAPERECT(Rect far *, int, int, Shape far *);
-extern void far _fastcall AddPeel(int, int, int, int, byte, byte);
-extern void RestoreKeepCustomPeel(byte);
-extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern void SaveFChar(void), RestoreFChar(void), init_fchar_rect(void);
-extern void far _fastcall AddCharObj(byte);
-typedef void far pascal DrawCallback(void);
-extern DrawCallback MarkMove, MarkFRedraw;
-extern void MarkBufsForRect(DrawCallback *, Rect near *, signed char);
-extern void ReadCell(signed char, signed char, signed char);
-extern void MakeSpace(byte, byte);
-extern void JumpSeq(int sequence);
-extern void DecLifePts(byte amount), SetKidDeathMethod(byte value);
-extern void far _fastcall DrawCustomRoomImg(byte index, byte pass);
-extern int ComputeTrobMoveRect(Rect near *out, Rect near *base);
-extern void * _cdecl _nmalloc(unsigned int);
-extern void _cdecl _nfree(void *);
-extern void * _cdecl memset(void *, int, unsigned int);
-#pragma intrinsic(memset)
+       /* 2fae:0000 */
 
-int CheckCarpetImg(int index);
-void LoadCarpetData(void), UnloadCarpetData(void);
-void MapCarpetColors(void), RedrawCaveBars(void);
-int GetCarpetFrame(void), IsCaveBarsOpen(void);
-Shape far * far _fastcall GetCarpetShpInfo(ShapeRef *ref, int index);
+
+                /* DS:5e92 */
+
+
+               /* DS:5e48 */
+
+
+         /* DS:6236,09fe */
+
 
 void LoadCarpetCode(void)
 {
@@ -125,62 +78,58 @@ void UnloadCarpetCode(void)
     SetPalette(750, 32, 16, 0);
 }
 
-int CheckCarpetImg(int index)
+Handle CheckCarpetImg(int index)
 {
     Handle copy_handle;
-    Shape far *source, far *copy;
-    unsigned int entry_offset[1];  /* Keeps the scaled offset in a stack slot across calls. */
+    SHAPELISTRSRC far *source, far *copy;
 
     if (carpet) {
-        entry_offset[0] = index * sizeof(CarpetImage);
-#define ENTRY ((CarpetImage *)((char *)carpet + entry_offset[0]))
-        if (!ENTRY->handle || !MATERIALIZE_HANDLE(ENTRY->handle)) {
-            if (ENTRY->handle) {
-                hFree(ENTRY->handle);
-                ENTRY->handle = 0;
+        if (!carpet->images[index].image || !materialize_handle(carpet->images[index].image)) {
+            if (carpet->images[index].image) {
+                hFree(carpet->images[index].image);
+                carpet->images[index].image = 0;
             }
-            copy_handle = hNew(sizeof(Shape));
-            source = h2p(*Pics[2]);
+            copy_handle = hNew(sizeof(SHAPELISTRSRC));
+            source = h2p(Pics[2]->resource);
             copy = h2p(copy_handle);
             *copy = *source;
-            copy->flags |= 4;
-            copy->colors = 32;
-            PrinceNewShpItem(copy_handle, index + 302, ENTRY, 1);
-            hPurge(ENTRY->handle);
+            *(byte far *)&copy->palette.banks |= 4;
+            copy->palette.colors = 32;
+            PrinceNewShpItem(copy_handle, index + 302, &carpet->images[index], 1);
+            hPurge(carpet->images[index].image);
             hFree(copy_handle);
             PrinceFreeShp(CARPET_SHAPE_ID + index);
         }
     }
-#undef ENTRY
-    return carpet->images[index].handle;
+    return carpet->images[index].image;
 }
 
-void DrawCarpet(byte *tile)
+void DrawCarpet(DRAWCELL *cell)
 {
-    CarpetDraw far *entry;
-    ShapeRef ref;
-    Shape far *shape;
+    BFITEM far *entry;
+    SHAPEINFO ref;
+    SHAPE far *shape;
 
-    if (carpet && !carpet->frame && !*tile && NewRoom) {
+    if (carpet && !carpet->frame && !cell->pass && NewRoom) {
         entry = &BackTable[Ct[0]];
         ++Ct[0];
-        entry->y = carpet_x;
-        entry->x = carpet_y;
-        entry->colors = CARPET_SHAPE_ID;
-        entry->sheet = 4;
-        entry->col = ColNo;
+        entry->pos.y = carpet_x;
+        entry->pos.x = carpet_y;
+        entry->pos.image = CARPET_SHAPE_ID;
+        entry->image_set = 4;
+        entry->column = ColNo;
         entry->row = RowNo;
         shape = GetCarpetShpInfo(&ref, 0);
-        MAKESHAPERECT(&entry->bounds, entry->y, entry->x, shape);
-        entry->order = 10;
-        entry->flags = ObjId;
+        MakeShapeRect(&entry->clip, entry->pos.y, entry->pos.x, shape);
+        entry->blit = 10;
+        entry->peel = ObjId;
     }
 }
 
 void SaveUnderCarpet(void)
 {
-    ShapeRef ref;
-    Shape far *shape;
+    SHAPEINFO ref;
+    SHAPE far *shape;
 
     if (carpet && !carpet->saved) {
         shape = GetCarpetShpInfo(&ref, 0);
@@ -190,24 +139,24 @@ void SaveUnderCarpet(void)
     }
 }
 
-void DrawObjCarpet(byte *unused)
+void DrawObjCarpet(byte unused)
 {
     int slot, frame;
-    Shape far *shape;
-    ShapeRef ref;
-    signed char scroll;
+    SHAPE far *shape;
+    SHAPEINFO ref;
+    sbyte scroll;
     byte palette;
 
     if (carpet && carpet->frame) {
         slot = Ct[3]; MidTable[slot].x = FChar.x;
         frame = GetCarpetFrame(); shape = GetCarpetShpInfo(&ref, carpet_animation.images[frame] + 1);
-        MidTable[slot].y = FChar.y - shape->height; MidTable[slot].sheet = 4;
-        MidTable[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; MidTable[slot].clip = *(Rect *)&FChar.clip.top;
-        MidTable[slot].order = 10;
-        MidTable[slot].reserved = 0; MidTable[slot].invisible = 0; MidTable[slot].depth = 255;
+        MidTable[slot].y = FChar.y - shape->height; MidTable[slot].image_set = 4;
+        MidTable[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; MidTable[slot].clip = FChar.clip;
+        MidTable[slot].blit = 10;
+        MidTable[slot].variant = 0; MidTable[slot].mirrored = 0; MidTable[slot].owner = 255;
         if (carpet_animation.scroll[frame]) {
             scroll = carpet_animation.scroll[frame];
-            ObjTable[0].y += scroll; OFFSETRECT(&ObjTable[0].clip, &ObjTable[0].clip, 0, scroll);
+            ObjTable[0].y += scroll; OffsetRect(&ObjTable[0].clip, &ObjTable[0].clip, 0, scroll);
         }
         if (carpet->sitting) {
             palette = carpet->frame - 4;
@@ -235,17 +184,16 @@ int GetCarpetFrame(void)
     return frame; /* DOS leaves the result uninitialized when carpet is null. */
 }
 
-Shape far * far _fastcall GetCarpetShpInfo(ShapeRef *ref, int index)
+SHAPE far * _fastcall GetCarpetShpInfo(SHAPEINFO *ref, int index)
 {
-    Shape far *shape = 0;
+    SHAPE far *shape = 0;
 
     if (carpet) {
-        char zero = 0;
-        ref->sheet = 1;
-        ref->col = zero;
-        ref->row = zero;
-        if (ref->handle = CheckCarpetImg(index))
-            shape = h2p(carpet->images[index].handle);
+        ref->mode = 1;
+        ref->temporary = 0;
+        ref->mirrored = 0;
+        if (ref->image = CheckCarpetImg(index))
+            shape = h2p(carpet->images[index].image);
     }
     return shape;
 }
@@ -255,10 +203,9 @@ void LoadCarpetData(void)
     int index;
     carpet = _nmalloc(sizeof(Carpet));
     memset(carpet, 0, sizeof(Carpet));
-    index = 0;
-    do {
+    for (index = 0; index < 10; ++index) {
         CheckCarpetImg(index);
-    } while (++index < 10);
+    }
 }
 
 void MapCarpetColors(void)
@@ -269,39 +216,39 @@ void MapCarpetColors(void)
 void SetupCarpet(void)
 {
     int frame;
-    ShapeRef ref;
-    Shape far *shape;
+    SHAPEINFO ref;
+    SHAPE far *shape;
 
     if (carpet && carpet->frame) {
         SaveFChar();
         frame = GetCarpetFrame();
         FChar.image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
-        FChar.y += carpet_animation.steps[frame].dy;
-        FChar.x += carpet_animation.steps[frame].dx;
-        if (!(FChar.flipped))
+        FChar.y += carpet_animation.steps[frame].y;
+        FChar.x += carpet_animation.steps[frame].x;
+        if (!FChar.direction)
             FChar.x -= 20;
         init_fchar_rect();
         shape = GetCarpetShpInfo(&ref, FChar.image - CARPET_SHAPE_ID);
-        MAKESHAPERECT((Rect *)&FChar.clip.top, FChar.y - shape->height, FChar.x, shape);
+        MakeShapeRect(&FChar.clip, FChar.y - shape->height, FChar.x, shape);
         AddCharObj(13);
-        MarkBufsForRect(MarkFRedraw, (Rect *)&FChar.clip.top, -1);
+        MarkBufsForRect(MarkFRedraw, &FChar.clip, -1);
         RestoreFChar();
     }
 }
 
 void Sitting(void)
 {
-    ShapeRef ref;
-    Shape far *shape;
+    SHAPEINFO ref;
+    SHAPE far *shape;
     Rect rect;
 
     if (carpet) {
         if (!carpet->frame && Char.frame == 295) {
             carpet->frame = 1;
             ReadCell(3, 3, 2);
-            MakeSpace(Cell.room, (Cell.index));
+            MakeSpace(Cell.room, Cell.index);
             shape = GetCarpetShpInfo(&ref, 0);
-            MAKESHAPERECT(&rect, carpet_x, carpet_y, shape);
+            MakeShapeRect(&rect, carpet_x, carpet_y, shape);
             MarkBufsForRect(MarkMove, &rect, -1);
             return;
         }
@@ -341,8 +288,8 @@ void UnloadCarpetData(void)
     int i;
 
     for (i = 0; i < 10; i++) {
-        if (carpet->images[i].handle)
-            hFree(carpet->images[i].handle);
+        if (carpet->images[i].image)
+            hFree(carpet->images[i].image);
     }
     ResetSnd(10033);
     UnloadSounds(33, 36);
@@ -352,21 +299,21 @@ void UnloadCarpetData(void)
 
 void AnimCaveBars(void)
 {
-    unsigned int phase = BlueSpec & 7;
+    word phase = BlueSpec.modifier & 7;
     if (!Trob.state) {
         if (phase < 3) {
             if (!phase)
                 AddSound(78);
-            BlueSpec &= ~7;
-            BlueSpec |= phase + 1;
+            BlueSpec.modifier &= ~7;
+            BlueSpec.modifier |= phase + 1;
             RedrawCaveBars();
             return;
         }
     } else if (phase) {
         if (phase == 3)
             AddSound(79);
-        BlueSpec &= ~7;
-        BlueSpec |= phase - 1;
+        BlueSpec.modifier &= ~7;
+        BlueSpec.modifier |= phase - 1;
         RedrawCaveBars();
         return;
     }
@@ -381,15 +328,15 @@ int IsCaveBarsOpen(void)
     return 0;
 }
 
-void DrawCaveBars(TileAnim *tile)
+void DrawCaveBars(DRAWCELL *tile)
 {
     Rect saved;
-    if (tile->kind == 11 && tile->row == ColNo) {
+    if (tile->pass == 11 && tile->column == ColNo) {
         if (!NewRoom) {
             saved = CellClipRect;
             CellClipRect = GamePlayRect;
         }
-        DrawCustomRoomImg((tile->modifier & 7) + 2, 11);
+        DrawCustomRoomImg((tile->info.modifier & 7) + 2, 11);
         if (!NewRoom)
             CellClipRect = saved;
     }
@@ -402,12 +349,12 @@ void RedrawCaveBars(void)
         MarkBufsForRect(MarkMove, &rect, -1);
 }
 
-signed char TriggerCaveBars(byte room, signed char cell)
+sbyte TriggerCaveBars(byte room, sbyte cell)
 {
-    signed char result = -1;
+    sbyte result = -1;
     int state;
     if (!(((byte *)&Cell.modifier)[1] & 8)) {
-        state = (int)((LEVELCELL *)Level.cell_info)[room * (byte)30 + cell - 30].modifier;
+        state = (int)((LEVELCELL *)Level.cell_info)[room * 30 + cell - 30].modifier;
         if (!state)
             result = 0;
         else if (state == 3)

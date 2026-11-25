@@ -1,37 +1,65 @@
+#include <string.h>
+#include <stdlib.h>
 #include "types.h"
+#include "snd.h"
+#include "shape.h"
+#include "graf.h"
 #include "level.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "custom.h"
+#include "movecave.h"
+#include "tables.h"
+#include "act.h"
+#include "add.h"
+#include "altar.h"
+#include "autoguar.h"
+#include "bridge.h"
+#include "ctrl.h"
+#include "custcvca.h"
+#include "desert.h"
+#include "movespik.h"
+#include "auto.h"
+#include "fade.h"
+#include "drawcave.h"
+#include "dlghelp.h"
+#include "final.h"
+#include "moveruin.h"
+#include "movescyt.h"
+#include "move.h"
+#include "movetemp.h"
+#include "prince.h"
+#include "rooftops.h"
+#include "misc.h"
+#include "sound.h"
+#include "top.h"
+#include "util.h"
 
+unsigned int RedrawBuf[30];
+byte ObjBuf[30];
 MOBREC Mob;
 int TrobCt;
 TROBREC Trob;
 TROBREC Trobs[20];
 int MobI;
+DIRTYCELL TopBuf[10];
+DIRTYCELL MoveBuf[30];
+DIRTYCELL FloorBuf[30];
+DIRTYCELL FRedrawBuf[30];
+int HalfBuf[30];
+LEVELCELL *BlueS;
+byte *BlueT;
+int MobCt;
+
 
 static sbyte exit_close_speed[] = {5, 17, 99, 0};
 static sbyte gate_close_speed[] = {0, 0, 0, 20, 40, 60, 80, 100, 120, 0};
 sbyte GateInc[] = {-1, -4, 4, 4};
 
-extern LEVELREC Level;
-typedef struct {
-    unsigned state;
-    unsigned extra;
-} RoomObject;
-
-RoomObject *BlueS;
-extern RoomObject BlueSpec;
-byte *BlueT;
-extern byte ObjId;
 
 #define TrobStateOffset ((unsigned)&((TROBREC *)0)->state)
 
-void AnimTrob(int index);
-
-void AddMobs(void);
-void AnimMobs(void);
-void AnimTrobs(void);
-int ChangeLinkTimer(int link, byte timer);
 
 void AnimTrobs(void)
 {
@@ -66,40 +94,14 @@ void AnimTrobs(void)
                         *dst = *(TROBREC *)(state - TrobStateOffset);
                     }
                     state += sizeof(TROBREC);
-                } while (++i < *(volatile int *)&TrobCt);
+                } while (++i < TrobCt);
             }
             TrobCt = compact.kept;
         }
     }
 }
 
-extern void select_room_arrays(byte room);
-void GetOS(int);
-void AnimFlask(void);
-void AnimLoose(void);
-void AnimExit(void);
-void AnimTorch(int);
-void AnimGate(void);
-void AnimPlate(void);
-extern void AnimDsrtExit(void);
-extern void AnimScythe(void);
-extern void AnimLava(void);
-extern void AnimCaveBars(void);
-extern void AnimDsrtRocks(void);
-extern void AnimDsrtPlanks(void);
-extern void AnimDsrtStone(void);
-extern void AnimFinlJaffarBlink(void);
-extern void AnimDart(void);
-extern void AnimRoofPillar(void);
-extern void AnimRoofShip(void);
-extern void AnimRoofGlass(void);
-extern void AnimFinlSpider(void);
-extern void AnimFinlCrystal(void);
-extern void AnimFinlGargoyle(void);
-extern void AnimSacredFlame(void);
-extern void AnimBrgFloor(void);
 
-/* Draft. External provider names and same-file prototypes remain provisional. */
 void AnimTrob(int index)
 {
     select_room_arrays(Trob.room);
@@ -181,10 +183,10 @@ void AnimTrob(int index)
         AnimBrgFloor();
         break;
     }
-    BlueS[Trob.cell].state = BlueSpec.state;
+    BlueS[Trob.cell].modifier = BlueSpec.modifier;
 }
 
-typedef void (far *CellMark)(sbyte cell, Rect *rect);
+typedef void (*CellMark)(sbyte cell, Rect *rect);
 
 static Rect temple_gate_rect = {-11, 17, 63, 57};
 static Rect gate_rect = {-11, 32, 63, 57};
@@ -214,21 +216,6 @@ Rect *LevelExitClipRect[5] = {
     0, 0, &clip_char_rect_templates[2], &clip_char_rect_templates[0], &clip_char_rect_templates[1]
 };
 
-extern int IsSpace(byte);
-extern sbyte CellToCol(byte room, int cell);
-extern ROOMREC Room;
-extern sbyte CellToRow(byte room, int cell);
-extern Rect *ComputeOffsetCellRect(Rect *out, Rect *base, int col, int row);
-Rect *ComputeTrobMoveRect(Rect *out, Rect *base);
-sbyte CheckTrob(void);
-sbyte CheckTrobLeft(void);
-sbyte CheckTrobRight(void);
-sbyte CheckTrobAbove(void);
-sbyte CheckTrobAboveRight(void);
-sbyte CheckTrobBelow(void);
-void MarkMove(sbyte cell, Rect *rect);
-void MarkBufsForRect(CellMark, Rect *, sbyte);
-int IsVisibleRoomCell(byte, sbyte);
 
 void RedrawTorch(void)
 {
@@ -300,7 +287,7 @@ void RedrawGate(void)
     else
         work.rect = gate_rect;
     work.cell = CheckTrobAboveRight();
-    if (work.cell != 30 && work.cell >= 0 && !IsSpace((&Level.cell_kinds[0][0])[30 * Room.number - 30 + work.cell]))
+    if (work.cell != 30 && work.cell >= 0 && !IsSpace(Level.cell_kinds[Room.number - 1][work.cell]))
         work.rect.top = 0;
     if (ComputeTrobMoveRect(&work.rect, &work.rect)) {
         MarkMove(Trob.cell, &work.rect);
@@ -454,18 +441,6 @@ sbyte CheckTrobBelow(void)
     return cell;
 }
 
-extern int WeightlessTimer, AlertGuard;
-extern void OnGround(void);
-extern void FallOn(void);
-extern void Falling(void);
-extern sbyte GetAbove(void);
-extern sbyte GetUnderFt(void);
-extern void BreakTotalLoose(void);
-extern byte CutRoom;
-extern CHARREC Char;
-void BreakLoose(sbyte);
-void JamPlate(void);
-void PushPlate(sbyte, int);
 
 void CheckFloor(void)
 {
@@ -499,7 +474,6 @@ void CheckFloor(void)
     }
 }
 
-extern FRAMEREC Frame;
 
 void CheckPress(void)
 {
@@ -546,11 +520,6 @@ void CheckPress(void)
     }
 }
 
-extern int FrameNum;
-
-extern GAMESTATE GameState;
-extern CHARREC Kid;
-int GetTorchFrame(int);
 
 void AnimFlask(void)
 {
@@ -558,13 +527,13 @@ void AnimFlask(void)
         if (Trob.state < 0 || !CheckTrobVis())
             return;
         {
-            unsigned state = BlueSpec.state & ~31U;
-            int frame = BlueSpec.state & 31;
+            unsigned state = BlueSpec.modifier & ~31;
+            int frame = BlueSpec.modifier & 31;
             if (frame >= 27)
                 frame = 0;
             else
                 ++frame;
-            BlueSpec.state = state | frame;
+            BlueSpec.modifier = state | frame;
             RedrawFlask();
         }
         return;
@@ -575,29 +544,17 @@ void AnimFlask(void)
 void AnimTorch(int index)
 {
     if (CheckTrobVis()) {
-        int frame = GetTorchFrame((byte)BlueSpec.state);
-        BlueSpec.state = (BlueSpec.state & 0xff00U) + frame;
+        int frame = GetTorchFrame((byte)BlueSpec.modifier);
+        BlueSpec.modifier = (BlueSpec.modifier & 0xff00) + frame;
         if (!GameState.fade_active || ((FrameNum + index) & 1))
             RedrawTorch();
     }
 }
 
-extern struct {
-    signed char argument, entrance_mode, sword_kind, death_countdown;
-    int field_4, shadow_timer;
-} KidInfo;
-extern struct { unsigned char channels, volume; } Midi;
-
-extern void AddSound(int), ResetSnd(int);
-void StopGate(int);
-void CheckSquishedFingers(void);
-int DidKidEscapeOpp(void);
-void AddGateSound(int);
-extern int CaveMoveSquishingGate(int);
 
 void AnimGate(void)
 {
-    unsigned modifier = BlueSpec.state;
+    unsigned modifier = BlueSpec.modifier;
     int height = modifier & 255;
     sbyte phase = Trob.state;
     int sound;
@@ -667,15 +624,12 @@ void AnimGate(void)
                 }
             }
         }
-        BlueSpec.state = (BlueSpec.state & 0xff00U) + height;
+        BlueSpec.modifier = (BlueSpec.modifier & 0xff00) + height;
     }
     if (height <= 200)
         RedrawGate();
 }
 
-extern void LoadKid(void);
-extern void JumpSeq(int);
-extern sbyte FirstInRow(sbyte);
 
 void StopGate(int height)
 {
@@ -701,8 +655,6 @@ void CheckSquishedFingers(void)
     }
 }
 
-extern CHARREC RoomOpp[5];
-#pragma intrinsic(abs)
 
 int DidKidEscapeOpp(void)
 {
@@ -729,7 +681,7 @@ int DidKidEscapeOpp(void)
 
 void AnimExit(void)
 {
-    int height = BlueSpec.state & 255;
+    int height = BlueSpec.modifier & 255;
 
     if (Trob.state >= 0) {
         if (Trob.state >= 4) {
@@ -753,14 +705,10 @@ void AnimExit(void)
                 AddSound(7);
         }
     }
-    BlueSpec.state = (BlueSpec.state & 0xff00U) + height;
+    BlueSpec.modifier = (BlueSpec.modifier & 0xff00) + height;
     RedrawExit();
 }
 
-extern int CaveGetTorchFrame(int frame), TempGetTorchFrame(int frame);
-extern int EMPTYRECT(Rect far *rect);
-extern sbyte IndexCell(sbyte column, sbyte row);
-extern CELLREC Cell;
 
 int IsExitOpen(void)
 {
@@ -779,23 +727,6 @@ int GetTorchFrame(int frame)
     return result;
 }
 
-typedef struct {
-    int dirty;
-    Rect rect;
-} MarkedRect;
-
-MarkedRect TopBuf[10];
-MarkedRect MoveBuf[30];
-MarkedRect FloorBuf[30];
-MarkedRect FRedrawBuf[30];
-int HalfBuf[30];
-
-extern void ComputeClipRect(Rect far *out, int column, int row);
-extern int SECTRECT(Rect far *out, Rect far *a, Rect far *b);
-extern void UNIONRECT(Rect far *out, Rect far *a, Rect far *b);
-
-void MarkRectBuf(MarkedRect *mark, int cell, Rect *clip);
-void MarkOppUpdateForRect(Rect *clip, sbyte except);
 
 void MarkTop(int cell, Rect *clip)
 {
@@ -803,11 +734,11 @@ void MarkTop(int cell, Rect *clip)
 
     if (cell <= -1 && cell >= -10) {
         ComputeClipRect(&rect, -((cell + 1) % 10), -1);
-        if (!clip || SECTRECT(&rect, &rect, clip)) {
+        if (!clip || SectRect(&rect, &rect, clip)) {
             ++cell;
             cell = -cell;
             if (TopBuf[cell].dirty)
-                UNIONRECT(&TopBuf[cell].rect, &TopBuf[cell].rect, &rect);
+                UnionRect(&TopBuf[cell].rect, &TopBuf[cell].rect, &rect);
             else {
                 TopBuf[cell].dirty = 1;
                 TopBuf[cell].rect = rect;
@@ -896,7 +827,7 @@ void MarkBufsForRect(CellMark mark, Rect *rect, sbyte except)
     } bounds;
     sbyte row, column;
 
-    if (!EMPTYRECT(rect)) {
+    if (!EmptyRect(rect)) {
         if (rect->top >= 3)
             bounds.top = (rect->top - 3) / 63;
         else
@@ -923,18 +854,18 @@ void MarkOppUpdateForRect(Rect *clip, sbyte except)
 
     for (i = 0; i < count; ++i) {
         if (RoomOpp[i].slot != except)
-            RoomOpp[i].previous_mode |= SECTRECT(&hit, &RoomOpp[i].bounds, clip);
+            RoomOpp[i].previous_mode |= SectRect(&hit, &RoomOpp[i].bounds, clip);
     }
 }
 
-void MarkRectBuf(MarkedRect *mark, int cell, Rect *clip)
+void MarkRectBuf(DIRTYCELL *mark, int cell, Rect *clip)
 {
     Rect rect;
 
     ComputeClipRect(&rect, cell % 10, cell / 10);
-    if (SECTRECT(&rect, &rect, clip)) {
+    if (SectRect(&rect, &rect, clip)) {
         if (mark->dirty)
-            UNIONRECT(&mark->rect, &mark->rect, &rect);
+            UnionRect(&mark->rect, &mark->rect, &rect);
         else {
             mark->dirty = 1;
             mark->rect = rect;
@@ -942,13 +873,6 @@ void MarkRectBuf(MarkedRect *mark, int cell, Rect *clip)
     }
 }
 
-int GetLinkNext(int link);
-int GetLinkCell(int link);
-byte GetLinkRoom(int link);
-TROBREC *GetTrobRoomCell(byte room, int cell);
-void AddTrob(byte room, sbyte cell, sbyte state, byte kind);
-sbyte TriggerObject(byte kind, byte room, sbyte cell, int action);
-extern unsigned Rnd(unsigned limit);
 
 void Trigger(int link, int action)
 {
@@ -969,36 +893,34 @@ void Trigger(int link, int action)
     }
 }
 
-void TriggerFlask(byte room, sbyte cell)
+void TriggerFlask(sbyte room, sbyte cell)
 {
-    unsigned state = (BlueS[cell].state & ~31U) | (Rnd(26) + 1);
-    BlueS[cell].state = state;
+    unsigned state = (BlueS[cell].modifier & ~31) | (Rnd(26) + 1);
+    BlueS[cell].modifier = state;
     AddTrob(room, cell, 1, 10);
 }
 
-extern sbyte TriggerGateWithRevPlate(byte room, sbyte cell);
-extern int IsDeadPos(unsigned int frame);
 
 sbyte TriggerGate(byte room, sbyte cell, int action)
 {
     sbyte state = -1;
-    unsigned value = BlueS[cell].state;
+    unsigned value = BlueS[cell].modifier;
     unsigned height = value & 255;
     unsigned modifier = value;
-    unsigned flags = modifier & 0xff00U;
+    unsigned flags = modifier & 0xff00;
 
     switch (action) {
     case 5:
         if (height == 255)
             break;
         if (height >= 200) {
-            BlueS[cell].state = flags + 250;
+            BlueS[cell].modifier = flags + 250;
             if (Char.alive >= 0 || (CutRoom && CutRoom != Char.room)) {
-                BlueS[cell].state = flags + 255;
+                BlueS[cell].modifier = flags + 255;
                 state = 3;
             }
         } else {
-            BlueS[cell].state = flags + ((height + 3) & 0xfc);
+            BlueS[cell].modifier = flags + ((height + 3) & 0xfc);
             if (Char.alive >= 0 || (CutRoom && CutRoom != Char.room))
                 state = 3;
             else
@@ -1017,7 +939,7 @@ sbyte TriggerGate(byte room, sbyte cell, int action)
         if (height < 200)
             state = 3;
         else
-            BlueS[cell].state = flags + 255;
+            BlueS[cell].modifier = flags + 255;
         break;
     case 34:
         state = TriggerGateWithRevPlate(room, cell);
@@ -1026,11 +948,6 @@ sbyte TriggerGate(byte room, sbyte cell, int action)
     return state;
 }
 
-extern int SndOn(int id);
-extern void AddSong(int sound);
-extern void TriggerSlideRock(byte room, sbyte cell, sbyte state);
-extern sbyte TriggerCaveBars(byte room, sbyte cell);
-extern void TriggerDart(byte, sbyte);
 
 sbyte TriggerObject(byte kind, byte room, sbyte cell, int action)
 {
@@ -1044,7 +961,7 @@ sbyte TriggerObject(byte kind, byte room, sbyte cell, int action)
         if (room != Level.entry_room && Level.level_number == 8 && KidInfo.sword_kind != 1) {
             state = -1;
         } else {
-            int height = BlueS[cell].state & 255;
+            int height = BlueS[cell].modifier & 255;
             state = height ? -1 : 1;
             if (state == 1 && !SndOn(10027) && Level.level_number != 13)
                 AddSong(27);
@@ -1062,7 +979,7 @@ sbyte TriggerObject(byte kind, byte room, sbyte cell, int action)
         state = TriggerCaveBars(room, cell);
         break;
     case 36:
-        if (!(Cell.modifier & 0x0800U))
+        if (!(Cell.modifier & 0x0800))
             TriggerDart(room, cell);
         state = -1;
         break;
@@ -1075,8 +992,8 @@ sbyte TriggerObject(byte kind, byte room, sbyte cell, int action)
 
 void TriggerTorch(byte room, sbyte cell)
 {
-    unsigned state = (BlueS[cell].state & 0xff00U) + Rnd(Level.environment_kind == 3 ? 8 : 3);
-    BlueS[cell].state = state;
+    unsigned state = (BlueS[cell].modifier & 0xff00) + Rnd(Level.environment_kind == 3 ? 8 : 3);
+    BlueS[cell].modifier = state;
     AddTrob(room, cell, 1, 19);
 }
 
@@ -1098,11 +1015,6 @@ void AddTrob(byte room, sbyte cell, sbyte state, byte kind)
     }
 }
 
-void * _cdecl memset(void *, int, unsigned int);
-#pragma intrinsic(memset)
-
-unsigned int RedrawBuf[30];
-unsigned char ObjBuf[30];
 
 void ZeroBuffers(void)
 {
@@ -1115,8 +1027,6 @@ void ZeroBuffers(void)
     memset(TopBuf, 0, sizeof(TopBuf));
 }
 
-extern byte ReadCell(byte room, sbyte column, sbyte row);
-extern int IsWall(byte tile);
 
 sbyte Get1stWallColInDir(byte room, sbyte column, sbyte row, sbyte step)
 {
@@ -1128,9 +1038,8 @@ sbyte Get1stWallColInDir(byte room, sbyte column, sbyte row, sbyte step)
     return column;
 }
 
-extern int far _fastcall TempGetSlideRockX(unsigned char room, signed char row);
 
-int far _fastcall GetSlideRockX(signed char room, signed char row)
+int _fastcall GetSlideRockX(sbyte room, sbyte row)
 {
     int x;
 
@@ -1193,7 +1102,7 @@ void PushPlate(sbyte kind, int link)
         link = Cell.modifier & 255;
     previous_timer = GetLinkTimer(link);
     cell = Cell.index;
-    state = Cell.modifier | 0x0800U;
+    state = Cell.modifier | 0x0800;
     room = Cell.room;
     if (previous_timer != 31 && (ChangeLinkTimer(link, 5), previous_timer < 2)) {
         AddTrob(Cell.room, Cell.index, 1, kind);
@@ -1219,14 +1128,14 @@ void JamPlate(void)
 void AnimPlate(void)
 {
     if (Trob.state >= 0) {
-        int link = BlueSpec.state & 255;
+        int link = BlueSpec.modifier & 255;
         sbyte timer = GetLinkTimer(link);
         if (timer < 31) {
             ChangeLinkTimer(link, timer - 1);
             if (timer < 2) {
                 Trob.state = -1;
                 RedrawPlate();
-                BlueSpec.state &= ~0x0800U;
+                BlueSpec.modifier &= ~0x0800;
                 return;
             }
         } else
@@ -1237,20 +1146,15 @@ void AnimPlate(void)
 void CloseExit(byte room, sbyte cell)
 {
     if (Level.environment_kind != 1) {
-        RoomObject *objects = BlueS;
-        objects[cell].state = (objects[cell].state & 0xff00U) + 42;
+        LEVELCELL *objects = BlueS;
+        objects[cell].modifier = (objects[cell].modifier & 0xff00) + 42;
         AddTrob(room, cell, 4, 17);
     }
 }
 
-void MakeSpace(byte room, sbyte cell);
-void AddMob(void);
-void PassThru(void);
-void MarkMobRedraw(sbyte layer);
-extern sbyte IndexCell1(sbyte column, sbyte row);
+
 static MOBREC mobs[30];
-int MobCt;
-extern sbyte GetRow(int value);
+
 
 void AnimLoose(void)
 {
@@ -1258,18 +1162,18 @@ void AnimLoose(void)
     int kind;
     sbyte row;
 
-    ++BlueSpec.state;
-    frame = BlueSpec.state & 15;
+    ++BlueSpec.modifier;
+    frame = BlueSpec.modifier & 15;
     if (Trob.state != -1) {
-        if (BlueSpec.state & 0x40) {
+        if (BlueSpec.modifier & 0x40) {
             if (frame >= 4) {
                 Trob.state = -1;
-                BlueSpec.state = (BlueSpec.state & 0xff00U) | (BlueSpec.state & 0xb0U);
+                BlueSpec.modifier = (BlueSpec.modifier & 0xff00) | (BlueSpec.modifier & 0xb0);
             }
         } else if (frame >= 12) {
-            kind = Level.environment_kind == 3 ? (BlueSpec.state & 0x80) >> 7 : 3;
+            kind = Level.environment_kind == 3 ? (BlueSpec.modifier & 0x80) >> 7 : 3;
             MakeSpace(Trob.room, Trob.cell);
-            BlueSpec.state = kind + 3;
+            BlueSpec.modifier = kind + 3;
             Mob.x = (Trob.cell % 10) * 32;
             row = Trob.cell / 10;
             Mob.y = row * 63 + 66;
@@ -1286,7 +1190,7 @@ void AnimLoose(void)
     RedrawLoose();
 }
 
-void MakeSpace(unsigned char room, signed char cell)
+void MakeSpace(byte room, sbyte cell)
 {
     int index = cell;
     unsigned state;
@@ -1295,24 +1199,20 @@ void MakeSpace(unsigned char room, signed char cell)
     if (Level.level_number == 5 && room == 3)
         state = 0xc000;
     else
-        state = (BlueS[*(volatile int *)&index].state & 0x80) + 3;
-    BlueS[*(volatile int *)&index].state = state;
+        state = (BlueS[index].modifier & 0x80) + 3;
+    BlueS[*(volatile int *)&index].modifier = state;
 }
 
-extern void ShakeTrapDoor(void);
-extern void ShakeBones(byte room, sbyte row);
-
-void ShakeLooseFloor(void);
 
 void BreakLoose(sbyte sound)
 {
     if (Char.character_kind == 1 && sound == 0) {
         ShakeLooseFloor();
     } else {
-        unsigned state = Cell.modifier & ~0x40U;
+        unsigned state = Cell.modifier & ~0x40;
         if (sound)
-            state = (state & ~4U) | 11;
-        BlueS[Cell.index].state = state;
+            state = (state & ~4) | 11;
+        BlueS[Cell.index].modifier = state;
         AddTrob(Cell.room, Cell.index, sound, 11);
         AddSound(20);
     }
@@ -1325,13 +1225,13 @@ void ShakeLooseFloor(void)
 
         if ((Cell.column != Char.column && counter != 3) || Char.character_kind == 1) {
             int index;
-            RoomObject *objects;
+            LEVELCELL *objects;
 
-            Cell.modifier &= ~0x30U;
+            Cell.modifier &= ~0x30;
             index = Cell.index;
             objects = BlueS;
             Cell.modifier |= (counter | 4) << 4;
-            objects[index].state = Cell.modifier | 0x40;
+            objects[index].modifier = Cell.modifier | 0x40;
         }
         AddTrob(Cell.room, Cell.index, 1, 11);
         AddSound(20);
@@ -1368,17 +1268,6 @@ void AddMob(void)
         mobs[MobCt++] = Mob;
 }
 
-extern void MobDart(void);
-extern void MobSpikes(void);
-extern void MobSlideRock(void);
-extern void CheckSlideRockCrush(void);
-extern void MobTrapDoor(void);
-extern void MobFireball(void);
-void AnimMob(void);
-void MobLoose(void);
-void CheckLooseCrush(void);
-void MakeRubble(void);
-void KnockLoose(void);
 
 MOBREC *GetMobTypeItem(byte kind, int occurrence)
 {
@@ -1394,10 +1283,10 @@ MOBREC *GetMobTypeItem(byte kind, int occurrence)
     return found;
 }
 
-void GetOS(int cell)
+byte GetOS(int cell)
 {
     BlueSpec = BlueS[cell];
-    ObjId = BlueT[cell];
+    return ObjId = BlueT[cell];
 }
 
 int MobHeight[13] = {18, 18, 2, 16, 27, 39, 69, 69, 12, 12, 37, 37, 18};
@@ -1405,39 +1294,21 @@ int MobWidth[13] = {50, 50, 4, 57, 27, 31, 52, 52, 24, 24, 69, 57, 17};
 
 void AnimMobs(void)
 {
-    struct {
-        MOBREC *destination;
-        int kept, index;
+    int count = MobCt, kept, index;
 
-    } work;
-
-    {
-        int count = MobCt;
-        for (MobI = 0; MobI < count; ++MobI) {
-            Mob = mobs[MobI];
-            AnimMob();
-            mobs[MobI] = Mob;
-        }
+    for (MobI = 0; MobI < count; ++MobI) {
+        Mob = mobs[MobI];
+        AnimMob();
+        mobs[MobI] = Mob;
     }
-
-    work.index = work.kept = 0;
-    if (work.index < MobCt) {
-        int *speed = &mobs[0].velocity;
-
-        work.destination = mobs;
-        do {
-            if (*speed != -1) {
-                MOBREC *next = work.destination++;
-                ++work.kept;
-                *next = *(MOBREC *)((byte *)speed - (unsigned)&((MOBREC *)0)->velocity);
-            }
-            speed = (int *)((byte *)speed + sizeof(MOBREC));
-        } while (++work.index < MobCt);
+    kept = 0;
+    for (index = 0; index < MobCt; ++index) {
+        if (mobs[index].velocity != -1)
+            mobs[kept++] = mobs[index];
     }
-    MobCt = work.kept;
+    MobCt = kept;
 }
 
-extern void MobBrgFloor(void);
 
 void AnimMob(void)
 {
@@ -1509,42 +1380,36 @@ void MobLoose(void)
 
 void MakeRubble(void)
 {
-    struct {
-        int index;
-        sbyte row, column;
-        sbyte plate;
-        byte kind;
-        sbyte cell;
-        byte room;
-    } work;
+    byte room, kind;
+    sbyte column, row, cell, plate;
 
-    work.plate = 0;
-    work.kind = ReadCell(Mob.room, Mob.x / 32, Mob.row);
-    work.room = Cell.room;
-    work.column = Cell.column;
-    work.row = Cell.row;
-    work.cell = Cell.index;
+    plate = 0;
+    kind = ReadCell(Mob.room, Mob.x / 32, Mob.row);
+    room = Cell.room;
+    column = Cell.column;
+    row = Cell.row;
+    cell = Cell.index;
 
-    switch (work.kind) {
+    switch (kind) {
     case 5:
-        work.plate = (&Level.cell_kinds[0][0])[30 * work.room - 30 + work.cell] = 14;
+        plate = Level.cell_kinds[room - 1][cell] = 14;
     case 6:
     case 34:
-        PushPlate(work.plate, -1);
-        if (work.kind == 34)
-            Level.cell_info[work.room - 1][work.cell].modifier = Cell.modifier | 0x1800;
+        PushPlate(plate, -1);
+        if (kind == 34)
+            Level.cell_info[room - 1][cell].modifier = Cell.modifier | 0x1800;
         ReadCell(Mob.room, Mob.x / 32, Mob.row);
-        Cell.modifier &= 0xff00U;
-        if (work.kind == 5)
+        Cell.modifier &= 0xff00;
+        if (kind == 5)
             Cell.modifier |= 4;
-        else if (work.kind == 6)
+        else if (kind == 6)
             Cell.modifier |= 8;
-        work.kind = Cell.kind;
+        kind = Cell.kind;
     case 1:
     case 2:
     case 10:
     case 36:
-        if (work.kind == 10) {
+        if (kind == 10) {
             TROBREC *flask = GetTrobRoomCell(Cell.room, Cell.index);
             if (flask) {
                 Trob = *flask;
@@ -1553,23 +1418,22 @@ void MakeRubble(void)
         }
     case 19:
     case 32:
-        work.kind = ReadCell(work.room, work.column, work.row);
-        if (work.kind == 19 || work.kind == 32) {
-            (&Level.cell_kinds[0][0])[30 * work.room - 30 + work.cell] = 32;
+        kind = ReadCell(room, column, row);
+        if (kind == 19 || kind == 32) {
+            Level.cell_kinds[room - 1][cell] = 32;
         } else {
-            if (work.kind == 10 || work.kind == 1)
+            if (kind == 10 || kind == 1)
                 Cell.modifier = 0;
-            work.index = work.room * 30 + work.cell;
-            (&(&Level.cell_kinds[0][0])[30 * 0 - 30 + 0])[work.index] = 14;
+            Level.cell_kinds[room - 1][cell] = 14;
             if (Level.environment_kind == 4)
-                (&Level.cell_info[0][0])[work.index - 30].modifier = Cell.modifier | 0x40;
-            else if ((Level.environment_kind == 3 || Level.environment_kind == 2) && work.kind != 1)
-                (&Level.cell_info[0][0])[work.index - 30].modifier = 0;
+                Level.cell_info[room - 1][cell].modifier = Cell.modifier | 0x40;
+            else if ((Level.environment_kind == 3 || Level.environment_kind == 2) && kind != 1)
+                Level.cell_info[room - 1][cell].modifier = 0;
         }
         break;
     case 12:
     case 13:
-        Level.cell_info[work.room - 1][work.cell].modifier = Cell.modifier | 0x20;
+        Level.cell_info[room - 1][cell].modifier = Cell.modifier | 0x20;
         break;
     default:
         return;
@@ -1601,31 +1465,6 @@ void PassThru(void)
     }
 }
 
-#pragma pack(1)
-typedef struct {
-    signed char cell;
-    int x;
-    unsigned char fields_before_action[12];
-    unsigned char action;
-} OpponentPosition;
-#pragma pack()
-
-void ATM(void);
-void ATMLoose(void);
-void ComputeMobRect(Rect *rect);
-void AddMobObj(int y);
-int OppInfoUnderMob(OpponentPosition *opp);
-int CharUnderMob(void);
-
-extern void ATMBrgFloor(void);
-extern void ATMDart(void);
-extern void ATMSpikes(void);
-extern void ATMSlideRock(void);
-extern void ATMTrapDoor(void);
-extern void ATMFireball(void);
-extern Rect NullRect;
-extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern FCHARREC FChar;
 
 int IsLoosePushingPlate(void)
 {
@@ -1645,17 +1484,12 @@ int IsLoosePushingPlate(void)
 
 void AddMobs(void)
 {
-    int index = 0;
-    MOBREC *entry;
+    int index;
 
-    if (index < MobCt) {
-        entry = mobs;
-        do {
-            Mob = *entry;
-            ATM();
-            *entry = Mob;
-            ++entry;
-        } while (++index < MobCt);
+    for (index = 0; index < MobCt; ++index) {
+        Mob = mobs[index];
+        ATM();
+        mobs[index] = Mob;
     }
 }
 
@@ -1721,7 +1555,7 @@ void ATMLoose(void)
     }
 
     if (visible) {
-        FChar.index = IndexCell1(column = Mob.x / 32, row = GetRow(y));
+        FChar.cell = IndexCell1(column = Mob.x / 32, row = GetRow(y));
         MarkMobRedraw(1);
         ComputeMobRect(&rect);
         AddMobObj(y);
@@ -1759,7 +1593,7 @@ void ComputeMobRect(Rect *rect)
         else
             y = 0;
         if (x || y)
-            OFFSETRECT(rect, rect, x, y);
+            OffsetRect(rect, rect, x, y);
         else
             *rect = NullRect;
     }
@@ -1780,51 +1614,23 @@ void MarkMobRedraw(sbyte layer)
     MarkBufsForRect(mark, &rect, -1);
 }
 
-#pragma pack(1)
-typedef struct {
-    int x, y;
-    byte bank;
-    int flags;
-    int scratch;
-    byte reserved;
-    byte image;
-    Rect rect;
-    byte layer;
-    int sequence;
-    sbyte order;
-} MobDraw;
-#pragma pack()
-
-extern int Ct[5];
-extern MobDraw ObjTable[];
-extern void SetObjCell(sbyte index);
 
 void AddMobObj(int y)
 {
     int index = Ct[4]++;
-    int zero;
 
-    ObjTable[index].image = Mob.kind | 0x80;
+    ObjTable[index].kind = Mob.kind | 0x80;
     ObjTable[index].x = Mob.x;
     ObjTable[index].y = y;
-    ObjTable[index].bank = 4;
-    ObjTable[index].flags = Mob.flags;
-    ComputeMobRect(&ObjTable[index].rect);
-    zero = 0;
-    ObjTable[index].sequence = zero;
-    ObjTable[index].scratch = zero;
-    ObjTable[index].order = -1;
+    ObjTable[index].image_set = 4;
+    ObjTable[index].image = Mob.flags;
+    ComputeMobRect(&ObjTable[index].clip);
+    ObjTable[index].variant = 0;
+    ObjTable[index].frame = 0;
+    ObjTable[index].owner = -1;
     SetObjCell(index);
 }
 
-extern void CrushChar(void);
-extern void LoadShad(sbyte index);
-extern void SaveShad(void);
-extern OpponentPosition *GetOppInfoIdx(int room, int index);
-extern void CrushOppInfo(OpponentPosition *, byte);
-extern signed char Plus1[2];
-extern signed char Minus1[2];
-extern int GetDist(void);
 
 void CheckLooseCrush(void)
 {
@@ -1849,7 +1655,7 @@ void CheckLooseCrush(void)
                 SaveShad();
             }
         } else {
-            OpponentPosition *guard = GetOppInfoIdx(Mob.room, index);
+            OPPONENT *guard = GetOppInfoIdx(Mob.room, index);
             if (OppInfoUnderMob(guard))
                 CrushOppInfo(guard, Mob.room);
         }
@@ -1888,12 +1694,12 @@ int CharUnderMob(void)
     return hit;
 }
 
-int OppInfoUnderMob(OpponentPosition *opp)
+int OppInfoUnderMob(OPPONENT *opp)
 {
     int result = 0;
-    int height = (signed char)(opp->cell / 10) * 63 + 56;
+    int height = (sbyte)(opp->cell / 10) * 63 + 56;
 
-    if (Level.preferred_opponent != 5 || opp->action != 8)
+    if (Level.preferred_opponent != 5 || opp->kind != 8)
         height -= 30;
     if (height < Mob.y) {
         if (Mob.x / 32 == (opp->x - 144) / 32)
@@ -1952,10 +1758,10 @@ int IsVisibleRoomCell(byte room, sbyte cell)
     return visible;
 }
 
-unsigned char CharObjForePriority[15] = {
+byte CharObjForePriority[15] = {
     127, 127, 127, 100, 127, 50, 127, 127, 127, 100, 127, 127, 127, 200, 200
 };
 
-unsigned char NonCharObjForePriority[13] = {
+byte NonCharObjForePriority[13] = {
     127, 127, 127, 127, 200, 60, 225, 50, 200, 80, 210, 210, 60
 };

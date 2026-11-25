@@ -1,99 +1,39 @@
 /* ANIM.C, overlay 2. Definitions follow DOS code order. Built with line numbers (/Zd) like the other
    library modules: the original relocation order fixes where its line records end. */
+#include <string.h>
+#include <stdio.h>
+#include <malloc.h>
 #include "types.h"
+#include "resc.h"
+#include "system.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
+#include "level.h"
+#include "heap.h"
 #include "char.h"
+#include "fade.h"
+#include "anim.h"
+#include "hnewshpi.h"
+#include "init.h"
+#include "intrface.h"
+#include "xlatgraf.h"
 
-typedef struct
+
+typedef int (*ANIMATIONCALLBACK)(ANIMATION *, int);
+
+
+ANIMATION *AnimDraw(ANIMATION *animation)
 {
-    void far *pixels;
-    Rect bounds;
-    int row_bytes;
-    int flags;
-} Port;
-
-typedef union {
-    unsigned int word;
-    struct {
-        unsigned int ink : 4;
-        unsigned int move_rate : 4;
-        unsigned int frame_rate : 4;
-        unsigned int playback : 4;
-    } bits;
-} ElementFlags;
-
-typedef struct
-{
-    int shape, first, last;
-    ElementFlags flags;
-    signed char move_ticks, frame_ticks;
-    long x, y;
-    long dx, dy;
-    long ddx, ddy;
-} Element;
-
-typedef struct Animation Animation;
-typedef int (far pascal *AnimationCallback)(Animation *, int);
-
-struct Animation
-{
-    Port port;
-    Rect source;
-    unsigned char reserved_18[20];
-    int destination;
-    Port background;
-    Rect bounds, dirty;
-    const unsigned char far *commands;
-    union {
-        int repeats;
-        unsigned char wait_level;
-        unsigned long deadline;
-    } timing;
-    int skip_draw;
-    unsigned int frame_index, delay;
-    unsigned long deadline_base;
-    AnimationCallback callbacks[4];
-    int loops[4];
-    Element elements[32];
-    int sound_flag;
-    int handle_count;
-    unsigned long fade;
-    int handles[1];
-};
-
-typedef struct
-{
-    int height, width;
-    int sound;
-    unsigned char depth;
-} ShapeHeader;
-
-extern int Graf;
-extern unsigned int BankStatus;
-extern union {
-    unsigned long count;
-    struct {
-        unsigned int low, high;
-    } words;
-} TimeVal;
-extern void CopyBits(int, int, const Rect far *, const Rect far *, int);
-extern void QuitFadeTo(unsigned long);
-extern int FadeToStep(unsigned long);
-extern void hFree(int);
-extern void FreePort(void *);
-extern void release_buffer(void far *);
-extern void cdecl free(void *);
-
-Animation *AnimDraw(Animation *animation)
-{
-    int saved_port = Graf;
+    PORT *saved_port = Graf;
 
     Graf = animation->destination;
-    CopyBits(Graf, animation, &animation->bounds, &animation->source, 0);
+    CopyBits(Graf, animation, &animation->background.rect, &animation->port.visible, 0);
     Graf = saved_port;
     return animation;
 }
 
-void AnimFree(Animation *animation)
+void AnimFree(ANIMATION *animation)
 {
     int i;
 
@@ -103,23 +43,19 @@ void AnimFree(Animation *animation)
         if (animation->handles[i])
             hFree(animation->handles[i]);
     }
-    FreePort(animation);
-    release_buffer(animation->background.pixels);
-    if (animation->sound_flag)
-        BankStatus &= ~animation->sound_flag;
+    FreePort(&animation->port);
+    release_buffer(animation->background.map.pixels);
+    if (animation->banks)
+        BankStatus &= ~animation->banks;
     free(animation);
 }
 
-Animation *DrawFrame(Animation *animation);
-Animation *near advance_animation_frame(Animation *animation);
-void near paint_element(Animation *animation, Element *element);
-void near accumulate_element_bounds(Animation *animation, Element *element);
-void near reset_element(Element *element);
 
-extern void SetSnd(int id);
-extern void ResetSnd(int);
-extern int SndOn(int);
-extern unsigned char midi_cue;
+void near paint_element(ANIMATION *animation, ELEMENT *element);
+void near accumulate_element_bounds(ANIMATION *animation, ELEMENT *element);
+void near reset_element(ELEMENT *element);
+
+
 int RLEShapeCutOff = 0;
 
 /* byte-offset access for scanning an unparsed animation resource. */
@@ -127,29 +63,28 @@ int RLEShapeCutOff = 0;
 /* Command operands begin immediately after the opcode. */
 #define EVENT_WORD(p, i) (((const int far *)((p) + 1))[(i)])
 #define EVENT_LONG(p, i) (((const long far *)((p) + 1))[(i)])
-#define CLOCK_WORDS() (TimeVal.words.low | ((unsigned long)TimeVal.words.high << 16))
 
-int AnimIdle(Animation *animation)
+int AnimIdle(ANIMATION *animation)
 {
     int status = 0;
-    int previous_port = Graf;
-    const unsigned char far *event;
+    PORT *previous_port = Graf;
+    const byte far *event;
     int idx;
-    ElementFlags saved_flags;
+    ELEMENTFLAGS saved_flags;
     void far *saved_pixels;
-    Element *current_element;
+    ELEMENT *current_element;
 
-    Graf = animation;
+    Graf = &animation->port;
 
     for (;;) {
         event = animation->commands;
         switch (*event) {
         case 0:
-            if (animation->deadline_base + animation->delay <= CLOCK_WORDS())
+            if (animation->deadline_base + animation->delay <= TimeVal)
                 status = 1;
             break;
         case 1:
-            if (animation->deadline_base + animation->delay <= CLOCK_WORDS()) {
+            if (animation->deadline_base + animation->delay <= TimeVal) {
                 advance_animation_frame(animation);
                 if (!animation->timing.repeats) {
                     animation->timing.repeats = EVENT_WORD(event, 0);
@@ -161,16 +96,16 @@ int AnimIdle(Animation *animation)
             break;
         case 2:
             if (!animation->timing.deadline) {
-                animation->timing.deadline = ((long)EVENT_WORD(event, 0) << 16 >> 16) + CLOCK_WORDS();
+                animation->timing.deadline = EVENT_WORD(event, 0) + TimeVal;
                 if (animation->deadline_base)
                     animation->deadline_base += EVENT_WORD(event, 0);
-            } else if (animation->timing.deadline <= TimeVal.count) {
+            } else if (animation->timing.deadline <= TimeVal) {
                 animation->timing.deadline = 0;
                 animation->commands += 3;
             }
             break;
         case 3:
-            if (animation->deadline_base + animation->delay <= CLOCK_WORDS()) {
+            if (animation->deadline_base + animation->delay <= TimeVal) {
                 SetSnd(EVENT_WORD(event, 0));
                 animation->commands += 3;
             }
@@ -208,12 +143,12 @@ int AnimIdle(Animation *animation)
                 idx = *event & 3;
                 if (animation->loops[idx]) {
                     if (--animation->loops[idx])
-                        *(unsigned *)&animation->commands = event + EVENT_WORD(event, 1) + 3;
+                        *(word *)&animation->commands = event + EVENT_WORD(event, 1) + 3;
                     else
                         animation->commands += 5;
                 } else {
                     animation->loops[idx] = EVENT_WORD(event, 0);
-                    *(unsigned *)&animation->commands = event + EVENT_WORD(event, 1) + 3;
+                    *(word *)&animation->commands = event + EVENT_WORD(event, 1) + 3;
                 }
                 continue;
             }
@@ -264,23 +199,23 @@ int AnimIdle(Animation *animation)
                 animation->commands += 9;
                 continue;
             case 0xe0:
-                if ((signed char)event[1] > 0) {
+                if ((sbyte)event[1] > 0) {
                     Graf = animation->destination;
-                    ((int *)&current_element->x)[1] += animation->bounds.left;
-                    ((int *)&current_element->y)[1] += animation->bounds.top;
+                    ((int *)&current_element->x)[1] += animation->background.rect.left;
+                    ((int *)&current_element->y)[1] += animation->background.rect.top;
                     paint_element(animation, current_element);
-                    ((int *)&current_element->x)[1] -= animation->bounds.left;
-                    ((int *)&current_element->y)[1] -= animation->bounds.top;
-                    Graf = animation;
+                    ((int *)&current_element->x)[1] -= animation->background.rect.left;
+                    ((int *)&current_element->y)[1] -= animation->background.rect.top;
+                    Graf = &animation->port;
                 }
                 if (!event[1]) {
                     paint_element(animation, current_element);
                 } else {
-                    saved_pixels = animation->port.pixels;
-                    animation->port.pixels = animation->background.pixels;
-                    if (animation->port.pixels)
+                    saved_pixels = animation->port.map.pixels;
+                    animation->port.map.pixels = animation->background.map.pixels;
+                    if (animation->port.map.pixels)
                         paint_element(animation, current_element);
-                    animation->port.pixels = saved_pixels;
+                    animation->port.map.pixels = saved_pixels;
                 }
                 animation->commands += 2;
                 continue;
@@ -297,46 +232,30 @@ int AnimIdle(Animation *animation)
     return status;
 }
 
-extern void near *cdecl _nmalloc(unsigned int);
-extern unsigned int cdecl _nmsize(void *);
-extern void near *cdecl memset(void near *, int, unsigned int);
-#pragma intrinsic(memset)
-extern void far *cdecl _fmemcpy(void far *, const void far *, unsigned int);
 
-extern int hGetState(int);
-extern void hSetState(int, int);
-extern ShapeHeader far *h2p(int);
-extern ShapeHeader far *hLock(int);
-extern void hMapShpList(int);
-extern void hUnlock(int);
-extern void hNoPurge(int);
-extern int hNewShpItem1(int, int, int);
-extern int BackPort(void *, const Rect far *);
-extern void SetOrigin(int, int);
-extern void far *ALLOCATE_BUFFER(unsigned long);
-static unsigned char animation_command_codes[] = {
+static byte animation_command_codes[] = {
     0, 1, 2, 3, 4, 5, 6, 7, 0x10, 0x14, 0x20, 0x40, 0x60, 0x80, 0xa0, 0xc0, 0xe0
 };
-static unsigned char animation_operand_lengths[] = {
+static byte animation_operand_lengths[] = {
     0, 4, 2, 2, 2, 2, 1, 0, 2, 4, 4, 4, 4, 4, 8, 8, 1
 };
 char *cp;
 int TGAMode, ForceShapes;
-extern int cdecl sprintf(char *, const char *, ...);
-extern void abort_with_message(int, const char far *);
 
-Animation *AnimNew(const unsigned char far *commands, int sheet, int first_shape,
+
+ANIMATION *AnimNew(const byte far *commands, Handle sheet, int first_shape,
                     int last_shape, int save_background)
 {
     int old_entry = hGetState(sheet);
     int count = last_shape - first_shape + 1;
-    int ei, previous_port;
-    unsigned char used_entries[512];
-    Animation *anim_record;
-    ShapeHeader far *sheet_info;
+    int ei;
+    PORT *previous_port;
+    byte used_entries[512];
+    ANIMATION *anim_record;
+    SHAPELISTRSRC far *sheet_info;
     int idx;
-    const unsigned char far *command_cursor;
-    unsigned char operation;
+    const byte far *command_cursor;
+    byte operation;
     char warning[80];
 
     anim_record = _nmalloc((0x260 + count) * 2);
@@ -384,40 +303,40 @@ Animation *AnimNew(const unsigned char far *commands, int sheet, int first_shape
         anim_record->handle_count = count;
         sheet_info = hLock(sheet);
         if (sheet_info) {
-            TGAMode = sheet_info->depth <= 16;
-            if (sheet_info->sound == 0) {
+            TGAMode = sheet_info->palette.colors <= 16;
+            if (sheet_info->palette.banks == 0) {
                 hMapShpList(sheet);
-                anim_record->sound_flag = sheet_info->sound;
+                anim_record->banks = sheet_info->palette.banks;
             }
             for (count = 0; count < anim_record->handle_count; ++count) {
                 if (used_entries[count]) {
                     if (!(anim_record->handles[count] = hNewShpItem1(sheet, count + first_shape,
                             TGAMode == 0 ? 1 : 2))) {
-                        if (anim_record->sound_flag != 0) sheet_info->sound = 0;
+                        if (anim_record->banks != 0) sheet_info->palette.banks = 0;
                         goto fail;
                     }
                 } else {
                     anim_record->handles[count] = 0;
                 }
             }
-            if (anim_record->sound_flag != 0) sheet_info->sound = 0;
+            if (anim_record->banks != 0) sheet_info->palette.banks = 0;
             hUnlock(sheet);
             hNoPurge(sheet);
         }
         {
-            if (!BackPort(anim_record, _fmemcpy(&anim_record->bounds, commands, sizeof(Rect)))) goto fail;
-            Graf = anim_record;
+            if (!BackPort(&anim_record->port, _fmemcpy(&anim_record->background.rect, commands, sizeof(Rect)))) goto fail;
+            Graf = &anim_record->port;
             SetOrigin(0, 0);
-            anim_record->dirty = anim_record->source;
+            anim_record->dirty = anim_record->port.visible;
             anim_record->commands = &commands[8];
             if (save_background) {
-                anim_record->background = anim_record->port;
-                anim_record->background.pixels = ALLOCATE_BUFFER(
-                    (long)(anim_record->port.bounds.bottom - anim_record->port.bounds.top) *
-                    anim_record->port.row_bytes);
-                if (!anim_record->background.pixels) goto fail;
+                anim_record->background.map = anim_record->port.map;
+                anim_record->background.map.pixels = allocate_buffer(
+                    (long)(anim_record->port.map.bounds.bottom - anim_record->port.map.bounds.top) *
+                    anim_record->port.map.row_bytes);
+                if (!anim_record->background.map.pixels) goto fail;
                 CopyBits(&anim_record->background, anim_record->destination,
-                          &anim_record->source, &anim_record->bounds, 0);
+                          &anim_record->port.visible, &anim_record->background.rect, 0);
             }
         }
         DrawFrame(anim_record);
@@ -432,25 +351,22 @@ restore:
     return anim_record;
 }
 
-extern Rect far *OFFSETRECT(Rect far *, const Rect far *, int, int);
-extern void ClipRect(Rect far *);
-extern void FillRect(Rect far *, int);
-extern void ClipRestore(void);
+
 int ForceFuncParam;
 
-Animation *near advance_animation_frame(Animation *animation)
+ANIMATION *near advance_animation_frame(ANIMATION *animation)
 {
     struct { Rect box; int reserved; } region; /* Extra stack word of unknown purpose. */
-    Element *cursor;
-    Element *element;
+    ELEMENT *cursor;
+    ELEMENT *element;
     int count;
-    signed char tick;
+    sbyte tick;
 
-    ++animation->frame_index; animation->deadline_base = TimeVal.count;
+    ++animation->frame_index; animation->deadline_base = TimeVal;
     if (!animation->skip_draw)
         DrawFrame(animation);
     animation->skip_draw = 0;
-    OFFSETRECT(&region.box, &animation->dirty, animation->bounds.left, animation->bounds.top);
+    OffsetRect(&region.box, &animation->dirty, animation->background.rect.left, animation->background.rect.top);
     CopyBits(animation->destination, animation, &region.box, &animation->dirty, 0);
     memset(&animation->dirty, 0, sizeof(Rect));
     cursor = animation->elements; count = 32;
@@ -490,17 +406,17 @@ Animation *near advance_animation_frame(Animation *animation)
     return animation;
 }
 
-Animation *DrawFrame(Animation *animation)
+ANIMATION *DrawFrame(ANIMATION *animation)
 {
     int i;
-    Element *element;
+    ELEMENT *element;
 
     ClipRect(&animation->dirty);
-    if (animation->background.pixels) {
+    if (animation->background.map.pixels) {
         CopyBits(animation, &animation->background,
-                  &animation->source, &animation->source, 0);
+                  &animation->port.visible, &animation->port.visible, 0);
     } else {
-        FillRect(&animation->source, *(int *)((char *)animation->destination + 0x20));
+        FillRect(&animation->port.visible, *(int *)((char *)animation->destination + 0x20));
     }
     i = 0; element = animation->elements;
     do {
@@ -515,10 +431,8 @@ Animation *DrawFrame(Animation *animation)
     return animation;
 }
 
-extern void PaintRLEShape_asm(const ShapeHeader far *, int, int, int);
-extern void PaintShape(const ShapeHeader far *, int, int, int);
 
-void near paint_element(Animation *animation, Element *element)
+void near paint_element(ANIMATION *animation, ELEMENT *element)
 {
     if (element->shape) {
         if (!TGAMode && RLEShapeCutOff < element->shape)
@@ -532,31 +446,28 @@ void near paint_element(Animation *animation, Element *element)
     }
 }
 
-extern int SECTRECT(Rect far *, const Rect far *, const Rect far *);
-extern int EMPTYRECT(const Rect far *);
-extern void UNIONRECT(Rect far *, const Rect far *, const Rect far *);
 
-void near accumulate_element_bounds(Animation *animation, Element *element)
+void near accumulate_element_bounds(ANIMATION *animation, ELEMENT *element)
 {
     Rect rect;
 
     if (element->shape) {
         rect.left = (int)(element->x >> 16);
         rect.right = rect.left +
-                     h2p(animation->handles[element->shape - 1])->width;
+                     ((SHAPE far *)h2p(animation->handles[element->shape - 1]))->width;
         rect.top = (int)(element->y >> 16);
         rect.bottom = rect.top +
-                      h2p(animation->handles[element->shape - 1])->height;
-        if (SECTRECT(&rect, &rect, &animation->source)) {
-            if (EMPTYRECT(&animation->dirty))
+                      ((SHAPE far *)h2p(animation->handles[element->shape - 1]))->height;
+        if (SectRect(&rect, &rect, &animation->port.visible)) {
+            if (EmptyRect(&animation->dirty))
                 animation->dirty = rect;
             else
-                UNIONRECT(&animation->dirty, &animation->dirty, &rect);
+                UnionRect(&animation->dirty, &animation->dirty, &rect);
         }
     }
 }
 
-void near reset_element(Element *element)
+void near reset_element(ELEMENT *element)
 {
     memset(element, 0, sizeof(*element));
     element->flags.word = (element->flags.word & 0xfff2) | 2;
@@ -564,41 +475,31 @@ void near reset_element(Element *element)
     element->x = 0x80000000UL;
 }
 
-extern int CheckWaitFunc(void);
-extern void ForceFadeOut(void);
-extern void ResetSound(int, int);
-extern void WaitSnd(int);
-extern const unsigned char far *LOAD_RESOURCE_PINNED(unsigned long, int);
-extern int hGetNMapShpList(int, int, int);
-extern int HGETRSRC(unsigned long, int);
-extern int hGetSnd(int);
-extern void CLEAR_PAYLOAD_HEADER(const unsigned char far *);
-extern int query_sound_payload(const void far *);
-extern char ScreenPort[];
 
-int PlayAnim(int sheet_override, int scene, int scene_offset, int save_background,
-              AnimationCallback callback, int restore, unsigned int flags, int interruptible)
+int PlayAnim(Handle shapes, int scene, int scene_offset, int save_background,
+              ANIMATIONCALLBACK callback, int restore, int flags, int interruptible)
 {
     int scene_id;
-    int palette_list, count;
-    int sheet;
-    const unsigned char far *commands;
-    Animation *animation;
-    int palettes[20];
+    Handle palette_list;
+    int count;
+    Handle sheet;
+    const byte far *commands;
+    ANIMATION *animation;
+    Handle palettes[20];
     int result, aborted = 0;
     char message[80];
 
-    scene_id = scene + scene_offset; commands = LOAD_RESOURCE_PINNED(0x00534352UL, scene_id);
-    if (sheet_override) sheet = sheet_override;
+    scene_id = scene + scene_offset; commands = load_resource_pinned(0x00534352UL, scene_id);
+    if (shapes) sheet = shapes;
     else
         sheet = hGetNMapShpList(scene, -1, 1);
-    animation = AnimNew(commands, sheet, 1, h2p(sheet)->width, save_background);
+    animation = AnimNew(commands, sheet, 1, ((SHAPELISTRSRC far *)h2p(sheet))->count, save_background);
     animation->callbacks[0] = callback;
     sprintf(message, "AnimNew(%d)", scene);
     if (!animation) abort_with_message(1, message);
 
     ForceShapes = 0;
-    palette_list = HGETRSRC(0x0050534cUL, scene_id);
+    palette_list = hGetRsrc(0x0050534cUL, scene_id);
     count = *(int far *)h2p(palette_list);
     for (result = 0; result < count; ++result)
         palettes[result] = hGetSnd(((int far *)h2p(palette_list) + 1)[result]);
@@ -607,7 +508,7 @@ int PlayAnim(int sheet_override, int scene, int scene_offset, int save_backgroun
         result = AnimIdle(animation);
         if (interruptible) {
             if (result == 2 || CheckWaitFunc()) {
-                ForceFadeOut(); ResetSound(0, 0);
+                ForceFadeOut(); ResetSound(0L);
                 aborted = 1;
                 break;
             }
@@ -621,27 +522,27 @@ int PlayAnim(int sheet_override, int scene, int scene_offset, int save_backgroun
     if (restore) {
         if (save_background) {
             Rect rect;
-            CopyBits(ScreenPort, &animation->background, &animation->bounds,
-                      OFFSETRECT(&rect, &animation->bounds, -animation->bounds.left,
-                                  -animation->bounds.top), 0);
+            CopyBits(&ScreenPort, &animation->background, &animation->background.rect,
+                      OffsetRect(&rect, &animation->background.rect, -animation->background.rect.left,
+                                  -animation->background.rect.top), 0);
         } else {
             FillRect((Rect far *)commands, 0);
         }
     }
     AnimFree(animation);
-    if (!sheet_override) hFree(sheet);
-    CLEAR_PAYLOAD_HEADER(commands);
+    if (!shapes) hFree(sheet);
+    clear_payload_header(commands);
     if (flags & 2) WaitSnd(0);
-    if (flags & 1) ResetSound(0, 0);
+    if (flags & 1) ResetSound(0L);
     for (result = 0; result < count; ++result)
         if (palettes[result] && !query_sound_payload(h2p(palettes[result]))) hFree(palettes[result]);
     return aborted;
 }
 
-void SwapBackGround(Animation *animation)
+void SwapBackGround(ANIMATION *animation)
 {
-    void far *pixels = animation->port.pixels;
+    void far *pixels = animation->port.map.pixels;
 
-    animation->port.pixels = animation->background.pixels;
-    animation->background.pixels = pixels;
+    animation->port.map.pixels = animation->background.map.pixels;
+    animation->background.map.pixels = pixels;
 }

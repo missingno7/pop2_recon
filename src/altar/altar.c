@@ -1,86 +1,48 @@
 /* ALTAR.C, overlay 15. DOS entry order. */
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "hnewshpi.h"
+#include "heap.h"
 #include "char.h"
+#include "movescyt.h"
 #include "game.h"
-#pragma pack(1)
+#include "draw.h"
+#include "custom.h"
+#include "custcvca.h"
+#include "act.h"
+#include "altar.h"
+#include "auto.h"
+#include "collide.h"
+#include "ctrl.h"
+#include "fade.h"
+#include "load.h"
+#include "move.h"
+#include "prince.h"
+#include "sound.h"
+#include "top.h"
 
-typedef unsigned int Handle;
 
-typedef struct {
-    signed char type;
-    int x, y;
-    byte pass, palette;
-    int resource;
-    Handle shape;
-    Rect rect;
-    byte flags, peel, unknown[4];
-} RoomPiece;
-typedef struct {
-    byte count, type;
-    int palette;
-    char unknown[24];
-    RoomPiece pieces[1];
-} RoomData;
-typedef struct {
-    signed char position;
-    int x;
-    signed char direction;
-    byte flag, unknown[4], mode, id, slot, enabled, flag2;
-} Spawn;
-typedef struct { int size; char unknown[2]; unsigned int flags; char bytes[97]; } Shape;
-typedef struct { char data[4]; Handle handle; } ShapeRef;
-typedef struct { byte type; char skip[3]; unsigned int modifier; } TileAnim;
-typedef struct { byte frame, unknown; signed char col, dy; } FlameStep;
-#pragma pack()
+                        /* DS:0a16 */
 
-extern CHARREC Kid;
-extern CHARREC Char;
-extern CHARREC RoomOpp[5];
 
-extern Directions Dir;
-extern int NeedShadow;                        /* DS:0a16 */
-extern RoomData *CustomRoom;
-extern LEVELREC Level;
-extern unsigned int BlueSpec;            /* DS:5e48 */
+            /* DS:5e48 */
 
-extern TROBREC Trob;
+
 byte flame_image_map[6] = {0x24, 0x24, 0x25, 0x26, 0x26, 0x24};
-extern Rect CellClipRect, GamePlayRect;
-extern Handle *Pics[5];
-extern Handle SwordFrames;             /* DS:6268 */
-extern FRAMEREC Frame;
-extern FCHARREC FChar;
 
-extern void SaveShad(void), LoadKid(void), LoadShad(signed char), RemoveChar(void);
-extern void ClrLifeBar(void), DrawKidMeter(int, int), AddSong(int), AddSound(int);
-extern void JumpSeq(int), DoStepFwd(int), DoRunJump(int), FallOn(void);
-extern int IsCharSwingingFwd(void);
-extern void ClimbUp(void);
-extern int AddCharX(int), FirstInRow(signed char), AddFCharX(int);
-extern void DecLifePts(byte), SetKidDeathMethod(byte);
-extern int SndOn(int);
-extern Spawn *GetOppInfoIdx(unsigned int, int);
-extern void ResetCharY(void), ClearCharVel(void), AnimChar(void);
-extern void SetPalette(int, int, byte, byte);
-extern void far _fastcall DrawCustomRoomImg(byte, byte);
-typedef void far pascal DrawCallback(void);
-extern DrawCallback MarkMove;
-extern void MarkBufsForRect(DrawCallback *, void near *, signed char);
-extern Handle hNew(long);
-extern void far *h2p(Handle);
-extern void hFree(Handle);
-extern void PrinceNewShpItem(Handle, int, ShapeRef far *, int);
-extern void PrinceFreeShp(int);
-extern void MAKESHAPERECT(Rect far *, int, int, void far *);
-extern void SaveFChar(void), RestoreFChar(void);
 
-void AltarKidRisesFromDeath(void);
-void CreateShadowman(void);
+             /* DS:6268 */
+
+
+typedef void DrawCallback(void);
+
 
 void AltarKidRisesFromDeath(void)
 {
-    signed char id = Char.slot;
+    sbyte id = Char.slot;
     SaveShad();
     LoadKid();
     JumpSeq(231);
@@ -96,8 +58,6 @@ void AltarKidRisesFromDeath(void)
     AddSong(60);
 }
 
-extern void GetCharEdges(void);
-extern DrawCallback MarkFloor;
 
 void AltarShadowProg(void)
 {
@@ -154,7 +114,7 @@ void AltarShadowProg(void)
     } else if (Char.frame == 154) {
         Level.cell_info[3][11].modifier = 133;
     } else if (Char.frame == 153 && Char.sequence_group == 13) {
-        SetPalette(CustomRoom->palette, 48, 16, 0);
+        SetPalette(CustomRoom->first_shape, 48, 16, 0);
     } else if (Char.sequence_group == 13 && Char.frame == 185) {
         AltarKidRisesFromDeath();
     } else if (Char.frame == 44) {
@@ -189,25 +149,24 @@ void AltarWatchKid(void)
 
 void CreateShadowman(void)
 {
-    Spawn *entry;
-    signed char id, zero, clear;
+    OPPONENT *entry;
+    sbyte id, clear;
     int room;
-    if (Char.room == 4 && (Level.level_number) == 13) {
+    if (Char.room == 4 && Level.level_number == 13) {
         Kid = Char;
         room = Char.room;
         id = Level.room_objects[room - 1].opponent_count++;
         entry = GetOppInfoIdx(room, id);
-        entry->position = FirstInRow(Char.row) + Char.column;
+        entry->cell = FirstInRow(Char.row) + Char.column;
         entry->x = Char.x;
         entry->direction = Char.direction;
         clear = 0;
-        entry->flag = clear;
-        entry->mode = clear;
-        entry->id = id;
-        zero = 0;
-        entry->slot = zero;
-        entry->flag2 = zero;
-        entry->enabled = 1;
+        entry->skill = clear;
+        entry->palette_kind = clear;
+        entry->index = id;
+        entry->combat_mode = 0;
+        entry->behavior = 0;
+        entry->life = 1;
         Char.slot = id;
         Char.x = entry->x;
         Char.life_points = Char.character_kind = 1;
@@ -229,7 +188,7 @@ void CreateShadowman(void)
 int IsAltarShadowActive(void)
 {
     int result = 0;
-    signed char i, count;
+    sbyte i, count;
     i = 0;
     count = Level.room_objects[3].opponent_count;
     if (count > 0) {
@@ -245,10 +204,10 @@ int IsAltarShadowActive(void)
 
 void AnimSacredFlame(void)
 {
-    unsigned int phase;
+    word phase;
     byte image;
-    if (CustomRoom && CustomRoom->type == 32) {
-        phase = BlueSpec;
+    if (CustomRoom && CustomRoom->kind == 32) {
+        phase = BlueSpec.modifier;
         if (phase & 0x80) {
             if (!(phase & 15)) {
                 phase = 0;
@@ -264,21 +223,21 @@ void AnimSacredFlame(void)
                 phase = 0;
             image = phase + 11;
         }
-        MarkBufsForRect(MarkMove, &CustomRoom->pieces[image].rect, -1);
-        BlueSpec = phase;
+        MarkBufsForRect(MarkMove, &CustomRoom->pieces[image].clip, -1);
+        BlueSpec.modifier = phase;
     } else {
         Trob.state = -1;
     }
 }
 
-void DrawTempSacredFlame(TileAnim *tile)
+void DrawTempSacredFlame(DRAWCELL *tile)
 {
-    struct { Rect saved; byte align, image; unsigned int modifier; } draw;
-    RoomPiece *piece;
-    if (tile->type == 11) {
+    struct { Rect saved; byte align, image; word modifier; } draw;
+    CUSTOMPIECE *piece;
+    if (tile->pass == 11) {
         draw.saved = CellClipRect;
         CellClipRect = GamePlayRect;
-        draw.modifier = tile->modifier;
+        draw.modifier = tile->info.modifier;
         if (draw.modifier & 0x80) {
             draw.image = flame_image_map[draw.modifier & 0xff7f];
             piece = &CustomRoom->pieces[draw.image];
@@ -296,47 +255,47 @@ void LoadAltarRoomFunc(void)
 {
     int i, index;
     Handle handle;
-    RoomPiece *piece;
-    Shape far *source, far *copy;
-    ShapeRef ref;
+    CUSTOMPIECE *piece;
+    SHAPELISTRSRC far *source, far *copy;
+    SHAPEINFO ref;
 
-    handle = hNew(sizeof(Shape));
-    source = h2p(*Pics[2]);
+    handle = hNew(sizeof(SHAPELISTRSRC));
+    source = h2p(Pics[2]->resource);
     copy = h2p(handle);
     *copy = *source;
-    copy->flags = 0x4000;
-    copy->size = CustomRoom->palette;
+    copy->palette.banks = 0x4000;
+    copy->first_id = CustomRoom->first_shape;
     for (i = 11; i <= 38; i++) {
         index = i;
         piece = &CustomRoom->pieces[index];
-        hFree(piece->shape);
-        ref.handle = 0;
-        PrinceNewShpItem(handle, piece->type + 1, &ref, 1);
-        piece->shape = ref.handle;
-        PrinceFreeShp(piece->type + CustomRoom->palette);
+        hFree(piece->handle);
+        ref.image = 0;
+        PrinceNewShpItem(handle, piece->shape + 1, &ref, 1);
+        piece->handle = ref.image;
+        PrinceFreeShp(piece->shape + CustomRoom->first_shape);
         i = index;
     }
     hFree(handle);
-    SetPalette(CustomRoom->palette, 224, 16, 0);
+    SetPalette(CustomRoom->first_shape, 224, 16, 0);
     SetPalette(2000, 48, 16, 0);
 }
 
 void SetupFlame(void)
 {
     Rect saved;
-    FlameStep far *steps;
+    ATTACHFRAME far *steps;
     byte image;
-    RoomPiece *piece;
-    if (Char.room == 4 && (Level.level_number) == 13) {
+    CUSTOMPIECE *piece;
+    if (Char.room == 4 && Level.level_number == 13) {
         SaveFChar();
         saved = CellClipRect;
         steps = h2p(SwordFrames);
-        image = steps[Frame.equipment_image].frame + 23;
+        image = steps[Frame.equipment_image].image + 23;
         piece = &CustomRoom->pieces[image];
-        piece->y = AddFCharX(steps[Frame.equipment_image].col);
-        piece->x = steps[Frame.equipment_image].dy + FChar.y;
-        MAKESHAPERECT(&piece->rect, piece->x, piece->y, h2p(piece->shape));
-        CellClipRect = piece->rect;
+        piece->pos.x = AddFCharX(steps[Frame.equipment_image].x);
+        piece->pos.y = steps[Frame.equipment_image].y + FChar.y;
+        MakeShapeRect(&piece->clip, piece->pos.y, piece->pos.x, h2p(piece->handle));
+        CellClipRect = piece->clip;
         piece->pass = 0;
         DrawCustomRoomImg(image, 0);
         piece->pass = 11;

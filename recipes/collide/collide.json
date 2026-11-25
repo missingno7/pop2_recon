@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "9355ac0d7fcb2997f030b51be94136fdb275291fbea8d1e80926a0a12dbe7d16",
+  "binding_sha256": "1d3062e72609233faa6d657b3c67207e00fdfd61036d5cbd8c25aa9f0101665d",
   "claims": [
     {
       "fixup_count": 63,
@@ -352,7 +352,7 @@
   "flags": [
     "/c",
     "/AM",
-    "/Oegl",
+    "/Oegil",
     "/Gs",
     "/Zl",
     "/Gc"
@@ -360,19 +360,46 @@
   "frame": 10735,
   "group_id": "group:collide/collide",
   "includes": {
-    "char.h": "f8ab9308222a61810ea84ba8b30a17a50f23fef18106128d801513abc9d52f71",
-    "level.h": "f66b38300b1f49f87ba7fb88a9a5380d1c0fc45b6cb44b3a1bacf96a1589e37e",
-    "types.h": "4106357bccb4f651a1b21a92e0ad9f400b31d69e0b7dbbd0e663c10765f15811"
+    "<stdlib.h>": "ff3c7aee2170b511396284608e61e11fb55c2976d4bf90d3ea58a539e55c9476",
+    "<string.h>": "ff36b60adcf99a547032981a149cc6d37f48cfa2f556cebe327c59d79c93823e",
+    "act.h": "13e42853b028301ff61b1e8fda7624a02bde0b4a6b8a3fd0f971aba2c705009b",
+    "add.h": "47d3ae2c04c73e9acadb51fa20631a41330a202844a94717b5b9b880092e9056",
+    "anim.h": "adeb7e0cf1f1de04e83e12449c8cede815436082504039e91ee6f9c7d60b0e4f",
+    "auto.h": "e574b668cd4797387d49f5c4855c5959a5bf62467cd90bb327527b78646ef742",
+    "autohead.h": "123d7d289b43d9bf36b2f48464067a8335399964e3266c0adced2988041892bf",
+    "char.h": "19463e2082491a12a23bea2b9d1ac9e762c1de4b7141185113e493689e464994",
+    "collide.h": "98dc5d38b70f39366eb8df91a2bfbd15b595c0f7f4840a90a374bc68696a611b",
+    "ctrl.h": "28972bab2c934cd5f027fffe1963391a0d751100116ad2ea526f2c5bc2aa83f9",
+    "draw.h": "de3b2f0a209e7eed231f7799596e67715414a597d4849dd7020812b37927a11e",
+    "fade.h": "f84c6ddfd782af5238166defe72d4efe13aba21be201976380308b1bb872af55",
+    "game.h": "819c9e2fe393cc4a7677eace403db6e5efa02f7789e9818a9a84950743b00658",
+    "graf.h": "9ad22bdfec1ce8d18a0f61a9a4b220000302c76326733940c6d9ce1fb6dc8344",
+    "heap.h": "9327c8fff542adccc093f1ff4033abb046170a544a8629be6c2beab674445552",
+    "level.h": "35d4755238b3dc3ea79b75221e22127b40323bc6af99e9ed8bad4dfe26062dd0",
+    "load.h": "8a3a98b45fa9c7babe3d6ad26dbad7fca862dce3df9ff66b43a6aeb3a9c8d49c",
+    "move.h": "4f76c5560a0650a151f3c4ab40280b3e0ee56b8c22d6181da10d08d85bc07bee",
+    "movecave.h": "dc44bc826cb8702ec78e7b5d4e712a5191cebad806578785571545608c767108",
+    "moveruin.h": "01cd2ad444baea1c95ee1cc5ef481028aac911ee38f07d8aef4bbe3dae06b02f",
+    "movescyt.h": "db9584e121d171d5c2805e05375ab194a2d836fdf098047d88f88f44f5258ffc",
+    "movetemp.h": "80a82e7c69994135f28a86736179f257a3bc04163a28b8bac197269bac132225",
+    "nis.h": "4df4c835dbfcce8522731025bd28af14530e37c54ca72677e51fd003400e6a32",
+    "prince.h": "18d94aaa0a536996e94f56fed6236470115d4415941393c0f91dadc65274026e",
+    "shape.h": "6332e9721e97664bc508ce37aeada1d70d3f95357378024e101f98b7e8a11339",
+    "sound.h": "d96b327ebd86426df216d0ae08ce7d75a83755a0d502f6660fe2ededbd8742e3",
+    "tables.h": "25ed5468ab49028bc07579fac3d83e7552239c952584de704e475e621167ac90",
+    "top.h": "6d7873aa1bcede18d7b245901919c97528163f677321defe01a31cfd21a7af55",
+    "types.h": "529950ea85dfc01bf0a19510b352e10a8f0ab0e6df3580d52d68fe7e2205320d",
+    "util.h": "017a3ba04ff32a44804af39236e5838ebb2ef29ae27d111515044e3092c47420"
   },
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "3a427719db7fcc06a0bb291d4245909fb3a266ad61b1e4a050dbabb5e96d8e28",
+  "object_sha256": "eabb8c9658b3377a4586090da90fc5b5f90a14ab664fd7ed6a6c3a932865f3a2",
   "origin": 19788,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "d846b0f208a464319044e35805a5103ec68e180bf51ac239c267a6249cc79a4a",
+  "source_sha256": "697296da09809984bdd662d4b9ad12514fa0d3fa74f0b328702f08ecbb82cbc7",
   "space": "overlay-3"
 }

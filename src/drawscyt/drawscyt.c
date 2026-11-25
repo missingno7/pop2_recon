@@ -1,61 +1,41 @@
 /* DRAWSCYT.C, DOS overlay 7. */
 #include "types.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "char.h"
+#include "game.h"
+#include "draw.h"
+#include "add.h"
+#include "drawruin.h"
+#include "drawscyt.h"
+#include "drawtemp.h"
+#include "fade.h"
+#include "movescyt.h"
+#include "prince.h"
+#include "tables.h"
 
-typedef struct ScytheCell {
-    byte pass;
-    sbyte column, row;
-    byte foreground;
-    unsigned int modifier, background;
-} ScytheCell;
 
-typedef struct ScythePosition {
-    int image, x, y;
-} ScythePosition;
+typedef void (*DrawScytheBase)(DRAWCELL *);
+typedef int (*AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
-#pragma pack(1)
-typedef struct ShapeOffsets {
-    char before_scythe1[0xe5];
-    int scythe1_frame;
-    char before_scythe1_position[4];
-    ScythePosition scythe1_position;
-    char before_scythe2[7];
-    int scythe2_frame;
-    char before_scythe2_position[4];
-    ScythePosition scythe2_position;
-} ShapeOffsets;
-#pragma pack()
 
-typedef void (far pascal *DrawScytheBase)(ScytheCell *);
-typedef int (far pascal *AddImage)(byte, int, sbyte, sbyte, byte, byte);
-
-extern LEVELREC Level;
-extern void DrawRuinRubblePieces(ScytheCell *);
-extern void DrawTempRubblePieces(ScytheCell *);
-extern void DrawRuinFloor(ScytheCell *);
-extern void DrawTempFloor(ScytheCell *);
-extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
-extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
-extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
-extern ShapeOffsets *Pieces;
 /* Consecutive six-byte records starting with scythe image 97. */
-static ScythePosition scythe_positions[] = {
+static IMAGEPOS scythe_positions[] = {
     {97, 22, -33}, {98, 28, -33}, {99, 41, -33},
     {100, 24, -33}, {101, 43, -36}, {102, 7, -24},
     {103, 15, -23}, {104, 48, -23}, {105, 42, -29}
 };
-extern int ScytheImg[];
-extern int NewRoom;
-extern sbyte ColNo;
 
-void CheckScytheForRubble(ScytheCell *cell)
+
+void CheckScytheForRubble(DRAWCELL *cell)
 {
-    ScytheCell base;
+    DRAWCELL base;
 
-    if (cell->modifier & 0x20) {
+    if (cell->info.modifier & 0x20) {
         if (Level.environment_kind == 4) {
             base = *cell;
-            base.modifier = 0;
+            base.info.modifier = 0;
             DrawRuinRubblePieces(&base);
         } else {
             DrawTempRubblePieces(cell);
@@ -63,9 +43,9 @@ void CheckScytheForRubble(ScytheCell *cell)
     }
 }
 
-void DrawScythe1(ScytheCell *cell)
+void DrawScythe1(DRAWCELL *cell)
 {
-    ScytheCell base;
+    DRAWCELL base;
     int mirrored;
     int frame;
     DrawScytheBase draw_base;
@@ -73,8 +53,8 @@ void DrawScythe1(ScytheCell *cell)
 
     add_image = 0;
     base = *cell;
-    base.modifier = cell->modifier & 0xff00;
-    mirrored = cell->modifier & 0x40;
+    base.info.modifier = cell->info.modifier & 0xff00;
+    mirrored = cell->info.modifier & 0x40;
     if (Level.environment_kind == 4)
         draw_base = DrawRuinFloor;
     else
@@ -85,21 +65,21 @@ void DrawScythe1(ScytheCell *cell)
         int open_frame;
 
         draw_base(&base);
-        if (cell->modifier & 0x80)
+        if (cell->info.modifier & 0x80)
             open_frame = 96;
         else
             open_frame = 95;
-        Pieces->scythe1_frame = open_frame;
+        Pieces[12].back.image = open_frame;
         add_image = AddBImgToBTable;
         break;
     }
     case 1:
         draw_base(&base);
-        frame = ScytheImg[cell->modifier & 31];
+        frame = ScytheImg[cell->info.modifier & 31];
         if (frame >= 97 && frame <= 99) {
-            Pieces->scythe1_position = scythe_positions[frame - 92];
+            Pieces[12].back_fore = scythe_positions[frame - 92];
             if (mirrored)
-                Pieces->scythe1_position.image += 9;
+                Pieces[12].back_fore.image += 9;
             add_image = AddBFImgToFTable;
         }
         break;
@@ -108,11 +88,11 @@ void DrawScythe1(ScytheCell *cell)
         break;
     case 5:
         draw_base(&base);
-        frame = ScytheImg[cell->modifier & 31];
+        frame = ScytheImg[cell->info.modifier & 31];
         if (frame >= 97 && frame <= 99) {
-            Pieces->scythe1_position = scythe_positions[frame - 97];
+            Pieces[12].back_fore = scythe_positions[frame - 97];
             if (mirrored)
-                Pieces->scythe1_position.image += 9;
+                Pieces[12].back_fore.image += 9;
             add_image = AddBFImgToBTable;
         }
         break;
@@ -123,9 +103,9 @@ void DrawScythe1(ScytheCell *cell)
     CheckScytheForRubble(cell);
 }
 
-void DrawScythe2(ScytheCell *cell)
+void DrawScythe2(DRAWCELL *cell)
 {
-    ScytheCell base;
+    DRAWCELL base;
     int mirrored;
     int frame;
     DrawScytheBase draw_base;
@@ -133,10 +113,10 @@ void DrawScythe2(ScytheCell *cell)
 
     add_image = 0;
     base = *cell;
-    base.modifier = cell->modifier & 0xff00;
-    mirrored = cell->modifier & 0x40;
+    base.info.modifier = cell->info.modifier & 0xff00;
+    mirrored = cell->info.modifier & 0x40;
     if (Level.environment_kind == 4)
-        ++base.modifier;
+        ++base.info.modifier;
     if (Level.environment_kind == 4)
         draw_base = DrawRuinFloor;
     else
@@ -148,22 +128,22 @@ void DrawScythe2(ScytheCell *cell)
         if (!NewRoom && cell->column - ColNo + 1 == 0) {
             int open_frame;
 
-            if (cell->modifier & 0x80)
+            if (cell->info.modifier & 0x80)
                 open_frame = 96;
             else
                 open_frame = 95;
-            Pieces->scythe2_frame = open_frame;
+            Pieces[13].back.image = open_frame;
             add_image = AddBImgToBTable;
         }
         break;
     case 1:
         draw_base(&base);
-        frame = ScytheImg[cell->modifier & 31];
+        frame = ScytheImg[cell->info.modifier & 31];
         if (frame == 100 || frame == 101) {
             if (frame != 101) {
-                Pieces->scythe2_position = scythe_positions[frame - 92];
+                Pieces[13].back_fore = scythe_positions[frame - 92];
                 if (mirrored)
-                    Pieces->scythe2_position.image += 9;
+                    Pieces[13].back_fore.image += 9;
                 add_image = AddBFImgToFTable;
             }
         }
@@ -173,11 +153,11 @@ void DrawScythe2(ScytheCell *cell)
         break;
     case 5:
         draw_base(&base);
-        frame = ScytheImg[cell->modifier & 31];
+        frame = ScytheImg[cell->info.modifier & 31];
         if (frame == 100 || frame == 101) {
-            Pieces->scythe2_position = scythe_positions[frame - 97];
+            Pieces[13].back_fore = scythe_positions[frame - 97];
             if (mirrored)
-                Pieces->scythe2_position.image += 9;
+                Pieces[13].back_fore.image += 9;
             add_image = AddBFImgToBTable;
         }
         break;

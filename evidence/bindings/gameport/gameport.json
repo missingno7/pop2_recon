@@ -76,12 +76,12 @@
       }
     ],
     "externals": [
-      "CONFIGURATION",
+      "CHECK_ROM_SIGNATURE",
+      "CHECK_GAME_PORT",
       "MIDI",
       "JOYSTICK_STATE",
-      "POLL_GAME_PORT",
-      "CHECK_ROM_SIGNATURE",
-      "CHECK_GAME_PORT"
+      "CONFIGURATION",
+      "POLL_GAME_PORT"
     ]
   },
   "fixups": [
@@ -97,7 +97,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 5,
           "name": "CONFIGURATION",
           "method": 6,
           "zero_displacement": true
@@ -105,7 +105,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 5,
         "name": "CONFIGURATION",
         "method": 6,
         "zero_displacement": true
@@ -124,7 +124,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -132,7 +132,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -151,7 +151,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -159,7 +159,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -178,7 +178,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 1,
           "name": "CHECK_ROM_SIGNATURE",
           "method": 6,
           "zero_displacement": true
@@ -186,7 +186,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 1,
         "name": "CHECK_ROM_SIGNATURE",
         "method": 6,
         "zero_displacement": true
@@ -205,7 +205,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -213,7 +213,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -232,7 +232,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -240,7 +240,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -259,7 +259,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -267,7 +267,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -286,7 +286,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -294,7 +294,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -313,7 +313,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "JOYSTICK_STATE",
           "method": 6,
           "zero_displacement": true
@@ -321,7 +321,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "JOYSTICK_STATE",
         "method": 6,
         "zero_displacement": true
@@ -340,7 +340,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 6,
           "name": "POLL_GAME_PORT",
           "method": 6,
           "zero_displacement": true
@@ -348,7 +348,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 6,
         "name": "POLL_GAME_PORT",
         "method": 6,
         "zero_displacement": true
@@ -367,7 +367,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 3,
           "name": "MIDI",
           "method": 6,
           "zero_displacement": true
@@ -375,7 +375,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "MIDI",
         "method": 6,
         "zero_displacement": true
@@ -394,7 +394,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 5,
           "name": "CONFIGURATION",
           "method": 6,
           "zero_displacement": true
@@ -402,7 +402,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 5,
         "name": "CONFIGURATION",
         "method": 6,
         "zero_displacement": true

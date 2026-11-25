@@ -1,38 +1,21 @@
-typedef unsigned Handle;
+#include "types.h"
+#include "resc.h"
+#include "graf.h"
+#include "shape.h"
+#include "level.h"
+#include "heap.h"
+#include "fade.h"
+#include "anim.h"
+#include "hnewshpi.h"
+#include "xlatgraf.h"
 
-typedef struct ShapeHeader ShapeHeader;
-
-#pragma pack(1)
-
-typedef struct {
-    int first_id;
-    int count;
-    Handle mapping;
-    unsigned char mapping_id;
-} ShapeListResource;
-#pragma pack()
-
-typedef int (far pascal *InputPoll)(void);
-
-typedef struct {
-    unsigned char reserved[0x12];
-    InputPoll release_discardable;
-} HeapState;
-
-extern HeapState far *heap_state;
-extern int hGetState(Handle handle);
-extern void far *hLock(Handle handle);
-extern Handle HGETRSRC(unsigned long type, int id);
-extern Handle convert_shape(ShapeHeader far *shape, const unsigned far *banks, int mode);
-extern void hSetState(Handle handle, int flags);
-extern void RELOCATE_HANDLE_PAYLOAD(Handle handle);
 
 Handle hNewShpItem(Handle list, int item)
 {
     Handle result = 0, shape;
     int list_flags, shape_flags;
-    ShapeListResource far *resource;
-    InputPoll release_discardable = heap_state->release_discardable;
+    SHAPELISTRSRC far *resource;
+    int (*release_discardable)(void) = heap_state->release_discardable;
 
     heap_state->release_discardable = 0;
     for (;;) {
@@ -40,19 +23,19 @@ Handle hNewShpItem(Handle list, int item)
         resource = hLock(list);
         if (!resource)
             break;
-        shape = HGETRSRC(0x53484150UL, resource->first_id + item - 1);
+        shape = hGetRsrc(0x53484150UL, resource->first_id + item - 1);
         if (!shape)
             break;
         shape_flags = hGetState(shape);
-        result = convert_shape(hLock(shape), &resource->mapping, 1);
+        result = convert_shape(hLock(shape), &resource->palette.banks, 1);
         if (result) {
             hSetState(shape, shape_flags);
             break;
         }
         hSetState(list, list_flags);
         hSetState(shape, shape_flags);
-        RELOCATE_HANDLE_PAYLOAD(list);
-        RELOCATE_HANDLE_PAYLOAD(shape);
+        relocate_handle_payload(list);
+        relocate_handle_payload(shape);
         heap_state->release_discardable = release_discardable;
     }
     hSetState(list, list_flags);
@@ -64,8 +47,8 @@ Handle hNewShpItem1(Handle list, int item, int mode)
 {
     Handle result = 0, shape;
     int list_flags, shape_flags;
-    ShapeListResource far *resource;
-    InputPoll release_discardable = heap_state->release_discardable;
+    SHAPELISTRSRC far *resource;
+    int (*release_discardable)(void) = heap_state->release_discardable;
 
     heap_state->release_discardable = 0;
     for (;;) {
@@ -73,19 +56,19 @@ Handle hNewShpItem1(Handle list, int item, int mode)
         resource = hLock(list);
         if (!resource)
             break;
-        shape = HGETRSRC(0x53484150UL, resource->first_id + item - 1);
+        shape = hGetRsrc(0x53484150UL, resource->first_id + item - 1);
         if (!shape)
             break;
         shape_flags = hGetState(shape);
-        result = convert_shape(hLock(shape), &resource->mapping, mode);
+        result = convert_shape(hLock(shape), &resource->palette.banks, mode);
         if (result) {
             hSetState(shape, shape_flags);
             break;
         }
         hSetState(list, list_flags);
         hSetState(shape, shape_flags);
-        RELOCATE_HANDLE_PAYLOAD(list);
-        RELOCATE_HANDLE_PAYLOAD(shape);
+        relocate_handle_payload(list);
+        relocate_handle_payload(shape);
         heap_state->release_discardable = release_discardable;
     }
     hSetState(list, list_flags);

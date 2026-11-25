@@ -1,58 +1,47 @@
 /* DRAWRUIN.C, DOS overlay 8 code frame 2a74. */
 #include "types.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
 #include "char.h"
+#include "game.h"
+#include "draw.h"
+#include "add.h"
+#include "ctrl.h"
+#include "drawruin.h"
+#include "drawscyt.h"
+#include "fade.h"
+#include "misc.h"
+#include "move.h"
+#include "prince.h"
+#include "tables.h"
+#include "throne.h"
+#include "top.h"
 
-#pragma pack(1)
-typedef struct RuinCell {
-    byte pass;
-    sbyte column, row;
-    byte foreground;
-    unsigned int modifier;
-    byte background, background_modifier;
-} RuinCell;
-#pragma pack()
 
-typedef struct BackImage {
-    byte placement[10];
-    Rect clip;
-} BackImage;
+typedef int (*AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
-typedef int (far pascal *AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
-extern int NewRoom;
-extern Rect CellClipRect;
-extern BackImage far *far _fastcall GetBackTableImgRow(int image, byte column, byte row);
-extern int SECTRECT(Rect far *, const Rect far *, const Rect far *);
-extern void UNIONRECT(Rect far *, const Rect far *, const Rect far *);
-extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
-extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
-extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
-extern int AddFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
-extern byte PieceRightId(sbyte, sbyte);
-
-void DrawRuinFlaw(RuinCell *cell);
-
-void DrawRuinBackWall(RuinCell *cell)
+void DrawRuinBackWall(DRAWCELL *cell)
 {
     int image;
     byte background_modifier, tile, layer;
     int fallback;
-    BackImage far *shape;
+    BFITEM far *shape;
     Rect overlap;
 
-    background_modifier = cell->background_modifier & 15;
-    image = (*(unsigned int *)&cell->background) & 31;
+    background_modifier = ((byte *)&cell->info.background)[1] & 15;
+    image = cell->info.background & 31;
     if (image) {
         if (!NewRoom) {
             shape = GetBackTableImgRow(image, cell->column - 1, cell->row);
-            if (shape && SECTRECT(&overlap, &shape->clip, &CellClipRect)) {
+            if (shape && SectRect(&overlap, &shape->clip, &CellClipRect)) {
                 fallback = 0;
-                UNIONRECT(&shape->clip, &shape->clip, &CellClipRect);
+                UnionRect(&shape->clip, &shape->clip, &CellClipRect);
                 if (image >= 1 && image <= 5) {
                     shape = GetBackTableImgRow(7, cell->column - 1, cell->row);
-                    if (shape && SECTRECT(&overlap, &shape->clip, &CellClipRect))
-                        UNIONRECT(&shape->clip, &shape->clip, &CellClipRect);
+                    if (shape && SectRect(&overlap, &shape->clip, &CellClipRect))
+                        UnionRect(&shape->clip, &shape->clip, &CellClipRect);
                 }
             } else {
                 shape = 0;
@@ -83,7 +72,7 @@ void DrawRuinBackWall(RuinCell *cell)
     }
 }
 
-void DrawRuinBlock(RuinCell *cell)
+void DrawRuinBlock(DRAWCELL *cell)
 {
     int image;
 
@@ -93,20 +82,20 @@ void DrawRuinBlock(RuinCell *cell)
             DrawRuinBackWall(cell);
         break;
     case 5:
-        image = (cell->modifier & 12) >> 2;
+        image = (cell->info.modifier & 12) >> 2;
         if (image != 2 && PieceRightId(cell->column, cell->row) != 20) {
             image = image != 3 ? image + 12 : 53;
             AddBImgToBTable(20, image, cell->column, cell->row, 10, 0);
         }
         /* Fall through to the block and its flaw. */
     case 1:
-        AddFImgToFTable(20, (cell->modifier & 3) + 14, cell->column, cell->row, 0, 0);
+        AddFImgToFTable(20, (cell->info.modifier & 3) + 14, cell->column, cell->row, 0, 0);
         DrawRuinFlaw(cell);
         break;
     }
 }
 
-void DrawRuinBones(RuinCell *cell)
+void DrawRuinBones(DRAWCELL *cell)
 {
     AddImage add_image = 0;
 
@@ -130,15 +119,12 @@ void DrawRuinBones(RuinCell *cell)
     }
 }
 
-typedef struct ShapePosition {
-    int x, y, flags;
-} ShapePosition;
 
 static union RuinTables {
     struct {
         int crevice_flags[4];
         int loose_odd[12], loose_even[12];
-        ShapePosition flaw_positions[15], exit_positions[2];
+        IMAGEPOS flaw_positions[15], exit_positions[2];
     } rows;
     int words[79];
 } ruin_tables = {
@@ -177,13 +163,13 @@ enum {
     LOOSE_EVEN_WORD = LOOSE_ODD_WORD + sizeof ruin_tables.rows.loose_odd / sizeof(int)
 };
 
-void DrawRuinCrevice(RuinCell *cell)
+void DrawRuinCrevice(DRAWCELL *cell)
 {
     int pattern, revealed;
-    RuinCell block;
+    DRAWCELL block;
 
-    pattern = cell->modifier & 3;
-    revealed = cell->modifier & 0x80;
+    pattern = cell->info.modifier & 3;
+    revealed = cell->info.modifier & 0x80;
     switch (cell->pass) {
     case 0:
         if (NewRoom)
@@ -194,8 +180,8 @@ void DrawRuinCrevice(RuinCell *cell)
             AddFImgToFTable(7, pattern + 58, cell->column, cell->row, 10, 0);
         } else {
             block = *cell;
-            block.modifier &= ~3;
-            block.modifier |= ruin_tables.rows.crevice_flags[pattern];
+            block.info.modifier &= ~3;
+            block.info.modifier |= ruin_tables.rows.crevice_flags[pattern];
             DrawRuinBlock(&block);
         }
         DrawRuinFlaw(cell);
@@ -209,14 +195,14 @@ void DrawRuinCrevice(RuinCell *cell)
             AddBFImgToBTable(7, pattern + 54, cell->column, cell->row, 10, 0);
         } else {
             block = *cell;
-            block.modifier |= pattern ? 8 : 12;
+            block.info.modifier |= pattern ? 8 : 12;
             DrawRuinBlock(&block);
         }
         break;
     }
 }
 
-void DrawRuinExit1(RuinCell *cell)
+void DrawRuinExit1(DRAWCELL *cell)
 {
     AddImage add_image = 0;
     byte layer = 10;
@@ -251,35 +237,8 @@ void DrawRuinExit1(RuinCell *cell)
         DrawRuinFlaw(cell);
 }
 
-#pragma pack(1)
-typedef struct RuinPositions {
-    char before_flaw[0x156];
-    byte flip_flaw;
-    ShapePosition front_flaw, back_flaw;
-    char before_gate[0x420 - 0x163];
-    int gate_y;
-    char before_exit[0x440 - 0x422];
-    int exit_y;
-    ShapePosition exit;
-} RuinPositions;
-#pragma pack()
 
-typedef struct MovingExit {
-    byte reserved[2];
-    signed char height;
-} MovingExit;
-
-extern RuinPositions *Pieces;
-extern Rect GamePlayRect;
-extern ROOMREC Room;
-
-extern CHARREC Kid;
-extern signed char FirstInRow(byte, sbyte);
-extern MovingExit *GetTrobRoomCell(int);
-
-void DrawRuinExitMovable(RuinCell *cell);
-
-void DrawRuinExit2(RuinCell *cell)
+void DrawRuinExit2(DRAWCELL *cell)
 {
     AddImage add_image = 0;
     byte layer = 10;
@@ -290,7 +249,7 @@ void DrawRuinExit2(RuinCell *cell)
         if (NewRoom) {
             DrawRuinBackWall(cell);
         } else {
-            Pieces->exit = exit_positions[0];
+            Pieces[57].back_fore = exit_positions[0];
             AddBFImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             add_image = 0;
         }
@@ -317,69 +276,56 @@ void DrawRuinExit2(RuinCell *cell)
         DrawRuinExitMovable(cell);
 }
 
-void DrawRuinExitMovable(RuinCell *cell)
+void DrawRuinExitMovable(DRAWCELL *cell)
 {
     AddImage add_image;
-    MovingExit *moving;
+    TROBREC *moving;
     Rect saved_clip, door_clip;
 
     if (cell->pass == 0) {
         saved_clip = CellClipRect;
         door_clip = GamePlayRect;
         door_clip.top = cell->row * 63 - 5;
-        if (SECTRECT(&CellClipRect, &CellClipRect, &door_clip)) {
-            moving = GetTrobRoomCell(cell->column + FirstInRow(Room.number, cell->row));
-            if (moving && moving->height >= 4)
+        if (SectRect(&CellClipRect, &CellClipRect, &door_clip)) {
+            moving = GetTrobRoomCell(Room.number, FirstInRow(cell->row) + cell->column);
+            if (moving && moving->state >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
-            Pieces->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
+            Pieces[57].back.y = -(int)(19 + ((cell->info.modifier & 0xff) < 42 ? cell->info.modifier & 0xff : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             add_image = Kid.frame >= 217 && Kid.frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
-            Pieces->exit = exit_positions[1];
+            Pieces[57].back_fore = exit_positions[1];
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
         CellClipRect = saved_clip;
     }
 }
 
-extern sbyte ColNo, RowNo;
-extern int Ct[5];
 
-#pragma pack(1)
-typedef struct DrawEntry {
-    byte type, sheet;
-    int shape, x, y;
-    sbyte column, row;
-    Rect clip;
-    byte flip, attributes;
-} DrawEntry;
-#pragma pack()
-extern DrawEntry far ForeTable[];
-
-void DrawRuinFlaw(RuinCell *cell)
+void DrawRuinFlaw(DRAWCELL *cell)
 {
     int flaw, flags;
 
     if (cell->pass == 5) {
-        flaw = cell->modifier >> 8 & 15;
+        flaw = cell->info.modifier >> 8 & 15;
         if (flaw == 11 || flaw == 12) {
-            Pieces->front_flaw = ruin_tables.rows.flaw_positions[flaw - 11];
-            Pieces->flip_flaw = flaw == 12 ? 1 : 0;
+            Pieces[18].back = ruin_tables.rows.flaw_positions[flaw - 11];
+            Pieces[18].peel = flaw == 12 ? 1 : 0;
             AddBImgToBTable(18, -2, cell->column, cell->row, 10, 0);
         } else {
-            flaw = cell->modifier & 0x3000;
+            flaw = cell->info.modifier & 0x3000;
             if (flaw) {
                 flaw >>= 12;
-                Pieces->back_flaw = ruin_tables.rows.flaw_positions[flaw + 11];
+                Pieces[18].back_fore = ruin_tables.rows.flaw_positions[flaw + 11];
                 AddBFImgToBTable(18, -2, cell->column, cell->row, 10, 0);
             }
         }
     } else if (cell->pass == 1) {
-        flags = cell->modifier & 0xf00;
-        if (flags && (unsigned)flags < 0xb00) {
+        flags = cell->info.modifier & 0xf00;
+        if (flags && (word)flags < 0xb00) {
             flaw = ((byte *)&flags)[1];
             if (flaw != 2 || !NewRoom) {
                 int emitted;
-                Pieces->back_flaw = ruin_tables.rows.flaw_positions[flaw + 1];
+                Pieces[18].back_fore = ruin_tables.rows.flaw_positions[flaw + 1];
                 if (flaw == 3 && !NewRoom &&
                     ColNo == cell->column && RowNo == cell->row)
                     emitted = 0;
@@ -392,29 +338,28 @@ void DrawRuinFlaw(RuinCell *cell)
     }
 }
 
-void DrawRuinFloor(RuinCell *cell)
+void DrawRuinFloor(DRAWCELL *cell)
 {
     switch (cell->pass) {
     case 0:
         DrawRuinBackWall(cell);
         break;
     case 1:
-        AddFImgToFTable(1, (cell->modifier & 3) + 26, cell->column, cell->row, 0, 0);
+        AddFImgToFTable(1, (cell->info.modifier & 3) + 26, cell->column, cell->row, 0, 0);
         DrawRuinFlaw(cell);
         break;
     case 2:
-        AddBFImgToFTable(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
+        AddBFImgToFTable(1, (cell->info.modifier & 3) + 22, cell->column, cell->row, 10, 0);
         break;
     case 5:
-        AddBFImgToBTable(1, (cell->modifier & 3) + 22, cell->column, cell->row, 10, 0);
+        AddBFImgToBTable(1, (cell->info.modifier & 3) + 22, cell->column, cell->row, 10, 0);
         DrawRuinFlaw(cell);
         break;
     }
 }
 
-void DrawRuinGateMovable(RuinCell *cell);
 
-void DrawRuinGate(RuinCell *cell)
+void DrawRuinGate(DRAWCELL *cell)
 {
     AddImage add_image = 0;
 
@@ -439,10 +384,8 @@ void DrawRuinGate(RuinCell *cell)
     }
 }
 
-extern LEVELREC Level;
-extern void DrawThroneRoomGateInFore(void);
 
-void DrawRuinGateMovable(RuinCell *cell)
+void DrawRuinGateMovable(DRAWCELL *cell)
 {
     AddImage add_image;
     Rect gate_clip, saved_clip;
@@ -450,9 +393,9 @@ void DrawRuinGateMovable(RuinCell *cell)
     saved_clip = CellClipRect;
     gate_clip = GamePlayRect;
     gate_clip.top = cell->row * 63 - 10;
-    if (SECTRECT(&CellClipRect, &CellClipRect, &gate_clip)) {
-        unsigned int height = (cell->modifier & 0xfc) >> 2;
-        Pieces->gate_y = -(4 + (height < 50 ? height : 50));
+    if (SectRect(&CellClipRect, &CellClipRect, &gate_clip)) {
+        word height = (cell->info.modifier & 0xfc) >> 2;
+        Pieces[55].back_fore.y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
         case 2:
             add_image = AddBFImgToFTable;
@@ -465,7 +408,7 @@ void DrawRuinGateMovable(RuinCell *cell)
             break;
         }
         if (add_image) {
-            if (Room.number == 9 && (Level.level_number) == 8) {
+            if (Room.number == 9 && Level.level_number == 8) {
                 if (cell->pass == 2)
                     DrawThroneRoomGateInFore();
             } else {
@@ -476,17 +419,17 @@ void DrawRuinGateMovable(RuinCell *cell)
     CellClipRect = saved_clip;
 }
 
-void DrawRuinLoose(RuinCell *cell)
+void DrawRuinLoose(DRAWCELL *cell)
 {
     int image;
-    RuinCell floor;
-    image = cell->modifier & 15;
+    DRAWCELL floor;
+    image = cell->info.modifier & 15;
     if (image != 13)
         image = cell->column % 2 ? ruin_tables.words[LOOSE_ODD_WORD + image]
                                  : ruin_tables.words[LOOSE_EVEN_WORD + image];
     if (!image) {
         floor = *cell;
-        floor.modifier &= ~3;
+        floor.info.modifier &= ~3;
     }
     switch (cell->pass) {
     case 0:
@@ -500,7 +443,7 @@ void DrawRuinLoose(RuinCell *cell)
         }
         break;
     case 1: {
-        RuinCell *tile = cell;
+        DRAWCELL *tile = cell;
         if (image == 13) {
             DrawRuinFlaw(tile);
             break;
@@ -516,7 +459,7 @@ void DrawRuinLoose(RuinCell *cell)
     case 2:
         if (image != 13) {
             if (image) {
-                RuinCell *tile = cell;
+                DRAWCELL *tile = cell;
                 AddBFImgToFTable(11, image + 41, tile->column, tile->row, 10, 0);
             } else {
                 DrawRuinFloor(&floor);
@@ -524,7 +467,7 @@ void DrawRuinLoose(RuinCell *cell)
         }
         break;
     case 5: {
-        RuinCell *tile = cell;
+        DRAWCELL *tile = cell;
         if (image == 13) {
             DrawRuinFlaw(tile);
             break;
@@ -540,7 +483,7 @@ void DrawRuinLoose(RuinCell *cell)
     }
 }
 
-void DrawRuinPillarBot(RuinCell *cell)
+void DrawRuinPillarBot(DRAWCELL *cell)
 {
     AddImage add_image = 0;
 
@@ -559,7 +502,7 @@ void DrawRuinPillarBot(RuinCell *cell)
     }
 }
 
-void DrawRuinPillarTop(RuinCell *cell)
+void DrawRuinPillarTop(DRAWCELL *cell)
 {
     AddImage add_image;
 
@@ -581,12 +524,12 @@ void DrawRuinPillarTop(RuinCell *cell)
     }
 }
 
-void DrawRuinDownPlate(RuinCell *cell)
+void DrawRuinDownPlate(DRAWCELL *cell)
 {
     byte layer;
     int image;
     AddImage add_image = 0;
-    byte tile = 5 + ((cell->modifier & 0x800) != 0);
+    byte tile = 5 + ((cell->info.modifier & 0x800) != 0);
 
     switch (cell->pass) {
     case 0:
@@ -612,12 +555,12 @@ void DrawRuinDownPlate(RuinCell *cell)
     }
 }
 
-void DrawRuinUpPlate(RuinCell *cell)
+void DrawRuinUpPlate(DRAWCELL *cell)
 {
     byte layer;
     int image;
     AddImage add_image = 0;
-    byte tile = 5 + ((cell->modifier & 0x800) != 0);
+    byte tile = 5 + ((cell->info.modifier & 0x800) != 0);
 
     switch (cell->pass) {
     case 0:
@@ -643,10 +586,10 @@ void DrawRuinUpPlate(RuinCell *cell)
     }
 }
 
-void DrawRuinPosts(RuinCell *cell)
+void DrawRuinPosts(DRAWCELL *cell)
 {
     AddImage add_image = 0;
-    int image = cell->modifier & 3;
+    int image = cell->info.modifier & 3;
 
     switch (cell->pass) {
     case 0:
@@ -671,22 +614,21 @@ void DrawRuinPosts(RuinCell *cell)
     }
 }
 
-void DrawRuinRubblePieces(RuinCell *cell);
 
-void DrawRuinRubble(RuinCell *cell)
+void DrawRuinRubble(DRAWCELL *cell)
 {
-    RuinCell floor;
-    unsigned int flags;
+    DRAWCELL floor;
+    word flags;
 
-    if (cell->modifier & 0x40) {
+    if (cell->info.modifier & 0x40) {
         floor = *cell;
-        floor.modifier = (flags = cell->modifier & ~0x40);
+        floor.info.modifier = (flags = cell->info.modifier & ~0x40);
         if (flags & 4) {
             DrawRuinUpPlate(&floor);
-            cell->modifier &= ~0x800;
+            cell->info.modifier &= ~0x800;
         } else if (flags & 8) {
             DrawRuinDownPlate(&floor);
-            cell->modifier &= ~0x800;
+            cell->info.modifier &= ~0x800;
         } else {
             DrawRuinFloor(&floor);
         }
@@ -697,10 +639,10 @@ void DrawRuinRubble(RuinCell *cell)
     DrawRuinFlaw(cell);
 }
 
-void DrawRuinRubblePieces(RuinCell *cell)
+void DrawRuinRubblePieces(DRAWCELL *cell)
 {
     AddImage add_image = 0;
-    int image = (cell->modifier & 0x30) >> 4;
+    int image = (cell->info.modifier & 0x30) >> 4;
 
     switch (cell->pass) {
     case 1:
@@ -722,12 +664,8 @@ void DrawRuinRubblePieces(RuinCell *cell)
     }
 }
 
-extern byte ObjId;
-extern int VisibleAbovePiece(sbyte, sbyte);
-extern int IsSpace(byte);
-extern int Pause;
 
-void DrawRuinSpace(RuinCell *cell)
+void DrawRuinSpace(DRAWCELL *cell)
 {
     int back_wall;
 
@@ -750,14 +688,6 @@ void LoadRuinsDrawCode(void)
     Pause = 0;
 }
 
-extern CELLREC Cell;
-extern CHARREC Char;
-extern byte ReadCell(sbyte, sbyte, sbyte);
-extern byte GetCellsInFront(byte);
-extern int IsVisibleRoomCell(sbyte, sbyte);
-extern void MarkCellRedraw(void);
-
-void RuinSetCreviceRevealed(int reveal);
 
 void RuinChangeCrevices(int reveal, sbyte room, sbyte column, sbyte row)
 {
@@ -770,12 +700,12 @@ void RuinChangeCrevices(int reveal, sbyte room, sbyte column, sbyte row)
         tile = ReadCell(room, column, row);
     } while (stop != ++column && tile != 7);
     if (tile == 7) {
-        while (ReadCell((Cell.room), Cell.column - 1, Cell.row) == 7)
+        while (ReadCell(Cell.room, Cell.column - 1, Cell.row) == 7)
             ;
-        ReadCell((Cell.room), Cell.column + 1, Cell.row);
+        ReadCell(Cell.room, Cell.column + 1, Cell.row);
         do
             RuinSetCreviceRevealed(reveal);
-        while (ReadCell((Cell.room), Cell.column + 1, Cell.row) == 7);
+        while (ReadCell(Cell.room, Cell.column + 1, Cell.row) == 7);
     }
 }
 
@@ -788,7 +718,7 @@ void RuinCheckCrevices(void)
 void RuinSetCreviceRevealed(int reveal)
 {
     int changed;
-    unsigned int flags;
+    word flags;
 
     flags = ((LEVELCELL *)Level.cell_info)[Cell.room * 30 + Cell.index - 30].modifier;
     if (reveal) {
@@ -801,24 +731,19 @@ void RuinSetCreviceRevealed(int reveal)
             flags &= ~0x80;
     }
     if (changed) {
-        if (IsVisibleRoomCell((Cell.room), Cell.index))
+        if (IsVisibleRoomCell(Cell.room, Cell.index))
             MarkCellRedraw();
         if (!(flags & 3) && Cell.column != 9) {
-            ReadCell((Cell.room), Cell.column + 1, Cell.row);
+            ReadCell(Cell.room, Cell.column + 1, Cell.row);
             MarkCellRedraw();
-            ReadCell((Cell.room), Cell.column - 1, Cell.row);
+            ReadCell(Cell.room, Cell.column - 1, Cell.row);
         }
         ((LEVELCELL *)Level.cell_info)[Cell.room * 30 + Cell.index - 30].modifier = flags;
     }
 }
 
-extern void far pascal DrawFlask(RuinCell near *);
-extern void far pascal DrawScythe1(RuinCell near *);
-extern void far pascal DrawScythe2(RuinCell near *);
-extern void far pascal DrawSword(RuinCell near *);
 
-typedef void (far pascal *LevelTileProc)(RuinCell near *);
-LevelTileProc DrawRuinFunc[] = {
+DRAWPROC DrawRuinFunc[] = {
     DrawRuinSpace, DrawRuinFloor, 0, DrawRuinPosts, DrawRuinGate,
     DrawRuinUpPlate, DrawRuinDownPlate, DrawRuinCrevice, DrawRuinPillarBot, DrawRuinPillarTop,
     DrawFlask, DrawRuinLoose, DrawScythe1, DrawScythe2, DrawRuinRubble,

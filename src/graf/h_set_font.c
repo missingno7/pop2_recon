@@ -1,13 +1,10 @@
-struct Context {
-    unsigned char reserved[0x2a];
-    int attribute;
-};
+#include "types.h"
+#include "graf.h"
 
-extern struct Context *Graf;
 
-int far pascal hSetFont(int value)
+Handle hSetFont(Handle font)
 {
-    int old = Graf->attribute;
-    Graf->attribute = value;
+    Handle old = Graf->font;
+    Graf->font = font;
     return old;
 }

@@ -1,14 +1,10 @@
-typedef unsigned Handle;
+#include "types.h"
+#include "snd.h"
+#include "level.h"
+#include "heap.h"
 
-extern Handle far pascal hGetSnd(unsigned id);
-extern void far *far pascal h2p(Handle handle);
-extern void far pascal ResetSound(void far *payload);
-extern int far pascal process_handle(Handle handle);
-extern int far pascal query_sound_payload(void far *payload);
 
-extern void far pascal flag_sound_payload(void far *payload);
-
-void far pascal flag_sound_resource(unsigned id)
+void flag_sound_resource(word id)
 {
     void far *payload = 0;
     if (id) {
@@ -19,7 +15,7 @@ void far pascal flag_sound_resource(unsigned id)
     flag_sound_payload(payload);
 }
 
-void far pascal ResetSnd(unsigned id)
+void ResetSnd(word id)
 {
     void far *payload = 0;
 
@@ -31,12 +27,12 @@ void far pascal ResetSnd(unsigned id)
     ResetSound(payload);
 }
 
-int far pascal SetSnd(unsigned id)
+int SetSnd(word id)
 {
     return process_handle(hGetSnd(id));
 }
 
-int far pascal SndOn(unsigned id)
+int SndOn(int id)
 {
     void far *payload = 0;
 

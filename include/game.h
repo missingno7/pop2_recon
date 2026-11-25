@@ -5,29 +5,45 @@ typedef struct {
 } GAMESTATE;
 
 typedef struct {
-    unsigned char enabled;
-    signed char cue;
+    byte enabled;
+    sbyte cue;
     int song, delay, reserved;
 } AmbientState;
 
 typedef struct {                        /* joystick or keyboard, screen directions */
-    signed char x, y, button;
+    sbyte x, y, button;
 } JoyState;
 
 #pragma pack(1)
 typedef struct {                        /* an object that moves: loose floor, rock, dart, spikes, bridge floor, ... */
     int x, y;                           /* 00, 02 */
-    unsigned char room;                 /* 04 */
+    byte room;                 /* 04 */
     int velocity, auxiliary;            /* 05, 07 */
-    unsigned char kind;                 /* 09 */
-    signed char row;                    /* 0a */
-    unsigned int flags;                 /* 0b */
+    byte kind;                 /* 09 */
+    sbyte row;                    /* 0a */
+    word flags;                 /* 0b */
 } MOBREC;
 
 typedef struct {                        /* a cell that changes: gate, plate, torch, potion, ... */
-    signed char cell;
-    unsigned char room;
-    signed char state;
-    unsigned char kind;
+    sbyte cell;
+    byte room;
+    sbyte state;
+    byte kind;
 } TROBREC;
+#pragma pack()
+
+#pragma pack(1)
+typedef struct {                        /* where the kid comes back to life, and the level as it was then */
+    int point_id, unknown_02;
+    int menu, disabled;
+    sbyte level, life, direction, flags, sword_kind;
+    byte unknown_0d[2];
+    int invert;
+    sbyte room_state;
+    byte unknown_12[5];
+    byte cell_kinds[32][30];
+    LEVELCELL cell_info[32][30];
+    ROOMOBJECTS room_objects[32];
+    ROOMGENERATORS generators[32];
+} REBIRTHREC;
 #pragma pack()

@@ -53,7 +53,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 532,
+        "length": 510,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -65,7 +65,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 726,
+        "length": 2241,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -92,7 +92,7 @@
         "offset": 0,
         "group_index": 0,
         "frame": null,
-        "type_index": 571
+        "type_index": 919
       },
       {
         "name": "CYCLECOLORS",
@@ -101,7 +101,7 @@
         "offset": 58,
         "group_index": 0,
         "frame": null,
-        "type_index": 575
+        "type_index": 921
       },
       {
         "name": "DEALLOCBACKPORT",
@@ -110,7 +110,7 @@
         "offset": 202,
         "group_index": 0,
         "frame": null,
-        "type_index": 578
+        "type_index": 925
       },
       {
         "name": "DEALLOCMAPSAVE",
@@ -119,7 +119,7 @@
         "offset": 236,
         "group_index": 0,
         "frame": null,
-        "type_index": 580
+        "type_index": 927
       },
       {
         "name": "ENCLOSERECT",
@@ -128,7 +128,7 @@
         "offset": 270,
         "group_index": 0,
         "frame": null,
-        "type_index": 584
+        "type_index": 929
       },
       {
         "name": "EQUALRECT",
@@ -137,16 +137,7 @@
         "offset": 336,
         "group_index": 0,
         "frame": null,
-        "type_index": 586
-      },
-      {
-        "name": "RESTORERECTKEEP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 374,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 588
+        "type_index": 931
       },
       {
         "name": "INVERTBITMAP",
@@ -155,34 +146,43 @@
         "offset": 408,
         "group_index": 0,
         "frame": null,
-        "type_index": 593
+        "type_index": 935
+      },
+      {
+        "name": "RESTORERECTKEEP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 374,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 933
       }
     ],
     "externals": [
+      "__nfree",
+      "FREEPORT",
+      "__nmalloc",
+      "FLIP_ROWS",
+      "READDACBLOCK",
+      "RELEASE_BUFFER",
       "ALLOCBACKPORT",
+      "GRAF",
       "CYCLECOLORS",
       "DEALLOCBACKPORT",
       "DEALLOCMAPSAVE",
       "ENCLOSERECT",
       "EQUALRECT",
-      "RESTORERECTKEEP",
       "INVERTBITMAP",
-      "GRAF",
-      "__nmalloc",
-      "__nfree",
-      "__fmemcpy",
-      "__fmemcmp",
-      "BACKPORT",
-      "ABORT_WITH_MESSAGE",
-      "ALLOCATE_PINNED_PAYLOAD",
-      "READDACBLOCK",
       "SETDACBLOCK",
+      "RESTORERECTKEEP",
+      "ALLOCATE_PINNED_PAYLOAD",
       "CLEAR_PAYLOAD_HEADER",
-      "FREEPORT",
-      "RELEASE_BUFFER",
       "UNIONRECT",
       "COPYBITS",
-      "FLIP_ROWS"
+      "ABORT_WITH_MESSAGE",
+      "BACKPORT",
+      "__fmemcmp",
+      "__fmemcpy"
     ]
   },
   "dgroup_segment": {
@@ -208,7 +208,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 21,
           "name": "ABORT_WITH_MESSAGE",
           "method": 6,
           "zero_displacement": true
@@ -216,7 +216,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 21,
         "name": "ABORT_WITH_MESSAGE",
         "method": 6,
         "zero_displacement": true
@@ -257,7 +257,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 22,
           "name": "BACKPORT",
           "method": 6,
           "zero_displacement": true
@@ -265,7 +265,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 22,
         "name": "BACKPORT",
         "method": 6,
         "zero_displacement": true
@@ -284,7 +284,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 3,
           "name": "__nmalloc",
           "method": 6,
           "zero_displacement": true
@@ -292,7 +292,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 3,
         "name": "__nmalloc",
         "method": 6,
         "zero_displacement": true
@@ -311,7 +311,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "CLEAR_PAYLOAD_HEADER",
           "method": 6,
           "zero_displacement": true
@@ -319,7 +319,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -338,7 +338,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 15,
           "name": "SETDACBLOCK",
           "method": 6,
           "zero_displacement": true
@@ -346,7 +346,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 15,
         "name": "SETDACBLOCK",
         "method": 6,
         "zero_displacement": true
@@ -365,7 +365,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 24,
           "name": "__fmemcpy",
           "method": 6,
           "zero_displacement": true
@@ -373,7 +373,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 24,
         "name": "__fmemcpy",
         "method": 6,
         "zero_displacement": true
@@ -392,7 +392,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 5,
           "name": "READDACBLOCK",
           "method": 6,
           "zero_displacement": true
@@ -400,7 +400,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 5,
         "name": "READDACBLOCK",
         "method": 6,
         "zero_displacement": true
@@ -419,7 +419,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "ALLOCATE_PINNED_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -427,7 +427,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "ALLOCATE_PINNED_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -446,7 +446,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 1,
           "name": "__nfree",
           "method": 6,
           "zero_displacement": true
@@ -454,7 +454,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 1,
         "name": "__nfree",
         "method": 6,
         "zero_displacement": true
@@ -473,7 +473,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 2,
           "name": "FREEPORT",
           "method": 6,
           "zero_displacement": true
@@ -481,7 +481,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 2,
         "name": "FREEPORT",
         "method": 6,
         "zero_displacement": true
@@ -500,7 +500,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 1,
           "name": "__nfree",
           "method": 6,
           "zero_displacement": true
@@ -508,7 +508,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 1,
         "name": "__nfree",
         "method": 6,
         "zero_displacement": true
@@ -527,7 +527,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 6,
           "name": "RELEASE_BUFFER",
           "method": 6,
           "zero_displacement": true
@@ -535,7 +535,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 6,
         "name": "RELEASE_BUFFER",
         "method": 6,
         "zero_displacement": true
@@ -554,7 +554,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 23,
           "name": "__fmemcmp",
           "method": 6,
           "zero_displacement": true
@@ -562,7 +562,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 23,
         "name": "__fmemcmp",
         "method": 6,
         "zero_displacement": true
@@ -581,7 +581,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 19,
           "name": "UNIONRECT",
           "method": 6,
           "zero_displacement": true
@@ -589,7 +589,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 19,
         "name": "UNIONRECT",
         "method": 6,
         "zero_displacement": true
@@ -608,7 +608,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 23,
           "name": "__fmemcmp",
           "method": 6,
           "zero_displacement": true
@@ -616,7 +616,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 23,
         "name": "__fmemcmp",
         "method": 6,
         "zero_displacement": true
@@ -635,7 +635,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 20,
           "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
@@ -643,7 +643,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 20,
         "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
@@ -662,7 +662,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 8,
           "name": "GRAF",
           "method": 6,
           "zero_displacement": true
@@ -670,7 +670,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 8,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -689,7 +689,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 4,
           "name": "FLIP_ROWS",
           "method": 6,
           "zero_displacement": true
@@ -697,7 +697,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 4,
         "name": "FLIP_ROWS",
         "method": 6,
         "zero_displacement": true

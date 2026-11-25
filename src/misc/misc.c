@@ -1,52 +1,42 @@
+#include <string.h>
 #include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "heap.h"
+#include "char.h"
+#include "game.h"
+#include "draw.h"
+#include "custom.h"
+#include "ctrl.h"
+#include "english.h"
+#include "act.h"
+#include "fade.h"
+#include "intrface.h"
+#include "moveruin.h"
+#include "diag.h"
+#include "checknis.h"
+#include "load.h"
+#include "misc.h"
+#include "move.h"
+#include "prince.h"
+#include "tables.h"
+#include "top.h"
 #pragma pack(1)
 
-typedef struct {
-    unsigned int modifier, extra;
-} TileInfo;
 
-typedef struct {
-    byte tile;
-    TileInfo info;
-} Tile;
-
-extern sbyte RowNo, ColNo;
-extern Rect GamePlayRect, CellClipRect;
-
-extern ROOMREC Room;
-
-extern LEVELREC Level;
 typedef int COL_TO_PIXEL_X[13];                       /* DS:0da4 */
-extern COL_TO_PIXEL_X Col2PixelX;
+
+
 typedef int ROW_TO_PIXEL_Y[5];                        /* DS:0dbe */
-extern ROW_TO_PIXEL_Y Row2PixelY;
-extern Tile Above[], Below[], ScrLeft[], ScrRight[];
-extern Tile CellLeft, CellRight;
-extern TileInfo BlueSpec;
-extern byte ObjId;
-extern byte *CustomRoom;
-extern int NewRoom;
-extern byte *BlueT;
-extern TileInfo *BlueS;
 
-extern int SECTRECT(Rect far *, Rect far *, Rect far *);
-extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern int IsFloor(byte kind);
-extern int IsWall(byte);
-extern sbyte FirstInRow(sbyte);
-extern void * _cdecl memset(void *, int, unsigned int);
-#pragma intrinsic(memset)
-
-sbyte CellToCol(byte room, int cell);
-sbyte CellToRow(byte room, int cell);
-void ComputeClipRect(Rect far *rect, int col, int row);
 
 void select_room_arrays(byte room)
 {
     if (room) {
         BlueT = Level.cell_kinds[room - 1];
-        BlueS = (TileInfo *) &Level.cell_info[room - 1][0];
+        BlueS = (LEVELCELL *) &Level.cell_info[room - 1][0];
     }
 }
 
@@ -90,7 +80,7 @@ void ComputeClipRect(Rect far *rect, int col, int row)
     rect->right = rect->left + 32;
     rect->bottom = Row2PixelY[row + 1];
     rect->top = rect->bottom - 63;
-    SECTRECT(rect, rect, &GamePlayRect);
+    SectRect(rect, rect, &GamePlayRect);
     if (Room.custom && !row)
         rect->top -= 3;
 }
@@ -100,14 +90,13 @@ Rect *ComputeOffsetCellRect(Rect *rect, Rect *base, int col, int row)
     if (col == 30 || row == 30) {
         rect = 0;
     } else {
-        OFFSETRECT(rect, base, col * 32, row * 63);
-        if (!SECTRECT(rect, rect, &GamePlayRect))
+        OffsetRect(rect, base, col * 32, row * 63);
+        if (!SectRect(rect, rect, &GamePlayRect))
             rect = 0;
     }
     return rect;
 }
 
-byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte missing);
 
 void GetAboveAry(void)
 {
@@ -117,7 +106,7 @@ void GetAboveAry(void)
         byte saved_below;
         byte side_room;
     } query;
-    TileInfo *info;
+    LEVELCELL *info;
 
     if (RowNo != -1) {
         query.saved_below = Room.below;
@@ -133,7 +122,7 @@ void GetAboveAry(void)
         missing = (!Room.custom && Level.environment_kind != 4 && Level.environment_kind != 5) ? 1 : 0;
         select_room_arrays(room);
         for (col = 1; col < 11; ++col) {
-            GetObject(room, col - 1, row, &Above[col].tile,
+            GetObject(room, col - 1, row, &Above[col].kind,
                       info = &Above[col].info, missing);
             if (Room.custom && RowNo == 0 && Level.environment_kind == 3 &&
                 IsFloor(Level.cell_kinds[Room.number - 1][col - 1])) {
@@ -141,7 +130,7 @@ void GetAboveAry(void)
             }
         }
         select_room_arrays(query.side_room);
-        GetObject(query.side_room, 9, row, &Above[0].tile, &Above[0].info, missing);
+        GetObject(query.side_room, 9, row, &Above[0].kind, &Above[0].info, missing);
         if (CustomRoom && RowNo == 0)
             Above[0].info.modifier = Above[col].info.modifier | 0xc000;
         select_room_arrays(Room.number);
@@ -165,24 +154,24 @@ void GetBelowAry(void)
     }
     select_room_arrays(room);
     for (col = 1; col < 11; ++col)
-        GetObject(room, col - 1, row, &Below[col].tile, &Below[col].info, 0);
+        GetObject(room, col - 1, row, &Below[col].kind, &Below[col].info, 0);
     select_room_arrays(side_room);
-    GetObject(side_room, 9, row, &Below[0].tile, &Below[0].info,
+    GetObject(side_room, 9, row, &Below[0].kind, &Below[0].info,
               room ? 20 : 0);
     select_room_arrays(Room.number);
 }
 
-byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte missing)
+byte GetObject(byte room, sbyte col, sbyte row, byte *tile, LEVELCELL *info, byte missing)
 {
     int cell;
 
     if (row == -1)
         row = 2;
     if (col == -1) {
-        *tile = ScrLeft[row].tile;
+        *tile = ScrLeft[row].kind;
         *info = ScrLeft[row].info;
     } else if (col == 10) {
-        *tile = ScrRight[row].tile;
+        *tile = ScrRight[row].kind;
         *info = ScrRight[row].info;
     } else if (room) {
         cell = FirstInRow(row) + col;
@@ -193,19 +182,19 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
         if (Level.environment_kind == 3 && (missing == 1 || missing == 20) && Room.below) {
             if (!IsWall(Level.cell_kinds[Room.below - 1][col])) {
                 info->modifier = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
-                info->extra = 0;
+                info->background = 0;
             } else {
                 memset(info, 0, sizeof(*info));
             }
         } else if (Level.environment_kind == 2) {
             info->modifier = 0;
-            info->extra = 9;
+            info->background = 9;
         } else if (Level.environment_kind == 4) {
             info->modifier = 0;
-            info->extra = 0;
+            info->background = 0;
         } else {
             info->modifier = 0;
-            info->extra = ((col % 2) << 8) | 9;
+            info->background = ((col % 2) << 8) | 9;
         }
     }
     return *tile;
@@ -343,8 +332,8 @@ void SetLocVars(void)
     else
         CellClipRect = GamePlayRect;
     GetObject(Room.number, ColNo, RowNo, &ObjId, &BlueSpec, missing);
-    GetObject(Room.number, ColNo - 1, RowNo, &CellLeft.tile, &CellLeft.info, missing);
-    GetObject(Room.number, ColNo + 1, RowNo, &CellRight.tile, &CellRight.info, missing);
+    GetObject(Room.number, ColNo - 1, RowNo, &CellLeft.kind, &CellLeft.info, missing);
+    GetObject(Room.number, ColNo + 1, RowNo, &CellRight.kind, &CellRight.info, missing);
     if (RowNo == -1 && CustomRoom) {
         BlueSpec.modifier |= 0xc000;
         CellLeft.info.modifier |= 0xc000;
@@ -356,52 +345,30 @@ void SetSideRoomInfo(void)
 {
     sbyte row;
     struct {
-        TileInfo *info;
+        LEVELCELL *info;
         byte missing;
     } state;
     state.missing = Room.number ? 20 : 0;
 
     select_room_arrays(Room.left);
     for (row = 0; row < 3; ++row) {
-        GetObject(Room.left, 9, row, &ScrLeft[row].tile,
+        GetObject(Room.left, 9, row, &ScrLeft[row].kind,
                   state.info = &ScrLeft[row].info, state.missing);
-        if (CustomRoom && (CustomRoom[1] != 31 || row != 2))
+        if (CustomRoom && (CustomRoom->kind != 31 || row != 2))
             state.info->modifier |= 0xc000;
         else
             state.info->modifier &= 0x3fff;
     }
     select_room_arrays(Room.right);
     for (row = 0; row < 3; ++row)
-        GetObject(Room.right, 0, row, &ScrRight[row].tile, &ScrRight[row].info, state.missing);
+        GetObject(Room.right, 0, row, &ScrRight[row].kind, &ScrRight[row].info, state.missing);
     select_room_arrays(Room.number);
 }
 
-/* The resident relocation sites of both memory handlers name the MISC frame. */
 
-typedef struct {
-    unsigned int *handle;
-    byte metadata[4];
-} ImageEntry;
-
-typedef struct {
-    byte header[4];
-    int count;
-    byte metadata[4];
-    ImageEntry image[219];
-} ImageTable;
-
-extern ImageTable *Pics[5];
-extern int BGSetMarkedPurgeable;
-extern const char OutOfFarMem[];
-unsigned int hOppFrames = 0;
+Handle hOppFrames = 0;
 static const char fatal_memory_message[] = "Insufficient near Memory.";
 
-extern int SndOn(int);
-extern void ResetSnd(int);
-extern void PrinceMarkImgsPurgeable(ImageTable *, int, int);
-extern void hNoPurge(unsigned int *);
-extern void dump_heap(int, const char far *, void *);
-extern void abort_with_message(int, const char far *);
 
 int release_discardable_images(void)
 {
@@ -409,21 +376,21 @@ int release_discardable_images(void)
 
     if (SndOn(0)) {
         ResetSnd(0);
-    } else if (Pics[3] && !(*Pics[3]->image[0].handle & 0x4000)) {
+    } else if (Pics[3] && !(*(word *)Pics[3]->items[0].image & 0x4000)) {
         PrinceMarkImgsPurgeable(Pics[3], 0, Pics[3]->count - 1);
-    } else if (Pics[2] && !(*Pics[2]->image[0].handle & 0x4000)) {
+    } else if (Pics[2] && !(*(word *)Pics[2]->items[0].image & 0x4000)) {
         PrinceMarkImgsPurgeable(Pics[2], 0, Pics[2]->count - 1);
         for (i = 131; i <= 132; ++i)
-            if (Pics[2]->image[i].handle)
-                hNoPurge(Pics[2]->image[i].handle);
+            if (Pics[2]->items[i].image)
+                hNoPurge(Pics[2]->items[i].image);
         for (i = 216; i <= 218; ++i)
-            if (Pics[2]->image[i].handle)
-                hNoPurge(Pics[2]->image[i].handle);
+            if (Pics[2]->items[i].image)
+                hNoPurge(Pics[2]->items[i].image);
     } else if (Pics[4] && !BGSetMarkedPurgeable) {
         PrinceMarkImgsPurgeable(Pics[4], 0, Pics[4]->count - 1);
         BGSetMarkedPurgeable = 1;
     } else {
-        dump_heap(0, OutOfFarMem, (void *)0);
+        dump_heap(0, OutOfFarMem, 0);
         abort_with_message(1, OutOfFarMem);
     }
     return 1;

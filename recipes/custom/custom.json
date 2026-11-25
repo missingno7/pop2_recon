@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custom/custom.json",
-  "binding_sha256": "72bbf89bf66c98a89dcdeff4aaae15f702fabbbaa66d548a7f1c86188b37a6f0",
+  "binding_sha256": "a5aedea9dd142aa5c4247bf79e80b4221279ebf311f422960c1040369e3d45a6",
   "claims": [
     {
       "fixup_count": 1,
@@ -306,7 +306,7 @@
   "flags": [
     "/c",
     "/AM",
-    "/Oegl",
+    "/Oegil",
     "/Gs",
     "/Zl",
     "/Gc"
@@ -314,19 +314,45 @@
   "frame": 1203,
   "group_id": "group:custom/custom",
   "includes": {
-    "char.h": "f8ab9308222a61810ea84ba8b30a17a50f23fef18106128d801513abc9d52f71",
-    "level.h": "f66b38300b1f49f87ba7fb88a9a5380d1c0fc45b6cb44b3a1bacf96a1589e37e",
-    "types.h": "4106357bccb4f651a1b21a92e0ad9f400b31d69e0b7dbbd0e663c10765f15811"
+    "<malloc.h>": "94d10282abde89eb57b7d533a9a029bc0444ab0aebea8064d61a86fd97678a24",
+    "<string.h>": "ff36b60adcf99a547032981a149cc6d37f48cfa2f556cebe327c59d79c93823e",
+    "add.h": "47d3ae2c04c73e9acadb51fa20631a41330a202844a94717b5b9b880092e9056",
+    "altar.h": "1cf0a6dd00e2b930ea0be4e8dad1e2ba6639a37a5ced67e2a3f9c832ae7fb95b",
+    "bridge.h": "4d5aa336b3a373ffedb44535a5bb3b79bec63ac65cde1de918ca2fb98e97063d",
+    "char.h": "19463e2082491a12a23bea2b9d1ac9e762c1de4b7141185113e493689e464994",
+    "custcvca.h": "02e3db511db2931b0d2a3ef7587d06f6bfa26bec25c971e749f70abc3e03afde",
+    "custom.h": "65b491f871b3cf75a1b2f951050866ad593b2fe525be2c66fad75a050ffd12d4",
+    "desert.h": "2933a7ce68587841be73be0f8bef19273a254a80ab00ef0bf186b17176169f31",
+    "draw.h": "de3b2f0a209e7eed231f7799596e67715414a597d4849dd7020812b37927a11e",
+    "fade.h": "f84c6ddfd782af5238166defe72d4efe13aba21be201976380308b1bb872af55",
+    "final.h": "aa0fa72857783f8abb163b1c90d38ed96f30f9145630d655c0f30bb39c5bd4fe",
+    "game.h": "819c9e2fe393cc4a7677eace403db6e5efa02f7789e9818a9a84950743b00658",
+    "graf.h": "9ad22bdfec1ce8d18a0f61a9a4b220000302c76326733940c6d9ce1fb6dc8344",
+    "heap.h": "9327c8fff542adccc093f1ff4033abb046170a544a8629be6c2beab674445552",
+    "level.h": "35d4755238b3dc3ea79b75221e22127b40323bc6af99e9ed8bad4dfe26062dd0",
+    "move.h": "4f76c5560a0650a151f3c4ab40280b3e0ee56b8c22d6181da10d08d85bc07bee",
+    "moveruin.h": "01cd2ad444baea1c95ee1cc5ef481028aac911ee38f07d8aef4bbe3dae06b02f",
+    "movetemp.h": "80a82e7c69994135f28a86736179f257a3bc04163a28b8bac197269bac132225",
+    "prince.h": "18d94aaa0a536996e94f56fed6236470115d4415941393c0f91dadc65274026e",
+    "recorder.h": "1b9332dd85f7dccb2299d5d831b35ecb89176649114500716b18bc07e79de357",
+    "resc.h": "b81de428c1b7f74aee726f976d651eb0b278b0395ee4931929da5db3ff2f7891",
+    "rooftops.h": "1086c9395c2832da28d7be249353ac76c6f22c69abf936729cf2fcdba92f63fa",
+    "shape.h": "6332e9721e97664bc508ce37aeada1d70d3f95357378024e101f98b7e8a11339",
+    "sound.h": "d96b327ebd86426df216d0ae08ce7d75a83755a0d502f6660fe2ededbd8742e3",
+    "throne.h": "545184691e3430639738e03a7e71d42bd09189dfe7388b52f2eb9edd9d9d840a",
+    "top.h": "6d7873aa1bcede18d7b245901919c97528163f677321defe01a31cfd21a7af55",
+    "types.h": "529950ea85dfc01bf0a19510b352e10a8f0ab0e6df3580d52d68fe7e2205320d",
+    "util.h": "017a3ba04ff32a44804af39236e5838ebb2ef29ae27d111515044e3092c47420"
   },
   "kind": "same_source_group",
   "language": "c",
   "name": "custom/custom",
-  "object_sha256": "05ef01f884c94f72fbceea1a1af5e49e808e24128321434f65646efc23fb2a33",
+  "object_sha256": "d98a782cd20bec1472b9371227b81722f4db3ecefd4b19c39154afa56711c5a7",
   "origin": 19250,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custom/custom.c",
-  "source_sha256": "3b9701497e835042635b2ce2071126ff9ce67f5852d4362ae07691c17d97c9d6",
+  "source_sha256": "797800ac90a6bd9c1acfd18a5d7df8d028890faca0eab1698d045fd860940864",
   "space": "root"
 }

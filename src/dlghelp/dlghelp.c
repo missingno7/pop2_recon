@@ -1,84 +1,30 @@
+#include <string.h>
+#include <ctype.h>
 #include "types.h"
+#include "resc.h"
+#include "system.h"
+#include "snd.h"
+#include "graf.h"
 #include "level.h"
+#include "heap.h"
 #include "char.h"
+#include "dlghelp.h"
+
 
 typedef struct {
-    int y, x;
-} Point;
-
-typedef struct {
-    Point position;
+    POINT position;
     int state[2];
 } Pen;
 
-typedef struct {
-    char reserved[0x20];
-    word erase_mode;
-    char pen[6];
-    word pen_mode;
-    word font;
-} Port;
 
-typedef struct EditField EditField;
-
-struct EditField {
-    Port *port;
-    word font;
-    Rect bounds;
-    Rect clip;
-    int style;
-    word selection_start;
-    word selection_end;
-    word caret;
-    int y, x;
-    int visible;
-    unsigned long last_blink;
-    char far *text;
-    word capacity;
-    word length;
-    void (far pascal *paint)(EditField far *);
-};
-
-extern Port *Graf;
-extern unsigned long TimeVal;
-extern word timer_rate;
-extern unsigned char near cdecl _ctype[];
-#define isprint(c) ((_ctype + 1)[(c)] & 0x57)
-extern void far pascal COPY_CURRENT_PORT_ORIGIN(Pen far *);
-extern void far pascal ClipRect(Rect far *);
-extern void far pascal MoveTo(int, int);
-extern void far pascal DRAW_RELATIVE_AXIS_SEGMENT(int, int);
-extern void far pascal StringRect(Rect far *, int, int, char far *);
-extern void far pascal ClipRestore(void);
-extern void far pascal SET_RELATIVE_PEN_STATE(Pen far *);
-extern word far pascal hSetFont(word);
-extern int far pascal measure_counted_text(char far *, word);
-extern void far pascal InsetRect(Rect far *, Rect far *, int, int);
-extern void far pascal FrameRect(Rect far *);
-extern void far pascal CLEAR_PAYLOAD_HEADER(void far *block);
-extern void far * far pascal h2p(word);
-extern int far pascal MEASURE_CHARACTER(unsigned char);
-extern int far pascal MEASURE_NUL_TERMINATED_TEXT(char far *);
-extern void far pascal SetSnd(int);
-extern void far pascal CLAMP_POINT_TO_RECT(Point far *, void far *, Rect far *);
-extern EditField far * far pascal ALLOCATE_PINNED_PAYLOAD(long);
-extern void far pascal MOVE_HUGE_BYTES(void far *, const void far *, long);
-extern word far cdecl _fstrlen(const char far *);
-extern void far pascal EraseRect(Rect far *);
-
-void far pascal paint_edit_caret(EditField far *, int);
-void far pascal delete_edit_character(EditField far *, word);
-void far pascal replace_edit_text(EditField far *, char far *);
-void far pascal redraw_edit_text(EditField far *);
-
-void far pascal show_edit_caret(EditField far *field)
+void show_edit_caret(EDITFIELD far *field)
 {
     paint_edit_caret(field, 1);
 }
 
-void far pascal update_edit_caret(EditField far *field)
+void update_edit_caret(EDITFIELD far *field)
 {
-    word saved_font;
+    Handle saved_font;
 
     paint_edit_caret(field, 0);
     saved_font = Graf->font;
@@ -87,56 +33,55 @@ void far pascal update_edit_caret(EditField far *field)
     hSetFont(saved_font);
 }
 
-void far pascal hide_edit_caret(EditField far *field)
+void hide_edit_caret(EDITFIELD far *field)
 {
     paint_edit_caret(field, 0);
 }
 
-void far pascal paint_edit_caret(EditField far *field, int visible)
+void paint_edit_caret(EDITFIELD far *field, int visible)
 {
     word saved_mode;
     Pen pen;
 
-    COPY_CURRENT_PORT_ORIGIN(&pen);
+    copy_current_port_origin(&pen);
     ClipRect(&field->clip);
     MoveTo(field->x, field->y);
     if (!visible) {
         field->visible = visible;
-        saved_mode = Graf->pen_mode;
-        Graf->pen_mode = field->port->erase_mode;
+        saved_mode = Graf->foreground;
+        Graf->foreground = field->port->background;
     } else {
         field->visible = 1;
     }
-    DRAW_RELATIVE_AXIS_SEGMENT(0, field->clip.bottom - field->clip.top + 1);
+    draw_relative_axis_segment(0, field->clip.bottom - field->clip.top + 1);
     if (!visible) {
-        Graf->pen_mode = saved_mode;
+        Graf->foreground = saved_mode;
         if (field->paint)
             field->paint(field);
         else
             StringRect(&field->bounds, field->style, 1, field->text);
     }
     ClipRestore();
-    SET_RELATIVE_PEN_STATE(&pen);
+    set_relative_pen_state(&pen);
 }
 
-void far pascal frame_edit_field(EditField far *field, word mode)
+void frame_edit_field(EDITFIELD far *field, word mode)
 {
     Rect rect;
-    word saved_mode = Graf->pen_mode;
+    word saved_mode = Graf->foreground;
 
-    Graf->pen_mode = mode;
+    Graf->foreground = mode;
     InsetRect(&rect, &field->clip, -1, -1);
     FrameRect(&rect);
-    Graf->pen_mode = saved_mode;
+    Graf->foreground = saved_mode;
 }
 
-/* Forward the far pointer to the separately reviewed block-flag helper. */
-void far pascal CLEAR_FLAGS_OF_FAR_BLOCK(void far *block)
+void clear_flags_of_far_block(void far *block)
 {
-    CLEAR_PAYLOAD_HEADER(block);
+    clear_payload_header(block);
 }
 
-void far pascal blink_edit_caret(EditField far *field)
+void blink_edit_caret(EDITFIELD far *field)
 {
     if ((timer_rate >> 1) < TimeVal - field->last_blink) {
         paint_edit_caret(field, field->visible = !field->visible);
@@ -144,9 +89,9 @@ void far pascal blink_edit_caret(EditField far *field)
     }
 }
 
-int far pascal handle_edit_key(EditField far *field, int key)
+int handle_edit_key(EDITFIELD far *field, int key)
 {
-    unsigned char far *font;
+    byte far *font;
     int rejected, changed, result;
     word i;
 
@@ -156,18 +101,14 @@ int far pascal handle_edit_key(EditField far *field, int key)
             paint_edit_caret(field, 0);
             font = h2p(field->font);
             if (isprint(key)
-                && MEASURE_CHARACTER(key) != *(int far *)(font + 8)) {
+                && measure_character(key) != *(int far *)(font + 8)) {
                 if (field->capacity == field->length
                     || field->clip.right - field->clip.left
-                       < MEASURE_CHARACTER(key) + MEASURE_NUL_TERMINATED_TEXT(field->text)) {
+                       < measure_character(key) + measure_nul_terminated_text(field->text)) {
                     rejected = 1;
                 } else {
-                    i = field->length + 1;
-                    if (i > field->caret) {
-                        do {
-                            field->text[i] = field->text[i - 1];
-                            --i;
-                        } while (i > field->caret);
+                    for (i = field->length + 1; i > field->caret; --i) {
+                        field->text[i] = field->text[i - 1];
                     }
                     field->text[field->caret] = (char)key;
                     ++field->length;
@@ -237,70 +178,63 @@ int far pascal handle_edit_key(EditField far *field, int key)
     return result;
 }
 
-void far pascal delete_edit_character(EditField far *field, word index)
+void delete_edit_character(EDITFIELD far *field, word index)
 {
-    if (index < field->length) {
-        do {
-            field->text[index] = field->text[index + 1];
-        } while (++index < field->length);
+    for (; index < field->length; ++index) {
+        field->text[index] = field->text[index + 1];
     }
     --field->length;
 }
 
-void far pascal click_edit_field(EditField far *field, void *point)
+void click_edit_field(EDITFIELD far *field, void *point)
 {
-    Point position;
+    POINT position;
     word index;
     int width;
     register int total;
 
     paint_edit_caret(field, 0);
-    CLAMP_POINT_TO_RECT(&position, point, &field->bounds);
+    clamp_point_to_rect(&position, point, &field->bounds);
     position.x -= field->bounds.left;
     if (measure_counted_text(field->text, field->length) <= position.x)
         position.x = measure_counted_text(field->text, field->length);
 
     total = 0;
-    index = 0;
-    if (index < field->length) {
-        do {
-            width = MEASURE_CHARACTER(field->text[index]);
-            if ((int)((word)width >> 1) + total > position.x)
-                break;
-            total += width;
-        } while (++index < field->length);
+    for (index = 0; index < field->length; ++index) {
+        width = measure_character(field->text[index]);
+        if ((int)((word)width >> 1) + total > position.x)
+            break;
+        total += width;
     }
     field->caret = index;
     update_edit_caret(field);
     paint_edit_caret(field, 1);
 }
 
-EditField far * far pascal create_edit_field(Rect far *bounds, Rect far *clip,
+EDITFIELD far * create_edit_field(Rect far *bounds, Rect far *clip,
                                              char far *text, word capacity)
 {
-    EditField far *field = ALLOCATE_PINNED_PAYLOAD(sizeof(EditField));
+    EDITFIELD far *field = allocate_pinned_payload(sizeof(EDITFIELD));
 
-    int zero;
 
     field->font = (field->port = Graf)->font;
-    MOVE_HUGE_BYTES(&field->bounds, bounds, (long)sizeof(Rect));
-    MOVE_HUGE_BYTES(&field->clip, clip, (long)sizeof(Rect));
+    move_huge_bytes(&field->bounds, bounds, (long)sizeof(Rect));
+    move_huge_bytes(&field->clip, clip, (long)sizeof(Rect));
     field->capacity = capacity;
     field->style = -1;
-    zero = 0;
-    field->selection_end = zero;
-    field->selection_start = zero;
-    field->caret = zero;
+    field->selection_end = 0;
+    field->selection_start = 0;
+    field->caret = 0;
     field->x = bounds->left - 1;
     field->y = clip->top;
-    field->visible = zero;
+    field->visible = 0;
     field->last_blink = TimeVal;
     field->paint = 0;
     replace_edit_text(field, text);
     return field;
 }
 
-void far pascal replace_edit_text(EditField far *field, char far *text)
+void replace_edit_text(EDITFIELD far *field, char far *text)
 {
     field->text = text;
     field->length = _fstrlen(text);
@@ -308,11 +242,11 @@ void far pascal replace_edit_text(EditField far *field, char far *text)
     update_edit_caret(field);
 }
 
-void far pascal redraw_edit_text(EditField far *field)
+void redraw_edit_text(EDITFIELD far *field)
 {
     Pen pen;
 
-    COPY_CURRENT_PORT_ORIGIN(&pen);
+    copy_current_port_origin(&pen);
     ClipRect(&field->clip);
     EraseRect(&field->bounds);
     MoveTo(field->bounds.left, field->bounds.bottom);
@@ -321,5 +255,5 @@ void far pascal redraw_edit_text(EditField far *field)
     else
         StringRect(&field->bounds, field->style, 1, field->text);
     ClipRestore();
-    SET_RELATIVE_PEN_STATE(&pen);
+    set_relative_pen_state(&pen);
 }

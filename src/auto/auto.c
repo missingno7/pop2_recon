@@ -1,169 +1,57 @@
+#include <string.h>
+#include <stdlib.h>
+#include "types.h"
+#include "snd.h"
+#include "graf.h"
+#include "level.h"
+#include "char.h"
+#include "fade.h"
+#include "game.h"
+#include "collide.h"
+#include "shape.h"
+#include "moveruin.h"
+#include "draw.h"
+#include "autohead.h"
+#include "custom.h"
+#include "dlghelp.h"
+#include "altar.h"
+#include "move.h"
+#include "auto.h"
+#include "act.h"
+#include "autoguar.h"
+#include "movescyt.h"
+#include "add.h"
+#include "final.h"
+#include "load.h"
+#include "ctrl.h"
+#include "prince.h"
+#include "gfxerr.h"
+#include "rooftops.h"
+#include "anim.h"
+#include "sound.h"
+#include "tables.h"
+#include "util.h"
+#include "top.h"
 #pragma pack(1)
-typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
 
-extern ROOMREC Room;
-
-typedef struct {
-    signed char kind;                                 /* 00 */
-    unsigned int modifier;                            /* 01 */
-    signed char index;                                /* 03 */
-    unsigned char room;                               /* 04 */
-    signed char column, row;                          /* 05-06 */
-    signed char first_col, last_col;                   /* 07-08 */
-    unsigned char top_row, bottom_row;                 /* 09-0a */
-} CELLREC;
-
-typedef struct {
-    unsigned int modifier, unknown_02;
-} LEVELCELL;
 
 #define ROOM_LEFT 0
 #define ROOM_RIGHT 1
 #define ROOM_ABOVE 2
 #define ROOM_BELOW 3
-typedef struct {
-    unsigned char neighbors[4];
-} ROOMLINKS;
 
-typedef struct {
-    signed char tile;
-    int x;
-    signed char direction;
-    unsigned char flags;
-    int action;
-    int saved_sequence;
-    unsigned char palette_kind;
-    unsigned char index;
-    unsigned char combat_mode;
-    signed char life;
-    unsigned char behavior;
-    unsigned char behavior_type;
-    signed char appearance;
-    unsigned char max_life;
-    struct vertical_positions {
-        int saved_y;
-        int other_y;
-        /* Generators write the low byte of this stored word. */
-        union {
-            int y;
-            signed char alternate_column;
-        } entry;
-    } position;
-} opponent_record;
 
-typedef struct {
-    signed char opponent_count;
-    opponent_record opponents[5];
-} ROOMOBJECTS;
-
-typedef struct {
-    signed char room, cell;
-} REBIRTHPOINT;
-
-typedef struct {
-    unsigned char kind;
-    unsigned char limit;
-    signed char column;
-    signed char row;
-    unsigned char delay;
-    unsigned char reset_delay;
-    unsigned char behavior;
-    signed char alternate_column;
-    unsigned char enabled;
-    unsigned char flags;
-} generator_point;
-
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    generator_point points[3];
-} ROOMGENERATORS;
-
-typedef struct {
-    unsigned char cell_kinds[32][30];                  /* 0000 */
-    LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
-    ROOMLINKS room_links[32];                          /* 17c0 */
-    unsigned char room_count;                         /* 1840 */
-    unsigned char unknown_1841[4];
-    unsigned char environment_kind;                  /* 1845 */
-    unsigned char unknown_1846;
-    signed char level_number;                         /* 1847 */
-    int background_overlays[8];                       /* 1848 */
-    unsigned char unknown_1858[4];
-    int actor_phase;                                  /* 185c */
-    unsigned char unknown_185e[2];
-    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
-    unsigned char unknown_1863[3];
-    unsigned char preferred_opponent;                /* 1866 */
-    ROOMOBJECTS room_objects[32];                      /* 1867 */
-    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
-    unsigned char unknown_26eb[0x0e];
-    ROOMGENERATORS generators[32];                     /* 26f9 */
-    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
-} LEVELREC;
 #pragma pack()
 
 #pragma pack(1)
-struct char_bounds { int top, left, bottom, right; };
-typedef struct {
-    signed char slot;                  /* 00 */
-    signed char direction;             /* 01 */
-    int x, y;                          /* 02, 04 */
-    signed char character_kind;        /* 06 */
-    unsigned int frame;                /* 07 */
-    signed char column, row;           /* 09, 0a */
-    signed char action;                /* 0b */
-    signed char horizontal_step;       /* 0c */
-    signed char vertical_step;         /* 0d */
-    unsigned char room;                /* 0e */
-    signed char field_0f;              /* 0f */
-    unsigned char stance;              /* 10 */
-    signed char alive;                 /* 11 */
-    signed char life_points;           /* 12 */
-    signed char life_initial;          /* 13 */
-    signed char life_delta;            /* 14 */
-    int sequence_position;             /* 15 */
-    int sequence_id;                   /* 17 */
-    int sequence;                      /* 19 */
-    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
-    unsigned char alert_delay;           /* 23 */
-    int sequence_group;                /* 24 */
-    int previous_x, previous_y;        /* 26, 28 */
-    unsigned int previous_frame;       /* 2a */
-    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
-    int field_34;                      /* 34 */
-    int previous_mode;                 /* 36 */
-    unsigned char behavior;            /* 38 */
-    signed char opponent_index;        /* 39 */
-    unsigned char field_3a;            /* 3a */
-    unsigned char unknown_3b[5];        /* 3b..3f */
-} CHARREC;
-typedef struct {
-    signed char character, frame;
-    int x;
-    unsigned char low;
-} WATERSTATE;
-extern WATERSTATE InWater;
-extern CELLREC Cell;
-extern int Pause;
-extern CHARREC Opp, Kid, Char;
 
-void far pascal SetOppMaxLifePts(opponent_record *record);
 
-void far pascal reset_overlay_state(void)
+void reset_overlay_state(void)
 {
     Pause = 0;
 }
 
-void far pascal SetOppLifePts(opponent_record *record)
+void SetOppLifePts(OPPONENT *record)
 {
     SetOppMaxLifePts(record);
     if ((Char.character_kind == 4 && Char.sequence == 119) ||
@@ -176,7 +64,7 @@ void far pascal SetOppLifePts(opponent_record *record)
     }
 }
 
-void far pascal SetOppMaxLifePts(opponent_record *record)
+void SetOppMaxLifePts(OPPONENT *record)
 {
     if (record->max_life == 0)
         Char.life_initial = 3;
@@ -184,51 +72,19 @@ void far pascal SetOppMaxLifePts(opponent_record *record)
         Char.life_initial = record->max_life;
 }
 
-extern unsigned char LastOppTypeLoaded;
-extern LEVELREC Level;
-
-extern unsigned char OppCharId[];
 
 #define actor_index Char.slot
 
-extern unsigned char OppBank[2];
 
 #define actor_room Char.room
 
-#define actor_bank_mask Char.field_34
+#define actor_bank_mask Char.image_bank
 
-extern int Refract, JustBlocked, AlertGuard;
 
-extern int CutDir;
-
-opponent_record *far pascal GetOppInfoIdx(int room, int index);
-void far pascal CheckSideRoomsForVisibleOpps(void);
-void far pascal AddOppToRoom(int room, opponent_record *record);
-void far pascal RemoveOppFromRoom(unsigned char room, int index);
-void far _fastcall PresetOppBanks(unsigned char kind);
-void far pascal SetPalette(int resource, int start, unsigned char size,
-                                   unsigned char kind);
-void far pascal LoadOppSet(signed char appearance);
-void far pascal CheckLoadedOppSet(signed char appearance);
-int far pascal Rnd(int limit);
-void far pascal ResetCharY(void);
-signed char far pascal GetCharCol(int x);
-opponent_record *far pascal SkelAddOpponent(opponent_record *record);
-opponent_record *far pascal HeadAddOpponent(opponent_record *record);
-int far pascal GetUnderFt(void);
-int far pascal IsFloor(int stage);
-void far pascal JumpSeq(int action);
-void far pascal AnimChar(void);
-int far pascal IsDeadPos(int action);
-void far pascal CheckMultipleDeadBodies(void);
-void far pascal SetSkelTimer(signed char index, int behavior);
-void far pascal ClearCharVel(void);
-void far pascal SaveShad(void);
-
-void far pascal AddOpponent(void)
+void AddOpponent(void)
 {
-    opponent_record *record;
-    signed char count;
+    OPPONENT *record;
+    sbyte count;
     int index;
 
     CheckSideRoomsForVisibleOpps();
@@ -238,23 +94,23 @@ void far pascal AddOpponent(void)
         do {
             record = GetOppInfoIdx(Room.number, index);
             if (Level.preferred_opponent != 5 && Level.preferred_opponent != 6 &&
-                record->appearance != 1 && record->appearance != 9 &&
-                record->appearance != 10 && record->appearance != 3)
-                record->appearance = Level.preferred_opponent;
+                record->kind != 1 && record->kind != 9 &&
+                record->kind != 10 && record->kind != 3)
+                record->kind = Level.preferred_opponent;
 
-            Char.character_kind = OppCharId[record->appearance];
-            CheckLoadedOppSet(record->appearance);
+            Char.character_kind = OppCharId[record->kind];
+            CheckLoadedOppSet(record->kind);
 
             actor_index = index;
             actor_room = Room.number;
-            Char.row = record->tile / 10;
-            if (record->tile < 0)
+            Char.row = record->cell / 10;
+            if (record->cell < 0)
                 --Char.row;
 
             if (Char.character_kind == 2 && (record->action == 100 || record->action == 100)) {
-                Char.y = record->position.saved_y;
-            } else if (Char.character_kind == 6 && record->position.entry.y != 0) {
-                Char.y = record->position.entry.y;
+                Char.y = record->u.place.y;
+            } else if (Char.character_kind == 6 && record->u.place.entry_y != 0) {
+                Char.y = record->u.place.entry_y;
                 if (record->action == 12) {
                     Char.horizontal_step = 2;
                     Char.vertical_step = 18;
@@ -269,7 +125,7 @@ void far pascal AddOpponent(void)
             Char.opponent_index = record->behavior_type;
             Char.previous_frame = 0;
             Char.sequence_group = Char.previous_y = Char.previous_x = 0;
-            Char.field_3a = Char.alert_delay = 0;
+            Char.flame_offset = Char.alert_delay = 0;
 
             if (Char.character_kind == 0)
                 actor_bank_mask = 2;
@@ -311,7 +167,7 @@ void far pascal AddOpponent(void)
                 JumpSeq(record->action);
                 SetOppLifePts(record);
             } else {
-                Char.field_0f = 1;
+                Char.repeat = 1;
                 Char.sequence_id = record->action;
                 Char.sequence_position = record->saved_sequence;
                 Char.sequence = record->action;
@@ -326,7 +182,7 @@ void far pascal AddOpponent(void)
                 if (Char.character_kind == 2)
                     CheckMultipleDeadBodies();
                 Char.alive = 7;
-                Char.life_points = Char.field_0f = 0;
+                Char.life_points = Char.repeat = 0;
                 Char.life_delta = -Char.life_initial;
                 if (Char.character_kind == 4 || Char.character_kind == 10)
                     SetSkelTimer(actor_index, 0);
@@ -357,13 +213,13 @@ void far pascal AddOpponent(void)
     }
 }
 
-void far pascal CheckSideRoomsForVisibleOpps(void)
+void CheckSideRoomsForVisibleOpps(void)
 {
     int index, side, shift;
-    unsigned char room;
-    signed char count;
-    opponent_record *record;
-    opponent_record copy;
+    byte room;
+    sbyte count;
+    OPPONENT *record;
+    OPPONENT copy;
 
     for (side = 0; side < 2; ++side) {
         if (side == 0) {
@@ -379,7 +235,7 @@ void far pascal CheckSideRoomsForVisibleOpps(void)
         for (index = 0; index < count; ++index) {
             record = GetOppInfoIdx(room, index);
             if ((side == 0 && record->x > 367) || (side == 1 && record->x < 208) ||
-                ((room == 7 || room == 8) && Level.environment_kind == 6 && record->appearance == 3)) {
+                ((room == 7 || room == 8) && Level.environment_kind == 6 && record->kind == 3)) {
                 copy = *record;
                 copy.x += shift;
                 copy.index = Level.room_objects[Room.number - 1].opponent_count;
@@ -392,38 +248,13 @@ void far pascal CheckSideRoomsForVisibleOpps(void)
     }
 }
 
-extern signed char CharOppId[];
 
-extern int actor_y_offset[];
-extern int ColEdgeX[20];
-extern signed char Minus1[2];
-
-extern CHARREC RoomOpp[5];
-
-int abs(int value);
-#pragma intrinsic(abs)
-
-unsigned char far pascal RegisterCharInRoom(void);
-void far pascal JamPlate(void);
-signed char far pascal IndexCell(signed char, signed char);
-signed char far pascal FirstInRow(signed char column);
-void far pascal ResetSnd(int object_id);
-void far pascal AddSound(int sound);
-int far pascal Cut(int direction);
-void far pascal SnakeUpdateOppInfo(opponent_record *record);
-void far pascal JaffarUpdateOppInfo(opponent_record *record);
-void far pascal SetSpecialOppInfo(opponent_record *record);
-signed char far pascal GetOppIdxClosestToKid(signed char direction);
-generator_point *far pascal GetOppGenPtOnRow(unsigned char room, signed char column);
-int far pascal IsTimeToGenOpp(generator_point *point, unsigned char room);
-void far pascal GenerateOpponent(generator_point *point, unsigned char room);
-
-int far pascal UpdateOppInfo(void)
+int UpdateOppInfo(void)
 {
     int removed = 0;
-    opponent_record *record, *prior;
-    unsigned char room;
-    opponent_record copy;
+    OPPONENT *record, *prior;
+    byte room;
+    OPPONENT copy;
 
     if (Char.direction == 86 || Char.sequence_group == 5 || Char.sequence_group == 4 || Char.sequence == 196) {
         RemoveOppFromRoom(actor_room, actor_index);
@@ -431,8 +262,8 @@ int far pascal UpdateOppInfo(void)
     } else {
         record = GetOppInfoIdx(actor_room, actor_index);
         if (record != 0) {
-            record->tile = IndexCell(Char.column, Char.row);
-            if (record->tile != 30) {
+            record->cell = IndexCell(Char.column, Char.row);
+            if (record->cell != 30) {
                 record->x = Char.x;
                 record->direction = Char.direction;
                 if (Char.alive < 0)
@@ -443,7 +274,7 @@ int far pascal UpdateOppInfo(void)
                 }
                 record->combat_mode = Char.stance;
                 record->life = Char.life_points;
-                record->appearance = CharOppId[Char.character_kind];
+                record->kind = CharOppId[Char.character_kind];
                 SetSpecialOppInfo(record);
                 room = GetUnderFt();
                 if (room == 5 || room == 6)
@@ -452,10 +283,10 @@ int far pascal UpdateOppInfo(void)
                 room = RegisterCharInRoom();
                 if (room != 0 && Char.character_kind != 12) {
                     prior = GetOppInfoIdx(actor_room, actor_index);
-                    copy.tile = FirstInRow(Char.row);
+                    copy.cell = FirstInRow(Char.row);
                     copy.x = Char.x;
                     copy.direction = Char.direction;
-                    copy.flags = prior->flags;
+                    copy.skill = prior->skill;
                     copy.action = Char.sequence_id;
                     copy.saved_sequence = Char.sequence_position;
                     copy.palette_kind = prior->palette_kind;
@@ -463,9 +294,9 @@ int far pascal UpdateOppInfo(void)
                     copy.life = Char.life_points;
                     copy.behavior = Char.behavior;
                     copy.behavior_type = Char.opponent_index;
-                    copy.appearance = prior->appearance;
+                    copy.kind = prior->kind;
                     copy.max_life = prior->max_life;
-                    copy.position = prior->position;
+                    copy.u = prior->u;
                     AddOppToRoom(room, &copy);
                 } else if (Char.action == 9 && Level.environment_kind == 5) {
                     ResetSnd(10025);
@@ -483,35 +314,35 @@ int far pascal UpdateOppInfo(void)
     return removed;
 }
 
-void far pascal TransferOppInfo(void)
+void TransferOppInfo(void)
 {
-    opponent_record copy;
+    OPPONENT copy;
 
-    opponent_record *record;
+    OPPONENT *record;
 
     record = GetOppInfoIdx(actor_room, actor_index);
     copy = *record;
     RemoveOppFromRoom(actor_room, actor_index);
     Cut(CutDir);
-    copy.tile = FirstInRow(Char.row);
+    copy.cell = FirstInRow(Char.row);
     copy.x = Char.x;
     copy.direction = Char.direction;
     copy.action = Char.sequence_id;
     copy.saved_sequence = Char.sequence_position;
     copy.combat_mode = Char.stance;
     copy.life = Char.life_points;
-    copy.palette_kind = Char.field_34 == 4 ? OppBank[0] : OppBank[1];
+    copy.palette_kind = Char.image_bank == 4 ? OppBank[0] : OppBank[1];
     SetSpecialOppInfo(&copy);
     AddOppToRoom(actor_room, &copy);
 }
 
-void far pascal SetSpecialOppInfo(opponent_record *record)
+void SetSpecialOppInfo(OPPONENT *record)
 {
     if (Char.character_kind == 2) {
         if ((Char.sequence == 186) | (Char.sequence == 100))
-            record->position.saved_y = Char.y;
+            record->u.place.y = Char.y;
         if (Level.preferred_opponent == 7) {
-            record->appearance = 7;
+            record->kind = 7;
             return;
         }
     } else if (Char.character_kind == 11) {
@@ -522,10 +353,10 @@ void far pascal SetSpecialOppInfo(opponent_record *record)
     }
 }
 
-void far pascal RemoveOppFromRoom(unsigned char room, int index)
+void RemoveOppFromRoom(byte room, int index)
 {
-    signed char count = Level.room_objects[room - 1].opponent_count;
-    opponent_record *record, *following;
+    sbyte count = Level.room_objects[room - 1].opponent_count;
+    OPPONENT *record, *following;
 
     if (count > index) {
         if (count > index + 1) {
@@ -544,10 +375,10 @@ void far pascal RemoveOppFromRoom(unsigned char room, int index)
     }
 }
 
-void far pascal AddOppToRoom(int room, opponent_record *record)
+void AddOppToRoom(int room, OPPONENT *record)
 {
     ROOMOBJECTS *list = &Level.room_objects[room - 1];
-    signed char index = list->opponent_count;
+    sbyte index = list->opponent_count;
 
     if (index < 5) {
         record->index = index;
@@ -556,9 +387,9 @@ void far pascal AddOppToRoom(int room, opponent_record *record)
     }
 }
 
-opponent_record *far pascal GetOppInfoIdx(int room, int index)
+OPPONENT *GetOppInfoIdx(int room, int index)
 {
-    opponent_record *result;
+    OPPONENT *result;
 
     if (Level.room_objects[room - 1].opponent_count > index)
         result = &Level.room_objects[room - 1].opponents[index];
@@ -567,12 +398,12 @@ opponent_record *far pascal GetOppInfoIdx(int room, int index)
     return result;
 }
 
-signed char far pascal GetOppIdxClosestToKid(signed char direction)
+sbyte GetOppIdxClosestToKid(sbyte direction)
 {
-    signed char best = -1, index, count;
+    sbyte best = -1, index, count;
     int best_dx, dx, best_dy, dy;
     CHARREC *actor;
-    opponent_record *record;
+    OPPONENT *record;
 
     if (Kid.room != 0) {
         index = 0;
@@ -582,7 +413,7 @@ signed char far pascal GetOppIdxClosestToKid(signed char direction)
             actor = &RoomOpp[index];
             dy = abs(actor->y - Kid.y);
             if (actor->alive < 0 && actor->character_kind != 11 &&
-                !((actor->character_kind == 7 || actor->character_kind == 8) && (unsigned char)record->position.saved_y == 2)) {
+                !((actor->character_kind == 7 || actor->character_kind == 8) && record->u.head.mode == 2)) {
                 if (direction == 1)
                     dx = abs(actor->x - Kid.x);
                 else if (direction == -1 && actor->x <= Kid.x)
@@ -611,16 +442,16 @@ signed char far pascal GetOppIdxClosestToKid(signed char direction)
     return best;
 }
 
-int far pascal IsCharClosestToKid(void)
+int IsCharClosestToKid(void)
 {
     if (GetOppIdxClosestToKid(Kid.x >= Char.x ? -1 : 0) == actor_index)
         return 1;
     return 0;
 }
 
-void far pascal CheckOppGenPts(unsigned char room)
+void CheckOppGenPts(byte room)
 {
-    generator_point *point;
+    GENERATOR *point;
 
     if (Kid.alive < 0 && Kid.character_kind != 1) {
         point = GetOppGenPtOnRow(Kid.room, Kid.row);
@@ -635,52 +466,52 @@ void far pascal CheckOppGenPts(unsigned char room)
     }
 }
 
-void far pascal GenerateOpponent(generator_point *point, unsigned char room)
+void GenerateOpponent(GENERATOR *point, byte room)
 {
-    signed char index = Level.room_objects[room - 1].opponent_count;
-    signed char row;
-    opponent_record *record;
+    sbyte index = Level.room_objects[room - 1].opponent_count;
+    sbyte row;
+    OPPONENT *record;
 
     if (index < 5) {
         ++Level.room_objects[room - 1].opponent_count;
         record = GetOppInfoIdx(room, index);
-        record->tile = FirstInRow(point->column) + point->row;
-        if (point->row <= 5) {
-            record->x = ColEdgeX[point->row + 3];
+        record->cell = FirstInRow(point->row) + point->column;
+        if (point->column <= 5) {
+            record->x = ColEdgeX[point->column + 3];
             record->direction = 0;
         } else {
-            record->x = ColEdgeX[point->row + 7];
+            record->x = ColEdgeX[point->column + 7];
             record->direction = -1;
         }
-        record->flags = Level.generators[room - 1].spawn_flags;
+        record->skill = Level.generators[room - 1].spawn_flags;
         record->palette_kind = OppBank[0];
         record->index = index;
         record->combat_mode = 0;
         record->behavior = point->behavior;
-        record->position.entry.alternate_column = point->alternate_column;
+        record->u.skeleton.row = point->alternate_row;
         record->max_life = record->life = point->flags & 15;
         actor_index = index;
         Char.direction = record->direction;
         Char.x = record->x;
-        Char.character_kind = OppCharId[(signed char)Level.preferred_opponent];
-        Char.column = point->row;
-        Char.row = point->column;
+        Char.character_kind = OppCharId[Level.preferred_opponent];
+        Char.column = point->column;
+        Char.row = point->row;
         Char.behavior = point->behavior;
         actor_room = room;
         Char.life_delta = Char.life_points = Char.life_initial = record->life;
         Char.alive = -1;
-        Char.field_34 = 4;
+        Char.image_bank = 4;
         ResetCharY();
         ClearCharVel();
         Char.sequence_group = 0;
-        Char.field_0f = 1;
+        Char.repeat = 1;
         row = Kid.column;
         if (Kid.direction != Char.direction &&
             ((Kid.frame >= 1 && Kid.frame <= 14) ||
              (Kid.frame >= 49 && Kid.frame <= 56) ||
              (Kid.frame >= 34 && Kid.frame <= 44)))
             row -= Minus1[Kid.direction + 1];
-        if (point->row + 3 >= row && point->row - 3 <= row &&
+        if (point->column + 3 >= row && point->column - 3 <= row &&
             (point->flags & 15) >= 6) {
             Char.stance = 1;
             JumpSeq(90);
@@ -697,14 +528,12 @@ void far pascal GenerateOpponent(generator_point *point, unsigned char room)
     }
 }
 
-generator_point *far pascal GetOppGenPtIdx(unsigned char room, signed char index);
-int far pascal IsActiveOppGenPt(generator_point *point, signed char column);
 
-generator_point *far pascal GetOppGenPtOnRow(unsigned char room, signed char column)
+void *GetOppGenPtOnRow(byte room, sbyte column)
 {
-    signed char index = 0;
-    generator_point *point = 0;
-    signed char count = Level.generators[room - 1].count;
+    sbyte index = 0;
+    GENERATOR *point = 0;
+    sbyte count = Level.generators[room - 1].count;
 
     for (; index < count; ++index) {
         point = GetOppGenPtIdx(room, index);
@@ -715,51 +544,45 @@ generator_point *far pascal GetOppGenPtOnRow(unsigned char room, signed char col
     return point;
 }
 
-int far pascal IsActiveOppGenPt(generator_point *point, signed char column)
+int IsActiveOppGenPt(GENERATOR *point, sbyte column)
 {
     int result;
 
-    if ((point->column == column || point->alternate_column == column) &&
-        abs(point->row - Kid.column) > 2 && point->enabled != 0)
+    if ((point->row == column || point->alternate_row == column) &&
+        abs(point->column - Kid.column) > 2 && point->enabled != 0)
         result = 1;
     else
         result = 0;
     return result;
 }
 
-extern signed char LevelIdx;
-extern int NextLevel;
-extern unsigned long FrameNum;
 
-signed char far pascal Get1stWallColInDir(unsigned char room, signed char row,
-                                    signed char column, signed char direction);
-
-int far pascal IsTimeToGenOpp(generator_point *point, unsigned char room)
+int IsTimeToGenOpp(GENERATOR *point, byte room)
 {
-    signed char count = Level.room_objects[room - 1].opponent_count;
-    signed char index, room_row;
-    unsigned char between;
+    sbyte count = Level.room_objects[room - 1].opponent_count;
+    sbyte index, room_row;
+    byte between;
     int allowed;
 
     if (count < 5 && LevelIdx == NextLevel && FrameNum % 3 != 0) {
         allowed = 1;
         index = 0;
         between = 0;
-        room_row = Get1stWallColInDir(room, point->row, point->column,
-                                 point->row >= 5 ? -1 : 1);
+        room_row = Get1stWallColInDir(room, point->column, point->row,
+                                 point->column >= 5 ? -1 : 1);
         if (count > 0) {
             do {
                 if (!allowed)
                     break;
                 if (RoomOpp[index].alive < 0 &&
-                    ((point->row < Kid.column && RoomOpp[index].x < Kid.x) ||
-                     (point->row > Kid.column && RoomOpp[index].x > Kid.x)) &&
-                    ((point->row < room_row && Kid.column < room_row) ||
-                     (point->row > room_row && Kid.column > room_row))) {
+                    ((point->column < Kid.column && RoomOpp[index].x < Kid.x) ||
+                     (point->column > Kid.column && RoomOpp[index].x > Kid.x)) &&
+                    ((point->column < room_row && Kid.column < room_row) ||
+                     (point->column > room_row && Kid.column > room_row))) {
                     ++between;
                     if (point->limit <= between ||
-                        (point->row < Kid.column && RoomOpp[index].column <= point->row) ||
-                        (point->row > Kid.column && RoomOpp[index].column >= point->row))
+                        (point->column < Kid.column && RoomOpp[index].column <= point->column) ||
+                        (point->column > Kid.column && RoomOpp[index].column >= point->column))
                         allowed = 0;
                 }
                 ++index;
@@ -770,9 +593,9 @@ int far pascal IsTimeToGenOpp(generator_point *point, unsigned char room)
     return allowed;
 }
 
-generator_point *far pascal GetOppGenPtIdx(unsigned char room, signed char index)
+GENERATOR *GetOppGenPtIdx(byte room, sbyte index)
 {
-    generator_point *point;
+    GENERATOR *point;
 
     if (room && Level.generators[room - 1].count > index)
         point = &Level.generators[room - 1].points[index];
@@ -781,12 +604,12 @@ generator_point *far pascal GetOppGenPtIdx(unsigned char room, signed char index
     return point;
 }
 
-int far pascal IsOppGenPtWithTumbleOn(unsigned char room)
+int IsOppGenPtWithTumbleOn(byte room)
 {
     int found = 0;
-    signed char count = Level.generators[Char.room - 1].count;
-    signed char index = 0;
-    generator_point *point;
+    sbyte count = Level.generators[Char.room - 1].count;
+    sbyte index = 0;
+    GENERATOR *point;
 
     for (; index < count && !found; ++index) {
         point = GetOppGenPtIdx(room, index);
@@ -796,38 +619,36 @@ int far pascal IsOppGenPtWithTumbleOn(unsigned char room)
     return found;
 }
 
-void far pascal SetPalette(int resource, int start, unsigned char size,
-                                   unsigned char kind);
 
-void far _fastcall PresetOppBanks(unsigned char kind)
+void _fastcall PresetOppBanks(byte kind)
 {
     int slot;
 
     if (Level.preferred_opponent != 0 && Level.preferred_opponent != 5 && Level.preferred_opponent != 6) {
-        Char.field_34 = Level.preferred_opponent == 2 ? 8 : 4;
+        Char.image_bank = Level.preferred_opponent == 2 ? 8 : 4;
         return;
     }
-    Char.field_34 = 0;
+    Char.image_bank = 0;
     if (kind == 0)
         kind = 1;
 
-    for (slot = 0; slot < 2 && Char.field_34 == 0; ++slot) {
+    for (slot = 0; slot < 2 && Char.image_bank == 0; ++slot) {
         if (OppBank[slot] == kind)
-            Char.field_34 = 4 << slot;
+            Char.image_bank = 4 << slot;
     }
-    if (Char.field_34 == 0) {
-        for (slot = 0; slot < 2 && Char.field_34 == 0; ++slot) {
+    if (Char.image_bank == 0) {
+        for (slot = 0; slot < 2 && Char.image_bank == 0; ++slot) {
             if (OppBank[slot] == 0) {
                 OppBank[slot] = kind;
-                Char.field_34 = 4 << slot;
+                Char.image_bank = 4 << slot;
             }
         }
     }
-    if (Char.field_34 == 0)
-        Char.field_34 = 4;
+    if (Char.image_bank == 0)
+        Char.image_bank = 4;
 }
 
-void far pascal SetOppBanks(void)
+void SetOppBanks(void)
 {
     int slot;
     int start;
@@ -843,32 +664,11 @@ void far pascal SetOppBanks(void)
     }
 }
 
-extern unsigned char CutRoom;
-extern int CutTimer;
 
-void far pascal LoadShad(signed char index);
-int far pascal SndOn(int object_id);
-void far pascal AddOppDeathSong(void);
-void far pascal DrawOppMeter(signed char index, int change, int life);
-void far pascal LoadKid(void);
-void far pascal SetupChar(void);
-void far pascal GetCharEdges(void);
-int far pascal CutChar(void);
-void far pascal CutAllOpponents(void);
-int far pascal CanOppFollowKid(void);
-int far pascal IsCharInKidRoom(void);
-int far pascal AddCharX(int x);
-void far pascal RoofTriggerCharInWater(void);
-void far _fastcall AddKidScream(unsigned char room);
-int far pascal DecLifePts(unsigned char action);
-void far pascal SetKidDeathMethod(unsigned char state);
-void far pascal ChangeMeters(void);
-signed char far pascal GetRow(int y);
-
-void far pascal CutOpponent(void)
+void CutOpponent(void)
 {
-    signed char index = 0;
-    signed char count = Level.room_objects[Room.number - 1].opponent_count;
+    sbyte index = 0;
+    sbyte count = Level.room_objects[Room.number - 1].opponent_count;
 
     for (; index < count; ++index) {
         LoadShad(index);
@@ -894,7 +694,7 @@ void far pascal CutOpponent(void)
     }
 }
 
-void far pascal CutCheck(void)
+void CutCheck(void)
 {
     if (CutTimer) {
         --CutTimer;
@@ -932,10 +732,10 @@ void far pascal CutCheck(void)
     Kid = Char;
 }
 
-void far pascal CutAllOpponents(void)
+void CutAllOpponents(void)
 {
-    signed char index = 0;
-    signed char count = Level.room_objects[Room.number - 1].opponent_count;
+    sbyte index = 0;
+    sbyte count = Level.room_objects[Room.number - 1].opponent_count;
     int stay, removed;
 
     for (; index < count; ++index) {
@@ -984,7 +784,7 @@ void far pascal CutAllOpponents(void)
     }
 }
 
-int far pascal CanOppFollowKid(void)
+int CanOppFollowKid(void)
 {
     int allowed;
 
@@ -1005,10 +805,10 @@ int far pascal CanOppFollowKid(void)
     return allowed;
 }
 
-int far pascal IsCharInKidRoom(void)
+int IsCharInKidRoom(void)
 {
     CHARREC saved;
-    unsigned char destination;
+    byte destination;
 
     saved = Char;
     destination = RegisterCharInRoom();
@@ -1019,16 +819,16 @@ int far pascal IsCharInKidRoom(void)
     return 0;
 }
 
-unsigned char far pascal RegisterCharInRoom(void)
+sbyte RegisterCharInRoom(void)
 {
-    unsigned char room = actor_room;
-    unsigned char previous;
+    byte room = actor_room;
+    byte previous;
 
     if (Char.column < 0 || Char.column >= 10 || Char.row < 0 || Char.row >= 3) {
         do {
         previous = room;
         if (Char.row < 0) {
-            room = Level.room_links[room - 1].neighbors[ROOM_ABOVE];
+            room = Level.room_links[room - 1].above;
             if (room) {
                 Char.y += 192;
                 Char.row += 3;
@@ -1037,7 +837,7 @@ unsigned char far pascal RegisterCharInRoom(void)
                 previous = 0;
             }
         } else if (Char.row >= 3) {
-            room = Level.room_links[room - 1].neighbors[ROOM_BELOW];
+            room = Level.room_links[room - 1].below;
             if (room) {
                 Char.y -= 192;
                 Char.row -= 3;
@@ -1048,13 +848,13 @@ unsigned char far pascal RegisterCharInRoom(void)
         }
 
         if (Char.column < 0) {
-            room = Level.room_links[room - 1].neighbors[ROOM_LEFT];
+            room = Level.room_links[room - 1].left;
             if (room) {
                 Char.x += 320;
                 Char.column += 10;
             }
         } else if (Char.column >= 10) {
-            room = Level.room_links[room - 1].neighbors[ROOM_RIGHT];
+            room = Level.room_links[room - 1].right;
             if (room) {
                 Char.x -= 320;
                 Char.column -= 10;
@@ -1067,9 +867,9 @@ unsigned char far pascal RegisterCharInRoom(void)
     return room;
 }
 
-int far pascal Cut(int direction)
+int Cut(int direction)
 {
-    actor_room = Level.room_links[actor_room - 1].neighbors[direction];
+    actor_room = (&Level.room_links[actor_room - 1].left)[direction];
     if (direction == 0) {
         Char.x += 320;
         Char.column = GetCharCol(Char.x);
@@ -1090,33 +890,12 @@ int far pascal Cut(int direction)
     return direction;
 }
 
-extern int ImHeight, ImWidth;
-extern int LeftEdge, RightEdge;
-extern int GuardTimer;
 
-extern signed char script_motion;
-
-void far pascal ReadCell(unsigned char room, signed char column, signed char row);
-int far pascal FinlGetCutDirToJaffarBurning(void);
-void far pascal RoofKillKidOnWharf(void);
-void far pascal CutKidInsideLevel6(void);
-void far pascal SkelProg(void);
-void far pascal JaffarProg(void);
-void far pascal HeadProg(void);
-void far pascal SnakeProg(void);
-void far pascal AltarShadowProg(void);
-void far pascal OppChasing(void);
-void far pascal OppAlert(void);
-void far pascal EnGarde(void);
-void far pascal AutoRelease(void);
-void far pascal ShadowProg(void);
-void far pascal GuardProg(void);
-
-int far pascal CutChar(void)
+int CutChar(void)
 {
     int y = Char.y;
     int mode = Char.action;
-    unsigned int action = Char.frame;
+    word action = Char.frame;
     int side = -1;
 
     if ((Room.number == 7 || Room.number == 8) && Level.environment_kind == 6 &&
@@ -1128,7 +907,7 @@ int far pascal CutChar(void)
             if (Level.level_number != 5 || actor_room != 3)
                 side = 2;
         } else if (y >= 231 &&
-                   (Level.room_links[actor_room - 1].neighbors[ROOM_BELOW] || y >= ImHeight + 231) &&
+                   (Level.room_links[actor_room - 1].below || y >= ImHeight + 231) &&
                    (Level.environment_kind != 5 || actor_index != InWater.character)) {
             side = 3;
         } else if ((action >= 135 && action < 150) ||
@@ -1138,24 +917,24 @@ int far pascal CutChar(void)
             side = -1;
         } else if (Char.direction == -1) {
             if (LeftEdge <= 125 &&
-                (Level.room_links[actor_room - 1].neighbors[ROOM_LEFT] || LeftEdge <= 125 - ImWidth)) {
+                (Level.room_links[actor_room - 1].left || LeftEdge <= 125 - ImWidth)) {
                 if (Level.level_number == 9 && actor_room == 8 && Char.row == 0 && Char.frame == 40)
                     ++NextLevel;
                 else
                     side = 0;
             } else if (LeftEdge >= 450 &&
-                       (Level.room_links[actor_room - 1].neighbors[ROOM_RIGHT] || LeftEdge >= ImWidth + 449) &&
+                       (Level.room_links[actor_room - 1].right || LeftEdge >= ImWidth + 449) &&
                        (Level.environment_kind != 1 || actor_room != 3)) {
                 side = 1;
             }
         } else {
             ReadCell(actor_room, 9, Char.row);
             if (RightEdge >= 454 &&
-                (Level.room_links[actor_room - 1].neighbors[ROOM_RIGHT] || RightEdge >= ImWidth + 454) &&
+                (Level.room_links[actor_room - 1].right || RightEdge >= ImWidth + 454) &&
                 (Level.environment_kind != 1 || actor_room != 3)) {
                 side = 1;
             } else if (RightEdge <= 129 &&
-                       (Level.room_links[actor_room - 1].neighbors[ROOM_LEFT] || RightEdge <= 130 - ImWidth)) {
+                       (Level.room_links[actor_room - 1].left || RightEdge <= 130 - ImWidth)) {
                 side = 0;
             }
         }
@@ -1201,9 +980,9 @@ int far pascal CutChar(void)
     return side;
 }
 
-void far pascal AutoCtrl(void)
+void AutoCtrl(void)
 {
-    signed char kind;
+    sbyte kind;
 
     AutoRelease();
     kind = Char.character_kind;
@@ -1237,24 +1016,20 @@ void far pascal AutoCtrl(void)
     }
 }
 
-extern unsigned char Dir[5];
-extern unsigned char Joy[3];
-void *cdecl memset(void *buffer, int byte, unsigned size);
-#pragma intrinsic(memset)
 
-void far pascal AutoRelease(void)
+void AutoRelease(void)
 {
-    memset(Dir, 0, sizeof(Dir));
-    memset(Joy, 0, sizeof(Joy));
+    memset(&Dir, 0, sizeof(Dir));
+    memset(&Joy, 0, sizeof(Joy));
 }
 
-void far pascal ShadowProg(void)
+void ShadowProg(void)
 {
     if (actor_room == 4 && Level.level_number == 13)
         AltarShadowProg();
 }
 
-void far pascal GuardProg(void)
+void GuardProg(void)
 {
     if (Char.alive < 0 && Char.life_points != 0 &&
         (Char.life_points + Char.life_delta) != 0) {
@@ -1272,67 +1047,22 @@ void far pascal GuardProg(void)
         } else if (Kid.sequence_group != 13) {
             EnGarde();
             return;
-        } else if (Level.actor_phase != 0 && Char.sequence != 110) {
+        } else if (Level.sword_overlays[2] != 0 && Char.sequence != 110) {
             JumpSeq(110);
         }
     }
 }
 
-typedef struct {
-    unsigned char head[6];
-    unsigned char flags;
-} hit_action_record;
-extern hit_action_record far KidFrames[];
 
-extern signed char hit_actor_motion;
-
-typedef struct {
-    signed char argument, entrance_mode, sword_kind, death_countdown;
-    int field_4, shadow_timer;
-} KIDINFO;
-extern KIDINFO KidInfo;
-extern unsigned char actor_counterface;
 static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
 };
 
-extern unsigned int hit_actor_phase;
 
-void far pascal StabKillChar(void);
-void far pascal StabChar(void);
-void far pascal TestStrike(void);
-int far pascal IsStrikingPos(signed char kind, unsigned int action);
-int far pascal IsTheStrikePos(char kind, int value);
-void far _fastcall GetCharStrikeRanges(int *minimum, int *maximum);
-
-void far pascal LoadShadwOpp(signed char index);
-void far pascal SaveShadwOpp(void);
-void far pascal LoadKidwOpp(signed char index);
-void far pascal SaveKidwOpp(void);
-void far pascal SetKidPalette(unsigned char style);
-signed char far pascal GetBehind(void);
-signed char far pascal GetCellsInFront(unsigned char direction);
-int far pascal IsWall(signed char kind);
-void far pascal HeadSetToFleeMode(void);
-void far pascal GetFrameInfo(void);
-int far pascal GetDist(void);
-int far pascal IsSpace(signed char kind);
-int far pascal IsMobFloor(signed char kind);
-void far pascal RereadCells(void);
-void far pascal PutDeadBodyOnSolidGround(void);
-void far pascal BonesFall(void);
-unsigned char far pascal GetCellCol(void);
-void far pascal AllOtherJaffarsShimmerAway(void);
-int far pascal DoOppTumbleSeq(void);
-int far pascal GetOppDist(void);
-int far pascal FlameSwordBlocked(void);
-int far pascal HeadBlocked(void);
-int far pascal IsImpassable(signed char tile);
-
-void far pascal CheckStab(void)
+void CheckStab(void)
 {
-    signed char index = 0;
-    signed char count = Level.room_objects[Room.number - 1].opponent_count;
+    sbyte index = 0;
+    sbyte count = Level.room_objects[Room.number - 1].opponent_count;
 
     for (; index < count; ++index) {
         LoadShad(index);
@@ -1342,7 +1072,7 @@ void far pascal CheckStab(void)
                 Opp.action = 1;
             StabChar();
             Refract = opponent_recovery_time[
-                Level.room_objects[actor_room - 1].opponents[actor_index].flags];
+                Level.room_objects[actor_room - 1].opponents[actor_index].skill];
             SaveShadwOpp();
         }
     }
@@ -1364,9 +1094,9 @@ void far pascal CheckStab(void)
     }
 }
 
-void far pascal StabChar(void)
+void StabChar(void)
 {
-    signed char damage;
+    sbyte damage;
     int next_action;
     int sound, default_action;
 
@@ -1376,7 +1106,7 @@ void far pascal StabChar(void)
         SetKidPalette(Level.environment_kind);
 
     do {
-        if (Char.stance == 255 || Char.sequence == 10 || Char.sequence == 16 ||
+        if ((byte)Char.stance == 255 || Char.sequence == 10 || Char.sequence == 16 ||
             Char.sequence == 28 || Char.sequence == 14) {
             DecLifePts(100);
             StabKillChar();
@@ -1459,13 +1189,13 @@ void far pascal StabChar(void)
     }
 }
 
-void far pascal StabKillChar(void)
+void StabKillChar(void)
 {
     int next_action;
-    signed char index;
+    sbyte index;
 
     Char.alert_delay = 0;
-    Char.field_0f = 1;
+    Char.repeat = 1;
     next_action = -1;
     if (Char.character_kind == 4) {
         BonesFall();
@@ -1480,7 +1210,7 @@ void far pascal StabKillChar(void)
     } else {
         index = GetBehind();
         if (Char.character_kind != 0 && Char.direction == -1 &&
-            (index == 4 || (signed char)GetUnderFt() == 4)) {
+            (index == 4 || GetUnderFt() == 4)) {
             index = GetCellCol();
             Char.x = ColEdgeX[index - (Cell.kind != 4) + 5] + 14;
             Char.x = AddCharX(20);
@@ -1539,9 +1269,9 @@ void far pascal StabKillChar(void)
         JumpSeq(next_action);
 }
 
-void far pascal CheckStrike(void)
+void CheckStrike(void)
 {
-    signed char index, count;
+    sbyte index, count;
 
     if (Kid.frame != 0 && (Kid.frame < 219 || Kid.frame >= 229)) {
         index = 0;
@@ -1557,7 +1287,7 @@ void far pascal CheckStrike(void)
     }
 }
 
-void far pascal TestStrike(void)
+void TestStrike(void)
 {
     int distance, minimum, maximum;
 
@@ -1621,7 +1351,7 @@ void far pascal TestStrike(void)
     }
 }
 
-void far _fastcall GetCharStrikeRanges(int *minimum, int *maximum)
+void _fastcall GetCharStrikeRanges(int *minimum, int *maximum)
 {
     *minimum = 0;
     *maximum = -1;
@@ -1698,7 +1428,7 @@ void far _fastcall GetCharStrikeRanges(int *minimum, int *maximum)
     }
 }
 
-int far pascal IsStrikingPos(signed char kind, unsigned int action)
+int IsStrikingPos(sbyte kind, word action)
 {
     int result;
 
@@ -1716,7 +1446,7 @@ int far pascal IsStrikingPos(signed char kind, unsigned int action)
     return result;
 }
 
-int far pascal IsTheStrikePos(char kind, int value)
+int IsTheStrikePos(sbyte kind, int value)
 {
     int result;
 
@@ -1738,11 +1468,11 @@ int far pascal IsTheStrikePos(char kind, int value)
     return result;
 }
 
-int far pascal IsAdvancableId(signed char tile, unsigned int modifier)
+int IsAdvancableId(sbyte tile, word modifier)
 {
     int allowed;
 
-    if (!IsWall(tile) && (tile != 4 || (unsigned char)modifier >= 112))
+    if (!IsWall(tile) && (tile != 4 || (byte)modifier >= 112))
         allowed = 1;
     else
         allowed = 0;

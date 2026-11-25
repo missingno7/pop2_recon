@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/gameport/gameport.json",
-  "binding_sha256": "176a84b0837d9f5fc85267db66a1c26ce9908ceb5fc8da3daa12d49fe3ac3c27",
+  "binding_sha256": "873bc2babc68fe90f5a3cd1a196491b66b924fcc6e32f28d7ef99b1e02bc0072",
   "claims": [
     {
       "fixup_count": 12,
@@ -21,22 +21,28 @@
   "flags": [
     "/c",
     "/AM",
-    "/Oegl",
+    "/Oegil",
     "/Gs",
     "/Zl",
     "/Gc"
   ],
   "frame": 7826,
   "group_id": "group:gameport/gameport",
+  "includes": {
+    "gameport.h": "301321c18930ea54233e7f09cb35f84c5e467c6bd365a3d37dfb2d768c6cb133",
+    "snd.h": "620d857e4dfabcc9b920903de0504b401957f7f7ae3ab2b3106497ef87f81b6e",
+    "system.h": "72325308c84bbb800e61b363aed60272402d7e38da594cd4136a8dc109972333",
+    "types.h": "529950ea85dfc01bf0a19510b352e10a8f0ab0e6df3580d52d68fe7e2205320d"
+  },
   "kind": "same_source_group",
   "language": "c",
   "name": "gameport/gameport",
-  "object_sha256": "d1bcedfdb1c5d9050f424eb2f274655bf328c73c2aa366dc0a1ac613ad1bc1b0",
+  "object_sha256": "c138cc089d271e884e9cae3759894e60827e457ea6e90a307d67a03d66bf28ff",
   "origin": 125228,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/gameport/gameport.c",
-  "source_sha256": "2d16dbb55785473aac1d243dfe85a70874764991edb85a4ba5493bd79fba7ede",
+  "source_sha256": "d14d5d1e6b9d9b5452e76b0bd0564f2972c302b2671f98e0ffcc42047a82ff06",
   "space": "root"
 }

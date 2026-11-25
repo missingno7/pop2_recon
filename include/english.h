@@ -1,0 +1,27 @@
+/* Messages. */
+extern char one_second_left[];
+extern char seconds_left[];
+extern char minutes_left[];
+extern char time_expired[];
+extern char restart_key_message1[];
+extern char restart_key_message2[];
+extern char sound_on_message[];
+extern char sound_off_message[];
+extern char ambient_on_message[];
+extern char ambient_off_message[];
+extern char music_unavailable_message[];
+extern char joystick_unavailable_message[];
+extern char joystick_mode_message[];
+extern char joystick_missing_message[];
+extern char keyboard_mode_message[];
+extern char paused_message[];
+extern char saved_message[];
+extern char nosave_message[];
+extern char video_error[];
+extern char resource_path_format[];
+extern char file_error[];
+extern char config_filename[];
+extern const char digital_sound_error[];
+extern const char midi_sound_error[];
+extern const char OutOfFarMem[];
+extern const char system_error[];

@@ -1,44 +1,36 @@
 /* INIT.C. DOS platform initialization and startup diagnostics. */
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <malloc.h>
 #include "types.h"
+#include "resc.h"
+#include "system.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
+#include "level.h"
+#include "heap.h"
+#include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "diag.h"
+#include "english.h"
+#include "fade.h"
+#include "gameport.h"
+#include "gfxerr.h"
+#include "init.h"
+#include "intrface.h"
+#include "load.h"
+#include "misc.h"
+#include "prince.h"
+#include "sound.h"
+#include "util.h"
+#include "window.h"
 
-typedef struct
-{
-    int unknown, video, memory, sound_report, midi_sound_mode;
-} Configuration;
 
-typedef int (far pascal *InputPoll)(void);
+typedef unsigned long (*MemoryDriver)(void);
 
-extern Configuration *configuration;
-extern struct { unsigned char channels, volume; } Midi;
-
-extern GAMESTATE GameState;
-extern int backing_driver_active;
-extern InputPoll WaitFunc;
-extern int PollUser0(void);
-
-extern void EraseRect(Rect far *);
-extern void FrameRect(Rect far *);
-extern void INSETRECT(Rect far *, Rect far *, int, int);
-extern void StringRect(Rect far *, int, int, const char far *);
-extern void WaitKey(void);
-extern int cdecl initialize_sound_drivers(int wait_for_sound);
-extern void show_init_message(const char *message);
-extern void init_graphics(void);
-extern unsigned long choose_memory_pool(int *memory_class);
-extern void wait_for_ready(void);
-extern int get_sound_startup_flag(void);
-extern int SELECT_GRAPHICS_MODE(int mode);
-extern void INITIALIZE_GRAPHICS_MODE(int mode);
-extern int find_option(const char far *);
-typedef unsigned long (far pascal *MemoryDriver)(void);
-extern unsigned long ems_driver(void);
-extern unsigned long xms_driver(void);
-extern unsigned long query_callback_u32(MemoryDriver driver);
-extern void initialize_backing_driver(MemoryDriver driver);
-extern int cdecl sprintf(char *, const char *, ...);
-extern int cdecl printf(const char *, ...);
-extern void cdecl exit(int);
 
 static Rect message_port = { 50, 50, 150, 270 };
 
@@ -51,11 +43,11 @@ static const char *device_filenames[] = {
 void show_init_message(const char *message)
 {
     Rect rect;
-    InputPoll saved_input;
+    int (*saved_input)(void);
 
     EraseRect(&message_port);
     FrameRect(&message_port);
-    INSETRECT(&rect, &message_port, 5, 8);
+    InsetRect(&rect, &message_port, 5, 8);
     StringRect(&rect, 0, 0, message);
     saved_input = WaitFunc;
     WaitFunc = PollUser0;
@@ -64,69 +56,24 @@ void show_init_message(const char *message)
     WaitFunc = saved_input;
 }
 
-extern const char digital_sound_error[], midi_sound_error[];
 
 void init_sound(void)
 {
     initialize_sound_drivers(0);
-    if (configuration->sound_report && !(Midi.channels & 1))
+    if (configuration->digital_mode && !(Midi.channels & 1))
         show_init_message(digital_sound_error);
-    if (configuration->midi_sound_mode && !(Midi.channels & 2))
+    if (configuration->midi_mode && !(Midi.channels & 2))
         show_init_message(midi_sound_error);
 }
 
 void save_initial_setting(void)
 {
-    GameState.control_mode = configuration->video;
+    GameState.control_mode = configuration->control_mode;
 }
 
-extern char config_filename[];
-extern char video_error[], file_error[];
-typedef int (far pascal *CatalogError)(unsigned int *);
-typedef void (far pascal *ResourceError)(const char far *);
-typedef void (far pascal *WindowAction)(void *, int);
-extern CatalogError catalog_callback;
-extern InputPoll allocation_handler;
-extern ResourceError resource_error;
-extern int load_resource_error(unsigned int *);
-extern int report_fatal_memory(void), release_discardable_images(void), Input(void);
-extern void report_resource_path(const char far *);
-extern void ignore_window_action(void *, int);
-extern char *interface_buffer;
-extern void far *heap_state;
-extern int BPort, Graf, main_port, frame_diagnostics;
-extern int dos_vectors_installed;
-char ScreenPort[44];
-extern char ScreenPortRect[], joystick_state[];
 
-extern AmbientState ambient_state;
-extern void HeapInit(unsigned long);
-extern unsigned long expand_memory_limits(void);
-extern int load_sound_settings(const char *);
-extern void release_heap_segment(void);
-extern void near *cdecl _nmalloc(unsigned int);
-extern void snapshot_null_area(void);
-extern void OpenRsrcVerify(const char *);
-extern void install_interrupt_handlers(void);
-extern void install_default_timer(int);
-extern void set_sound_level(unsigned char);
-extern int InitPort(int, const char far *);
-extern void set_mode_flag_value(void);
-extern int create_window(int, const char far *, int, const char far *);
-extern void set_window_event_state(int, int);
-extern void update_message_display(void);
-extern void install_dos_vectors(void);
-extern void initialize_window_draw_port(void);
-extern void open_level_resources(const char **);
-extern void check_game_port(void);
-extern void InitAmbient(AmbientState *);
-extern void ResetStdPalette(void);
-extern int hGetTxt4(int);
-extern unsigned long h2p(int);
-extern int p2h(unsigned long);
-extern void hFree(int);
-extern void near *cdecl memset(void near *, int, unsigned int);
-#pragma intrinsic(memset)
+PORT ScreenPort;
+
 
 unsigned long choose_memory_pool(int *memory_class)
 {
@@ -174,7 +121,7 @@ void InitSystem(void)
         printf(file_error, config_filename);
         exit(0);
     }
-    configuration->video = 2;
+    configuration->control_mode = 2;
     save_initial_setting();
     if (find_option("USEHIMEM"))
         choose_memory_pool(&memory_class);
@@ -182,7 +129,7 @@ void InitSystem(void)
     catalog_callback = load_resource_error;
     allocation_handler = report_fatal_memory;
     interface_buffer = _nmalloc(500);
-    *(InputPoll far *)((char far *)heap_state + 0x12) = release_discardable_images;
+    heap_state->release_discardable = release_discardable_images;
     resource_error = report_resource_path;
     WaitFunc = Input;
     BPort = 0;
@@ -192,38 +139,38 @@ void InitSystem(void)
     install_interrupt_handlers();
     install_default_timer(60);
     init_sound();
-    if (configuration->sound_report == -1)
+    if (configuration->digital_mode == -1)
         set_sound_level(0);
-    Graf = InitPort(ScreenPort, ScreenPortRect);
+    Graf = InitPort(&ScreenPort, &ScreenPortRect);
     set_mode_flag_value();
-    Graf = main_port = create_window(-2, ScreenPortRect, 0, "Prince of Persia II");
+    Graf = main_port = create_window(-2, &ScreenPortRect, 0, "Prince of Persia II");
     set_window_event_state(main_port, 0);
-    *(WindowAction *)((char *)main_port + 0x56) = ignore_window_action;
+    ((WINDOW *)main_port)->action = ignore_window_action;
     update_message_display();
     install_dos_vectors();
     dos_vectors_installed = 1;
     initialize_window_draw_port();
     open_level_resources(device_filenames);
     check_game_port();
-    if (configuration->video != GameState.control_mode)
+    if (configuration->control_mode != GameState.control_mode)
         GameState.control_mode = 0;
     if (GameState.control_mode != 2)
-        memset(joystick_state, 0, 9);
+        memset(&joystick_state, 0, sizeof(joystick_state));
     InitAmbient(&ambient_state);
     ResetStdPalette();
     wait_for_ready();
-    sound = h2p(hGetTxt4(10));
+    sound = (unsigned long)h2p(hGetTxt4(10));
     frame_diagnostics = find_option((const char far *)sound) != 0;
-    hFree(p2h(sound));
+    hFree(p2h((void far *)sound));
 }
 
 void init_graphics(void)
 {
-    if (!SELECT_GRAPHICS_MODE(5) && !find_option("NOVIDEODETECT")) {
+    if (!select_graphics_mode(5) && !find_option("NOVIDEODETECT")) {
         printf(video_error);
         exit(0);
     }
-    INITIALIZE_GRAPHICS_MODE(5);
+    initialize_graphics_mode(5);
 }
 
 void wait_for_ready(void)

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/gfxerr/gfxerr.json",
-  "binding_sha256": "33c8bb87e0181fe9573bdf3d973a5814c7140d4ce97dca235a51e7f77bc58a5f",
+  "binding_sha256": "56b850dda49291675d33e56a569f1500a61dbf22cd37f09fe51c022d07ff5467",
   "claims": [
     {
       "fixup_count": 1,
@@ -140,7 +140,7 @@
   "flags": [
     "/c",
     "/AM",
-    "/Oegl",
+    "/Oegil",
     "/Gs",
     "/Zl",
     "/Gc",
@@ -149,17 +149,28 @@
   "frame": 8005,
   "group_id": "group:gfxerr/gfxerr",
   "includes": {
-    "types.h": "4106357bccb4f651a1b21a92e0ad9f400b31d69e0b7dbbd0e663c10765f15811"
+    "<malloc.h>": "94d10282abde89eb57b7d533a9a029bc0444ab0aebea8064d61a86fd97678a24",
+    "<string.h>": "ff36b60adcf99a547032981a149cc6d37f48cfa2f556cebe327c59d79c93823e",
+    "gfxerr.h": "94febf7ed1be5820ba0e0e89735a232af13ef5b62dc1749ded4e5b41ae138dfe",
+    "graf.h": "9ad22bdfec1ce8d18a0f61a9a4b220000302c76326733940c6d9ce1fb6dc8344",
+    "heap.h": "9327c8fff542adccc093f1ff4033abb046170a544a8629be6c2beab674445552",
+    "init.h": "494dc65cf6a459fdc706cb1423f2603c13523bdb5cf2cc37ea4b124968199db5",
+    "level.h": "35d4755238b3dc3ea79b75221e22127b40323bc6af99e9ed8bad4dfe26062dd0",
+    "resc.h": "b81de428c1b7f74aee726f976d651eb0b278b0395ee4931929da5db3ff2f7891",
+    "system.h": "72325308c84bbb800e61b363aed60272402d7e38da594cd4136a8dc109972333",
+    "types.h": "529950ea85dfc01bf0a19510b352e10a8f0ab0e6df3580d52d68fe7e2205320d",
+    "util.h": "017a3ba04ff32a44804af39236e5838ebb2ef29ae27d111515044e3092c47420",
+    "window.h": "b5b3c9aca92adf784dbf30e356ec91264069008134a9dd762ecf79d4f5ae0c3b"
   },
   "kind": "same_source_group",
   "language": "c",
   "name": "gfxerr/gfxerr",
-  "object_sha256": "c114813aaa7dc22d8758cc37132be5d42ab5e99550aad415beb4e6f2c51d45b4",
+  "object_sha256": "179d2e3d8d35fb730e1155d333bb3098c32ec686dbb0c266561c9c3c71a4c55b",
   "origin": 128080,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/gfxerr/gfxerr.c",
-  "source_sha256": "a35a7307ecb908b805e761638cd41a2a53911be887252f2fa6c739bfc90e3681",
+  "source_sha256": "ef55ee2f6945d657b5a4d50ac6b2f080460c6d7e9cbbf78cce53598e85e1da26",
   "space": "root"
 }

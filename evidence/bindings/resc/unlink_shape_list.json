@@ -72,11 +72,11 @@
       }
     ],
     "externals": [
+      "UNLINK_SHAPE_LIST",
       "HGETSTATE",
       "HLOCK",
-      "HSETSTATE",
       "BANKSTATUS",
-      "UNLINK_SHAPE_LIST"
+      "HSETSTATE"
     ]
   },
   "fixups": [
@@ -92,7 +92,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 5,
           "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
@@ -100,7 +100,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 5,
         "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
@@ -146,7 +146,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 3,
           "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
@@ -154,7 +154,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
@@ -173,7 +173,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 2,
           "name": "HGETSTATE",
           "method": 6,
           "zero_displacement": true
@@ -181,7 +181,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "HGETSTATE",
         "method": 6,
         "zero_displacement": true

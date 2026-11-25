@@ -65,7 +65,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 145,
+        "length": 849,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -86,22 +86,13 @@
     ],
     "publics": [
       {
-        "name": "SNDON",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 144,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 533
-      },
-      {
         "name": "FLAG_SOUND_RESOURCE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
         "group_index": 0,
         "frame": null,
-        "type_index": 527
+        "type_index": 703
       },
       {
         "name": "RESETSND",
@@ -110,7 +101,7 @@
         "offset": 60,
         "group_index": 0,
         "frame": null,
-        "type_index": 529
+        "type_index": 705
       },
       {
         "name": "SETSND",
@@ -119,20 +110,29 @@
         "offset": 120,
         "group_index": 0,
         "frame": null,
-        "type_index": 531
+        "type_index": 707
+      },
+      {
+        "name": "SNDON",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 144,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 709
       }
     ],
     "externals": [
-      "SNDON",
-      "HGETSND",
-      "H2P",
-      "RESETSOUND",
-      "PROCESS_HANDLE",
       "QUERY_SOUND_PAYLOAD",
-      "FLAG_SOUND_PAYLOAD",
+      "RESETSOUND",
       "FLAG_SOUND_RESOURCE",
+      "H2P",
+      "HGETSND",
+      "PROCESS_HANDLE",
       "RESETSND",
-      "SETSND"
+      "SETSND",
+      "SNDON",
+      "FLAG_SOUND_PAYLOAD"
     ]
   },
   "fixups": [
@@ -148,7 +148,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 10,
           "name": "FLAG_SOUND_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -156,7 +156,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 10,
         "name": "FLAG_SOUND_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -175,7 +175,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -183,7 +183,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -202,7 +202,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 5,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -210,7 +210,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 5,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true
@@ -229,7 +229,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 2,
           "name": "RESETSOUND",
           "method": 6,
           "zero_displacement": true
@@ -237,7 +237,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "RESETSOUND",
         "method": 6,
         "zero_displacement": true
@@ -256,7 +256,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -264,7 +264,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -283,7 +283,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 5,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -291,7 +291,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 5,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true
@@ -310,7 +310,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 6,
           "name": "PROCESS_HANDLE",
           "method": 6,
           "zero_displacement": true
@@ -318,7 +318,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "PROCESS_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -337,7 +337,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 5,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -345,7 +345,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 5,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true
@@ -364,7 +364,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 1,
           "name": "QUERY_SOUND_PAYLOAD",
           "method": 6,
           "zero_displacement": true
@@ -372,7 +372,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 1,
         "name": "QUERY_SOUND_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -391,7 +391,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 3,
+          "index": 4,
           "name": "H2P",
           "method": 6,
           "zero_displacement": true
@@ -399,7 +399,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "H2P",
         "method": 6,
         "zero_displacement": true
@@ -418,7 +418,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 5,
           "name": "HGETSND",
           "method": 6,
           "zero_displacement": true
@@ -426,7 +426,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 5,
         "name": "HGETSND",
         "method": 6,
         "zero_displacement": true

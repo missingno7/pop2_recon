@@ -1,116 +1,35 @@
 /* DOS DESERT.C, overlay 5. Definitions follow DOS code order. */
 #include "types.h"
+#include "resc.h"
+#include "snd.h"
+#include "graf.h"
+#include "shape.h"
 #include "level.h"
+#include "heap.h"
 #include "char.h"
 #include "game.h"
+#include "draw.h"
+#include "custom.h"
+#include "custcvca.h"
+#include "act.h"
+#include "add.h"
+#include "ctrl.h"
+#include "desert.h"
+#include "fade.h"
+#include "lgraf.h"
+#include "move.h"
+#include "prince.h"
+#include "sound.h"
+#include "top.h"
+#include "util.h"
 
-#pragma pack(1)
-
-typedef struct {
-    sbyte shape;
-    int x, y;
-    sbyte pass;
-    byte reserved[3];
-    word handle;
-    Rect rect;
-    byte tail[6];
-} Piece;
-
-/* Animated pieces use the high byte of y and the pass byte as a state word. */
-typedef struct {
-    byte reserved[4];
-    word flags;
-} PackedPieceState;
-
-#define piece_state(piece) (((PackedPieceState *)(piece))->flags)
-
-typedef struct {
-    sbyte count;
-    byte template_id;
-    int shape_base;
-    byte header[24];
-    Piece pieces[1];
-} DesertRoom;
-
-typedef struct {
-    byte reserved[16];
-    Rect bounds;
-} PEELPORT;
-
-typedef struct {
-    PEELPORT *peel;
-    int reserved;
-    int active;
-} PeelRecord;
-#pragma pack()
-
-extern struct { unsigned char channels, volume; } Midi;
-extern FCHARREC FChar;
 
 static sbyte current_column, previous_column;
-extern CHARREC Char;
-extern LEVELREC Level;
-extern word BlueSpec;
 
-extern GAMESTATE GameState;
-extern unsigned long FrameNum;
-extern ROOMREC Room;
-extern AmbientState ambient_state;
-extern CHARREC Kid;
-extern int NextLevel, CueSnd;
 
-extern Directions Dir;
 static Rect stone_bounds = {49, 11, 70, 54};
 static sbyte desert_variant = -1;
-extern DesertRoom *CustomRoom;
-extern word *Pics[5];
-extern Rect CellClipRect, GamePlayRect;
-extern int ImWidth;
-extern TROBREC Trob;
-extern struct {
-    int count;
-    PeelRecord entries[40];
-} PeelInfo;
 
-extern void AddSong(int), AddSound(int);
-extern void CycleColors(int, int, int);
-extern int SndOn(int);
-extern void ResetSnd(int);
-extern int GetTrobId(sbyte, sbyte);
-extern void LoadKid(void), ResetCharY(void);
-extern void JumpSeq(int);
-extern int Rnd(int);
-extern void far *hLock(word);
-extern void hUnlock(word), hFree(word);
-extern word HGETRSRC(unsigned long, int);
-extern word PrinceUnpackShape(word, int, void far *);
-extern void far *h2p(word);
-extern Rect far *MAKESHAPERECT(Rect far *, int, int, void far *);
-extern void MarkMove(sbyte, Rect *);
-extern void MarkBufsForRect(void (far *)(sbyte, Rect *), Rect *, sbyte);
-extern void far _fastcall DrawCustomRoomImg(sbyte, sbyte);
-extern int GetTrobRoomCell(sbyte, int);
-extern void AddTrob(sbyte, sbyte, sbyte, sbyte);
-extern int CheckTrobVis(void);
-extern sbyte RestoreKeepCustomPeel(byte);
-extern void DrawCustomRoomImgAtInfo(byte, Piece *);
-extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern void far _fastcall AddPeel(int, int, int, int, byte, byte);
-extern int ComputeTrobMoveRect(Rect *, Rect *);
-extern sbyte CheckTrobRight(void), CheckTrobBelow(void);
-extern int GetPeelIdxForCharIdx(byte, int);
-
-void DsrtCheckExit(void);
-void DsrtCycleColors(void);
-void DsrtWatchKid(void);
-int IsMarkStonePos(int);
-word IsDsrtExitOpen(void);
-void TriggerDsrtExit(sbyte, sbyte);
-void AnimDsrtStone(void);
-void RedrawStone(void);
-void RemoveLastStonePeel(sbyte);
-int SinkDsrtStone(sbyte);
-int TriggerStone(byte, sbyte, sbyte);
 
 void AddDsrtAmbient(void)
 {
@@ -259,29 +178,29 @@ int IsMarkStonePos(int code)
 
 void LoadDsrtCode(void)
 {
-    Piece *piece;
+    CUSTOMPIECE *piece;
     void far *archive;
     int resource;
 
     previous_column = -1;
     if (CustomRoom != 0) {
-        if (CustomRoom->template_id == 6) {
+        if (CustomRoom->kind == 6) {
             if (desert_variant == -1) {
                 desert_variant = Rnd(2);
                 current_column = Rnd(4) + 1;
             }
             if (desert_variant != 2) {
-                archive = hLock(*Pics[4]);
+                archive = hLock(Pics[4]->resource);
                 piece = &CustomRoom->pieces[15];
                 hFree(piece->handle);
-                resource = desert_variant + CustomRoom->shape_base + 15;
-                piece->handle = HGETRSRC(0x53484150UL, resource);
+                resource = desert_variant + CustomRoom->first_shape + 15;
+                piece->handle = hGetRsrc(0x53484150UL, resource);
                 piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
                 piece = &CustomRoom->pieces[16];
                 hFree(piece->handle);
-                piece->handle = HGETRSRC(0x53484150UL, resource + 3);
+                piece->handle = hGetRsrc(0x53484150UL, resource + 3);
                 piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
-                hUnlock(*Pics[4]);
+                hUnlock(Pics[4]->resource);
             }
             }
     }
@@ -291,19 +210,19 @@ void SetupSand(void)
 {
     Rect saved_clip;
     byte index;
-    Piece *piece;
+    CUSTOMPIECE *piece;
     Rect *bounds;
 
     if (Char.sequence == 27) {
         saved_clip = CellClipRect;
         index = (byte)(FrameNum & 1) + 3;
         piece = &CustomRoom->pieces[index];
-        piece->x = 119;
-        piece->y = FChar.x;
-        if (!(FChar.flipped))
-            piece->y -= ImWidth;
-        bounds = &piece->rect;
-        MAKESHAPERECT(bounds, piece->x, piece->y, h2p(piece->handle));
+        piece->pos.y = 119;
+        piece->pos.x = FChar.x;
+        if (!FChar.direction)
+            piece->pos.x -= ImWidth;
+        bounds = &piece->clip;
+        MakeShapeRect(bounds, piece->pos.y, piece->pos.x, h2p(piece->handle));
         MarkBufsForRect(MarkMove, bounds, -1);
         CellClipRect = *bounds;
         DrawCustomRoomImg(index, piece->pass = 1);
@@ -315,10 +234,10 @@ void SetupSand(void)
 void AnimDsrtExit(void)
 {
     word frame;
-    Piece *piece;
+    CUSTOMPIECE *piece;
     Rect *bounds;
 
-    frame = BlueSpec & 31;
+    frame = BlueSpec.modifier & 31;
     if (frame == 20) {
         Trob.state = -1;
         ResetSnd(10007);
@@ -327,11 +246,11 @@ void AnimDsrtExit(void)
         if (!SndOn(10045))
             AddSound(7);
     }
-    BlueSpec &= ~31;
-    BlueSpec |= frame;
+    BlueSpec.modifier &= ~31;
+    BlueSpec.modifier |= frame;
     piece = &CustomRoom->pieces[2];
-    piece->rect.left -= 2;
-    bounds = &piece->rect;
+    piece->clip.left -= 2;
+    bounds = &piece->clip;
     MarkMove(Trob.cell, bounds);
     MarkMove(Trob.cell + 1, bounds);
     MarkMove(Trob.cell - 10, bounds);
@@ -339,15 +258,15 @@ void AnimDsrtExit(void)
     RestoreKeepCustomPeel(piece->shape);
 }
 
-void DrawDsrtExit(Piece *piece)
+void DrawDsrtExit(DRAWCELL *cell)
 {
     int frame;
 
-    if (piece->shape == 11) {
-        frame = piece_state(piece) & 31;
-        CustomRoom->pieces[2].y = (4 - frame) * 2;
-        CustomRoom->pieces[15].y = 27 - frame * 2;
-        CustomRoom->pieces[15].rect.left = 0;
+    if (cell->pass == 11) {
+        frame = cell->info.modifier & 31;
+        CustomRoom->pieces[2].pos.x = (4 - frame) * 2;
+        CustomRoom->pieces[15].pos.x = 27 - frame * 2;
+        CustomRoom->pieces[15].clip.left = 0;
         DrawCustomRoomImg(2, 11);
         DrawCustomRoomImg(15, 11);
     }
@@ -371,24 +290,24 @@ void AnimDsrtPlanks(void)
     word frame;
 
     if (CheckTrobVis()) {
-        frame = BlueSpec & 15;
+        frame = BlueSpec.modifier & 15;
         if (frame == 7)
             frame = 0;
         else
             ++frame;
-        BlueSpec &= ~15;
-        BlueSpec |= frame;
-        MarkMove(Trob.cell, &CustomRoom->pieces[1].rect);
+        BlueSpec.modifier &= ~15;
+        BlueSpec.modifier |= frame;
+        MarkMove(Trob.cell, &CustomRoom->pieces[1].clip);
     }
 }
 
-void DrawDsrtPlanks(Piece *piece)
+void DrawDsrtPlanks(DRAWCELL *cell)
 {
     Rect saved_clip;
     sbyte index;
 
-    if (piece->shape == 11) {
-        index = ((piece_state(piece) >> 1) & 7) + 1;
+    if (cell->pass == 11) {
+        index = ((cell->info.modifier >> 1) & 7) + 1;
         saved_clip = CellClipRect;
         CellClipRect = GamePlayRect;
         DrawCustomRoomImg(index, 11);
@@ -401,24 +320,24 @@ void AnimDsrtRocks(void)
     word frame;
 
     if (CheckTrobVis()) {
-        frame = BlueSpec & 15;
+        frame = BlueSpec.modifier & 15;
         if (frame == 7)
             frame = 0;
         else
             ++frame;
-        BlueSpec &= ~15;
-        BlueSpec |= frame;
-        MarkMove(Trob.cell, &CustomRoom->pieces[1].rect);
+        BlueSpec.modifier &= ~15;
+        BlueSpec.modifier |= frame;
+        MarkMove(Trob.cell, &CustomRoom->pieces[1].clip);
     }
 }
 
-void DrawDsrtRocks(Piece *piece)
+void DrawDsrtRocks(DRAWCELL *cell)
 {
     Rect saved_clip;
     sbyte index;
 
-    if (piece->shape == 11) {
-        index = ((piece_state(piece) >> 1) & 7) + 1;
+    if (cell->pass == 11) {
+        index = ((cell->info.modifier >> 1) & 7) + 1;
         saved_clip = CellClipRect;
         CellClipRect = GamePlayRect;
         DrawCustomRoomImg(index, 11);
@@ -426,7 +345,7 @@ void DrawDsrtRocks(Piece *piece)
     }
 }
 
-void AddDsrtStoneUpPeels(Piece *piece)
+void AddDsrtStoneUpPeels(CUSTOMPIECE *piece)
 {
     Rect bounds;
     int x, y, count;
@@ -437,7 +356,7 @@ void AddDsrtStoneUpPeels(Piece *piece)
     x = 64;
     count = 6;
     do {
-        OFFSETRECT(&bounds, &piece->rect, x, y);
+        OffsetRect(&bounds, &piece->clip, x, y);
         AddPeel(bounds.left, bounds.right, bounds.top,
                  bounds.bottom - bounds.top, id, 3);
         x += 32;
@@ -446,11 +365,11 @@ void AddDsrtStoneUpPeels(Piece *piece)
 
 void AnimDsrtStone(void)
 {
-    word delay = (BlueSpec & 0x1f0) >> 4;
+    word delay = (BlueSpec.modifier & 0x1f0) >> 4;
     word frame;
 
     if (delay == 0) {
-        frame = BlueSpec & 15;
+        frame = BlueSpec.modifier & 15;
         if (Trob.state == 3 && frame == 0)
             AddSound(42);
 
@@ -460,28 +379,28 @@ void AnimDsrtStone(void)
                 AddDsrtAmbient();
             Trob.state = -1;
         } else {
-            BlueSpec &= ~15;
-            BlueSpec |= frame + Trob.state - 2;
+            BlueSpec.modifier &= ~15;
+            BlueSpec.modifier |= frame + Trob.state - 2;
         }
 
         if (Trob.state > 0)
             RedrawStone();
     } else if (Kid.sequence != 27 && Kid.alive < 0) {
-        BlueSpec &= ~0x1f0;
-        BlueSpec |= --delay << 4;
+        BlueSpec.modifier &= ~0x1f0;
+        BlueSpec.modifier |= --delay << 4;
     }
 }
 
-void DrawDsrtStone(Piece *piece)
+void DrawDsrtStone(DRAWCELL *cell)
 {
     word frame;
 
-    if (piece->shape == 11 || piece->shape == 2) {
-        frame = piece_state(piece) & 15;
+    if (cell->pass == 11 || cell->pass == 2) {
+        frame = cell->info.modifier & 15;
         if (frame) {
-            DrawCustomRoomImgAtInfo(frame + 4, piece);
-            if (frame > 7 && (sbyte)piece->x - current_column == 2)
-                DrawCustomRoomImgAtInfo(16, piece);
+            DrawCustomRoomImgAtInfo(frame + 4, cell);
+            if (frame > 7 && cell->column - current_column == 2)
+                DrawCustomRoomImgAtInfo(16, cell);
         }
     }
 }
@@ -508,14 +427,14 @@ void RemoveLastStonePeel(sbyte column)
     do {
         slot = GetPeelIdxForCharIdx(114, occurrence);
         if (slot != -1) {
-            bounds = &PeelInfo.entries[slot].peel->bounds;
+            bounds = &PeelInfo.items[slot].saved->rect;
             if (bounds->left == x || bounds->right == x) {
-                PeelInfo.entries[slot].active = 0;
+                PeelInfo.items[slot].keep = 0;
                 if (++matches == 2)
                     slot = -1;
             } else if (bounds->left < x && bounds->right > x &&
                        bounds->top == 114 && bounds->bottom == 127) {
-                PeelInfo.entries[slot].active = 0;
+                PeelInfo.items[slot].keep = 0;
                 slot = -1;
             }
         }
@@ -530,11 +449,11 @@ int SinkDsrtStone(sbyte cell)
 
     started = TriggerStone(1, cell, 1);
     if (started) {
-        flags = BlueSpec;
-        BlueSpec = Level.cell_info[0][cell].modifier;
+        flags = BlueSpec.modifier;
+        BlueSpec.modifier = Level.cell_info[0][cell].modifier;
         AnimDsrtStone();
-        Level.cell_info[0][cell].modifier = BlueSpec;
-        BlueSpec = flags;
+        Level.cell_info[0][cell].modifier = BlueSpec.modifier;
+        BlueSpec.modifier = flags;
     }
     return started;
 }
@@ -580,8 +499,7 @@ int TriggerStone(byte room, sbyte cell, sbyte action)
     return started;
 }
 
-typedef void (far pascal *LevelTileProc)(Piece near *);
-LevelTileProc DrawDsrtFunc[] = {
+DRAWPROC DrawDsrtFunc[] = {
     0, 0, 0, 0, DrawDsrtExit,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
