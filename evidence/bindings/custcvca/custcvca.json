@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "ANIMATE_CAVE_BARS",
+        "name": "ANIMCAVEBARS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1654,
@@ -71,7 +71,7 @@
         "type_index": 0
       },
       {
-        "name": "SAVE_UNDER_CARPET",
+        "name": "SAVEUNDERCARPET",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 486,
@@ -80,7 +80,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_OBJ_CARPET",
+        "name": "DRAWOBJCARPET",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 570,
@@ -89,7 +89,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_CAVE_BARS",
+        "name": "DRAWCAVEBARS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1774,
@@ -98,7 +98,7 @@
         "type_index": 0
       },
       {
-        "name": "TRIGGER_CAVE_BARS",
+        "name": "TRIGGERCAVEBARS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1926,
@@ -107,7 +107,7 @@
         "type_index": 0
       },
       {
-        "name": "CHECK_CARPET_IMAGE",
+        "name": "CHECKCARPETIMG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 42,
@@ -134,7 +134,7 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_CARPET_DATA",
+        "name": "LOADCARPETDATA",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1030,
@@ -143,7 +143,7 @@
         "type_index": 0
       },
       {
-        "name": "UNLOAD_CARPET_DATA",
+        "name": "UNLOADCARPETDATA",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1570,
@@ -152,7 +152,7 @@
         "type_index": 0
       },
       {
-        "name": "MAP_CARPET_COLORS",
+        "name": "MAPCARPETCOLORS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1078,
@@ -161,7 +161,7 @@
         "type_index": 0
       },
       {
-        "name": "REDRAW_CAVE_BARS",
+        "name": "REDRAWCAVEBARS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1878,
@@ -170,7 +170,7 @@
         "type_index": 0
       },
       {
-        "name": "SETUP_CARPET",
+        "name": "SETUPCARPET",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1098,
@@ -179,7 +179,7 @@
         "type_index": 0
       },
       {
-        "name": "GET_CARPET_FRAME",
+        "name": "GETCARPETFRAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 864,
@@ -188,7 +188,7 @@
         "type_index": 0
       },
       {
-        "name": "CAVE_BARS_OPEN",
+        "name": "ISCAVEBARSOPEN",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1742,
@@ -197,7 +197,7 @@
         "type_index": 0
       },
       {
-        "name": "@get_carpet_shape_info",
+        "name": "@GetCarpetShpInfo",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 940,
@@ -215,7 +215,7 @@
         "type_index": 0
       },
       {
-        "name": "SITTING_ON_CARPET",
+        "name": "SITTING",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1274,
@@ -233,7 +233,7 @@
         "type_index": 0
       },
       {
-        "name": "TRIGGER_CHAR_ON_CARPET",
+        "name": "TRIGGERCHARONCARPET",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1512,
@@ -242,7 +242,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_CARPET",
+        "name": "DRAWCARPET",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 298,
@@ -253,57 +253,57 @@
     ],
     "externals": [
       "MATERIALIZE_HANDLE",
-      "DISPOSE_HANDLE",
-      "MARK_PURGEABLE",
-      "ALLOCATE_PAYLOAD_HANDLE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "ANIMATE_CAVE_BARS",
-      "SAVE_UNDER_CARPET",
+      "HFREE",
+      "HPURGE",
+      "HNEW",
+      "H2P",
+      "ANIMCAVEBARS",
+      "SAVEUNDERCARPET",
       "PRINCENEWSHPITEM",
       "PRINCEFREESHP",
-      "DISPATCH_SOUND",
+      "RESETSND",
       "MAKESHAPERECT",
-      "@add_peel",
+      "@AddPeel",
       "RESTOREKEEPCUSTOMPEEL",
-      "DRAW_OBJ_CARPET",
+      "DRAWOBJCARPET",
       "OFFSETRECT",
       "SAVEFCHAR",
       "RESTOREFCHAR",
       "INIT_FCHAR_RECT",
-      "@add_char_object",
-      "DRAW_CAVE_BARS",
-      "MARK_MOVE",
-      "MARK_FOREGROUND",
-      "MARK_BUFS_FOR_RECT",
+      "@AddCharObj",
+      "DRAWCAVEBARS",
+      "MARKMOVE",
+      "MARKFREDRAW",
+      "MARKBUFSFORRECT",
       "READCELL",
-      "MAKE_SPACE",
+      "MAKESPACE",
       "JUMPSEQ",
-      "DECREMENT_LIFE_POINTS",
+      "DECLIFEPTS",
       "SETKIDDEATHMETHOD",
-      "TRIGGER_CAVE_BARS",
-      "@draw_custom_room_image",
-      "COMPUTE_TROB_MOVE_RECT",
+      "TRIGGERCAVEBARS",
+      "@DrawCustomRoomImg",
+      "COMPUTETROBMOVERECT",
       "__nmalloc",
       "__nfree",
       "PICS",
-      "CHECK_CARPET_IMAGE",
-      "LOAD_CARPET_DATA",
-      "UNLOAD_CARPET_DATA",
-      "MAP_CARPET_COLORS",
-      "REDRAW_CAVE_BARS",
-      "SETUP_CARPET",
+      "CHECKCARPETIMG",
+      "LOADCARPETDATA",
+      "UNLOADCARPETDATA",
+      "MAPCARPETCOLORS",
+      "REDRAWCAVEBARS",
+      "SETUPCARPET",
       "NEWROOM",
-      "GET_CARPET_FRAME",
+      "GETCARPETFRAME",
       "CT",
-      "CAVE_BARS_OPEN",
+      "ISCAVEBARSOPEN",
       "FCHAR",
       "COLNO",
       "ROWNO",
-      "@get_carpet_shape_info",
       "OBJID",
+      "@GetCarpetShpInfo",
       "BACKTABLE",
       "LOADCARPETCODE",
-      "SITTING_ON_CARPET",
+      "SITTING",
       "MIDTABLE",
       "UNLOADCARPETCODE",
       "OBJTABLE",
@@ -313,13 +313,13 @@
       "TROB",
       "CELLCLIPRECT",
       "GAMEPLAYRECT",
-      "TRIGGER_CHAR_ON_CARPET",
+      "TRIGGERCHARONCARPET",
       "LEVEL",
       "ADDSONG",
       "ADDSOUND",
-      "RELEASE_SONG_RANGE",
-      "DRAW_CARPET",
-      "SET_PALETTE"
+      "UNLOADSOUNDS",
+      "DRAWCARPET",
+      "SETPALETTE"
     ]
   },
   "dgroup_segment": {
@@ -368,7 +368,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "@add_peel",
+          "name": "@AddPeel",
           "method": 6,
           "zero_displacement": true
         }
@@ -376,7 +376,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "@add_peel",
+        "name": "@AddPeel",
         "method": 6,
         "zero_displacement": true
       },
@@ -460,16 +460,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "@get_carpet_shape_info",
+          "index": 49,
+          "name": "@GetCarpetShpInfo",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "@get_carpet_shape_info",
+        "index": 49,
+        "name": "@GetCarpetShpInfo",
         "method": 6,
         "zero_displacement": true
       },
@@ -531,7 +531,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 48,
           "name": "OBJID",
           "method": 6,
           "zero_displacement": true
@@ -539,7 +539,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 48,
         "name": "OBJID",
         "method": 6,
         "zero_displacement": true
@@ -585,16 +585,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "@get_carpet_shape_info",
+          "index": 49,
+          "name": "@GetCarpetShpInfo",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "@get_carpet_shape_info",
+        "index": 49,
+        "name": "@GetCarpetShpInfo",
         "method": 6,
         "zero_displacement": true
       },
@@ -939,7 +939,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -947,7 +947,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -966,7 +966,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "MARK_PURGEABLE",
+          "name": "HPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -974,7 +974,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "MARK_PURGEABLE",
+        "name": "HPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1064,7 +1064,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1072,7 +1072,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1091,7 +1091,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1099,7 +1099,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1145,7 +1145,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "name": "HNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -1153,7 +1153,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1194,7 +1194,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1202,7 +1202,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1314,7 +1314,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1322,7 +1322,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1341,7 +1341,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "UNLOAD_CARPET_DATA",
+          "name": "UNLOADCARPETDATA",
           "method": 6,
           "zero_displacement": true
         }
@@ -1349,7 +1349,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "UNLOAD_CARPET_DATA",
+        "name": "UNLOADCARPETDATA",
         "method": 6,
         "zero_displacement": true
       },
@@ -1395,7 +1395,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "LOAD_CARPET_DATA",
+          "name": "LOADCARPETDATA",
           "method": 6,
           "zero_displacement": true
         }
@@ -1403,7 +1403,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "LOAD_CARPET_DATA",
+        "name": "LOADCARPETDATA",
         "method": 6,
         "zero_displacement": true
       },
@@ -1422,7 +1422,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "MAP_CARPET_COLORS",
+          "name": "MAPCARPETCOLORS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1430,7 +1430,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "MAP_CARPET_COLORS",
+        "name": "MAPCARPETCOLORS",
         "method": 6,
         "zero_displacement": true
       },
@@ -1525,7 +1525,7 @@
         "target": {
           "kind": "external",
           "index": 27,
-          "name": "DECREMENT_LIFE_POINTS",
+          "name": "DECLIFEPTS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1533,7 +1533,7 @@
       "target": {
         "kind": "external",
         "index": 27,
-        "name": "DECREMENT_LIFE_POINTS",
+        "name": "DECLIFEPTS",
         "method": 6,
         "zero_displacement": true
       },
@@ -1726,7 +1726,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "CAVE_BARS_OPEN",
+          "name": "ISCAVEBARSOPEN",
           "method": 6,
           "zero_displacement": true
         }
@@ -1734,7 +1734,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "CAVE_BARS_OPEN",
+        "name": "ISCAVEBARSOPEN",
         "method": 6,
         "zero_displacement": true
       },
@@ -1780,7 +1780,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "MARK_BUFS_FOR_RECT",
+          "name": "MARKBUFSFORRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1788,7 +1788,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "MARK_BUFS_FOR_RECT",
+        "name": "MARKBUFSFORRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1807,7 +1807,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "MARK_MOVE",
+          "name": "MARKMOVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1815,7 +1815,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "MARK_MOVE",
+        "name": "MARKMOVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1834,7 +1834,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "MARK_MOVE",
+          "name": "MARKMOVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1842,7 +1842,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "MARK_MOVE",
+        "name": "MARKMOVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1931,16 +1931,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "@get_carpet_shape_info",
+          "index": 49,
+          "name": "@GetCarpetShpInfo",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "@get_carpet_shape_info",
+        "index": 49,
+        "name": "@GetCarpetShpInfo",
         "method": 6,
         "zero_displacement": true
       },
@@ -1959,7 +1959,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "MAKE_SPACE",
+          "name": "MAKESPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1967,7 +1967,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "MAKE_SPACE",
+        "name": "MAKESPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2165,7 +2165,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "MARK_BUFS_FOR_RECT",
+          "name": "MARKBUFSFORRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2173,7 +2173,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "MARK_BUFS_FOR_RECT",
+        "name": "MARKBUFSFORRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2219,7 +2219,7 @@
         "target": {
           "kind": "external",
           "index": 22,
-          "name": "MARK_FOREGROUND",
+          "name": "MARKFREDRAW",
           "method": 6,
           "zero_displacement": true
         }
@@ -2227,7 +2227,7 @@
       "target": {
         "kind": "external",
         "index": 22,
-        "name": "MARK_FOREGROUND",
+        "name": "MARKFREDRAW",
         "method": 6,
         "zero_displacement": true
       },
@@ -2246,7 +2246,7 @@
         "target": {
           "kind": "external",
           "index": 22,
-          "name": "MARK_FOREGROUND",
+          "name": "MARKFREDRAW",
           "method": 6,
           "zero_displacement": true
         }
@@ -2254,7 +2254,7 @@
       "target": {
         "kind": "external",
         "index": 22,
-        "name": "MARK_FOREGROUND",
+        "name": "MARKFREDRAW",
         "method": 6,
         "zero_displacement": true
       },
@@ -2273,7 +2273,7 @@
         "target": {
           "kind": "external",
           "index": 19,
-          "name": "@add_char_object",
+          "name": "@AddCharObj",
           "method": 6,
           "zero_displacement": true
         }
@@ -2281,7 +2281,7 @@
       "target": {
         "kind": "external",
         "index": 19,
-        "name": "@add_char_object",
+        "name": "@AddCharObj",
         "method": 6,
         "zero_displacement": true
       },
@@ -2407,16 +2407,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "@get_carpet_shape_info",
+          "index": 49,
+          "name": "@GetCarpetShpInfo",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "@get_carpet_shape_info",
+        "index": 49,
+        "name": "@GetCarpetShpInfo",
         "method": 6,
         "zero_displacement": true
       },
@@ -2690,7 +2690,7 @@
         "target": {
           "kind": "external",
           "index": 42,
-          "name": "GET_CARPET_FRAME",
+          "name": "GETCARPETFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2698,7 +2698,7 @@
       "target": {
         "kind": "external",
         "index": 42,
-        "name": "GET_CARPET_FRAME",
+        "name": "GETCARPETFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2788,7 +2788,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2796,7 +2796,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2815,7 +2815,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "CHECK_CARPET_IMAGE",
+          "name": "CHECKCARPETIMG",
           "method": 6,
           "zero_displacement": true
         }
@@ -2823,7 +2823,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "CHECK_CARPET_IMAGE",
+        "name": "CHECKCARPETIMG",
         "method": 6,
         "zero_displacement": true
       },
@@ -2913,7 +2913,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -2921,7 +2921,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -2962,7 +2962,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "CHECK_CARPET_IMAGE",
+          "name": "CHECKCARPETIMG",
           "method": 6,
           "zero_displacement": true
         }
@@ -2970,7 +2970,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "CHECK_CARPET_IMAGE",
+        "name": "CHECKCARPETIMG",
         "method": 6,
         "zero_displacement": true
       },
@@ -3175,7 +3175,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3183,7 +3183,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3640,16 +3640,16 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
-          "name": "@get_carpet_shape_info",
+          "index": 49,
+          "name": "@GetCarpetShpInfo",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 48,
-        "name": "@get_carpet_shape_info",
+        "index": 49,
+        "name": "@GetCarpetShpInfo",
         "method": 6,
         "zero_displacement": true
       },
@@ -3690,7 +3690,7 @@
         "target": {
           "kind": "external",
           "index": 42,
-          "name": "GET_CARPET_FRAME",
+          "name": "GETCARPETFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -3698,7 +3698,7 @@
       "target": {
         "kind": "external",
         "index": 42,
-        "name": "GET_CARPET_FRAME",
+        "name": "GETCARPETFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -3918,7 +3918,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "MARK_BUFS_FOR_RECT",
+          "name": "MARKBUFSFORRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3926,7 +3926,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "MARK_BUFS_FOR_RECT",
+        "name": "MARKBUFSFORRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3945,7 +3945,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "MARK_MOVE",
+          "name": "MARKMOVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3953,7 +3953,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "MARK_MOVE",
+        "name": "MARKMOVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3972,7 +3972,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "MARK_MOVE",
+          "name": "MARKMOVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3980,7 +3980,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "MARK_MOVE",
+        "name": "MARKMOVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3999,7 +3999,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "COMPUTE_TROB_MOVE_RECT",
+          "name": "COMPUTETROBMOVERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -4007,7 +4007,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "COMPUTE_TROB_MOVE_RECT",
+        "name": "COMPUTETROBMOVERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -4102,7 +4102,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "@draw_custom_room_image",
+          "name": "@DrawCustomRoomImg",
           "method": 6,
           "zero_displacement": true
         }
@@ -4110,7 +4110,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "@draw_custom_room_image",
+        "name": "@DrawCustomRoomImg",
         "method": 6,
         "zero_displacement": true
       },
@@ -4399,7 +4399,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "REDRAW_CAVE_BARS",
+          "name": "REDRAWCAVEBARS",
           "method": 6,
           "zero_displacement": true
         }
@@ -4407,7 +4407,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "REDRAW_CAVE_BARS",
+        "name": "REDRAWCAVEBARS",
         "method": 6,
         "zero_displacement": true
       },
@@ -4632,7 +4632,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "RELEASE_SONG_RANGE",
+          "name": "UNLOADSOUNDS",
           "method": 6,
           "zero_displacement": true
         }
@@ -4640,7 +4640,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "RELEASE_SONG_RANGE",
+        "name": "UNLOADSOUNDS",
         "method": 6,
         "zero_displacement": true
       },
@@ -4659,7 +4659,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -4667,7 +4667,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -4686,7 +4686,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4694,7 +4694,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4762,7 +4762,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "CAVE_BARS_OPEN",
+          "name": "ISCAVEBARSOPEN",
           "method": 6,
           "zero_displacement": true
         }
@@ -4770,7 +4770,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "CAVE_BARS_OPEN",
+        "name": "ISCAVEBARSOPEN",
         "method": 6,
         "zero_displacement": true
       },
@@ -4906,7 +4906,7 @@
   },
   "schema": 1,
   "symbols": {
-    "@add_char_object": {
+    "@AddCharObj": {
       "entry_sha256": "10a85f18b03f906c00e652c23942d1c280c54802fc48dad3a871fa3e6734993b",
       "entry_target_id": "root:0170:02ae",
       "kind": "far-code-entry",
@@ -4915,7 +4915,7 @@
       "space": "root",
       "witnesses": []
     },
-    "@draw_custom_room_image": {
+    "@DrawCustomRoomImg": {
       "entry_sha256": "fafd215e8f2fdf15ac07d49c5f60513d72d28ec67e4b8f74a3972c3eb95d077a",
       "entry_target_id": "root:0790:0712",
       "kind": "far-code-entry",
@@ -4966,7 +4966,7 @@
         }
       ]
     },
-    "ALLOCATE_PAYLOAD_HANDLE": {
+    "HNEW": {
       "entry_sha256": "c3ec377d3bcae2d5d33123bc8699728ed6babfa311fe110596d625f5cd8cc61b",
       "entry_target_id": "root:1129:17fc",
       "kind": "far-code-entry",
@@ -5146,7 +5146,7 @@
         }
       ]
     },
-    "COMPUTE_TROB_MOVE_RECT": {
+    "COMPUTETROBMOVERECT": {
       "entry_sha256": "55b63688e39f870ee0c481da92dbc454067adad40ef3483dcfc7b21e9782492e",
       "entry_target_id": "root:0b52:0454",
       "kind": "far-code-entry",
@@ -5163,7 +5163,7 @@
         }
       ]
     },
-    "DECREMENT_LIFE_POINTS": {
+    "DECLIFEPTS": {
       "entry_sha256": "2220988fd62ecef2d64b01a9470925065961f337e007e4de093cb2260ac543e1",
       "entry_target_id": "root:02dc:095c",
       "kind": "far-code-entry",
@@ -5180,7 +5180,7 @@
         }
       ]
     },
-    "DISPATCH_SOUND": {
+    "RESETSND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
       "kind": "far-code-entry",
@@ -5189,7 +5189,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
@@ -5378,7 +5378,7 @@
         }
       ]
     },
-    "MAKE_SPACE": {
+    "MAKESPACE": {
       "entry_sha256": "cb698c374adc7e7d05226806fd51a267d555e1e8cb93eefd7f518192e3c4db66",
       "entry_target_id": "root:0b52:17fc",
       "kind": "far-code-entry",
@@ -5395,7 +5395,7 @@
         }
       ]
     },
-    "MARK_BUFS_FOR_RECT": {
+    "MARKBUFSFORRECT": {
       "entry_sha256": "2365d702256436fb4f1f356245443442cf54e61404f12c8c9c1d3b2a184b7590",
       "entry_target_id": "root:0b52:0f5a",
       "kind": "far-code-entry",
@@ -5412,7 +5412,7 @@
         }
       ]
     },
-    "MARK_PURGEABLE": {
+    "HPURGE": {
       "entry_sha256": "9a80e9f09e2df9a0f690ab345b823d0faa696c6042f603292ef35501a0b57b89",
       "entry_target_id": "root:1129:1870",
       "kind": "far-code-entry",
@@ -5489,7 +5489,7 @@
         }
       ]
     },
-    "RELEASE_SONG_RANGE": {
+    "UNLOADSOUNDS": {
       "entry_sha256": "a4061d20b2b65b602bf3225ae96bdd1589388168e5dc342bda21dc2aed90d639",
       "entry_target_id": "root:0dee:085c",
       "kind": "far-code-entry",
@@ -5506,7 +5506,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -5816,7 +5816,7 @@
         }
       ]
     },
-    "@add_peel": {
+    "@AddPeel": {
       "entry_sha256": "0ddddc7393c93250db2e15d9970551fbe6f8492c8a2dbb4378cd9f77d3d37b65",
       "entry_target_id": "root:0170:04f0",
       "kind": "far-code-entry",
@@ -5834,7 +5834,7 @@
       "space": "root",
       "witnesses": []
     },
-    "SET_PALETTE": {
+    "SETPALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",
       "entry_target_id": "root:0790:2b1c",
       "kind": "far-code-entry",
@@ -5964,7 +5964,7 @@
         }
       ]
     },
-    "MARK_MOVE": {
+    "MARKMOVE": {
       "entry_sha256": "ddd684a1accd8dfe0ff7c80b4f632f6e57cc3b91cccf6654d07df72b5e0f23ac",
       "entry_target_id": "root:0b52:0dc6",
       "kind": "far-code-entry",
@@ -5973,7 +5973,7 @@
       "space": "root",
       "witnesses": []
     },
-    "MARK_FOREGROUND": {
+    "MARKFREDRAW": {
       "entry_sha256": "5f5c4234b3c9b0d192a8b5953355812ff1a0366b24ec87332807ba83f57a8e5b",
       "entry_target_id": "root:0b52:0f16",
       "kind": "far-code-entry",

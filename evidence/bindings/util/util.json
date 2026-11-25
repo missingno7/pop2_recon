@@ -53,7 +53,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 455,
+        "length": 452,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -104,7 +104,7 @@
         "type_index": 545
       },
       {
-        "name": "STORE_SCENE_RECT",
+        "name": "SETSCRIPTRECT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 254,
@@ -161,19 +161,19 @@
     "externals": [
       "EXPAND_MEMORY_LIMITS",
       "RND",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "STORE_SCENE_RECT",
+      "H2P",
+      "SETSCRIPTRECT",
       "WAIT_FOR_ACTION",
       "__aFlmul",
       "__aFulrem",
       "__fmemcpy",
       "HGETRSRC",
-      "CONVERT_TEXT_HANDLE",
+      "HXLATTXT4",
       "RESIZE_DOS_HEAP",
-      "COMPACT_HEAP_BLOCKS",
+      "HEAPCOMPACT",
       "__bios_timeofday",
       "MOUSE_BUTTON_UNQUEUED",
-      "CHECK_WAIT_FUNCTION",
+      "CHECKWAITFUNC",
       "SETRNDSEED",
       "ALTERRECT",
       "HGETTXT4"
@@ -230,7 +230,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "CONVERT_TEXT_HANDLE",
+          "name": "HXLATTXT4",
           "method": 6,
           "zero_displacement": true
         }
@@ -238,7 +238,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "CONVERT_TEXT_HANDLE",
+        "name": "HXLATTXT4",
         "method": 6,
         "zero_displacement": true
       },
@@ -284,7 +284,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "COMPACT_HEAP_BLOCKS",
+          "name": "HEAPCOMPACT",
           "method": 6,
           "zero_displacement": true
         }
@@ -292,7 +292,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "COMPACT_HEAP_BLOCKS",
+        "name": "HEAPCOMPACT",
         "method": 6,
         "zero_displacement": true
       },
@@ -644,7 +644,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -652,7 +652,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -725,7 +725,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "CHECK_WAIT_FUNCTION",
+          "name": "CHECKWAITFUNC",
           "method": 6,
           "zero_displacement": true
         }
@@ -733,7 +733,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "CHECK_WAIT_FUNCTION",
+        "name": "CHECKWAITFUNC",
         "method": 6,
         "zero_displacement": true
       },
@@ -787,7 +787,7 @@
   },
   "schema": 1,
   "symbols": {
-    "CHECK_WAIT_FUNCTION": {
+    "CHECKWAITFUNC": {
       "entry_sha256": "0f338eb53c7eec670bf5f09086347e27f91d1ac376ded11671eb3816d8e4a628",
       "entry_target_id": "root:1f74:009c",
       "kind": "far-code-entry",
@@ -796,7 +796,7 @@
       "space": "root",
       "witnesses": []
     },
-    "COMPACT_HEAP_BLOCKS": {
+    "HEAPCOMPACT": {
       "entry_sha256": "26f3e6745782276cf4d2b7784d0e192c7d42177d44c02d5b24c677737521afd3",
       "entry_target_id": "root:1129:1a0a",
       "kind": "far-code-entry",
@@ -805,7 +805,7 @@
       "space": "root",
       "witnesses": []
     },
-    "CONVERT_TEXT_HANDLE": {
+    "HXLATTXT4": {
       "entry_sha256": "ea0b670020473f51b6ad52240a4867742753454804a1b63cfd563bf9acca49e6",
       "entry_target_id": "root:1129:85ba",
       "kind": "far-code-entry",
@@ -877,7 +877,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",

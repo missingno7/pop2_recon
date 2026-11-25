@@ -572,7 +572,7 @@ class ArchivePublicTests(unittest.TestCase):
 
 class CallArgumentExtentTests(unittest.TestCase):
     """A callee's copy through a near-pointer argument proves the passed object's extent."""
-    INIT_PORT = (0x16252, 0x16266)
+    INITPORT = (0x16252, 0x16266)
 
     @classmethod
     def setUpClass(cls):
@@ -581,7 +581,7 @@ class CallArgumentExtentTests(unittest.TestCase):
 
     def test_init_port_copies_44_bytes_into_screen_port(self):
         from binding import block_copy_extent, call_arguments
-        lo, hi = self.INIT_PORT
+        lo, hi = self.INITPORT
         at = self.root.data.find(bytes.fromhex("b80a5d50b82a1f1e509ac24f2911"))
         self.assertEqual(at, 0x13EE)
         arguments = call_arguments(self.root.data[at:at + 14])
@@ -607,7 +607,7 @@ class ProviderRelocationTests(unittest.TestCase):
     def test_load_level_frame_procs_grounds_by_name(self):
         from oracle import Oracle
         recipe = common.read_json(ROOT / "recipes/load/load.json")
-        public = next(d for d in recipe["data_publics"] if d["name"] == "LEVEL_FRAME_PROCS")
+        public = next(d for d in recipe["data_publics"] if d["name"] == "LEVELFRAMEFUNC")
         symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x0654}
         grounded = module_gate._provider_public(public["name"], symbol, Oracle.load(), "group:other", set())
         self.assertEqual(grounded["offset"], 0x0654)
@@ -615,7 +615,7 @@ class ProviderRelocationTests(unittest.TestCase):
     def test_an_unexplained_relocated_word_is_refused(self):
         from oracle import Oracle
         recipe = common.read_json(ROOT / "recipes/load/load.json")
-        public = next(d for d in recipe["data_publics"] if d["name"] == "LEVEL_FRAME_PROCS")
+        public = next(d for d in recipe["data_publics"] if d["name"] == "LEVELFRAMEFUNC")
         symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x0654}
         real = json.loads
         def without_fixups(raw, *a, **k):

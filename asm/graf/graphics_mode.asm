@@ -35,7 +35,7 @@ STROKE_RECTANGLE_CALLBACK DW 0
 PUBLIC PAINT_PLAIN_CALLBACK
 PAINT_PLAIN_CALLBACK DW 0
 
-; INIT_PORT copies the complete 2Ch-byte record before applying a caller rectangle.
+; INITPORT copies the complete 2Ch-byte record before applying a caller rectangle.
 PUBLIC DEFAULT_PORT
 DEFAULT_PORT DW 0
 default_port_segment DW 0
@@ -54,13 +54,13 @@ CURRENT_GRAPHICS_FONT DW 0
 
 .CODE
 EXTRN HGETFONT:NEAR
-EXTRN INIT_PORT:NEAR
-EXTRN STROKE_PORT_RECT:NEAR
+EXTRN INITPORT:NEAR
+EXTRN ERASERECT:NEAR
 EXTRN INITIALIZE_MOUSE_GRAPHICS:NEAR
-EXTRN SET_RECORD_RANGE:NEAR
+EXTRN FILLRECT:NEAR
 EXTRN SHUTDOWN_MOUSE_GRAPHICS:NEAR
 EXTRN __nfree:FAR
-EXTRN DISPOSE_HANDLE:NEAR
+EXTRN HFREE:NEAR
 
 PUBLIC COPY_CURRENT_PORT_ORIGIN
 
@@ -123,13 +123,13 @@ INITIALIZE_GRAPHICS_MODE PROC FAR
     push ds
     push ax
     push cs
-    call INIT_PORT
+    call INITPORT
     mov Graf, ax
     add ax, 4
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
     push cs
     call INITIALIZE_MOUSE_GRAPHICS
     pop si
@@ -152,7 +152,7 @@ SHUTDOWN_GRAPHICS_MODE PROC FAR
     mov ax, 0
     push ax
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     push cs
     call SHUTDOWN_MOUSE_GRAPHICS
     push cs
@@ -164,7 +164,7 @@ SHUTDOWN_GRAPHICS_MODE PROC FAR
     add sp, 2
     push CURRENT_GRAPHICS_FONT
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     sub ax, ax
     mov es, ax
     mov ax, SAVED_BIOS_EQUIPMENT

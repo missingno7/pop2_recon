@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "b7572fd21f5ca0e4dc72c475ad5553c784bd156f468df0e42b820d40c01295c6",
+  "binding_sha256": "6af82ae3159322237b30f590d3c2e515dccf12753a90fcace1ea2ffeb174c386",
   "claims": [
     {
       "fixup_count": 10,
-      "public": "READ_SAVE_SLOT_TABLE",
+      "public": "INITSAVEDGAMESTRUCT",
       "relocation_indices": [
         469,
         505,
@@ -24,7 +24,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "PREPARE_SAVED_ROOM_OBJECTS",
+      "public": "SETREBIRTHPTINITIALS",
       "relocation_indices": [
         485
       ],
@@ -34,7 +34,7 @@
     },
     {
       "fixup_count": 32,
-      "public": "SHOW_DIALOG_NOTICE",
+      "public": "COPYPROTECTIONDIALOG",
       "relocation_indices": [
         496,
         500,
@@ -248,7 +248,7 @@
     },
     {
       "fixup_count": 24,
-      "public": "LOAD_GAME_DIALOG",
+      "public": "RESUMEGAMEDIALOG",
       "relocation_indices": [
         570,
         639,
@@ -262,7 +262,7 @@
     },
     {
       "fixup_count": 16,
-      "public": "SAVE_GAME_DIALOG",
+      "public": "SAVEGAMEDIALOG",
       "relocation_indices": [
         569,
         638
@@ -342,7 +342,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "POST_SAVE_MESSAGE",
+      "public": "DRAWSAVEGAMEMSG",
       "relocation_indices": [
         434,
         659,
@@ -354,7 +354,7 @@
     },
     {
       "fixup_count": 30,
-      "public": "SELECT_SAVE_SLOT",
+      "public": "GETSAVEGAMELOCATION",
       "relocation_indices": [
         482,
         520,
@@ -476,7 +476,7 @@
     },
     {
       "fixup_count": 20,
-      "public": "DRAW_NOTICE_SYMBOLS",
+      "public": "DRAWCOPYPROTECTIONDIALOG",
       "relocation_indices": [
         442,
         474,
@@ -497,7 +497,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "DRAW_NOTICE_CURSOR",
+      "public": "DRAWSYMBOLBOX",
       "relocation_indices": [
         456
       ],
@@ -507,7 +507,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "READ_NOTICE_SELECTION",
+      "public": "GETCOPYPROTECTIONSYMBOL",
       "relocation_indices": [
         597,
         697
@@ -518,7 +518,7 @@
     },
     {
       "fixup_count": 29,
-      "public": "ENTER_HALL_RECORD",
+      "public": "HALLOFFAMEDIALOG",
       "relocation_indices": [
         445,
         490,
@@ -543,7 +543,7 @@
     },
     {
       "fixup_count": 13,
-      "public": "DRAW_HALL_RECORDS",
+      "public": "DRAWHALLOFFAMEDIALOG",
       "relocation_indices": [
         478
       ],
@@ -553,7 +553,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "EDIT_HALL_NAME",
+      "public": "GETHALLOFFAMENAME",
       "relocation_indices": [
         483,
         522,
@@ -575,7 +575,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "INSERT_HALL_RECORD",
+      "public": "HOFADDPLAYER",
       "relocation_indices": [
         510,
         511,
@@ -593,7 +593,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "READ_HALL_FILE",
+      "public": "INITHALLOFFAME",
       "relocation_indices": [
         470,
         508,
@@ -611,7 +611,7 @@
     },
     {
       "fixup_count": 19,
-      "public": "SHOW_HALL_RECORDS",
+      "public": "SHOWHALLOFFAME",
       "relocation_indices": [
         435,
         446,
@@ -629,7 +629,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "WRITE_HALL_FILE",
+      "public": "WRITEHALLOFFAMEFILE",
       "relocation_indices": [
         428,
         453,
@@ -745,7 +745,7 @@
     },
     {
       "fixup_count": 43,
-      "public": "SHOW_CREDITS",
+      "public": "DOCREDITSDIALOG",
       "relocation_indices": [
         436,
         447,
@@ -772,7 +772,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "DRAW_CREDITS_PAGE",
+      "public": "DRAWCREDITSPAGE",
       "relocation_indices": [
         433,
         497
@@ -785,7 +785,7 @@
     },
     {
       "fixup_count": 17,
-      "public": "DRAW_CREDIT_CATEGORY",
+      "public": "DRAWCREDITCATEGORY",
       "relocation_indices": [
         481,
         498,
@@ -835,12 +835,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "580ee3ce12c9146692da354fe6393e0bc5667fa8a9ab188dc65b11c042130358",
+  "object_sha256": "3287da0ed700f1bc8ced39752558023297b01e2d755c725b23b45da6fb1ae302",
   "origin": 21436,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "ccd2b8ef2b35a90fc69f66ee1915c975705c96c493d14c3f889f329c764c7b08",
+  "source_sha256": "0b132a334f711fcd111c5189786ef979703df456743fc204be8255b602fa298b",
   "space": "root"
 }

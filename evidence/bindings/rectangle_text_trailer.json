@@ -108,6 +108,15 @@
         "type_index": 0
       },
       {
+        "name": "HGETSIZE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "ADD_PORT_ORIGIN",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -142,27 +151,18 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
-      },
-      {
-        "name": "QUERY_HANDLE_SIZE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 0,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
       }
     ],
     "externals": [
       "DEFAULT_PORT",
-      "MEASURE_TEXT",
       "SECTRECT",
+      "COPYBITS",
       "CHECK_CURSOR_OVERLAP",
+      "ERASERECT",
       "GRAF",
       "OFFSETRECT",
       "STROKE_RECTANGLE",
       "GET_BLOCK_PAYLOAD_SIZE",
-      "STROKE_PORT_RECT",
       "DRAW_COUNTED_TEXT"
     ]
   },
@@ -182,7 +182,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "GET_BLOCK_PAYLOAD_SIZE",
         "method": 6,
         "zero_displacement": true
@@ -204,7 +204,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -248,7 +248,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -270,7 +270,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -292,7 +292,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "STROKE_RECTANGLE",
         "method": 6,
         "zero_displacement": true
@@ -314,7 +314,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -336,7 +336,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -400,7 +400,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -464,7 +464,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -486,8 +486,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "MEASURE_TEXT",
+        "index": 3,
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -508,8 +508,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
-        "name": "STROKE_PORT_RECT",
+        "index": 5,
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -551,7 +551,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -573,7 +573,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "OFFSETRECT",
         "method": 6,
         "zero_displacement": true
@@ -595,7 +595,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -657,7 +657,7 @@
         }
       ]
     },
-    "MEASURE_TEXT": {
+    "COPYBITS": {
       "entry_sha256": "5f4b5f97ca115ec229354726cdf97cfd4d648f55bf9014b49b01228934c12ae2",
       "entry_target_id": "root:1129:4cb0",
       "kind": "near-code-entry",
@@ -751,7 +751,7 @@
         }
       ]
     },
-    "STROKE_PORT_RECT": {
+    "ERASERECT": {
       "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
       "entry_target_id": "root:1129:4d72",
       "kind": "near-code-entry",

@@ -30,10 +30,10 @@ typedef void (far pascal *DrawScytheBase)(ScytheCell *);
 typedef int (far pascal *AddImage)(byte, int, sbyte, sbyte, byte, byte);
 
 extern LEVELREC Level;
-extern void draw_ruin_rubble_pieces(ScytheCell *);
-extern void draw_temple_rubble_pieces(ScytheCell *);
-extern void draw_ruin_floor(ScytheCell *);
-extern void draw_temple_floor(ScytheCell *);
+extern void DrawRuinRubblePieces(ScytheCell *);
+extern void DrawTempRubblePieces(ScytheCell *);
+extern void DrawRuinFloor(ScytheCell *);
+extern void DrawTempFloor(ScytheCell *);
 extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
 extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
 extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
@@ -56,9 +56,9 @@ void CheckScytheForRubble(ScytheCell *cell)
         if (Level.environment_kind == 4) {
             base = *cell;
             base.modifier = 0;
-            draw_ruin_rubble_pieces(&base);
+            DrawRuinRubblePieces(&base);
         } else {
-            draw_temple_rubble_pieces(cell);
+            DrawTempRubblePieces(cell);
         }
     }
 }
@@ -76,9 +76,9 @@ void DrawScythe1(ScytheCell *cell)
     base.modifier = cell->modifier & 0xff00;
     mirrored = cell->modifier & 0x40;
     if (Level.environment_kind == 4)
-        draw_base = draw_ruin_floor;
+        draw_base = DrawRuinFloor;
     else
-        draw_base = draw_temple_floor;
+        draw_base = DrawTempFloor;
 
     switch (cell->pass) {
     case 0: {
@@ -138,9 +138,9 @@ void DrawScythe2(ScytheCell *cell)
     if (Level.environment_kind == 4)
         ++base.modifier;
     if (Level.environment_kind == 4)
-        draw_base = draw_ruin_floor;
+        draw_base = DrawRuinFloor;
     else
-        draw_base = draw_temple_floor;
+        draw_base = DrawTempFloor;
 
     switch (cell->pass) {
     case 0:

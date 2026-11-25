@@ -229,15 +229,15 @@
       "SHUTDOWN_MOUSE_GRAPHICS",
       "__NFREE",
       "INITIALIZE_MOUSE_GRAPHICS",
-      "DISPOSE_HANDLE",
+      "FILLRECT",
       "HGETFONT",
+      "INITPORT",
       "SAVED_BIOS_EQUIPMENT",
+      "ERASERECT",
       "SAVED_BIOS_MODE",
-      "INIT_PORT",
       "GRAF",
       "MODE_TABLE",
-      "SET_RECORD_RANGE",
-      "STROKE_PORT_RECT"
+      "HFREE"
     ]
   },
   "dgroup_segment": {
@@ -266,7 +266,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -288,7 +288,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "SAVED_BIOS_EQUIPMENT",
         "method": 6,
         "zero_displacement": true
@@ -310,7 +310,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 9,
         "name": "SAVED_BIOS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -332,7 +332,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "MODE_TABLE",
         "method": 6,
         "zero_displacement": true
@@ -439,8 +439,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
-        "name": "INIT_PORT",
+        "index": 6,
+        "name": "INITPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -461,7 +461,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -483,8 +483,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
-        "name": "STROKE_PORT_RECT",
+        "index": 8,
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -569,7 +569,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -591,8 +591,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
-        "name": "SET_RECORD_RANGE",
+        "index": 4,
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -720,8 +720,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "DISPOSE_HANDLE",
+        "index": 12,
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -742,7 +742,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "SAVED_BIOS_EQUIPMENT",
         "method": 6,
         "zero_displacement": true
@@ -764,7 +764,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 9,
         "name": "SAVED_BIOS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -807,7 +807,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "MODE_TABLE",
         "method": 6,
         "zero_displacement": true
@@ -850,7 +850,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "MODE_TABLE",
         "method": 6,
         "zero_displacement": true
@@ -872,7 +872,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "MODE_TABLE",
         "method": 6,
         "zero_displacement": true
@@ -920,7 +920,7 @@
   },
   "schema": 1,
   "symbols": {
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "near-code-entry",
@@ -968,7 +968,7 @@
       "space": "root",
       "witnesses": []
     },
-    "INIT_PORT": {
+    "INITPORT": {
       "entry_sha256": "0cd27a7f54ed80b75e3df33abb64b5bad962859104324d7f5cd671e19244d8c8",
       "entry_target_id": "root:1129:4fc2",
       "kind": "near-code-entry",
@@ -1002,7 +1002,7 @@
       "offset": 9400,
       "witnesses": []
     },
-    "SET_RECORD_RANGE": {
+    "FILLRECT": {
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
       "entry_target_id": "root:1129:6632",
       "kind": "near-code-entry",
@@ -1027,7 +1027,7 @@
       "space": "root",
       "witnesses": []
     },
-    "STROKE_PORT_RECT": {
+    "ERASERECT": {
       "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
       "entry_target_id": "root:1129:4d72",
       "kind": "near-code-entry",

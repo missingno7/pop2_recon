@@ -25,29 +25,29 @@ extern int ColEdgeX[20];
 extern GAMESTATE GameState;
 extern int Minutes;
 
-extern sbyte get_col(int);
+extern sbyte GetCol(int);
 extern byte ReadCell(sbyte, sbyte, sbyte);
 extern int IsWall(byte);
-extern int is_six_kind(byte);
-extern void add_mob(void);
-extern void make_space(sbyte, sbyte);
-extern void mark_mob_redraw(byte);
+extern int IsSpace(byte);
+extern void AddMob(void);
+extern void MakeSpace(sbyte, sbyte);
+extern void MarkMobRedraw(byte);
 extern void JumpSeq(int);
-extern void reset_char_y(void);
+extern void ResetCharY(void);
 extern void AnimChar(void);
-extern void open_start_gate(void);
+extern void Entrance(void);
 extern byte ClrAll(void);
-extern int set_palette(unsigned int, int, byte, byte);
+extern int SetPalette(unsigned int, int, byte, byte);
 extern void AddSong(int);
 
-void clip_ruins_actor(void)
+void RuinsClipChar(void)
 {
     int clip_lower;
     sbyte column, left_column;
     int previous_cell_remaining, current_cell_offset;
 
     clip_lower = Char.character_kind == 7 || Char.character_kind == 8;
-    column = get_col(CDRightEdge);
+    column = GetCol(CDRightEdge);
     if (IsWall(ReadCell(Char.room, column, Char.row))) {
         left_column = ReadCell(Char.room, column, (Cell.top_row));
         if (IsWall(left_column) && left_column != 7 && Char.room == Cell.room)
@@ -56,19 +56,19 @@ void clip_ruins_actor(void)
     if (clip_lower && Char.sequence != 137 && Char.sequence != 138 &&
         Char.sequence != 143 && Char.sequence > 144 &&
         Char.sequence != 143 && Char.sequence != 144) {
-        left_column = get_col(CDLeftEdge);
-        if (get_col(CDRightEdge) != left_column) {
+        left_column = GetCol(CDLeftEdge);
+        if (GetCol(CDRightEdge) != left_column) {
             previous_cell_remaining = 32 - (CDLeftEdge - 130) % 32;
             current_cell_offset = (CDRightEdge - 32) % 32;
             if (previous_cell_remaining > current_cell_offset)
                 --column;
         }
-        if (!is_six_kind(ReadCell(Char.room, column, (Cell.top_row))))
+        if (!IsSpace(ReadCell(Char.room, column, (Cell.top_row))))
             FChar.clip.top = 63 * ((sbyte)Cell.bottom_row) + 3;
     }
 }
 
-void fall_spikes(void)
+void BreakTotalLoose(void)
 {
     int saved_x;
 
@@ -79,16 +79,16 @@ void fall_spikes(void)
     Mob.kind = 3;
     Mob.row = Cell.row;
     Mob.flags = 0;
-    add_mob();
-    make_space((Cell.room), Cell.index);
+    AddMob();
+    MakeSpace((Cell.room), Cell.index);
     saved_x = Mob.x;
     if (Room.left == Mob.room)
         Mob.x -= 320;
-    mark_mob_redraw(0);
+    MarkMobRedraw(0);
     Mob.x = saved_x;
 }
 
-void cut_kid_inside_level6(void)
+void CutKidInsideLevel6(void)
 {
     sbyte start_room;
 
@@ -100,30 +100,30 @@ void cut_kid_inside_level6(void)
     Char.column = 4;
     Char.x = ColEdgeX[9] + 14;
     Char.row = 2;
-    reset_char_y();
+    ResetCharY();
     AnimChar();
     Kid = Char;
-    open_start_gate();
+    Entrance();
     ClrAll();
     Dir.action = 0;
 }
 
-void load_ruins_start_palette(void)
+void LoadRNStart6(void)
 {
-    set_palette(3500, 64, 160, 1);
+    SetPalette(3500, 64, 160, 1);
 }
 
-void unload_ruins_start_palette(void)
+void UnloadRNStart6(void)
 {
     if (Kid.alive < 0 && Minutes)
-        set_palette(3500, 64, 160, 0);
+        SetPalette(3500, 64, 160, 0);
 }
 
 void LoadRuinsMoveCode(void)
 {
 }
 
-void load_plateau_room(void)
+void LoadPlateauRoomFunc(void)
 {
     if (Kid.column >= 9) {
         if (Room.number == 16 && (Level.level_number) == 9) {

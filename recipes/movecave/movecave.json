@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/movecave/movecave.json",
-  "binding_sha256": "0cd7657bd8f2c796f31b32b11f0f75a6e9328950e7f1defb19ae52fd0a63cb58",
+  "binding_sha256": "947a82135ac4e411d8547982d2759fcaf34bf26865814a78ebab427a7b73188d",
   "claims": [
     {
       "fixup_count": 25,
-      "public": "TRIGGER_REVERSE_GATE",
+      "public": "TRIGGERGATEWITHREVPLATE",
       "relocation_indices": [
         2,
         19,
@@ -18,12 +18,12 @@
     },
     {
       "fixup_count": 5,
-      "public": "ANIMATE_DART",
+      "public": "ANIMDART",
       "target_id": "overlay-6:2bda:017c"
     },
     {
       "fixup_count": 13,
-      "public": "MOVE_DART_TO_TILE",
+      "public": "ATMDART",
       "relocation_indices": [
         13,
         23,
@@ -38,7 +38,7 @@
     },
     {
       "fixup_count": 12,
-      "public": "CHECK_DART_HIT",
+      "public": "CHECKDARTHIT",
       "relocation_indices": [
         40,
         47
@@ -51,7 +51,7 @@
     },
     {
       "fixup_count": 42,
-      "public": "MOVE_DART_MOB",
+      "public": "MOBDART",
       "relocation_indices": [
         4,
         10,
@@ -70,7 +70,7 @@
     },
     {
       "fixup_count": 18,
-      "public": "HIT_ACTOR_WITH_DART",
+      "public": "HITCHARWITHDART",
       "relocation_indices": [
         1,
         5,
@@ -93,7 +93,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "REDRAW_DART",
+      "public": "REDRAWDART",
       "relocation_indices": [
         0,
         7
@@ -104,7 +104,7 @@
     },
     {
       "fixup_count": 21,
-      "public": "TRIGGER_DART",
+      "public": "TRIGGERDART",
       "relocation_indices": [
         32,
         48,
@@ -118,7 +118,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "ANIMATE_LAVA",
+      "public": "ANIMLAVA",
       "relocation_indices": [
         6,
         38,
@@ -132,7 +132,7 @@
     },
     {
       "fixup_count": 12,
-      "public": "CHECK_LAVA_BOIL",
+      "public": "CHECKLAVABOIL",
       "relocation_indices": [
         41,
         62
@@ -143,7 +143,7 @@
     },
     {
       "fixup_count": 24,
-      "public": "DO_LAVA_BOIL",
+      "public": "DOLAVABOIL",
       "relocation_indices": [
         3,
         18,
@@ -162,7 +162,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "GET_FREE_LAVA_SLOT",
+      "public": "GETFREELAVAINFOIDX",
       "relocation_indices": [
         59
       ],
@@ -172,12 +172,12 @@
     },
     {
       "fixup_count": 2,
-      "public": "GET_LAVA_INFO",
+      "public": "GETLAVAINFOPTR",
       "target_id": "overlay-6:2bda:0844"
     },
     {
       "fixup_count": 5,
-      "public": "GET_LAVA_TROB",
+      "public": "GETLAVATROB",
       "relocation_indices": [
         21,
         64,
@@ -191,7 +191,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "CLEAR_LAVA_SLOTS",
+      "public": "INITLAVAGLOBALS",
       "relocation_indices": [
         39
       ],
@@ -201,7 +201,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "REDRAW_LAVA",
+      "public": "REDRAWLAVA",
       "relocation_indices": [
         15,
         29,
@@ -218,12 +218,12 @@
     },
     {
       "fixup_count": 28,
-      "public": "RESET_LAVA_INFO",
+      "public": "RESETLAVAINFO",
       "target_id": "overlay-6:2bda:097c"
     },
     {
       "fixup_count": 6,
-      "public": "TRIGGER_LAVA",
+      "public": "TRIGGERLAVA",
       "relocation_indices": [
         8,
         20,
@@ -242,7 +242,7 @@
     },
     {
       "fixup_count": 20,
-      "public": "MOVE_CAVE_GATE",
+      "public": "CAVEMOVESQUISHINGGATE",
       "relocation_indices": [
         9,
         37,
@@ -256,7 +256,7 @@
     },
     {
       "fixup_count": 1,
-      "public": "GET_CAVE_TORCH_FRAME",
+      "public": "CAVEGETTORCHFRAME",
       "relocation_indices": [
         25
       ],
@@ -271,7 +271,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "CAVE_FRAME",
+      "public": "CAVEFRAMEFUNC",
       "relocation_indices": [
         14
       ],
@@ -281,7 +281,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "INITIALIZE_BRIDGE",
+      "public": "INITBRIDGEGLOBALS",
       "relocation_indices": [
         12
       ],
@@ -293,7 +293,7 @@
   "data_publics": [
     {
       "address": 5616,
-      "name": "BUBBLE_FRAMES",
+      "name": "BUBBLESCRIPT",
       "offset": 210,
       "segment": "_DATA",
       "span": 57,
@@ -321,12 +321,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "movecave/movecave",
-  "object_sha256": "8b8602ac7fbe072ec4fcf1cbbbcb875fc558d120e6b2a5f29c226f10a88b5a6f",
+  "object_sha256": "ecc7b1cf3a306e6cf792c62a0d0829fcadddabdc049019e719e854b9d14f98b3",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/movecave/movecave.c",
-  "source_sha256": "eab5a92539ae9bc17161658bcd7ddc7a948ea301fae2f3335de43dc54a73c936",
+  "source_sha256": "07437621276a4f28d61e695c3a454d8603184916d370b3315e07e8ba724c0266",
   "space": "overlay-6"
 }

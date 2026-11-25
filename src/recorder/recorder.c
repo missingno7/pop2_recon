@@ -44,8 +44,8 @@ extern Directions Dir;
 extern GAMESTATE GameState;
 extern signed char StartLevel;
 
-extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
-extern void far pascal dispose_handle(unsigned int handle);
+extern void far *far pascal h2p(unsigned int handle);
+extern void far pascal hFree(unsigned int handle);
 extern void far pascal abort_with_message(int exit_status, char far *message);
 extern void far pascal SetRndSeed(int enabled);
 extern int far pascal Rnd(int value);
@@ -63,12 +63,12 @@ int far pascal CheckForEndOfRecording(void)
     Recording far *recording;
 
     if (playback.mode == 3 && playback.handle) {
-        recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
+        recording = h2p(playback.handle);
         tick = FrameNum;
         if (tick > recording->end_tick) {
             playback.mode = 0;
             if (playback.handle) {
-                dispose_handle(playback.handle);
+                hFree(playback.handle);
                 playback.handle = 0;
             }
             result = -1;
@@ -90,7 +90,7 @@ void far pascal CheckRecordedDirForChar(void)
             character = 5;
         else
             character = Char;
-        recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
+        recording = h2p(playback.handle);
         if (playback.offset < recording->data_size) {
             frame = (RecordedFrame far *)(recording->data + playback.offset);
             if (FrameNum > frame->tick)
@@ -152,12 +152,12 @@ RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recordin
 static unsigned int DEFAULT_HANDLE_TAG;
 extern unsigned int far pascal HGETRSRC(void far *value, unsigned int tag);
 
-unsigned int far pascal ALLOCATE_DEFAULT_HANDLE(void)
+unsigned int far pascal LoadRecordedGameFromDisk(void)
 {
     return HGETRSRC((void far *)0, DEFAULT_HANDLE_TAG);
 }
 
-void far pascal reset_recorded_playback(void)
+void far pascal StartPlayingRecordedGame(void)
 {
     if (playback.mode == 4 || playback.mode == 3) {
         playback.mode = 3;
@@ -165,9 +165,9 @@ void far pascal reset_recorded_playback(void)
         playback.input_index = 0;
         memset(playback.saved_directions, 0, sizeof(playback.saved_directions));
         if (playback.handle)
-            dispose_handle(playback.handle);
+            hFree(playback.handle);
         if (GameState.recording_mode)
-            playback.handle = ALLOCATE_DEFAULT_HANDLE();
+            playback.handle = LoadRecordedGameFromDisk();
         FrameNum = 0;
         SetRndSeed(1);
         Rnd(17);
@@ -175,7 +175,7 @@ void far pascal reset_recorded_playback(void)
     }
 }
 
-int far pascal toggle_recording_player(void)
+int far pascal ToggleRecorder(void)
 {
     playback.mode = playback.mode != 4 ? 4 : 0;
     return playback.mode != 0;
@@ -186,7 +186,7 @@ void far pascal TurnRecordedGamePlayerOff(void)
     GameState.recording_mode = 0;
     playback.mode = 0;
     if (playback.handle) {
-        dispose_handle(playback.handle);
+        hFree(playback.handle);
         playback.handle = 0;
     }
 }
@@ -199,10 +199,10 @@ void far pascal TurnRecordedGamePlayerOn(void)
     playback.mode = 4;
     if (!DEFAULT_HANDLE_TAG || (int)++DEFAULT_HANDLE_TAG >= 28)
         DEFAULT_HANDLE_TAG = 25;
-    handle = ALLOCATE_DEFAULT_HANDLE();
-    recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+    handle = LoadRecordedGameFromDisk();
+    recording = h2p(handle);
     GameState.recording_mode = 1;
     GameState.skip_opening = 0;
     StartLevel = recording->level;
-    dispose_handle(handle);
+    hFree(handle);
 }

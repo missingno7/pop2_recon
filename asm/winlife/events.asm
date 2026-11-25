@@ -32,10 +32,10 @@ EXTRN ITEM_BY_INDEX:NEAR
 EXTRN _sprintf:FAR
 EXTRN __NFREE:FAR
 EXTRN RELEASE_BACKGROUND_PORT:NEAR
-EXTRN LOAD_RESOURCE_COPY:NEAR
+EXTRN NGETRSRC:NEAR
 EXTRN HANDLE_MOUSE_CALLBACK:FAR
 EXTRN LOOKUP_PREFIXED_STRING:NEAR
-EXTRN PLAY_SOUND:NEAR
+EXTRN SETSND:NEAR
 EXTRN POLL_DOS_KEY:FAR
 EXTRN SET_ITEM_ENABLED:NEAR
 EXTRN SET_WINDOW_EVENT_STATE:NEAR
@@ -699,7 +699,7 @@ load_error_resource:
     mov ax, 0ff9ch
     push ax
     push cs
-    call LOAD_RESOURCE_COPY
+    call NGETRSRC
     push ax
     push ds
     push ax
@@ -731,7 +731,7 @@ wait_for_action:
     mov ax, 0ffffh
     push ax
     push cs
-    call PLAY_SOUND
+    call SETSND
     sub ax, ax
     push ax
     push ax

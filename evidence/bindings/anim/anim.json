@@ -53,7 +53,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 1615,
+        "length": 1590,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -86,7 +86,7 @@
     ],
     "publics": [
       {
-        "name": "ANIM_NEW",
+        "name": "ANIMNEW",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1312,
@@ -95,7 +95,7 @@
         "type_index": 645
       },
       {
-        "name": "ANIM_DRAW",
+        "name": "ANIMDRAW",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
@@ -104,7 +104,7 @@
         "type_index": 598
       },
       {
-        "name": "ANIM_FREE",
+        "name": "ANIMFREE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 52,
@@ -113,7 +113,7 @@
         "type_index": 602
       },
       {
-        "name": "PLAY_ANIM",
+        "name": "PLAYANIM",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3040,
@@ -122,7 +122,7 @@
         "type_index": 694
       },
       {
-        "name": "DRAW_FRAME",
+        "name": "DRAWFRAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2508,
@@ -167,7 +167,7 @@
         "type_index": 680
       },
       {
-        "name": "HIGH_COLOR_SHAPE_BOUNDARY",
+        "name": "RLESHAPECUTOFF",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 0,
@@ -176,7 +176,7 @@
         "type_index": 129
       },
       {
-        "name": "ANIM_IDLE",
+        "name": "ANIMIDLE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 180,
@@ -185,7 +185,7 @@
         "type_index": 616
       },
       {
-        "name": "SWAP_RECORD_PAIRS",
+        "name": "SWAPBACKGROUND",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3614,
@@ -198,67 +198,67 @@
       "CP",
       "TGAMODE",
       "GRAF",
-      "CHECK_WAIT_FUNCTION",
+      "CHECKWAITFUNC",
       "FORCESHAPES",
-      "ALLOCATED_BANKS",
-      "FADE_OUT_AND_RESTORE_PALETTE",
+      "BANKSTATUS",
+      "FORCEFADEOUT",
       "OFFSETRECT",
       "_sprintf",
-      "DISPATCH_RESOURCE_POINTER",
-      "PUSH_PORT_CLIP",
+      "RESETSOUND",
+      "CLIPRECT",
       "ABORT_WITH_MESSAGE",
-      "WAIT_SOUND",
-      "SET_RECORD_RANGE",
+      "WAITSND",
+      "FILLRECT",
       "TIMEVAL",
       "LOAD_RESOURCE_PINNED",
-      "POP_PORT_CLIP",
-      "MEASURE_TEXT",
+      "CLIPRESTORE",
+      "COPYBITS",
       "HGETNMAPSHPLIST",
       "FORCEFUNCPARAM",
       "QUITFADETO",
       "HGETRSRC",
-      "FADE_TO_STEP",
+      "FADETOSTEP",
       "HGETSND",
-      "DISPOSE_HANDLE",
+      "HFREE",
       "CLEAR_PAYLOAD_HEADER",
-      "ANIM_NEW",
-      "RELEASE_PORT",
+      "ANIMNEW",
+      "FREEPORT",
       "QUERY_SOUND_PAYLOAD",
       "RELEASE_BUFFER",
       "SCREENPORT",
       "_free",
-      "ANIM_DRAW",
-      "ANIM_FREE",
-      "PLAY_ANIM",
-      "DRAW_FRAME",
+      "ANIMDRAW",
+      "ANIMFREE",
+      "PLAYANIM",
+      "DRAWFRAME",
       "ADVANCE_ANIMATION_FRAME",
       "PAINT_ELEMENT",
       "ACCUMULATE_ELEMENT_BOUNDS",
       "RESET_ELEMENT",
-      "PLAY_SOUND",
-      "DISPATCH_SOUND",
-      "QUERY_SOUND",
+      "SETSND",
+      "RESETSND",
+      "SNDON",
       "MIDI_CUE",
       "PAINTRLESHAPE_ASM",
-      "PAINT_PLAIN",
-      "ANIM_IDLE",
+      "PAINTSHAPE",
+      "ANIMIDLE",
       "__nmalloc",
       "__nmsize",
       "__fmemcpy",
-      "SAVE_HANDLE_FLAGS",
-      "RESTORE_HANDLE_FLAGS",
+      "HGETSTATE",
+      "HSETSTATE",
       "SECTRECT",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "H2P",
       "EMPTYRECT",
-      "FETCH_LOCKED_SHAPE_LIST",
+      "HLOCK",
       "UNIONRECT",
-      "LOAD_SHAPE_LIST_BANKS",
-      "CLEAR_HANDLE_OWNED",
-      "MARK_FIXED",
+      "HMAPSHPLIST",
+      "HUNLOCK",
+      "HNOPURGE",
       "HNEWSHPITEM1",
-      "CREATE_PORT",
-      "SWAP_RECORD_PAIRS",
-      "SET_ORIGIN",
+      "BACKPORT",
+      "SWAPBACKGROUND",
+      "SETORIGIN",
       "ALLOCATE_BUFFER"
     ],
     "communals": [
@@ -335,7 +335,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -343,7 +343,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -443,7 +443,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "ALLOCATED_BANKS",
+          "name": "BANKSTATUS",
           "method": 6,
           "zero_displacement": true
         }
@@ -451,7 +451,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "ALLOCATED_BANKS",
+        "name": "BANKSTATUS",
         "method": 6,
         "zero_displacement": true
       },
@@ -497,7 +497,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "RELEASE_PORT",
+          "name": "FREEPORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -505,7 +505,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "RELEASE_PORT",
+        "name": "FREEPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -524,7 +524,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -532,7 +532,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1624,7 +1624,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "DRAW_FRAME",
+          "name": "DRAWFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -1632,7 +1632,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "DRAW_FRAME",
+        "name": "DRAWFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -1705,7 +1705,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -1713,7 +1713,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -1732,7 +1732,7 @@
         "target": {
           "kind": "external",
           "index": 42,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1740,7 +1740,7 @@
       "target": {
         "kind": "external",
         "index": 42,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -1759,7 +1759,7 @@
         "target": {
           "kind": "external",
           "index": 41,
-          "name": "PLAY_SOUND",
+          "name": "SETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1767,7 +1767,7 @@
       "target": {
         "kind": "external",
         "index": 41,
-        "name": "PLAY_SOUND",
+        "name": "SETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -2225,7 +2225,7 @@
         "target": {
           "kind": "external",
           "index": 51,
-          "name": "SAVE_HANDLE_FLAGS",
+          "name": "HGETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2233,7 +2233,7 @@
       "target": {
         "kind": "external",
         "index": 51,
-        "name": "SAVE_HANDLE_FLAGS",
+        "name": "HGETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2279,7 +2279,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "DRAW_FRAME",
+          "name": "DRAWFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2287,7 +2287,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "DRAW_FRAME",
+        "name": "DRAWFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -2306,7 +2306,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2314,7 +2314,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2360,7 +2360,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "SET_ORIGIN",
+          "name": "SETORIGIN",
           "method": 6,
           "zero_displacement": true
         }
@@ -2368,7 +2368,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "SET_ORIGIN",
+        "name": "SETORIGIN",
         "method": 6,
         "zero_displacement": true
       },
@@ -2414,7 +2414,7 @@
         "target": {
           "kind": "external",
           "index": 62,
-          "name": "CREATE_PORT",
+          "name": "BACKPORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2422,7 +2422,7 @@
       "target": {
         "kind": "external",
         "index": 62,
-        "name": "CREATE_PORT",
+        "name": "BACKPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2468,7 +2468,7 @@
         "target": {
           "kind": "external",
           "index": 60,
-          "name": "MARK_FIXED",
+          "name": "HNOPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2476,7 +2476,7 @@
       "target": {
         "kind": "external",
         "index": 60,
-        "name": "MARK_FIXED",
+        "name": "HNOPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2495,7 +2495,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "CLEAR_HANDLE_OWNED",
+          "name": "HUNLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -2503,7 +2503,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "CLEAR_HANDLE_OWNED",
+        "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -2576,7 +2576,7 @@
         "target": {
           "kind": "external",
           "index": 58,
-          "name": "LOAD_SHAPE_LIST_BANKS",
+          "name": "HMAPSHPLIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -2584,7 +2584,7 @@
       "target": {
         "kind": "external",
         "index": 58,
-        "name": "LOAD_SHAPE_LIST_BANKS",
+        "name": "HMAPSHPLIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -2630,7 +2630,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -2638,7 +2638,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -2701,7 +2701,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "ANIM_FREE",
+          "name": "ANIMFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2709,7 +2709,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "ANIM_FREE",
+        "name": "ANIMFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2728,7 +2728,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "RESTORE_HANDLE_FLAGS",
+          "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2736,7 +2736,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "RESTORE_HANDLE_FLAGS",
+        "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2782,7 +2782,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2790,7 +2790,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2836,7 +2836,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "DRAW_FRAME",
+          "name": "DRAWFRAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -2844,7 +2844,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "DRAW_FRAME",
+        "name": "DRAWFRAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -3079,7 +3079,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "POP_PORT_CLIP",
+          "name": "CLIPRESTORE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3087,7 +3087,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "POP_PORT_CLIP",
+        "name": "CLIPRESTORE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3133,7 +3133,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "FADE_TO_STEP",
+          "name": "FADETOSTEP",
           "method": 6,
           "zero_displacement": true
         }
@@ -3141,7 +3141,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "FADE_TO_STEP",
+        "name": "FADETOSTEP",
         "method": 6,
         "zero_displacement": true
       },
@@ -3187,7 +3187,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3195,7 +3195,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3214,7 +3214,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -3222,7 +3222,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -3241,7 +3241,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "PUSH_PORT_CLIP",
+          "name": "CLIPRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3249,7 +3249,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "PUSH_PORT_CLIP",
+        "name": "CLIPRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3268,7 +3268,7 @@
         "target": {
           "kind": "external",
           "index": 46,
-          "name": "PAINT_PLAIN",
+          "name": "PAINTSHAPE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3276,7 +3276,7 @@
       "target": {
         "kind": "external",
         "index": 46,
-        "name": "PAINT_PLAIN",
+        "name": "PAINTSHAPE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3295,7 +3295,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -3303,7 +3303,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -3349,7 +3349,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -3357,7 +3357,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -3425,7 +3425,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -3433,7 +3433,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -3533,7 +3533,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -3541,7 +3541,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -3560,7 +3560,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3568,7 +3568,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3614,7 +3614,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -3622,7 +3622,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -3641,7 +3641,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "DISPATCH_RESOURCE_POINTER",
+          "name": "RESETSOUND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3649,7 +3649,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "DISPATCH_RESOURCE_POINTER",
+        "name": "RESETSOUND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3668,7 +3668,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "WAIT_SOUND",
+          "name": "WAITSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3676,7 +3676,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "WAIT_SOUND",
+        "name": "WAITSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3722,7 +3722,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3730,7 +3730,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3749,7 +3749,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "ANIM_FREE",
+          "name": "ANIMFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3757,7 +3757,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "ANIM_FREE",
+        "name": "ANIMFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3776,7 +3776,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3784,7 +3784,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3803,7 +3803,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -3811,7 +3811,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -3884,7 +3884,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "DISPATCH_RESOURCE_POINTER",
+          "name": "RESETSOUND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3892,7 +3892,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "DISPATCH_RESOURCE_POINTER",
+        "name": "RESETSOUND",
         "method": 6,
         "zero_displacement": true
       },
@@ -3911,7 +3911,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "FADE_OUT_AND_RESTORE_PALETTE",
+          "name": "FORCEFADEOUT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3919,7 +3919,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "FADE_OUT_AND_RESTORE_PALETTE",
+        "name": "FORCEFADEOUT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3965,7 +3965,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "FADE_TO_STEP",
+          "name": "FADETOSTEP",
           "method": 6,
           "zero_displacement": true
         }
@@ -3973,7 +3973,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "FADE_TO_STEP",
+        "name": "FADETOSTEP",
         "method": 6,
         "zero_displacement": true
       },
@@ -3992,7 +3992,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "CHECK_WAIT_FUNCTION",
+          "name": "CHECKWAITFUNC",
           "method": 6,
           "zero_displacement": true
         }
@@ -4000,7 +4000,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "CHECK_WAIT_FUNCTION",
+        "name": "CHECKWAITFUNC",
         "method": 6,
         "zero_displacement": true
       },
@@ -4019,7 +4019,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "ANIM_IDLE",
+          "name": "ANIMIDLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4027,7 +4027,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "ANIM_IDLE",
+        "name": "ANIMIDLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4046,7 +4046,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4054,7 +4054,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4100,7 +4100,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -4108,7 +4108,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -4127,7 +4127,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -4135,7 +4135,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -4284,7 +4284,7 @@
         "target": {
           "kind": "external",
           "index": 27,
-          "name": "ANIM_NEW",
+          "name": "ANIMNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -4292,7 +4292,7 @@
       "target": {
         "kind": "external",
         "index": 27,
-        "name": "ANIM_NEW",
+        "name": "ANIMNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -4311,7 +4311,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -4319,7 +4319,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -4416,7 +4416,7 @@
         }
       ]
     },
-    "CHECK_WAIT_FUNCTION": {
+    "CHECKWAITFUNC": {
       "entry_sha256": "0f338eb53c7eec670bf5f09086347e27f91d1ac376ded11671eb3816d8e4a628",
       "entry_target_id": "root:1f74:009c",
       "kind": "far-code-entry",
@@ -4450,7 +4450,7 @@
         }
       ]
     },
-    "DISPATCH_RESOURCE_POINTER": {
+    "RESETSOUND": {
       "entry_sha256": "e899c95ed8109a843713ea408a50cd9cb6ee106253c3e1f1db8c765577555bee",
       "entry_target_id": "root:1129:3320",
       "kind": "far-code-entry",
@@ -4467,7 +4467,7 @@
         }
       ]
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
@@ -4508,7 +4508,7 @@
         }
       ]
     },
-    "FADE_OUT_AND_RESTORE_PALETTE": {
+    "FORCEFADEOUT": {
       "entry_sha256": "600c0f2681d3e553c2ea9ea195c985ae66179d5e1caf843e01458aa1a5507cb7",
       "entry_target_id": "root:1e0e:064a",
       "kind": "far-code-entry",
@@ -4517,7 +4517,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FADE_TO_STEP": {
+    "FADETOSTEP": {
       "entry_sha256": "d5f9420196fae3fe26f8988f2eecab9e6166793fcf03049dbb456009db855bc3",
       "entry_target_id": "root:1e0e:04e0",
       "kind": "far-code-entry",
@@ -4600,7 +4600,7 @@
       "space": "root",
       "witnesses": []
     },
-    "MEASURE_TEXT": {
+    "COPYBITS": {
       "entry_sha256": "5f4b5f97ca115ec229354726cdf97cfd4d648f55bf9014b49b01228934c12ae2",
       "entry_target_id": "root:1129:4cb0",
       "kind": "far-code-entry",
@@ -4626,7 +4626,7 @@
       "space": "root",
       "witnesses": []
     },
-    "PAINT_PLAIN": {
+    "PAINTSHAPE": {
       "entry_sha256": "8d0298c8c0735e0eb56e9be2af326e303e65823ea1bada87fa41f2677b87f415",
       "entry_target_id": "root:1129:511c",
       "kind": "far-code-entry",
@@ -4650,7 +4650,7 @@
         }
       ]
     },
-    "POP_PORT_CLIP": {
+    "CLIPRESTORE": {
       "entry_sha256": "aa3c4cc8798cf3a0df1bf26049741df4d0daa8b9a1447ba566ba5cda1318e986",
       "entry_target_id": "root:1129:4c9a",
       "kind": "far-code-entry",
@@ -4674,7 +4674,7 @@
         }
       ]
     },
-    "PUSH_PORT_CLIP": {
+    "CLIPRECT": {
       "entry_sha256": "89d64d35f188bc1f777d4ac3b88a86b034ab6cececf8b7eeb2bb8dcd39b22ab7",
       "entry_target_id": "root:1129:4c34",
       "kind": "far-code-entry",
@@ -4741,7 +4741,7 @@
         }
       ]
     },
-    "RELEASE_PORT": {
+    "FREEPORT": {
       "entry_sha256": "86b8e438d333e839ea8f7f708401bc7e4b2a1b92a6a2477c2d3b67a929b56093",
       "entry_target_id": "root:1129:4e36",
       "kind": "far-code-entry",
@@ -4758,7 +4758,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -4835,7 +4835,7 @@
         }
       ]
     },
-    "SET_RECORD_RANGE": {
+    "FILLRECT": {
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
       "entry_target_id": "root:1129:6632",
       "kind": "far-code-entry",
@@ -4883,7 +4883,7 @@
         }
       ]
     },
-    "WAIT_SOUND": {
+    "WAITSND": {
       "entry_sha256": "f0f19a3f0fcdfad064d0595e811e187e82f2f352eebca01a09842b4a73403e4f",
       "entry_target_id": "root:1f74:0176",
       "kind": "far-code-entry",
@@ -4926,7 +4926,7 @@
       "space": "root",
       "witnesses": []
     },
-    "QUERY_SOUND": {
+    "SNDON": {
       "entry_sha256": "dc9c287bd1478d9e000bc3c5d4749a7216087f6ddaa636e57d3abaf1f983cfed",
       "entry_target_id": "root:1129:8426",
       "kind": "far-code-entry",
@@ -4935,7 +4935,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DISPATCH_SOUND": {
+    "RESETSND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
       "kind": "far-code-entry",
@@ -4944,7 +4944,7 @@
       "space": "root",
       "witnesses": []
     },
-    "PLAY_SOUND": {
+    "SETSND": {
       "entry_sha256": "e36482d583c514ab1343b0ecffa61a728d3fcfa734f04732b4ee4ceb856a1596",
       "entry_target_id": "root:1129:840e",
       "kind": "far-code-entry",
@@ -4971,7 +4971,7 @@
       "space": "root",
       "witnesses": []
     },
-    "SAVE_HANDLE_FLAGS": {
+    "HGETSTATE": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
       "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",
@@ -4989,7 +4989,7 @@
       "space": "root",
       "witnesses": []
     },
-    "SET_ORIGIN": {
+    "SETORIGIN": {
       "entry_sha256": "4a07c907af3919320311ad7036637baac330fb2c62985a843af09b03cdd6d28c",
       "entry_target_id": "root:1129:52e8",
       "kind": "far-code-entry",
@@ -4998,7 +4998,7 @@
       "space": "root",
       "witnesses": []
     },
-    "CREATE_PORT": {
+    "BACKPORT": {
       "entry_sha256": "b2e84c9c11301782097f1710efdf5e413b03b9be2524d8c32bb3c2201ec49aa3",
       "entry_target_id": "root:1129:3890",
       "kind": "far-code-entry",
@@ -5016,7 +5016,7 @@
       "space": "root",
       "witnesses": []
     },
-    "MARK_FIXED": {
+    "HNOPURGE": {
       "entry_sha256": "19a6043408f0f3b289bdc976c837e7b2482332a2e569fd6dd74ca36912594690",
       "entry_target_id": "root:1129:185c",
       "kind": "far-code-entry",
@@ -5025,7 +5025,7 @@
       "space": "root",
       "witnesses": []
     },
-    "CLEAR_HANDLE_OWNED": {
+    "HUNLOCK": {
       "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
       "entry_target_id": "root:1129:1978",
       "kind": "far-code-entry",
@@ -5043,7 +5043,7 @@
       "space": "root",
       "witnesses": []
     },
-    "LOAD_SHAPE_LIST_BANKS": {
+    "HMAPSHPLIST": {
       "entry_sha256": "ac61be843fc06dd57e5a944377926e8b98403012df7172c9ed060d4faef65637",
       "entry_target_id": "root:1129:7f98",
       "kind": "far-code-entry",
@@ -5052,7 +5052,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FETCH_LOCKED_SHAPE_LIST": {
+    "HLOCK": {
       "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
       "entry_target_id": "root:1129:1728",
       "kind": "far-code-entry",
@@ -5061,7 +5061,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESTORE_HANDLE_FLAGS": {
+    "HSETSTATE": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
       "entry_target_id": "root:1129:195a",
       "kind": "far-code-entry",
@@ -5079,7 +5079,7 @@
       "space": "root",
       "witnesses": []
     },
-    "ALLOCATED_BANKS": {
+    "BANKSTATUS": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
       "offset": 7962,

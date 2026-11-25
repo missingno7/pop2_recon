@@ -424,12 +424,12 @@ Extended 2026-11-23 (`binding.block_copy_extent`):
 
 When every original S+0 reference lies in claims, S has no witness. In a group the copy (or pointer access) may then
 itself lie in a claim, and S stands on internal consensus: no in-extent member is accepted unless S+0 has equal fields
-at two or more distinct claimed instruction starts. First use: `MOBS` (DS:2aa4, 13-byte records copied by ANIM_MOBS).
+at two or more distinct claimed instruction starts. First use: `MOBS` (DS:2aa4, 13-byte records copied by ANIMMOBS).
 
 A copy may also be made by a callee through a near-pointer argument. The extent then has a `call`: a reached original
 window that ends in a relocated far CALL of a resident routine and passes exactly S, while `witness` starts at that
 routine's entry (`push bp; mov bp,sp`) and copies through `mov r,[bp+disp]` with the matching stack slot. First use:
-INIT_PORT copies 44 bytes into `ScreenPort` (DS:5e62). A base with a proven extent is a used address, so it needs no
+INITPORT copies 44 bytes into `ScreenPort` (DS:5e62). A base with a proven extent is a used address, so it needs no
 other immediate evidence.
 
 An extent may also come from a bounds-checked byte index (`"kind": "index"`): BH cleared, `cmp bl,N; jae`, then
@@ -478,7 +478,7 @@ which the compiler folds to O-1 and O-2.
 
 - `"kind": "walk"` (`binding.walk_extent`): a complete original loop `mov r,S ... jcc` is executed; one access instruction
   touches S, S+d, S+2d, ... and nothing else (d >= 2, two or more records), so [S, S+(n-1)d+width) is one array. First use:
-  `RoomOpp+26h`, cleared in five 64-byte records by CLEAR_ROW_HANDLES, which covers `RoomOpp[1]`.
+  `RoomOpp+26h`, cleared in five 64-byte records by FORCEOPPREDRAW, which covers `RoomOpp[1]`.
 - `"kind": "writes"` (`binding.argument_writes`): a reached call (far, or `push cs; call rel16`) passes S, and reached windows
   of that callee store through its near-pointer arguments; the stored ranges join to [S, S+L). The callee never writes
   those argument words. First use: `CellRight`, whose byte and two words GETOBJECT stores.
@@ -495,11 +495,11 @@ Index floors (`"floor": {space, entry, image_offset}` on a member, 2026-11-24, `
 part of an index into the displacement, so `cells[column - 1]` addresses a byte below the array. The interval analysis of the
 original routine (signed ranges of registers and BP slots, guards, calls keep SI/DI and the slots, wrapped or unfollowed
 values are unknown) gives the lowest index at that access. Displacement plus lowest index must be S or a witnessed member.
-First uses: GETABOVEARY (`[bx+si+2b99]`, column from 1: 2b9a) and ADD_ROOM_TROBS (`[bx+5c5e]` behind `cmp si,1e; jge`: 5cf4).
+First uses: GETABOVEARY (`[bx+si+2b99]`, column from 1: 2b9a) and ADDROOMTROBS (`[bx+5c5e]` behind `cmp si,1e; jge`: 5cf4).
 
 For a far `record` member, a window may also end in a string store through ES:DI with `lea di,[r+O]`, or build a far pointer
 (`"construct": true`: `add r,O` and the relocated segment word directly behind it). First use: `FORETABLE[count - 1]`'s
-rectangle in DRAW_RUIN_FLAW (O-10, records of 20 bytes).
+rectangle in DRAWRUINFLAW (O-10, records of 20 bytes).
 
 A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
 segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocated word is refused.

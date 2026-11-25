@@ -81,11 +81,11 @@ The smallest coherent separation that removed the coupling, without a new framew
 - Placed-data linker equations: near pointers, far code pointers, far segment words, alignment holes.
 - Data-only groups and their submission support; ENGLISH and TABLES published, correcting INIT, MOVERUIN,
   toggle_sound, DIALOG, LOAD 0c98 and the ACT/FINAL `COLEDGEX` binding; DIALOG left the CONST debt list.
-- Aggregate extents (+9 functions: GET_MOB_TYPE_ITEM, MARK_GUARD_UPDATES, MOB_LOOSE, KNOCK_LOOSE,
-  GET_CHAR_STRIKE_RANGES, DRAW_METERS, RESET_FRAME_VARS, DRAWOBJSPIKES, CHECK_DART_HIT).
+- Aggregate extents (+9 functions: GETMOBTYPEITEM, MARKOPPUPDATEFORRECT, MOBLOOSE, KNOCKLOOSE,
+  GETCHARSTRIKERANGES, DRAWMETERS, RESETFRAMEVARS, DRAWOBJSPIKES, CHECKDARTHIT).
 - CODE_MATCH and code-match entry grounding.
-- Compiler-model use: AUTOGUAR hub (SHAKE_BONES via real declaration position), perm3 v2 (declaration moves
-  predicted by the sortnode key made GET_MOB_TYPE_ITEM byte-exact).
+- Compiler-model use: AUTOGUAR hub (SHAKEBONES via real declaration position), perm3 v2 (declaration moves
+  predicted by the sortnode key made GETMOBTYPEITEM byte-exact).
 
 ## 5. Contradictions found in accepted evidence (code stays proven; declared storage cannot link)
 
@@ -103,7 +103,7 @@ The smallest coherent separation that removed the coupling, without a new framew
    gp's link plan) in original link order. This turns GROUPED relocation debt, BSS/communal order and placement
    into checked facts and exposes wrong accepted modules.
 2. **Record code matches** for every byte-exact function blocked only by bindings (callee or single-site data),
-   starting with FINAL's RUN_FINAL_FRAME, which unblocks LOAD's corrected data model, and the overlay draw entries
+   starting with FINAL's FINLFRAMEFUNC, which unblocks LOAD's corrected data model, and the overlay draw entries
    DRAW's level tables point to. This makes conditional coverage visible and grounds callback tables.
 3. **BSS refutation rule R** (o7_bss): placed C `_BSS` pieces inside [_edata, xontab), even, ordered; C communals
    even below 6ccc or in the byte tail; no symbol inside another placed segment; existing violations as a
@@ -122,8 +122,8 @@ The smallest coherent separation that removed the coupling, without a new framew
 ## 8. State after this work (main `d8e1423`)
 
 - 1,411 CODE_EXACT functions (from 1,401), 139,679 C bytes, 40,003 ASM bytes; 2 CODE_MATCH functions (148
-  bytes: FINAL RUN_FINAL_FRAME, LOAD SET_LEVEL_SPEC_PTRS) reported separately and not counted.
-- The far-pointer path works end to end: FINAL's RUN_FINAL_FRAME is a recorded code match, so LOAD's level
+  bytes: FINAL FINLFRAMEFUNC, LOAD SETPRINCELEVELSPECPTRS) reported separately and not counted.
+- The far-pointer path works end to end: FINAL's FINLFRAMEFUNC is a recorded code match, so LOAD's level
   procedure table grounds all five callbacks; LOAD now publishes its real 656-byte `_DATA` at DS:0558 without
   `_segname` and left the CONST debt list (remaining: CUSTOM, DRAW, MOVECAVE).
 - bss-layout-v1 is enforced with crt0 anchors; 383 existing violations are recorded as shrink-only debt
@@ -193,7 +193,7 @@ The smallest coherent separation that removed the coupling, without a new framew
   - Member access was code-identical in most files.
   - In CTRL, ACT, MOVE, LOAD and NIS, the correct declarations changed codegen until the real declaration
     positions were found. That is evidence the earlier scalar sources fit by accident.
-  - New exact functions came from it: GENERIC_FIGHT, APPLY_INPUT, MAKE_RUBBLE.
+  - New exact functions came from it: GENFIGHT, GENCTRL, MAKERUBBLE.
 - **Gate additions**, all narrow:
   - near pointers in placed data to independently grounded DGROUP symbols;
   - near COMDEF communals;

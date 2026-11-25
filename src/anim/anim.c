@@ -68,32 +68,32 @@ typedef struct
 } ShapeHeader;
 
 extern int Graf;
-extern unsigned int allocated_banks;
+extern unsigned int BankStatus;
 extern union {
     unsigned long count;
     struct {
         unsigned int low, high;
     } words;
 } TimeVal;
-extern void MEASURE_TEXT(int, int, const Rect far *, const Rect far *, int);
+extern void CopyBits(int, int, const Rect far *, const Rect far *, int);
 extern void QuitFadeTo(unsigned long);
-extern int fade_to_step(unsigned long);
-extern void dispose_handle(int);
-extern void release_port(void *);
+extern int FadeToStep(unsigned long);
+extern void hFree(int);
+extern void FreePort(void *);
 extern void release_buffer(void far *);
 extern void cdecl free(void *);
 
-Animation *anim_draw(Animation *animation)
+Animation *AnimDraw(Animation *animation)
 {
     int saved_port = Graf;
 
     Graf = animation->destination;
-    MEASURE_TEXT(Graf, animation, &animation->bounds, &animation->source, 0);
+    CopyBits(Graf, animation, &animation->bounds, &animation->source, 0);
     Graf = saved_port;
     return animation;
 }
 
-void anim_free(Animation *animation)
+void AnimFree(Animation *animation)
 {
     int i;
 
@@ -101,26 +101,26 @@ void anim_free(Animation *animation)
         QuitFadeTo(animation->fade);
     for (i = 0; i < animation->handle_count; ++i) {
         if (animation->handles[i])
-            dispose_handle(animation->handles[i]);
+            hFree(animation->handles[i]);
     }
-    release_port(animation);
+    FreePort(animation);
     release_buffer(animation->background.pixels);
     if (animation->sound_flag)
-        allocated_banks &= ~animation->sound_flag;
+        BankStatus &= ~animation->sound_flag;
     free(animation);
 }
 
-Animation *draw_frame(Animation *animation);
+Animation *DrawFrame(Animation *animation);
 Animation *near advance_animation_frame(Animation *animation);
 void near paint_element(Animation *animation, Element *element);
 void near accumulate_element_bounds(Animation *animation, Element *element);
 void near reset_element(Element *element);
 
-extern void play_sound(int id);
-extern void dispatch_sound(int);
-extern int query_sound(int);
+extern void SetSnd(int id);
+extern void ResetSnd(int);
+extern int SndOn(int);
 extern unsigned char midi_cue;
-int high_color_shape_boundary = 0;
+int RLEShapeCutOff = 0;
 
 /* byte-offset access for scanning an unparsed animation resource. */
 #define WORD_AT(p, n) (((const int far *)&(p)[(n)])[0])
@@ -129,7 +129,7 @@ int high_color_shape_boundary = 0;
 #define EVENT_LONG(p, i) (((const long far *)((p) + 1))[(i)])
 #define CLOCK_WORDS() (TimeVal.words.low | ((unsigned long)TimeVal.words.high << 16))
 
-int anim_idle(Animation *animation)
+int AnimIdle(Animation *animation)
 {
     int status = 0;
     int previous_port = Graf;
@@ -171,16 +171,16 @@ int anim_idle(Animation *animation)
             break;
         case 3:
             if (animation->deadline_base + animation->delay <= CLOCK_WORDS()) {
-                play_sound(EVENT_WORD(event, 0));
+                SetSnd(EVENT_WORD(event, 0));
                 animation->commands += 3;
             }
             break;
         case 4:
-            dispatch_sound(EVENT_WORD(event, 0));
+            ResetSnd(EVENT_WORD(event, 0));
             animation->commands += 3;
             break;
         case 5:
-            if (!query_sound(EVENT_WORD(event, 0)))
+            if (!SndOn(EVENT_WORD(event, 0)))
                 animation->commands += 3;
             break;
         case 6:
@@ -192,7 +192,7 @@ int anim_idle(Animation *animation)
             }
             break;
         case 7:
-            draw_frame(animation);
+            DrawFrame(animation);
             animation->skip_draw = 1;
             ++animation->commands;
             break;
@@ -303,16 +303,16 @@ extern void near *cdecl memset(void near *, int, unsigned int);
 #pragma intrinsic(memset)
 extern void far *cdecl _fmemcpy(void far *, const void far *, unsigned int);
 
-extern int SAVE_HANDLE_FLAGS(int);
-extern void RESTORE_HANDLE_FLAGS(int, int);
-extern ShapeHeader far *resolve_handle_to_far_payload(int);
-extern ShapeHeader far *fetch_locked_shape_list(int);
-extern void load_shape_list_banks(int);
-extern void CLEAR_HANDLE_OWNED(int);
-extern void MARK_FIXED(int);
+extern int hGetState(int);
+extern void hSetState(int, int);
+extern ShapeHeader far *h2p(int);
+extern ShapeHeader far *hLock(int);
+extern void hMapShpList(int);
+extern void hUnlock(int);
+extern void hNoPurge(int);
 extern int hNewShpItem1(int, int, int);
-extern int create_port(void *, const Rect far *);
-extern void SET_ORIGIN(int, int);
+extern int BackPort(void *, const Rect far *);
+extern void SetOrigin(int, int);
 extern void far *ALLOCATE_BUFFER(unsigned long);
 static unsigned char animation_command_codes[] = {
     0, 1, 2, 3, 4, 5, 6, 7, 0x10, 0x14, 0x20, 0x40, 0x60, 0x80, 0xa0, 0xc0, 0xe0
@@ -325,10 +325,10 @@ int TGAMode, ForceShapes;
 extern int cdecl sprintf(char *, const char *, ...);
 extern void abort_with_message(int, const char far *);
 
-Animation *anim_new(const unsigned char far *commands, int sheet, int first_shape,
+Animation *AnimNew(const unsigned char far *commands, int sheet, int first_shape,
                     int last_shape, int save_background)
 {
-    int old_entry = SAVE_HANDLE_FLAGS(sheet);
+    int old_entry = hGetState(sheet);
     int count = last_shape - first_shape + 1;
     int ei, previous_port;
     unsigned char used_entries[512];
@@ -382,11 +382,11 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             }
         }
         anim_record->handle_count = count;
-        sheet_info = fetch_locked_shape_list(sheet);
+        sheet_info = hLock(sheet);
         if (sheet_info) {
             TGAMode = sheet_info->depth <= 16;
             if (sheet_info->sound == 0) {
-                load_shape_list_banks(sheet);
+                hMapShpList(sheet);
                 anim_record->sound_flag = sheet_info->sound;
             }
             for (count = 0; count < anim_record->handle_count; ++count) {
@@ -401,13 +401,13 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                 }
             }
             if (anim_record->sound_flag != 0) sheet_info->sound = 0;
-            CLEAR_HANDLE_OWNED(sheet);
-            MARK_FIXED(sheet);
+            hUnlock(sheet);
+            hNoPurge(sheet);
         }
         {
-            if (!create_port(anim_record, _fmemcpy(&anim_record->bounds, commands, sizeof(Rect)))) goto fail;
+            if (!BackPort(anim_record, _fmemcpy(&anim_record->bounds, commands, sizeof(Rect)))) goto fail;
             Graf = anim_record;
-            SET_ORIGIN(0, 0);
+            SetOrigin(0, 0);
             anim_record->dirty = anim_record->source;
             anim_record->commands = &commands[8];
             if (save_background) {
@@ -416,26 +416,26 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                     (long)(anim_record->port.bounds.bottom - anim_record->port.bounds.top) *
                     anim_record->port.row_bytes);
                 if (!anim_record->background.pixels) goto fail;
-                MEASURE_TEXT(&anim_record->background, anim_record->destination,
+                CopyBits(&anim_record->background, anim_record->destination,
                           &anim_record->source, &anim_record->bounds, 0);
             }
         }
-        draw_frame(anim_record);
+        DrawFrame(anim_record);
         goto restore;
 fail:
-        anim_free(anim_record);
+        AnimFree(anim_record);
         anim_record = 0;
 restore:
         Graf = previous_port;
     }
-    RESTORE_HANDLE_FLAGS(sheet, old_entry);
+    hSetState(sheet, old_entry);
     return anim_record;
 }
 
 extern Rect far *OFFSETRECT(Rect far *, const Rect far *, int, int);
-extern void PUSH_PORT_CLIP(Rect far *);
-extern void SET_RECORD_RANGE(Rect far *, int);
-extern void POP_PORT_CLIP(void);
+extern void ClipRect(Rect far *);
+extern void FillRect(Rect far *, int);
+extern void ClipRestore(void);
 int ForceFuncParam;
 
 Animation *near advance_animation_frame(Animation *animation)
@@ -448,10 +448,10 @@ Animation *near advance_animation_frame(Animation *animation)
 
     ++animation->frame_index; animation->deadline_base = TimeVal.count;
     if (!animation->skip_draw)
-        draw_frame(animation);
+        DrawFrame(animation);
     animation->skip_draw = 0;
     OFFSETRECT(&region.box, &animation->dirty, animation->bounds.left, animation->bounds.top);
-    MEASURE_TEXT(animation->destination, animation, &region.box, &animation->dirty, 0);
+    CopyBits(animation->destination, animation, &region.box, &animation->dirty, 0);
     memset(&animation->dirty, 0, sizeof(Rect));
     cursor = animation->elements; count = 32;
     do {
@@ -490,43 +490,43 @@ Animation *near advance_animation_frame(Animation *animation)
     return animation;
 }
 
-Animation *draw_frame(Animation *animation)
+Animation *DrawFrame(Animation *animation)
 {
     int i;
     Element *element;
 
-    PUSH_PORT_CLIP(&animation->dirty);
+    ClipRect(&animation->dirty);
     if (animation->background.pixels) {
-        MEASURE_TEXT(animation, &animation->background,
+        CopyBits(animation, &animation->background,
                   &animation->source, &animation->source, 0);
     } else {
-        SET_RECORD_RANGE(&animation->source, *(int *)((char *)animation->destination + 0x20));
+        FillRect(&animation->source, *(int *)((char *)animation->destination + 0x20));
     }
     i = 0; element = animation->elements;
     do {
         paint_element(animation, element);
-        if (i && animation->frame_index > 1 && animation->fade && fade_to_step(animation->fade)) {
+        if (i && animation->frame_index > 1 && animation->fade && FadeToStep(animation->fade)) {
             QuitFadeTo(animation->fade); animation->fade = 0;
         }
         ++element; } while (++i < 32);
-    POP_PORT_CLIP();
+    ClipRestore();
     if (ForceFuncParam && animation->callbacks[0])
         animation->callbacks[0](animation, ForceFuncParam);
     return animation;
 }
 
-extern void PAINTRLESHAPE_ASM(const ShapeHeader far *, int, int, int);
-extern void PAINT_PLAIN(const ShapeHeader far *, int, int, int);
+extern void PaintRLEShape_asm(const ShapeHeader far *, int, int, int);
+extern void PaintShape(const ShapeHeader far *, int, int, int);
 
 void near paint_element(Animation *animation, Element *element)
 {
     if (element->shape) {
-        if (!TGAMode && high_color_shape_boundary < element->shape)
-            PAINTRLESHAPE_ASM(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
+        if (!TGAMode && RLEShapeCutOff < element->shape)
+            PaintRLEShape_asm(h2p(animation->handles[element->shape - 1]),
                               (int)(element->x >> 16), (int)(element->y >> 16),
                               element->flags.word & 15);
         else
-            PAINT_PLAIN(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
+            PaintShape(h2p(animation->handles[element->shape - 1]),
                         (int)(element->x >> 16), (int)(element->y >> 16),
                         element->flags.word & 15);
     }
@@ -543,10 +543,10 @@ void near accumulate_element_bounds(Animation *animation, Element *element)
     if (element->shape) {
         rect.left = (int)(element->x >> 16);
         rect.right = rect.left +
-                     resolve_handle_to_far_payload(animation->handles[element->shape - 1])->width;
+                     h2p(animation->handles[element->shape - 1])->width;
         rect.top = (int)(element->y >> 16);
         rect.bottom = rect.top +
-                      resolve_handle_to_far_payload(animation->handles[element->shape - 1])->height;
+                      h2p(animation->handles[element->shape - 1])->height;
         if (SECTRECT(&rect, &rect, &animation->source)) {
             if (EMPTYRECT(&animation->dirty))
                 animation->dirty = rect;
@@ -564,10 +564,10 @@ void near reset_element(Element *element)
     element->x = 0x80000000UL;
 }
 
-extern int check_wait_function(void);
-extern void fade_out_and_restore_palette(void);
-extern void DISPATCH_RESOURCE_POINTER(int, int);
-extern void wait_sound(int);
+extern int CheckWaitFunc(void);
+extern void ForceFadeOut(void);
+extern void ResetSound(int, int);
+extern void WaitSnd(int);
 extern const unsigned char far *LOAD_RESOURCE_PINNED(unsigned long, int);
 extern int hGetNMapShpList(int, int, int);
 extern int HGETRSRC(unsigned long, int);
@@ -576,7 +576,7 @@ extern void CLEAR_PAYLOAD_HEADER(const unsigned char far *);
 extern int query_sound_payload(const void far *);
 extern char ScreenPort[];
 
-int play_anim(int sheet_override, int scene, int scene_offset, int save_background,
+int PlayAnim(int sheet_override, int scene, int scene_offset, int save_background,
               AnimationCallback callback, int restore, unsigned int flags, int interruptible)
 {
     int scene_id;
@@ -592,28 +592,28 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     if (sheet_override) sheet = sheet_override;
     else
         sheet = hGetNMapShpList(scene, -1, 1);
-    animation = anim_new(commands, sheet, 1, resolve_handle_to_far_payload(sheet)->width, save_background);
+    animation = AnimNew(commands, sheet, 1, h2p(sheet)->width, save_background);
     animation->callbacks[0] = callback;
     sprintf(message, "AnimNew(%d)", scene);
     if (!animation) abort_with_message(1, message);
 
     ForceShapes = 0;
     palette_list = HGETRSRC(0x0050534cUL, scene_id);
-    count = *(int far *)resolve_handle_to_far_payload(palette_list);
+    count = *(int far *)h2p(palette_list);
     for (result = 0; result < count; ++result)
-        palettes[result] = hGetSnd(((int far *)resolve_handle_to_far_payload(palette_list) + 1)[result]);
-    dispose_handle(palette_list);
+        palettes[result] = hGetSnd(((int far *)h2p(palette_list) + 1)[result]);
+    hFree(palette_list);
     do {
-        result = anim_idle(animation);
+        result = AnimIdle(animation);
         if (interruptible) {
-            if (result == 2 || check_wait_function()) {
-                fade_out_and_restore_palette(); DISPATCH_RESOURCE_POINTER(0, 0);
+            if (result == 2 || CheckWaitFunc()) {
+                ForceFadeOut(); ResetSound(0, 0);
                 aborted = 1;
                 break;
             }
             if (result == 2) result = 0;
         }
-        if (animation->fade && fade_to_step(animation->fade)) {
+        if (animation->fade && FadeToStep(animation->fade)) {
             QuitFadeTo(animation->fade);
             animation->fade = 0;
         }
@@ -621,24 +621,24 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     if (restore) {
         if (save_background) {
             Rect rect;
-            MEASURE_TEXT(ScreenPort, &animation->background, &animation->bounds,
+            CopyBits(ScreenPort, &animation->background, &animation->bounds,
                       OFFSETRECT(&rect, &animation->bounds, -animation->bounds.left,
                                   -animation->bounds.top), 0);
         } else {
-            SET_RECORD_RANGE((Rect far *)commands, 0);
+            FillRect((Rect far *)commands, 0);
         }
     }
-    anim_free(animation);
-    if (!sheet_override) dispose_handle(sheet);
+    AnimFree(animation);
+    if (!sheet_override) hFree(sheet);
     CLEAR_PAYLOAD_HEADER(commands);
-    if (flags & 2) wait_sound(0);
-    if (flags & 1) DISPATCH_RESOURCE_POINTER(0, 0);
+    if (flags & 2) WaitSnd(0);
+    if (flags & 1) ResetSound(0, 0);
     for (result = 0; result < count; ++result)
-        if (palettes[result] && !query_sound_payload(resolve_handle_to_far_payload(palettes[result]))) dispose_handle(palettes[result]);
+        if (palettes[result] && !query_sound_payload(h2p(palettes[result]))) hFree(palettes[result]);
     return aborted;
 }
 
-void swap_record_pairs(Animation *animation)
+void SwapBackGround(Animation *animation)
 {
     void far *pixels = animation->port.pixels;
 

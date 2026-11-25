@@ -25,14 +25,14 @@ extern Tile Above[], Below[], ScrLeft[], ScrRight[];
 extern Tile CellLeft, CellRight;
 extern TileInfo BlueSpec;
 extern byte ObjId;
-extern byte *custom_room;
+extern byte *CustomRoom;
 extern int NewRoom;
 extern byte *BlueT;
 extern TileInfo *BlueS;
 
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern int is_open_tile(byte kind);
+extern int IsFloor(byte kind);
 extern int IsWall(byte);
 extern sbyte FirstInRow(sbyte);
 extern void * _cdecl memset(void *, int, unsigned int);
@@ -136,13 +136,13 @@ void GetAboveAry(void)
             GetObject(room, col - 1, row, &Above[col].tile,
                       info = &Above[col].info, missing);
             if (Room.custom && RowNo == 0 && Level.environment_kind == 3 &&
-                is_open_tile(Level.cell_kinds[Room.number - 1][col - 1])) {
+                IsFloor(Level.cell_kinds[Room.number - 1][col - 1])) {
                 Above[col].info.modifier = (Above[col].info.modifier & 0x3fff) | 0x4000;
             }
         }
         select_room_arrays(query.side_room);
         GetObject(query.side_room, 9, row, &Above[0].tile, &Above[0].info, missing);
-        if (custom_room && RowNo == 0)
+        if (CustomRoom && RowNo == 0)
             Above[0].info.modifier = Above[col].info.modifier | 0xc000;
         select_room_arrays(Room.number);
         Room.below = query.saved_below;
@@ -345,7 +345,7 @@ void SetLocVars(void)
     GetObject(Room.number, ColNo, RowNo, &ObjId, &BlueSpec, missing);
     GetObject(Room.number, ColNo - 1, RowNo, &CellLeft.tile, &CellLeft.info, missing);
     GetObject(Room.number, ColNo + 1, RowNo, &CellRight.tile, &CellRight.info, missing);
-    if (RowNo == -1 && custom_room) {
+    if (RowNo == -1 && CustomRoom) {
         BlueSpec.modifier |= 0xc000;
         CellLeft.info.modifier |= 0xc000;
         CellRight.info.modifier |= 0xc000;
@@ -365,7 +365,7 @@ void SetSideRoomInfo(void)
     for (row = 0; row < 3; ++row) {
         GetObject(Room.left, 9, row, &ScrLeft[row].tile,
                   state.info = &ScrLeft[row].info, state.missing);
-        if (custom_room && (custom_room[1] != 31 || row != 2))
+        if (CustomRoom && (CustomRoom[1] != 31 || row != 2))
             state.info->modifier |= 0xc000;
         else
             state.info->modifier &= 0x3fff;
@@ -391,15 +391,15 @@ typedef struct {
 } ImageTable;
 
 extern ImageTable *Pics[5];
-extern int background_image_count;
+extern int BGSetMarkedPurgeable;
 extern const char OutOfFarMem[];
-unsigned int opponent_frames = 0;
+unsigned int hOppFrames = 0;
 static const char fatal_memory_message[] = "Insufficient near Memory.";
 
-extern int query_sound(int);
-extern void dispatch_sound(int);
+extern int SndOn(int);
+extern void ResetSnd(int);
 extern void PrinceMarkImgsPurgeable(ImageTable *, int, int);
-extern void MARK_FIXED(unsigned int *);
+extern void hNoPurge(unsigned int *);
 extern void dump_heap(int, const char far *, void *);
 extern void abort_with_message(int, const char far *);
 
@@ -407,21 +407,21 @@ int release_discardable_images(void)
 {
     int i;
 
-    if (query_sound(0)) {
-        dispatch_sound(0);
+    if (SndOn(0)) {
+        ResetSnd(0);
     } else if (Pics[3] && !(*Pics[3]->image[0].handle & 0x4000)) {
         PrinceMarkImgsPurgeable(Pics[3], 0, Pics[3]->count - 1);
     } else if (Pics[2] && !(*Pics[2]->image[0].handle & 0x4000)) {
         PrinceMarkImgsPurgeable(Pics[2], 0, Pics[2]->count - 1);
         for (i = 131; i <= 132; ++i)
             if (Pics[2]->image[i].handle)
-                MARK_FIXED(Pics[2]->image[i].handle);
+                hNoPurge(Pics[2]->image[i].handle);
         for (i = 216; i <= 218; ++i)
             if (Pics[2]->image[i].handle)
-                MARK_FIXED(Pics[2]->image[i].handle);
-    } else if (Pics[4] && !background_image_count) {
+                hNoPurge(Pics[2]->image[i].handle);
+    } else if (Pics[4] && !BGSetMarkedPurgeable) {
         PrinceMarkImgsPurgeable(Pics[4], 0, Pics[4]->count - 1);
-        background_image_count = 1;
+        BGSetMarkedPurgeable = 1;
     } else {
         dump_heap(0, OutOfFarMem, (void *)0);
         abort_with_message(1, OutOfFarMem);

@@ -2,7 +2,7 @@
 #include "level.h"
 #include "char.h"
 #include "game.h"
-extern signed char loaded_opponent;
+extern signed char LastOppTypeLoaded;
 
 #pragma pack(1)
 
@@ -17,7 +17,7 @@ typedef struct {
 
 extern LEVELREC Level;
 extern struct { unsigned char channels, volume; } Midi;
-int pending_effect = -1, pending_song = -1;
+int CueSnd = -1, CueSong = -1;
 int current_effect = -1, current_song = -1;
 static int death_songs[] = {
     100, 103, 73, 102, 104, 150, 145, 149, 40,
@@ -64,20 +64,20 @@ extern int WeightlessTimer;
 SoundHandle sound_handles[273];
 extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
-extern int query_sound(int resource);
+extern int SndOn(int resource);
 extern int OppToFight(void);
-extern void *find_active_generator(unsigned char room, signed char column);
-extern void load_actor_slot(signed char sound);
+extern void *GetOppGenPtOnRow(unsigned char room, signed char column);
+extern void LoadShad(signed char sound);
 extern SoundData MATERIALIZE_HANDLE(SoundHandle handle);
-extern void DISPOSE_HANDLE(SoundHandle handle);
+extern void hFree(SoundHandle handle);
 extern SoundHandle hGetSnd(int resource);
-extern SoundHandle MARK_PURGEABLE(SoundHandle handle);
-extern SoundData RESOLVE_HANDLE_TO_FAR_PAYLOAD(SoundHandle handle);
+extern SoundHandle hPurge(SoundHandle handle);
+extern SoundData h2p(SoundHandle handle);
 extern int find_option(const char far *option);
-extern void COPY_KID_TO_CHAR(void);
+extern void LoadKid(void);
 extern unsigned RND(unsigned limit);
 extern signed char FIRSTINROW(signed char room);
-extern void dispatch_sound(int resource);
+extern void ResetSnd(int resource);
 extern void process_handle(SoundHandle handle);
 extern int IsExitChasingSkel(signed char room);
 extern void SaveOptionsToDisk(void);
@@ -87,22 +87,22 @@ extern void *memset(void *, int, unsigned int);
 void AddSong(int song);
 void AddSound(int effect);
 int GetLeaveLevelSongId(void);
-SoundData load_song(int song);
-void release_song_range(int first, int last);
-void load_song_range(int first, int last);
-int _fastcall should_change_ambient(AmbientState *state);
-int select_special_ambient(int special);
+SoundData CheckSnd(int song);
+void UnloadSounds(int first, int last);
+void LoadSounds(int first, int last);
+int _fastcall TimeForNewAmbient(AmbientState *state);
+int SpecialMusic(int special);
 void play_song(int song);
 int should_replace_effect(int effect, int playing);
-void remember_ambient_song(AmbientState *state, int song);
+void UpdateAmbient(AmbientState *state, int song);
 
-void add_actor_sfx(void);
-void add_opponent_death_song(void);
+void AddSFX(void);
+void AddOppDeathSong(void);
 void AddKidDeathSong(signed char kind);
 void _fastcall AddKidScream(unsigned char room);
 void AddLeaveLevelSong(void);
 void change_song_range(signed char range);
-void init_ambient(AmbientState *state);
+void InitAmbient(AmbientState *state);
 
 void AddKidDeathSong(signed char kind)
 {
@@ -124,7 +124,7 @@ void _fastcall AddKidScream(unsigned char room)
         AddSound(1);
 }
 
-void add_opponent_death_song(void)
+void AddOppDeathSong(void)
 {
     int allowed;
     int song;
@@ -137,37 +137,37 @@ void add_opponent_death_song(void)
             break;
         case 7:
         case 8:
-            allowed = !query_sound(10088);
+            allowed = !SndOn(10088);
             song = 147;
             break;
         case 10:
-            allowed = !query_sound(10195);
+            allowed = !SndOn(10195);
             song = 192;
             break;
         case 11:
             Char.repeat = 0;
         default:
             allowed = Kid.alive < 0 && Char.sequence == 120 &&
-                      Char.alive > 4 && !query_sound(10076) &&
-                      !query_sound(10097) && !query_sound(10098) &&
+                      Char.alive > 4 && !SndOn(10076) &&
+                      !SndOn(10097) && !SndOn(10098) &&
                       Kid.alive < 0 ? 1 : 0;
             song = 74;
             break;
         }
         if (allowed) {
-            if (!OppToFight() && !find_active_generator(Char.room, Char.row) && Level.environment_kind != 5)
+            if (!OppToFight() && !GetOppGenPtOnRow(Char.room, Char.row) && Level.environment_kind != 5)
                 AddSong(song);
             Char.repeat = 0;
         }
     }
 }
 
-void add_actor_sfx(void)
+void AddSFX(void)
 {
     signed char sound = Kid.opponent_index;
 
     if (sound != -1) {
-        load_actor_slot(sound);
+        LoadShad(sound);
         if ((Kid.frame == 167 || Char.frame == 167) &&
             Char.character_kind != 7 && Char.character_kind != 8)
             AddSound(12);
@@ -176,29 +176,29 @@ void add_actor_sfx(void)
 
 void AddSong(int song)
 {
-    if (pending_song == -1) {
-        load_song(song);
-        pending_song = song;
+    if (CueSong == -1) {
+        CheckSnd(song);
+        CueSong = song;
     }
 }
 
 void AddSound(int effect)
 {
-    if ((pending_effect == -1 || Snd[effect].priority <= Snd[pending_effect].priority) &&
+    if ((CueSnd == -1 || Snd[effect].priority <= Snd[CueSnd].priority) &&
         !WeightlessTimer && Char.character_kind != 1)
-        pending_effect = effect;
+        CueSnd = effect;
 }
 
-SoundData load_song(int song)
+SoundData CheckSnd(int song)
 {
     SoundData data;
 
     data = sound_handles[song] ? MATERIALIZE_HANDLE(sound_handles[song]) : (SoundData)0;
     if (!data) {
         if (sound_handles[song])
-            DISPOSE_HANDLE(sound_handles[song]);
+            hFree(sound_handles[song]);
         if ((sound_handles[song] = hGetSnd(song + 10000)) != 0)
-            data = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sound_handles[song] = MARK_PURGEABLE(sound_handles[song]));
+            data = h2p(sound_handles[song] = hPurge(sound_handles[song]));
     }
     return data;
 }
@@ -224,20 +224,20 @@ int GetLeaveLevelSongId(void)
     return song;
 }
 
-void init_ambient(AmbientState *state)
+void InitAmbient(AmbientState *state)
 {
     memset(state, 0, sizeof(*state));
     state->enabled = Midi.channels & 2;
 }
 
-int is_leave_level_music_on(void)
+int IsLeaveLevelMusicOn(void)
 {
     int playing;
     int song = GetLeaveLevelSongId();
 
     if (song != -1) {
         song += 10000;
-        playing = query_sound(song);
+        playing = SndOn(song);
     } else {
         playing = 0;
     }
@@ -246,13 +246,13 @@ int is_leave_level_music_on(void)
 
 void change_song_range(signed char range)
 {
-    if (range != loaded_opponent && loaded_opponent != -1 && track_first[loaded_opponent] != -1)
-        release_song_range(track_first[range], track_last[range]);
+    if (range != LastOppTypeLoaded && LastOppTypeLoaded != -1 && track_first[LastOppTypeLoaded] != -1)
+        UnloadSounds(track_first[range], track_last[range]);
     if (range != -1 && track_first[range] != -1)
-        load_song_range(track_first[range], track_last[range]);
+        LoadSounds(track_first[range], track_last[range]);
 }
 
-void load_song_range(int first, int last)
+void LoadSounds(int first, int last)
 {
     int song;
     SoundHandle *handle;
@@ -270,29 +270,29 @@ void load_song_range(int first, int last)
                     MATERIALIZE_HANDLE(*handle);
                 if (!*handle || !MATERIALIZE_HANDLE(*handle)) {
                     if (*handle)
-                        DISPOSE_HANDLE(*handle);
+                        hFree(*handle);
                     *handle = hGetSnd(song + 10000);
                 }
                 if (*handle)
-                    *handle = MARK_PURGEABLE(*handle);
+                    *handle = hPurge(*handle);
                 ++handle;
             } while (++song <= last);
         }
 }
 
-void play_ambient(AmbientState *state)
+void PlayAmbient(AmbientState *state)
 {
     int special, song, first, count;
     signed char cue, cell;
     int *songs;
 
     if (Kid.room) {
-        COPY_KID_TO_CHAR();
-        if (should_change_ambient(state) && ambient_first[Level.environment_kind] != 0) {
+        LoadKid();
+        if (TimeForNewAmbient(state) && ambient_first[Level.environment_kind] != 0) {
             special = OppToFight();
             if (special && ambient_special[Level.environment_kind] == -1)
                 special = 0;
-            song = select_special_ambient(special);
+            song = SpecialMusic(special);
             if (song == -1) {
                 if (!special) {
                     cell = FIRSTINROW(Char.row) + Char.column;
@@ -320,19 +320,19 @@ void play_ambient(AmbientState *state)
     }
 }
 
-void play_sounds(void)
+void PlaySounds(void)
 {
     if (!find_option(no_sounds)) {
-        if (should_replace_effect(pending_effect, current_effect)) {
-            dispatch_sound(current_effect + 10000);
-            play_song(current_effect = pending_effect);
+        if (should_replace_effect(CueSnd, current_effect)) {
+            ResetSnd(current_effect + 10000);
+            play_song(current_effect = CueSnd);
         }
-        pending_effect = -1;
-        if (pending_song != -1) {
-            dispatch_sound(current_song + 10000);
-            play_song(current_song = pending_song);
-            remember_ambient_song(&ambient_state, pending_song);
-            pending_song = -1;
+        CueSnd = -1;
+        if (CueSong != -1) {
+            ResetSnd(current_song + 10000);
+            play_song(current_song = CueSong);
+            UpdateAmbient(&ambient_state, CueSong);
+            CueSong = -1;
         }
     }
 }
@@ -349,8 +349,8 @@ int should_replace_effect(int effect, int playing)
     int replace = 0;
 
     if (effect != -1 &&
-        ((Midi.channels & 3) || current_song == -1 || !query_sound(current_song + 10000))) {
-        if (!query_sound(playing + 10000)) {
+        ((Midi.channels & 3) || current_song == -1 || !SndOn(current_song + 10000))) {
+        if (!SndOn(playing + 10000)) {
             replace = 1;
         } else {
             if (((Snd[playing].mode == 1 && playing != effect) || Snd[playing].mode == 2) &&
@@ -361,7 +361,7 @@ int should_replace_effect(int effect, int playing)
     return replace;
 }
 
-int select_special_ambient(int special)
+int SpecialMusic(int special)
 {
     int song = -1;
 
@@ -378,13 +378,13 @@ int select_special_ambient(int special)
     return song;
 }
 
-int special_no_ambient_case(void)
+int SpecialNoAmbientCase(void)
 {
     int blocked = 0;
 
     if (Kid.alive > 0)
         blocked = 1;
-    if (is_leave_level_music_on() ||
+    if (IsLeaveLevelMusicOn() ||
         (Level.preferred_opponent == 2 && IsExitChasingSkel(RoomOpp[0].room) &&
          (RoomOpp[0].sequence == 88 || RoomOpp[0].sequence == 102 || RoomOpp[0].sequence == 216)) ||
         (Kid.room == 16 && Level.level_number == 9) ||
@@ -393,7 +393,7 @@ int special_no_ambient_case(void)
     return blocked;
 }
 
-int _fastcall should_change_ambient(AmbientState *state)
+int _fastcall TimeForNewAmbient(AmbientState *state)
 {
     int change = 0;
     int special;
@@ -402,10 +402,10 @@ int _fastcall should_change_ambient(AmbientState *state)
         int word;
     } cue;
 
-    if (state->enabled && Char.alive < 0 && !special_no_ambient_case()) {
-        if (!query_sound(state->song + 10000)) {
+    if (state->enabled && Char.alive < 0 && !SpecialNoAmbientCase()) {
+        if (!SndOn(state->song + 10000)) {
             change = 1;
-        } else if (state->cue != -1 || (Level.level_number == 8 && query_sound(10255))) {
+        } else if (state->cue != -1 || (Level.level_number == 8 && SndOn(10255))) {
             special = OppToFight();
             if (special && ambient_special[Level.environment_kind] == -1)
                 special = 0;
@@ -414,8 +414,8 @@ int _fastcall should_change_ambient(AmbientState *state)
                     change = 1;
             } else if (!special) {
                 cue.value = ambient_special[Level.environment_kind];
-                if (cue.value <= state->cue && cue.value != -1 && !find_active_generator(Char.room, Char.row) &&
-                    (Level.level_number != 8 || !query_sound(10255)))
+                if (cue.value <= state->cue && cue.value != -1 && !GetOppGenPtOnRow(Char.room, Char.row) &&
+                    (Level.level_number != 8 || !SndOn(10255)))
                     change = 1;
             }
         }
@@ -429,8 +429,8 @@ char *toggle_ambient(void)
     if (Midi.channels & 2) {
         ambient_state.enabled = !ambient_state.enabled;
         message = ambient_state.enabled ? ambient_on_message : ambient_off_message;
-        if (!ambient_state.enabled && ambient_state.song && pending_song != ambient_state.song)
-            dispatch_sound(ambient_state.song + 10000);
+        if (!ambient_state.enabled && ambient_state.song && CueSong != ambient_state.song)
+            ResetSnd(ambient_state.song + 10000);
         SaveOptionsToDisk();
     } else {
         message = music_unavailable_message;
@@ -438,9 +438,9 @@ char *toggle_ambient(void)
     return message;
 }
 
-void remember_ambient_song(AmbientState *state, int song)
+void UpdateAmbient(AmbientState *state, int song)
 {
-    SoundData data = (SoundData)load_song(song);
+    SoundData data = (SoundData)CheckSnd(song);
 
     if (state->enabled && (*data & 2)) {
         state->song = song;
@@ -448,7 +448,7 @@ void remember_ambient_song(AmbientState *state, int song)
     }
 }
 
-void release_song_range(int first, int last)
+void UnloadSounds(int first, int last)
 {
     int song;
     SoundHandle *handle;
@@ -461,8 +461,8 @@ void release_song_range(int first, int last)
             return;
         handle = &sound_handles[song];
         do {
-            if (*handle && !query_sound(song + 10000)) {
-                DISPOSE_HANDLE(*handle);
+            if (*handle && !SndOn(song + 10000)) {
+                hFree(*handle);
                 *handle = 0;
             }
             ++handle;

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autoguar/autoguar.json",
-  "binding_sha256": "d2a8c47d29c661dc4f82131f25dea3c34444c6d9182bf641fee48260b1a0bb14",
+  "binding_sha256": "230d5e156a15d431dc35feb3cdba3eeca6626f95b57ee7177b301cf6c90907ee",
   "claims": [
     {
       "fixup_count": 0,
@@ -9,42 +9,42 @@
     },
     {
       "fixup_count": 2,
-      "public": "AUTO_FORWARD",
+      "public": "AUTOFWD",
       "target_id": "overlay-12:2e49:0002"
     },
     {
       "fixup_count": 2,
-      "public": "AUTO_BACK",
+      "public": "AUTOBACK",
       "target_id": "overlay-12:2e49:000c"
     },
     {
       "fixup_count": 2,
-      "public": "AUTO_UP",
+      "public": "AUTOUP",
       "target_id": "overlay-12:2e49:0018"
     },
     {
       "fixup_count": 2,
-      "public": "AUTO_DOWN",
+      "public": "AUTODOWN",
       "target_id": "overlay-12:2e49:0022"
     },
     {
       "fixup_count": 2,
-      "public": "AUTO_RUN_AWAY",
+      "public": "AUTORUNAWAY",
       "target_id": "overlay-12:2e49:002e"
     },
     {
       "fixup_count": 2,
-      "public": "AUTO_EN_GARDE",
+      "public": "AUTOENGARDE",
       "target_id": "overlay-12:2e49:0038"
     },
     {
       "fixup_count": 2,
-      "public": "SET_OVERLAY_STATE_BYTES",
+      "public": "AUTOPRESS",
       "target_id": "overlay-12:2e49:0042"
     },
     {
       "fixup_count": 7,
-      "public": "CHECK_MULTIPLE_DEAD_BODIES",
+      "public": "CHECKMULTIPLEDEADBODIES",
       "relocation_indices": [
         45,
         62
@@ -55,12 +55,12 @@
     },
     {
       "fixup_count": 2,
-      "public": "GET_OPPONENT_DEATH_SEQUENCE",
+      "public": "GETOPPDEADSEQ",
       "target_id": "overlay-12:2e49:0082"
     },
     {
       "fixup_count": 4,
-      "public": "START_OPPONENT_RUNNING",
+      "public": "DOOPPSTARTRUN",
       "relocation_indices": [
         61
       ],
@@ -70,7 +70,7 @@
     },
     {
       "fixup_count": 23,
-      "public": "CHECK_OPPONENT_TUMBLE",
+      "public": "DOOPPTUMBLESEQ",
       "relocation_indices": [
         3,
         12,
@@ -89,7 +89,7 @@
     },
     {
       "fixup_count": 24,
-      "public": "CHECK_GUARD_STEP",
+      "public": "FOLLOWKID",
       "relocation_indices": [
         47,
         48,
@@ -108,12 +108,12 @@
     },
     {
       "fixup_count": 3,
-      "public": "COUNT_LIVE_OPPONENTS",
+      "public": "GETTOTALDEADOPPS",
       "target_id": "overlay-12:2e49:0318"
     },
     {
       "fixup_count": 14,
-      "public": "CHECK_GUARD_RANGE",
+      "public": "INRANGE",
       "relocation_indices": [
         19,
         77
@@ -124,7 +124,7 @@
     },
     {
       "fixup_count": 10,
-      "public": "ALERT_OPPONENT",
+      "public": "OPPALERT",
       "relocation_indices": [
         118
       ],
@@ -134,7 +134,7 @@
     },
     {
       "fixup_count": 68,
-      "public": "CHASE_OPPONENT",
+      "public": "OPPCHASING",
       "relocation_indices": [
         6,
         14,
@@ -154,7 +154,7 @@
     },
     {
       "fixup_count": 24,
-      "public": "TRY_OPPONENT_RUN_JUMP",
+      "public": "DOOPPRUNJUMP",
       "relocation_indices": [
         35,
         50,
@@ -176,7 +176,7 @@
     },
     {
       "fixup_count": 36,
-      "public": "GUARD_EN_GARDE",
+      "public": "ENGARDE",
       "relocation_indices": [
         16,
         20,
@@ -193,7 +193,7 @@
     },
     {
       "fixup_count": 60,
-      "public": "WAIT_EN_GARDE",
+      "public": "WAITINGENGARDE",
       "relocation_indices": [
         15,
         29,
@@ -217,12 +217,12 @@
     },
     {
       "fixup_count": 5,
-      "public": "OPPONENT_SPACING",
+      "public": "GETDISTFROMCLOSESTOPP",
       "target_id": "overlay-12:2e49:0b0a"
     },
     {
       "fixup_count": 28,
-      "public": "GUARD_NO_JUMP",
+      "public": "NOJUMP",
       "relocation_indices": [
         55,
         56,
@@ -238,7 +238,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "GENERIC_FIGHT",
+      "public": "GENFIGHT",
       "relocation_indices": [
         21,
         128
@@ -251,7 +251,7 @@
     },
     {
       "fixup_count": 19,
-      "public": "MAYBE_ADVANCE",
+      "public": "MAYBEADVANCE",
       "relocation_indices": [
         40,
         79,
@@ -263,7 +263,7 @@
     },
     {
       "fixup_count": 13,
-      "public": "MAYBE_BLOCK",
+      "public": "MAYBEBLOCK",
       "relocation_indices": [
         38,
         39
@@ -274,7 +274,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "MAYBE_STRIKE",
+      "public": "MAYBESTRIKE",
       "relocation_indices": [
         36,
         37
@@ -285,7 +285,7 @@
     },
     {
       "fixup_count": 19,
-      "public": "OPPONENT_CLOSE",
+      "public": "OPPONENTCLOSE",
       "relocation_indices": [
         0,
         5,
@@ -301,7 +301,7 @@
     },
     {
       "fixup_count": 41,
-      "public": "RAISE_NEARBY_OPPONENTS",
+      "public": "OPPONENTRISE",
       "relocation_indices": [
         1,
         46,
@@ -321,7 +321,7 @@
     },
     {
       "fixup_count": 18,
-      "public": "UPDATE_SKELETON",
+      "public": "SKELPROG",
       "relocation_indices": [
         11,
         84,
@@ -335,7 +335,7 @@
     },
     {
       "fixup_count": 22,
-      "public": "BONES_FALL",
+      "public": "BONESFALL",
       "relocation_indices": [
         7,
         17,
@@ -360,7 +360,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "SET_SKELETON_SHAKES",
+      "public": "SETSKELSHAKES",
       "relocation_indices": [
         96
       ],
@@ -370,7 +370,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "SET_SKELETON_TIMER",
+      "public": "SETSKELTIMER",
       "relocation_indices": [
         101
       ],
@@ -380,7 +380,7 @@
     },
     {
       "fixup_count": 12,
-      "public": "SHAKE_BONES",
+      "public": "SHAKEBONES",
       "relocation_indices": [
         71,
         90,
@@ -395,7 +395,7 @@
     },
     {
       "fixup_count": 17,
-      "public": "INITIALIZE_SKELETON",
+      "public": "SKELADDOPPONENT",
       "relocation_indices": [
         9,
         18,
@@ -412,7 +412,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "IMPALE_SKELETON",
+      "public": "SKELDOIMPALE",
       "relocation_indices": [
         24,
         60,
@@ -427,7 +427,7 @@
     },
     {
       "fixup_count": 15,
-      "public": "SKELETON_FINISHED_SHAKING",
+      "public": "SKELDONESHAKING",
       "relocation_indices": [
         31,
         41,
@@ -444,7 +444,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "FACE_KID_FOR_SKELETON",
+      "public": "SKELFACEKID",
       "relocation_indices": [
         8
       ],
@@ -454,7 +454,7 @@
     },
     {
       "fixup_count": 15,
-      "public": "SETUP_FLAME_SWORD",
+      "public": "SETUPFLAMESWORD",
       "relocation_indices": [
         32,
         43
@@ -467,7 +467,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "BLOCK_FLAME_SWORD",
+      "public": "FLAMESWORDBLOCKED",
       "relocation_indices": [
         123,
         141
@@ -480,7 +480,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "REDUCE_FLAME_SWORD_LIFE",
+      "public": "FLAMESWORDDECLIFEPTS",
       "relocation_indices": [
         23
       ],
@@ -490,7 +490,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "DROP_FLAME_SWORD",
+      "public": "FLAMESWORDFALL",
       "relocation_indices": [
         69,
         73
@@ -503,7 +503,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "FLOAT_FLAME_SWORD",
+      "public": "FLAMESWORDFLOATY",
       "relocation_indices": [
         22,
         42
@@ -514,7 +514,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "CHECK_JINNEE_COLUMN",
+      "public": "HASJINNEERUNAWAY",
       "relocation_indices": [
         83
       ],
@@ -524,7 +524,7 @@
     },
     {
       "fixup_count": 16,
-      "public": "SETUP_JINNEE_SMOKE",
+      "public": "SETUPJINNEESMOKE",
       "relocation_indices": [
         10,
         33,
@@ -583,12 +583,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "autoguar/autoguar",
-  "object_sha256": "d5726ef63c8f0f0ec42551f8c35b2284b0816358a34b07bc8fe334c735f30a67",
+  "object_sha256": "0d5cf44c052276edfdf2a530e2b2cb8e902b7eb00a687f4dde37f9b36e18b6e7",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autoguar/autoguar.c",
-  "source_sha256": "a35a168f464f677bacf731a77753bc2d394e400645db96195d06f3ffc2e9119a",
+  "source_sha256": "96c15759f268763dec2aae1f7457ed4bcff094790ec0ee0abca3546865d19024",
   "space": "overlay-12"
 }

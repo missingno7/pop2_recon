@@ -6,9 +6,9 @@ EXTRN Graf:WORD
 EXTRN FINISH_PORT:NEAR
 EXTRN DRAW_AXIS_SEGMENT:FAR
 
-PUBLIC init_port
+PUBLIC InitPort
 
-init_port PROC FAR
+InitPort PROC FAR
     push bp
     mov bp, sp
     push di
@@ -46,7 +46,7 @@ init_port PROC FAR
     pop di
     pop bp
     retf 6
-init_port ENDP
+InitPort ENDP
 PUBLIC alignment_5029
 alignment_5029 DB 0  ; Link-address alignment between routines.
 

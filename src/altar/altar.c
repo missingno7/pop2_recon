@@ -39,8 +39,8 @@ extern CHARREC Char;
 extern CHARREC RoomOpp[5];
 
 extern Directions Dir;
-extern int special_sequence;                        /* DS:0a16 */
-extern RoomData *custom_room;
+extern int NeedShadow;                        /* DS:0a16 */
+extern RoomData *CustomRoom;
 extern LEVELREC Level;
 extern unsigned int BlueSpec;            /* DS:5e48 */
 
@@ -52,54 +52,54 @@ extern Handle SwordFrames;             /* DS:6268 */
 extern FRAMEREC Frame;
 extern FCHARREC FChar;
 
-extern void save_actor_slot(void), copy_kid_to_char(void), load_actor_slot(signed char), remove_char(void);
-extern void clear_life_bar(void), DrawKidMeter(int, int), AddSong(int), AddSound(int);
-extern void JumpSeq(int), step_forward(int), run_jump(int), FallOn(void);
+extern void SaveShad(void), LoadKid(void), LoadShad(signed char), RemoveChar(void);
+extern void ClrLifeBar(void), DrawKidMeter(int, int), AddSong(int), AddSound(int);
+extern void JumpSeq(int), DoStepFwd(int), DoRunJump(int), FallOn(void);
 extern int IsCharSwingingFwd(void);
-extern void climb_up(void);
+extern void ClimbUp(void);
 extern int AddCharX(int), FirstInRow(signed char), AddFCharX(int);
-extern void decrement_life_points(byte), SetKidDeathMethod(byte);
-extern int query_sound(int);
+extern void DecLifePts(byte), SetKidDeathMethod(byte);
+extern int SndOn(int);
 extern Spawn *GetOppInfoIdx(unsigned int, int);
-extern void reset_char_y(void), ClearCharVel(void), AnimChar(void);
-extern void set_palette(int, int, byte, byte);
-extern void far _fastcall draw_custom_room_image(byte, byte);
+extern void ResetCharY(void), ClearCharVel(void), AnimChar(void);
+extern void SetPalette(int, int, byte, byte);
+extern void far _fastcall DrawCustomRoomImg(byte, byte);
 typedef void far pascal DrawCallback(void);
-extern DrawCallback mark_move;
-extern void mark_bufs_for_rect(DrawCallback *, void near *, signed char);
-extern Handle allocate_payload_handle(long);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
-extern void dispose_handle(Handle);
+extern DrawCallback MarkMove;
+extern void MarkBufsForRect(DrawCallback *, void near *, signed char);
+extern Handle hNew(long);
+extern void far *h2p(Handle);
+extern void hFree(Handle);
 extern void PrinceNewShpItem(Handle, int, ShapeRef far *, int);
 extern void PrinceFreeShp(int);
 extern void MAKESHAPERECT(Rect far *, int, int, void far *);
 extern void SaveFChar(void), RestoreFChar(void);
 
-void altar_kid_rises_from_death(void);
-void create_shadowman(void);
+void AltarKidRisesFromDeath(void);
+void CreateShadowman(void);
 
-void altar_kid_rises_from_death(void)
+void AltarKidRisesFromDeath(void)
 {
     signed char id = Char.slot;
-    save_actor_slot();
-    copy_kid_to_char();
+    SaveShad();
+    LoadKid();
     JumpSeq(231);
     Char.alive = -1;
     Char.life_points = Char.life_initial;
-    clear_life_bar();
+    ClrLifeBar();
     DrawKidMeter(Char.life_points, Char.life_initial);
     Char.sequence_group = 13;
     Char.stance = 0;
     Kid = Char;
-    load_actor_slot(id);
-    remove_char();
+    LoadShad(id);
+    RemoveChar();
     AddSong(60);
 }
 
-extern void get_char_edges(void);
-extern DrawCallback mark_floor;
+extern void GetCharEdges(void);
+extern DrawCallback MarkFloor;
 
-void altar_shadow_progress(void)
+void AltarShadowProg(void)
 {
     int sequence = -1;
     int distance;
@@ -111,7 +111,7 @@ void altar_shadow_progress(void)
                 else if (Char.column >= 8)
                     sequence = 1;
                 else {
-                    step_forward(0);
+                    DoStepFwd(0);
                     if (Char.sequence == 44)
                         sequence = 3;
                 }
@@ -124,7 +124,7 @@ void altar_shadow_progress(void)
         } else if (Char.sequence_group != 13) {
             sequence = 5;
         } else if (Char.column < 6) {
-            step_forward(0);
+            DoStepFwd(0);
             if (Char.sequence == 44)
                 sequence = 3;
         } else {
@@ -132,31 +132,31 @@ void altar_shadow_progress(void)
             if (Kid.direction == Char.direction)
                 distance += 6;
             if (distance)
-                step_forward(distance);
+                DoStepFwd(distance);
             else
                 sequence = Kid.direction == Char.direction ? 71 : 5;
         }
     } else if (((Char.frame >= 1 && Char.frame <= 14) ||
                 (Char.frame >= 49 && Char.frame <= 56)) &&
                Char.column >= 6) {
-        run_jump(4);
+        DoRunJump(4);
     } else if (Char.frame >= 103 && Char.frame <= 106) {
         Dir.action = 255;
         FallOn();
     } else if (Char.frame == 91 && !IsCharSwingingFwd()) {
-        climb_up();
+        ClimbUp();
         if (Char.sequence_group == 13)
             Char.y -= 2;
         if (Char.direction == 0) {
-            get_char_edges();
-            mark_bufs_for_rect(mark_floor, &Char.bounds, Char.slot);
+            GetCharEdges();
+            MarkBufsForRect(MarkFloor, &Char.bounds, Char.slot);
         }
     } else if (Char.frame == 154) {
         Level.cell_info[3][11].modifier = 133;
     } else if (Char.frame == 153 && Char.sequence_group == 13) {
-        set_palette(custom_room->palette, 48, 16, 0);
+        SetPalette(CustomRoom->palette, 48, 16, 0);
     } else if (Char.sequence_group == 13 && Char.frame == 185) {
-        altar_kid_rises_from_death();
+        AltarKidRisesFromDeath();
     } else if (Char.frame == 44) {
         sequence = 13;
         Char.x = AddCharX(-8);
@@ -165,29 +165,29 @@ void altar_shadow_progress(void)
         JumpSeq(sequence);
 }
 
-void altar_watch_kid(void)
+void AltarWatchKid(void)
 {
-    copy_kid_to_char();
+    LoadKid();
     if (Char.row == 1 && Char.sequence != 230) {
         if (Char.x <= 218) {
             JumpSeq(230);
             Char.x = 210;
-            decrement_life_points(100);
+            DecLifePts(100);
             AddSound(57);
             SetKidDeathMethod(16);
             Level.cell_info[3][11].modifier = 133;
-        } else if (Char.x <= 236 && !query_sound(10061)) {
+        } else if (Char.x <= 236 && !SndOn(10061)) {
             AddSong(61);
         } else if (Char.frame == 185 && Char.row == 1 &&
-                   Char.sequence_group != 12 && special_sequence == 1) {
-            create_shadowman();
-            special_sequence = -1;
+                   Char.sequence_group != 12 && NeedShadow == 1) {
+            CreateShadowman();
+            NeedShadow = -1;
         }
     }
     Kid = Char;
 }
 
-void create_shadowman(void)
+void CreateShadowman(void)
 {
     Spawn *entry;
     signed char id, zero, clear;
@@ -213,7 +213,7 @@ void create_shadowman(void)
         Char.life_points = Char.character_kind = 1;
         Char.alive = -1;
         Char.image_bank = 8;
-        reset_char_y();
+        ResetCharY();
         --Char.y;
         ClearCharVel();
         Char.sequence_group = 0;
@@ -221,12 +221,12 @@ void create_shadowman(void)
         JumpSeq(231);
         AnimChar();
         AddSong(63);
-        save_actor_slot();
-        copy_kid_to_char();
+        SaveShad();
+        LoadKid();
     }
 }
 
-int altar_shadow_active(void)
+int IsAltarShadowActive(void)
 {
     int result = 0;
     signed char i, count;
@@ -243,11 +243,11 @@ int altar_shadow_active(void)
     return result;
 }
 
-void animate_sacred_flame(void)
+void AnimSacredFlame(void)
 {
     unsigned int phase;
     byte image;
-    if (custom_room && custom_room->type == 32) {
+    if (CustomRoom && CustomRoom->type == 32) {
         phase = BlueSpec;
         if (phase & 0x80) {
             if (!(phase & 15)) {
@@ -264,14 +264,14 @@ void animate_sacred_flame(void)
                 phase = 0;
             image = phase + 11;
         }
-        mark_bufs_for_rect(mark_move, &custom_room->pieces[image].rect, -1);
+        MarkBufsForRect(MarkMove, &CustomRoom->pieces[image].rect, -1);
         BlueSpec = phase;
     } else {
         Trob.state = -1;
     }
 }
 
-void draw_temp_sacred_flame(TileAnim *tile)
+void DrawTempSacredFlame(TileAnim *tile)
 {
     struct { Rect saved; byte align, image; unsigned int modifier; } draw;
     RoomPiece *piece;
@@ -281,18 +281,18 @@ void draw_temp_sacred_flame(TileAnim *tile)
         draw.modifier = tile->modifier;
         if (draw.modifier & 0x80) {
             draw.image = flame_image_map[draw.modifier & 0xff7f];
-            piece = &custom_room->pieces[draw.image];
+            piece = &CustomRoom->pieces[draw.image];
             piece->pass = 1;
-            draw_custom_room_image(draw.image, 1);
+            DrawCustomRoomImg(draw.image, 1);
             piece->pass = 11;
         } else {
-            draw_custom_room_image(draw.modifier + 11, 11);
+            DrawCustomRoomImg(draw.modifier + 11, 11);
         }
         CellClipRect = draw.saved;
     }
 }
 
-void load_altar_room(void)
+void LoadAltarRoomFunc(void)
 {
     int i, index;
     Handle handle;
@@ -300,28 +300,28 @@ void load_altar_room(void)
     Shape far *source, far *copy;
     ShapeRef ref;
 
-    handle = allocate_payload_handle(sizeof(Shape));
-    source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*Pics[2]);
-    copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+    handle = hNew(sizeof(Shape));
+    source = h2p(*Pics[2]);
+    copy = h2p(handle);
     *copy = *source;
     copy->flags = 0x4000;
-    copy->size = custom_room->palette;
+    copy->size = CustomRoom->palette;
     for (i = 11; i <= 38; i++) {
         index = i;
-        piece = &custom_room->pieces[index];
-        dispose_handle(piece->shape);
+        piece = &CustomRoom->pieces[index];
+        hFree(piece->shape);
         ref.handle = 0;
         PrinceNewShpItem(handle, piece->type + 1, &ref, 1);
         piece->shape = ref.handle;
-        PrinceFreeShp(piece->type + custom_room->palette);
+        PrinceFreeShp(piece->type + CustomRoom->palette);
         i = index;
     }
-    dispose_handle(handle);
-    set_palette(custom_room->palette, 224, 16, 0);
-    set_palette(2000, 48, 16, 0);
+    hFree(handle);
+    SetPalette(CustomRoom->palette, 224, 16, 0);
+    SetPalette(2000, 48, 16, 0);
 }
 
-void setup_flame(void)
+void SetupFlame(void)
 {
     Rect saved;
     FlameStep far *steps;
@@ -330,22 +330,22 @@ void setup_flame(void)
     if (Char.room == 4 && (Level.level_number) == 13) {
         SaveFChar();
         saved = CellClipRect;
-        steps = RESOLVE_HANDLE_TO_FAR_PAYLOAD(SwordFrames);
+        steps = h2p(SwordFrames);
         image = steps[Frame.equipment_image].frame + 23;
-        piece = &custom_room->pieces[image];
+        piece = &CustomRoom->pieces[image];
         piece->y = AddFCharX(steps[Frame.equipment_image].col);
         piece->x = steps[Frame.equipment_image].dy + FChar.y;
-        MAKESHAPERECT(&piece->rect, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->shape));
+        MAKESHAPERECT(&piece->rect, piece->x, piece->y, h2p(piece->shape));
         CellClipRect = piece->rect;
         piece->pass = 0;
-        draw_custom_room_image(image, 0);
+        DrawCustomRoomImg(image, 0);
         piece->pass = 11;
         CellClipRect = saved;
         RestoreFChar();
     }
 }
 
-void unload_altar_room(void)
+void UnloadAltarRoomFunc(void)
 {
-    set_palette(3000, 224, 16, 0);
+    SetPalette(3000, 224, 16, 0);
 }

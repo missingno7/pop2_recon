@@ -21,35 +21,35 @@ WINDOW_DRAW_PORT DW OFFSET DGROUP:WINDOW_LIST
 EXTRN __nmalloc:FAR
 EXTRN CREATE_STRING_HANDLE:NEAR
 EXTRN DISCARD_QUEUED_EVENTS:NEAR
-EXTRN DISPOSE_HANDLE:NEAR
+EXTRN HFREE:NEAR
 EXTRN DISPOSE_WINDOW_ITEM:NEAR
 EXTRN EMPTYRECT:NEAR
 EXTRN __nfree:FAR
 EXTRN HGETRSRC:NEAR
-EXTRN INIT_PORT:NEAR
+EXTRN INITPORT:NEAR
 EXTRN MOUSE_BUTTON_UNQUEUED:NEAR
 EXTRN POINT_IN_RECTANGLE:NEAR
-EXTRN POP_PORT_CLIP:NEAR
+EXTRN CLIPRESTORE:NEAR
 EXTRN POST_POINTER_EVENT:NEAR
-EXTRN PUSH_PORT_CLIP:NEAR
+EXTRN CLIPRECT:NEAR
 EXTRN READ_MOUSE_EVENT_POSITION:NEAR
 EXTRN READ_QUEUED_EVENT:NEAR
-EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
+EXTRN H2P:NEAR
 EXTRN SECTRECT:NEAR
-EXTRN SET_RECORD_RANGE:NEAR
+EXTRN FILLRECT:NEAR
 EXTRN SHOW_MOUSE_GRAPHICS:NEAR
-EXTRN STROKE_PORT_RECT:NEAR
+EXTRN ERASERECT:NEAR
 EXTRN STROKE_RECTANGLE:NEAR
 EXTRN SUBTRACT_RECTANGLE_STRIP:NEAR
 EXTRN UNIONRECT:NEAR
 EXTRN UPDATE_MESSAGE_DISPLAY:NEAR
 EXTRN ADD_PORT_ORIGIN:NEAR
-EXTRN ALLOCATE_CLIPPED_PORT:NEAR
-EXTRN FRAME_RECT:NEAR
+EXTRN SAVERECT:NEAR
+EXTRN FRAMERECT:NEAR
 EXTRN OFFSETRECT:NEAR
 EXTRN SET_CONTEXT_ORIGIN:NEAR
 EXTRN INSETRECT:NEAR
-EXTRN DISPOSE_BITMAP_PORT:NEAR
+EXTRN RESTORERECT:NEAR
 EXTRN CLAMP_POINT_TO_RECT:NEAR
 EXTRN SUBTRACT_PORT_ORIGIN:NEAR
 PUBLIC PAINT_PENDING_WINDOW
@@ -109,7 +109,7 @@ save_window_clip:
     push ds
     push ax
     push cs
-    call PUSH_PORT_CLIP
+    call CLIPRECT
     sub ax, ax
     mov [di+46h], ax
     push di
@@ -118,7 +118,7 @@ save_window_clip:
     push ax
     call DWORD PTR [di+2eh]
     push cs
-    call POP_PORT_CLIP
+    call CLIPRESTORE
     mov Graf, di
     lea ax, [di+18h]
     push ds
@@ -134,7 +134,7 @@ save_window_clip:
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
 window_paint_done:
     pop Graf
     pop di
@@ -229,7 +229,7 @@ CLOSE_WINDOW PROC FAR
     jcxz dispose_items
     push cx
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 dispose_items:
     mov cx, [di+50h]
     jcxz restore_window_flags
@@ -547,13 +547,13 @@ INITIALIZE_WINDOW_DRAW_PORT PROC FAR
     mov ax, OFFSET DEFAULT_PORT+4
     push ax
     push cs
-    call INIT_PORT
+    call INITPORT
     push ds
     add ax, 10h
     push ax
     push DRAW_RECORD_RANGE
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     retf
 INITIALIZE_WINDOW_DRAW_PORT ENDP
 
@@ -641,7 +641,7 @@ INVALIDATE_WINDOW_RECTANGLE PROC FAR
     push si
     push DRAW_RECORD_RANGE
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     pop Graf
 start_windows:
     mov cx, WINDOW_HEAD
@@ -728,7 +728,7 @@ MOVE_OUTLINE_BY_KEYBOARD PROC FAR
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
 wait_for_move_key:
     lea ax, [bp - 18h]
     push ax
@@ -749,7 +749,7 @@ finish_key_move:
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     push cs
     call SHOW_MOUSE_GRAPHICS
     pop dx
@@ -827,7 +827,7 @@ offset_key_outline:
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     push cs
     call OFFSETRECT
     mov cx, word ptr [si + 2]
@@ -859,7 +859,7 @@ redraw_key_outline:
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     jmp SHORT poll_move_keys
 MOVE_OUTLINE_BY_KEYBOARD ENDP
 
@@ -898,7 +898,7 @@ test_drag_point:
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
 offset_mouse_outline:
     lea ax, [bp - 10h]
     push ds
@@ -932,7 +932,7 @@ redraw_mouse_outline:
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
 poll_drag_button:
     push word ptr [bp + 0ch]
     push cs
@@ -968,7 +968,7 @@ finish_mouse_drag:
     push ds
     push di
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     mov ax, word ptr [di + 2]
     mov dx, word ptr [di]
     mov bx, word ptr [bp + 0ah]
@@ -1073,7 +1073,7 @@ INITIALIZE_WINDOW PROC FAR
     pop es
     rep stosb
     push cs
-    call INIT_PORT
+    call INITPORT
     xchg di, ax
     mov ax, 5744h
     push ax
@@ -1084,7 +1084,7 @@ INITIALIZE_WINDOW PROC FAR
     call HGETRSRC
     push ax
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     les ax, DWORD PTR es:[bx]
@@ -1272,7 +1272,7 @@ REPLACE_WINDOW_TITLE PROC FAR
     jcxz load_title_text
     push cx
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 load_title_text:
     les bx, dword ptr [bp + 6]
     mov ax, es
@@ -1431,7 +1431,7 @@ RELEASE_BACKGROUND_PORT PROC NEAR
     push ax
     push cx
     push cs
-    call DISPOSE_BITMAP_PORT
+    call RESTORERECT
     pop word ptr Graf
 release_background_done:
     ret
@@ -1459,7 +1459,7 @@ ALLOCATE_BACKGROUND_PORT PROC NEAR
     push ds
     push cx
     push cs
-    call ALLOCATE_CLIPPED_PORT
+    call SAVERECT
     les bx, dword ptr HEAP_STATE
     pop word ptr es:[bx + 12h]
     pop word ptr es:[bx + 14h]

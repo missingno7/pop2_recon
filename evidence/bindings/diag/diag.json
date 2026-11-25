@@ -394,28 +394,28 @@
       "REPORT_TICKS",
       "PLOT_EDGE_OFFSET",
       "PLOT_ACTOR_OFFSET",
-      "COPY_KID_TO_CHAR",
-      "GET_FRAME_INFO",
-      "DRAW_MESSAGE",
-      "WAIT_KEY",
-      "GET_BASE_X",
+      "LOADKID",
+      "GETFRAMEINFO",
+      "DRAWMESSAGE",
+      "WAITKEY",
+      "GETBASEX",
       "MOVETO",
       "DRAW_AXIS_SEGMENT",
       "SETFONT",
       "HSETFONT",
-      "DRAW_NUL_TERMINATED_TEXT",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "STROKE_PORT_RECT",
+      "DRAWSTRING",
+      "H2P",
+      "ERASERECT",
       "DRAW_RULER_MARKS",
-      "PAINT_PLAIN",
+      "PAINTSHAPE",
       "PAINT_INDEXED_SHAPE",
       "PAINTRLESHAPE_ASM",
       "START_SOUND_PAYLOAD",
-      "WAIT_SOUND",
-      "DISPATCH_SOUND",
+      "WAITSND",
+      "RESETSND",
       "FIND_OPTION",
-      "RECLAIM_HEAP_BLOCKS",
-      "COMPACT_HEAP_BLOCKS",
+      "HEAPPURGE",
+      "HEAPCOMPACT",
       "BANKED_POINTER_CAPACITY",
       "LOOKUP_SHAPE_METADATA",
       "NORMALIZE_BANKED_POINTER"
@@ -538,7 +538,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "COMPACT_HEAP_BLOCKS",
+          "name": "HEAPCOMPACT",
           "method": 6,
           "zero_displacement": true
         }
@@ -546,7 +546,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "COMPACT_HEAP_BLOCKS",
+        "name": "HEAPCOMPACT",
         "method": 6,
         "zero_displacement": true
       },
@@ -565,7 +565,7 @@
         "target": {
           "kind": "external",
           "index": 55,
-          "name": "RECLAIM_HEAP_BLOCKS",
+          "name": "HEAPPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -573,7 +573,7 @@
       "target": {
         "kind": "external",
         "index": 55,
-        "name": "RECLAIM_HEAP_BLOCKS",
+        "name": "HEAPPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -641,7 +641,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -649,7 +649,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -668,7 +668,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "WAIT_SOUND",
+          "name": "WAITSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -676,7 +676,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "WAIT_SOUND",
+        "name": "WAITSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -722,7 +722,7 @@
         "target": {
           "kind": "external",
           "index": 45,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -730,7 +730,7 @@
       "target": {
         "kind": "external",
         "index": 45,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -771,7 +771,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "WAIT_KEY",
+          "name": "WAITKEY",
           "method": 6,
           "zero_displacement": true
         }
@@ -779,7 +779,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "WAIT_KEY",
+        "name": "WAITKEY",
         "method": 6,
         "zero_displacement": true
       },
@@ -798,7 +798,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "DRAW_NUL_TERMINATED_TEXT",
+          "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
         }
@@ -806,7 +806,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "DRAW_NUL_TERMINATED_TEXT",
+        "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
       },
@@ -1016,7 +1016,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "PAINT_PLAIN",
+          "name": "PAINTSHAPE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1024,7 +1024,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "PAINT_PLAIN",
+        "name": "PAINTSHAPE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1119,7 +1119,7 @@
         "target": {
           "kind": "external",
           "index": 46,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1127,7 +1127,7 @@
       "target": {
         "kind": "external",
         "index": 46,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1195,7 +1195,7 @@
         "target": {
           "kind": "external",
           "index": 45,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1203,7 +1203,7 @@
       "target": {
         "kind": "external",
         "index": 45,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1303,7 +1303,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "DRAW_NUL_TERMINATED_TEXT",
+          "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
         }
@@ -1311,7 +1311,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "DRAW_NUL_TERMINATED_TEXT",
+        "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
       },
@@ -2059,7 +2059,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "GET_BASE_X",
+          "name": "GETBASEX",
           "method": 6,
           "zero_displacement": true
         }
@@ -2067,7 +2067,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "GET_BASE_X",
+        "name": "GETBASEX",
         "method": 6,
         "zero_displacement": true
       },
@@ -2346,7 +2346,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "WAIT_KEY",
+          "name": "WAITKEY",
           "method": 6,
           "zero_displacement": true
         }
@@ -2354,7 +2354,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "WAIT_KEY",
+        "name": "WAITKEY",
         "method": 6,
         "zero_displacement": true
       },
@@ -2373,7 +2373,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "DRAW_MESSAGE",
+          "name": "DRAWMESSAGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2381,7 +2381,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "DRAW_MESSAGE",
+        "name": "DRAWMESSAGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2476,7 +2476,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "GET_FRAME_INFO",
+          "name": "GETFRAMEINFO",
           "method": 6,
           "zero_displacement": true
         }
@@ -2484,7 +2484,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "GET_FRAME_INFO",
+        "name": "GETFRAMEINFO",
         "method": 6,
         "zero_displacement": true
       },
@@ -2503,7 +2503,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "COPY_KID_TO_CHAR",
+          "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
         }
@@ -2511,7 +2511,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "COPY_KID_TO_CHAR",
+        "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
       },
@@ -2601,7 +2601,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "COPY_KID_TO_CHAR",
+          "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
         }
@@ -2609,7 +2609,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "COPY_KID_TO_CHAR",
+        "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
       },
@@ -4071,7 +4071,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "GET_BASE_X",
+          "name": "GETBASEX",
           "method": 6,
           "zero_displacement": true
         }
@@ -4079,7 +4079,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "GET_BASE_X",
+        "name": "GETBASEX",
         "method": 6,
         "zero_displacement": true
       },
@@ -4098,7 +4098,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "GET_FRAME_INFO",
+          "name": "GETFRAMEINFO",
           "method": 6,
           "zero_displacement": true
         }
@@ -4106,7 +4106,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "GET_FRAME_INFO",
+        "name": "GETFRAMEINFO",
         "method": 6,
         "zero_displacement": true
       },
@@ -4309,7 +4309,7 @@
       "space": "root",
       "witnesses": []
     },
-    "COPY_KID_TO_CHAR": {
+    "LOADKID": {
       "entry_sha256": "b2fc25b438e7e651ec372411e18cca2a3c657dfa1a144467f5f2739816cb53d8",
       "entry_target_id": "root:02dc:1d60",
       "kind": "far-code-entry",
@@ -4326,7 +4326,7 @@
         }
       ]
     },
-    "DISPATCH_SOUND": {
+    "RESETSND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
       "kind": "far-code-entry",
@@ -4352,7 +4352,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DRAW_MESSAGE": {
+    "DRAWMESSAGE": {
       "entry_sha256": "1be8284f8b716a05fc74700526e535c65236302dc79b892dc2f57f2c68e027f6",
       "entry_target_id": "root:0790:204c",
       "kind": "far-code-entry",
@@ -4369,7 +4369,7 @@
         }
       ]
     },
-    "DRAW_NUL_TERMINATED_TEXT": {
+    "DRAWSTRING": {
       "entry_sha256": "e062c8a208acb901b6811c25ab046b5139758517042e72dfc5f956ec60e1c5c7",
       "entry_target_id": "root:1129:4cb4",
       "kind": "far-code-entry",
@@ -4386,7 +4386,7 @@
         }
       ]
     },
-    "GET_BASE_X": {
+    "GETBASEX": {
       "entry_sha256": "98a263c647df84bf2556379ac2ef515ce925589f13dca0648b78c8979a4ea50c",
       "entry_target_id": "root:02dc:0fb0",
       "kind": "far-code-entry",
@@ -4403,7 +4403,7 @@
         }
       ]
     },
-    "GET_FRAME_INFO": {
+    "GETFRAMEINFO": {
       "entry_sha256": "0764e8eeab66e9db735aae69fadf886b915e9f4a321866ba53ed81bacf80c057",
       "entry_target_id": "root:02dc:02ac",
       "kind": "far-code-entry",
@@ -4513,7 +4513,7 @@
         }
       ]
     },
-    "PAINT_PLAIN": {
+    "PAINTSHAPE": {
       "entry_sha256": "8d0298c8c0735e0eb56e9be2af326e303e65823ea1bada87fa41f2677b87f415",
       "entry_target_id": "root:1129:511c",
       "kind": "far-code-entry",
@@ -4530,7 +4530,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -4609,7 +4609,7 @@
         }
       ]
     },
-    "STROKE_PORT_RECT": {
+    "ERASERECT": {
       "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
       "entry_target_id": "root:1129:4d72",
       "kind": "far-code-entry",
@@ -4626,7 +4626,7 @@
         }
       ]
     },
-    "WAIT_KEY": {
+    "WAITKEY": {
       "entry_sha256": "711d72dc05355c91ed3195c9f5b5d67c8d920d29e6ce06f3a158e10d7f8e5d23",
       "entry_target_id": "root:1f74:01a8",
       "kind": "far-code-entry",
@@ -4643,7 +4643,7 @@
         }
       ]
     },
-    "WAIT_SOUND": {
+    "WAITSND": {
       "entry_sha256": "f0f19a3f0fcdfad064d0595e811e187e82f2f352eebca01a09842b4a73403e4f",
       "entry_target_id": "root:1f74:0176",
       "kind": "far-code-entry",
@@ -4703,7 +4703,7 @@
         }
       ]
     },
-    "COMPACT_HEAP_BLOCKS": {
+    "HEAPCOMPACT": {
       "entry_sha256": "26f3e6745782276cf4d2b7784d0e192c7d42177d44c02d5b24c677737521afd3",
       "entry_target_id": "root:1129:1a0a",
       "kind": "far-code-entry",
@@ -4712,7 +4712,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RECLAIM_HEAP_BLOCKS": {
+    "HEAPPURGE": {
       "entry_sha256": "497b27c5c6c7208c77821357a965d7cbffe85c906db6a62f011b0ad741b2c83b",
       "entry_target_id": "root:1129:1d56",
       "kind": "far-code-entry",

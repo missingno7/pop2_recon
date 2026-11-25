@@ -14,14 +14,14 @@ extern struct { unsigned char channels, volume; } Midi;
 
 extern GAMESTATE GameState;
 extern int backing_driver_active;
-extern InputPoll wait_function;
-extern int poll_user(void);
+extern InputPoll WaitFunc;
+extern int PollUser0(void);
 
-extern void STROKE_PORT_RECT(Rect far *);
-extern void frame_rect(Rect far *);
+extern void EraseRect(Rect far *);
+extern void FrameRect(Rect far *);
 extern void INSETRECT(Rect far *, Rect far *, int, int);
-extern void DRAW_NUL_TEXT_IN_RECT(Rect far *, int, int, const char far *);
-extern void wait_key(void);
+extern void StringRect(Rect far *, int, int, const char far *);
+extern void WaitKey(void);
 extern int cdecl initialize_sound_drivers(int wait_for_sound);
 extern void show_init_message(const char *message);
 extern void init_graphics(void);
@@ -53,15 +53,15 @@ void show_init_message(const char *message)
     Rect rect;
     InputPoll saved_input;
 
-    STROKE_PORT_RECT(&message_port);
-    frame_rect(&message_port);
+    EraseRect(&message_port);
+    FrameRect(&message_port);
     INSETRECT(&rect, &message_port, 5, 8);
-    DRAW_NUL_TEXT_IN_RECT(&rect, 0, 0, message);
-    saved_input = wait_function;
-    wait_function = poll_user;
-    wait_key();
-    STROKE_PORT_RECT(&message_port);
-    wait_function = saved_input;
+    StringRect(&rect, 0, 0, message);
+    saved_input = WaitFunc;
+    WaitFunc = PollUser0;
+    WaitKey();
+    EraseRect(&message_port);
+    WaitFunc = saved_input;
 }
 
 extern const char digital_sound_error[], midi_sound_error[];
@@ -100,17 +100,17 @@ char ScreenPort[44];
 extern char ScreenPortRect[], joystick_state[];
 
 extern AmbientState ambient_state;
-extern void initialize_dos_heap(unsigned long);
+extern void HeapInit(unsigned long);
 extern unsigned long expand_memory_limits(void);
 extern int load_sound_settings(const char *);
 extern void release_heap_segment(void);
 extern void near *cdecl _nmalloc(unsigned int);
 extern void snapshot_null_area(void);
-extern void open_verified_resource(const char *);
+extern void OpenRsrcVerify(const char *);
 extern void install_interrupt_handlers(void);
 extern void install_default_timer(int);
 extern void set_sound_level(unsigned char);
-extern int init_port(int, const char far *);
+extern int InitPort(int, const char far *);
 extern void set_mode_flag_value(void);
 extern int create_window(int, const char far *, int, const char far *);
 extern void set_window_event_state(int, int);
@@ -119,12 +119,12 @@ extern void install_dos_vectors(void);
 extern void initialize_window_draw_port(void);
 extern void open_level_resources(const char **);
 extern void check_game_port(void);
-extern void init_ambient(AmbientState *);
-extern void set_default_palette(void);
+extern void InitAmbient(AmbientState *);
+extern void ResetStdPalette(void);
 extern int hGetTxt4(int);
-extern unsigned long resolve_handle_to_far_payload(int);
-extern int owner_of_payload(unsigned long);
-extern void dispose_handle(int);
+extern unsigned long h2p(int);
+extern int p2h(unsigned long);
+extern void hFree(int);
 extern void near *cdecl memset(void near *, int, unsigned int);
 #pragma intrinsic(memset)
 
@@ -154,14 +154,14 @@ unsigned long choose_memory_pool(int *memory_class)
     return available;
 }
 
-void init_system(void)
+void InitSystem(void)
 {
     unsigned long available;
     unsigned long sound;
     int memory_class;
     char message[100];
 
-    initialize_dos_heap(0xffffffUL);
+    HeapInit(0xffffffUL);
     available = expand_memory_limits();
     if (available < 0x41eb0UL) {
         sprintf(message, "\nThis machine needs to have %ld more bytes of base memory.\n\n",
@@ -184,17 +184,17 @@ void init_system(void)
     interface_buffer = _nmalloc(500);
     *(InputPoll far *)((char far *)heap_state + 0x12) = release_discardable_images;
     resource_error = report_resource_path;
-    wait_function = Input;
+    WaitFunc = Input;
     BPort = 0;
     snapshot_null_area();
-    open_verified_resource("PRINCE.DAT");
+    OpenRsrcVerify("PRINCE.DAT");
     init_graphics();
     install_interrupt_handlers();
     install_default_timer(60);
     init_sound();
     if (configuration->sound_report == -1)
         set_sound_level(0);
-    Graf = init_port(ScreenPort, ScreenPortRect);
+    Graf = InitPort(ScreenPort, ScreenPortRect);
     set_mode_flag_value();
     Graf = main_port = create_window(-2, ScreenPortRect, 0, "Prince of Persia II");
     set_window_event_state(main_port, 0);
@@ -209,12 +209,12 @@ void init_system(void)
         GameState.control_mode = 0;
     if (GameState.control_mode != 2)
         memset(joystick_state, 0, 9);
-    init_ambient(&ambient_state);
-    set_default_palette();
+    InitAmbient(&ambient_state);
+    ResetStdPalette();
     wait_for_ready();
-    sound = resolve_handle_to_far_payload(hGetTxt4(10));
+    sound = h2p(hGetTxt4(10));
     frame_diagnostics = find_option((const char far *)sound) != 0;
-    dispose_handle(owner_of_payload(sound));
+    hFree(p2h(sound));
 }
 
 void init_graphics(void)

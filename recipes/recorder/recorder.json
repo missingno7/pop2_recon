@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/recorder/recorder.json",
-  "binding_sha256": "13c191668d71ded51935f3563ca0c761ea72bdfa8cec9a08c300ef2d2c1f06d3",
+  "binding_sha256": "8326415ebdeff94c6d54c9af207f2de198b6a5e1130ff7c2d817d8710aaa07de",
   "claims": [
     {
       "fixup_count": 11,
@@ -57,7 +57,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "ALLOCATE_DEFAULT_HANDLE",
+      "public": "LOADRECORDEDGAMEFROMDISK",
       "relocation_indices": [
         1089
       ],
@@ -67,7 +67,7 @@
     },
     {
       "fixup_count": 17,
-      "public": "RESET_RECORDED_PLAYBACK",
+      "public": "STARTPLAYINGRECORDEDGAME",
       "relocation_indices": [
         1088,
         1090,
@@ -82,7 +82,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "TOGGLE_RECORDING_PLAYER",
+      "public": "TOGGLERECORDER",
       "target_id": "root:0db8:02e0"
     },
     {
@@ -129,12 +129,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "recorder/recorder",
-  "object_sha256": "64e2c10d947942f84d97308efc391b0d97d1031b87467ae4da67a89478a6e922",
+  "object_sha256": "a41566b55134d801b410b3979396dfc2747092f4efb6c2d7cdeef6832423e3ae",
   "origin": 56204,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/recorder/recorder.c",
-  "source_sha256": "91003befe1b479568dfc9f2519be2b4880183dd7ce2c5c08e221ddc3f2a0f9cc",
+  "source_sha256": "ba4a3715c885d79be31afaf9cc27404d20d13cfaecad43a5a54f84c219ebfa91",
   "space": "root"
 }

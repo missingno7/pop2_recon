@@ -207,14 +207,14 @@
       "__nfree",
       "DISPOSE_WINDOW",
       "SET_MODE_FLAG_VALUE",
-      "DISPOSE_BITMAP_PORT",
-      "SAVE_HANDLE_FLAGS",
-      "FETCH_LOCKED_SHAPE_LIST",
+      "RESTORERECT",
+      "HGETSTATE",
+      "HLOCK",
       "INSETRECT",
-      "ALLOCATE_CLIPPED_PORT",
-      "RESTORE_HANDLE_FLAGS",
-      "PUSH_PORT_CLIP",
-      "POP_PORT_CLIP",
+      "SAVERECT",
+      "HSETSTATE",
+      "CLIPRECT",
+      "CLIPRESTORE",
       "SHOW_RESOURCE_DIALOG",
       "RESTORE_DIALOG_PORT",
       "CREATE_DIALOG_PORT",
@@ -236,7 +236,7 @@
       "DRAW_RECORD_RANGE",
       "NULLRECT",
       "ITEM_BY_INDEX",
-      "STROKE_PORT_RECT",
+      "ERASERECT",
       "GET_CURRENT_DOS_DIRECTORY",
       "SET_CURRENT_DOS_DIRECTORY",
       "DISCARD_QUEUED_EVENTS",
@@ -370,7 +370,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -378,7 +378,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1126,7 +1126,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "DISPOSE_BITMAP_PORT",
+          "name": "RESTORERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1134,7 +1134,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "DISPOSE_BITMAP_PORT",
+        "name": "RESTORERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1234,7 +1234,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "RESTORE_HANDLE_FLAGS",
+          "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1242,7 +1242,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "RESTORE_HANDLE_FLAGS",
+        "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1261,7 +1261,7 @@
         "target": {
           "kind": "external",
           "index": 8,
-          "name": "ALLOCATE_CLIPPED_PORT",
+          "name": "SAVERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1269,7 +1269,7 @@
       "target": {
         "kind": "external",
         "index": 8,
-        "name": "ALLOCATE_CLIPPED_PORT",
+        "name": "SAVERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1315,7 +1315,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1323,7 +1323,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1342,7 +1342,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "SAVE_HANDLE_FLAGS",
+          "name": "HGETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1350,7 +1350,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "SAVE_HANDLE_FLAGS",
+        "name": "HGETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1585,7 +1585,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "POP_PORT_CLIP",
+          "name": "CLIPRESTORE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1593,7 +1593,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "POP_PORT_CLIP",
+        "name": "CLIPRESTORE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1612,7 +1612,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "PUSH_PORT_CLIP",
+          "name": "CLIPRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1620,7 +1620,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "PUSH_PORT_CLIP",
+        "name": "CLIPRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1805,7 +1805,7 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "ALLOCATE_CLIPPED_PORT": {
+    "SAVERECT": {
       "entry_sha256": "f92dcecfb73bb8394bd3a527ddaed0e91a5da82d7f97b140596be7bbd801fb57",
       "entry_target_id": "root:1129:5194",
       "kind": "far-code-entry",
@@ -1840,7 +1840,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DISPOSE_BITMAP_PORT": {
+    "RESTORERECT": {
       "entry_sha256": "9a52a47e505903037ce8bcdd3852a9568f4bc8658d9bcbc621a63b11ffd8fe43",
       "entry_target_id": "root:1129:5164",
       "kind": "far-code-entry",
@@ -1866,7 +1866,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FETCH_LOCKED_SHAPE_LIST": {
+    "HLOCK": {
       "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
       "entry_target_id": "root:1129:1728",
       "kind": "far-code-entry",
@@ -1968,7 +1968,7 @@
         }
       ]
     },
-    "POP_PORT_CLIP": {
+    "CLIPRESTORE": {
       "entry_sha256": "aa3c4cc8798cf3a0df1bf26049741df4d0daa8b9a1447ba566ba5cda1318e986",
       "entry_target_id": "root:1129:4c9a",
       "kind": "far-code-entry",
@@ -1985,7 +1985,7 @@
         }
       ]
     },
-    "PUSH_PORT_CLIP": {
+    "CLIPRECT": {
       "entry_sha256": "89d64d35f188bc1f777d4ac3b88a86b034ab6cececf8b7eeb2bb8dcd39b22ab7",
       "entry_target_id": "root:1129:4c34",
       "kind": "far-code-entry",
@@ -2002,7 +2002,7 @@
         }
       ]
     },
-    "RESTORE_HANDLE_FLAGS": {
+    "HSETSTATE": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
       "entry_target_id": "root:1129:195a",
       "kind": "far-code-entry",
@@ -2019,7 +2019,7 @@
         }
       ]
     },
-    "SAVE_HANDLE_FLAGS": {
+    "HGETSTATE": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
       "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",
@@ -2051,7 +2051,7 @@
       "space": "root",
       "witnesses": []
     },
-    "STROKE_PORT_RECT": {
+    "ERASERECT": {
       "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
       "entry_target_id": "root:1129:4d72",
       "kind": "far-code-entry",

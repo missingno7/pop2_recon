@@ -80,7 +80,7 @@
         "type_index": 0
       },
       {
-        "name": "INIT_AMBIENT",
+        "name": "INITAMBIENT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 682,
@@ -89,7 +89,7 @@
         "type_index": 0
       },
       {
-        "name": "SPECIAL_NO_AMBIENT_CASE",
+        "name": "SPECIALNOAMBIENTCASE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1684,
@@ -98,7 +98,7 @@
         "type_index": 0
       },
       {
-        "name": "PLAY_AMBIENT",
+        "name": "PLAYAMBIENT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 970,
@@ -107,7 +107,7 @@
         "type_index": 0
       },
       {
-        "name": "PENDING_EFFECT",
+        "name": "CUESND",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 0,
@@ -116,7 +116,7 @@
         "type_index": 0
       },
       {
-        "name": "PENDING_SONG",
+        "name": "CUESONG",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 2,
@@ -197,7 +197,7 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_SONG",
+        "name": "CHECKSND",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 518,
@@ -206,7 +206,7 @@
         "type_index": 0
       },
       {
-        "name": "RELEASE_SONG_RANGE",
+        "name": "UNLOADSOUNDS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2138,
@@ -215,7 +215,7 @@
         "type_index": 0
       },
       {
-        "name": "PLAY_SOUNDS",
+        "name": "PLAYSOUNDS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1230,
@@ -224,7 +224,7 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_SONG_RANGE",
+        "name": "LOADSOUNDS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 846,
@@ -233,7 +233,7 @@
         "type_index": 0
       },
       {
-        "name": "@should_change_ambient",
+        "name": "@TimeForNewAmbient",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1790,
@@ -242,7 +242,7 @@
         "type_index": 0
       },
       {
-        "name": "SELECT_SPECIAL_AMBIENT",
+        "name": "SPECIALMUSIC",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1540,
@@ -287,7 +287,7 @@
         "type_index": 0
       },
       {
-        "name": "REMEMBER_AMBIENT_SONG",
+        "name": "UPDATEAMBIENT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2084,
@@ -296,7 +296,7 @@
         "type_index": 0
       },
       {
-        "name": "ADD_ACTOR_SFX",
+        "name": "ADDSFX",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 354,
@@ -305,7 +305,7 @@
         "type_index": 0
       },
       {
-        "name": "ADD_OPPONENT_DEATH_SONG",
+        "name": "ADDOPPDEATHSONG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 102,
@@ -314,7 +314,7 @@
         "type_index": 0
       },
       {
-        "name": "IS_LEAVE_LEVEL_MUSIC_ON",
+        "name": "ISLEAVELEVELMUSICON",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 716,
@@ -343,26 +343,26 @@
     ],
     "externals": [
       "ADDLEAVELEVELSONG",
-      "QUERY_SOUND",
+      "SNDON",
       "CHANGE_SONG_RANGE",
       "OPPTOFIGHT",
-      "INIT_AMBIENT",
-      "FIND_ACTIVE_GENERATOR",
-      "LOAD_ACTOR_SLOT",
+      "INITAMBIENT",
+      "GETOPPGENPTONROW",
+      "LOADSHAD",
       "MATERIALIZE_HANDLE",
-      "DISPOSE_HANDLE",
-      "SPECIAL_NO_AMBIENT_CASE",
+      "HFREE",
+      "SPECIALNOAMBIENTCASE",
       "HGETSND",
-      "MARK_PURGEABLE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "HPURGE",
+      "H2P",
       "FIND_OPTION",
-      "LOADED_OPPONENT",
-      "COPY_KID_TO_CHAR",
+      "LASTOPPTYPELOADED",
+      "LOADKID",
       "RND",
       "FIRSTINROW",
-      "PLAY_AMBIENT",
+      "PLAYAMBIENT",
       "LEVEL",
-      "DISPATCH_SOUND",
+      "RESETSND",
       "MIDI",
       "PROCESS_HANDLE",
       "ISEXITCHASINGSKEL",
@@ -371,25 +371,25 @@
       "ADDSOUND",
       "GETLEAVELEVELSONGID",
       "TOGGLE_AMBIENT",
-      "LOAD_SONG",
-      "RELEASE_SONG_RANGE",
-      "PLAY_SOUNDS",
-      "LOAD_SONG_RANGE",
-      "@should_change_ambient",
-      "SELECT_SPECIAL_AMBIENT",
+      "CHECKSND",
+      "UNLOADSOUNDS",
+      "PLAYSOUNDS",
+      "LOADSOUNDS",
+      "@TimeForNewAmbient",
+      "SPECIALMUSIC",
       "PLAY_SONG",
       "CHAR",
       "SHOULD_REPLACE_EFFECT",
       "KID",
       "ROOMOPP",
       "SND",
-      "REMEMBER_AMBIENT_SONG",
+      "UPDATEAMBIENT",
       "AMBIENT_STATE",
       "ROOM",
-      "ADD_ACTOR_SFX",
+      "ADDSFX",
       "WEIGHTLESSTIMER",
-      "ADD_OPPONENT_DEATH_SONG",
-      "IS_LEAVE_LEVEL_MUSIC_ON",
+      "ADDOPPDEATHSONG",
+      "ISLEAVELEVELMUSICON",
       "SOUND_HANDLES",
       "AMBIENT_ON_MESSAGE",
       "ADDKIDDEATHSONG",
@@ -456,7 +456,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -464,7 +464,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -613,7 +613,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "LOAD_SONG_RANGE",
+          "name": "LOADSOUNDS",
           "method": 6,
           "zero_displacement": true
         }
@@ -621,7 +621,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "LOAD_SONG_RANGE",
+        "name": "LOADSOUNDS",
         "method": 6,
         "zero_displacement": true
       },
@@ -706,7 +706,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "RELEASE_SONG_RANGE",
+          "name": "UNLOADSOUNDS",
           "method": 6,
           "zero_displacement": true
         }
@@ -714,7 +714,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "RELEASE_SONG_RANGE",
+        "name": "UNLOADSOUNDS",
         "method": 6,
         "zero_displacement": true
       },
@@ -799,7 +799,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "LOADED_OPPONENT",
+          "name": "LASTOPPTYPELOADED",
           "method": 6,
           "zero_displacement": true
         }
@@ -807,7 +807,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "LOADED_OPPONENT",
+        "name": "LASTOPPTYPELOADED",
         "method": 6,
         "zero_displacement": true
       },
@@ -826,7 +826,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -834,7 +834,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -934,7 +934,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -942,7 +942,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -961,7 +961,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "MARK_PURGEABLE",
+          "name": "HPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -969,7 +969,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "MARK_PURGEABLE",
+        "name": "HPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1015,7 +1015,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1023,7 +1023,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1292,7 +1292,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "LOAD_SONG",
+          "name": "CHECKSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1300,7 +1300,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "LOAD_SONG",
+        "name": "CHECKSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -1476,7 +1476,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "LOAD_ACTOR_SLOT",
+          "name": "LOADSHAD",
           "method": 6,
           "zero_displacement": true
         }
@@ -1484,7 +1484,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "LOAD_ACTOR_SLOT",
+        "name": "LOADSHAD",
         "method": 6,
         "zero_displacement": true
       },
@@ -1611,7 +1611,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FIND_ACTIVE_GENERATOR",
+          "name": "GETOPPGENPTONROW",
           "method": 6,
           "zero_displacement": true
         }
@@ -1619,7 +1619,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FIND_ACTIVE_GENERATOR",
+        "name": "GETOPPGENPTONROW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1746,7 +1746,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -1754,7 +1754,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -1773,7 +1773,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -1781,7 +1781,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -1800,7 +1800,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -1808,7 +1808,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -1935,7 +1935,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -1943,7 +1943,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -1962,7 +1962,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -1970,7 +1970,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -2555,7 +2555,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -2563,7 +2563,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -2609,7 +2609,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -2617,7 +2617,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -2636,7 +2636,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "SPECIAL_NO_AMBIENT_CASE",
+          "name": "SPECIALNOAMBIENTCASE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2644,7 +2644,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "SPECIAL_NO_AMBIENT_CASE",
+        "name": "SPECIALNOAMBIENTCASE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2987,7 +2987,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "IS_LEAVE_LEVEL_MUSIC_ON",
+          "name": "ISLEAVELEVELMUSICON",
           "method": 6,
           "zero_displacement": true
         }
@@ -2995,7 +2995,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "IS_LEAVE_LEVEL_MUSIC_ON",
+        "name": "ISLEAVELEVELMUSICON",
         "method": 6,
         "zero_displacement": true
       },
@@ -3446,7 +3446,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -3454,7 +3454,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -3473,7 +3473,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -3481,7 +3481,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -3701,7 +3701,7 @@
         "target": {
           "kind": "external",
           "index": 42,
-          "name": "REMEMBER_AMBIENT_SONG",
+          "name": "UPDATEAMBIENT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3709,7 +3709,7 @@
       "target": {
         "kind": "external",
         "index": 42,
-        "name": "REMEMBER_AMBIENT_SONG",
+        "name": "UPDATEAMBIENT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3848,7 +3848,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -3856,7 +3856,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -4012,7 +4012,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -4020,7 +4020,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -4490,7 +4490,7 @@
         "target": {
           "kind": "external",
           "index": 35,
-          "name": "SELECT_SPECIAL_AMBIENT",
+          "name": "SPECIALMUSIC",
           "method": 6,
           "zero_displacement": true
         }
@@ -4498,7 +4498,7 @@
       "target": {
         "kind": "external",
         "index": 35,
-        "name": "SELECT_SPECIAL_AMBIENT",
+        "name": "SPECIALMUSIC",
         "method": 6,
         "zero_displacement": true
       },
@@ -4642,7 +4642,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "@should_change_ambient",
+          "name": "@TimeForNewAmbient",
           "method": 6,
           "zero_displacement": true
         }
@@ -4650,7 +4650,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "@should_change_ambient",
+        "name": "@TimeForNewAmbient",
         "method": 6,
         "zero_displacement": true
       },
@@ -4669,7 +4669,7 @@
         "target": {
           "kind": "external",
           "index": 16,
-          "name": "COPY_KID_TO_CHAR",
+          "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
         }
@@ -4677,7 +4677,7 @@
       "target": {
         "kind": "external",
         "index": 16,
-        "name": "COPY_KID_TO_CHAR",
+        "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
       },
@@ -4723,7 +4723,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "MARK_PURGEABLE",
+          "name": "HPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4731,7 +4731,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "MARK_PURGEABLE",
+        "name": "HPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4750,7 +4750,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4758,7 +4758,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4777,7 +4777,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -4785,7 +4785,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -4831,7 +4831,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "LOAD_SONG",
+          "name": "CHECKSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -4839,7 +4839,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "LOAD_SONG",
+        "name": "CHECKSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -4912,7 +4912,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -4920,7 +4920,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -5177,7 +5177,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -5185,7 +5185,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -5231,7 +5231,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "FIND_ACTIVE_GENERATOR",
+          "name": "GETOPPGENPTONROW",
           "method": 6,
           "zero_displacement": true
         }
@@ -5239,7 +5239,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "FIND_ACTIVE_GENERATOR",
+        "name": "GETOPPGENPTONROW",
         "method": 6,
         "zero_displacement": true
       },
@@ -5794,7 +5794,7 @@
         }
       ]
     },
-    "DISPATCH_SOUND": {
+    "RESETSND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
       "kind": "far-code-entry",
@@ -5811,7 +5811,7 @@
         }
       ]
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
@@ -5828,7 +5828,7 @@
         }
       ]
     },
-    "FIND_ACTIVE_GENERATOR": {
+    "GETOPPGENPTONROW": {
       "entry_sha256": "7a5168716abf359adb8a1b062bc5251be495e79eded05be1ce52bc79ecc3fccf",
       "entry_target_id": "overlay-3:251b:0c66",
       "kind": "overlay-code-entry",
@@ -6053,7 +6053,7 @@
         }
       }
     },
-    "LOAD_ACTOR_SLOT": {
+    "LOADSHAD": {
       "entry_sha256": "a77bfafd45e3cfe9a1c908e60c2feb0fdc89b1f8b59835ccc67501879c8ee9c1",
       "entry_target_id": "root:02dc:1d0e",
       "kind": "far-code-entry",
@@ -6070,7 +6070,7 @@
         }
       ]
     },
-    "MARK_PURGEABLE": {
+    "HPURGE": {
       "entry_sha256": "9a80e9f09e2df9a0f690ab345b823d0faa696c6042f603292ef35501a0b57b89",
       "entry_target_id": "root:1129:1870",
       "kind": "far-code-entry",
@@ -6119,7 +6119,7 @@
       "space": "overlay-3",
       "witnesses": []
     },
-    "QUERY_SOUND": {
+    "SNDON": {
       "entry_sha256": "dc9c287bd1478d9e000bc3c5d4749a7216087f6ddaa636e57d3abaf1f983cfed",
       "entry_target_id": "root:1129:8426",
       "kind": "far-code-entry",
@@ -6136,7 +6136,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -6270,7 +6270,7 @@
       "space": "root",
       "witnesses": []
     },
-    "COPY_KID_TO_CHAR": {
+    "LOADKID": {
       "entry_sha256": "b2fc25b438e7e651ec372411e18cca2a3c657dfa1a144467f5f2739816cb53d8",
       "entry_target_id": "root:02dc:1d60",
       "kind": "far-code-entry",
@@ -6279,7 +6279,7 @@
       "space": "root",
       "witnesses": []
     },
-    "LOADED_OPPONENT": {
+    "LASTOPPTYPELOADED": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:load/load",

@@ -12,26 +12,26 @@ resident_handle_flags DW 0
                       DW SEG LEGACY_CATALOG
 .CODE
 EXTRN CLEAR_PAYLOAD_HEADER:NEAR
-EXTRN CLEAR_HANDLE_OWNED:NEAR
+EXTRN HUNLOCK:NEAR
 EXTRN CHECK_DOS_DRIVE:NEAR
 EXTRN QUALIFY_DOS_PATH:NEAR
 EXTRN ALLOCATE_PINNED_PAYLOAD:NEAR
 EXTRN MATERIALIZE_HANDLE:NEAR
-EXTRN QUERY_HANDLE_SIZE:NEAR
+EXTRN HGETSIZE:NEAR
 EXTRN REPLACE_HANDLE_PAYLOAD:NEAR
-EXTRN ALLOCATE_PAYLOAD_HANDLE:NEAR
-EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
+EXTRN HNEW:NEAR
+EXTRN HLOCK:NEAR
 EXTRN RELOCATE_HANDLE_PAYLOAD:NEAR
-EXTRN MARK_PURGEABLE:NEAR
-EXTRN DISPOSE_HANDLE:NEAR
+EXTRN HPURGE:NEAR
+EXTRN HFREE:NEAR
 EXTRN MOVE_HUGE_BYTES:NEAR
 PUBLIC QUERY_RESOURCE_PAYLOAD, MATERIALIZE_RESOURCE, READ_RESOURCE_PAYLOAD, FIND_RESOURCE_ENTRY
-EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
+EXTRN H2P:NEAR
 PUBLIC FIND_SHAPE_METADATA
 
 PUBLIC OPEN_CATALOG_FILE, CLOSE_CATALOG_FILE
 
-PUBLIC LOAD_RESOURCE_PINNED, LOAD_RESOURCE_INTO, CLOSE_RESOURCE_CATALOG, MOUNT_RESOURCE_CATALOG
+PUBLIC LOAD_RESOURCE_PINNED, READRSRC, CLOSEMAP, OPENMAP
 
 LOAD_RESOURCE_PINNED PROC FAR
     push bp
@@ -73,7 +73,7 @@ LOAD_RESOURCE_PINNED PROC FAR
     push ax
     push cx
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     push dx
     push ax
     les ax, DWORD PTR [bp-8]
@@ -109,7 +109,7 @@ pinned_file:
     jmp SHORT pinned_done
 LOAD_RESOURCE_PINNED ENDP
 
-LOAD_RESOURCE_INTO PROC FAR
+READRSRC PROC FAR
     push bp
     mov bp, sp
     push di
@@ -141,7 +141,7 @@ into_target:
     push bx
     push cx
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     push dx
     push ax
     les ax, DWORD PTR [bp+6]
@@ -169,9 +169,9 @@ into_failed:
     sub ax, ax
     cwd
     jmp SHORT into_done
-LOAD_RESOURCE_INTO ENDP
+READRSRC ENDP
 
-CLOSE_RESOURCE_CATALOG PROC FAR
+CLOSEMAP PROC FAR
     push bp
     mov bp, sp
     push di
@@ -184,7 +184,7 @@ next_close_catalog:
     jz close_resource_done
     push di
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     cmp di, [bp+6]
     je remove_catalog
     xchg ax, si
@@ -208,7 +208,7 @@ release_children:
     push di
     push di
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     xchg ax, si
     mov ds, dx
     push bp
@@ -237,7 +237,7 @@ next_resource:
     jcxz next_resource_index
     push cx
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 next_resource_index:
     inc bp
     jmp SHORT next_resource
@@ -248,16 +248,16 @@ next_type_index:
 release_catalog:
     pop bp
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 close_resource_done:
     pop ds
     pop si
     pop di
     pop bp
     retf 2
-CLOSE_RESOURCE_CATALOG ENDP
+CLOSEMAP ENDP
 
-MOUNT_RESOURCE_CATALOG PROC FAR
+OPENMAP PROC FAR
     push bp
     mov bp, sp
     add sp, -78
@@ -286,13 +286,13 @@ MOUNT_RESOURCE_CATALOG PROC FAR
     add ax, 50h
     push ax
     push cs
-    call ALLOCATE_PAYLOAD_HANDLE
+    call HNEW
     xchg ax, cx
     jcxz mount_close_file
     mov [bp-10], cx
     push cx
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     mov [bp-14], ax
     mov [bp-12], dx
     mov bx, [bp-2]
@@ -306,7 +306,7 @@ mount_free_handle:
     xchg ax, [bp-10]
     push ax
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 mount_close_file:
     mov bx, [bp-2]
     mov ah, 3eh
@@ -394,9 +394,9 @@ preload_next_type:
 preload_done:
     pop bp
     push cs
-    call CLEAR_HANDLE_OWNED
+    call HUNLOCK
     jmp NEAR PTR mount_done
-MOUNT_RESOURCE_CATALOG ENDP
+OPENMAP ENDP
 
 
 CLOSE_CATALOG_FILE PROC NEAR
@@ -458,7 +458,7 @@ next_open_file:
     xchg ax, di
     push di
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg di, ax
     mov es, dx
     cmp ax, bp
@@ -514,7 +514,7 @@ next_handle:
     xchg ax, si
     push cx
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg ax, si
     mov ds, dx
     lea bp, [si+52h]
@@ -576,7 +576,7 @@ QUERY_RESOURCE_PAYLOAD PROC NEAR
     jz stored_size
     push bp
     push cs
-    call QUERY_HANDLE_SIZE
+    call HGETSIZE
     xchg ax, dx
     xchg ax, cx
     xchg ax, bp
@@ -616,14 +616,14 @@ allocate_handle:
     push cx
     push dx
     push cs
-    call ALLOCATE_PAYLOAD_HANDLE
+    call HNEW
     add bp, ax
     jz materialize_done
 read_payload:
     push WORD PTR [bp]
     push bp
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     xchg ax, bx
     mov es, dx
     mov cl, [di+8]
@@ -645,13 +645,13 @@ read_payload:
     call RELOCATE_HANDLE_PAYLOAD
     push bp
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
 check_purgeable:
     test BYTE PTR [di+8], 40h
     jz materialize_done
     push bp
     push cs
-    call MARK_PURGEABLE
+    call HPURGE
 materialize_done:
     pop bx
     pop WORD PTR ss:[bx]
@@ -661,7 +661,7 @@ materialize_done:
 discard_payload:
     push bp
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     sub bp, bp
     jmp SHORT materialize_done
 MATERIALIZE_RESOURCE ENDP
@@ -790,7 +790,7 @@ next_catalog:
     jcxz legacy_search
     push cx
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg ax, si
     mov ds, dx
     mov cx, [si+50h]

@@ -81,10 +81,10 @@
         "type_index": 0
       },
       {
-        "name": "DISPOSE_BITMAP_PORT",
+        "name": "PAINT4BITSHAPE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 140,
+        "offset": 64,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -99,6 +99,15 @@
         "type_index": 0
       },
       {
+        "name": "SAVERECT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 188,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "CLAMP_POINT_TO_RECT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -108,19 +117,10 @@
         "type_index": 0
       },
       {
-        "name": "PAINT_FOUR_BIT",
+        "name": "PAINTSHAPE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 64,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "ALLOCATE_CLIPPED_PORT",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 188,
+        "offset": 68,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -135,20 +135,20 @@
         "type_index": 0
       },
       {
-        "name": "PAINT_PLAIN",
+        "name": "RESTORERECT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 68,
+        "offset": 140,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       }
     ],
     "externals": [
-      "MEASURE_TEXT",
       "__NFREE",
       "PAINT_PLAIN_CALLBACK",
       "RELEASE_BUFFER",
+      "COPYBITS",
       "ALLOCATE_BUFFER",
       "__NMALLOC",
       "GRAF",
@@ -216,7 +216,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "PAINT_PLAIN_CALLBACK",
         "method": 6,
         "zero_displacement": true
@@ -260,8 +260,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "MEASURE_TEXT",
+        "index": 4,
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -282,7 +282,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "RELEASE_BUFFER",
         "method": 6,
         "zero_displacement": true
@@ -299,12 +299,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "__NFREE"
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "__NFREE",
         "method": 6,
         "zero_displacement": true
@@ -430,12 +430,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "__NFREE"
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 1,
         "name": "__NFREE",
         "method": 6,
         "zero_displacement": true
@@ -479,8 +479,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "MEASURE_TEXT",
+        "index": 4,
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -533,7 +533,7 @@
         }
       ]
     },
-    "MEASURE_TEXT": {
+    "COPYBITS": {
       "entry_sha256": "5f4b5f97ca115ec229354726cdf97cfd4d648f55bf9014b49b01228934c12ae2",
       "entry_target_id": "root:1129:4cb0",
       "kind": "near-code-entry",

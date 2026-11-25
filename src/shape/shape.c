@@ -44,8 +44,8 @@ typedef struct ShapeImage {
     unsigned char pixels[1];
 } ShapeImage;
 
-extern void dispose_handle(Handle handle);
-extern Handle find_shape_list(int id);
+extern void hFree(Handle handle);
+extern Handle hGetShpList(int id);
 typedef void *NearPointer;
 typedef void far *FarPointer;
 extern NearPointer cdecl memcpy(void *dest, const void *src, unsigned size);
@@ -53,31 +53,31 @@ extern NearPointer cdecl memcpy(void *dest, const void *src, unsigned size);
 extern NearPointer cdecl _nmalloc(unsigned int size);
 extern int cdecl sprintf(char *buffer, const char *format, ...);
 extern void abort_with_message(int fatal, const char far *text);
-extern int SAVE_HANDLE_FLAGS(Handle handle);
-extern void far *FETCH_LOCKED_SHAPE_LIST(Handle handle);
+extern int hGetState(Handle handle);
+extern void far *hLock(Handle handle);
 extern Handle AllocBanks(unsigned char id);
 extern void MapPalInfo(unsigned long address);
-extern void RESTORE_HANDLE_FLAGS(Handle handle, int flags);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle handle);
+extern void hSetState(Handle handle, int flags);
+extern void far *h2p(Handle handle);
 extern void RELOCATE_HANDLE_PAYLOAD(Handle handle);
 extern NearPointer cdecl memset(void *dst, int value, unsigned int size);
 #pragma intrinsic(memset)
 extern FarPointer cdecl _fmemset(void far *dst, int value, unsigned int size);
 extern Handle HGETRSRC(unsigned long type, int id);
-extern Handle mark_fixed(Handle handle);
-extern void mark_purgeable(Handle handle);
+extern Handle hNoPurge(Handle handle);
+extern void hPurge(Handle handle);
 extern void far *MATERIALIZE_HANDLE(Handle handle);
 extern Handle convert_shape(const void far *packed, const void far *mapping, int mode);
-extern void paint_four_bit(const void far *image, int x, int y, int mode, int page);
-extern void PAINTRLESHAPE_ASM(const void far *image, int x, int y, int page);
+extern void Paint4BitShape(const void far *image, int x, int y, int mode, int page);
+extern void PaintRLEShape_asm(const void far *image, int x, int y, int page);
 extern void PAINT_INDEXED_SHAPE(const void far *image, int x, int y, int page, int mode);
-extern void paint_plain(const void far *image, int x, int y, int page);
-extern void release_shape_list(Handle handle);
+extern void PaintShape(const void far *image, int x, int y, int page);
+extern void hFreeShpList(Handle handle);
 extern void cdecl _nfree(void *pointer);
 extern Handle hNewShpItem1(int group, int item, int mode);
-extern void MIRRORMCGABLOCK(unsigned char far *, int, int);
+extern void MirrorMCGABlock(unsigned char far *, int, int);
 
-extern unsigned int allocated_banks;
+extern unsigned int BankStatus;
 
 static PalInfo far default_palette = {
     0, 16,
@@ -99,12 +99,12 @@ static struct ShapeErrors {
 
 ShapeInfo far *PrinceNewShpItem(Handle, int, ShapeInfo far *, int);
 void PrinceFreeShp(int);
-ShapeInfo far *get_list_item(ShapeList *, int, ShapeInfo far *);
+ShapeInfo far *PrinceGetnShapeItem(ShapeList *, int, ShapeInfo far *);
 
 void FreeShpInfo(ShapeInfo far *info)
 {
     if (info->mode && info->temporary) {
-        dispose_handle(info->image);
+        hFree(info->image);
         info->image = 0;
         info->mode = 0;
     }
@@ -116,26 +116,26 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
     int flags;
     ShapeListResource far *resource;
 
-    handle = find_shape_list(id);
+    handle = hGetShpList(id);
     if (!handle) {
         char *message = _nmalloc(80);
         sprintf(message, shape_errors.missing_list, id);
         abort_with_message(0, message);
     }
-    flags = SAVE_HANDLE_FLAGS(handle);
-    resource = FETCH_LOCKED_SHAPE_LIST(handle);
+    flags = hGetState(handle);
+    resource = hLock(handle);
     if (!resource->palette.banks) {
         if (!mapping)
             mapping = AllocBanks(resource->palette.colors);
         resource->palette.banks = mapping;
-        allocated_banks |= mapping;
+        BankStatus |= mapping;
         if (prepare) {
             Handle far *palette = &resource->palette.banks;
             unsigned long address = (unsigned long)palette;
             MapPalInfo(address);
         }
     }
-    RESTORE_HANDLE_FLAGS(handle, flags);
+    hSetState(handle, flags);
     return handle;
 }
 
@@ -146,7 +146,7 @@ int IsOverlayLoaded(ShapeList *list, int index)
 
     if (list->count > index) {
         if (list->items[index].image) {
-            shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(list->items[index].image);
+            shape = h2p(list->items[index].image);
             if (shape && *shape)
                 loaded = 1;
         }
@@ -154,7 +154,7 @@ int IsOverlayLoaded(ShapeList *list, int index)
     return loaded;
 }
 
-ShapeList *load_shape_list(int id, Handle mapping, signed char *mode, int prepare)
+ShapeList *LoadShapeList(int id, Handle mapping, signed char *mode, int prepare)
 {
     int index;
     Handle image;
@@ -165,14 +165,14 @@ ShapeList *load_shape_list(int id, Handle mapping, signed char *mode, int prepar
     Handle handle;
 
     handle = hGetNMapShpList(id, mapping, prepare);
-    flags = SAVE_HANDLE_FLAGS(handle);
+    flags = hGetState(handle);
     RELOCATE_HANDLE_PAYLOAD(handle);
-    resource = FETCH_LOCKED_SHAPE_LIST(handle);
+    resource = hLock(handle);
     list = _nmalloc(sizeof(ShapeInfo) * (resource->count + 1));
     list->resource = handle;
     list->count = resource->count;
     list->id = id;
-    RESTORE_HANDLE_FLAGS(handle, flags);
+    hSetState(handle, flags);
     _fmemset(list->items, 0, list->count * sizeof(ShapeInfo));
 
     index = 0;
@@ -189,12 +189,12 @@ ShapeList *load_shape_list(int id, Handle mapping, signed char *mode, int prepar
                 PrinceNewShpItem(list->resource, index + 1, entry, item_mode);
                 PrinceFreeShp(id + index + 1);
             } else {
-                image = mark_fixed(HGETRSRC(0x53484150UL, list->id + index + 1));
+                image = hNoPurge(HGETRSRC(0x53484150UL, list->id + index + 1));
                 if (image) {
-                    if (*(int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(image))
+                    if (*(int far *)h2p(image))
                         entry->image = image;
                     else
-                        dispose_handle(image);
+                        hFree(image);
                 }
             }
             ++entry;
@@ -204,9 +204,9 @@ ShapeList *load_shape_list(int id, Handle mapping, signed char *mode, int prepar
     return list;
 }
 
-void overlay_shape_list(ShapeList *list, int id, int first, int last, signed char *mode)
+void OverlayShapeList(ShapeList *list, int id, int first, int last, signed char *mode)
 {
-    int base_id = *(int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(list->resource = find_shape_list(list->id));
+    int base_id = *(int far *)h2p(list->resource = hGetShpList(list->id));
     int index;
 
     id += 2;
@@ -219,7 +219,7 @@ void overlay_shape_list(ShapeList *list, int id, int first, int last, signed cha
             item_mode = mode && mode[index] ? mode[index] : 0;
         if (item_mode) {
             if (list->items[index].image) {
-                dispose_handle(list->items[index].image);
+                hFree(list->items[index].image);
                 list->items[index].image = 0;
             }
             PrinceNewShpItem(list->resource, index - base_id + id,
@@ -227,7 +227,7 @@ void overlay_shape_list(ShapeList *list, int id, int first, int last, signed cha
             PrinceFreeShp(index + id - 1);
         } else {
             memset(&list->items[index], 0, sizeof(ShapeInfo));
-            list->items[index].image = mark_fixed(HGETRSRC(0x53484150UL, index + id - 1));
+            list->items[index].image = hNoPurge(HGETRSRC(0x53484150UL, index + id - 1));
         }
     }
 }
@@ -238,7 +238,7 @@ void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
     if (list->count > last && last >= first) {
         for (index = first; index <= last; ++index) {
             if (list->items[index].image)
-                mark_purgeable(list->items[index].image);
+                hPurge(list->items[index].image);
         }
     }
 }
@@ -273,14 +273,14 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     Handle handle;
     int reused;
 
-    list_flags = SAVE_HANDLE_FLAGS(list);
-    resource = FETCH_LOCKED_SHAPE_LIST(list);
+    list_flags = hGetState(list);
+    resource = hLock(list);
 
     if (info->image && MATERIALIZE_HANDLE(info->image)) {
         handle = info->image;
         reused = 1;
     } else {
-        if (info->image) dispose_handle(info->image);
+        if (info->image) hFree(info->image);
         handle = HGETRSRC(0x53484150UL, resource->first_id + index - 1);
         reused = 0;
     }
@@ -289,8 +289,8 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
         abort_with_message(1, error);
     }
 
-    image_flags = SAVE_HANDLE_FLAGS(handle);
-    image = FETCH_LOCKED_SHAPE_LIST(handle);
+    image_flags = hGetState(handle);
+    image = hLock(handle);
     if (image->width) {
         format = image->format;
         format_bytes = (ShapeEncoding *)&format;
@@ -302,15 +302,15 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
         info->image = convert_shape(image, palette, mode);
         info->mode = (signed char)mode;
         info->flags = info->temporary = 0;
-        RESTORE_HANDLE_FLAGS(handle, image_flags);
+        hSetState(handle, image_flags);
     } else {
-        RESTORE_HANDLE_FLAGS(handle, image_flags);
-        dispose_handle(handle);
+        hSetState(handle, image_flags);
+        hFree(handle);
         info->image = 0;
         info->mode = 0;
         info->flags = 0;
     }
-    RESTORE_HANDLE_FLAGS(list, list_flags);
+    hSetState(list, list_flags);
     return info;
 }
 
@@ -319,24 +319,24 @@ void PrincePaintShapeIdx(ShapeList *list, int index, int x, int y, int page, int
     ShapeInfo info;
     ShapeImage far *image;
 
-    get_list_item(list, index + 1, &info);
+    PrinceGetnShapeItem(list, index + 1, &info);
     if (info.mode) {
-        image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(info.image);
+        image = h2p(info.image);
         if (info.four_bit)
-            paint_four_bit(image, x, y, 0, page);
+            Paint4BitShape(image, x, y, 0, page);
         else {
             if (mode == 2)
-                PAINTRLESHAPE_ASM(image, x, y, page);
+                PaintRLEShape_asm(image, x, y, page);
             if (mode == 3)
                 PAINT_INDEXED_SHAPE(image, x, y, page, 0x2000);
             else
-                paint_plain(image, x, y, page);
+                PaintShape(image, x, y, page);
         }
     }
     FreeShpInfo(&info);
 }
 
-ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result)
+ShapeInfo far *PrinceGetnShapeItem(ShapeList *list, int index, ShapeInfo far *result)
 {
     ShapeInfo *entry = (ShapeInfo *)list + index;
 
@@ -344,8 +344,8 @@ ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result)
     if (!entry->mode) {
         if (!list->resource || !MATERIALIZE_HANDLE(list->resource)) {
             if (list->resource)
-                dispose_handle(list->resource);
-            list->resource = find_shape_list(list->id);
+                hFree(list->resource);
+            list->resource = hGetShpList(list->id);
         }
         PrinceNewShpItem(list->resource, index, result, 1);
         result->temporary = 1;
@@ -358,7 +358,7 @@ void far *PrinceGetnShapeItemSize(ShapeInfo *items, int index, unsigned long far
 {
     unsigned long far *image;
 
-    if (items[index].image && (image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(items[index].image)) != 0)
+    if (items[index].image && (image = h2p(items[index].image)) != 0)
         *size = *image;
     else
         size = 0;
@@ -369,7 +369,7 @@ void PrinceFreeShp(int id)
 {
     Handle handle = HGETRSRC(0x53484150UL, id);
     if (handle)
-        dispose_handle(handle);
+        hFree(handle);
 }
 
 Handle PrinceUnpackShape(Handle handle, int mode, const void far *mapping)
@@ -378,9 +378,9 @@ Handle PrinceUnpackShape(Handle handle, int mode, const void far *mapping)
 
     if (handle) {
         RELOCATE_HANDLE_PAYLOAD(handle);
-        result = convert_shape(FETCH_LOCKED_SHAPE_LIST(handle),
+        result = convert_shape(hLock(handle),
                                    (const unsigned char far *)mapping + 4, mode);
-        dispose_handle(handle);
+        hFree(handle);
     } else {
         char message[60];
         memcpy(message, "Error in PrinceUnpackShape().", 30);
@@ -389,7 +389,7 @@ Handle PrinceUnpackShape(Handle handle, int mode, const void far *mapping)
     return result;
 }
 
-void unload_overlay(ShapeList *list, int first, int last)
+void UnloadOverlay(ShapeList *list, int first, int last)
 {
     int index;
     int far *data;
@@ -397,8 +397,8 @@ void unload_overlay(ShapeList *list, int first, int last)
     if (IsOverlayLoaded(list, first)) {
         for (index = first; index <= last; ++index) {
             if (list->items[index].image &&
-                (data = RESOLVE_HANDLE_TO_FAR_PAYLOAD(list->items[index].image)) && *data) {
-                dispose_handle(list->items[index].image);
+                (data = h2p(list->items[index].image)) && *data) {
+                hFree(list->items[index].image);
                 memset(&list->items[index], 0, sizeof(ShapeInfo));
             }
         }
@@ -411,21 +411,21 @@ void UnloadShapeList(ShapeList *list)
     Handle handle;
     for (; index < list->count; ++index) {
         if (list->items[index].image) {
-            dispose_handle(list->items[index].image);
+            hFree(list->items[index].image);
             list->items[index].image = 0;
         }
     }
-    handle = find_shape_list(list->id);
+    handle = hGetShpList(list->id);
     if (handle)
-        release_shape_list(handle);
+        hFreeShpList(handle);
     _nfree(list);
 }
 
 void PaintRLEShapeItem(int group, int item, int x, int y, int page)
 {
     Handle handle = hNewShpItem1(group, item, 1);
-    PAINTRLESHAPE_ASM(RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), x, y, page);
-    dispose_handle(handle);
+    PaintRLEShape_asm(h2p(handle), x, y, page);
+    hFree(handle);
 }
 
 void PaintShapeItem(int group, int item, int x, int y, int page, int reverse)
@@ -434,17 +434,17 @@ void PaintShapeItem(int group, int item, int x, int y, int page, int reverse)
     ShapeImage far *image;
 
     if (handle) {
-        image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+        image = h2p(handle);
         if (reverse)
-            MIRRORMCGABLOCK(image->pixels, image->width, image->format);
-        paint_plain(image, x, y, page);
+            MirrorMCGABlock(image->pixels, image->width, image->format);
+        PaintShape(image, x, y, page);
     }
-    dispose_handle(handle);
+    hFree(handle);
 }
 
 void Paint4BitShapeItem(int group, int item, int x, int y, int page, int mode)
 {
     Handle handle = hNewShpItem1(group, item, 2);
-    PAINT_INDEXED_SHAPE(RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), x, y, page, mode);
-    dispose_handle(handle);
+    PAINT_INDEXED_SHAPE(h2p(handle), x, y, page, mode);
+    hFree(handle);
 }

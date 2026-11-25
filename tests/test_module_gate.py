@@ -1498,14 +1498,14 @@ class OwnBaseBucketTests(unittest.TestCase):
                            recipe["flags"], workdir=ROOT / "build/workers/tests/own_base_buckets")
         self.assertTrue(result.ok, result.log)
         claims = recipe_claims(recipe)
-        if not any(c["public"] == "MARK_MOB_REDRAW" for c in claims):
-            claims.append({"target_id": "root:0b52:2296", "public": "MARK_MOB_REDRAW"})
+        if not any(c["public"] == "MARKMOBREDRAW" for c in claims):
+            claims.append({"target_id": "root:0b52:2296", "public": "MARKMOBREDRAW"})
         report = check_group(result.obj_bytes, claims, Oracle.load(),
                              binding=common.read_json(ROOT / recipe["binding"]), group_id=recipe["group_id"])
-        claim = next(c for c in report["claims"] if c["public"] == "MARK_MOB_REDRAW")
+        claim = next(c for c in report["claims"] if c["public"] == "MARKMOBREDRAW")
         self.assertEqual(claim["state"], "CODE_EXACT", claim.get("reason"))
         self.assertEqual(sorted(g["symbol"] for g in claim["relocation_groups"]),
-                         ["MARK_FLOOR", "MARK_FOREGROUND", "MARK_MOVE"])
+                         ["MARKFLOOR", "MARKFREDRAW", "MARKMOVE"])
 
 
 class FrameInvariantTests(unittest.TestCase):

@@ -16,17 +16,17 @@ EXTRN window_draw_port:WORD
 .CODE
 EXTRN UPDATE_MESSAGE_DISPLAY:NEAR
 EXTRN SHOW_MOUSE_GRAPHICS:NEAR
-EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
-EXTRN DISPOSE_HANDLE:NEAR
-EXTRN SAVE_HANDLE_FLAGS:NEAR
-EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
-EXTRN RESTORE_HANDLE_FLAGS:NEAR
+EXTRN H2P:NEAR
+EXTRN HFREE:NEAR
+EXTRN HGETSTATE:NEAR
+EXTRN HLOCK:NEAR
+EXTRN HSETSTATE:NEAR
 EXTRN FINISH_PORT:NEAR
-EXTRN PUSH_PORT_CLIP:NEAR
-EXTRN POP_PORT_CLIP:NEAR
-EXTRN DRAW_NUL_TERMINATED_TEXT:NEAR
-EXTRN STROKE_PORT_RECT:NEAR
-EXTRN FRAME_RECT:NEAR
+EXTRN CLIPRECT:NEAR
+EXTRN CLIPRESTORE:NEAR
+EXTRN DRAWSTRING:NEAR
+EXTRN ERASERECT:NEAR
+EXTRN FRAMERECT:NEAR
 EXTRN COPY_CURRENT_PORT_ORIGIN:NEAR
 EXTRN INSETRECT:NEAR
 EXTRN DRAW_AXIS_SEGMENT:NEAR
@@ -39,9 +39,9 @@ EXTRN RELEASE_BACKGROUND_PORT:NEAR
 EXTRN ALLOCATE_BACKGROUND_PORT:NEAR
 EXTRN DISPOSE_WINDOW:NEAR
 EXTRN ACTIVATE_WINDOW:NEAR
-EXTRN SET_RECORD_RANGE:NEAR
+EXTRN FILLRECT:NEAR
 EXTRN HGETRSRC:NEAR
-EXTRN PLAY_SOUND:NEAR
+EXTRN SETSND:NEAR
 EXTRN PAINT_PENDING_WINDOW:NEAR
 EXTRN RESTORE_WINDOW_CLIP:NEAR
 EXTRN LOCATE_WINDOW_AT_POINT:NEAR
@@ -167,14 +167,14 @@ return_character:
 release_item_text:
     push word ptr [di+1eh]
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     jmp SHORT ignore_item_command
 replace_item_text:
     push ds
     push cx
     push word ptr [di+1eh]
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     push cs
     call CREATE_STRING_HANDLE
     mov word ptr [di+1eh], ax
@@ -195,11 +195,11 @@ set_item_pen:
     push si
     push dx
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     push ds
     push si
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     lea ax, [bp-16h]
     push ds
     push ax
@@ -214,7 +214,7 @@ set_item_pen:
     push ds
     push ax
     push cs
-    call PUSH_PORT_CLIP
+    call CLIPRECT
     mov cx, word ptr [di+1eh]
     jcxz finish_item_paint
     push cx
@@ -224,7 +224,7 @@ set_item_pen:
     mov bx, Graf
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     pop ax
@@ -251,7 +251,7 @@ set_item_pen:
     call MOVETO
     push word ptr [di+1eh]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg si, ax
     mov es, dx
     mov cx, word ptr [di+1ah]
@@ -279,7 +279,7 @@ scan_mnemonic:
     jmp SHORT scan_mnemonic
 finish_item_paint:
     push cs
-    call POP_PORT_CLIP
+    call CLIPRESTORE
     jmp NEAR PTR ignore_item_command
 draw_mnemonic:
     mov di, Graf
@@ -296,7 +296,7 @@ draw_remaining_text:
     push es
     push si
     push cs
-    call DRAW_NUL_TERMINATED_TEXT
+    call DRAWSTRING
     jmp SHORT finish_item_paint
 track_item_press:
     mov word ptr [bp-2], 0
@@ -671,7 +671,7 @@ redraw_bounds:
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
     pop Graf
     push di
     mov ax, 8
@@ -702,7 +702,7 @@ RELEASE_WINDOW_ITEM_EFFECT PROC FAR
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
     pop Graf
     mov bx, word ptr [di+2]
     sub di, word ptr [bx+52h]
@@ -754,7 +754,7 @@ LOAD_ITEM_DEFINITION PROC FAR
     call HGETRSRC
     push ax
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     or dx, bx
@@ -1024,7 +1024,7 @@ loc_8d87:
     mov ax, 0ffffh
     push ax
     push cs
-    call PLAY_SOUND
+    call SETSND
     sub ax, ax
     push ax
     push ax
@@ -1143,7 +1143,7 @@ beep:
     mov ax, 0fffeh
     push ax
     push cs
-    call PLAY_SOUND
+    call SETSND
     jmp short ignored
 keyboard_ignored:
     sub ax, ax
@@ -1238,7 +1238,7 @@ REPAINT_WINDOW_ITEM PROC FAR
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
     push di
     push cs
     call NEAR PTR PAINT_WINDOW_ITEMS
@@ -1264,19 +1264,19 @@ CREATE_WINDOW_FROM_RESOURCE PROC FAR
     xchg di, ax
     push di
     push cs
-    call SAVE_HANDLE_FLAGS
+    call HGETSTATE
     push di
     push ax
     push di
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     push dx
     push ax
     push cs
     call NEAR PTR CREATE_WINDOW_FROM_DEFINITION
     xchg di, ax
     push cs
-    call RESTORE_HANDLE_FLAGS
+    call HSETSTATE
     xchg di, ax
 done:
     pop di
@@ -1546,7 +1546,7 @@ paint_frame_item:
     push ds
     push si
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     add word ptr [si+6], 2
     add word ptr [si+4], 1
     pop bx
@@ -1653,7 +1653,7 @@ loc_9209:
     xchg word ptr [di+32h], ax
     push ax
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     call NEAR PTR REPAINT_LIST_ITEM
     jmp SHORT hide_list_cursor_now
 loc_9218:
@@ -1668,7 +1668,7 @@ repaint_list_command:
     push ds
     push si
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     call NEAR PTR REPAINT_LIST_ITEM
     jmp SHORT ignore_list_command
 blink_list_cursor:
@@ -1733,7 +1733,7 @@ initialize_list_item:
     mov bx, word ptr [di+2]
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     mov dx, word ptr [di+10h]
@@ -1852,7 +1852,7 @@ loc_939e:
     jcxz loc_9379
     push cx
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     push dx
     push ax
     lea ax, [di+38h]
@@ -1864,7 +1864,7 @@ loc_939e:
     jcxz loc_9379
     push word ptr [di+32h]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     call NEAR PTR COPY_LIST_TEXT
     jmp SHORT loc_9365
 handle_list_pointer:
@@ -1889,7 +1889,7 @@ handle_list_pointer:
 dispose_list_text:
     push word ptr [di+32h]
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     jmp NEAR PTR ignore_list_command
 LIST_ITEM_HANDLER ENDP
 
@@ -1933,7 +1933,7 @@ TOGGLE_LIST_CURSOR PROC NEAR
     push ds
     push ax
     push cs
-    call PUSH_PORT_CLIP
+    call CLIPRECT
     lea ax, [di+38h]
     push ds
     push ax
@@ -1961,7 +1961,7 @@ TOGGLE_LIST_CURSOR PROC NEAR
 loc_945e:
     mov word ptr [di+22h], ax
     push cs
-    call POP_PORT_CLIP
+    call CLIPRESTORE
     pop word ptr [si+28h]
     pop word ptr [si+26h]
     pop si
@@ -1989,11 +1989,11 @@ REPAINT_LIST_ITEM PROC NEAR
     push ds
     push ax
     push cs
-    call PUSH_PORT_CLIP
+    call CLIPRECT
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
     lea ax, [di+38h]
     push ds
     push ax
@@ -2021,7 +2021,7 @@ loc_94c3:
     mov word ptr [si+24h], cx
     push word ptr [si+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx+2]
@@ -2038,10 +2038,10 @@ loc_94e8:
     push ds
     push ax
     push cs
-    call DRAW_NUL_TERMINATED_TEXT
+    call DRAWSTRING
     pop word ptr [si+28h]
     push cs
-    call POP_PORT_CLIP
+    call CLIPRESTORE
     sub cx, cx
     xchg word ptr [di+22h], cx
     jcxz loc_9506
@@ -2062,7 +2062,7 @@ REBUILD_LIST_TEXT_HANDLE PROC NEAR
     xchg word ptr [di+32h], ax
     push ax
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     ret
 REBUILD_LIST_TEXT_HANDLE ENDP
 
@@ -2145,7 +2145,7 @@ initialize_grid_item:
     mov si, Graf
     push word ptr [si+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx+2]
@@ -2234,7 +2234,7 @@ loc_9642:
     mov ax, 0fh
     push ax
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     mov ax, word ptr [si+4]
     inc word ptr [si+4]
     xchg word ptr [si], ax
@@ -2246,7 +2246,7 @@ loc_9642:
     mov word ptr [bx+28h], ax
     push ax
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     pop word ptr [si]
     mov ax, word ptr [di+3ah]
     inc ax
@@ -2255,7 +2255,7 @@ loc_9642:
     push ds
     push si
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     push si
     mov ax, 2
     push ax
@@ -2290,7 +2290,7 @@ loc_9642:
     mov ax, 1
     push ax
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     pop screen_row_origin
     pop screen_x_origin
     mov cx, word ptr [di+32h]
@@ -2303,14 +2303,14 @@ loc_9642:
     mov ax, 0fh
     push ax
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     xchg bx, ax
     inc word ptr [bx+2]
     dec word ptr [bx+6]
     push ds
     push bx
     push cs
-    call FRAME_RECT
+    call FRAMERECT
 loc_96fb:
     mov cx, word ptr [di+5ah]
     jcxz loc_975f
@@ -2333,18 +2333,18 @@ loc_971a:
     mov ax, 0fh
     push ax
     push cs
-    call SET_RECORD_RANGE
+    call FILLRECT
     add word ptr [si+2], 2
     sub word ptr [si+6], 2
     push ds
     push si
     push cs
-    call PUSH_PORT_CLIP
+    call CLIPRECT
     push word ptr [si+2]
     mov bx, Graf
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx+2]
@@ -2356,7 +2356,7 @@ loc_971a:
     push cs
     call draw_text_handle
     push cs
-    call POP_PORT_CLIP
+    call CLIPRESTORE
 loc_975f:
     push cs
     call SET_RELATIVE_PEN_STATE
@@ -2368,7 +2368,7 @@ UPDATE_GRID_ITEM_BOUNDS PROC NEAR
     mov bx, window_draw_port
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     xchg bx, ax
     mov es, dx
     mov ax, word ptr [di+3eh]

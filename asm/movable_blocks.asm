@@ -3,8 +3,8 @@
 EXTRN HEAP_STATE:DWORD
 .CODE
 EXTRN RESIZE_DOS_HEAP:NEAR
-EXTRN RECLAIM_HEAP_BLOCKS:NEAR
-EXTRN COMPACT_HEAP_BLOCKS:NEAR
+EXTRN HEAPPURGE:NEAR
+EXTRN HEAPCOMPACT:NEAR
 EXTRN MOVE_HUGE_BYTES:NEAR
 EXTRN ALLOCATE_BACKING_RECORD:NEAR
 EXTRN RELEASE_BACKING_RECORD:NEAR
@@ -166,7 +166,7 @@ reclaim_backing_heap:
     push si
     push di
     push cs
-    call RECLAIM_HEAP_BLOCKS
+    call HEAPPURGE
     cmp dx, si
     ja retry_backing_search
     jb compact_backing_heap
@@ -178,7 +178,7 @@ compact_backing_heap:
     push si
     push di
     push cs
-    call COMPACT_HEAP_BLOCKS
+    call HEAPCOMPACT
     cmp dx, si
     ja retry_backing_search
     jb check_backing_retry

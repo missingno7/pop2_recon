@@ -278,6 +278,34 @@ class CompilerScratchTests(unittest.TestCase):
                 with self.assertRaisesRegex(CompileError, "includes are refused"):
                     compiler.header_closure(refused, headers)
 
+    def test_standard_headers_are_staged_and_pinned(self):
+        import compiler
+        worker_root = ROOT / "build/workers"
+        with tempfile.TemporaryDirectory(dir=worker_root) as directory:
+            text = b"extern int First;"
+            (Path(directory) / "string.h").write_bytes(text)
+            (Path(directory) / "stdio.h").write_bytes(b"changed")
+            (Path(directory) / "dos.h").write_bytes(b"#include <string.h>")
+            lock = {"headers": {"directory": directory, "files": {
+                "string.h": compiler.sha256(text), "stdio.h": compiler.sha256(b"original"),
+                "dos.h": compiler.sha256(b"#include <string.h>"), "io.h": "0"}}, "runner": {"path": "RUN", "options": []}}
+            work = Path(directory) / "work"
+            with patch("compiler.load_lock", return_value=lock), patch("compiler.subprocess.run") as runner, \
+                 patch("compiler.verify_profile", return_value={"flags": ["/c"], "executable": "CL.EXE", "directory": "."}):
+                runner.return_value.returncode, runner.return_value.stdout = 1, b""
+                result = compile_c("#include <string.h>\nint f(void) { return First; }\n", "fixture", workdir=work)
+                self.assertEqual((work / "CRT/string.h").read_bytes(), text)
+                self.assertIn("/ICRT", result.argv)
+                self.assertNotIn("/ICRT", result.flags)
+                self.assertEqual(result.includes, {"<string.h>": compiler.sha256(text)})
+                self.assertEqual(compiler.header_pins("#include <string.h>\n"), result.includes)
+                for refused in ("<math.h>", "<stdio.h>", "<io.h>", "<dos.h>", "<../string.h>"):
+                    with self.assertRaisesRegex(CompileError, "refused|mismatch|missing|includes another"):
+                        compile_c(f"#include {refused}\n", "fixture", workdir=work)
+                compile_c("int f(void) { return 1; }\n", "fixture", workdir=work)
+                self.assertFalse((work / "CRT").exists())
+                self.assertNotIn("/ICRT", runner.call_args[0][0])
+
     def test_stale_object_is_removed_before_a_timed_out_run(self):
         worker_root = ROOT / "build" / "workers"
         worker_root.mkdir(parents=True, exist_ok=True)

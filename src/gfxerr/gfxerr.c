@@ -26,7 +26,7 @@ extern int draw_record_range;
 extern Rect NullRect;
 
 extern struct window_item *far pascal ITEM_BY_INDEX(void *, int);
-extern void far pascal STROKE_PORT_RECT(const void far *);
+extern void far pascal EraseRect(const void far *);
 extern int far pascal get_current_dos_directory(char far *);
 extern int far pascal set_current_dos_directory(const char far *);
 extern void far pascal discard_queued_events(int);
@@ -38,16 +38,16 @@ extern char far *far cdecl _fstrcpy(char far *, const char far *);
 extern int far pascal wait_for_window_result(void (far pascal *)(void));
 extern void far cdecl _nfree(void *);
 extern void far pascal dispose_window(struct Record *);
-extern void far pascal dispose_bitmap_port(void *);
-extern unsigned far pascal save_handle_flags(unsigned);
-extern Rect far *far pascal FETCH_LOCKED_SHAPE_LIST(unsigned);
+extern void far pascal RestoreRect(void *);
+extern unsigned far pascal hGetState(unsigned);
+extern Rect far *far pascal hLock(unsigned);
 extern Rect far *far pascal InsetRect(Rect far *,
                                                   const Rect far *, int, int);
-extern void *far pascal allocate_clipped_port(const Rect far *);
-extern void far pascal restore_handle_flags(unsigned, unsigned);
+extern void *far pascal SaveRect(const Rect far *);
+extern void far pascal hSetState(unsigned, unsigned);
 /* These two DOS helpers leave and then consume the same saved clip state. */
-extern void far pascal push_port_clip(Rect far *);
-extern void far pascal pop_port_clip(void);
+extern void far pascal ClipRect(Rect far *);
+extern void far pascal ClipRestore(void);
 
 int far pascal show_resource_dialog(int, int, const char far *, int);
 void far pascal restore_dialog_port(void *);
@@ -81,7 +81,7 @@ void far pascal run_window_item_effect(void *port, int id)
 
     Graf = port;
     item = ITEM_BY_INDEX(port, id);
-    STROKE_PORT_RECT(item->effect_name);
+    EraseRect(item->effect_name);
     item->action(item, 2, item->argument);
     Graf = saved_port;
 }
@@ -135,7 +135,7 @@ void far pascal restore_dialog_port(void *port)
     void *saved_port = Graf;
 
     Graf = ScreenPort;
-    dispose_bitmap_port(port);
+    RestoreRect(port);
     Graf = saved_port;
     window_head->needs_update = 0;
 }
@@ -150,10 +150,10 @@ void *far pascal create_dialog_port(int resource)
 
     Graf = ScreenPort;
     handle = HGETRSRC(0x444c4f47UL, resource);
-    saved_flags = save_handle_flags(handle);
-    InsetRect(&bounds, FETCH_LOCKED_SHAPE_LIST(handle), -3, -2);
-    port = allocate_clipped_port(&bounds);
-    restore_handle_flags(handle, saved_flags);
+    saved_flags = hGetState(handle);
+    InsetRect(&bounds, hLock(handle), -3, -2);
+    port = SaveRect(&bounds);
+    hSetState(handle, saved_flags);
     Graf = saved_port;
     return port;
 }
@@ -175,9 +175,9 @@ void far pascal set_window_item_text(void *port, int id, const void *text)
     saved_port = Graf;
     Graf = port;
     item = ITEM_BY_INDEX(port, id);
-    push_port_clip(&NullRect);
+    ClipRect(&NullRect);
     item->action(item, 9, text);
-    pop_port_clip();
+    ClipRestore();
     Graf = saved_port;
 }
 

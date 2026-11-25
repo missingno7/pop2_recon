@@ -35,19 +35,19 @@ cursor_pending DW 0
 cursor_callback_depth DW -1
 
 .CODE
-EXTRN MEASURE_TEXT:NEAR
-EXTRN SAVE_HANDLE_FLAGS:NEAR
-EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
+EXTRN COPYBITS:NEAR
+EXTRN HGETSTATE:NEAR
+EXTRN HLOCK:NEAR
 EXTRN convert_shape:NEAR
-EXTRN DISPOSE_HANDLE:NEAR
-EXTRN RESTORE_HANDLE_FLAGS:NEAR
+EXTRN HFREE:NEAR
+EXTRN HSETSTATE:NEAR
 EXTRN RELOCATE_HANDLE_PAYLOAD:NEAR
 EXTRN ALLOCATE_BUFFER:NEAR
 EXTRN CLAMP_POINT_TO_RECT:NEAR
 EXTRN RELEASE_BUFFER:NEAR
 EXTRN HGETRSRC:NEAR
-EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
-EXTRN PAINT_FOUR_BIT:NEAR
+EXTRN H2P:NEAR
+EXTRN PAINT4BITSHAPE:NEAR
 
 PUBLIC UPDATE_MESSAGE_DISPLAY
 
@@ -75,7 +75,7 @@ swap_context:
     mov ax, 0
     push ax
     push cs
-    call MEASURE_TEXT
+    call COPYBITS
     pop Graf
     retf
 decrease_only:
@@ -95,12 +95,12 @@ BUILD_CURSOR_IMAGES PROC FAR
     mov di, [bp+6]
     push di
     push cs
-    call SAVE_HANDLE_FLAGS
+    call HGETSTATE
     push di
     push ax
     push di
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     mov [bp-4], ax
     mov [bp-2], dx
     or ax, dx
@@ -164,10 +164,10 @@ read_cursor_image:
     test ax, ax
     jnz install_cursor_images
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 release_cursor_resource:
     push cs
-    call RESTORE_HANDLE_FLAGS
+    call HSETSTATE
     pop si
     pop di
     mov sp, bp
@@ -185,26 +185,26 @@ dispose_old_images:
     jcxz dispose_old_mask
     push cx
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 dispose_old_mask:
     mov cx, cursor_mask_handle
     jcxz install_new_images
     push cx
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
 install_new_images:
     push cs
     call RELOCATE_HANDLE_PAYLOAD
     mov cursor_mask_handle, ax
     push ax
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     push cs
     call RELOCATE_HANDLE_PAYLOAD
     mov cursor_image_handle, ax
     push ax
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     les bx, DWORD PTR [bp-4]
     les dx, DWORD PTR es:[bx]
     mov cx, es
@@ -388,10 +388,10 @@ release_mouse_storage:
     call RELEASE_BUFFER
     push cursor_image_handle
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     push cursor_mask_handle
     push cs
-    call DISPOSE_HANDLE
+    call HFREE
     mov cx, MOUSE_PRESENT
     jcxz mouse_done
     sub ax, ax
@@ -469,10 +469,10 @@ repaint_cursor:
     mov ax, 0
     push ax
     push cs
-    call MEASURE_TEXT
+    call COPYBITS
     push cursor_mask_handle
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     push dx
     push ax
     les ax, DWORD PTR cursor_y0
@@ -483,10 +483,10 @@ repaint_cursor:
     mov ax, -1
     push ax
     push cs
-    call PAINT_FOUR_BIT
+    call PAINT4BITSHAPE
     push cursor_image_handle
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     push dx
     push ax
     les ax, DWORD PTR cursor_y0
@@ -496,7 +496,7 @@ repaint_cursor:
     push ax
     push cursor_plane_mask
     push cs
-    call PAINT_FOUR_BIT
+    call PAINT4BITSHAPE
     pop Graf
     jmp increment_show_count
 SHOW_MOUSE_GRAPHICS ENDP

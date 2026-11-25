@@ -26,14 +26,14 @@ struct fade_state {
 
 extern fade_state far *far pascal ALLOCATE_PINNED_PAYLOAD(long size);
 extern void far pascal CLEAR_PAYLOAD_HEADER(void far *block);
-extern void far pascal READ_DAC_BLOCK(int first, int count, component far *colors);
-extern void far pascal WRITE_DAC_BLOCK(int first, int count, component far *colors, int sync);
-extern int far pascal check_wait_function(void);
-extern void far pascal MEASURE_TEXT(int slot, int port, fade_state far *draw,
+extern void far pascal ReadDACBlock(int first, int count, component far *colors);
+extern void far pascal SetDACBlock(int first, int count, component far *colors, int sync);
+extern int far pascal CheckWaitFunc(void);
+extern void far pascal CopyBits(int slot, int port, fade_state far *draw,
     fade_state far *update, int flags);
-extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(void near *handle);
+extern void far *far pascal h2p(void near *handle);
 
-extern void far pascal SET_RECORD_RANGE(const Rect far *bounds, int color);
+extern void far pascal FillRect(const Rect far *bounds, int color);
 extern void far *far cdecl _fmemset(void far *buffer, int value, unsigned count);
 extern void far *far cdecl _fmemcpy(void far *dest, const void far *src, unsigned count);
 extern int far cdecl _fmemcmp(const void far *left, const void far *right, unsigned count);
@@ -42,41 +42,41 @@ extern volatile int Timer[4];
 extern int Graf;
 extern Rect ScreenPortRect;
 
-fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsigned blocks);
-int far pascal fade_in_step(fade_state far *state);
-void far pascal quit_fade_in(void far *block);
-void far pascal read_dac_blocks(unsigned blocks, component far *colors);
-void far pascal set_dac_blocks(unsigned, component far *);
-fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int delay);
+fade_state far *far pascal InitFadeIn(int port, fade_header far *header, unsigned blocks);
+int far pascal FadeInStep(fade_state far *state);
+void far pascal QuitFadeIn(void far *block);
+void far pascal ReadDACBlocks(unsigned blocks, component far *colors);
+void far pascal SetDACBlocks(unsigned, component far *);
+fade_state far *far pascal InitFadeTo(void near *handle, unsigned blocks, int delay);
 void far pascal QuitFadeTo(void far *block);
-int far pascal fade_to_step(fade_state far *state);
-int far pascal fade_in_port(fade_header near *port, unsigned blocks)
+int far pascal FadeToStep(fade_state far *state);
+int far pascal FadeInPort(fade_header near *port, unsigned blocks)
 {
     int result = 0;
-    fade_state far *state = init_fade_in(port,
+    fade_state far *state = InitFadeIn(port,
         (fade_header near *)((char near *)port + 16), blocks);
 
-    while (!fade_in_step(state))
+    while (!FadeInStep(state))
         ;
-    quit_fade_in(state);
+    QuitFadeIn(state);
     return result;
 }
 
-fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsigned blocks)
+fade_state far *far pascal InitFadeIn(int port, fade_header far *header, unsigned blocks)
 {
     fade_state far *state = ALLOCATE_PINNED_PAYLOAD(sizeof(fade_state));
 
     state->header = *header;
     state->blocks = blocks; state->delay = state->elapsed = 0;
-    state->cleanup = quit_fade_in; state->step = fade_in_step;
-    read_dac_blocks(blocks, state->first);
-    set_dac_blocks(blocks, 0);
+    state->cleanup = QuitFadeIn; state->step = FadeInStep;
+    ReadDACBlocks(blocks, state->first);
+    SetDACBlocks(blocks, 0);
     _fmemset(state->work, 0, sizeof(palette));
-    MEASURE_TEXT(Graf, port, state, state, 0);
+    CopyBits(Graf, port, state, state, 0);
     Timer[3] = 0;
     return state;
 }
-int far pascal fade_in_step(fade_state far *state)
+int far pascal FadeInStep(fade_state far *state)
 {
     typedef struct { component red, green, blue; } RGB;
     int elapsed, bank, i;
@@ -100,32 +100,32 @@ int far pascal fade_in_step(fade_state far *state)
                 }
             }
         }
-        set_dac_blocks(state->blocks, state->work);
+        SetDACBlocks(state->blocks, state->work);
         done = elapsed == 64;
     }
     return done;
 }
 
-void far pascal quit_fade_in(void far *block)
+void far pascal QuitFadeIn(void far *block)
 {
     fade_state far *state = block;
 
-    set_dac_blocks(state->blocks, state->first);
+    SetDACBlocks(state->blocks, state->first);
     CLEAR_PAYLOAD_HEADER(block);
 }
 
-void far pascal read_dac_blocks(unsigned blocks, component far *colors)
+void far pascal ReadDACBlocks(unsigned blocks, component far *colors)
 {
     unsigned bit, offset;
     int first;
 
-    if (blocks == 0xffff) READ_DAC_BLOCK(0, 256, colors);
+    if (blocks == 0xffff) ReadDACBlock(0, 256, colors);
     else {
         bit = 1;
         first = 0; offset = 0;
         do {
             if (blocks & bit)
-                READ_DAC_BLOCK(first, 16, colors + offset);
+                ReadDACBlock(first, 16, colors + offset);
             first += 16;
             bit <<= 1;
             offset += 48;
@@ -133,33 +133,33 @@ void far pascal read_dac_blocks(unsigned blocks, component far *colors)
     }
 }
 
-void far pascal set_dac_blocks(unsigned blocks, component far *colors)
+void far pascal SetDACBlocks(unsigned blocks, component far *colors)
 {
     unsigned bit, offset;
     unsigned first, changed;
 
     /* The fast paths reread the original far pointer after checking for null. */
     if (blocks == 0xffff)
-        WRITE_DAC_BLOCK(0, 256, colors, 1);
+        SetDACBlock(0, 256, colors, 1);
     else if (blocks == 0xfffe) {
         if (*(component far *volatile *)&colors)
-            WRITE_DAC_BLOCK(16, 240, colors + 48, 1);
+            SetDACBlock(16, 240, colors + 48, 1);
         else
-            WRITE_DAC_BLOCK(16, 240, (component far *)0L, 1);
+            SetDACBlock(16, 240, (component far *)0L, 1);
     } else if (blocks == 0xfff8) {
         if (colors)
-            WRITE_DAC_BLOCK(48, 208, colors + 144, 1);
+            SetDACBlock(48, 208, colors + 144, 1);
         else
-            WRITE_DAC_BLOCK(48, 208, (component far *)0L, 1);
+            SetDACBlock(48, 208, (component far *)0L, 1);
     } else {
         bit = 1;
         offset = first = changed = 0;
         do {
             if (blocks & bit) {
                 if (colors)
-                    WRITE_DAC_BLOCK(first, 16, colors + offset, (changed++ & 3) == 0);
+                    SetDACBlock(first, 16, colors + offset, (changed++ & 3) == 0);
                 else
-                    WRITE_DAC_BLOCK(first, 16, (component far *)0L, (changed++ & 3) == 0);
+                    SetDACBlock(first, 16, (component far *)0L, (changed++ & 3) == 0);
             }
             first += 16;
             bit <<= 1;
@@ -168,14 +168,14 @@ void far pascal set_dac_blocks(unsigned blocks, component far *colors)
     }
 }
 
-int far pascal fade_to(void near *handle, unsigned blocks, int delay)
+int far pascal FadeTo(void near *handle, unsigned blocks, int delay)
 {
     int abort = 0;
-    fade_state far *state = init_fade_to(handle, blocks, delay);
+    fade_state far *state = InitFadeTo(handle, blocks, delay);
 
     if (_fmemcmp(state->last, state->first, sizeof(palette))) {
-        while (!fade_to_step(state)) {
-            abort = check_wait_function();
+        while (!FadeToStep(state)) {
+            abort = CheckWaitFunc();
             if (abort)
                 break;
         }
@@ -184,7 +184,7 @@ int far pascal fade_to(void near *handle, unsigned blocks, int delay)
     return abort;
 }
 
-fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int delay)
+fade_state far *far pascal InitFadeTo(void near *handle, unsigned blocks, int delay)
 {
     fade_state far *state = ALLOCATE_PINNED_PAYLOAD(sizeof(fade_state));
     component far *last;
@@ -192,13 +192,13 @@ fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int 
     state->blocks = blocks; state->elapsed = 0;
     state->delay = delay;
     state->cleanup = QuitFadeTo;
-    state->step = fade_to_step;
+    state->step = FadeToStep;
     last = state->last;
     _fmemset(last, 0, sizeof(palette));
-    read_dac_blocks(blocks, last);
+    ReadDACBlocks(blocks, last);
     _fmemcpy(state->work, last, sizeof(palette));
     if (handle)
-        _fmemcpy(state->first, RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle), sizeof(palette));
+        _fmemcpy(state->first, h2p(handle), sizeof(palette));
     else
         _fmemset(state->first, 0, sizeof(palette));
     Timer[3] = 0;
@@ -212,7 +212,7 @@ void far pascal QuitFadeTo(void far *block)
 {
     CLEAR_PAYLOAD_HEADER(block);
 }
-int far pascal fade_to_step(fade_state far *state)
+int far pascal FadeToStep(fade_state far *state)
 {
     typedef struct { component red, green, blue; } RGB;
     int elapsed, bank, i;
@@ -238,20 +238,20 @@ int far pascal fade_to_step(fade_state far *state)
                 }
             }
         }
-        set_dac_blocks(state->blocks, state->work);
+        SetDACBlocks(state->blocks, state->work);
         done = elapsed == 64;
     }
     return done;
 }
 
-extern int (far *wait_function)(void);
+extern int (far *WaitFunc)(void);
 
-void far pascal fade_out_and_restore_palette(void)
+void far pascal ForceFadeOut(void)
 {
-    int (far *saved)(void) = wait_function;
+    int (far *saved)(void) = WaitFunc;
 
-    wait_function = 0;
-    fade_to(0, 0xffff, 0);
-    SET_RECORD_RANGE(&ScreenPortRect, 0);
-    wait_function = saved;
+    WaitFunc = 0;
+    FadeTo(0, 0xffff, 0);
+    FillRect(&ScreenPortRect, 0);
+    WaitFunc = saved;
 }

@@ -19,18 +19,18 @@ struct moving_rock {
 
 extern int Rnd(int);
 extern signed char FirstInRow(signed char);
-extern signed char get_char_col(int);
+extern signed char GetCharCol(int);
 extern int IsWall(unsigned char);
-extern void add_mob_obj(int);
+extern void AddMobObj(int);
 extern signed char GetRow(int);
 extern unsigned char IndexCell1(signed char, signed char);
-extern int is_visible_room_cell(unsigned char room, unsigned char cell);
-extern void mark_mob_redraw(unsigned char cell);
-extern void copy_kid_to_char(void);
-extern void far _fastcall add_middle_image(unsigned char kind, int x, int y, int frame, unsigned char pass);
-extern int probe_floors_toward_rock(signed char row, int row_delta);
-extern void hit_character_with_rock(void);
-extern struct slide_rock *far _fastcall slide_rock_on_row(unsigned char, signed char);
+extern int IsVisibleRoomCell(unsigned char room, unsigned char cell);
+extern void MarkMobRedraw(unsigned char cell);
+extern void LoadKid(void);
+extern void far _fastcall AddMid(unsigned char kind, int x, int y, int frame, unsigned char pass);
+extern int IsAllFloorsInDirToRock(signed char row, int row_delta);
+extern void HitCharWithSlideRock(void);
+extern struct slide_rock *far _fastcall GetSlideRockOnRoomRow(unsigned char, signed char);
 
 extern FCHARREC FChar;
 extern int MobHeight[13], MobWidth[13];
@@ -57,7 +57,7 @@ extern LEVELREC Level;
 extern int ColEdgeX[20];
 extern int CDLeftEdge, CDRightEdge;
 
-int choose_trapdoor_delay(int active)
+int TempGetTorchFrame(int active)
 {
     int delay;
     if (active) delay = 0;
@@ -65,7 +65,7 @@ int choose_trapdoor_delay(int active)
     return delay;
 }
 
-void move_slide_bolt(void)
+void ATMSlideBolt(void)
 {
     signed char row = Mob.row;
     int end = Mob.flags;
@@ -73,46 +73,46 @@ void move_slide_bolt(void)
         do {
             FChar.index = FirstInRow(row) + Mob.x / 32;
             if (Mob.kind == 8) ++FChar.index;
-            add_mob_obj(Mob.y); Mob.x += 24;
+            AddMobObj(Mob.y); Mob.x += 24;
         } while (Mob.x < end);
     }
 }
 
-void move_slide_rock(void)
+void ATMSlideRock(void)
 {
     int x, y, sequence, old_speed;
     signed char row;
     if (Mob.velocity != -1) {
         row = GetRow(Mob.y); FChar.index = IndexCell1(Mob.x / 32, row);
-        if (is_visible_room_cell(Mob.room, FChar.index)) {
+        if (IsVisibleRoomCell(Mob.room, FChar.index)) {
             sequence = MobHeight[7];
-            if (!probe_floors_toward_rock(-1, 52)) {
+            if (!IsAllFloorsInDirToRock(-1, 52)) {
                 y = Mob.y; Mob.y -= 59; old_speed = MobWidth[6];
                 MobWidth[6] = (int)(Mob.flags - Mob.x) <= old_speed ? (int)(Mob.flags - Mob.x) : old_speed;
                 MobWidth[7] = (int)(Mob.flags - Mob.x) <= MobWidth[7] ? (int)(Mob.flags - Mob.x) : MobWidth[7];
                 Mob.x += 5;
-                MobHeight[7] = MobHeight[6] = 9; mark_mob_redraw(2);
+                MobHeight[7] = MobHeight[6] = 9; MarkMobRedraw(2);
                 Mob.y = y; Mob.x -= 5; MobWidth[7] = MobWidth[6] = old_speed;
                 MobHeight[7] = MobHeight[6] = sequence;
             } else
                 MobHeight[7] = MobHeight[6] = 58;
-            Mob.kind = 7; add_mob_obj(Mob.y);
+            Mob.kind = 7; AddMobObj(Mob.y);
             x = Mob.x; Mob.x += 32; y = Mob.y;
             if (Mob.flags > Mob.x) {
                 FChar.index = FirstInRow(row) + Mob.x / 32; Mob.kind = 6;
-                --Mob.y; add_mob_obj(Mob.y);
+                --Mob.y; AddMobObj(Mob.y);
             }
             Mob.x = temple_draw_offsets.trapdoor_x[0] + x;
             if (Mob.x < Mob.flags) {
-                Mob.y = temple_draw_offsets.bolt_y_1 + y; Mob.kind = 8; move_slide_bolt();
+                Mob.y = temple_draw_offsets.bolt_y_1 + y; Mob.kind = 8; ATMSlideBolt();
             }
             Mob.x = temple_draw_offsets.bolt_x_2 + x;
             if (Mob.x < Mob.flags) {
                 Mob.y = temple_draw_offsets.bolt_y_2 + y; Mob.kind = 9;
-                move_slide_bolt();
+                ATMSlideBolt();
                 Mob.x = temple_draw_offsets.bolt_x_3 + x;
                 Mob.y = temple_draw_offsets.bolt_y_3 + y;
-                move_slide_bolt();
+                ATMSlideBolt();
             }
             Mob.x = x; Mob.y = y;
             Mob.kind = 6; MobHeight[7] = MobHeight[6] = sequence;
@@ -120,16 +120,16 @@ void move_slide_rock(void)
     }
 }
 
-int can_slide_rock_stop(void)
+int CanSlideRockStop(void)
 {
     int result = 0;
-    if (probe_floors_toward_rock(-1, 32)) result = probe_floors_toward_rock(0, 32);
+    if (IsAllFloorsInDirToRock(-1, 32)) result = IsAllFloorsInDirToRock(0, 32);
     return result;
 }
 
-Rect *compute_slide_rock_rect(Rect *rect, unsigned char room, signed char row)
+Rect *ComputeSlideRockRect(Rect *rect, unsigned char room, signed char row)
 {
-    struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
+    struct moving_rock *rock = (struct moving_rock *)GetSlideRockOnRoomRow(room, row);
     if (rock) {
         rect->top = rock->y - 69; rect->left = rock->x;
         rect->bottom = rock->y + 1; rect->right = rect->left + 52;
@@ -138,24 +138,24 @@ Rect *compute_slide_rock_rect(Rect *rect, unsigned char room, signed char row)
     return rect;
 }
 
-void check_slide_rock_crush(void)
+void CheckSlideRockCrush(void)
 {
     int kid_x, rock_x;
-    copy_kid_to_char();
+    LoadKid();
     kid_x = Char.direction == 0 ? Char.x : Char.x + 13;
     if (Mob.room == Char.room && Mob.row == Char.row) {
         rock_x = Mob.x + 140;
         if (Char.sequence_group == 4 || (rock_x < kid_x && rock_x + 16 > kid_x)) {
-            hit_character_with_rock(); Kid = Char;
+            HitCharWithSlideRock(); Kid = Char;
         }
     }
 }
 
-void draw_object_slide_rock(unsigned char kind)
+void DrawObjSlideRock(unsigned char kind)
 {
     struct moving_rock *rock;
     int x, frame, right;
-    rock = (struct moving_rock *)slide_rock_on_row(Room.number, FChar.y / 63);
+    rock = (struct moving_rock *)GetSlideRockOnRoomRow(Room.number, FChar.y / 63);
     right = rock ? rock->screen_x : 320;
     FChar.clip.right = right; x = right - FChar.x;
     switch (kind) {
@@ -165,12 +165,12 @@ void draw_object_slide_rock(unsigned char kind)
     case 137: frame = x % 5 + 81; break;
     default: frame = -1; break;
     }
-    if (frame != -1) add_middle_image(4, frame, FChar.x, FChar.y, 10);
+    if (frame != -1) AddMid(4, frame, FChar.x, FChar.y, 10);
 }
 
-int slide_rock_barrier(signed char direction, unsigned char room, signed char row)
+int GetSlideRockBarrDist(signed char direction, unsigned char room, signed char row)
 {
-    struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
+    struct moving_rock *rock = (struct moving_rock *)GetSlideRockOnRoomRow(room, row);
     int barrier;
     signed char column;
     unsigned char tile;
@@ -180,7 +180,7 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
         if (direction == -1) {
             int right;
             barrier -= 3;
-            column = get_char_col(barrier - 32);
+            column = GetCharCol(barrier - 32);
             tile = (&Level.cell_kinds[0][0])[(unsigned char)30 * rock->room - 30 +
                                     (signed char)(FirstInRow(rock->row) + column)];
             if (IsWall(tile) || tile == 4) {
@@ -196,7 +196,7 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
     return barrier;
 }
 
-void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned char *flags)
+void GetSlideRockDetData(signed char row, unsigned char *rooms, unsigned char *flags)
 {
     struct moving_rock *rock;
     int left;
@@ -206,16 +206,16 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
     } edge;
     signed char column;
 
-    rock = (struct moving_rock *)slide_rock_on_row(Char.room, row);
+    rock = (struct moving_rock *)GetSlideRockOnRoomRow(Char.room, row);
     if (rock) {
         left = rock->x + 137;
         if (left < CDRightEdge) {
-            column = get_char_col(left);
+            column = GetCharCol(left);
             if (column >= 0 && column < 10) {
                 flags[column] |= 0x0f; rooms[column] = rock->room;
             }
             if (rock->mode != 100 && row == Char.row) {
-                signed char neighbor = get_char_col(left + 1);
+                signed char neighbor = GetCharCol(left + 1);
                 if (neighbor != column) {
                     edge.neighbor_flags = &ColDetLastFrame[neighbor];
                     ColDetLastFrame[column] |= *edge.neighbor_flags & 0x0f;
@@ -225,12 +225,12 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
         }
         edge.right = left + 38;
         if (edge.right > CDLeftEdge) {
-            column = get_char_col(edge.right);
+            column = GetCharCol(edge.right);
             if (column >= 0 && column < 10) {
                 flags[column] |= 0xf0; rooms[column] = rock->room;
             }
             if (rock->mode != 100 && row == Char.row) {
-                signed char neighbor = get_char_col(edge.right + 1);
+                signed char neighbor = GetCharCol(edge.right + 1);
                 if (neighbor != column) {
                     edge.neighbor_flags = &ColDetLastFrame[neighbor];
                     ColDetLastFrame[column] |= *edge.neighbor_flags & 0xf0;
@@ -248,32 +248,32 @@ struct slide_rock {
     signed char row;
 };
 
-extern struct slide_rock *get_mob_type_item(unsigned char kind, int index);
+extern struct slide_rock *GetMobTypeItem(unsigned char kind, int index);
 
-struct slide_rock *far _fastcall slide_rock_on_row(unsigned char room, signed char row)
+struct slide_rock *far _fastcall GetSlideRockOnRoomRow(unsigned char room, signed char row)
 {
     struct slide_rock *rock;
     int finished = 0;
     int index = 1;
 
     do {
-        rock = get_mob_type_item(6, index++);
+        rock = GetMobTypeItem(6, index++);
         if (!rock || (rock->room == room && rock->row == row)) finished = 1;
     } while (!finished);
     return rock;
 }
 
 extern unsigned char ReadCell(unsigned char, signed char, signed char);
-extern int IS_SIX_KIND(unsigned char);
-extern void decrement_life_points(unsigned char kind);
+extern int IsSpace(unsigned char);
+extern void DecLifePts(unsigned char kind);
 extern void AddSound(int);
-extern void dispatch_sound(int);
+extern void ResetSnd(int);
 extern void SetKidDeathMethod(unsigned char);
-extern void reset_char_y(void);
+extern void ResetCharY(void);
 extern void JumpSeq(int);
 extern void AnimChar(void);
 
-void hit_character_with_rock(void)
+void HitCharWithSlideRock(void)
 {
     int sequence;
     unsigned char tile;
@@ -287,7 +287,7 @@ void hit_character_with_rock(void)
         }
         x = Char.x - 8;
         if (Char.direction == 0) x -= 13;
-        column = get_char_col(x);
+        column = GetCharCol(x);
         tile = ReadCell(Char.room, column, Char.row);
         if (!IsWall(tile) && tile != 4) {
             if (Char.alive < 0) {
@@ -303,7 +303,7 @@ void hit_character_with_rock(void)
             if (tile != 2) {
                 if (Mob.auxiliary == 100) {
                     if (Char.alive < 0) {
-                        decrement_life_points(Char.life_points); Char.alive = 0;
+                        DecLifePts(Char.life_points); Char.alive = 0;
                     }
                     Char.frame = 185;
                 } else {
@@ -320,7 +320,7 @@ void hit_character_with_rock(void)
                         }
                     } else {
                         if (Char.alive < 0) {
-                            dispatch_sound(10001); AddSound(55);
+                            ResetSnd(10001); AddSound(55);
                         }
                         SetKidDeathMethod(13);
                     }
@@ -329,13 +329,13 @@ void hit_character_with_rock(void)
             }
         }
         if (sequence != -1) {
-            reset_char_y(); Char.vertical_step = 0;
+            ResetCharY(); Char.vertical_step = 0;
             JumpSeq(sequence); AnimChar();
         }
     }
 }
 
-int probe_floors_toward_rock(signed char row_delta, int step)
+int IsAllFloorsInDirToRock(signed char row_delta, int step)
 {
     int result = 1;
     signed char first = (Mob.x + 6) / 32;
@@ -348,7 +348,7 @@ int probe_floors_toward_rock(signed char row_delta, int step)
         do {
             if (!result) break;
             tile = ReadCell(Mob.room, first++, row);
-            if (IS_SIX_KIND(tile) || tile == 25) result = 0;
+            if (IsSpace(tile) || tile == 25) result = 0;
             else result = 1;
         } while (last >= first);
     }
@@ -368,24 +368,24 @@ struct trapdoor_bounds {
 extern CELLREC Cell;
 extern struct tile_animation *BlueS;
 extern unsigned char *BlueT;
-extern int query_sound(int id);
-extern int pending_effect;
+extern int SndOn(int id);
+extern int CueSnd;
 extern void DoImpale(void);
-extern void control_drop(void);
-extern int probe_chain_floor(int margin);
+extern void Drop(void);
+extern int SlideRockInCell(int margin);
 extern int Pics[5];
 extern int trapdoor_top, trapdoor_left;
-extern void add_mob(void);
+extern void AddMob(void);
 extern void AddSong(int song);
-extern void altar_watch_kid(void);
-extern unsigned long get_set_image_size(int sheet, int shape, struct trapdoor_bounds far *bounds);
-extern void compute_mob_rect(Rect *rect);
-extern void mark_floor(signed char cell, Rect *rect);
-extern void mark_bufs_for_rect(void (far pascal *update)(signed char, Rect *),
+extern void AltarWatchKid(void);
+extern unsigned long GetSetImgSize(int sheet, int shape, struct trapdoor_bounds far *bounds);
+extern void ComputeMobRect(Rect *rect);
+extern void MarkFloor(signed char cell, Rect *rect);
+extern void MarkBufsForRect(void (far pascal *update)(signed char, Rect *),
                                     Rect *rect, signed char flags);
-extern void trigger_trapdoor(unsigned char room, signed char cell);
+extern void TriggerTrapDoor(unsigned char room, signed char cell);
 
-void move_rock_record(void)
+void MobSlideRock(void)
 {
     int x, prior_column;
     signed char new_column;
@@ -396,12 +396,12 @@ void move_rock_record(void)
     if (Mob.auxiliary == 0 || Mob.auxiliary == 100) return;
     x = Mob.x;
     if (Mob.auxiliary == -1) --x;
-    else if (can_slide_rock_stop() && Mob.auxiliary >= 8) {
-        Mob.auxiliary = 0; dispatch_sound(10054);
-        if (pending_effect == 54) pending_effect = -1;
+    else if (CanSlideRockStop() && Mob.auxiliary >= 8) {
+        Mob.auxiliary = 0; ResetSnd(10054);
+        if (CueSnd == 54) CueSnd = -1;
     } else {
         Mob.x -= 8;
-        if (can_slide_rock_stop()) AddSound(53);
+        if (CanSlideRockStop()) AddSound(53);
         Mob.x = x--;
         if (Mob.auxiliary <= 8) ++Mob.auxiliary;
     }
@@ -412,7 +412,7 @@ void move_rock_record(void)
     do {
         if (!Mob.room) {
             Mob.velocity = -1;
-            dispatch_sound(10054);
+            ResetSnd(10054);
             return;
         }
         if (Mob.auxiliary == 0 || Mob.auxiliary == 100) return;
@@ -425,20 +425,20 @@ void move_rock_record(void)
             Mob.auxiliary = 100;
             ++Mob.y; Mob.x = x + 2;
             if (tile != 2) break;
-            copy_kid_to_char(); DoImpale();
+            LoadKid(); DoImpale();
         } else {
             prev_column = (Mob.x - 4) / 32;
             if ((new_column = (x - 4) / 32) != prev_column || prev_column != column) {
                 column = ReadCell(Mob.room, new_column, Mob.row);
                 if ((IsWall(column) || column == 4 || tile == 2) && Mob.velocity == 0) {
                     Mob.velocity = 1; --Mob.y;
-                    if (!query_sound(10055) && tile != 2) AddSound(8);
+                    if (!SndOn(10055) && tile != 2) AddSound(8);
                 }
             }
-            copy_kid_to_char();
+            LoadKid();
             if (Char.frame >= 87 && Char.frame <= 99) {
                 column = (x - 8) / 32;
-                if (Mob.row - Char.row + 1 == 0 && column == Char.column) control_drop();
+                if (Mob.row - Char.row + 1 == 0 && column == Char.column) Drop();
             }
         }
         Kid = Char;
@@ -448,36 +448,36 @@ void move_rock_record(void)
         if (Mob.auxiliary != 0) AddSound(54);
         return;
     }
-    dispatch_sound(10054);
+    ResetSnd(10054);
 }
 
 extern unsigned char view_left, view_right, view_up, view_down;
 
-int slide_rock_near_spikes(void)
+int SlideRockNearSpikes(void)
 {
     CELLREC saved = Cell;
     int result;
     ReadCell(Cell.room, Cell.column + 1, Cell.row);
-    result = probe_chain_floor(16);
+    result = SlideRockInCell(16);
     if (!result) {
         ReadCell(Cell.room, Cell.column + 2, Cell.row);
-        result = probe_chain_floor(16);
+        result = SlideRockInCell(16);
     }
     Cell = saved;
     return result;
 }
 
-int probe_chain_floor(int margin)
+int SlideRockInCell(int margin)
 {
     int result = 0;
     int rock, left, right;
-    rock = slide_rock_barrier(0, Cell.room, Cell.row);
+    rock = GetSlideRockBarrDist(0, Cell.room, Cell.row);
     if (rock) {
         left = Cell.column * 32;
         right = left + 32;
         rock -= 140;
         if (left - margin + 32 > rock || right - margin + 32 < rock) {
-            rock = slide_rock_barrier(-1, Cell.room, Cell.row);
+            rock = GetSlideRockBarrDist(-1, Cell.room, Cell.row);
             if (left - margin <= (rock -= 140) && right - margin >= rock)
                 result = 1;
         } else
@@ -486,11 +486,11 @@ int probe_chain_floor(int margin)
     return result;
 }
 
-int far _fastcall get_slide_rock_x(unsigned char room, signed char row)
+int far _fastcall TempGetSlideRockX(unsigned char room, signed char row)
 {
-    int x = slide_rock_barrier(0, room, row);
+    int x = GetSlideRockBarrDist(0, room, row);
     if (x && Char.x < x)
-        x = slide_rock_barrier(-1, room, row);
+        x = GetSlideRockBarrDist(-1, room, row);
     return x;
 }
 
@@ -499,12 +499,12 @@ extern int Row2PixelY[5];
 
 extern FRAMEREC Frame;
 
-void trigger_slide_rock(unsigned char room, signed char cell, unsigned char action)
+void TriggerSlideRock(unsigned char room, signed char cell, unsigned char action)
 {
     struct { signed char row; signed char column; } location;
     struct moving_rock *rock;
     location.row = cell / (signed char)10;
-    rock = (struct moving_rock *)slide_rock_on_row(room, location.row);
+    rock = (struct moving_rock *)GetSlideRockOnRoomRow(room, location.row);
     if (rock) {
         if (action == 1) {
             if (rock->mode >= 0 && rock->mode != 100)
@@ -527,11 +527,11 @@ void trigger_slide_rock(unsigned char room, signed char cell, unsigned char acti
         Mob.y = Row2PixelY[Cell.row + 1] - 5;
         Mob.row = location.row;
         Mob.kind = 6;
-        add_mob();
+        AddMob();
     }
 }
 
-void move_trapdoor(void)
+void ATMTrapDoor(void)
 {
     int x = Mob.x, y = Mob.y;
     unsigned char room = Mob.room;
@@ -574,19 +574,19 @@ void move_trapdoor(void)
         Level.cell_info[Mob.room - 1][absolute_column].modifier &= 0xff00;
         (&Level.cell_kinds[0][0])[(unsigned char)30 * *(volatile unsigned char *)&Mob.room - 30 + absolute_column] = 26;
         step = 17;
-        dispatch_sound(10095);
-        if (pending_effect == 95)
-            pending_effect = -1;
+        ResetSnd(10095);
+        if (CueSnd == 95)
+            CueSnd = -1;
         AddSound(3);
     }
-    if (is_visible_room_cell(room, FirstInRow(Mob.row) + draw.saved_column)) {
+    if (IsVisibleRoomCell(room, FirstInRow(Mob.row) + draw.saved_column)) {
         saved_y = Mob.y;
         Mob.y += temple_draw_offsets.trapdoor_y[step];
         y += temple_draw_offsets.trapdoor_y[step];
         saved_x = Mob.x;
         x += temple_draw_offsets.trapdoor_x[step];
         Mob.x = x;
-        if (get_set_image_size(Pics[4], temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
+        if (GetSetImgSize(Pics[4], temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
             int left_edge;
             MobHeight[10] = bounds.top + 1;
             left_edge = column * 32 - Mob.x + 57;
@@ -595,39 +595,39 @@ void move_trapdoor(void)
                 bounds.left = left_edge;
             MobWidth[10] = bounds.left;
         }
-        mark_mob_redraw(0);
+        MarkMobRedraw(0);
         if (Mob.velocity != -1) {
-            compute_mob_rect(&draw.rect);
+            ComputeMobRect(&draw.rect);
             draw.rect.left += 16;
-            mark_bufs_for_rect(mark_floor, &draw.rect, -1);
-            add_mob_obj(y);
+            MarkBufsForRect(MarkFloor, &draw.rect, -1);
+            AddMobObj(y);
         }
         Mob.x = saved_x;
         Mob.y = saved_y;
     }
 }
 
-void move_trapdoor_record(void)
+void MobTrapDoor(void)
 {
     if (Mob.velocity != -1) {
         if ((signed char)(Mob.flags & 31) <= 16)
             ++Mob.flags;
-        if (!query_sound(10094) && !query_sound(10095))
+        if (!SndOn(10094) && !SndOn(10095))
             AddSound(95);
     }
 }
 
-void check_trapdoor(void)
+void CheckTrapDoor(void)
 {
     if ((Frame.flags & 0x40) &&
         (signed char)63 * Char.row - Char.y == -56 &&
         Char.character_kind != 1 &&
         ReadCell(Char.room, Char.column, Char.row) == 26 &&
         !(Cell.modifier & 31))
-        trigger_trapdoor(Cell.room, Cell.index);
+        TriggerTrapDoor(Cell.room, Cell.index);
 }
 
-void shake_trapdoor(void)
+void ShakeTrapDoor(void)
 {
     if (!(Cell.modifier & 0x40)) {
         if (Cell.index % (signed char)10 != Char.column) {
@@ -635,11 +635,11 @@ void shake_trapdoor(void)
             Cell.modifier |= 0x40;
             animation[Cell.index].state = Cell.modifier;
         }
-        trigger_trapdoor(Cell.room, Cell.index);
+        TriggerTrapDoor(Cell.room, Cell.index);
     }
 }
 
-void trigger_trapdoor(unsigned char room, signed char cell)
+void TriggerTrapDoor(unsigned char room, signed char cell)
 {
     Level.cell_info[room - 1][cell].modifier = 0x81;
     BlueT[cell] = 0;
@@ -650,22 +650,22 @@ void trigger_trapdoor(unsigned char room, signed char cell)
     Mob.y = Row2PixelY[Cell.row + 1];
     Mob.row = cell / (signed char)10;
     Mob.kind = 10;
-    add_mob();
+    AddMob();
     AddSound(94);
-    mark_mob_redraw(0);
+    MarkMobRedraw(0);
 }
 
-void draw_object_trapdoor(unsigned char modifier)
+void DrawObjTrapDoor(unsigned char modifier)
 {
     int shape = temple_draw_offsets.trapdoor_shape[FChar.image & 31];
     if (shape == 21) {
-        add_middle_image(4, shape, FChar.x + 1, FChar.y - 2, 10);
-        add_middle_image(4, 22, FChar.x, FChar.y - 1, 0);
+        AddMid(4, shape, FChar.x + 1, FChar.y - 2, 10);
+        AddMid(4, 22, FChar.x, FChar.y - 1, 0);
     } else
-        add_middle_image(4, shape, FChar.x, FChar.y - 1, 10);
+        AddMid(4, shape, FChar.x, FChar.y - 1, 10);
 }
 
-void load_inscription_room(void)
+void LoadInscriptionRoomFunc(void)
 {
     if (Kid.column >= 9)
         AddSong(92);
@@ -674,9 +674,9 @@ void load_inscription_room(void)
 void check_temple_event(void)
 {
     if (Room.number == 4 && (Level.level_number) == 13)
-        altar_watch_kid();
+        AltarWatchKid();
 }
 
-void temple_frame(void)
+void TempFrameFunc(void)
 {
 }

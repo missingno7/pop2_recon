@@ -339,7 +339,7 @@ def summary(report):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", default="build/whole_link", help="working directory (under build/)")
+    parser.add_argument("--output", default="build/workers/whole_link", help="working directory (under build/workers/)")
     parser.add_argument("--check", action="store_true", help="fail if the result is worse than evidence/whole-link.json")
     parser.add_argument("--record", action="store_true", help="write evidence/whole-link.json (integrating writer)")
     args = parser.parse_args()

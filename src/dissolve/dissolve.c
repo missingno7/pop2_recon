@@ -36,51 +36,51 @@ typedef union
     struct { unsigned int low; int high; } words;
 } LongWords;
 
-extern int check_wait_function(void);
-extern void MEASURE_TEXT(int source, int destination, const Rect far *source_rect,
+extern int CheckWaitFunc(void);
+extern void CopyBits(int source, int destination, const Rect far *source_rect,
                       const Rect far *destination_rect, int mode);
-extern void release_port(void near *port);
-extern int create_port(void near *port, const Rect far *rect);
+extern void FreePort(void near *port);
+extern int BackPort(void near *port, const Rect far *rect);
 extern int find_option(const char far *option);
 extern void COPY_DITHERED_PORT_REGION(int source, int destination, const Rect far *source_rect,
                       const Rect far *destination_rect, int level);
 extern void near *cdecl _nmalloc(unsigned int size);
 extern void cdecl _nfree(void near *pointer);
 
-Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long duration);
-void dissolve_free(Dissolve *record, int restore);
-int dissolve_step(Dissolve *record);
-void dissolve_set_inc_amt(Dissolve *record);
+Dissolve *DissolveNew(int mode, int source, const Rect far *bounds, long duration);
+void DissolveFree(Dissolve *record, int restore);
+int DissolveStep(Dissolve *record);
+void DissolveSetIncAmt(Dissolve *record);
 
-int dissolve_do_all(int mode, int source, const Rect far *bounds, long duration)
+int DissolveDoAll(int mode, int source, const Rect far *bounds, long duration)
 {
     int interrupted = 0;
     int more;
     Dissolve *record;
 
-    record = dissolve_new(mode, source, bounds, duration);
+    record = DissolveNew(mode, source, bounds, duration);
     if (record) {
         do {
-            interrupted = check_wait_function();
-            more = dissolve_step(record) == 0;
-            MEASURE_TEXT(ScreenPort, record->destination,
+            interrupted = CheckWaitFunc();
+            more = DissolveStep(record) == 0;
+            CopyBits(ScreenPort, record->destination,
                       &record->rect, &record->rect, 0);
         } while (!interrupted && more);
-        dissolve_free(record, 0);
+        DissolveFree(record, 0);
     }
     return interrupted;
 }
 
-void dissolve_free(Dissolve *record, int restore)
+void DissolveFree(Dissolve *record, int restore)
 {
     if (restore)
-        MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 0);
+        CopyBits(record->destination, record->source, &record->rect, &record->rect, 0);
     if (record->mode == 2)
-        release_port(&record->temporary);
+        FreePort(&record->temporary);
     _nfree(record);
 }
 
-Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long duration)
+Dissolve *DissolveNew(int mode, int source, const Rect far *bounds, long duration)
 {
     Dissolve *record;
 
@@ -98,22 +98,22 @@ Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long durati
         DITHER_SEED = 0x4583;
 
         if (record->mode == 2) {
-            if (create_port(&record->temporary, bounds))
-                MEASURE_TEXT(&record->temporary, record->source, bounds, bounds, 0);
+            if (BackPort(&record->temporary, bounds))
+                CopyBits(&record->temporary, record->source, bounds, bounds, 0);
             else {
                 _nfree(record);
                 record = 0;
             }
         }
         if (record)
-            dissolve_set_inc_amt(record);
+            DissolveSetIncAmt(record);
         if (record->mode == 2)
-            MEASURE_TEXT(&record->temporary, record->destination, bounds, bounds, 0);
+            CopyBits(&record->temporary, record->destination, bounds, bounds, 0);
     }
     return record;
 }
 
-void dissolve_set_inc_amt(Dissolve *record)
+void DissolveSetIncAmt(Dissolve *record)
 {
     long area;
     unsigned long elapsed;
@@ -131,8 +131,8 @@ void dissolve_set_inc_amt(Dissolve *record)
         record->level = 255;
         record->increment = 0;
         for (steps = 2; steps; --steps) {
-            dissolve_step(record);
-            MEASURE_TEXT(record->source, record->source, &record->rect, &record->rect, 0);
+            DissolveStep(record);
+            CopyBits(record->source, record->source, &record->rect, &record->rect, 0);
         }
         record->destination = saved_destination;
         record->level = 0;
@@ -168,7 +168,7 @@ void far pascal DissolveSetStepFunc(
     record->second = second;
 }
 
-int dissolve_step(Dissolve *record)
+int DissolveStep(Dissolve *record)
 {
     LongWords scratch;
     int finished;
@@ -196,15 +196,15 @@ int dissolve_step(Dissolve *record)
         if (record->mode == 1)
             DITHER_SEED = record->pattern;
         else if (record->mode == 2)
-            MEASURE_TEXT(record->destination, &record->temporary,
+            CopyBits(record->destination, &record->temporary,
                       &record->rect, &record->rect, 0);
         if (!find_option(dissolve_option))
             COPY_DITHERED_PORT_REGION(record->destination, record->source, &record->rect, &record->rect, record->level);
         else
-            MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 2);
+            CopyBits(record->destination, record->source, &record->rect, &record->rect, 2);
         Graf = scratch.words.high;
     } else {
-        MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 0);
+        CopyBits(record->destination, record->source, &record->rect, &record->rect, 0);
     }
     return finished;
 }

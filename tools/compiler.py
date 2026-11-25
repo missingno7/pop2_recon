@@ -44,12 +44,19 @@ def verify_profile(profile: str) -> dict:
             raise CompileError(f"pinned tool hash mismatch for {path}: {actual}")
     return spec
 
-def header_closure(text: str, staged: Path | None = None) -> dict[str, bytes]:
+def header_closure(text: str, staged: Path | None = None, library: dict[str, bytes] | None = None) -> dict[str, bytes]:
     """The project headers a C source includes, directly or through another, by name. `#include "name.h"` of a file in
-    include/ is the only form; a research compile may read its own copy of the header directory instead (`staged`)."""
+    include/ and `#include <name.h>` of a pinned compiler header are the only forms; the latter are collected in
+    `library`. A research compile may read its own copy of the header directory instead (`staged`)."""
     found, queue = {}, [text]
     while queue:
         for operand in INCLUDE.findall(queue.pop()):
+            standard = re.fullmatch(r"[ \t]*<([a-z]{1,8}\.h)>[ \t]*\r?", operand)
+            if standard:
+                data = library_header(standard.group(1))
+                if library is not None:
+                    library[standard.group(1)] = data
+                continue
             name = re.fullmatch(r'[ \t]*"([a-z][a-z0-9]{0,7}\.h)"[ \t]*\r?', operand)
             if not name:
                 raise CompileError(f"C includes are refused unless they name a project header: {operand.strip()}")
@@ -67,8 +74,27 @@ def header_closure(text: str, staged: Path | None = None) -> dict[str, bytes]:
     return found
 
 
+def library_header(name: str) -> bytes:
+    """A standard header of the compiler, as pinned in layout/toolchain.lock.json."""
+    pinned = load_lock()["headers"]
+    if name not in pinned["files"]:
+        raise CompileError(f"C includes are refused: {name} is no pinned compiler header")
+    path = Path(pinned["directory"]) / name
+    if not path.is_file():
+        raise CompileError(f"pinned compiler header is missing: {path}")
+    data = path.read_bytes()
+    if sha256(data) != pinned["files"][name]:
+        raise CompileError(f"pinned compiler header hash mismatch for {path}")
+    if INCLUDE.search(data.decode("latin1")):
+        raise CompileError(f"compiler header {name} includes another file")
+    return data
+
+
 def header_pins(text: str) -> dict[str, str]:
-    return {name: sha256(data) for name, data in sorted(header_closure(text).items())}
+    library: dict[str, bytes] = {}
+    found = header_closure(text, library=library)
+    found.update({f"<{name}>": data for name, data in library.items()})
+    return {name: sha256(data) for name, data in sorted(found.items())}
 
 
 @dataclass
@@ -105,7 +131,8 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
         source_bytes = text.replace("\r\n", "\n").replace("\r", "\n").replace("\n", "\r\n").encode("ascii")
     except (UnicodeDecodeError, UnicodeEncodeError) as exc:
         raise CompileError(f"historical DOS source must be ASCII: {exc}") from exc
-    included = header_closure(text, headers)
+    library: dict[str, bytes] = {}
+    included = header_closure(text, headers, library)
     workroot = WORKERS / "toolchain"
     workroot.mkdir(parents=True, exist_ok=True)
     work = Path(workdir).resolve() if workdir is not None else Path(tempfile.mkdtemp(prefix=f"{profile}-", dir=workroot))
@@ -119,6 +146,11 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
         stale.unlink()
     for name, data in included.items():
         (work / name).write_bytes(data.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
+    shutil.rmtree(work / "CRT", ignore_errors=True)
+    if library:
+        (work / "CRT").mkdir()
+        for name, data in library.items():
+            (work / "CRT" / name).write_bytes(data)
     selected_flags = list(flags if flags is not None else spec["flags"])
     if not any(flag.lower() == "/c" for flag in selected_flags):
         raise CompileError("compile_c requires the /c switch; linker invocation is a separate experiment")
@@ -130,7 +162,7 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
         if stale.exists():
             stale.unlink()
     argv = [load_lock()["runner"]["path"], *load_lock()["runner"]["options"],
-            str(exe), *selected_flags, f"{basename}.C"]
+            str(exe), *selected_flags, *(["/ICRT"] if library else []), f"{basename}.C"]
     search = [spec["directory"], *spec.get("path_extra", [])]
     env = {"PATH": ";".join(search), "MSDOS_PATH": ";".join(search),
            "TEMP": ".", "TMP": ".", "MSDOS_TEMP": ".",
@@ -153,6 +185,7 @@ def compile_c(source: str | Path, profile: str, flags: list[str] | None = None, 
             parsed = OmfReader().read(obj, obj_path.name)
         except OmfError as exc:
             log += f"\nOMF parse refused: {exc}\n"
+    included.update({f"<{name}>": data for name, data in library.items()})
     result = CompileResult(exit_code == 0 and obj is not None and parsed is not None,
                            obj_path if obj is not None else None, log, work, argv, profile, selected_flags,
                            sha256(original_source), sha256(source_bytes),

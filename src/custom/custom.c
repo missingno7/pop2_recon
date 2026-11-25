@@ -25,13 +25,13 @@ typedef struct {
     int sound_first, sound_last;
     char header_tail[16];
     CustomPiece pieces[1];
-} CustomRoom;
+} CUSTOMROOM;
 
 typedef struct {
     unsigned char flags;
     unsigned int background, foreground;
 } AboveCell;
-CustomRoom *custom_room = 0;
+CUSTOMROOM *CustomRoom = 0;
 
 typedef struct {
     unsigned char sheet;
@@ -76,35 +76,35 @@ extern struct {
 } PeelInfo;
 extern void far pascal LoadCarpetCode(void);
 extern void far pascal UnloadCarpetCode(void);
-extern void far pascal load_bridge_code(void);
-extern void far pascal unload_bridge_code(void);
+extern void far pascal LoadBridgeCode(void);
+extern void far pascal UnloadBridgeCode(void);
 extern void far pascal LoadDsrtCode(void);
-extern void far pascal load_throne_room(void);
-extern void far pascal unload_throne_room(void);
-extern void far pascal load_ruins_start_palette(void);
-extern void far pascal unload_ruins_start_palette(void);
-extern void far pascal load_plateau_room(void);
-extern void far pascal load_altar_room(void);
-extern void far pascal unload_altar_room(void);
-extern void far pascal load_inscription_room(void);
-extern void far pascal load_chess(void);
-extern void far pascal setup_crystal_room(void);
-extern void far pascal load_tower_top(void);
+extern void far pascal LoadRNThroneFunc(void);
+extern void far pascal UnloadRNThroneFunc(void);
+extern void far pascal LoadRNStart6(void);
+extern void far pascal UnloadRNStart6(void);
+extern void far pascal LoadPlateauRoomFunc(void);
+extern void far pascal LoadAltarRoomFunc(void);
+extern void far pascal UnloadAltarRoomFunc(void);
+extern void far pascal LoadInscriptionRoomFunc(void);
+extern void far pascal LoadChess(void);
+extern void far pascal LoadCrystal(void);
+extern void far pascal LoadTowerTop(void);
 
 /* The reserved fields are zero in each 28-byte DOS template record. */
 #define UNUSED_TEMPLATE_FIELDS { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
 RoomTemplate CVCarpetPlate = { { LoadCarpetCode }, { UnloadCarpetCode }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate CVBridgePlate = { { load_bridge_code }, { unload_bridge_code }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate CVBridgePlate = { { LoadBridgeCode }, { UnloadBridgeCode }, UNUSED_TEMPLATE_FIELDS };
 RoomTemplate DSExitPlate = { { LoadDsrtCode }, { 0 }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate RNThronePlate = { { load_throne_room }, { unload_throne_room }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate RNStart6Plate = { { load_ruins_start_palette }, { unload_ruins_start_palette }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate RNPlateauPlate = { { load_plateau_room }, { 0 }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate TMAltarPlate = { { load_altar_room }, { unload_altar_room }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate TMInscriptionPlate = { { load_inscription_room }, { 0 }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate FNChessPlate = { { load_chess }, { 0 }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate FNCrystalPlate = { { setup_crystal_room }, { 0 }, UNUSED_TEMPLATE_FIELDS };
-RoomTemplate FNTowerTopPlate = { { load_tower_top }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate RNThronePlate = { { LoadRNThroneFunc }, { UnloadRNThroneFunc }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate RNStart6Plate = { { LoadRNStart6 }, { UnloadRNStart6 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate RNPlateauPlate = { { LoadPlateauRoomFunc }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate TMAltarPlate = { { LoadAltarRoomFunc }, { UnloadAltarRoomFunc }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate TMInscriptionPlate = { { LoadInscriptionRoomFunc }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate FNChessPlate = { { LoadChess }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate FNCrystalPlate = { { LoadCrystal }, { 0 }, UNUSED_TEMPLATE_FIELDS };
+RoomTemplate FNTowerTopPlate = { { LoadTowerTop }, { 0 }, UNUSED_TEMPLATE_FIELDS };
 RoomTemplate NullPlate = { { 0 }, { 0 }, UNUSED_TEMPLATE_FIELDS };
 
 #undef UNUSED_TEMPLATE_FIELDS
@@ -128,46 +128,46 @@ RoomTemplate *CustomTemplate = &NullPlate;
 extern unsigned int *Pics[5];
 extern Rect NullRect;
 extern Rect BridgeRect;
-extern void far mark_move(void);
+extern void far MarkMove(void);
 
-extern void far _fastcall add_peel(int left, int right, int top, int height,
+extern void far _fastcall AddPeel(int left, int right, int top, int height,
                                    unsigned char id, unsigned char kind);
-extern int find_character_peel(unsigned char id, int restore);
-extern void stroke_port_rect(const int far *rect);
-extern void check_roof_room(void);
-extern void DISPOSE_HANDLE(ShapeHandle handle);
+extern int GetPeelIdxForCharIdx(unsigned char id, int restore);
+extern void EraseRect(const int far *rect);
+extern void RoofCheckRoomSpecific(void);
+extern void hFree(ShapeHandle handle);
 extern void OFFSETRECT(Rect far *dst, Rect far *src, int dy, int dx);
-extern void far _fastcall draw_custom_room_image(char index, char pass);
+extern void far _fastcall DrawCustomRoomImg(char index, char pass);
 extern void far *MATERIALIZE_HANDLE(ShapeHandle handle);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(ShapeHandle handle);
+extern void far *h2p(ShapeHandle handle);
 extern unsigned int HGETRSRC(unsigned long type, int id);
-extern void *LOAD_RESOURCE_COPY(unsigned long type, int id);
-extern void far *FETCH_LOCKED_SHAPE_LIST(unsigned int archive);
-extern void CLEAR_HANDLE_OWNED(unsigned int archive);
+extern void *nGetRsrc(unsigned long type, int id);
+extern void far *hLock(unsigned int archive);
+extern void hUnlock(unsigned int archive);
 extern void RELOCATE_HANDLE_PAYLOAD(unsigned int archive);
-extern int SAVE_HANDLE_FLAGS(unsigned int archive);
-extern void RESTORE_HANDLE_FLAGS(unsigned int archive, int position);
+extern int hGetState(unsigned int archive);
+extern void hSetState(unsigned int archive, int position);
 extern ShapeHandle PrinceUnpackShape(unsigned int resource, int format, void far *archive);
-extern void load_song_range(int first, int last);
-extern void release_song_range(int first, int last);
+extern void LoadSounds(int first, int last);
+extern void UnloadSounds(int first, int last);
 extern void MAKESHAPERECT(Rect far *rect, int x, int y, void far *shape);
 extern int EMPTYRECT(Rect far *);
 extern void SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void AddDsrtStoneUpPeels(CustomPiece *);
-extern void mark_bufs_for_rect(void (far *image)(void), Rect *rect, char pass);
+extern void MarkBufsForRect(void (far *image)(void), Rect *rect, char pass);
 extern void * _cdecl _nmalloc(unsigned int bytes);
 extern void _cdecl _nfree(void *);
 extern void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
-void LoadCustomRoomShapes(CustomRoom *room);
+void LoadCustomRoomShapes(CUSTOMROOM *room);
 void UnloadCustomRoomShapes(int all);
 void UnloadCustomRoomData(void);
 void SetCustomRoomTemplate(unsigned char type);
 
 void AddCustomPiecePeel(CustomPiece *piece, Rect far *rect)
 {
-    add_peel(rect->left, rect->right, rect->top, rect->bottom - rect->top,
+    AddPeel(rect->left, rect->right, rect->top, rect->bottom - rect->top,
              (unsigned char)(piece->shape + 100), piece->peel_type);
 }
 
@@ -176,39 +176,39 @@ void CheckRoomSpecific(void)
     switch (Level.environment_kind) {
     case 4:
         if (!Room.above)
-            stroke_port_rect(TopRowRect);
+            EraseRect(TopRowRect);
         break;
     case 5:
-        check_roof_room();
+        RoofCheckRoomSpecific();
         break;
     }
     if (HorseShpInfo.handle) {
-        DISPOSE_HANDLE(HorseShpInfo.handle);
+        hFree(HorseShpInfo.handle);
         HorseShpInfo.handle = 0;
     }
 }
 
-CustomPiece *offset_custom_piece(CustomPiece *piece, signed char column, signed char row);
+CustomPiece *CustomPieceOffsetToColRow(CustomPiece *piece, signed char column, signed char row);
 
 void DrawCustomRoomImgAtInfo(unsigned char index, signed char *info)
 {
-    CustomPiece *piece = &custom_room->pieces[index];
+    CustomPiece *piece = &CustomRoom->pieces[index];
     Rect saved_rect;
     CustomPosition saved_position;
     unsigned char saved_pass;
 
     saved_rect = piece->rect;
     saved_position = piece->position;
-    piece = offset_custom_piece(piece, info[1], info[2]);
+    piece = CustomPieceOffsetToColRow(piece, info[1], info[2]);
     saved_pass = piece->pass;
     piece->pass = info[0];
-    draw_custom_room_image(index, info[0]);
+    DrawCustomRoomImg(index, info[0]);
     piece->position = saved_position;
     piece->pass = saved_pass;
     piece->rect = saved_rect;
 }
 
-CustomPiece *offset_custom_piece(CustomPiece *piece, signed char column, signed char row)
+CustomPiece *CustomPieceOffsetToColRow(CustomPiece *piece, signed char column, signed char row)
 {
     int dx = (row + 1) * 63;
     int dy;
@@ -241,24 +241,24 @@ void far *GetCustomPieceShape(CustomPiece *piece)
 
     if (!piece->handle || !MATERIALIZE_HANDLE(piece->handle)) {
         if (piece->handle)
-            DISPOSE_HANDLE(piece->handle);
+            hFree(piece->handle);
         piece->handle = PrinceUnpackShape(
             lookup.resource = HGETRSRC(0x53484150UL,
-                                            piece->shape + custom_room->shape_base),
-            2, FETCH_LOCKED_SHAPE_LIST(*Pics[4]));
-        CLEAR_HANDLE_OWNED(*Pics[4]);
+                                            piece->shape + CustomRoom->shape_base),
+            2, hLock(*Pics[4]));
+        hUnlock(*Pics[4]);
     }
-    return RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle);
+    return h2p(piece->handle);
 }
 
 PieceShapeInfo *far _fastcall GetCustomPieceShpInfo(int index, PieceShapeInfo *info)
 {
-    if (custom_room) {
+    if (CustomRoom) {
         char zero = 0;
         info->sheet = 1;
         info->column = zero;
         info->row = zero;
-        info->handle = custom_room->pieces[index].handle;
+        info->handle = CustomRoom->pieces[index].handle;
     } else {
         info = 0;
     }
@@ -269,10 +269,10 @@ ShapeSize far *GetCustomPieceSize(unsigned char index, ShapeSize far *size)
 {
     ShapeSize far *shape;
 
-    if (!custom_room)
+    if (!CustomRoom)
         size = 0;
     else {
-        shape = GetCustomPieceShape(&custom_room->pieces[index]);
+        shape = GetCustomPieceShape(&CustomRoom->pieces[index]);
         if (!shape)
             size = 0;
         else
@@ -298,39 +298,39 @@ int IsCustomizedRoom(unsigned char room)
 
 void LoadCustomRoomData(unsigned char room_number_arg)
 {
-    CustomRoom *room;
+    CUSTOMROOM *room;
     register unsigned long load;
 
     if (Room.custom) {
-        room = LOAD_RESOURCE_COPY(0x43555354UL, (room_number_arg + 159) * 25);
+        room = nGetRsrc(0x43555354UL, (room_number_arg + 159) * 25);
         if (room) {
-            if (custom_room && room->template_id == custom_room->template_id) {
+            if (CustomRoom && room->template_id == CustomRoom->template_id) {
                 /* The DOS routine repeats the template comparison on this path. */
-                if (room->template_id == custom_room->template_id) {
+                if (room->template_id == CustomRoom->template_id) {
                     LoadCustomRoomShapes(room);
                     UnloadCustomRoomShapes(1);
-                    _nfree(custom_room);
-                    custom_room = room;
+                    _nfree(CustomRoom);
+                    CustomRoom = room;
                 }
             } else {
                 LoadCustomRoomShapes(room);
                 UnloadCustomRoomData();
-                custom_room = room;
-                load_song_range(room->sound_first, room->sound_last);
-                SetCustomRoomTemplate(custom_room->template_id);
+                CustomRoom = room;
+                LoadSounds(room->sound_first, room->sound_last);
+                SetCustomRoomTemplate(CustomRoom->template_id);
             }
             if ((load = CustomTemplate->load.address) != 0)
                 ((void (far *)(void))load)();
         }
-    } else if (custom_room) {
+    } else if (CustomRoom) {
         UnloadCustomRoomData();
         if (((Level.level_number) == 5 && Room.number == 7) ||
             ((Level.level_number) == 5 && Room.number == 12))
-            load_bridge_code();
+            LoadBridgeCode();
     }
 }
 
-void LoadCustomRoomShapes(CustomRoom *room)
+void LoadCustomRoomShapes(CUSTOMROOM *room)
 {
     int i, old_count, bytes, shape_base, position;
 
@@ -340,29 +340,29 @@ void LoadCustomRoomShapes(CustomRoom *room)
     CustomPiece *piece;
     Rect rect;
 
-    if (custom_room) {
-        if (custom_room->shape_base == (shape_base = room->shape_base)) {
-            old_count = 1 + (custom_room->last_shape >= room->last_shape ?
-                             custom_room->last_shape : room->last_shape);
+    if (CustomRoom) {
+        if (CustomRoom->shape_base == (shape_base = room->shape_base)) {
+            old_count = 1 + (CustomRoom->last_shape >= room->last_shape ?
+                             CustomRoom->last_shape : room->last_shape);
             bytes = old_count * sizeof(ShapeHandle);
             old_shapes = _nmalloc(bytes);
             memset(old_shapes, 0, bytes);
-            for (i = 0; i < custom_room->count; ++i) {
-                if (custom_room->pieces[i].handle) {
-                    piece = &custom_room->pieces[i];
-                    old_shapes[piece->shape] = custom_room->pieces[i].handle;
-                    custom_room->pieces[i].handle = 0;
+            for (i = 0; i < CustomRoom->count; ++i) {
+                if (CustomRoom->pieces[i].handle) {
+                    piece = &CustomRoom->pieces[i];
+                    old_shapes[piece->shape] = CustomRoom->pieces[i].handle;
+                    CustomRoom->pieces[i].handle = 0;
                 }
             }
         }
-        if (custom_room->template_id != room->template_id)
+        if (CustomRoom->template_id != room->template_id)
             UnloadCustomRoomData();
     }
 
     shape_base = room->shape_base;
-    position = SAVE_HANDLE_FLAGS(*Pics[4]);
+    position = hGetState(*Pics[4]);
     RELOCATE_HANDLE_PAYLOAD(*Pics[4]);
-    archive = FETCH_LOCKED_SHAPE_LIST(*Pics[4]);
+    archive = hLock(*Pics[4]);
     bytes = (room->last_shape + 1) * sizeof(ShapeHandle);
     new_shapes = _nmalloc(bytes);
     memset(new_shapes, 0, bytes);
@@ -381,7 +381,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
                     }
                 }
                 piece->handle = new_shapes[piece->shape];
-                bitmap = RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle);
+                bitmap = h2p(piece->handle);
                 MAKESHAPERECT(&rect, piece->position.x, piece->position.y, bitmap);
                 if (EMPTYRECT(&piece->rect)) {
                     piece->rect = rect;
@@ -397,11 +397,11 @@ void LoadCustomRoomShapes(CustomRoom *room)
             }
         } while (++i < room->count);
     }
-    RESTORE_HANDLE_FLAGS(*Pics[4], position);
+    hSetState(*Pics[4], position);
     if (old_shapes) {
         for (i = 0; i < old_count; ++i) {
             if (old_shapes[i])
-                DISPOSE_HANDLE(old_shapes[i]);
+                hFree(old_shapes[i]);
         }
         _nfree(old_shapes);
     }
@@ -411,7 +411,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
 int NeedDrawRoomBelowCustom(void)
 {
     int result;
-    if (custom_room && custom_room->template_id == 31) {
+    if (CustomRoom && CustomRoom->template_id == 31) {
         result = 1;
     } else {
         result = 0;
@@ -421,7 +421,7 @@ int NeedDrawRoomBelowCustom(void)
 
 int RestoreKeepCustomPeel(unsigned char id)
 {
-    int peel = find_character_peel((unsigned char)(id + 100), 1);
+    int peel = GetPeelIdxForCharIdx((unsigned char)(id + 100), 1);
     if (peel != -1)
         PeelInfo.entries[peel].keep = 0;
     return peel;
@@ -431,12 +431,12 @@ void SaveCustomRoomPeels(void)
 {
     int i;
 
-    if (custom_room) {
-        for (i = 0; i < custom_room->count; ++i) {
-            if (custom_room->pieces[i].peel_type == 2) {
-                AddCustomPiecePeel(&custom_room->pieces[i], &custom_room->pieces[i].rect);
-            } else if (custom_room->pieces[i].peel_type == 3) {
-                AddDsrtStoneUpPeels(&custom_room->pieces[i]);
+    if (CustomRoom) {
+        for (i = 0; i < CustomRoom->count; ++i) {
+            if (CustomRoom->pieces[i].peel_type == 2) {
+                AddCustomPiecePeel(&CustomRoom->pieces[i], &CustomRoom->pieces[i].rect);
+            } else if (CustomRoom->pieces[i].peel_type == 3) {
+                AddDsrtStoneUpPeels(&CustomRoom->pieces[i]);
             }
         }
     }
@@ -455,13 +455,13 @@ void UnloadCustomRoomData(void)
 {
     register unsigned long unload;
 
-    if (custom_room) {
+    if (CustomRoom) {
         UnloadCustomRoomShapes(1);
-        release_song_range(custom_room->sound_first, custom_room->sound_last);
+        UnloadSounds(CustomRoom->sound_first, CustomRoom->sound_last);
         if ((unload = CustomTemplate->unload.address) != 0)
             ((void (far *)(void))unload)();
-        _nfree(custom_room);
-        custom_room = 0;
+        _nfree(CustomRoom);
+        CustomRoom = 0;
         SetCustomRoomTemplate(36);
     }
 }
@@ -473,29 +473,29 @@ void UnloadCustomRoomShapes(int all)
     ShapeHandle *released;
     unsigned int bytes;
 
-    if (custom_room) {
-        bytes = (custom_room->last_shape + 1) * sizeof(ShapeHandle);
+    if (CustomRoom) {
+        bytes = (CustomRoom->last_shape + 1) * sizeof(ShapeHandle);
         released = _nmalloc(bytes);
         memset(released, 0, bytes);
         i = 0;
-        if (custom_room->count > 0) do {
-            piece = &custom_room->pieces[i];
+        if (CustomRoom->count > 0) do {
+            piece = &CustomRoom->pieces[i];
             if (piece->handle && (all || (!piece->pass && !piece->flags))) {
                 if (!released[piece->shape]) {
-                    DISPOSE_HANDLE(piece->handle);
+                    hFree(piece->handle);
                     released[piece->shape] = 1;
                 }
                 piece->handle = 0;
             }
             if (!all && piece->pass == 11) {
-                if (custom_room->template_id == 33) {
-                    if (custom_room->count - i - 1 == 0)
-                        mark_bufs_for_rect(mark_move, &BridgeRect, -1);
+                if (CustomRoom->template_id == 33) {
+                    if (CustomRoom->count - i - 1 == 0)
+                        MarkBufsForRect(MarkMove, &BridgeRect, -1);
                 } else {
-                    mark_bufs_for_rect(mark_move, &piece->rect, -1);
+                    MarkBufsForRect(MarkMove, &piece->rect, -1);
                 }
             }
-        } while (++i < custom_room->count);
+        } while (++i < CustomRoom->count);
         _nfree(released);
     }
 }

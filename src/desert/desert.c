@@ -35,10 +35,10 @@ typedef struct {
 typedef struct {
     byte reserved[16];
     Rect bounds;
-} Peel;
+} PEELPORT;
 
 typedef struct {
-    Peel *peel;
+    PEELPORT *peel;
     int reserved;
     int active;
 } PeelRecord;
@@ -57,12 +57,12 @@ extern unsigned long FrameNum;
 extern ROOMREC Room;
 extern AmbientState ambient_state;
 extern CHARREC Kid;
-extern int NextLevel, pending_effect;
+extern int NextLevel, CueSnd;
 
 extern Directions Dir;
 static Rect stone_bounds = {49, 11, 70, 54};
 static sbyte desert_variant = -1;
-extern DesertRoom *custom_room;
+extern DesertRoom *CustomRoom;
 extern word *Pics[5];
 extern Rect CellClipRect, GamePlayRect;
 extern int ImWidth;
@@ -74,58 +74,58 @@ extern struct {
 
 extern void AddSong(int), AddSound(int);
 extern void CycleColors(int, int, int);
-extern int query_sound(int);
-extern void dispatch_sound(int);
-extern int get_trob_by_id(sbyte, sbyte);
-extern void copy_kid_to_char(void), reset_char_y(void);
+extern int SndOn(int);
+extern void ResetSnd(int);
+extern int GetTrobId(sbyte, sbyte);
+extern void LoadKid(void), ResetCharY(void);
 extern void JumpSeq(int);
 extern int Rnd(int);
-extern void far *FETCH_LOCKED_SHAPE_LIST(word);
-extern void CLEAR_HANDLE_OWNED(word), DISPOSE_HANDLE(word);
+extern void far *hLock(word);
+extern void hUnlock(word), hFree(word);
 extern word HGETRSRC(unsigned long, int);
 extern word PrinceUnpackShape(word, int, void far *);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(word);
+extern void far *h2p(word);
 extern Rect far *MAKESHAPERECT(Rect far *, int, int, void far *);
-extern void mark_move(sbyte, Rect *);
-extern void mark_bufs_for_rect(void (far *)(sbyte, Rect *), Rect *, sbyte);
-extern void far _fastcall draw_custom_room_image(sbyte, sbyte);
-extern int get_trob_room_cell(sbyte, int);
-extern void add_trob(sbyte, sbyte, sbyte, sbyte);
-extern int check_trob_visibility(void);
+extern void MarkMove(sbyte, Rect *);
+extern void MarkBufsForRect(void (far *)(sbyte, Rect *), Rect *, sbyte);
+extern void far _fastcall DrawCustomRoomImg(sbyte, sbyte);
+extern int GetTrobRoomCell(sbyte, int);
+extern void AddTrob(sbyte, sbyte, sbyte, sbyte);
+extern int CheckTrobVis(void);
 extern sbyte RestoreKeepCustomPeel(byte);
 extern void DrawCustomRoomImgAtInfo(byte, Piece *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
-extern void far _fastcall add_peel(int, int, int, int, byte, byte);
-extern int compute_trob_move_rect(Rect *, Rect *);
-extern sbyte check_trob_right(void), check_trob_below(void);
-extern int find_character_peel(byte, int);
+extern void far _fastcall AddPeel(int, int, int, int, byte, byte);
+extern int ComputeTrobMoveRect(Rect *, Rect *);
+extern sbyte CheckTrobRight(void), CheckTrobBelow(void);
+extern int GetPeelIdxForCharIdx(byte, int);
 
-void check_desert_exit(void);
-void cycle_desert_colors(void);
-void watch_desert_kid(void);
-int is_selected_code(int);
-word is_desert_exit_open(void);
-void trigger_desert_exit(sbyte, sbyte);
-void animate_desert_stone(void);
-void redraw_stone(void);
-void remove_last_stone_peel(sbyte);
-int sink_desert_stone(sbyte);
-int trigger_stone_at(byte, sbyte, sbyte);
+void DsrtCheckExit(void);
+void DsrtCycleColors(void);
+void DsrtWatchKid(void);
+int IsMarkStonePos(int);
+word IsDsrtExitOpen(void);
+void TriggerDsrtExit(sbyte, sbyte);
+void AnimDsrtStone(void);
+void RedrawStone(void);
+void RemoveLastStonePeel(sbyte);
+int SinkDsrtStone(sbyte);
+int TriggerStone(byte, sbyte, sbyte);
 
-void add_desert_ambient(void)
+void AddDsrtAmbient(void)
 {
     if (Midi.channels & 2)
         AddSong(251);
 }
 
-void clip_desert_character(void)
+void DsrtClipChar(void)
 {
     FChar.clip.bottom = FChar.clip.bottom > 126 ? 126 : FChar.clip.bottom;
     if (FChar.clip.bottom < FChar.clip.top)
         FChar.clip.top = FChar.clip.bottom;
 }
 
-void check_desert_exit(void)
+void DsrtCheckExit(void)
 {
     word flags = Level.cell_info[0][10].modifier;
     word frame;
@@ -150,14 +150,14 @@ void check_desert_exit(void)
 
     if (keep_open) {
         if (frame >= 20) {
-            trigger_desert_exit(1, 10);
+            TriggerDsrtExit(1, 10);
         } else {
             if (frame == 6)
                 AddSong(37);
             else if (frame == 9)
                 AddSound(45);
             else if (frame == 10)
-                sink_desert_stone(current_column + 12);
+                SinkDsrtStone(current_column + 12);
             ++frame;
             flags &= 0xe0ff;
             frame <<= 8;
@@ -169,7 +169,7 @@ void check_desert_exit(void)
     Level.cell_info[0][10].modifier = flags;
 }
 
-void cycle_desert_colors(void)
+void DsrtCycleColors(void)
 {
     if (!GameState.fade_active && Room.number != 1 && FrameNum % 3 == 0) {
         CycleColors(176, 13, 0);
@@ -178,42 +178,42 @@ void cycle_desert_colors(void)
     }
 }
 
-void desert_frame(void)
+void DsrtFrameFunc(void)
 {
-    cycle_desert_colors();
-    watch_desert_kid();
-    check_desert_exit();
+    DsrtCycleColors();
+    DsrtWatchKid();
+    DsrtCheckExit();
     if (Room.number != 1) {
-        if (!query_sound(10038))
+        if (!SndOn(10038))
             AddSound(38);
-        if (query_sound(10251))
-            dispatch_sound(10251);
-    } else if (query_sound(10251)) {
-        if (query_sound(10038))
-            dispatch_sound(10038);
+        if (SndOn(10251))
+            ResetSnd(10251);
+    } else if (SndOn(10251)) {
+        if (SndOn(10038))
+            ResetSnd(10038);
     } else if (Kid.sequence_group != 7 && Kid.alive < 0 &&
-               !query_sound(ambient_state.song + 10000) &&
-               !get_trob_by_id(30, 1) && !is_desert_exit_open()) {
-        add_desert_ambient();
+               !SndOn(ambient_state.song + 10000) &&
+               !GetTrobId(30, 1) && !IsDsrtExitOpen()) {
+        AddDsrtAmbient();
     }
 }
 
-void watch_desert_kid(void)
+void DsrtWatchKid(void)
 {
-    copy_kid_to_char();
+    LoadKid();
     if (Char.room == 1) {
         if (Char.column != previous_column) {
-            if (is_selected_code(Char.frame)) {
+            if (IsMarkStonePos(Char.frame)) {
                 if (previous_column >= 2) {
                     if (previous_column <= 7) {
-                        if (sink_desert_stone(previous_column + 10) &&
+                        if (SinkDsrtStone(previous_column + 10) &&
                             current_column - previous_column == -2)
                             AddSong(41);
                     }
                 }
             }
         }
-        if (is_selected_code(Char.frame))
+        if (IsMarkStonePos(Char.frame))
             previous_column = Char.column;
         if (Char.x < 130) {
             if (Level.level_number == NextLevel) {
@@ -221,28 +221,28 @@ void watch_desert_kid(void)
                 JumpSeq(2);
             } else {
                 JumpSeq(2);
-                pending_effect = -1;
+                CueSnd = -1;
             }
         }
     } else if (Char.room == 3) {
         if (Char.x >= 489) {
             if (Dir.up || Dir.down || (!Char.direction && Dir.forward)) {
                 JumpSeq(2);
-                reset_char_y();
+                ResetCharY();
             }
-            if (!query_sound(10046) && (Dir.action < 0 || !Rnd(20)))
+            if (!SndOn(10046) && (Dir.action < 0 || !Rnd(20)))
                 AddSound(46);
         }
     }
     Kid = Char;
 }
 
-void reset_desert_variant(void)
+void InitDsrtGlobals(void)
 {
     desert_variant = -1;
 }
 
-int is_selected_code(int code)
+int IsMarkStonePos(int code)
 {
     int selected;
 
@@ -264,30 +264,30 @@ void LoadDsrtCode(void)
     int resource;
 
     previous_column = -1;
-    if (custom_room != 0) {
-        if (custom_room->template_id == 6) {
+    if (CustomRoom != 0) {
+        if (CustomRoom->template_id == 6) {
             if (desert_variant == -1) {
                 desert_variant = Rnd(2);
                 current_column = Rnd(4) + 1;
             }
             if (desert_variant != 2) {
-                archive = FETCH_LOCKED_SHAPE_LIST(*Pics[4]);
-                piece = &custom_room->pieces[15];
-                DISPOSE_HANDLE(piece->handle);
-                resource = desert_variant + custom_room->shape_base + 15;
+                archive = hLock(*Pics[4]);
+                piece = &CustomRoom->pieces[15];
+                hFree(piece->handle);
+                resource = desert_variant + CustomRoom->shape_base + 15;
                 piece->handle = HGETRSRC(0x53484150UL, resource);
                 piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
-                piece = &custom_room->pieces[16];
-                DISPOSE_HANDLE(piece->handle);
+                piece = &CustomRoom->pieces[16];
+                hFree(piece->handle);
                 piece->handle = HGETRSRC(0x53484150UL, resource + 3);
                 piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
-                CLEAR_HANDLE_OWNED(*Pics[4]);
+                hUnlock(*Pics[4]);
             }
             }
     }
 }
 
-void setup_sand(void)
+void SetupSand(void)
 {
     Rect saved_clip;
     byte index;
@@ -297,22 +297,22 @@ void setup_sand(void)
     if (Char.sequence == 27) {
         saved_clip = CellClipRect;
         index = (byte)(FrameNum & 1) + 3;
-        piece = &custom_room->pieces[index];
+        piece = &CustomRoom->pieces[index];
         piece->x = 119;
         piece->y = FChar.x;
         if (!(FChar.flipped))
             piece->y -= ImWidth;
         bounds = &piece->rect;
-        MAKESHAPERECT(bounds, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle));
-        mark_bufs_for_rect(mark_move, bounds, -1);
+        MAKESHAPERECT(bounds, piece->x, piece->y, h2p(piece->handle));
+        MarkBufsForRect(MarkMove, bounds, -1);
         CellClipRect = *bounds;
-        draw_custom_room_image(index, piece->pass = 1);
+        DrawCustomRoomImg(index, piece->pass = 1);
         piece->pass = 11;
         CellClipRect = saved_clip;
     }
 }
 
-void animate_desert_exit(void)
+void AnimDsrtExit(void)
 {
     word frame;
     Piece *piece;
@@ -321,56 +321,56 @@ void animate_desert_exit(void)
     frame = BlueSpec & 31;
     if (frame == 20) {
         Trob.state = -1;
-        dispatch_sound(10007);
+        ResetSnd(10007);
     } else {
         ++frame;
-        if (!query_sound(10045))
+        if (!SndOn(10045))
             AddSound(7);
     }
     BlueSpec &= ~31;
     BlueSpec |= frame;
-    piece = &custom_room->pieces[2];
+    piece = &CustomRoom->pieces[2];
     piece->rect.left -= 2;
     bounds = &piece->rect;
-    mark_move(Trob.cell, bounds);
-    mark_move(Trob.cell + 1, bounds);
-    mark_move(Trob.cell - 10, bounds);
-    mark_move(Trob.cell - 9, bounds);
+    MarkMove(Trob.cell, bounds);
+    MarkMove(Trob.cell + 1, bounds);
+    MarkMove(Trob.cell - 10, bounds);
+    MarkMove(Trob.cell - 9, bounds);
     RestoreKeepCustomPeel(piece->shape);
 }
 
-void draw_desert_exit(Piece *piece)
+void DrawDsrtExit(Piece *piece)
 {
     int frame;
 
     if (piece->shape == 11) {
         frame = piece_state(piece) & 31;
-        custom_room->pieces[2].y = (4 - frame) * 2;
-        custom_room->pieces[15].y = 27 - frame * 2;
-        custom_room->pieces[15].rect.left = 0;
-        draw_custom_room_image(2, 11);
-        draw_custom_room_image(15, 11);
+        CustomRoom->pieces[2].y = (4 - frame) * 2;
+        CustomRoom->pieces[15].y = 27 - frame * 2;
+        CustomRoom->pieces[15].rect.left = 0;
+        DrawCustomRoomImg(2, 11);
+        DrawCustomRoomImg(15, 11);
     }
 }
 
-word is_desert_exit_open(void)
+word IsDsrtExitOpen(void)
 {
     return Level.cell_info[0][10].modifier & 31;
 }
 
-void trigger_desert_exit(sbyte room, sbyte cell)
+void TriggerDsrtExit(sbyte room, sbyte cell)
 {
-    if (!get_trob_room_cell(room, cell)) {
-        add_trob(room, cell, 1, 4);
+    if (!GetTrobRoomCell(room, cell)) {
+        AddTrob(room, cell, 1, 4);
         AddSong(39);
     }
 }
 
-void animate_desert_planks(void)
+void AnimDsrtPlanks(void)
 {
     word frame;
 
-    if (check_trob_visibility()) {
+    if (CheckTrobVis()) {
         frame = BlueSpec & 15;
         if (frame == 7)
             frame = 0;
@@ -378,11 +378,11 @@ void animate_desert_planks(void)
             ++frame;
         BlueSpec &= ~15;
         BlueSpec |= frame;
-        mark_move(Trob.cell, &custom_room->pieces[1].rect);
+        MarkMove(Trob.cell, &CustomRoom->pieces[1].rect);
     }
 }
 
-void draw_desert_planks(Piece *piece)
+void DrawDsrtPlanks(Piece *piece)
 {
     Rect saved_clip;
     sbyte index;
@@ -391,16 +391,16 @@ void draw_desert_planks(Piece *piece)
         index = ((piece_state(piece) >> 1) & 7) + 1;
         saved_clip = CellClipRect;
         CellClipRect = GamePlayRect;
-        draw_custom_room_image(index, 11);
+        DrawCustomRoomImg(index, 11);
         CellClipRect = saved_clip;
     }
 }
 
-void animate_desert_rocks(void)
+void AnimDsrtRocks(void)
 {
     word frame;
 
-    if (check_trob_visibility()) {
+    if (CheckTrobVis()) {
         frame = BlueSpec & 15;
         if (frame == 7)
             frame = 0;
@@ -408,11 +408,11 @@ void animate_desert_rocks(void)
             ++frame;
         BlueSpec &= ~15;
         BlueSpec |= frame;
-        mark_move(Trob.cell, &custom_room->pieces[1].rect);
+        MarkMove(Trob.cell, &CustomRoom->pieces[1].rect);
     }
 }
 
-void draw_desert_rocks(Piece *piece)
+void DrawDsrtRocks(Piece *piece)
 {
     Rect saved_clip;
     sbyte index;
@@ -421,7 +421,7 @@ void draw_desert_rocks(Piece *piece)
         index = ((piece_state(piece) >> 1) & 7) + 1;
         saved_clip = CellClipRect;
         CellClipRect = GamePlayRect;
-        draw_custom_room_image(index, 11);
+        DrawCustomRoomImg(index, 11);
         CellClipRect = saved_clip;
     }
 }
@@ -438,13 +438,13 @@ void AddDsrtStoneUpPeels(Piece *piece)
     count = 6;
     do {
         OFFSETRECT(&bounds, &piece->rect, x, y);
-        add_peel(bounds.left, bounds.right, bounds.top,
+        AddPeel(bounds.left, bounds.right, bounds.top,
                  bounds.bottom - bounds.top, id, 3);
         x += 32;
     } while (--count);
 }
 
-void animate_desert_stone(void)
+void AnimDsrtStone(void)
 {
     word delay = (BlueSpec & 0x1f0) >> 4;
     word frame;
@@ -456,8 +456,8 @@ void animate_desert_stone(void)
 
         if ((frame == 10 && Trob.state == 3) ||
             (frame == 0 && Trob.state == 1)) {
-            if (Trob.state == 3 && !get_trob_by_id(30, 2))
-                add_desert_ambient();
+            if (Trob.state == 3 && !GetTrobId(30, 2))
+                AddDsrtAmbient();
             Trob.state = -1;
         } else {
             BlueSpec &= ~15;
@@ -465,14 +465,14 @@ void animate_desert_stone(void)
         }
 
         if (Trob.state > 0)
-            redraw_stone();
+            RedrawStone();
     } else if (Kid.sequence != 27 && Kid.alive < 0) {
         BlueSpec &= ~0x1f0;
         BlueSpec |= --delay << 4;
     }
 }
 
-void draw_desert_stone(Piece *piece)
+void DrawDsrtStone(Piece *piece)
 {
     word frame;
 
@@ -486,18 +486,18 @@ void draw_desert_stone(Piece *piece)
     }
 }
 
-void redraw_stone(void)
+void RedrawStone(void)
 {
     Rect bounds;
 
-    if (compute_trob_move_rect(&bounds, &stone_bounds)) {
-        mark_move(Trob.cell, &bounds);
-        mark_move(check_trob_right(), &bounds);
-        mark_move(check_trob_below(), &bounds);
+    if (ComputeTrobMoveRect(&bounds, &stone_bounds)) {
+        MarkMove(Trob.cell, &bounds);
+        MarkMove(CheckTrobRight(), &bounds);
+        MarkMove(CheckTrobBelow(), &bounds);
     }
 }
 
-void remove_last_stone_peel(sbyte column)
+void RemoveLastStonePeel(sbyte column)
 {
     int x = (column + 1) << 5;
     sbyte matches = 0;
@@ -506,7 +506,7 @@ void remove_last_stone_peel(sbyte column)
     Rect far *bounds;
 
     do {
-        slot = find_character_peel(114, occurrence);
+        slot = GetPeelIdxForCharIdx(114, occurrence);
         if (slot != -1) {
             bounds = &PeelInfo.entries[slot].peel->bounds;
             if (bounds->left == x || bounds->right == x) {
@@ -523,30 +523,30 @@ void remove_last_stone_peel(sbyte column)
     } while (slot + 1);
 }
 
-int sink_desert_stone(sbyte cell)
+int SinkDsrtStone(sbyte cell)
 {
     int started;
     word flags;
 
-    started = trigger_stone_at(1, cell, 1);
+    started = TriggerStone(1, cell, 1);
     if (started) {
         flags = BlueSpec;
         BlueSpec = Level.cell_info[0][cell].modifier;
-        animate_desert_stone();
+        AnimDsrtStone();
         Level.cell_info[0][cell].modifier = BlueSpec;
         BlueSpec = flags;
     }
     return started;
 }
 
-void trigger_all_stones_down(void)
+void TriggerAllStonesDown(void)
 {
     if (previous_column != -1 && previous_column >= 2 && previous_column <= 7)
-        sink_desert_stone(previous_column + 10);
-    sink_desert_stone(Char.column + 10);
+        SinkDsrtStone(previous_column + 10);
+    SinkDsrtStone(Char.column + 10);
 }
 
-int trigger_stone_at(byte room, sbyte cell, sbyte action)
+int TriggerStone(byte room, sbyte cell, sbyte action)
 {
     word original = Level.cell_info[room - 1][cell].modifier;
     int frame = original & 15;
@@ -560,7 +560,7 @@ int trigger_stone_at(byte room, sbyte cell, sbyte action)
         if (frame) {
             AddSound(43);
         } else {
-            started = get_trob_room_cell(room, cell) != 0;
+            started = GetTrobRoomCell(room, cell) != 0;
             if (original & 0x1f0) {
                 original &= ~0x1f0;
                 Level.cell_info[room - 1][cell].modifier = original;
@@ -568,25 +568,25 @@ int trigger_stone_at(byte room, sbyte cell, sbyte action)
         }
     } else {
         started = 0;
-        if (action == 3 && (sbyte)(cell % 10) == 7 && !get_trob_by_id(30, 1))
-            add_desert_ambient();
+        if (action == 3 && (sbyte)(cell % 10) == 7 && !GetTrobId(30, 1))
+            AddDsrtAmbient();
     }
 
     if (started) {
-        add_trob(room, cell, action, 30);
+        AddTrob(room, cell, action, 30);
         if (action == 1)
-            remove_last_stone_peel((sbyte)(cell % 10));
+            RemoveLastStonePeel((sbyte)(cell % 10));
     }
     return started;
 }
 
 typedef void (far pascal *LevelTileProc)(Piece near *);
-LevelTileProc desert_level_spec[] = {
-    0, 0, 0, 0, draw_desert_exit,
+LevelTileProc DrawDsrtFunc[] = {
+    0, 0, 0, 0, DrawDsrtExit,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
-    0, 0, 0, draw_desert_rocks, draw_desert_planks,
-    draw_desert_stone
+    0, 0, 0, DrawDsrtRocks, DrawDsrtPlanks,
+    DrawDsrtStone
 };

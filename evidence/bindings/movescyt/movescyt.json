@@ -153,9 +153,9 @@
       }
     ],
     "externals": [
-      "MARK_MOVE",
-      "MARK_BUFS_FOR_RECT",
-      "ADD_TROB",
+      "MARKMOVE",
+      "MARKBUFSFORRECT",
+      "ADDTROB",
       "GETSCYTHEHITTYPE",
       "SCYTHEBLADEEXTENDED",
       "COMPUTEBLADEHITRECT",
@@ -179,11 +179,11 @@
       "JUMPSEQ",
       "SETKIDDEATHMETHOD",
       "ANIMCHAR",
-      "DECREMENT_LIFE_POINTS",
+      "DECLIFEPTS",
       "UNIONRECT",
       "OFFSETRECT",
-      "CHECK_TROB_VISIBILITY",
-      "COMPUTE_TROB_MOVE_RECT"
+      "CHECKTROBVIS",
+      "COMPUTETROBMOVERECT"
     ]
   },
   "dgroup_segment": {
@@ -399,7 +399,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "MARK_BUFS_FOR_RECT",
+          "name": "MARKBUFSFORRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -407,7 +407,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "MARK_BUFS_FOR_RECT",
+        "name": "MARKBUFSFORRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -426,7 +426,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "MARK_MOVE",
+          "name": "MARKMOVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -434,7 +434,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "MARK_MOVE",
+        "name": "MARKMOVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -453,7 +453,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "MARK_MOVE",
+          "name": "MARKMOVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -461,7 +461,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "MARK_MOVE",
+        "name": "MARKMOVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -480,7 +480,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "COMPUTE_TROB_MOVE_RECT",
+          "name": "COMPUTETROBMOVERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -488,7 +488,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "COMPUTE_TROB_MOVE_RECT",
+        "name": "COMPUTETROBMOVERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -529,7 +529,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "CHECK_TROB_VISIBILITY",
+          "name": "CHECKTROBVIS",
           "method": 6,
           "zero_displacement": true
         }
@@ -537,7 +537,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "CHECK_TROB_VISIBILITY",
+        "name": "CHECKTROBVIS",
         "method": 6,
         "zero_displacement": true
       },
@@ -1157,7 +1157,7 @@
         "target": {
           "kind": "external",
           "index": 27,
-          "name": "DECREMENT_LIFE_POINTS",
+          "name": "DECLIFEPTS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1165,7 +1165,7 @@
       "target": {
         "kind": "external",
         "index": 27,
-        "name": "DECREMENT_LIFE_POINTS",
+        "name": "DECLIFEPTS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2794,7 +2794,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "ADD_TROB",
+          "name": "ADDTROB",
           "method": 6,
           "zero_displacement": true
         }
@@ -2802,7 +2802,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "ADD_TROB",
+        "name": "ADDTROB",
         "method": 6,
         "zero_displacement": true
       },
@@ -3277,7 +3277,7 @@
         }
       ]
     },
-    "ADD_TROB": {
+    "ADDTROB": {
       "entry_sha256": "37df22b4e1aa9ed848191eb74be30c4c76ae9d2e7616023f88509654157c7837",
       "entry_target_id": "root:0b52:1414",
       "kind": "far-code-entry",
@@ -3560,7 +3560,7 @@
         }
       ]
     },
-    "CHECK_TROB_VISIBILITY": {
+    "CHECKTROBVIS": {
       "entry_sha256": "b0e92c30db4e27a0b86dd0b9965460492287abc6d3e91d64737978531923e4a0",
       "entry_target_id": "root:0b52:04ce",
       "kind": "far-code-entry",
@@ -3577,7 +3577,7 @@
         }
       ]
     },
-    "COMPUTE_TROB_MOVE_RECT": {
+    "COMPUTETROBMOVERECT": {
       "entry_sha256": "55b63688e39f870ee0c481da92dbc454067adad40ef3483dcfc7b21e9782492e",
       "entry_target_id": "root:0b52:0454",
       "kind": "far-code-entry",
@@ -3594,7 +3594,7 @@
         }
       ]
     },
-    "DECREMENT_LIFE_POINTS": {
+    "DECLIFEPTS": {
       "entry_sha256": "2220988fd62ecef2d64b01a9470925065961f337e007e4de093cb2260ac543e1",
       "entry_target_id": "root:02dc:095c",
       "kind": "far-code-entry",
@@ -3679,7 +3679,7 @@
         }
       }
     },
-    "MARK_BUFS_FOR_RECT": {
+    "MARKBUFSFORRECT": {
       "entry_sha256": "2365d702256436fb4f1f356245443442cf54e61404f12c8c9c1d3b2a184b7590",
       "entry_target_id": "root:0b52:0f5a",
       "kind": "far-code-entry",
@@ -3696,7 +3696,7 @@
         }
       ]
     },
-    "MARK_MOVE": {
+    "MARKMOVE": {
       "entry_sha256": "ddd684a1accd8dfe0ff7c80b4f632f6e57cc3b91cccf6654d07df72b5e0f23ac",
       "entry_target_id": "root:0b52:0dc6",
       "kind": "far-code-entry",

@@ -537,7 +537,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "SCREEN_WIDTH",
         "method": 6,
         "zero_displacement": true
@@ -1513,7 +1513,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 16,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -1535,7 +1535,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "CREATE_WINDOW_FROM_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -1579,7 +1579,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "ALLOCATE_BACKGROUND_PORT",
         "method": 6,
         "zero_displacement": true
@@ -1644,7 +1644,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 18,
         "name": "SET_ITEM_ENABLED",
         "method": 6,
         "zero_displacement": true
@@ -1731,7 +1731,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 18,
         "name": "SET_ITEM_ENABLED",
         "method": 6,
         "zero_displacement": true
@@ -1753,8 +1753,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
-        "name": "LOAD_RESOURCE_COPY",
+        "index": 11,
+        "name": "NGETRSRC",
         "method": 6,
         "zero_displacement": true
       },
@@ -1792,12 +1792,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "_SPRINTF"
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "_SPRINTF",
         "method": 6,
         "zero_displacement": true
@@ -1863,8 +1863,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
-        "name": "PLAY_SOUND",
+        "index": 1,
+        "name": "SETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -1951,7 +1951,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 15,
         "name": "ACTIVATE_WINDOW",
         "method": 6,
         "zero_displacement": true
@@ -1973,7 +1973,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 13,
         "name": "DISPOSE_WINDOW",
         "method": 6,
         "zero_displacement": true
@@ -2016,7 +2016,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 16,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -2076,12 +2076,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 13,
+        "index": 14,
         "name": "HANDLE_MOUSE_CALLBACK"
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 14,
         "name": "HANDLE_MOUSE_CALLBACK",
         "method": 6,
         "zero_displacement": true
@@ -2147,7 +2147,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "SCREEN_WIDTH",
         "method": 6,
         "zero_displacement": true
@@ -2385,9 +2385,9 @@
       }
     ],
     "externals": [
+      "SETSND",
       "SCREEN_WIDTH",
       "ALLOCATE_BACKGROUND_PORT",
-      "LOAD_RESOURCE_COPY",
       "POLL_DOS_KEY",
       "TIMEVAL",
       "__NFREE",
@@ -2395,6 +2395,7 @@
       "MOUSE_PRESENT",
       "FIND_WINDOW_AT_RECT",
       "SHOW_MOUSE_GRAPHICS",
+      "NGETRSRC",
       "_SPRINTF",
       "DISPOSE_WINDOW",
       "HANDLE_MOUSE_CALLBACK",
@@ -2402,7 +2403,6 @@
       "GRAF",
       "CREATE_WINDOW_FROM_RESOURCE",
       "SET_ITEM_ENABLED",
-      "PLAY_SOUND",
       "LOOKUP_PREFIXED_STRING",
       "WINDOW_DRAW_PORT",
       "WINDOW_HEAD",
@@ -2556,7 +2556,7 @@
       "space": "root",
       "witnesses": []
     },
-    "LOAD_RESOURCE_COPY": {
+    "NGETRSRC": {
       "entry_sha256": "8e8be2c27ae5911784b1f8e8533581baa8ec54989a63b9cbfbf1e79209a93cfd",
       "entry_target_id": "root:1129:6f6c",
       "kind": "near-code-entry",
@@ -2574,7 +2574,7 @@
       "space": "root",
       "witnesses": []
     },
-    "PLAY_SOUND": {
+    "SETSND": {
       "entry_sha256": "e36482d583c514ab1343b0ecffa61a728d3fcfa734f04732b4ee4ceb856a1596",
       "entry_target_id": "root:1129:840e",
       "kind": "near-code-entry",

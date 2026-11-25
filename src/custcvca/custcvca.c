@@ -77,55 +77,55 @@ extern TROBREC Trob;
 extern Rect CellClipRect, GamePlayRect;         /* DS:6236,09fe */
 extern LEVELREC Level;
 
-extern void AddSong(int), AddSound(int), release_song_range(int, int);
-extern void set_palette(unsigned int, unsigned int, byte, byte);
+extern void AddSong(int), AddSound(int), UnloadSounds(int, int);
+extern void SetPalette(unsigned int, unsigned int, byte, byte);
 extern void far *MATERIALIZE_HANDLE(Handle);
-extern void DISPOSE_HANDLE(Handle), mark_purgeable(Handle);
-extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
-extern Shape far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
+extern void hFree(Handle), hPurge(Handle);
+extern Handle hNew(long);
+extern Shape far *h2p(Handle);
 extern void PrinceNewShpItem(Handle, int, CarpetImage far *, int);
 extern void PrinceFreeShp(int);
-extern void dispatch_sound(int);
+extern void ResetSnd(int);
 extern void MAKESHAPERECT(Rect far *, int, int, Shape far *);
-extern void far _fastcall add_peel(int, int, int, int, byte, byte);
+extern void far _fastcall AddPeel(int, int, int, int, byte, byte);
 extern void RestoreKeepCustomPeel(byte);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern void SaveFChar(void), RestoreFChar(void), init_fchar_rect(void);
-extern void far _fastcall add_char_object(byte);
+extern void far _fastcall AddCharObj(byte);
 typedef void far pascal DrawCallback(void);
-extern DrawCallback mark_move, mark_foreground;
-extern void mark_bufs_for_rect(DrawCallback *, Rect near *, signed char);
+extern DrawCallback MarkMove, MarkFRedraw;
+extern void MarkBufsForRect(DrawCallback *, Rect near *, signed char);
 extern void ReadCell(signed char, signed char, signed char);
-extern void make_space(byte, byte);
+extern void MakeSpace(byte, byte);
 extern void JumpSeq(int sequence);
-extern void decrement_life_points(byte amount), SetKidDeathMethod(byte value);
-extern void far _fastcall draw_custom_room_image(byte index, byte pass);
-extern int compute_trob_move_rect(Rect near *out, Rect near *base);
+extern void DecLifePts(byte amount), SetKidDeathMethod(byte value);
+extern void far _fastcall DrawCustomRoomImg(byte index, byte pass);
+extern int ComputeTrobMoveRect(Rect near *out, Rect near *base);
 extern void * _cdecl _nmalloc(unsigned int);
 extern void _cdecl _nfree(void *);
 extern void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
-int check_carpet_image(int index);
-void load_carpet_data(void), unload_carpet_data(void);
-void map_carpet_colors(void), redraw_cave_bars(void);
-int get_carpet_frame(void), cave_bars_open(void);
-Shape far * far _fastcall get_carpet_shape_info(ShapeRef *ref, int index);
+int CheckCarpetImg(int index);
+void LoadCarpetData(void), UnloadCarpetData(void);
+void MapCarpetColors(void), RedrawCaveBars(void);
+int GetCarpetFrame(void), IsCaveBarsOpen(void);
+Shape far * far _fastcall GetCarpetShpInfo(ShapeRef *ref, int index);
 
 void LoadCarpetCode(void)
 {
-    map_carpet_colors();
-    load_carpet_data();
+    MapCarpetColors();
+    LoadCarpetData();
     AddSong(33);
 }
 
 void UnloadCarpetCode(void)
 {
-    unload_carpet_data();
-    set_palette(750, 32, 16, 0);
+    UnloadCarpetData();
+    SetPalette(750, 32, 16, 0);
 }
 
-int check_carpet_image(int index)
+int CheckCarpetImg(int index)
 {
     Handle copy_handle;
     Shape far *source, far *copy;
@@ -136,18 +136,18 @@ int check_carpet_image(int index)
 #define ENTRY ((CarpetImage *)((char *)carpet + entry_offset[0]))
         if (!ENTRY->handle || !MATERIALIZE_HANDLE(ENTRY->handle)) {
             if (ENTRY->handle) {
-                DISPOSE_HANDLE(ENTRY->handle);
+                hFree(ENTRY->handle);
                 ENTRY->handle = 0;
             }
-            copy_handle = ALLOCATE_PAYLOAD_HANDLE(sizeof(Shape));
-            source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*Pics[2]);
-            copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(copy_handle);
+            copy_handle = hNew(sizeof(Shape));
+            source = h2p(*Pics[2]);
+            copy = h2p(copy_handle);
             *copy = *source;
             copy->flags |= 4;
             copy->colors = 32;
             PrinceNewShpItem(copy_handle, index + 302, ENTRY, 1);
-            mark_purgeable(ENTRY->handle);
-            DISPOSE_HANDLE(copy_handle);
+            hPurge(ENTRY->handle);
+            hFree(copy_handle);
             PrinceFreeShp(CARPET_SHAPE_ID + index);
         }
     }
@@ -155,7 +155,7 @@ int check_carpet_image(int index)
     return carpet->images[index].handle;
 }
 
-void draw_carpet(byte *tile)
+void DrawCarpet(byte *tile)
 {
     CarpetDraw far *entry;
     ShapeRef ref;
@@ -170,27 +170,27 @@ void draw_carpet(byte *tile)
         entry->sheet = 4;
         entry->col = ColNo;
         entry->row = RowNo;
-        shape = get_carpet_shape_info(&ref, 0);
+        shape = GetCarpetShpInfo(&ref, 0);
         MAKESHAPERECT(&entry->bounds, entry->y, entry->x, shape);
         entry->order = 10;
         entry->flags = ObjId;
     }
 }
 
-void save_under_carpet(void)
+void SaveUnderCarpet(void)
 {
     ShapeRef ref;
     Shape far *shape;
 
     if (carpet && !carpet->saved) {
-        shape = get_carpet_shape_info(&ref, 0);
-        add_peel(carpet_y, carpet_y + shape->width, carpet_x,
+        shape = GetCarpetShpInfo(&ref, 0);
+        AddPeel(carpet_y, carpet_y + shape->width, carpet_x,
                          shape->height, 101, 2);
         carpet->saved = 1;
     }
 }
 
-void draw_obj_carpet(byte *unused)
+void DrawObjCarpet(byte *unused)
 {
     int slot, frame;
     Shape far *shape;
@@ -200,7 +200,7 @@ void draw_obj_carpet(byte *unused)
 
     if (carpet && carpet->frame) {
         slot = Ct[3]; MidTable[slot].x = FChar.x;
-        frame = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
+        frame = GetCarpetFrame(); shape = GetCarpetShpInfo(&ref, carpet_animation.images[frame] + 1);
         MidTable[slot].y = FChar.y - shape->height; MidTable[slot].sheet = 4;
         MidTable[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; MidTable[slot].clip = *(Rect *)&FChar.clip.top;
         MidTable[slot].order = 10;
@@ -211,7 +211,7 @@ void draw_obj_carpet(byte *unused)
         }
         if (carpet->sitting) {
             palette = carpet->frame - 4;
-            if (palette < 8) set_palette(CARPET_SHAPE_ID, 16, 32, palette);
+            if (palette < 8) SetPalette(CARPET_SHAPE_ID, 16, 32, palette);
         }
         ++Ct[3]; ++carpet->frame;
         if (carpet->saved) {
@@ -220,7 +220,7 @@ void draw_obj_carpet(byte *unused)
     }
 }
 
-int get_carpet_frame(void)
+int GetCarpetFrame(void)
 {
     int frame;
 
@@ -235,7 +235,7 @@ int get_carpet_frame(void)
     return frame; /* DOS leaves the result uninitialized when carpet is null. */
 }
 
-Shape far * far _fastcall get_carpet_shape_info(ShapeRef *ref, int index)
+Shape far * far _fastcall GetCarpetShpInfo(ShapeRef *ref, int index)
 {
     Shape far *shape = 0;
 
@@ -244,29 +244,29 @@ Shape far * far _fastcall get_carpet_shape_info(ShapeRef *ref, int index)
         ref->sheet = 1;
         ref->col = zero;
         ref->row = zero;
-        if (ref->handle = check_carpet_image(index))
-            shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(carpet->images[index].handle);
+        if (ref->handle = CheckCarpetImg(index))
+            shape = h2p(carpet->images[index].handle);
     }
     return shape;
 }
 
-void load_carpet_data(void)
+void LoadCarpetData(void)
 {
     int index;
     carpet = _nmalloc(sizeof(Carpet));
     memset(carpet, 0, sizeof(Carpet));
     index = 0;
     do {
-        check_carpet_image(index);
+        CheckCarpetImg(index);
     } while (++index < 10);
 }
 
-void map_carpet_colors(void)
+void MapCarpetColors(void)
 {
-    set_palette(CARPET_SHAPE_ID, 16, 32, 0);
+    SetPalette(CARPET_SHAPE_ID, 16, 32, 0);
 }
 
-void setup_carpet(void)
+void SetupCarpet(void)
 {
     int frame;
     ShapeRef ref;
@@ -274,22 +274,22 @@ void setup_carpet(void)
 
     if (carpet && carpet->frame) {
         SaveFChar();
-        frame = get_carpet_frame();
+        frame = GetCarpetFrame();
         FChar.image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
         FChar.y += carpet_animation.steps[frame].dy;
         FChar.x += carpet_animation.steps[frame].dx;
         if (!(FChar.flipped))
             FChar.x -= 20;
         init_fchar_rect();
-        shape = get_carpet_shape_info(&ref, FChar.image - CARPET_SHAPE_ID);
+        shape = GetCarpetShpInfo(&ref, FChar.image - CARPET_SHAPE_ID);
         MAKESHAPERECT((Rect *)&FChar.clip.top, FChar.y - shape->height, FChar.x, shape);
-        add_char_object(13);
-        mark_bufs_for_rect(mark_foreground, (Rect *)&FChar.clip.top, -1);
+        AddCharObj(13);
+        MarkBufsForRect(MarkFRedraw, (Rect *)&FChar.clip.top, -1);
         RestoreFChar();
     }
 }
 
-void sitting_on_carpet(void)
+void Sitting(void)
 {
     ShapeRef ref;
     Shape far *shape;
@@ -299,13 +299,13 @@ void sitting_on_carpet(void)
         if (!carpet->frame && Char.frame == 295) {
             carpet->frame = 1;
             ReadCell(3, 3, 2);
-            make_space(Cell.room, (Cell.index));
-            shape = get_carpet_shape_info(&ref, 0);
+            MakeSpace(Cell.room, (Cell.index));
+            shape = GetCarpetShpInfo(&ref, 0);
             MAKESHAPERECT(&rect, carpet_x, carpet_y, shape);
-            mark_bufs_for_rect(mark_move, &rect, -1);
+            MarkBufsForRect(MarkMove, &rect, -1);
             return;
         }
-        if (!carpet->sitting && Char.y < 55 && !cave_bars_open()) {
+        if (!carpet->sitting && Char.y < 55 && !IsCaveBarsOpen()) {
             carpet->frame = 1;
             carpet->sitting = 1;
             Char.y = 20;
@@ -315,20 +315,20 @@ void sitting_on_carpet(void)
             return;
         }
         if (carpet->sitting && carpet->frame >= 1) {
-            decrement_life_points(100);
+            DecLifePts(100);
             SetKidDeathMethod(9);
         }
     }
 }
 
-void trigger_char_on_carpet(void)
+void TriggerCharOnCarpet(void)
 {
     if (carpet) {
         JumpSeq(128);
         Char.x = 268;
         if (Char.direction == 0)
             Char.x = 288;
-        if (cave_bars_open()) {
+        if (IsCaveBarsOpen()) {
             AddSong(34);
             return;
         }
@@ -336,21 +336,21 @@ void trigger_char_on_carpet(void)
     }
 }
 
-void unload_carpet_data(void)
+void UnloadCarpetData(void)
 {
     int i;
 
     for (i = 0; i < 10; i++) {
         if (carpet->images[i].handle)
-            DISPOSE_HANDLE(carpet->images[i].handle);
+            hFree(carpet->images[i].handle);
     }
-    dispatch_sound(10033);
-    release_song_range(33, 36);
+    ResetSnd(10033);
+    UnloadSounds(33, 36);
     _nfree(carpet);
     carpet = 0;
 }
 
-void animate_cave_bars(void)
+void AnimCaveBars(void)
 {
     unsigned int phase = BlueSpec & 7;
     if (!Trob.state) {
@@ -359,7 +359,7 @@ void animate_cave_bars(void)
                 AddSound(78);
             BlueSpec &= ~7;
             BlueSpec |= phase + 1;
-            redraw_cave_bars();
+            RedrawCaveBars();
             return;
         }
     } else if (phase) {
@@ -367,13 +367,13 @@ void animate_cave_bars(void)
             AddSound(79);
         BlueSpec &= ~7;
         BlueSpec |= phase - 1;
-        redraw_cave_bars();
+        RedrawCaveBars();
         return;
     }
     Trob.state = -1;
 }
 
-int cave_bars_open(void)
+int IsCaveBarsOpen(void)
 {
     ReadCell(3, 6, 0);
     if ((Cell.modifier & 7) >= 3)
@@ -381,7 +381,7 @@ int cave_bars_open(void)
     return 0;
 }
 
-void draw_cave_bars(TileAnim *tile)
+void DrawCaveBars(TileAnim *tile)
 {
     Rect saved;
     if (tile->kind == 11 && tile->row == ColNo) {
@@ -389,20 +389,20 @@ void draw_cave_bars(TileAnim *tile)
             saved = CellClipRect;
             CellClipRect = GamePlayRect;
         }
-        draw_custom_room_image((tile->modifier & 7) + 2, 11);
+        DrawCustomRoomImg((tile->modifier & 7) + 2, 11);
         if (!NewRoom)
             CellClipRect = saved;
     }
 }
 
-void redraw_cave_bars(void)
+void RedrawCaveBars(void)
 {
     Rect rect;
-    if (compute_trob_move_rect(&rect, &carpet_animation.bars))
-        mark_bufs_for_rect(mark_move, &rect, -1);
+    if (ComputeTrobMoveRect(&rect, &carpet_animation.bars))
+        MarkBufsForRect(MarkMove, &rect, -1);
 }
 
-signed char trigger_cave_bars(byte room, signed char cell)
+signed char TriggerCaveBars(byte room, signed char cell)
 {
     signed char result = -1;
     int state;

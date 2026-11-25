@@ -3,10 +3,10 @@
 PUBLIC HEAP_STATE
 HEAP_STATE DD 0
 .CODE
-PUBLIC RESIZE_DOS_HEAP, INITIALIZE_DOS_HEAP
+PUBLIC RESIZE_DOS_HEAP, HEAPINIT
 EXTRN ROUND_BYTES_TO_PARAGRAPHS:NEAR
 
-PUBLIC COMPACT_HEAP_BLOCKS
+PUBLIC HEAPCOMPACT
 EXTRN COALESCE_FREE_BLOCKS:NEAR
 EXTRN MOVE_HUGE_BYTES:NEAR
 
@@ -15,7 +15,7 @@ target_paragraphs EQU WORD PTR [bp-6]
 largest_offset EQU WORD PTR [bp-4]
 largest_paragraphs EQU WORD PTR [bp-2]
 
-COMPACT_HEAP_BLOCKS PROC FAR
+HEAPCOMPACT PROC FAR
     push bp
     mov bp, sp
     add sp, -8
@@ -162,7 +162,7 @@ move_adjacent_block:
     mov [si+2], dx
     shl ax, 1
     jmp merge_free_blocks
-COMPACT_HEAP_BLOCKS ENDP
+HEAPCOMPACT ENDP
 
 grown     EQU WORD PTR [bp-2]
 requested EQU WORD PTR [bp-4]
@@ -282,7 +282,7 @@ RESIZE_DOS_HEAP ENDP
 
 minimum_paragraphs EQU WORD PTR [bp-102h]
 
-INITIALIZE_DOS_HEAP PROC FAR
+HEAPINIT PROC FAR
     push bp
     mov bp, sp
     add sp, -102h
@@ -422,5 +422,5 @@ return_heap_size:
     retf 4
 
 ems_signature DB 'EMSXXXX0'
-INITIALIZE_DOS_HEAP ENDP
+HEAPINIT ENDP
 END

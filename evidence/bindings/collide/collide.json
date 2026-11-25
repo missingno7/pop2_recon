@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "COLLIDE_ENEMY_WITH_BARRIER",
+        "name": "ENEMYCOLLIDE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3714,
@@ -89,7 +89,7 @@
         "type_index": 0
       },
       {
-        "name": "GET_SWORD_WIDTH",
+        "name": "GETSWORDWIDTH",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2826,
@@ -98,7 +98,7 @@
         "type_index": 0
       },
       {
-        "name": "PUSH_AWAY_FROM_GATE",
+        "name": "PUSHCHARAWAYFROMGATE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3572,
@@ -107,7 +107,7 @@
         "type_index": 0
       },
       {
-        "name": "GET_CHAR_EDGES",
+        "name": "GETCHAREDGES",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2482,
@@ -116,7 +116,7 @@
         "type_index": 0
       },
       {
-        "name": "CHECK_GATE_FOR_OPPONENT",
+        "name": "CHECKGATEFOROPP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3196,
@@ -134,7 +134,7 @@
         "type_index": 0
       },
       {
-        "name": "RIGHT_COLLISION",
+        "name": "RIGHTCOLLIDE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1046,
@@ -143,7 +143,7 @@
         "type_index": 0
       },
       {
-        "name": "LEFT_COLLISION",
+        "name": "LEFTCOLLIDE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1134,
@@ -152,7 +152,7 @@
         "type_index": 0
       },
       {
-        "name": "CHECK_COLLISION_COL",
+        "name": "CHECKCOLLIDE1",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1224,
@@ -161,7 +161,7 @@
         "type_index": 0
       },
       {
-        "name": "CHECK_COLLISION_TILE",
+        "name": "CHECKCOLLIDE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1290,
@@ -179,7 +179,7 @@
         "type_index": 0
       },
       {
-        "name": "APPLY_COLLISION",
+        "name": "COLLIDE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1462,
@@ -188,7 +188,7 @@
         "type_index": 0
       },
       {
-        "name": "APPLY_AIR_BUMP",
+        "name": "AIRBUMP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1660,
@@ -197,7 +197,7 @@
         "type_index": 0
       },
       {
-        "name": "CHECK_GATE_FOR_PLAYER",
+        "name": "CHECKGATEFORKID",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3404,
@@ -206,7 +206,7 @@
         "type_index": 0
       },
       {
-        "name": "APPLY_GROUND_BUMP",
+        "name": "GROUNDBUMP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1710,
@@ -233,7 +233,7 @@
         "type_index": 0
       },
       {
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2186,
@@ -242,7 +242,7 @@
         "type_index": 0
       },
       {
-        "name": "SCYTHE_BLOCKS_PASSAGE",
+        "name": "SCYTHE1BARR",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2422,
@@ -251,7 +251,7 @@
         "type_index": 0
       },
       {
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 4174,
@@ -278,7 +278,7 @@
         "type_index": 0
       },
       {
-        "name": "GATE_BLOCKS_STANDING",
+        "name": "GATEBARRTOSTANDUP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2274,
@@ -287,7 +287,7 @@
         "type_index": 0
       },
       {
-        "name": "BARRIER_DISTANCE_FROM_BACK",
+        "name": "GETBARRDISTFROMBACK",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 4290,
@@ -341,7 +341,7 @@
         "type_index": 0
       },
       {
-        "name": "COLLIDE_WITH_BARRIERS",
+        "name": "COLLISIONS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 992,
@@ -350,7 +350,7 @@
         "type_index": 0
       },
       {
-        "name": "GET_FORWARD_DISTANCE",
+        "name": "GETFWDDIST",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2904,
@@ -360,7 +360,7 @@
       }
     ],
     "externals": [
-      "COLLIDE_ENEMY_WITH_BARRIER",
+      "ENEMYCOLLIDE",
       "GETLEFTBARR",
       "SWORDFRAMES",
       "GETRIGHTBARR",
@@ -373,82 +373,82 @@
       "LEFTEDGE",
       "RIGHTEDGE",
       "TOPEDGE",
-      "SLIDE_ROCK_BARRIER",
-      "PROBE_CHAIN_FLOOR",
+      "GETSLIDEROCKBARRDIST",
+      "SLIDEROCKINCELL",
       "COLDETLASTFRAME",
-      "GET_SET_IMAGE_SIZE",
+      "GETSETIMGSIZE",
       "COLDETTHISFRAME",
-      "GET_SWORD_WIDTH",
+      "GETSWORDWIDTH",
       "ISWALL",
       "ANIMCHAR",
-      "GET_COL",
-      "REREAD_CELLS",
-      "RESET_CHAR_Y",
+      "GETCOL",
+      "REREADCELLS",
+      "RESETCHARY",
       "GETROW",
       "ADDSOUND",
-      "GET_FRAME_INFO",
-      "PUSH_AWAY_FROM_GATE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "@probe_jump_anchor",
+      "GETFRAMEINFO",
+      "PUSHCHARAWAYFROMGATE",
+      "H2P",
+      "@GetSlideRockX",
       "SQUISHCHAR",
-      "GET_CHAR_EDGES",
+      "GETCHAREDGES",
       "ROOM",
-      "CHECK_GATE_FOR_OPPONENT",
+      "CHECKGATEFOROPP",
       "INITCOLLISIONDETECTION",
-      "IS_STRIKING_POSITION",
+      "ISSTRIKINGPOS",
       "CELL",
-      "RIGHT_COLLISION",
+      "RIGHTCOLLIDE",
       "LEVEL",
-      "LEFT_COLLISION",
+      "LEFTCOLLIDE",
       "WEIGHTLESSTIMER",
       "CDRIGHTEDGE",
-      "CHECK_COLLISION_COL",
+      "CHECKCOLLIDE1",
       "CDLEFTEDGE",
       "IMHEIGHT",
       "ALERTGUARD",
-      "CHECK_COLLISION_TILE",
+      "CHECKCOLLIDE",
       "ADJUSTROOM",
-      "@slide_rock_on_row",
+      "@GetSlideRockOnRoomRow",
       "CHAR",
-      "APPLY_COLLISION",
-      "APPLY_AIR_BUMP",
-      "SLIDE_ROCK_COLLISION_ROW",
-      "CHECK_GATE_FOR_PLAYER",
-      "APPLY_GROUND_BUMP",
+      "COLLIDE",
+      "AIRBUMP",
+      "GETSLIDEROCKDETDATA",
+      "CHECKGATEFORKID",
+      "GROUNDBUMP",
       "BUMPSOUND",
-      "GET_CHAR_COL",
+      "GETCHARCOL",
       "CREVICEBARR",
-      "GATE_BLOCKS_PASSAGE",
-      "SCYTHE_BLOCKS_PASSAGE",
-      "STEP_IN_PROGRESS",
+      "GATEBARR",
+      "SCYTHE1BARR",
+      "INDOSTEPFWD",
       "READCELL",
       "FCHAR",
-      "GET_CELLS_AHEAD",
-      "IS_SIX_KIND",
-      "BARRIER_DISTANCE_FROM_FACE",
+      "GETCELLSINFRONT",
+      "ISSPACE",
+      "GETBARRDISTFROMFACE",
       "FRAME",
-      "GET_BEHIND",
+      "GETBEHIND",
       "PAUSE",
       "ADDCHARX",
       "CHECKBARR",
       "RESET_BARRIER_STATE",
-      "GATE_BLOCKS_STANDING",
+      "GATEBARRTOSTANDUP",
       "JUMPSEQ",
-      "BARRIER_DISTANCE_FROM_BACK",
+      "GETBARRDISTFROMBACK",
       "CHECKWEIGHTLESSBARR",
-      "GET_UNDER_FOOT",
+      "GETUNDERFT",
       "INITCOLDETBUFS",
-      "SETUP_CHAR",
-      "REREAD_BASE_CELL",
+      "SETUPCHAR",
+      "GETBASECELL",
       "PLUS1",
       "GETCOLDETDATA",
-      "GET_EDGE_DISTANCE",
+      "GETDIST",
       "GETBARRCODE",
       "ISIMPASSABLE",
       "SCYTHEBLADEEXTENDED",
-      "COLLIDE_WITH_BARRIERS",
-      "HEAD_ENEMY_COLLIDE",
-      "GET_FORWARD_DISTANCE"
+      "COLLISIONS",
+      "HEADENEMYCOLLIDE",
+      "GETFWDDIST"
     ],
     "communals": [
       {
@@ -1117,7 +1117,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "STEP_IN_PROGRESS",
+          "name": "INDOSTEPFWD",
           "method": 6,
           "zero_displacement": true
         }
@@ -1125,7 +1125,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "STEP_IN_PROGRESS",
+        "name": "INDOSTEPFWD",
         "method": 6,
         "zero_displacement": true
       },
@@ -1619,7 +1619,7 @@
         "target": {
           "kind": "external",
           "index": 65,
-          "name": "IS_SIX_KIND",
+          "name": "ISSPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1627,7 +1627,7 @@
       "target": {
         "kind": "external",
         "index": 65,
-        "name": "IS_SIX_KIND",
+        "name": "ISSPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2205,7 +2205,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "SLIDE_ROCK_COLLISION_ROW",
+          "name": "GETSLIDEROCKDETDATA",
           "method": 6,
           "zero_displacement": true
         }
@@ -2213,7 +2213,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "SLIDE_ROCK_COLLISION_ROW",
+        "name": "GETSLIDEROCKDETDATA",
         "method": 6,
         "zero_displacement": true
       },
@@ -2298,7 +2298,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "SLIDE_ROCK_COLLISION_ROW",
+          "name": "GETSLIDEROCKDETDATA",
           "method": 6,
           "zero_displacement": true
         }
@@ -2306,7 +2306,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "SLIDE_ROCK_COLLISION_ROW",
+        "name": "GETSLIDEROCKDETDATA",
         "method": 6,
         "zero_displacement": true
       },
@@ -2391,7 +2391,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "SLIDE_ROCK_COLLISION_ROW",
+          "name": "GETSLIDEROCKDETDATA",
           "method": 6,
           "zero_displacement": true
         }
@@ -2399,7 +2399,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "SLIDE_ROCK_COLLISION_ROW",
+        "name": "GETSLIDEROCKDETDATA",
         "method": 6,
         "zero_displacement": true
       },
@@ -2822,7 +2822,7 @@
         "target": {
           "kind": "external",
           "index": 57,
-          "name": "GET_CHAR_COL",
+          "name": "GETCHARCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2830,7 +2830,7 @@
       "target": {
         "kind": "external",
         "index": 57,
-        "name": "GET_CHAR_COL",
+        "name": "GETCHARCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2898,7 +2898,7 @@
         "target": {
           "kind": "external",
           "index": 57,
-          "name": "GET_CHAR_COL",
+          "name": "GETCHARCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2906,7 +2906,7 @@
       "target": {
         "kind": "external",
         "index": 57,
-        "name": "GET_CHAR_COL",
+        "name": "GETCHARCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2952,7 +2952,7 @@
         "target": {
           "kind": "external",
           "index": 57,
-          "name": "GET_CHAR_COL",
+          "name": "GETCHARCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2960,7 +2960,7 @@
       "target": {
         "kind": "external",
         "index": 57,
-        "name": "GET_CHAR_COL",
+        "name": "GETCHARCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -3153,7 +3153,7 @@
         "target": {
           "kind": "external",
           "index": 49,
-          "name": "@slide_rock_on_row",
+          "name": "@GetSlideRockOnRoomRow",
           "method": 6,
           "zero_displacement": true
         }
@@ -3161,7 +3161,7 @@
       "target": {
         "kind": "external",
         "index": 49,
-        "name": "@slide_rock_on_row",
+        "name": "@GetSlideRockOnRoomRow",
         "method": 6,
         "zero_displacement": true
       },
@@ -3386,7 +3386,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "IS_STRIKING_POSITION",
+          "name": "ISSTRIKINGPOS",
           "method": 6,
           "zero_displacement": true
         }
@@ -3394,7 +3394,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "IS_STRIKING_POSITION",
+        "name": "ISSTRIKINGPOS",
         "method": 6,
         "zero_displacement": true
       },
@@ -3656,7 +3656,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "@probe_jump_anchor",
+          "name": "@GetSlideRockX",
           "method": 6,
           "zero_displacement": true
         }
@@ -3664,7 +3664,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "@probe_jump_anchor",
+        "name": "@GetSlideRockX",
         "method": 6,
         "zero_displacement": true
       },
@@ -3818,7 +3818,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "REREAD_CELLS",
+          "name": "REREADCELLS",
           "method": 6,
           "zero_displacement": true
         }
@@ -3826,7 +3826,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "REREAD_CELLS",
+        "name": "REREADCELLS",
         "method": 6,
         "zero_displacement": true
       },
@@ -3926,7 +3926,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "RESET_CHAR_Y",
+          "name": "RESETCHARY",
           "method": 6,
           "zero_displacement": true
         }
@@ -3934,7 +3934,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "RESET_CHAR_Y",
+        "name": "RESETCHARY",
         "method": 6,
         "zero_displacement": true
       },
@@ -3953,7 +3953,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "APPLY_AIR_BUMP",
+          "name": "AIRBUMP",
           "method": 6,
           "zero_displacement": true
         }
@@ -3961,7 +3961,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "APPLY_AIR_BUMP",
+        "name": "AIRBUMP",
         "method": 6,
         "zero_displacement": true
       },
@@ -4061,7 +4061,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "REREAD_CELLS",
+          "name": "REREADCELLS",
           "method": 6,
           "zero_displacement": true
         }
@@ -4069,7 +4069,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "REREAD_CELLS",
+        "name": "REREADCELLS",
         "method": 6,
         "zero_displacement": true
       },
@@ -4277,7 +4277,7 @@
         "target": {
           "kind": "external",
           "index": 55,
-          "name": "APPLY_GROUND_BUMP",
+          "name": "GROUNDBUMP",
           "method": 6,
           "zero_displacement": true
         }
@@ -4285,7 +4285,7 @@
       "target": {
         "kind": "external",
         "index": 55,
-        "name": "APPLY_GROUND_BUMP",
+        "name": "GROUNDBUMP",
         "method": 6,
         "zero_displacement": true
       },
@@ -4304,7 +4304,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "APPLY_AIR_BUMP",
+          "name": "AIRBUMP",
           "method": 6,
           "zero_displacement": true
         }
@@ -4312,7 +4312,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "APPLY_AIR_BUMP",
+        "name": "AIRBUMP",
         "method": 6,
         "zero_displacement": true
       },
@@ -4331,7 +4331,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "PROBE_CHAIN_FLOOR",
+          "name": "SLIDEROCKINCELL",
           "method": 6,
           "zero_displacement": true
         }
@@ -4339,7 +4339,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "PROBE_CHAIN_FLOOR",
+        "name": "SLIDEROCKINCELL",
         "method": 6,
         "zero_displacement": true
       },
@@ -4385,7 +4385,7 @@
         "target": {
           "kind": "external",
           "index": 65,
-          "name": "IS_SIX_KIND",
+          "name": "ISSPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4393,7 +4393,7 @@
       "target": {
         "kind": "external",
         "index": 65,
-        "name": "IS_SIX_KIND",
+        "name": "ISSPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5217,7 +5217,7 @@
         "target": {
           "kind": "external",
           "index": 60,
-          "name": "SCYTHE_BLOCKS_PASSAGE",
+          "name": "SCYTHE1BARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -5225,7 +5225,7 @@
       "target": {
         "kind": "external",
         "index": 60,
-        "name": "SCYTHE_BLOCKS_PASSAGE",
+        "name": "SCYTHE1BARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -5271,7 +5271,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "GATE_BLOCKS_PASSAGE",
+          "name": "GATEBARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -5279,7 +5279,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -5298,7 +5298,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "CHECK_COLLISION_TILE",
+          "name": "CHECKCOLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5306,7 +5306,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "CHECK_COLLISION_TILE",
+        "name": "CHECKCOLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5401,7 +5401,7 @@
         "target": {
           "kind": "external",
           "index": 51,
-          "name": "APPLY_COLLISION",
+          "name": "COLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5409,7 +5409,7 @@
       "target": {
         "kind": "external",
         "index": 51,
-        "name": "APPLY_COLLISION",
+        "name": "COLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5455,7 +5455,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "SLIDE_ROCK_BARRIER",
+          "name": "GETSLIDEROCKBARRDIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -5463,7 +5463,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "SLIDE_ROCK_BARRIER",
+        "name": "GETSLIDEROCKBARRDIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -5698,7 +5698,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "CHECK_COLLISION_COL",
+          "name": "CHECKCOLLIDE1",
           "method": 6,
           "zero_displacement": true
         }
@@ -5706,7 +5706,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "CHECK_COLLISION_COL",
+        "name": "CHECKCOLLIDE1",
         "method": 6,
         "zero_displacement": true
       },
@@ -5801,7 +5801,7 @@
         "target": {
           "kind": "external",
           "index": 51,
-          "name": "APPLY_COLLISION",
+          "name": "COLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5809,7 +5809,7 @@
       "target": {
         "kind": "external",
         "index": 51,
-        "name": "APPLY_COLLISION",
+        "name": "COLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5855,7 +5855,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "SLIDE_ROCK_BARRIER",
+          "name": "GETSLIDEROCKBARRDIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -5863,7 +5863,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "SLIDE_ROCK_BARRIER",
+        "name": "GETSLIDEROCKBARRDIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -6071,7 +6071,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "CHECK_COLLISION_COL",
+          "name": "CHECKCOLLIDE1",
           "method": 6,
           "zero_displacement": true
         }
@@ -6079,7 +6079,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "CHECK_COLLISION_COL",
+        "name": "CHECKCOLLIDE1",
         "method": 6,
         "zero_displacement": true
       },
@@ -6174,7 +6174,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "RIGHT_COLLISION",
+          "name": "RIGHTCOLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6182,7 +6182,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "RIGHT_COLLISION",
+        "name": "RIGHTCOLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6223,7 +6223,7 @@
         "target": {
           "kind": "external",
           "index": 40,
-          "name": "LEFT_COLLISION",
+          "name": "LEFTCOLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6231,7 +6231,7 @@
       "target": {
         "kind": "external",
         "index": 40,
-        "name": "LEFT_COLLISION",
+        "name": "LEFTCOLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6618,7 +6618,7 @@
         "target": {
           "kind": "external",
           "index": 22,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -6626,7 +6626,7 @@
       "target": {
         "kind": "external",
         "index": 22,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -6672,7 +6672,7 @@
         "target": {
           "kind": "external",
           "index": 22,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -6680,7 +6680,7 @@
       "target": {
         "kind": "external",
         "index": 22,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -6753,7 +6753,7 @@
         "target": {
           "kind": "external",
           "index": 22,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -6761,7 +6761,7 @@
       "target": {
         "kind": "external",
         "index": 22,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -6807,7 +6807,7 @@
         "target": {
           "kind": "external",
           "index": 22,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -6815,7 +6815,7 @@
       "target": {
         "kind": "external",
         "index": 22,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -7644,7 +7644,7 @@
         "target": {
           "kind": "external",
           "index": 19,
-          "name": "GET_SWORD_WIDTH",
+          "name": "GETSWORDWIDTH",
           "method": 6,
           "zero_displacement": true
         }
@@ -7652,7 +7652,7 @@
       "target": {
         "kind": "external",
         "index": 19,
-        "name": "GET_SWORD_WIDTH",
+        "name": "GETSWORDWIDTH",
         "method": 6,
         "zero_displacement": true
       },
@@ -7725,7 +7725,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "GET_SET_IMAGE_SIZE",
+          "name": "GETSETIMGSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -7733,7 +7733,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "GET_SET_IMAGE_SIZE",
+        "name": "GETSETIMGSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -8265,7 +8265,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "GET_BEHIND",
+          "name": "GETBEHIND",
           "method": 6,
           "zero_displacement": true
         }
@@ -8273,7 +8273,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "GET_BEHIND",
+        "name": "GETBEHIND",
         "method": 6,
         "zero_displacement": true
       },
@@ -8292,7 +8292,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "GET_CELLS_AHEAD",
+          "name": "GETCELLSINFRONT",
           "method": 6,
           "zero_displacement": true
         }
@@ -8300,7 +8300,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "GET_CELLS_AHEAD",
+        "name": "GETCELLSINFRONT",
         "method": 6,
         "zero_displacement": true
       },
@@ -9050,7 +9050,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "REREAD_CELLS",
+          "name": "REREADCELLS",
           "method": 6,
           "zero_displacement": true
         }
@@ -9058,7 +9058,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "REREAD_CELLS",
+        "name": "REREADCELLS",
         "method": 6,
         "zero_displacement": true
       },
@@ -9617,7 +9617,7 @@
         "target": {
           "kind": "external",
           "index": 75,
-          "name": "BARRIER_DISTANCE_FROM_BACK",
+          "name": "GETBARRDISTFROMBACK",
           "method": 6,
           "zero_displacement": true
         }
@@ -9625,7 +9625,7 @@
       "target": {
         "kind": "external",
         "index": 75,
-        "name": "BARRIER_DISTANCE_FROM_BACK",
+        "name": "GETBARRDISTFROMBACK",
         "method": 6,
         "zero_displacement": true
       },
@@ -9698,7 +9698,7 @@
         "target": {
           "kind": "external",
           "index": 75,
-          "name": "BARRIER_DISTANCE_FROM_BACK",
+          "name": "GETBARRDISTFROMBACK",
           "method": 6,
           "zero_displacement": true
         }
@@ -9706,7 +9706,7 @@
       "target": {
         "kind": "external",
         "index": 75,
-        "name": "BARRIER_DISTANCE_FROM_BACK",
+        "name": "GETBARRDISTFROMBACK",
         "method": 6,
         "zero_displacement": true
       },
@@ -9779,7 +9779,7 @@
         "target": {
           "kind": "external",
           "index": 75,
-          "name": "BARRIER_DISTANCE_FROM_BACK",
+          "name": "GETBARRDISTFROMBACK",
           "method": 6,
           "zero_displacement": true
         }
@@ -9787,7 +9787,7 @@
       "target": {
         "kind": "external",
         "index": 75,
-        "name": "BARRIER_DISTANCE_FROM_BACK",
+        "name": "GETBARRDISTFROMBACK",
         "method": 6,
         "zero_displacement": true
       },
@@ -9860,7 +9860,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "BARRIER_DISTANCE_FROM_FACE",
+          "name": "GETBARRDISTFROMFACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -9868,7 +9868,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -9941,7 +9941,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "BARRIER_DISTANCE_FROM_FACE",
+          "name": "GETBARRDISTFROMFACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -9949,7 +9949,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -10022,7 +10022,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "BARRIER_DISTANCE_FROM_FACE",
+          "name": "GETBARRDISTFROMFACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -10030,7 +10030,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -10103,7 +10103,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "PUSH_AWAY_FROM_GATE",
+          "name": "PUSHCHARAWAYFROMGATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -10111,7 +10111,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "PUSH_AWAY_FROM_GATE",
+        "name": "PUSHCHARAWAYFROMGATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -10400,7 +10400,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "GATE_BLOCKS_PASSAGE",
+          "name": "GATEBARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -10408,7 +10408,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -10562,7 +10562,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "GET_CELLS_AHEAD",
+          "name": "GETCELLSINFRONT",
           "method": 6,
           "zero_displacement": true
         }
@@ -10570,7 +10570,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "GET_CELLS_AHEAD",
+        "name": "GETCELLSINFRONT",
         "method": 6,
         "zero_displacement": true
       },
@@ -10589,7 +10589,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "GET_BEHIND",
+          "name": "GETBEHIND",
           "method": 6,
           "zero_displacement": true
         }
@@ -10597,7 +10597,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "GET_BEHIND",
+        "name": "GETBEHIND",
         "method": 6,
         "zero_displacement": true
       },
@@ -10670,7 +10670,7 @@
         "target": {
           "kind": "external",
           "index": 77,
-          "name": "GET_UNDER_FOOT",
+          "name": "GETUNDERFT",
           "method": 6,
           "zero_displacement": true
         }
@@ -10678,7 +10678,7 @@
       "target": {
         "kind": "external",
         "index": 77,
-        "name": "GET_UNDER_FOOT",
+        "name": "GETUNDERFT",
         "method": 6,
         "zero_displacement": true
       },
@@ -10697,7 +10697,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "PUSH_AWAY_FROM_GATE",
+          "name": "PUSHCHARAWAYFROMGATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -10705,7 +10705,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "PUSH_AWAY_FROM_GATE",
+        "name": "PUSHCHARAWAYFROMGATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -11232,7 +11232,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "GATE_BLOCKS_PASSAGE",
+          "name": "GATEBARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -11240,7 +11240,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -11340,7 +11340,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "GET_CELLS_AHEAD",
+          "name": "GETCELLSINFRONT",
           "method": 6,
           "zero_displacement": true
         }
@@ -11348,7 +11348,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "GET_CELLS_AHEAD",
+        "name": "GETCELLSINFRONT",
         "method": 6,
         "zero_displacement": true
       },
@@ -11367,7 +11367,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "GET_BEHIND",
+          "name": "GETBEHIND",
           "method": 6,
           "zero_displacement": true
         }
@@ -11375,7 +11375,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "GET_BEHIND",
+        "name": "GETBEHIND",
         "method": 6,
         "zero_displacement": true
       },
@@ -11421,7 +11421,7 @@
         "target": {
           "kind": "external",
           "index": 77,
-          "name": "GET_UNDER_FOOT",
+          "name": "GETUNDERFT",
           "method": 6,
           "zero_displacement": true
         }
@@ -11429,7 +11429,7 @@
       "target": {
         "kind": "external",
         "index": 77,
-        "name": "GET_UNDER_FOOT",
+        "name": "GETUNDERFT",
         "method": 6,
         "zero_displacement": true
       },
@@ -11524,7 +11524,7 @@
         "target": {
           "kind": "external",
           "index": 83,
-          "name": "GET_EDGE_DISTANCE",
+          "name": "GETDIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -11532,7 +11532,7 @@
       "target": {
         "kind": "external",
         "index": 83,
-        "name": "GET_EDGE_DISTANCE",
+        "name": "GETDIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -11600,7 +11600,7 @@
         "target": {
           "kind": "external",
           "index": 83,
-          "name": "GET_EDGE_DISTANCE",
+          "name": "GETDIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -11608,7 +11608,7 @@
       "target": {
         "kind": "external",
         "index": 83,
-        "name": "GET_EDGE_DISTANCE",
+        "name": "GETDIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -11627,7 +11627,7 @@
         "target": {
           "kind": "external",
           "index": 83,
-          "name": "GET_EDGE_DISTANCE",
+          "name": "GETDIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -11635,7 +11635,7 @@
       "target": {
         "kind": "external",
         "index": 83,
-        "name": "GET_EDGE_DISTANCE",
+        "name": "GETDIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -11703,7 +11703,7 @@
         "target": {
           "kind": "external",
           "index": 65,
-          "name": "IS_SIX_KIND",
+          "name": "ISSPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11711,7 +11711,7 @@
       "target": {
         "kind": "external",
         "index": 65,
-        "name": "IS_SIX_KIND",
+        "name": "ISSPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -11752,7 +11752,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "BARRIER_DISTANCE_FROM_FACE",
+          "name": "GETBARRDISTFROMFACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11760,7 +11760,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -11914,7 +11914,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "GET_CELLS_AHEAD",
+          "name": "GETCELLSINFRONT",
           "method": 6,
           "zero_displacement": true
         }
@@ -11922,7 +11922,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "GET_CELLS_AHEAD",
+        "name": "GETCELLSINFRONT",
         "method": 6,
         "zero_displacement": true
       },
@@ -11941,7 +11941,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "BARRIER_DISTANCE_FROM_FACE",
+          "name": "GETBARRDISTFROMFACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11949,7 +11949,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12049,7 +12049,7 @@
         "target": {
           "kind": "external",
           "index": 77,
-          "name": "GET_UNDER_FOOT",
+          "name": "GETUNDERFT",
           "method": 6,
           "zero_displacement": true
         }
@@ -12057,7 +12057,7 @@
       "target": {
         "kind": "external",
         "index": 77,
-        "name": "GET_UNDER_FOOT",
+        "name": "GETUNDERFT",
         "method": 6,
         "zero_displacement": true
       },
@@ -12076,7 +12076,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "GET_CHAR_EDGES",
+          "name": "GETCHAREDGES",
           "method": 6,
           "zero_displacement": true
         }
@@ -12084,7 +12084,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "GET_CHAR_EDGES",
+        "name": "GETCHAREDGES",
         "method": 6,
         "zero_displacement": true
       },
@@ -12103,7 +12103,7 @@
         "target": {
           "kind": "external",
           "index": 79,
-          "name": "SETUP_CHAR",
+          "name": "SETUPCHAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -12111,7 +12111,7 @@
       "target": {
         "kind": "external",
         "index": 79,
-        "name": "SETUP_CHAR",
+        "name": "SETUPCHAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -12130,7 +12130,7 @@
         "target": {
           "kind": "external",
           "index": 80,
-          "name": "REREAD_BASE_CELL",
+          "name": "GETBASECELL",
           "method": 6,
           "zero_displacement": true
         }
@@ -12138,7 +12138,7 @@
       "target": {
         "kind": "external",
         "index": 80,
-        "name": "REREAD_BASE_CELL",
+        "name": "GETBASECELL",
         "method": 6,
         "zero_displacement": true
       },
@@ -12184,7 +12184,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -12192,7 +12192,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -12265,7 +12265,7 @@
         "target": {
           "kind": "external",
           "index": 27,
-          "name": "GET_FRAME_INFO",
+          "name": "GETFRAMEINFO",
           "method": 6,
           "zero_displacement": true
         }
@@ -12273,7 +12273,7 @@
       "target": {
         "kind": "external",
         "index": 27,
-        "name": "GET_FRAME_INFO",
+        "name": "GETFRAMEINFO",
         "method": 6,
         "zero_displacement": true
       },
@@ -12937,7 +12937,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "GATE_BLOCKS_PASSAGE",
+          "name": "GATEBARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -12945,7 +12945,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -12964,7 +12964,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "REREAD_CELLS",
+          "name": "REREADCELLS",
           "method": 6,
           "zero_displacement": true
         }
@@ -12972,7 +12972,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "REREAD_CELLS",
+        "name": "REREADCELLS",
         "method": 6,
         "zero_displacement": true
       },
@@ -13261,7 +13261,7 @@
         "target": {
           "kind": "external",
           "index": 88,
-          "name": "HEAD_ENEMY_COLLIDE",
+          "name": "HEADENEMYCOLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13269,7 +13269,7 @@
       "target": {
         "kind": "external",
         "index": 88,
-        "name": "HEAD_ENEMY_COLLIDE",
+        "name": "HEADENEMYCOLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13288,7 +13288,7 @@
         "target": {
           "kind": "external",
           "index": 66,
-          "name": "BARRIER_DISTANCE_FROM_FACE",
+          "name": "GETBARRDISTFROMFACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13296,7 +13296,7 @@
       "target": {
         "kind": "external",
         "index": 66,
-        "name": "BARRIER_DISTANCE_FROM_FACE",
+        "name": "GETBARRDISTFROMFACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13396,7 +13396,7 @@
         "target": {
           "kind": "external",
           "index": 75,
-          "name": "BARRIER_DISTANCE_FROM_BACK",
+          "name": "GETBARRDISTFROMBACK",
           "method": 6,
           "zero_displacement": true
         }
@@ -13404,7 +13404,7 @@
       "target": {
         "kind": "external",
         "index": 75,
-        "name": "BARRIER_DISTANCE_FROM_BACK",
+        "name": "GETBARRDISTFROMBACK",
         "method": 6,
         "zero_displacement": true
       },
@@ -13504,7 +13504,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "CHECK_COLLISION_TILE",
+          "name": "CHECKCOLLIDE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13512,7 +13512,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "CHECK_COLLISION_TILE",
+        "name": "CHECKCOLLIDE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13531,7 +13531,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "GET_CHAR_EDGES",
+          "name": "GETCHAREDGES",
           "method": 6,
           "zero_displacement": true
         }
@@ -13539,7 +13539,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "GET_CHAR_EDGES",
+        "name": "GETCHAREDGES",
         "method": 6,
         "zero_displacement": true
       },
@@ -13558,7 +13558,7 @@
         "target": {
           "kind": "external",
           "index": 79,
-          "name": "SETUP_CHAR",
+          "name": "SETUPCHAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -13566,7 +13566,7 @@
       "target": {
         "kind": "external",
         "index": 79,
-        "name": "SETUP_CHAR",
+        "name": "SETUPCHAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -13585,7 +13585,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "GATE_BLOCKS_PASSAGE",
+          "name": "GATEBARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -13593,7 +13593,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -13639,7 +13639,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "GET_CELLS_AHEAD",
+          "name": "GETCELLSINFRONT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13647,7 +13647,7 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "GET_CELLS_AHEAD",
+        "name": "GETCELLSINFRONT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13666,7 +13666,7 @@
         "target": {
           "kind": "external",
           "index": 59,
-          "name": "GATE_BLOCKS_PASSAGE",
+          "name": "GATEBARR",
           "method": 6,
           "zero_displacement": true
         }
@@ -13674,7 +13674,7 @@
       "target": {
         "kind": "external",
         "index": 59,
-        "name": "GATE_BLOCKS_PASSAGE",
+        "name": "GATEBARR",
         "method": 6,
         "zero_displacement": true
       },
@@ -13720,7 +13720,7 @@
         "target": {
           "kind": "external",
           "index": 77,
-          "name": "GET_UNDER_FOOT",
+          "name": "GETUNDERFT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13728,7 +13728,7 @@
       "target": {
         "kind": "external",
         "index": 77,
-        "name": "GET_UNDER_FOOT",
+        "name": "GETUNDERFT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13890,7 +13890,7 @@
   },
   "schema": 1,
   "symbols": {
-    "@probe_jump_anchor": {
+    "@GetSlideRockX": {
       "entry_sha256": "46481537ede521e515a656a57827a0c57dd04c6486990200e1702d5abf036632",
       "entry_target_id": "root:0b52:14fc",
       "kind": "far-code-entry",
@@ -13899,7 +13899,7 @@
       "space": "root",
       "witnesses": []
     },
-    "@slide_rock_on_row": {
+    "@GetSlideRockOnRoomRow": {
       "entry_sha256": "76171d0eb38e21746b71a0fe0b6b01b97d62fb7fb369f087825ed23e63ac6080",
       "entry_target_id": "overlay-9:2c59:0526",
       "kind": "overlay-code-entry",
@@ -14651,7 +14651,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_BEHIND": {
+    "GETBEHIND": {
       "entry_sha256": "e468ecd6a63acfdd7432768412163095911e1fdb3a5bc7c292ac8536955069aa",
       "entry_target_id": "root:02dc:0f94",
       "kind": "far-code-entry",
@@ -14668,7 +14668,7 @@
         }
       ]
     },
-    "GET_CELLS_AHEAD": {
+    "GETCELLSINFRONT": {
       "entry_sha256": "ca493301ff4a8da3ba15b39c89b282e210d0e70a66f61fee2e069c09a1fec3f5",
       "entry_target_id": "root:02dc:0f6c",
       "kind": "far-code-entry",
@@ -14685,7 +14685,7 @@
         }
       ]
     },
-    "GET_CHAR_COL": {
+    "GETCHARCOL": {
       "entry_sha256": "9f6ab59ed3fd77054424c14dbfeb0dcd94b954f923dfbff86177d3ae4b4d12b6",
       "entry_target_id": "root:02dc:0ffc",
       "kind": "far-code-entry",
@@ -14694,7 +14694,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_COL": {
+    "GETCOL": {
       "entry_sha256": "73d932fd96e765885ea4ceadc96ba9ad28586e603f80ff1417ec95e433b682af",
       "entry_target_id": "root:02dc:1010",
       "kind": "far-code-entry",
@@ -14703,7 +14703,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_EDGE_DISTANCE": {
+    "GETDIST": {
       "entry_sha256": "a51efa9526aaf8e3a36d70e9568f3780ff71865e39a96c6137aa554c51acdeca",
       "entry_target_id": "root:02dc:0fc4",
       "kind": "far-code-entry",
@@ -14712,7 +14712,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_FRAME_INFO": {
+    "GETFRAMEINFO": {
       "entry_sha256": "0764e8eeab66e9db735aae69fadf886b915e9f4a321866ba53ed81bacf80c057",
       "entry_target_id": "root:02dc:02ac",
       "kind": "far-code-entry",
@@ -14721,7 +14721,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_SET_IMAGE_SIZE": {
+    "GETSETIMGSIZE": {
       "entry_sha256": "2308bdcee2ff5310a9275740c8edff3d14043cdf6915c4d3cac1c22ac23c8530",
       "entry_target_id": "root:0170:0fe2",
       "kind": "far-code-entry",
@@ -14738,7 +14738,7 @@
         }
       ]
     },
-    "GET_UNDER_FOOT": {
+    "GETUNDERFT": {
       "entry_sha256": "b9c7cb0b4c2368d1288357def0ecf6c90c582b5b19be174dd88d16ec75ae41f2",
       "entry_target_id": "root:02dc:09e6",
       "kind": "far-code-entry",
@@ -14747,7 +14747,7 @@
       "space": "root",
       "witnesses": []
     },
-    "HEAD_ENEMY_COLLIDE": {
+    "HEADENEMYCOLLIDE": {
       "entry_sha256": "eb2c40428d12cfbf21cd352e1674bc8e507c80536f5e6394c90c84a466a924cf",
       "entry_target_id": "overlay-11:2e49:0816",
       "kind": "overlay-code-entry",
@@ -14788,7 +14788,7 @@
       "space": "root",
       "witnesses": []
     },
-    "IS_SIX_KIND": {
+    "ISSPACE": {
       "entry_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
       "entry_target_id": "root:0790:28d4",
       "kind": "far-code-entry",
@@ -14805,7 +14805,7 @@
         }
       ]
     },
-    "IS_STRIKING_POSITION": {
+    "ISSTRIKINGPOS": {
       "entry_sha256": "3ef845cbfb7d0e8b83001b9edb66d63445977234a75d1978d4c02ab4bffe3ddc",
       "entry_target_id": "overlay-3:251b:2332",
       "kind": "overlay-code-entry",
@@ -14967,7 +14967,7 @@
         }
       ]
     },
-    "PROBE_CHAIN_FLOOR": {
+    "SLIDEROCKINCELL": {
       "entry_sha256": "c52e4e63adb65985a76dccb17c1f18d546e9c2e1946ad87aee312cd4b40cabef",
       "entry_target_id": "overlay-9:2c59:0a80",
       "kind": "overlay-code-entry",
@@ -15001,7 +15001,7 @@
         }
       ]
     },
-    "REREAD_BASE_CELL": {
+    "GETBASECELL": {
       "entry_sha256": "48bc71644a357cfdb782597696c060a1f246023aa62982fe15ae4a499862cd11",
       "entry_target_id": "root:02dc:029e",
       "kind": "far-code-entry",
@@ -15010,7 +15010,7 @@
       "space": "root",
       "witnesses": []
     },
-    "REREAD_CELLS": {
+    "REREADCELLS": {
       "entry_sha256": "5140edf850f9dd5c1d22d70f2d655a2c89b4ea3b9ff7b8438189e69d01cdb93a",
       "entry_target_id": "root:02dc:0294",
       "kind": "far-code-entry",
@@ -15019,7 +15019,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESET_CHAR_Y": {
+    "RESETCHARY": {
       "entry_sha256": "518e529aa9667b379871347e5ff9f1ce313cf7f83a38425bfd009f0d134bfd29",
       "entry_target_id": "root:02dc:07b0",
       "kind": "far-code-entry",
@@ -15028,7 +15028,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -15138,7 +15138,7 @@
       "space": "overlay-7",
       "witnesses": []
     },
-    "SETUP_CHAR": {
+    "SETUPCHAR": {
       "entry_sha256": "c21897556471e5ef53656330060c26148e2f61ebf5e7b1ff171fdfb355a0aa1d",
       "entry_target_id": "root:0170:09b6",
       "kind": "far-code-entry",
@@ -15155,7 +15155,7 @@
         }
       ]
     },
-    "SLIDE_ROCK_BARRIER": {
+    "GETSLIDEROCKBARRDIST": {
       "entry_sha256": "924369eb043bdd1cc1c0a79c073680c767b267b169f349dcd8bbabc9c93e3af1",
       "entry_target_id": "overlay-9:2c59:0368",
       "kind": "overlay-code-entry",
@@ -15164,7 +15164,7 @@
       "space": "overlay-9",
       "witnesses": []
     },
-    "SLIDE_ROCK_COLLISION_ROW": {
+    "GETSLIDEROCKDETDATA": {
       "entry_sha256": "321de586a79c620e59e46ccdacc9049c6f4ce8e6e613b772dc7e75e5905d0196",
       "entry_target_id": "overlay-9:2c59:0412",
       "kind": "overlay-code-entry",
@@ -15222,7 +15222,7 @@
         }
       ]
     },
-    "STEP_IN_PROGRESS": {
+    "INDOSTEPFWD": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:ctrl/ctrl",

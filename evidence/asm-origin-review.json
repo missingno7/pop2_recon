@@ -23,7 +23,7 @@
       "dispatch_item_character",
       "dispatch_linked_items",
       "dispatch_window_event",
-      "dispose_handle",
+      "hFree",
       "dispose_window",
       "dispose_window_item",
       "divide_timer_interval",
@@ -80,16 +80,16 @@
       "ptool/set_origin",
       "ptool/stroke_port_rect",
       "ptool/subtract_port_origin",
-      "query_handle_size",
+      "hGetSize",
       "read_dos_file_to_buffer",
       "relocate_handle_payload",
       "resc/catalog_lookup",
       "resc/load_resource_copy",
       "resc/release_tagged_resource",
       "resize_dos_heap",
-      "resolve_handle_to_far_payload",
+      "h2p",
       "restore_window_clip",
-      "save_handle_flags",
+      "hGetState",
       "selectable_items",
       "set_window_event_state",
       "skip_nul_strings",
@@ -369,7 +369,7 @@
         "2176 les ax, ptr [bp] (MSC never loads a far pointer with les into ax)",
         "2183 null test of a far pointer via mov r,es; or dx, ax after les"
       ],
-      "group": "resolve_handle_to_far_payload",
+      "group": "h2p",
       "verdict": "asm"
     },
     "root:1129:15dc": {
@@ -395,7 +395,7 @@
         "220e les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
         "2237 mov ds, di"
       ],
-      "group": "dispose_handle",
+      "group": "hFree",
       "verdict": "asm"
     },
     "root:1129:168e": {
@@ -406,7 +406,7 @@
         "227a stc",
         "2280 pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
       ],
-      "group": "dispose_handle",
+      "group": "hFree",
       "verdict": "asm"
     },
     "root:1129:16e6": {
@@ -414,7 +414,7 @@
         "22a7 test bx, bx (MSC tests with or r,r)",
         "22ca pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
       ],
-      "group": "dispose_handle",
+      "group": "hFree",
       "verdict": "asm"
     },
     "root:1129:1716": {
@@ -423,7 +423,7 @@
         "22d9 test bp, bp (MSC tests with or r,r)",
         "22dd xchg bp, ax"
       ],
-      "group": "save_handle_flags",
+      "group": "hGetState",
       "verdict": "asm"
     },
     "root:1129:1728": {
@@ -721,7 +721,7 @@
         "20e3 stc",
         "20f1 les ax, ptr [bp - 0xc] (MSC never loads a far pointer with les into ax)"
       ],
-      "group": "resolve_handle_to_far_payload",
+      "group": "h2p",
       "verdict": "asm"
     },
     "root:1129:25c0": {
@@ -3232,7 +3232,7 @@
         "c04e plain near call 1f0d without push cs",
         "c052 pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
       ],
-      "group": "query_handle_size",
+      "group": "hGetSize",
       "verdict": "asm"
     },
     "root:1129:c03e": {

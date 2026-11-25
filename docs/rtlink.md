@@ -3,7 +3,7 @@
 ## The v1.1 target (2026-11-23)
 
 The project target is `assets/pop2_11/PRINCE.EXE` (v1.1, 259,583 bytes, SHA-256 `c92298b6...`), locked in
-`layout/oracle.lock.json`. The earlier target (the leaked pre-1.0 "IR" build, binary-patched in `SHOW_DIALOG_NOTICE`)
+`layout/oracle.lock.json`. The earlier target (the leaked pre-1.0 "IR" build, binary-patched in `COPYPROTECTIONDIALOG`)
 is frozen at tag `oracle-dos-1565`; the text below this section describes that file.
 
 - MZ root image 151,979 bytes after an 8,192-byte header; entry `220e:0678`; 2,036 MZ relocations. The overlay table
@@ -73,7 +73,7 @@ resource module is a root file after DIAG, the THRONE vectors come from VECTORON
 before the first object are unknown (placeholders in the plan).
 
 Relocation order, facts of 2026-11-24 (the symbol-number model against the original tables):
-- `step_in_progress` is a public of CTRL (the first word of its `_DATA`, 0174), not of CHECKNIS, and CTRL only references
+- `InDoStepFwd` is a public of CTRL (the first word of its `_DATA`, 0174), not of CHECKNIS, and CTRL only references
   `Offset`: its number lies between `FinishStartKid` and `Minus1` among CTRL's first references. With both, all 742 comparisons
   up to CTRL agree (45 and 31 did not before). Which later file defines `Offset` is unknown (`link/offset.c`).
 - PUBDEF order is C1 symbol number modulo 64, and in DRAWCAVE (25 functions without parameters) the original order is the

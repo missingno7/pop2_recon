@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "DRAW_NOTICE_CURSOR",
+        "name": "DRAWSYMBOLBOX",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 5418,
@@ -161,7 +161,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_CREDITS_PAGE",
+        "name": "DRAWCREDITSPAGE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 9148,
@@ -179,7 +179,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_CREDIT_CATEGORY",
+        "name": "DRAWCREDITCATEGORY",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 9206,
@@ -197,7 +197,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_NOTICE_SYMBOLS",
+        "name": "DRAWCOPYPROTECTIONDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 5126,
@@ -206,7 +206,7 @@
         "type_index": 0
       },
       {
-        "name": "READ_NOTICE_SELECTION",
+        "name": "GETCOPYPROTECTIONSYMBOL",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 5516,
@@ -215,7 +215,7 @@
         "type_index": 0
       },
       {
-        "name": "SHOW_CREDITS",
+        "name": "DOCREDITSDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 8784,
@@ -224,7 +224,7 @@
         "type_index": 0
       },
       {
-        "name": "INSERT_HALL_RECORD",
+        "name": "HOFADDPLAYER",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 6632,
@@ -233,7 +233,7 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_GAME_DIALOG",
+        "name": "RESUMEGAMEDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1336,
@@ -242,7 +242,7 @@
         "type_index": 0
       },
       {
-        "name": "SAVE_GAME_DIALOG",
+        "name": "SAVEGAMEDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1534,
@@ -269,7 +269,7 @@
         "type_index": 0
       },
       {
-        "name": "SELECT_SAVE_SLOT",
+        "name": "GETSAVEGAMELOCATION",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2466,
@@ -287,7 +287,7 @@
         "type_index": 0
       },
       {
-        "name": "READ_SAVE_SLOT_TABLE",
+        "name": "INITSAVEDGAMESTRUCT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 3072,
@@ -314,7 +314,7 @@
         "type_index": 0
       },
       {
-        "name": "POST_SAVE_MESSAGE",
+        "name": "DRAWSAVEGAMEMSG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 2406,
@@ -323,7 +323,7 @@
         "type_index": 0
       },
       {
-        "name": "SHOW_DIALOG_NOTICE",
+        "name": "COPYPROTECTIONDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 4732,
@@ -341,7 +341,7 @@
         "type_index": 0
       },
       {
-        "name": "PREPARE_SAVED_ROOM_OBJECTS",
+        "name": "SETREBIRTHPTINITIALS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 4264,
@@ -386,7 +386,7 @@
         "type_index": 0
       },
       {
-        "name": "READ_HALL_FILE",
+        "name": "INITHALLOFFAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 6928,
@@ -395,7 +395,7 @@
         "type_index": 0
       },
       {
-        "name": "DRAW_HALL_RECORDS",
+        "name": "DRAWHALLOFFAMEDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 6118,
@@ -404,7 +404,7 @@
         "type_index": 0
       },
       {
-        "name": "EDIT_HALL_NAME",
+        "name": "GETHALLOFFAMENAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 6384,
@@ -422,7 +422,7 @@
         "type_index": 0
       },
       {
-        "name": "WRITE_HALL_FILE",
+        "name": "WRITEHALLOFFAMEFILE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 7350,
@@ -440,7 +440,7 @@
         "type_index": 0
       },
       {
-        "name": "ENTER_HALL_RECORD",
+        "name": "HALLOFFAMEDIALOG",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 5752,
@@ -494,7 +494,7 @@
         "type_index": 0
       },
       {
-        "name": "SHOW_HALL_RECORDS",
+        "name": "SHOWHALLOFFAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 7134,
@@ -559,10 +559,10 @@
     ],
     "externals": [
       "SOUND_OFF_MESSAGE",
-      "DRAW_NOTICE_CURSOR",
+      "DRAWSYMBOLBOX",
       "ORIGLIFEPTS",
       "LEVEL",
-      "MEASURE_TEXT",
+      "COPYBITS",
       "AMBIENT_ON_MESSAGE",
       "QUOTE_INDEX",
       "MINUTES",
@@ -573,11 +573,11 @@
       "SETREBIRTHPTLEVELSTATUS",
       "INVERT",
       "MOBCT",
-      "FADE_TO",
+      "FADETO",
       "JOYSTICK_MODE_MESSAGE",
       "__dos_creat",
       "JOY",
-      "STROKE_PORT_RECT",
+      "ERASERECT",
       "__dos_write",
       "DRAW_SAVE_SLOT_FRAME",
       "LEVELIDX",
@@ -586,83 +586,83 @@
       "SETREBIRTHPTKIDSTATUS",
       "_lseek",
       "STARTLEVEL",
-      "WAIT_FUNCTION",
+      "WAITFUNC",
       "__fmemcpy",
       "DRAW_DIALOG_TEXT_BLOCK",
       "REMOVEREBIRTHPT",
       "DEALLOCBACKPORT",
       "KID",
       "DRAW_SAVE_SLOT",
-      "DISSOLVE_DO_ALL",
+      "DISSOLVEDOALL",
       "NEXTLEVEL",
       "ALLOCBACKPORT",
       "TIMER",
       "MAKE_INDEX_RECT",
       "RESTARTLEVEL",
-      "SET_DEFAULT_PALETTE",
+      "RESETSTDPALETTE",
       "FIND_OPTION",
       "MSGTIMER",
-      "RESTORE_GAME_PLAY_PALETTE",
-      "ALLOCATE_CLIPPED_PORT",
+      "RESTOREGAMEPLAYPALETTE",
+      "SAVERECT",
       "MSGTIMERSTART",
-      "CLEAR_ROW_HANDLES",
-      "DRAW_RECORD_BOUNDS",
+      "FORCEOPPREDRAW",
+      "RESTORERECTKEEP",
       "CLEAR_PAYLOAD_HEADER",
       "PREPCUT",
-      "FREE_RECORD_PAIR",
+      "DEALLOCMAPSAVE",
       "DRAW_MENU_LABEL",
       "HGETRSRC",
       "UNLOADCUSTOMROOMDATA",
-      "SET_KID_PALETTE",
+      "SETKIDPALETTE",
       "DIALOGDRAWNUMBER",
-      "DRAW_CREDITS_PAGE",
+      "DRAWCREDITSPAGE",
       "DRAW_MENU_ICON",
       "RND",
-      "FIND_SHAPE_LIST",
+      "HGETSHPLIST",
       "INPUT",
-      "DRAW_CREDIT_CATEGORY",
+      "DRAWCREDITCATEGORY",
       "CHANGE_MENU_OPTION",
-      "DRAW_NOTICE_SYMBOLS",
+      "DRAWCOPYPROTECTIONDIALOG",
       "SAVED_MESSAGE",
       "READ_QUEUED_KEY",
-      "READ_NOTICE_SELECTION",
+      "GETCOPYPROTECTIONSYMBOL",
       "NOSAVE_MESSAGE",
       "POLL_GAME_PORT",
-      "SHOW_CREDITS",
-      "DRAW_MESSAGE",
+      "DOCREDITSDIALOG",
+      "DRAWMESSAGE",
       "ABORT_WITH_MESSAGE",
       "PLAY_SONG",
       "__fstrlen",
       "__fstrcpy",
       "HNEWSHPITEM1",
-      "FRAME_RECT",
+      "FRAMERECT",
       "PAINTRLESHAPEITEM",
-      "INSERT_HALL_RECORD",
-      "PLAY_SOUND",
+      "HOFADDPLAYER",
+      "SETSND",
       "PAINTRLESHAPE_ASM",
-      "LOAD_GAME_DIALOG",
+      "RESUMEGAMEDIALOG",
       "MIRRORRLEBLOCK",
       "HNEWSHPITEM",
-      "SAVE_GAME_DIALOG",
+      "SAVEGAMEDIALOG",
       "INSETRECT",
       "MIRRORMCGABLOCK",
       "MAIN_MENU_CHOICE",
-      "SET_RECORD_RANGE",
-      "PAINT_PLAIN",
+      "FILLRECT",
+      "PAINTSHAPE",
       "DRAW_SAVE_SLOTS",
-      "RELEASE_SHAPE_LIST",
-      "SELECT_SAVE_SLOT",
-      "DISPATCH_SOUND",
-      "READ_SAVE_SLOT_TABLE",
-      "SAVE_GAME_PLAY_PALETTE",
+      "HFREESHPLIST",
+      "GETSAVEGAMELOCATION",
+      "RESETSND",
+      "INITSAVEDGAMESTRUCT",
+      "SAVEGAMEPLAYPALETTE",
       "RESUMEGAME",
-      "CLEAR_LIFE_BAR",
+      "CLRLIFEBAR",
       "SAVEGAME",
       "HGETNMAPSHPLIST",
-      "POST_SAVE_MESSAGE",
-      "SHOW_DIALOG_NOTICE",
+      "DRAWSAVEGAMEMSG",
+      "COPYPROTECTIONDIALOG",
       "DIALOGRESETTOGAMEPLAY",
-      "PREPARE_SAVED_ROOM_OBJECTS",
+      "SETREBIRTHPTINITIALS",
       "__dos_open",
       "DRAW_MAIN_MENU",
       "_filelength",
@@ -671,73 +671,73 @@
       "ALLOCATE_PINNED_PAYLOAD",
       "__dos_read",
       "DIALOGWAITFUNC",
-      "READ_HALL_FILE",
+      "INITHALLOFFAME",
       "__dos_close",
       "SET_SOUND_LEVEL",
-      "DRAW_HALL_RECORDS",
+      "DRAWHALLOFFAMEDIALOG",
       "__fmemset",
-      "EDIT_HALL_NAME",
+      "GETHALLOFFAMENAME",
       "COMPUTESYMBOLPT",
       "CLEAR_FLAGS_OF_FAR_BLOCK",
-      "WRITE_HALL_FILE",
+      "WRITEHALLOFFAMEFILE",
       "CREATE_EDIT_FIELD",
       "MOVE",
       "COMPUTEHALLPLAYERRECT",
       "__nmalloc",
-      "GET_TROB_ROOM_CELL",
+      "GETTROBROOMCELL",
       "SHOW_EDIT_CARET",
-      "WAIT_TICKS",
+      "WAIT",
       "__nfree",
       "BLINK_EDIT_CARET",
       "_sprintf",
       "HANDLE_EDIT_KEY",
       "LOOKUP_PREFIXED_STRING",
-      "ENTER_HALL_RECORD",
+      "HALLOFFAMEDIALOG",
       "DIALOGDRAWSTRID",
       "GRAF",
       "SETOPTIONSFROMDISK",
       "LOAD_FRAME_ASSET",
       "HGETFONT",
       "SCREENPORT",
-      "DISPOSE_HANDLE",
+      "HFREE",
       "DRAWDIALOGFRAME",
       "SCREENPORTRECT",
       "_itoa",
       "ISVALIDTIMEFORSAVEGAME",
       "BPORT",
-      "SHOW_HALL_RECORDS",
+      "SHOWHALLOFFAME",
       "DIALOGFADEIN",
       "SETFONT",
       "OFFSETRECT",
       "MAIN_MENU_DIALOG",
-      "DRAW_NUL_TEXT_IN_RECT",
+      "STRINGRECT",
       "MOVETO",
-      "DRAW_NUL_TERMINATED_TEXT",
+      "DRAWSTRING",
       "TOGGLE_AMBIENT",
-      "WAIT_KEY",
+      "WAITKEY",
       "DIALOGFADEOUT",
       "HGETTXT4",
       "JOYSTICK_STATUS",
-      "GET_PAYLOAD_SIZE",
+      "PGETSIZE",
       "HREBIRTHSAVED",
       "INITDIALOG",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "H2P",
       "__fmemmove",
       "CHAR",
-      "FETCH_LOCKED_SHAPE_LIST",
+      "HLOCK",
       "MIDI",
       "ISVALIDTIMEFORDIALOG",
       "GAMEPLAYRECT",
-      "ALLOCATE_PAYLOAD_HANDLE",
+      "HNEW",
       "AMBIENT_STATE",
       "KIDINFO",
       "REDRAWFLAG",
-      "READ_DAC_BLOCK",
+      "READDACBLOCK",
       "SOUND_ON_MESSAGE",
       "CUTROOM",
       "COMPUTE_SAVE_SLOT_RECT",
       "NIS_SKIP_REQUESTED",
-      "WRITE_DAC_BLOCK"
+      "SETDACBLOCK"
     ]
   },
   "dgroup_segment": {
@@ -818,7 +818,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "WAIT_FUNCTION",
+          "name": "WAITFUNC",
           "method": 6,
           "zero_displacement": true
         }
@@ -826,7 +826,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "WAIT_FUNCTION",
+        "name": "WAITFUNC",
         "method": 6,
         "zero_displacement": true
       },
@@ -872,7 +872,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "WAIT_FUNCTION",
+          "name": "WAITFUNC",
           "method": 6,
           "zero_displacement": true
         }
@@ -880,7 +880,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "WAIT_FUNCTION",
+        "name": "WAITFUNC",
         "method": 6,
         "zero_displacement": true
       },
@@ -899,7 +899,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "SET_KID_PALETTE",
+          "name": "SETKIDPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -907,7 +907,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "SET_KID_PALETTE",
+        "name": "SETKIDPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -953,7 +953,7 @@
         "target": {
           "kind": "external",
           "index": 45,
-          "name": "RESTORE_GAME_PLAY_PALETTE",
+          "name": "RESTOREGAMEPLAYPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -961,7 +961,7 @@
       "target": {
         "kind": "external",
         "index": 45,
-        "name": "RESTORE_GAME_PLAY_PALETTE",
+        "name": "RESTOREGAMEPLAYPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1034,7 +1034,7 @@
         "target": {
           "kind": "external",
           "index": 48,
-          "name": "CLEAR_ROW_HANDLES",
+          "name": "FORCEOPPREDRAW",
           "method": 6,
           "zero_displacement": true
         }
@@ -1042,7 +1042,7 @@
       "target": {
         "kind": "external",
         "index": 48,
-        "name": "CLEAR_ROW_HANDLES",
+        "name": "FORCEOPPREDRAW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1088,7 +1088,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1096,7 +1096,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1142,7 +1142,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1150,7 +1150,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1196,7 +1196,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1204,7 +1204,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1250,7 +1250,7 @@
         "target": {
           "kind": "external",
           "index": 42,
-          "name": "SET_DEFAULT_PALETTE",
+          "name": "RESETSTDPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1258,7 +1258,7 @@
       "target": {
         "kind": "external",
         "index": 42,
-        "name": "SET_DEFAULT_PALETTE",
+        "name": "RESETSTDPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1277,7 +1277,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1285,7 +1285,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1628,7 +1628,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1636,7 +1636,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1682,7 +1682,7 @@
         "target": {
           "kind": "external",
           "index": 16,
-          "name": "FADE_TO",
+          "name": "FADETO",
           "method": 6,
           "zero_displacement": true
         }
@@ -1690,7 +1690,7 @@
       "target": {
         "kind": "external",
         "index": 16,
-        "name": "FADE_TO",
+        "name": "FADETO",
         "method": 6,
         "zero_displacement": true
       },
@@ -1709,7 +1709,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1717,7 +1717,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1736,7 +1736,7 @@
         "target": {
           "kind": "external",
           "index": 180,
-          "name": "WRITE_DAC_BLOCK",
+          "name": "SETDACBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1744,7 +1744,7 @@
       "target": {
         "kind": "external",
         "index": 180,
-        "name": "WRITE_DAC_BLOCK",
+        "name": "SETDACBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1763,7 +1763,7 @@
         "target": {
           "kind": "external",
           "index": 164,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1771,7 +1771,7 @@
       "target": {
         "kind": "external",
         "index": 164,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1790,7 +1790,7 @@
         "target": {
           "kind": "external",
           "index": 16,
-          "name": "FADE_TO",
+          "name": "FADETO",
           "method": 6,
           "zero_displacement": true
         }
@@ -1798,7 +1798,7 @@
       "target": {
         "kind": "external",
         "index": 16,
-        "name": "FADE_TO",
+        "name": "FADETO",
         "method": 6,
         "zero_displacement": true
       },
@@ -1817,7 +1817,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -1825,7 +1825,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -1925,7 +1925,7 @@
         "target": {
           "kind": "external",
           "index": 180,
-          "name": "WRITE_DAC_BLOCK",
+          "name": "SETDACBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1933,7 +1933,7 @@
       "target": {
         "kind": "external",
         "index": 180,
-        "name": "WRITE_DAC_BLOCK",
+        "name": "SETDACBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1952,7 +1952,7 @@
         "target": {
           "kind": "external",
           "index": 175,
-          "name": "READ_DAC_BLOCK",
+          "name": "READDACBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1960,7 +1960,7 @@
       "target": {
         "kind": "external",
         "index": 175,
-        "name": "READ_DAC_BLOCK",
+        "name": "READDACBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1979,7 +1979,7 @@
         "target": {
           "kind": "external",
           "index": 164,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1987,7 +1987,7 @@
       "target": {
         "kind": "external",
         "index": 164,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -2006,7 +2006,7 @@
         "target": {
           "kind": "external",
           "index": 171,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "name": "HNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -2014,7 +2014,7 @@
       "target": {
         "kind": "external",
         "index": 171,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -2033,7 +2033,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2041,7 +2041,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2087,7 +2087,7 @@
         "target": {
           "kind": "external",
           "index": 167,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -2095,7 +2095,7 @@
       "target": {
         "kind": "external",
         "index": 167,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -2141,7 +2141,7 @@
         "target": {
           "kind": "external",
           "index": 155,
-          "name": "DRAW_NUL_TERMINATED_TEXT",
+          "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
         }
@@ -2149,7 +2149,7 @@
       "target": {
         "kind": "external",
         "index": 155,
-        "name": "DRAW_NUL_TERMINATED_TEXT",
+        "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
       },
@@ -2195,7 +2195,7 @@
         "target": {
           "kind": "external",
           "index": 153,
-          "name": "DRAW_NUL_TEXT_IN_RECT",
+          "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2203,7 +2203,7 @@
       "target": {
         "kind": "external",
         "index": 153,
-        "name": "DRAW_NUL_TEXT_IN_RECT",
+        "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2276,7 +2276,7 @@
         "target": {
           "kind": "external",
           "index": 155,
-          "name": "DRAW_NUL_TERMINATED_TEXT",
+          "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
         }
@@ -2284,7 +2284,7 @@
       "target": {
         "kind": "external",
         "index": 155,
-        "name": "DRAW_NUL_TERMINATED_TEXT",
+        "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
       },
@@ -2330,7 +2330,7 @@
         "target": {
           "kind": "external",
           "index": 153,
-          "name": "DRAW_NUL_TEXT_IN_RECT",
+          "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2338,7 +2338,7 @@
       "target": {
         "kind": "external",
         "index": 153,
-        "name": "DRAW_NUL_TEXT_IN_RECT",
+        "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2384,7 +2384,7 @@
         "target": {
           "kind": "external",
           "index": 155,
-          "name": "DRAW_NUL_TERMINATED_TEXT",
+          "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
         }
@@ -2392,7 +2392,7 @@
       "target": {
         "kind": "external",
         "index": 155,
-        "name": "DRAW_NUL_TERMINATED_TEXT",
+        "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
       },
@@ -2438,7 +2438,7 @@
         "target": {
           "kind": "external",
           "index": 153,
-          "name": "DRAW_NUL_TEXT_IN_RECT",
+          "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2446,7 +2446,7 @@
       "target": {
         "kind": "external",
         "index": 153,
-        "name": "DRAW_NUL_TEXT_IN_RECT",
+        "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2546,7 +2546,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2554,7 +2554,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2654,7 +2654,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2662,7 +2662,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2789,7 +2789,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "SET_KID_PALETTE",
+          "name": "SETKIDPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2797,7 +2797,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "SET_KID_PALETTE",
+        "name": "SETKIDPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2870,7 +2870,7 @@
         "target": {
           "kind": "external",
           "index": 83,
-          "name": "LOAD_GAME_DIALOG",
+          "name": "RESUMEGAMEDIALOG",
           "method": 6,
           "zero_displacement": true
         }
@@ -2878,7 +2878,7 @@
       "target": {
         "kind": "external",
         "index": 83,
-        "name": "LOAD_GAME_DIALOG",
+        "name": "RESUMEGAMEDIALOG",
         "method": 6,
         "zero_displacement": true
       },
@@ -2897,7 +2897,7 @@
         "target": {
           "kind": "external",
           "index": 86,
-          "name": "SAVE_GAME_DIALOG",
+          "name": "SAVEGAMEDIALOG",
           "method": 6,
           "zero_displacement": true
         }
@@ -2905,7 +2905,7 @@
       "target": {
         "kind": "external",
         "index": 86,
-        "name": "SAVE_GAME_DIALOG",
+        "name": "SAVEGAMEDIALOG",
         "method": 6,
         "zero_displacement": true
       },
@@ -2951,7 +2951,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2959,7 +2959,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2978,7 +2978,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "FIND_SHAPE_LIST",
+          "name": "HGETSHPLIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -2986,7 +2986,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "FIND_SHAPE_LIST",
+        "name": "HGETSHPLIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -3275,7 +3275,7 @@
         "target": {
           "kind": "external",
           "index": 164,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -3283,7 +3283,7 @@
       "target": {
         "kind": "external",
         "index": 164,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -3302,7 +3302,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "FIND_SHAPE_LIST",
+          "name": "HGETSHPLIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -3310,7 +3310,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "FIND_SHAPE_LIST",
+        "name": "HGETSHPLIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -3410,7 +3410,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3418,7 +3418,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3464,7 +3464,7 @@
         "target": {
           "kind": "external",
           "index": 102,
-          "name": "POST_SAVE_MESSAGE",
+          "name": "DRAWSAVEGAMEMSG",
           "method": 6,
           "zero_displacement": true
         }
@@ -3472,7 +3472,7 @@
       "target": {
         "kind": "external",
         "index": 102,
-        "name": "POST_SAVE_MESSAGE",
+        "name": "DRAWSAVEGAMEMSG",
         "method": 6,
         "zero_displacement": true
       },
@@ -3599,7 +3599,7 @@
         "target": {
           "kind": "external",
           "index": 94,
-          "name": "SELECT_SAVE_SLOT",
+          "name": "GETSAVEGAMELOCATION",
           "method": 6,
           "zero_displacement": true
         }
@@ -3607,7 +3607,7 @@
       "target": {
         "kind": "external",
         "index": 94,
-        "name": "SELECT_SAVE_SLOT",
+        "name": "GETSAVEGAMELOCATION",
         "method": 6,
         "zero_displacement": true
       },
@@ -3815,7 +3815,7 @@
         "target": {
           "kind": "external",
           "index": 96,
-          "name": "READ_SAVE_SLOT_TABLE",
+          "name": "INITSAVEDGAMESTRUCT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3823,7 +3823,7 @@
       "target": {
         "kind": "external",
         "index": 96,
-        "name": "READ_SAVE_SLOT_TABLE",
+        "name": "INITSAVEDGAMESTRUCT",
         "method": 6,
         "zero_displacement": true
       },
@@ -4004,7 +4004,7 @@
         "target": {
           "kind": "external",
           "index": 103,
-          "name": "SHOW_DIALOG_NOTICE",
+          "name": "COPYPROTECTIONDIALOG",
           "method": 6,
           "zero_displacement": true
         }
@@ -4012,7 +4012,7 @@
       "target": {
         "kind": "external",
         "index": 103,
-        "name": "SHOW_DIALOG_NOTICE",
+        "name": "COPYPROTECTIONDIALOG",
         "method": 6,
         "zero_displacement": true
       },
@@ -4247,7 +4247,7 @@
         "target": {
           "kind": "external",
           "index": 94,
-          "name": "SELECT_SAVE_SLOT",
+          "name": "GETSAVEGAMELOCATION",
           "method": 6,
           "zero_displacement": true
         }
@@ -4255,7 +4255,7 @@
       "target": {
         "kind": "external",
         "index": 94,
-        "name": "SELECT_SAVE_SLOT",
+        "name": "GETSAVEGAMELOCATION",
         "method": 6,
         "zero_displacement": true
       },
@@ -4490,7 +4490,7 @@
         "target": {
           "kind": "external",
           "index": 96,
-          "name": "READ_SAVE_SLOT_TABLE",
+          "name": "INITSAVEDGAMESTRUCT",
           "method": 6,
           "zero_displacement": true
         }
@@ -4498,7 +4498,7 @@
       "target": {
         "kind": "external",
         "index": 96,
-        "name": "READ_SAVE_SLOT_TABLE",
+        "name": "INITSAVEDGAMESTRUCT",
         "method": 6,
         "zero_displacement": true
       },
@@ -4652,7 +4652,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -4660,7 +4660,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -4949,7 +4949,7 @@
         "target": {
           "kind": "external",
           "index": 99,
-          "name": "CLEAR_LIFE_BAR",
+          "name": "CLRLIFEBAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -4957,7 +4957,7 @@
       "target": {
         "kind": "external",
         "index": 99,
-        "name": "CLEAR_LIFE_BAR",
+        "name": "CLRLIFEBAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -5057,7 +5057,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "WAIT_FUNCTION",
+          "name": "WAITFUNC",
           "method": 6,
           "zero_displacement": true
         }
@@ -5065,7 +5065,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "WAIT_FUNCTION",
+        "name": "WAITFUNC",
         "method": 6,
         "zero_displacement": true
       },
@@ -5111,7 +5111,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "WAIT_FUNCTION",
+          "name": "WAITFUNC",
           "method": 6,
           "zero_displacement": true
         }
@@ -5119,7 +5119,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "WAIT_FUNCTION",
+        "name": "WAITFUNC",
         "method": 6,
         "zero_displacement": true
       },
@@ -5138,7 +5138,7 @@
         "target": {
           "kind": "external",
           "index": 97,
-          "name": "SAVE_GAME_PLAY_PALETTE",
+          "name": "SAVEGAMEPLAYPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5146,7 +5146,7 @@
       "target": {
         "kind": "external",
         "index": 97,
-        "name": "SAVE_GAME_PLAY_PALETTE",
+        "name": "SAVEGAMEPLAYPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5165,7 +5165,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -5173,7 +5173,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -5192,7 +5192,7 @@
         "target": {
           "kind": "external",
           "index": 93,
-          "name": "RELEASE_SHAPE_LIST",
+          "name": "HFREESHPLIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -5200,7 +5200,7 @@
       "target": {
         "kind": "external",
         "index": 93,
-        "name": "RELEASE_SHAPE_LIST",
+        "name": "HFREESHPLIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -5219,7 +5219,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -5227,7 +5227,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -5300,7 +5300,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5308,7 +5308,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5408,7 +5408,7 @@
         "target": {
           "kind": "external",
           "index": 164,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -5416,7 +5416,7 @@
       "target": {
         "kind": "external",
         "index": 164,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -6264,7 +6264,7 @@
         "target": {
           "kind": "external",
           "index": 72,
-          "name": "DRAW_MESSAGE",
+          "name": "DRAWMESSAGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6272,7 +6272,7 @@
       "target": {
         "kind": "external",
         "index": 72,
-        "name": "DRAW_MESSAGE",
+        "name": "DRAWMESSAGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6318,7 +6318,7 @@
         "target": {
           "kind": "external",
           "index": 72,
-          "name": "DRAW_MESSAGE",
+          "name": "DRAWMESSAGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6326,7 +6326,7 @@
       "target": {
         "kind": "external",
         "index": 72,
-        "name": "DRAW_MESSAGE",
+        "name": "DRAWMESSAGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6372,7 +6372,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6380,7 +6380,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6725,7 +6725,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6733,7 +6733,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6752,7 +6752,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -6760,7 +6760,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -6882,7 +6882,7 @@
         "target": {
           "kind": "external",
           "index": 78,
-          "name": "FRAME_RECT",
+          "name": "FRAMERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -6890,7 +6890,7 @@
       "target": {
         "kind": "external",
         "index": 78,
-        "name": "FRAME_RECT",
+        "name": "FRAMERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -6936,7 +6936,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -6944,7 +6944,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -8563,7 +8563,7 @@
         "target": {
           "kind": "external",
           "index": 81,
-          "name": "PLAY_SOUND",
+          "name": "SETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -8571,7 +8571,7 @@
       "target": {
         "kind": "external",
         "index": 81,
-        "name": "PLAY_SOUND",
+        "name": "SETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -9628,7 +9628,7 @@
         "target": {
           "kind": "external",
           "index": 127,
-          "name": "GET_TROB_ROOM_CELL",
+          "name": "GETTROBROOMCELL",
           "method": 6,
           "zero_displacement": true
         }
@@ -9636,7 +9636,7 @@
       "target": {
         "kind": "external",
         "index": 127,
-        "name": "GET_TROB_ROOM_CELL",
+        "name": "GETTROBROOMCELL",
         "method": 6,
         "zero_displacement": true
       },
@@ -9952,7 +9952,7 @@
         "target": {
           "kind": "external",
           "index": 105,
-          "name": "PREPARE_SAVED_ROOM_OBJECTS",
+          "name": "SETREBIRTHPTINITIALS",
           "method": 6,
           "zero_displacement": true
         }
@@ -9960,7 +9960,7 @@
       "target": {
         "kind": "external",
         "index": 105,
-        "name": "PREPARE_SAVED_ROOM_OBJECTS",
+        "name": "SETREBIRTHPTINITIALS",
         "method": 6,
         "zero_displacement": true
       },
@@ -11302,7 +11302,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DRAW_NOTICE_CURSOR",
+          "name": "DRAWSYMBOLBOX",
           "method": 6,
           "zero_displacement": true
         }
@@ -11310,7 +11310,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DRAW_NOTICE_CURSOR",
+        "name": "DRAWSYMBOLBOX",
         "method": 6,
         "zero_displacement": true
       },
@@ -11329,7 +11329,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DRAW_NOTICE_CURSOR",
+          "name": "DRAWSYMBOLBOX",
           "method": 6,
           "zero_displacement": true
         }
@@ -11337,7 +11337,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DRAW_NOTICE_CURSOR",
+        "name": "DRAWSYMBOLBOX",
         "method": 6,
         "zero_displacement": true
       },
@@ -11383,7 +11383,7 @@
         "target": {
           "kind": "external",
           "index": 78,
-          "name": "FRAME_RECT",
+          "name": "FRAMERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -11391,7 +11391,7 @@
       "target": {
         "kind": "external",
         "index": 78,
-        "name": "FRAME_RECT",
+        "name": "FRAMERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -11741,7 +11741,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -11749,7 +11749,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -11876,7 +11876,7 @@
         "target": {
           "kind": "external",
           "index": 167,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -11884,7 +11884,7 @@
       "target": {
         "kind": "external",
         "index": 167,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -11930,7 +11930,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -11938,7 +11938,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -12190,7 +12190,7 @@
         "target": {
           "kind": "external",
           "index": 93,
-          "name": "RELEASE_SHAPE_LIST",
+          "name": "HFREESHPLIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -12198,7 +12198,7 @@
       "target": {
         "kind": "external",
         "index": 93,
-        "name": "RELEASE_SHAPE_LIST",
+        "name": "HFREESHPLIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -12217,7 +12217,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -12225,7 +12225,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -12244,7 +12244,7 @@
         "target": {
           "kind": "external",
           "index": 68,
-          "name": "READ_NOTICE_SELECTION",
+          "name": "GETCOPYPROTECTIONSYMBOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -12252,7 +12252,7 @@
       "target": {
         "kind": "external",
         "index": 68,
-        "name": "READ_NOTICE_SELECTION",
+        "name": "GETCOPYPROTECTIONSYMBOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -12271,7 +12271,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -12279,7 +12279,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -12455,7 +12455,7 @@
         "target": {
           "kind": "external",
           "index": 65,
-          "name": "DRAW_NOTICE_SYMBOLS",
+          "name": "DRAWCOPYPROTECTIONDIALOG",
           "method": 6,
           "zero_displacement": true
         }
@@ -12463,7 +12463,7 @@
       "target": {
         "kind": "external",
         "index": 65,
-        "name": "DRAW_NOTICE_SYMBOLS",
+        "name": "DRAWCOPYPROTECTIONDIALOG",
         "method": 6,
         "zero_displacement": true
       },
@@ -12617,7 +12617,7 @@
         "target": {
           "kind": "external",
           "index": 167,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -12625,7 +12625,7 @@
       "target": {
         "kind": "external",
         "index": 167,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -12850,7 +12850,7 @@
         "target": {
           "kind": "external",
           "index": 81,
-          "name": "PLAY_SOUND",
+          "name": "SETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -12858,7 +12858,7 @@
       "target": {
         "kind": "external",
         "index": 81,
-        "name": "PLAY_SOUND",
+        "name": "SETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -13505,7 +13505,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -13513,7 +13513,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -13721,7 +13721,7 @@
         "target": {
           "kind": "external",
           "index": 129,
-          "name": "WAIT_TICKS",
+          "name": "WAIT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13729,7 +13729,7 @@
       "target": {
         "kind": "external",
         "index": 129,
-        "name": "WAIT_TICKS",
+        "name": "WAIT",
         "method": 6,
         "zero_displacement": true
       },
@@ -13748,7 +13748,7 @@
         "target": {
           "kind": "external",
           "index": 122,
-          "name": "WRITE_HALL_FILE",
+          "name": "WRITEHALLOFFAMEFILE",
           "method": 6,
           "zero_displacement": true
         }
@@ -13756,7 +13756,7 @@
       "target": {
         "kind": "external",
         "index": 122,
-        "name": "WRITE_HALL_FILE",
+        "name": "WRITEHALLOFFAMEFILE",
         "method": 6,
         "zero_displacement": true
       },
@@ -13775,7 +13775,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -13783,7 +13783,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -13964,7 +13964,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -13972,7 +13972,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -14099,7 +14099,7 @@
         "target": {
           "kind": "external",
           "index": 119,
-          "name": "EDIT_HALL_NAME",
+          "name": "GETHALLOFFAMENAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -14107,7 +14107,7 @@
       "target": {
         "kind": "external",
         "index": 119,
-        "name": "EDIT_HALL_NAME",
+        "name": "GETHALLOFFAMENAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -14207,7 +14207,7 @@
         "target": {
           "kind": "external",
           "index": 117,
-          "name": "DRAW_HALL_RECORDS",
+          "name": "DRAWHALLOFFAMEDIALOG",
           "method": 6,
           "zero_displacement": true
         }
@@ -14215,7 +14215,7 @@
       "target": {
         "kind": "external",
         "index": 117,
-        "name": "DRAW_HALL_RECORDS",
+        "name": "DRAWHALLOFFAMEDIALOG",
         "method": 6,
         "zero_displacement": true
       },
@@ -14261,7 +14261,7 @@
         "target": {
           "kind": "external",
           "index": 114,
-          "name": "READ_HALL_FILE",
+          "name": "INITHALLOFFAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -14269,7 +14269,7 @@
       "target": {
         "kind": "external",
         "index": 114,
-        "name": "READ_HALL_FILE",
+        "name": "INITHALLOFFAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -14288,7 +14288,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "DRAW_NOTICE_CURSOR",
+          "name": "DRAWSYMBOLBOX",
           "method": 6,
           "zero_displacement": true
         }
@@ -14296,7 +14296,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "DRAW_NOTICE_CURSOR",
+        "name": "DRAWSYMBOLBOX",
         "method": 6,
         "zero_displacement": true
       },
@@ -14445,7 +14445,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -14453,7 +14453,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -14634,7 +14634,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -14642,7 +14642,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -14688,7 +14688,7 @@
         "target": {
           "kind": "external",
           "index": 129,
-          "name": "WAIT_TICKS",
+          "name": "WAIT",
           "method": 6,
           "zero_displacement": true
         }
@@ -14696,7 +14696,7 @@
       "target": {
         "kind": "external",
         "index": 129,
-        "name": "WAIT_TICKS",
+        "name": "WAIT",
         "method": 6,
         "zero_displacement": true
       },
@@ -14715,7 +14715,7 @@
         "target": {
           "kind": "external",
           "index": 157,
-          "name": "WAIT_KEY",
+          "name": "WAITKEY",
           "method": 6,
           "zero_displacement": true
         }
@@ -14723,7 +14723,7 @@
       "target": {
         "kind": "external",
         "index": 157,
-        "name": "WAIT_KEY",
+        "name": "WAITKEY",
         "method": 6,
         "zero_displacement": true
       },
@@ -14823,7 +14823,7 @@
         "target": {
           "kind": "external",
           "index": 117,
-          "name": "DRAW_HALL_RECORDS",
+          "name": "DRAWHALLOFFAMEDIALOG",
           "method": 6,
           "zero_displacement": true
         }
@@ -14831,7 +14831,7 @@
       "target": {
         "kind": "external",
         "index": 117,
-        "name": "DRAW_HALL_RECORDS",
+        "name": "DRAWHALLOFFAMEDIALOG",
         "method": 6,
         "zero_displacement": true
       },
@@ -14904,7 +14904,7 @@
         "target": {
           "kind": "external",
           "index": 114,
-          "name": "READ_HALL_FILE",
+          "name": "INITHALLOFFAME",
           "method": 6,
           "zero_displacement": true
         }
@@ -14912,7 +14912,7 @@
       "target": {
         "kind": "external",
         "index": 114,
-        "name": "READ_HALL_FILE",
+        "name": "INITHALLOFFAME",
         "method": 6,
         "zero_displacement": true
       },
@@ -14958,7 +14958,7 @@
         "target": {
           "kind": "external",
           "index": 80,
-          "name": "INSERT_HALL_RECORD",
+          "name": "HOFADDPLAYER",
           "method": 6,
           "zero_displacement": true
         }
@@ -14966,7 +14966,7 @@
       "target": {
         "kind": "external",
         "index": 80,
-        "name": "INSERT_HALL_RECORD",
+        "name": "HOFADDPLAYER",
         "method": 6,
         "zero_displacement": true
       },
@@ -15326,7 +15326,7 @@
         "target": {
           "kind": "external",
           "index": 161,
-          "name": "GET_PAYLOAD_SIZE",
+          "name": "PGETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -15334,7 +15334,7 @@
       "target": {
         "kind": "external",
         "index": 161,
-        "name": "GET_PAYLOAD_SIZE",
+        "name": "PGETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -15532,7 +15532,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -15540,7 +15540,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -15559,7 +15559,7 @@
         "target": {
           "kind": "external",
           "index": 91,
-          "name": "PAINT_PLAIN",
+          "name": "PAINTSHAPE",
           "method": 6,
           "zero_displacement": true
         }
@@ -15567,7 +15567,7 @@
       "target": {
         "kind": "external",
         "index": 91,
-        "name": "PAINT_PLAIN",
+        "name": "PAINTSHAPE",
         "method": 6,
         "zero_displacement": true
       },
@@ -15613,7 +15613,7 @@
         "target": {
           "kind": "external",
           "index": 164,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -15621,7 +15621,7 @@
       "target": {
         "kind": "external",
         "index": 164,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -15667,7 +15667,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "FIND_SHAPE_LIST",
+          "name": "HGETSHPLIST",
           "method": 6,
           "zero_displacement": true
         }
@@ -15675,7 +15675,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "FIND_SHAPE_LIST",
+        "name": "HGETSHPLIST",
         "method": 6,
         "zero_displacement": true
       },
@@ -15748,7 +15748,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -15756,7 +15756,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -16699,7 +16699,7 @@
         "target": {
           "kind": "external",
           "index": 81,
-          "name": "PLAY_SOUND",
+          "name": "SETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -16707,7 +16707,7 @@
       "target": {
         "kind": "external",
         "index": 81,
-        "name": "PLAY_SOUND",
+        "name": "SETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -17111,7 +17111,7 @@
         "target": {
           "kind": "external",
           "index": 167,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -17119,7 +17119,7 @@
       "target": {
         "kind": "external",
         "index": 167,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -17192,7 +17192,7 @@
         "target": {
           "kind": "external",
           "index": 63,
-          "name": "DRAW_CREDIT_CATEGORY",
+          "name": "DRAWCREDITCATEGORY",
           "method": 6,
           "zero_displacement": true
         }
@@ -17200,7 +17200,7 @@
       "target": {
         "kind": "external",
         "index": 63,
-        "name": "DRAW_CREDIT_CATEGORY",
+        "name": "DRAWCREDITCATEGORY",
         "method": 6,
         "zero_displacement": true
       },
@@ -17290,7 +17290,7 @@
         "target": {
           "kind": "external",
           "index": 95,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -17298,7 +17298,7 @@
       "target": {
         "kind": "external",
         "index": 95,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -17452,7 +17452,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -17460,7 +17460,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -17587,7 +17587,7 @@
         "target": {
           "kind": "external",
           "index": 129,
-          "name": "WAIT_TICKS",
+          "name": "WAIT",
           "method": 6,
           "zero_displacement": true
         }
@@ -17595,7 +17595,7 @@
       "target": {
         "kind": "external",
         "index": 129,
-        "name": "WAIT_TICKS",
+        "name": "WAIT",
         "method": 6,
         "zero_displacement": true
       },
@@ -17614,7 +17614,7 @@
         "target": {
           "kind": "external",
           "index": 52,
-          "name": "FREE_RECORD_PAIR",
+          "name": "DEALLOCMAPSAVE",
           "method": 6,
           "zero_displacement": true
         }
@@ -17622,7 +17622,7 @@
       "target": {
         "kind": "external",
         "index": 52,
-        "name": "FREE_RECORD_PAIR",
+        "name": "DEALLOCMAPSAVE",
         "method": 6,
         "zero_displacement": true
       },
@@ -17641,7 +17641,7 @@
         "target": {
           "kind": "external",
           "index": 129,
-          "name": "WAIT_TICKS",
+          "name": "WAIT",
           "method": 6,
           "zero_displacement": true
         }
@@ -17649,7 +17649,7 @@
       "target": {
         "kind": "external",
         "index": 129,
-        "name": "WAIT_TICKS",
+        "name": "WAIT",
         "method": 6,
         "zero_displacement": true
       },
@@ -17668,7 +17668,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -17676,7 +17676,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -17717,7 +17717,7 @@
         "target": {
           "kind": "external",
           "index": 129,
-          "name": "WAIT_TICKS",
+          "name": "WAIT",
           "method": 6,
           "zero_displacement": true
         }
@@ -17725,7 +17725,7 @@
       "target": {
         "kind": "external",
         "index": 129,
-        "name": "WAIT_TICKS",
+        "name": "WAIT",
         "method": 6,
         "zero_displacement": true
       },
@@ -17744,7 +17744,7 @@
         "target": {
           "kind": "external",
           "index": 49,
-          "name": "DRAW_RECORD_BOUNDS",
+          "name": "RESTORERECTKEEP",
           "method": 6,
           "zero_displacement": true
         }
@@ -17752,7 +17752,7 @@
       "target": {
         "kind": "external",
         "index": 49,
-        "name": "DRAW_RECORD_BOUNDS",
+        "name": "RESTORERECTKEEP",
         "method": 6,
         "zero_displacement": true
       },
@@ -17798,7 +17798,7 @@
         "target": {
           "kind": "external",
           "index": 46,
-          "name": "ALLOCATE_CLIPPED_PORT",
+          "name": "SAVERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -17806,7 +17806,7 @@
       "target": {
         "kind": "external",
         "index": 46,
-        "name": "ALLOCATE_CLIPPED_PORT",
+        "name": "SAVERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -17950,7 +17950,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "DISSOLVE_DO_ALL",
+          "name": "DISSOLVEDOALL",
           "method": 6,
           "zero_displacement": true
         }
@@ -17958,7 +17958,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "DISSOLVE_DO_ALL",
+        "name": "DISSOLVEDOALL",
         "method": 6,
         "zero_displacement": true
       },
@@ -18085,7 +18085,7 @@
         "target": {
           "kind": "external",
           "index": 58,
-          "name": "DRAW_CREDITS_PAGE",
+          "name": "DRAWCREDITSPAGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -18093,7 +18093,7 @@
       "target": {
         "kind": "external",
         "index": 58,
-        "name": "DRAW_CREDITS_PAGE",
+        "name": "DRAWCREDITSPAGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -18156,7 +18156,7 @@
         "target": {
           "kind": "external",
           "index": 90,
-          "name": "SET_RECORD_RANGE",
+          "name": "FILLRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -18164,7 +18164,7 @@
       "target": {
         "kind": "external",
         "index": 90,
-        "name": "SET_RECORD_RANGE",
+        "name": "FILLRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -18907,7 +18907,7 @@
         "target": {
           "kind": "external",
           "index": 142,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -18915,7 +18915,7 @@
       "target": {
         "kind": "external",
         "index": 142,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -19066,7 +19066,7 @@
         }
       ]
     },
-    "ALLOCATE_CLIPPED_PORT": {
+    "SAVERECT": {
       "entry_sha256": "f92dcecfb73bb8394bd3a527ddaed0e91a5da82d7f97b140596be7bbd801fb57",
       "entry_target_id": "root:1129:5194",
       "kind": "far-code-entry",
@@ -19075,7 +19075,7 @@
       "space": "root",
       "witnesses": []
     },
-    "ALLOCATE_PAYLOAD_HANDLE": {
+    "HNEW": {
       "entry_sha256": "c3ec377d3bcae2d5d33123bc8699728ed6babfa311fe110596d625f5cd8cc61b",
       "entry_target_id": "root:1129:17fc",
       "kind": "far-code-entry",
@@ -19212,7 +19212,7 @@
         }
       ]
     },
-    "CLEAR_LIFE_BAR": {
+    "CLRLIFEBAR": {
       "entry_sha256": "5136d728a1ebaef3cffe2e9a24b9c021b5a93d08b4db14711df359ba836ca0d1",
       "entry_target_id": "root:0790:2104",
       "kind": "far-code-entry",
@@ -19238,7 +19238,7 @@
       "space": "root",
       "witnesses": []
     },
-    "CLEAR_ROW_HANDLES": {
+    "FORCEOPPREDRAW": {
       "entry_sha256": "61336906de767bf5a1fde2d293452a4e1fe6e3f307d2c410b1a09bdf37d88bb5",
       "entry_target_id": "root:0170:118c",
       "kind": "far-code-entry",
@@ -19287,7 +19287,7 @@
         }
       ]
     },
-    "DISPATCH_SOUND": {
+    "RESETSND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
       "kind": "far-code-entry",
@@ -19304,7 +19304,7 @@
         }
       ]
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
@@ -19321,7 +19321,7 @@
         }
       ]
     },
-    "DRAW_MESSAGE": {
+    "DRAWMESSAGE": {
       "entry_sha256": "1be8284f8b716a05fc74700526e535c65236302dc79b892dc2f57f2c68e027f6",
       "entry_target_id": "root:0790:204c",
       "kind": "far-code-entry",
@@ -19338,7 +19338,7 @@
         }
       ]
     },
-    "DRAW_NUL_TERMINATED_TEXT": {
+    "DRAWSTRING": {
       "entry_sha256": "e062c8a208acb901b6811c25ab046b5139758517042e72dfc5f956ec60e1c5c7",
       "entry_target_id": "root:1129:4cb4",
       "kind": "far-code-entry",
@@ -19355,7 +19355,7 @@
         }
       ]
     },
-    "DRAW_NUL_TEXT_IN_RECT": {
+    "STRINGRECT": {
       "entry_sha256": "0eb00f234993d1e1739939d2f5175e94f2a71442340dd6e36e7408022309efbd",
       "entry_target_id": "root:1129:5334",
       "kind": "far-code-entry",
@@ -19372,7 +19372,7 @@
         }
       ]
     },
-    "DRAW_RECORD_BOUNDS": {
+    "RESTORERECTKEEP": {
       "entry_sha256": "b8dd232a68b63b57b0edf544b848cbd356b11d71e007b7a4fbd50705bad369a3",
       "entry_target_id": "root:1e76:0184",
       "kind": "far-code-entry",
@@ -19381,7 +19381,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FADE_TO": {
+    "FADETO": {
       "entry_sha256": "a1b13ee38220a73d13a4e88d45a26e50f747141618f0619ed893ddf48fa2832a",
       "entry_target_id": "root:1e0e:037e",
       "kind": "far-code-entry",
@@ -19398,7 +19398,7 @@
         }
       ]
     },
-    "FETCH_LOCKED_SHAPE_LIST": {
+    "HLOCK": {
       "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
       "entry_target_id": "root:1129:1728",
       "kind": "far-code-entry",
@@ -19424,7 +19424,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FIND_SHAPE_LIST": {
+    "HGETSHPLIST": {
       "entry_sha256": "06b64f6d92c19b25be13c543f236a5061f92b5593cb68e8f5c374ba19e334e9e",
       "entry_target_id": "root:1129:7f78",
       "kind": "far-code-entry",
@@ -19441,7 +19441,7 @@
         }
       ]
     },
-    "FRAME_RECT": {
+    "FRAMERECT": {
       "entry_sha256": "f09d544e1bf82e29b03d6aef99fa65150cbe3732d01633671096760f253cb63a",
       "entry_target_id": "root:1129:4d8e",
       "kind": "far-code-entry",
@@ -19458,7 +19458,7 @@
         }
       ]
     },
-    "FREE_RECORD_PAIR": {
+    "DEALLOCMAPSAVE": {
       "entry_sha256": "fadf6174304b800eb641151a3fdc06ad068897fd06e02c9daa70c9ca11ff2a06",
       "entry_target_id": "root:1e76:00fa",
       "kind": "far-code-entry",
@@ -19473,7 +19473,7 @@
       "offset": 2430,
       "provider": "group:top/top"
     },
-    "GET_PAYLOAD_SIZE": {
+    "PGETSIZE": {
       "entry_sha256": "8583ba9ff9be02f152395a51c4ef86ceb2cf3031586dfdf3e45244b0fb8fd626",
       "entry_target_id": "root:1129:19c0",
       "kind": "far-code-entry",
@@ -19830,7 +19830,7 @@
         }
       ]
     },
-    "MEASURE_TEXT": {
+    "COPYBITS": {
       "entry_sha256": "5f4b5f97ca115ec229354726cdf97cfd4d648f55bf9014b49b01228934c12ae2",
       "entry_target_id": "root:1129:4cb0",
       "kind": "far-code-entry",
@@ -19914,7 +19914,7 @@
         }
       ]
     },
-    "PAINT_PLAIN": {
+    "PAINTSHAPE": {
       "entry_sha256": "8d0298c8c0735e0eb56e9be2af326e303e65823ea1bada87fa41f2677b87f415",
       "entry_target_id": "root:1129:511c",
       "kind": "far-code-entry",
@@ -19965,7 +19965,7 @@
         }
       ]
     },
-    "READ_DAC_BLOCK": {
+    "READDACBLOCK": {
       "entry_sha256": "895d5fdae24805a9ae4fb27d734a8428936412f513e1f28c7726ae95f729f595",
       "entry_target_id": "root:1129:7969",
       "kind": "far-code-entry",
@@ -19982,7 +19982,7 @@
         }
       ]
     },
-    "RELEASE_SHAPE_LIST": {
+    "HFREESHPLIST": {
       "entry_sha256": "62350b437b8426dabb85db8732f0ae1d4dc1c0eacbab3926a31b80e82680c79c",
       "entry_target_id": "root:1129:7f28",
       "kind": "far-code-entry",
@@ -19991,7 +19991,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -20008,7 +20008,7 @@
         }
       ]
     },
-    "RESTORE_GAME_PLAY_PALETTE": {
+    "RESTOREGAMEPLAYPALETTE": {
       "entry_sha256": "cfabc89fb28ff1dc4fea1868ff6e633cc210b9bbceebf86f49ce1451d25de8b8",
       "entry_target_id": "root:0790:294c",
       "kind": "far-code-entry",
@@ -20031,7 +20031,7 @@
       "offset": 2832,
       "provider": "group:english/english"
     },
-    "SAVE_GAME_PLAY_PALETTE": {
+    "SAVEGAMEPLAYPALETTE": {
       "entry_sha256": "45ce9065ce471d393eadf7a677a23195361bb6e971592124fba954e81001583d",
       "entry_target_id": "root:0790:29b8",
       "kind": "far-code-entry",
@@ -20094,7 +20094,7 @@
         }
       ]
     },
-    "SET_DEFAULT_PALETTE": {
+    "RESETSTDPALETTE": {
       "entry_sha256": "4c0ee235674daf094f3f73e2e2d2e3d716d552e17e1530ef9a68434e9d2747f0",
       "entry_target_id": "root:0790:293a",
       "kind": "far-code-entry",
@@ -20111,7 +20111,7 @@
         }
       ]
     },
-    "SET_KID_PALETTE": {
+    "SETKIDPALETTE": {
       "entry_sha256": "f7d881d92790bfaea4746394d86220ca54113fc62886cd76dbb2bbe21b46adf6",
       "entry_target_id": "root:0a63:07ce",
       "kind": "far-code-entry",
@@ -20128,7 +20128,7 @@
         }
       ]
     },
-    "SET_RECORD_RANGE": {
+    "FILLRECT": {
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
       "entry_target_id": "root:1129:6632",
       "kind": "far-code-entry",
@@ -20183,7 +20183,7 @@
       "offset": 2572,
       "provider": "group:english/english"
     },
-    "STROKE_PORT_RECT": {
+    "ERASERECT": {
       "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
       "entry_target_id": "root:1129:4d72",
       "kind": "far-code-entry",
@@ -20234,7 +20234,7 @@
         }
       ]
     },
-    "WAIT_KEY": {
+    "WAITKEY": {
       "entry_sha256": "711d72dc05355c91ed3195c9f5b5d67c8d920d29e6ce06f3a158e10d7f8e5d23",
       "entry_target_id": "root:1f74:01a8",
       "kind": "far-code-entry",
@@ -20243,7 +20243,7 @@
       "space": "root",
       "witnesses": []
     },
-    "WAIT_TICKS": {
+    "WAIT": {
       "entry_sha256": "a2b464a706b3cd9fdff293f5bb7ca6ef197ac058d16bee28beabc90b9efbae5a",
       "entry_target_id": "root:1f74:0158",
       "kind": "far-code-entry",
@@ -20252,7 +20252,7 @@
       "space": "root",
       "witnesses": []
     },
-    "WRITE_DAC_BLOCK": {
+    "SETDACBLOCK": {
       "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
       "entry_target_id": "root:1129:79a3",
       "kind": "far-code-entry",
@@ -20507,7 +20507,7 @@
       "space": "root",
       "witnesses": []
     },
-    "PLAY_SOUND": {
+    "SETSND": {
       "entry_sha256": "e36482d583c514ab1343b0ecffa61a728d3fcfa734f04732b4ee4ceb856a1596",
       "entry_target_id": "root:1129:840e",
       "kind": "far-code-entry",
@@ -20516,7 +20516,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_TROB_ROOM_CELL": {
+    "GETTROBROOMCELL": {
       "entry_sha256": "675999fa1b118aad430cbb7cbf763394d1e95bfc48e034a6ecc445016421c8de",
       "entry_target_id": "root:0b52:2598",
       "kind": "far-code-entry",
@@ -20552,14 +20552,14 @@
       "space": "root",
       "witnesses": []
     },
-    "DISSOLVE_DO_ALL": {
+    "DISSOLVEDOALL": {
       "kind": "rtlink-vector",
       "space": "root",
       "segment": 8718,
       "offset": 3301,
       "witnesses": []
     },
-    "WAIT_FUNCTION": {
+    "WAITFUNC": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:intrface/intrface",

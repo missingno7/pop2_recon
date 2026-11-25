@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/handle_flags.json",
-  "binding_sha256": "2528c8541c963b8f6ffee31e7345f0b54a6049ca583128ac1166d1d80669c8cf",
+  "binding_sha256": "9bcae882be14c8abd96a8320c710f20d4e8fa4660338746eb65e8e5223e97429",
   "claims": [
     {
       "fixup_count": 3,
-      "public": "ALLOCATE_PAYLOAD_HANDLE",
+      "public": "HNEW",
       "relocation_indices": [
         1532
       ],
@@ -24,12 +24,12 @@
     },
     {
       "fixup_count": 0,
-      "public": "MARK_FIXED",
+      "public": "HNOPURGE",
       "target_id": "root:1129:185c"
     },
     {
       "fixup_count": 0,
-      "public": "MARK_PURGEABLE",
+      "public": "HPURGE",
       "target_id": "root:1129:1870"
     },
     {
@@ -39,12 +39,12 @@
     },
     {
       "fixup_count": 6,
-      "public": "RESIZE_HANDLE",
+      "public": "HSETSIZE",
       "target_id": "root:1129:18c8"
     },
     {
       "fixup_count": 0,
-      "public": "RESTORE_HANDLE_FLAGS",
+      "public": "HSETSTATE",
       "target_id": "root:1129:195a"
     }
   ],
@@ -56,12 +56,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "handle_flags",
-  "object_sha256": "7d9afa59a1632abd8ca17716860912c3233304dd0f4d15f0faedde5ccea6b2d4",
+  "object_sha256": "2fc8d22d246640ae8666ea3ab0e86b35b42d559fa4b1966a328dfc517cc034f8",
   "origin": 76428,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/handle_flags.asm",
-  "source_sha256": "f30ade8b8f833ecdb9cd9746bce273bef9c43290f9e2b702b50de79cf88e4365",
+  "source_sha256": "7ad917533399b07f7ed6499a203a70dee5bdfc998cde0cedc454aa60529889b3",
   "space": "root"
 }

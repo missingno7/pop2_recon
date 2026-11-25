@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/intrface/intrface.json",
-  "binding_sha256": "b0391c34d7ef42655a310f0ef21ab177f21617a6eb3ba883685c5308e7bbfcb4",
+  "binding_sha256": "6536546edeed30c5af864712ef04868d65e0f1282e41eca2e315a4f52e065ebe",
   "claims": [
     {
       "fixup_count": 7,
@@ -18,7 +18,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "RESET_INTERFACE",
+      "public": "RESETALL",
       "relocation_indices": [
         1881,
         1882,
@@ -37,7 +37,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "CHECK_WAIT_FUNCTION",
+      "public": "CHECKWAITFUNC",
       "target_id": "root:1f74:009c"
     },
     {
@@ -62,7 +62,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "POLL_USER",
+      "public": "POLLUSER0",
       "relocation_indices": [
         1903
       ],
@@ -72,22 +72,22 @@
     },
     {
       "fixup_count": 2,
-      "public": "WAIT_TIMER",
+      "public": "WAITTIMER",
       "target_id": "root:1f74:0104"
     },
     {
       "fixup_count": 1,
-      "public": "WAIT_TIMER_NO_POLL",
+      "public": "WAITTIMERNOPOLL",
       "target_id": "root:1f74:0134"
     },
     {
       "fixup_count": 2,
-      "public": "WAIT_TICKS",
+      "public": "WAIT",
       "target_id": "root:1f74:0158"
     },
     {
       "fixup_count": 3,
-      "public": "WAIT_SOUND",
+      "public": "WAITSND",
       "relocation_indices": [
         1891,
         1892
@@ -98,12 +98,12 @@
     },
     {
       "fixup_count": 1,
-      "public": "WAIT_KEY",
+      "public": "WAITKEY",
       "target_id": "root:1f74:01a8"
     },
     {
       "fixup_count": 2,
-      "public": "CLOSE_RESOURCE_FILE",
+      "public": "CLOSERSRCFILE",
       "relocation_indices": [
         1900
       ],
@@ -113,7 +113,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "OPEN_VERIFIED_RESOURCE",
+      "public": "OPENRSRCVERIFY",
       "relocation_indices": [
         1890
       ],
@@ -123,7 +123,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "FIND_RESOURCE_MAP",
+      "public": "GETRSRCMAPHND",
       "relocation_indices": [
         1884,
         1885
@@ -182,7 +182,7 @@
     },
     {
       "address": 7986,
-      "name": "WAIT_FUNCTION",
+      "name": "WAITFUNC",
       "offset": 12,
       "segment": "_DATA",
       "span": 4,
@@ -216,12 +216,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "intrface/intrface",
-  "object_sha256": "26c528a544eea1d65f4491b317b0cbfde6c65cd4aa7352056f4e61148930fd70",
+  "object_sha256": "e16dcc68516e11e03ce6310348db8659c8a1f08983d512bef6e9c567815b1424",
   "origin": 128842,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/intrface/intrface.c",
-  "source_sha256": "e9daa70deccf615632aead7d2bcf04dfff7c18f7dceafc4951b4a38133c2f93e",
+  "source_sha256": "e2857b712066afe532b418d10d1fe7086d90737a79c6c9eb5b04b68cd2a2d45e",
   "space": "root"
 }

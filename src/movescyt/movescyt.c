@@ -34,15 +34,15 @@ extern int far pascal SectRect(Rect far *out, const Rect far *left, const Rect f
 extern void far pascal JumpSeq(int seq);
 extern void far pascal SetKidDeathMethod(sbyte method);
 extern void far pascal AnimChar(void);
-extern int far pascal decrement_life_points(sbyte amount);
+extern int far pascal DecLifePts(sbyte amount);
 extern Rect far *far pascal UnionRect(Rect far *out, const Rect far *left, const Rect far *right);
 extern Rect far *far pascal OffsetRect(Rect far *out, const Rect far *in, int x, int y);
-extern int far pascal check_trob_visibility(void);
-extern int far pascal compute_trob_move_rect(Rect near *out, const Rect near *in);
-extern void far pascal mark_move(sbyte cell, const Rect near *rect);
-extern void far pascal mark_bufs_for_rect(void (far pascal *mark)(sbyte, const Rect near *),
+extern int far pascal CheckTrobVis(void);
+extern int far pascal ComputeTrobMoveRect(Rect near *out, const Rect near *in);
+extern void far pascal MarkMove(sbyte cell, const Rect near *rect);
+extern void far pascal MarkBufsForRect(void (far pascal *mark)(sbyte, const Rect near *),
                                              const Rect near *rect, sbyte cell);
-extern void far pascal add_trob(byte room, sbyte index, sbyte mode, byte kind);
+extern void far pascal AddTrob(byte room, sbyte index, sbyte mode, byte kind);
 
 int far pascal GetScytheHitType();
 int far pascal ScytheBladeExtended();
@@ -110,7 +110,7 @@ void far pascal CheckScytheHit(void)
                     Char.alive = 1;
                 }
                 AnimChar();
-                decrement_life_points(100);
+                DecLifePts(100);
                 AddSound(85);
                 BlueS[Cell.index].modifier = (Cell.modifier |= 0x40);
                 if (kind == 12)
@@ -161,14 +161,14 @@ int far pascal GetScytheHitType(unsigned char value)
 void far pascal RedrawScythe(int bloody)
 {
     Rect bounds;
-    if (check_trob_visibility()) {
+    if (CheckTrobVis()) {
         bounds = redraw_bounds;
         if (bloody) {
             bounds.right += 6;
             --bounds.top;
         }
-        if (compute_trob_move_rect(&bounds, &bounds))
-            mark_bufs_for_rect(mark_move, &bounds, -1);
+        if (ComputeTrobMoveRect(&bounds, &bounds))
+            MarkBufsForRect(MarkMove, &bounds, -1);
     } else {
         Trob.state = 1;
     }
@@ -202,5 +202,5 @@ void far pascal TriggerScythe(byte room, sbyte index)
         index = Cell.index;
     }
     if (!(Level.cell_info[room - 1][index].modifier & 31))
-        add_trob(room, index, 1, 13);
+        AddTrob(room, index, 1, 13);
 }

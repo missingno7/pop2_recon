@@ -8,7 +8,7 @@ extern Port DEFAULT_PORT;
 extern void far pascal RELEASE_BUFFER(void far *buffer);
 extern void far cdecl _nfree(void *memory);
 
-void release_port(Port *port)
+void FreePort(Port *port)
 {
     if (port->buffer != DEFAULT_PORT.buffer)
         RELEASE_BUFFER(port->buffer);

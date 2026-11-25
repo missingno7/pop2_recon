@@ -10,21 +10,21 @@ typedef struct Port {
 extern Port *Graf;
 extern signed char PIXELS_PER_BYTE;
 
-extern void far pascal Init_Port(Port *port, const Rect far *rect);
+extern void far pascal InitPort(Port *port, const Rect far *rect);
 extern void far pascal OFFSETRECT(Rect far *out, const Rect far *in, int x, int y);
 extern void far *far pascal Allocate_Buffer(long bytes);
-extern void far pascal Set_Origin(int x, int y);
+extern void far pascal SetOrigin(int x, int y);
 extern void far pascal Finish_Port(Port *port);
 extern void *far cdecl _nmalloc(unsigned bytes);
 extern void far cdecl _nfree(void *memory);
 
-Port *create_port(Port *port, const Rect far *rect)
+Port *BackPort(Port *port, const Rect far *rect)
 {
     int left_adjustment;
     int rows;
     Port *previous;
 
-    Init_Port(port, rect);
+    InitPort(port, rect);
     rows = rect->bottom - rect->top;
     port->row_offsets = _nmalloc(rows * sizeof(int));
     if (port->row_offsets) {
@@ -42,7 +42,7 @@ Port *create_port(Port *port, const Rect far *rect)
             }
             previous = Graf;
             Graf = port;
-            Set_Origin(rect->left, rect->top);
+            SetOrigin(rect->left, rect->top);
             Finish_Port(port);
             Graf = previous;
             return port;

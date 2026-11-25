@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "ALLOCATE_DEFAULT_HANDLE",
+        "name": "LOADRECORDEDGAMEFROMDISK",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 606,
@@ -71,7 +71,7 @@
         "type_index": 0
       },
       {
-        "name": "RESET_RECORDED_PLAYBACK",
+        "name": "STARTPLAYINGRECORDEDGAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 620,
@@ -80,7 +80,7 @@
         "type_index": 0
       },
       {
-        "name": "TOGGLE_RECORDING_PLAYER",
+        "name": "TOGGLERECORDER",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 724,
@@ -163,18 +163,18 @@
     ],
     "externals": [
       "HGETRSRC",
-      "ALLOCATE_DEFAULT_HANDLE",
+      "LOADRECORDEDGAMEFROMDISK",
       "FRAMENUM",
-      "RESET_RECORDED_PLAYBACK",
+      "STARTPLAYINGRECORDEDGAME",
       "CHAR",
       "LEVELIDX",
       "DIR",
       "GAMESTATE",
       "STARTLEVEL",
-      "TOGGLE_RECORDING_PLAYER",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "TOGGLERECORDER",
+      "H2P",
       "TURNRECORDEDGAMEPLAYEROFF",
-      "DISPOSE_HANDLE",
+      "HFREE",
       "TURNRECORDEDGAMEPLAYERON",
       "ABORT_WITH_MESSAGE",
       "SETRNDSEED",
@@ -212,7 +212,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -220,7 +220,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -320,7 +320,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -328,7 +328,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -347,7 +347,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "ALLOCATE_DEFAULT_HANDLE",
+          "name": "LOADRECORDEDGAMEFROMDISK",
           "method": 6,
           "zero_displacement": true
         }
@@ -355,7 +355,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "ALLOCATE_DEFAULT_HANDLE",
+        "name": "LOADRECORDEDGAMEFROMDISK",
         "method": 6,
         "zero_displacement": true
       },
@@ -506,7 +506,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -514,7 +514,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -827,7 +827,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "ALLOCATE_DEFAULT_HANDLE",
+          "name": "LOADRECORDEDGAMEFROMDISK",
           "method": 6,
           "zero_displacement": true
         }
@@ -835,7 +835,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "ALLOCATE_DEFAULT_HANDLE",
+        "name": "LOADRECORDEDGAMEFROMDISK",
         "method": 6,
         "zero_displacement": true
       },
@@ -881,7 +881,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -889,7 +889,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1976,7 +1976,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1984,7 +1984,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -2145,7 +2145,7 @@
         "target": {
           "kind": "external",
           "index": 13,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2153,7 +2153,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2292,7 +2292,7 @@
         "target": {
           "kind": "external",
           "index": 11,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -2300,7 +2300,7 @@
       "target": {
         "kind": "external",
         "index": 11,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -2410,7 +2410,7 @@
         }
       ]
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
@@ -2475,7 +2475,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",

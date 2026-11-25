@@ -17,7 +17,7 @@ class WalkTests(unittest.TestCase):
         return walk_extent(bytes.fromhex(code), base)
 
     def test_complete_loop_gives_the_records(self):
-        # CLEAR_ROW_HANDLES: mov bx,5b9c; add bx,40; mov word [bx-40],0; cmp bx,5cdc; jb
+        # FORCEOPPREDRAW: mov bx,5b9c; add bx,40; mov word [bx-40],0; cmp bx,5cdc; jb
         self.assertEqual(self.walk("bb9c5b83c340c747c0000081fbdc5c72f2", 0x5B9C), 4 * 64 + 2)
         self.assertIsNone(self.walk("bb9c5b83c340c747c0000081fbdc5c72f2", 0x5B9E))
 
@@ -41,7 +41,7 @@ class FloorTests(unittest.TestCase):
         from index_floor import index_floor
         from oracle import Oracle
         root = Oracle.load().spaces["root"]
-        # GETABOVEARY: column 1..10 in [bp-1], room*30 in SI; ADD_ROOM_TROBS: tile*5 behind `cmp si,1e; jge`
+        # GETABOVEARY: column 1..10 in [bp-1], room*30 in SI; ADDROOMTROBS: tile*5 behind `cmp si,1e; jge`
         self.assertEqual(index_floor(root, root.position(0xF9E, 0x1BA), 0xF9E0, root.position(0xF9E, 0x1BA) + 0xC5),
                          (0x2B99, 1))
         self.assertEqual(index_floor(root, root.position(0, 0xB78), 0, root.position(0, 0xB78) + 0x73), (0x5C5E, 150))

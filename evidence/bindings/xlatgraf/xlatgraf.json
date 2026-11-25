@@ -134,7 +134,7 @@
         "type_index": 0
       },
       {
-        "name": "ALLOCATED_BANKS",
+        "name": "BANKSTATUS",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 0,
@@ -152,7 +152,7 @@
         "type_index": 0
       },
       {
-        "name": "CHUNK_BYTE_LIMIT",
+        "name": "MAXPACKSIZE",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 2,
@@ -224,7 +224,7 @@
       "MCGATOMCGA",
       "CONVERT_FONT_HANDLE",
       "HALVE_FOR_MODE_TWO",
-      "WRITE_DAC_BLOCK",
+      "SETDACBLOCK",
       "MAPPALINFO",
       "GET1STBANK",
       "__aFNalshl",
@@ -234,12 +234,12 @@
       "GRAPHICS_MODE",
       "UNPACKRLEH",
       "NORMALIZEPTR",
-      "SAVE_HANDLE_FLAGS",
-      "FETCH_LOCKED_SHAPE_LIST",
+      "HGETSTATE",
+      "HLOCK",
       "TGATOMCGA",
       "UNPACKRLEV",
-      "RESTORE_HANDLE_FLAGS",
-      "RESIZE_HANDLE",
+      "HSETSTATE",
+      "HSETSIZE",
       "DETACH_HANDLE_PAYLOAD",
       "UNPACKLZH",
       "RESETBANKS",
@@ -249,11 +249,11 @@
       "XLATSHAPE",
       "UNPACKLZV",
       "CLEAR_PAYLOAD_HEADER",
-      "DISPOSE_HANDLE",
+      "HFREE",
       "CONVERT_BANDED_SHAPE",
       "__aFldiv",
-      "ALLOCATE_PAYLOAD_HANDLE",
-      "CLEAR_HANDLE_OWNED",
+      "HNEW",
+      "HUNLOCK",
       "REMAP_BANDED_PIXELS",
       "CALCROWBYTES"
     ]
@@ -444,7 +444,7 @@
         "target": {
           "kind": "external",
           "index": 9,
-          "name": "WRITE_DAC_BLOCK",
+          "name": "SETDACBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -452,7 +452,7 @@
       "target": {
         "kind": "external",
         "index": 9,
-        "name": "WRITE_DAC_BLOCK",
+        "name": "SETDACBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -471,7 +471,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -479,7 +479,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -606,7 +606,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "RESTORE_HANDLE_FLAGS",
+          "name": "HSETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -614,7 +614,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "RESTORE_HANDLE_FLAGS",
+        "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -660,7 +660,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -668,7 +668,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -687,7 +687,7 @@
         "target": {
           "kind": "external",
           "index": 19,
-          "name": "SAVE_HANDLE_FLAGS",
+          "name": "HGETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -695,7 +695,7 @@
       "target": {
         "kind": "external",
         "index": 19,
-        "name": "SAVE_HANDLE_FLAGS",
+        "name": "HGETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -954,7 +954,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -962,7 +962,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -981,7 +981,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "name": "HNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -989,7 +989,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1381,7 +1381,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "CLEAR_HANDLE_OWNED",
+          "name": "HUNLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1389,7 +1389,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "CLEAR_HANDLE_OWNED",
+        "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1516,7 +1516,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1524,7 +1524,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1543,7 +1543,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "name": "HNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -1551,7 +1551,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1651,7 +1651,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1659,7 +1659,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1678,7 +1678,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "RESIZE_HANDLE",
+          "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1686,7 +1686,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "RESIZE_HANDLE",
+        "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1705,7 +1705,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "CLEAR_HANDLE_OWNED",
+          "name": "HUNLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1713,7 +1713,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "CLEAR_HANDLE_OWNED",
+        "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1813,7 +1813,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "FETCH_LOCKED_SHAPE_LIST",
+          "name": "HLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -1821,7 +1821,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1840,7 +1840,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "name": "HNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -1848,7 +1848,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -2024,7 +2024,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "RESIZE_HANDLE",
+          "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2032,7 +2032,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "RESIZE_HANDLE",
+        "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2051,7 +2051,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "CLEAR_HANDLE_OWNED",
+          "name": "HUNLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -2059,7 +2059,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "CLEAR_HANDLE_OWNED",
+        "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -2078,7 +2078,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2086,7 +2086,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2289,7 +2289,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "RESIZE_HANDLE",
+          "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2297,7 +2297,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "RESIZE_HANDLE",
+        "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2316,7 +2316,7 @@
         "target": {
           "kind": "external",
           "index": 38,
-          "name": "CLEAR_HANDLE_OWNED",
+          "name": "HUNLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -2324,7 +2324,7 @@
       "target": {
         "kind": "external",
         "index": 38,
-        "name": "CLEAR_HANDLE_OWNED",
+        "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -2343,7 +2343,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "DISPOSE_HANDLE",
+          "name": "HFREE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2351,7 +2351,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "DISPOSE_HANDLE",
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2566,7 +2566,7 @@
   },
   "schema": 1,
   "symbols": {
-    "ALLOCATE_PAYLOAD_HANDLE": {
+    "HNEW": {
       "entry_sha256": "c3ec377d3bcae2d5d33123bc8699728ed6babfa311fe110596d625f5cd8cc61b",
       "entry_target_id": "root:1129:17fc",
       "kind": "far-code-entry",
@@ -2584,7 +2584,7 @@
       "space": "root",
       "witnesses": []
     },
-    "CLEAR_HANDLE_OWNED": {
+    "HUNLOCK": {
       "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
       "entry_target_id": "root:1129:1978",
       "kind": "far-code-entry",
@@ -2611,7 +2611,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "far-code-entry",
@@ -2620,7 +2620,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FETCH_LOCKED_SHAPE_LIST": {
+    "HLOCK": {
       "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
       "entry_target_id": "root:1129:1728",
       "kind": "far-code-entry",
@@ -2647,7 +2647,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESTORE_HANDLE_FLAGS": {
+    "HSETSTATE": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
       "entry_target_id": "root:1129:195a",
       "kind": "far-code-entry",
@@ -2656,7 +2656,7 @@
       "space": "root",
       "witnesses": []
     },
-    "SAVE_HANDLE_FLAGS": {
+    "HGETSTATE": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
       "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",
@@ -2701,7 +2701,7 @@
       "space": "root",
       "witnesses": []
     },
-    "WRITE_DAC_BLOCK": {
+    "SETDACBLOCK": {
       "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
       "entry_target_id": "root:1129:79a3",
       "kind": "far-code-entry",
@@ -2755,7 +2755,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESIZE_HANDLE": {
+    "HSETSIZE": {
       "entry_sha256": "38a70eb1b103ff3f6dccc836755715dfd6007844cab736db8976c26fcb16c02a",
       "entry_target_id": "root:1129:18c8",
       "kind": "far-code-entry",

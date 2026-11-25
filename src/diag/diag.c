@@ -68,27 +68,27 @@ int debug_position_2 = 79;
 int debug_position_3 = 34;
 int debug_position_4 = 109;
 
-extern void copy_kid_to_char(void);
-extern void get_frame_info(void);
-extern void draw_message(char *);
-extern void wait_key(void);
-extern int get_base_x(void);
+extern void LoadKid(void);
+extern void GetFrameInfo(void);
+extern void DrawMessage(char *);
+extern void WaitKey(void);
+extern int GetBaseX(void);
 extern void MOVETO(int, int);
 extern void draw_axis_segment(int, int);
 extern void SetFont(int);
 extern int hSetFont(int);
-extern void DRAW_NUL_TERMINATED_TEXT(const char far *);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
-extern void STROKE_PORT_RECT(const char far *);
-extern void paint_plain(const void far *, int, int, int);
+extern void DrawString(const char far *);
+extern void far *h2p(int);
+extern void EraseRect(const char far *);
+extern void PaintShape(const void far *, int, int, int);
 extern void PAINT_INDEXED_SHAPE(const void far *, int, int, int, unsigned);
-extern void PAINTRLESHAPE_ASM(const void far *, int, int, int);
+extern void PaintRLEShape_asm(const void far *, int, int, int);
 extern int start_sound_payload(const unsigned char far *, void far *);
-extern void wait_sound(int);
-extern void dispatch_sound(int);
+extern void WaitSnd(int);
+extern void ResetSnd(int);
 extern const char *find_option(const char far *);
-extern void reclaim_heap_blocks(unsigned long);
-extern void COMPACT_HEAP_BLOCKS(unsigned long);
+extern void HeapPurge(unsigned long);
+extern void HeapCompact(unsigned long);
 extern unsigned banked_pointer_capacity(const heap_block far *);
 extern resource_metadata far *lookup_shape_metadata(resource_metadata far *, int);
 extern heap_block far *normalize_banked_pointer(heap_block far *);
@@ -122,16 +122,16 @@ void limit_frame_rate(void)
     char message[80];
 
     if (frame_diagnostics) {
-        copy_kid_to_char();
+        LoadKid();
         draw_frame_diagnostics();
         if (pause_on_frame) {
             if (show_actor_position) {
-                copy_kid_to_char();
-                get_frame_info();
+                LoadKid();
+                GetFrameInfo();
                 sprintf(message, position_format, Kid.frame);
-                draw_message(message);
+                DrawMessage(message);
             }
-            wait_key();
+            WaitKey();
         }
     }
 }
@@ -159,7 +159,7 @@ void plot_edge_offset(int distance)
 
 void plot_actor_offset(int distance)
 {
-    int x = get_base_x() - 130;
+    int x = GetBaseX() - 130;
     if (Char.direction == 0)
         x += distance;
     else
@@ -207,7 +207,7 @@ void draw_ruler_marks(void)
             if (x % 20 == 0) {
                 MOVETO(x, y + 15);
                 itoa(x / 20, label, 10);
-                DRAW_NUL_TERMINATED_TEXT(label);
+                DrawString(label);
             }
         }
         ++x;
@@ -221,29 +221,29 @@ static int preview_x = 0;
 
 void preview_resource(int handle)
 {
-    image_header far *image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+    image_header far *image = h2p(handle);
 
     if (preview_x == 0)
-        STROKE_PORT_RECT(ScreenPortRect);
+        EraseRect(ScreenPortRect);
     if (image->width < 200 && image->height < 320 && image->width && image->height) {
         Graf = &ScreenPort;
-        paint_plain(image, 0, preview_x, 0);
+        PaintShape(image, 0, preview_x, 0);
         PAINT_INDEXED_SHAPE(image, 100, preview_x, 0, 0x8000);
-        PAINTRLESHAPE_ASM(image, 200, preview_x, 0);
+        PaintRLEShape_asm(image, 200, preview_x, 0);
         preview_x += image->width;
         if (preview_x > 280) {
             MOVETO(0, 300);
-            DRAW_NUL_TERMINATED_TEXT("Waiting");
-            wait_key();
+            DrawString("Waiting");
+            WaitKey();
             preview_x = 0;
         }
     }
 
-    image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+    image = h2p(handle);
     if (*(unsigned char far *)image <= 2) {
         start_sound_payload((const unsigned char far *)image, 0);
-        wait_sound(0);
-        dispatch_sound(0);
+        WaitSnd(0);
+        ResetSnd(0);
     }
 }
 
@@ -265,8 +265,8 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
     else
         preview_size = 0;
 
-    reclaim_heap_blocks(0x00ffffffL);
-    COMPACT_HEAP_BLOCKS(0x00ffffffL);
+    HeapPurge(0x00ffffffL);
+    HeapCompact(0x00ffffffL);
     if (name)
         strcpy(filename, name);
     else {
@@ -391,8 +391,8 @@ void check_null_area(const char *label)
 void draw_frame_diagnostics(void)
 {
     if (show_actor_position) {
-        get_frame_info();
-        plot_position(get_base_x() - 130, 12);
+        GetFrameInfo();
+        plot_position(GetBaseX() - 130, 12);
     }
     if (show_ruler)
         draw_ruler_marks();

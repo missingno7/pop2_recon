@@ -53,7 +53,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 537,
+        "length": 532,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -113,7 +113,7 @@
         "type_index": 578
       },
       {
-        "name": "FREE_RECORD_PAIR",
+        "name": "DEALLOCMAPSAVE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 236,
@@ -140,7 +140,7 @@
         "type_index": 586
       },
       {
-        "name": "DRAW_RECORD_BOUNDS",
+        "name": "RESTORERECTKEEP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 374,
@@ -162,26 +162,26 @@
       "ALLOCBACKPORT",
       "CYCLECOLORS",
       "DEALLOCBACKPORT",
-      "FREE_RECORD_PAIR",
+      "DEALLOCMAPSAVE",
       "ENCLOSERECT",
       "EQUALRECT",
-      "DRAW_RECORD_BOUNDS",
+      "RESTORERECTKEEP",
       "INVERTBITMAP",
       "GRAF",
       "__nmalloc",
       "__nfree",
       "__fmemcpy",
       "__fmemcmp",
-      "CREATE_PORT",
+      "BACKPORT",
       "ABORT_WITH_MESSAGE",
       "ALLOCATE_PINNED_PAYLOAD",
-      "READ_DAC_BLOCK",
-      "WRITE_DAC_BLOCK",
+      "READDACBLOCK",
+      "SETDACBLOCK",
       "CLEAR_PAYLOAD_HEADER",
-      "RELEASE_PORT",
+      "FREEPORT",
       "RELEASE_BUFFER",
       "UNIONRECT",
-      "MEASURE_TEXT",
+      "COPYBITS",
       "FLIP_ROWS"
     ]
   },
@@ -258,7 +258,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "CREATE_PORT",
+          "name": "BACKPORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -266,7 +266,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "CREATE_PORT",
+        "name": "BACKPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -339,7 +339,7 @@
         "target": {
           "kind": "external",
           "index": 18,
-          "name": "WRITE_DAC_BLOCK",
+          "name": "SETDACBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -347,7 +347,7 @@
       "target": {
         "kind": "external",
         "index": 18,
-        "name": "WRITE_DAC_BLOCK",
+        "name": "SETDACBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -393,7 +393,7 @@
         "target": {
           "kind": "external",
           "index": 17,
-          "name": "READ_DAC_BLOCK",
+          "name": "READDACBLOCK",
           "method": 6,
           "zero_displacement": true
         }
@@ -401,7 +401,7 @@
       "target": {
         "kind": "external",
         "index": 17,
-        "name": "READ_DAC_BLOCK",
+        "name": "READDACBLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -474,7 +474,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "RELEASE_PORT",
+          "name": "FREEPORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -482,7 +482,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "RELEASE_PORT",
+        "name": "FREEPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -636,7 +636,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "MEASURE_TEXT",
+          "name": "COPYBITS",
           "method": 6,
           "zero_displacement": true
         }
@@ -644,7 +644,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "MEASURE_TEXT",
+        "name": "COPYBITS",
         "method": 6,
         "zero_displacement": true
       },
@@ -775,7 +775,7 @@
         }
       ]
     },
-    "CREATE_PORT": {
+    "BACKPORT": {
       "entry_sha256": "b2e84c9c11301782097f1710efdf5e413b03b9be2524d8c32bb3c2201ec49aa3",
       "entry_target_id": "root:1129:3890",
       "kind": "far-code-entry",
@@ -815,7 +815,7 @@
         }
       ]
     },
-    "MEASURE_TEXT": {
+    "COPYBITS": {
       "entry_sha256": "5f4b5f97ca115ec229354726cdf97cfd4d648f55bf9014b49b01228934c12ae2",
       "entry_target_id": "root:1129:4cb0",
       "kind": "far-code-entry",
@@ -832,7 +832,7 @@
         }
       ]
     },
-    "READ_DAC_BLOCK": {
+    "READDACBLOCK": {
       "entry_sha256": "895d5fdae24805a9ae4fb27d734a8428936412f513e1f28c7726ae95f729f595",
       "entry_target_id": "root:1129:7969",
       "kind": "far-code-entry",
@@ -866,7 +866,7 @@
         }
       ]
     },
-    "RELEASE_PORT": {
+    "FREEPORT": {
       "entry_sha256": "86b8e438d333e839ea8f7f708401bc7e4b2a1b92a6a2477c2d3b67a929b56093",
       "entry_target_id": "root:1129:4e36",
       "kind": "far-code-entry",
@@ -900,7 +900,7 @@
         }
       ]
     },
-    "WRITE_DAC_BLOCK": {
+    "SETDACBLOCK": {
       "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
       "entry_target_id": "root:1129:79a3",
       "kind": "far-code-entry",

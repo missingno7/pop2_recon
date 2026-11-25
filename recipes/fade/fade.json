@@ -1,15 +1,15 @@
 {
   "binding": "evidence/bindings/fade/fade.json",
-  "binding_sha256": "efd237052925f8924843f432c43b55f6b1f0528089ababd2cee57a866297aed8",
+  "binding_sha256": "d7970d4f21c739fb35f6a849988325dd54480b88e50056be35ff3a41329091fd",
   "claims": [
     {
       "fixup_count": 3,
-      "public": "FADE_IN_PORT",
+      "public": "FADEINPORT",
       "target_id": "root:1e0e:000e"
     },
     {
       "fixup_count": 11,
-      "public": "INIT_FADE_IN",
+      "public": "INITFADEIN",
       "relocation_indices": [
         1732,
         1734,
@@ -25,7 +25,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "FADE_IN_STEP",
+      "public": "FADEINSTEP",
       "relocation_indices": [
         1741
       ],
@@ -35,7 +35,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "QUIT_FADE_IN",
+      "public": "QUITFADEIN",
       "relocation_indices": [
         1736
       ],
@@ -45,7 +45,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "READ_DAC_BLOCKS",
+      "public": "READDACBLOCKS",
       "relocation_indices": [
         1726,
         1727
@@ -56,7 +56,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "SET_DAC_BLOCKS",
+      "public": "SETDACBLOCKS",
       "relocation_indices": [
         1724,
         1725
@@ -67,7 +67,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "FADE_TO",
+      "public": "FADETO",
       "relocation_indices": [
         1729,
         1746
@@ -80,7 +80,7 @@
     },
     {
       "fixup_count": 12,
-      "public": "INIT_FADE_TO",
+      "public": "INITFADETO",
       "relocation_indices": [
         1723,
         1728,
@@ -109,7 +109,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "FADE_TO_STEP",
+      "public": "FADETOSTEP",
       "relocation_indices": [
         1742
       ],
@@ -119,7 +119,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "FADE_OUT_AND_RESTORE_PALETTE",
+      "public": "FORCEFADEOUT",
       "relocation_indices": [
         1730
       ],
@@ -148,12 +148,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "fade/fade",
-  "object_sha256": "fd3366392574cc69a73589c3144b540678e90a85f5074b6b0c84d619ce46a260",
+  "object_sha256": "6d71d64122f6cb48d3bdb0ffd0ffb9eb89bed42890e552bd000b6501626cd80f",
   "origin": 123118,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/fade/fade.c",
-  "source_sha256": "e3c48185ff79aeeb9c6b2b92ad198c7d8aea204db2fe8cc5d7dfc8f6d6e94ef8",
+  "source_sha256": "15e96b165fe52dd9bec7d88b935f81b9b1d018a0f2915828173ef520b1ad4de9",
   "space": "root"
 }

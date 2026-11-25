@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/rooftops/rooftops.json",
-  "binding_sha256": "8a15adb1a4504c58404ae4d1f380db5c5d1e91af37f9132e73e57b6352874580",
+  "binding_sha256": "510b1832afbe98e676849e483dd7a01be3672f284638453c882985516145c98e",
   "claims": [
     {
       "fixup_count": 7,
-      "public": "DRAW_ROOF_PILLAR",
+      "public": "DRAWROOFPILLAR",
       "relocation_indices": [
         1,
         2,
@@ -18,7 +18,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "@keep_image_in_back",
+      "public": "@DrawRoofLedgeInBack",
       "relocation_indices": [
         55
       ],
@@ -33,7 +33,7 @@
     },
     {
       "fixup_count": 25,
-      "public": "CHECK_CHARACTER_WATER",
+      "public": "ROOFCHECKCHARINWATER",
       "relocation_indices": [
         6,
         24,
@@ -46,7 +46,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "CHECK_ROOF_PALETTE",
+      "public": "ROOFCHECKPALETTE",
       "relocation_indices": [
         10
       ],
@@ -56,17 +56,17 @@
     },
     {
       "fixup_count": 2,
-      "public": "CHECK_ROOF_ROOM",
+      "public": "ROOFCHECKROOMSPECIFIC",
       "target_id": "overlay-4:2bda:0186"
     },
     {
       "fixup_count": 10,
-      "public": "CLIP_CHARACTER_AT_WATER",
+      "public": "ROOFCLIPCHAR",
       "target_id": "overlay-4:2bda:0190"
     },
     {
       "fixup_count": 10,
-      "public": "CYCLE_ROOF_COLORS",
+      "public": "ROOFCYCLECOLORS",
       "relocation_indices": [
         19,
         20,
@@ -79,12 +79,12 @@
     },
     {
       "fixup_count": 3,
-      "public": "ROOF_FRAME",
+      "public": "ROOFFRAMEFUNC",
       "target_id": "overlay-4:2bda:0232"
     },
     {
       "fixup_count": 22,
-      "public": "KILL_KID_ON_WHARF",
+      "public": "ROOFKILLKIDONWHARF",
       "relocation_indices": [
         4,
         5,
@@ -110,12 +110,12 @@
     },
     {
       "fixup_count": 6,
-      "public": "MAKE_WATER_TEST_RECT",
+      "public": "ROOFMAKEWATERTESTRECT",
       "target_id": "overlay-4:2bda:030e"
     },
     {
       "fixup_count": 14,
-      "public": "TRIGGER_CHARACTER_WATER",
+      "public": "ROOFTRIGGERCHARINWATER",
       "relocation_indices": [
         61
       ],
@@ -125,7 +125,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "WATCH_KID",
+      "public": "ROOFWATCHKID",
       "relocation_indices": [
         3,
         9
@@ -136,7 +136,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "WATCH_OPPONENTS",
+      "public": "ROOFWATCHOPPS",
       "relocation_indices": [
         45,
         52
@@ -147,7 +147,7 @@
     },
     {
       "fixup_count": 20,
-      "public": "SETUP_SPLASH",
+      "public": "SETUPSPLASH",
       "relocation_indices": [
         11,
         18,
@@ -163,7 +163,7 @@
     },
     {
       "fixup_count": 10,
-      "public": "ANIMATE_ROOF_GLASS",
+      "public": "ANIMROOFGLASS",
       "relocation_indices": [
         40,
         49,
@@ -175,7 +175,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "DRAW_ROOF_GLASS",
+      "public": "DRAWROOFGLASS",
       "relocation_indices": [
         17,
         39,
@@ -207,7 +207,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "DRAW_PILLAR_IN_BACK",
+      "public": "DRAWPILLARINBACK",
       "relocation_indices": [
         57
       ],
@@ -217,7 +217,7 @@
     },
     {
       "fixup_count": 1,
-      "public": "OFFSET_ROOF_PILLAR",
+      "public": "ROOFOFFSETPILLARWATERTOFORE",
       "relocation_indices": [
         22
       ],
@@ -227,7 +227,7 @@
     },
     {
       "fixup_count": 22,
-      "public": "ANIMATE_ROOF_SHIP",
+      "public": "ANIMROOFSHIP",
       "relocation_indices": [
         0,
         15,
@@ -247,7 +247,7 @@
     },
     {
       "fixup_count": 16,
-      "public": "DRAW_ROOF_SHIP",
+      "public": "DRAWROOFSHIP",
       "relocation_indices": [
         12,
         13,
@@ -272,7 +272,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "GRAB_ROOF_SHIP",
+      "public": "ROOFGRABSHIP",
       "target_id": "overlay-4:2bda:0aba"
     },
     {
@@ -282,14 +282,14 @@
     },
     {
       "fixup_count": 1,
-      "public": "UPDATE_SHIP_PEEL",
+      "public": "UPDATESHIPPEEL",
       "target_id": "overlay-4:2bda:0b12"
     }
   ],
   "data_publics": [
     {
       "address": 5112,
-      "name": "ROOFTOPS_LEVEL_SPEC",
+      "name": "DRAWROOFFUNC",
       "offset": 14,
       "segment": "_DATA",
       "span": 160,
@@ -317,12 +317,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "rooftops/rooftops",
-  "object_sha256": "c9c4b9b46aea3daf26de7e488c8bdc39cf37a3f2a19a0b9c1a4f1a66d1f8b642",
+  "object_sha256": "0c8635a597709876488ee5f9d6ac35c3c396c6a2f3d030e75fb2d678397e8ab6",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/rooftops/rooftops.c",
-  "source_sha256": "a89cd1e67e24eb59b1bb906a3a85262c1f5423fdf934220382953d28d9153060",
+  "source_sha256": "ad5c3fb39f42292a63adbcfde6407f102ad8236eba79b0dec5fc68d2bcb6091e",
   "space": "overlay-4"
 }

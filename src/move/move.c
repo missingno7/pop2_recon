@@ -28,8 +28,8 @@ extern byte ObjId;
 
 void AnimTrob(int index);
 
-void add_mobs(void);
-void anim_mobs(void);
+void AddMobs(void);
+void AnimMobs(void);
 void AnimTrobs(void);
 int ChangeLinkTimer(int link, byte timer);
 
@@ -74,111 +74,111 @@ void AnimTrobs(void)
 }
 
 extern void select_room_arrays(byte room);
-void select_trob_cell(int);
-void animate_flask(void);
-void animate_loose_floor(void);
-void animate_exit(void);
-void animate_torch(int);
-void animate_gate(void);
-void animate_plate(void);
-extern void animate_desert_exit(void);
+void GetOS(int);
+void AnimFlask(void);
+void AnimLoose(void);
+void AnimExit(void);
+void AnimTorch(int);
+void AnimGate(void);
+void AnimPlate(void);
+extern void AnimDsrtExit(void);
 extern void AnimScythe(void);
-extern void animate_lava(void);
-extern void animate_cave_bars(void);
-extern void animate_desert_rocks(void);
-extern void animate_desert_planks(void);
-extern void animate_desert_stone(void);
-extern void animate_jaffar_blink(void);
-extern void animate_dart(void);
+extern void AnimLava(void);
+extern void AnimCaveBars(void);
+extern void AnimDsrtRocks(void);
+extern void AnimDsrtPlanks(void);
+extern void AnimDsrtStone(void);
+extern void AnimFinlJaffarBlink(void);
+extern void AnimDart(void);
 extern void AnimRoofPillar(void);
-extern void animate_roof_ship(void);
-extern void animate_roof_glass(void);
-extern void animate_spider(void);
-extern void animate_crystal(void);
-extern void animate_gargoyle(void);
-extern void animate_sacred_flame(void);
-extern void animate_bridge_floor(void);
+extern void AnimRoofShip(void);
+extern void AnimRoofGlass(void);
+extern void AnimFinlSpider(void);
+extern void AnimFinlCrystal(void);
+extern void AnimFinlGargoyle(void);
+extern void AnimSacredFlame(void);
+extern void AnimBrgFloor(void);
 
 /* Draft. External provider names and same-file prototypes remain provisional. */
 void AnimTrob(int index)
 {
     select_room_arrays(Trob.room);
-    select_trob_cell(Trob.cell);
+    GetOS(Trob.cell);
     switch (Trob.kind) {
     default:
         Trob.state = -1;
         break;
     case 4:
         if (Level.environment_kind == 1)
-            animate_desert_exit();
+            AnimDsrtExit();
         else
-            animate_gate();
+            AnimGate();
         break;
     case 5:
     case 6:
     case 34:
-        animate_plate();
+        AnimPlate();
         break;
     case 10:
-        animate_flask();
+        AnimFlask();
         break;
     case 11:
-        animate_loose_floor();
+        AnimLoose();
         break;
     case 13:
         AnimScythe();
         break;
     case 17:
-        animate_exit();
+        AnimExit();
         break;
     case 19:
     case 32:
-        animate_torch(index);
+        AnimTorch(index);
         break;
     case 23:
-        animate_lava();
+        AnimLava();
         break;
     case 27:
-        animate_cave_bars();
+        AnimCaveBars();
         break;
     case 28:
-        animate_desert_rocks();
+        AnimDsrtRocks();
         break;
     case 29:
-        animate_desert_planks();
+        AnimDsrtPlanks();
         break;
     case 30:
-        animate_desert_stone();
+        AnimDsrtStone();
         break;
     case 31:
-        animate_jaffar_blink();
+        AnimFinlJaffarBlink();
         break;
     case 36:
-        animate_dart();
+        AnimDart();
         break;
     case 37:
         AnimRoofPillar();
         break;
     case 38:
-        animate_roof_ship();
+        AnimRoofShip();
         break;
     case 39:
-        animate_roof_glass();
+        AnimRoofGlass();
         break;
     case 40:
-        animate_spider();
+        AnimFinlSpider();
         break;
     case 41:
-        animate_crystal();
+        AnimFinlCrystal();
         break;
     case 42:
-        animate_gargoyle();
+        AnimFinlGargoyle();
         break;
     case 43:
-        animate_sacred_flame();
+        AnimSacredFlame();
         break;
     case 44:
-        animate_bridge_floor();
+        AnimBrgFloor();
         break;
     }
     BlueS[Trob.cell].state = BlueSpec.state;
@@ -210,63 +210,63 @@ static Rect *exit_rects[5] = {
     0, 0, &exit_rect_templates[2], &exit_rect_templates[0], &exit_rect_templates[1]
 };
 /* ClipChar in CTRL.C selects its template by level type. */
-Rect *clip_char_rects[5] = {
+Rect *LevelExitClipRect[5] = {
     0, 0, &clip_char_rect_templates[2], &clip_char_rect_templates[0], &clip_char_rect_templates[1]
 };
 
-extern int IS_SIX_KIND(byte);
+extern int IsSpace(byte);
 extern sbyte CellToCol(byte room, int cell);
 extern ROOMREC Room;
 extern sbyte CellToRow(byte room, int cell);
 extern Rect *ComputeOffsetCellRect(Rect *out, Rect *base, int col, int row);
-Rect *compute_trob_move_rect(Rect *out, Rect *base);
-sbyte check_trob(void);
-sbyte check_trob_left(void);
-sbyte check_trob_right(void);
-sbyte check_trob_above(void);
-sbyte check_trob_above_right(void);
-sbyte check_trob_below(void);
-void mark_move(sbyte cell, Rect *rect);
-void mark_bufs_for_rect(CellMark, Rect *, sbyte);
-int is_visible_room_cell(byte, sbyte);
+Rect *ComputeTrobMoveRect(Rect *out, Rect *base);
+sbyte CheckTrob(void);
+sbyte CheckTrobLeft(void);
+sbyte CheckTrobRight(void);
+sbyte CheckTrobAbove(void);
+sbyte CheckTrobAboveRight(void);
+sbyte CheckTrobBelow(void);
+void MarkMove(sbyte cell, Rect *rect);
+void MarkBufsForRect(CellMark, Rect *, sbyte);
+int IsVisibleRoomCell(byte, sbyte);
 
-void redraw_torch(void)
+void RedrawTorch(void)
 {
     struct { Rect rect; union { int cave; struct { byte pad; sbyte cell; } bytes; } tail; } work;
     work.tail.cave = (Level.environment_kind == 2);
 
     work.rect = *(work.tail.cave ? &TempTorchRect : &CaveTorchRect);
-    if (compute_trob_move_rect(&work.rect, &work.rect)) {
+    if (ComputeTrobMoveRect(&work.rect, &work.rect)) {
         if (work.tail.cave) {
-            mark_move(Trob.cell, &work.rect);
-            work.tail.bytes.cell = check_trob_above(); mark_move(work.tail.bytes.cell, &work.rect);
-            mark_move(check_trob_above_right(), &work.rect);
+            MarkMove(Trob.cell, &work.rect);
+            work.tail.bytes.cell = CheckTrobAbove(); MarkMove(work.tail.bytes.cell, &work.rect);
+            MarkMove(CheckTrobAboveRight(), &work.rect);
         }
-        mark_move(check_trob_right(), &work.rect);
+        MarkMove(CheckTrobRight(), &work.rect);
     }
 }
 
-void redraw_exit(void)
+void RedrawExit(void)
 {
     struct { Rect rect; byte pad; sbyte cell; } work;
 
-    if (compute_trob_move_rect(&work.rect, exit_rects[Level.environment_kind])) {
-        mark_move(Trob.cell, &work.rect);
-        work.cell = check_trob_right(); mark_move(work.cell, &work.rect);
-        work.cell = check_trob_above(); mark_move(work.cell, &work.rect);
-        mark_move(check_trob_above_right(), &work.rect);
+    if (ComputeTrobMoveRect(&work.rect, exit_rects[Level.environment_kind])) {
+        MarkMove(Trob.cell, &work.rect);
+        work.cell = CheckTrobRight(); MarkMove(work.cell, &work.rect);
+        work.cell = CheckTrobAbove(); MarkMove(work.cell, &work.rect);
+        MarkMove(CheckTrobAboveRight(), &work.rect);
     }
 }
 
-void redraw_flask(void)
+void RedrawFlask(void)
 {
     Rect rect;
 
-    if (compute_trob_move_rect(&rect, &flask_rect))
-        mark_move(check_trob(), &rect);
+    if (ComputeTrobMoveRect(&rect, &flask_rect))
+        MarkMove(CheckTrob(), &rect);
 }
 
-void redraw_plate(void)
+void RedrawPlate(void)
 {
     Rect rect;
     Rect *source;
@@ -275,23 +275,23 @@ void redraw_plate(void)
         source = &temple_plate_rect;
     else
         source = &plate_rect;
-    if (compute_trob_move_rect(&rect, source))
-        mark_bufs_for_rect(mark_move, &rect, -1);
+    if (ComputeTrobMoveRect(&rect, source))
+        MarkBufsForRect(MarkMove, &rect, -1);
 }
 
-void redraw_loose(void)
+void RedrawLoose(void)
 {
     struct { Rect rect; byte pad; sbyte cell; } work;
 
-    if (compute_trob_move_rect(&work.rect, loose_rects[Level.environment_kind])) {
-        mark_move(work.cell = check_trob(), &work.rect);
-        mark_move(check_trob_right(), &work.rect);
+    if (ComputeTrobMoveRect(&work.rect, loose_rects[Level.environment_kind])) {
+        MarkMove(work.cell = CheckTrob(), &work.rect);
+        MarkMove(CheckTrobRight(), &work.rect);
         if (Level.environment_kind == 3)
-            mark_move(check_trob_below(), &work.rect);
+            MarkMove(CheckTrobBelow(), &work.rect);
     }
 }
 
-void redraw_gate(void)
+void RedrawGate(void)
 {
     struct { Rect rect; byte pad; sbyte cell; } work;
 
@@ -299,27 +299,27 @@ void redraw_gate(void)
         work.rect = temple_gate_rect;
     else
         work.rect = gate_rect;
-    work.cell = check_trob_above_right();
-    if (work.cell != 30 && work.cell >= 0 && !IS_SIX_KIND((&Level.cell_kinds[0][0])[30 * Room.number - 30 + work.cell]))
+    work.cell = CheckTrobAboveRight();
+    if (work.cell != 30 && work.cell >= 0 && !IsSpace((&Level.cell_kinds[0][0])[30 * Room.number - 30 + work.cell]))
         work.rect.top = 0;
-    if (compute_trob_move_rect(&work.rect, &work.rect)) {
-        mark_move(Trob.cell, &work.rect);
-        work.cell = check_trob_right(); mark_move(work.cell, &work.rect);
-        mark_move(check_trob_above_right(), &work.rect);
+    if (ComputeTrobMoveRect(&work.rect, &work.rect)) {
+        MarkMove(Trob.cell, &work.rect);
+        work.cell = CheckTrobRight(); MarkMove(work.cell, &work.rect);
+        MarkMove(CheckTrobAboveRight(), &work.rect);
     }
 }
 
-void redraw_trob(Rect *base)
+void RedrawTrob(Rect *base)
 {
     struct { Rect rect; byte pad; sbyte cell; } work;
 
-    if (base && compute_trob_move_rect(&work.rect, base)) {
-        mark_move(work.cell = check_trob(), &work.rect);
-        mark_move(check_trob_right(), &work.rect);
+    if (base && ComputeTrobMoveRect(&work.rect, base)) {
+        MarkMove(work.cell = CheckTrob(), &work.rect);
+        MarkMove(CheckTrobRight(), &work.rect);
     }
 }
 
-Rect *compute_trob_move_rect(Rect *out, Rect *base)
+Rect *ComputeTrobMoveRect(Rect *out, Rect *base)
 {
     Rect *result = out;
     sbyte column = CellToCol(Trob.room, Trob.cell);
@@ -328,7 +328,7 @@ Rect *compute_trob_move_rect(Rect *out, Rect *base)
                                  CellToRow(Trob.room, Trob.cell));
 }
 
-sbyte check_trob(void)
+sbyte CheckTrob(void)
 {
     sbyte cell = Trob.cell;
 
@@ -342,15 +342,15 @@ sbyte check_trob(void)
     return cell;
 }
 
-int check_trob_visibility(void)
+int CheckTrobVis(void)
 {
-    int visible = is_visible_room_cell(Trob.room, Trob.cell);
+    int visible = IsVisibleRoomCell(Trob.room, Trob.cell);
     if (!visible)
         Trob.state = -1;
     return visible;
 }
 
-sbyte check_trob_left(void)
+sbyte CheckTrobLeft(void)
 {
     sbyte cell = Trob.cell;
 
@@ -366,7 +366,7 @@ sbyte check_trob_left(void)
     return cell;
 }
 
-sbyte check_trob_right(void)
+sbyte CheckTrobRight(void)
 {
     sbyte cell = Trob.cell;
 
@@ -392,7 +392,7 @@ sbyte check_trob_right(void)
     return cell;
 }
 
-sbyte check_trob_above(void)
+sbyte CheckTrobAbove(void)
 {
     sbyte cell = Trob.cell;
 
@@ -408,7 +408,7 @@ sbyte check_trob_above(void)
     return cell;
 }
 
-sbyte check_trob_above_right(void)
+sbyte CheckTrobAboveRight(void)
 {
     sbyte cell = Trob.cell;
 
@@ -438,7 +438,7 @@ sbyte check_trob_above_right(void)
     return cell;
 }
 
-sbyte check_trob_below(void)
+sbyte CheckTrobBelow(void)
 {
     sbyte cell = Trob.cell;
 
@@ -455,19 +455,19 @@ sbyte check_trob_below(void)
 }
 
 extern int WeightlessTimer, AlertGuard;
-extern void on_ground(void);
+extern void OnGround(void);
 extern void FallOn(void);
 extern void Falling(void);
-extern sbyte get_above(void);
-extern sbyte get_under_foot(void);
-extern void fall_spikes(void);
+extern sbyte GetAbove(void);
+extern sbyte GetUnderFt(void);
+extern void BreakTotalLoose(void);
 extern byte CutRoom;
 extern CHARREC Char;
-void break_loose_floor(sbyte);
-void jam_plate(void);
-void push_plate(sbyte, int);
+void BreakLoose(sbyte);
+void JamPlate(void);
+void PushPlate(sbyte, int);
 
-void check_floor(void)
+void CheckFloor(void)
 {
     unsigned frame;
 
@@ -480,7 +480,7 @@ void check_floor(void)
     frame = Char.frame;
     switch (Char.action) {
     default:
-        on_ground();
+        OnGround();
         break;
     case 2:
     case 6:
@@ -494,14 +494,14 @@ void check_floor(void)
         break;
     case 5:
         if (frame == 0x6d)
-            on_ground();
+            OnGround();
         break;
     }
 }
 
 extern FRAMEREC Frame;
 
-void check_press(void)
+void CheckPress(void)
 {
     int action;
     unsigned frame;
@@ -514,35 +514,35 @@ void check_press(void)
     action = Char.action;
     frame = Char.frame;
     if ((frame >= 0x57 && frame <= 0x63) || (frame >= 0x87 && frame < 0x8d))
-        kind = get_above();
+        kind = GetAbove();
     else if (action < 2 || action == 7 || action == 5 || action == 8) {
-        kind = get_above();
+        kind = GetAbove();
         if (frame == 0x4f && kind == 11)
-            break_loose_floor(0);
+            BreakLoose(0);
         else if (frame == 0x4f && kind == 15)
-            fall_spikes();
+            BreakTotalLoose();
         else
             if (!(Frame.flags & 0x40))
                 kind = 0;
             else
-                kind = get_under_foot();
+                kind = GetUnderFt();
     } else
         kind = 0;
 
     if (kind == 5 || kind == 6 || kind == 34) {
         if (Char.alive >= 0 && Char.character_kind != 4) {
-            jam_plate();
+            JamPlate();
             return;
         }
-        push_plate(0, -1);
+        PushPlate(0, -1);
     } else if (kind == 11 || kind == 15) {
         AlertGuard = 1;
         if (kind == 11) {
-            break_loose_floor(0);
+            BreakLoose(0);
             return;
         }
         if (kind == 15)
-            fall_spikes();
+            BreakTotalLoose();
     }
 }
 
@@ -550,12 +550,12 @@ extern int FrameNum;
 
 extern GAMESTATE GameState;
 extern CHARREC Kid;
-int get_torch_frame(int);
+int GetTorchFrame(int);
 
-void animate_flask(void)
+void AnimFlask(void)
 {
     if (ObjId == 10) {
-        if (Trob.state < 0 || !check_trob_visibility())
+        if (Trob.state < 0 || !CheckTrobVis())
             return;
         {
             unsigned state = BlueSpec.state & ~31U;
@@ -565,20 +565,20 @@ void animate_flask(void)
             else
                 ++frame;
             BlueSpec.state = state | frame;
-            redraw_flask();
+            RedrawFlask();
         }
         return;
     }
     Trob.state = -1;
 }
 
-void animate_torch(int index)
+void AnimTorch(int index)
 {
-    if (check_trob_visibility()) {
-        int frame = get_torch_frame((byte)BlueSpec.state);
+    if (CheckTrobVis()) {
+        int frame = GetTorchFrame((byte)BlueSpec.state);
         BlueSpec.state = (BlueSpec.state & 0xff00U) + frame;
         if (!GameState.fade_active || ((FrameNum + index) & 1))
-            redraw_torch();
+            RedrawTorch();
     }
 }
 
@@ -588,14 +588,14 @@ extern struct {
 } KidInfo;
 extern struct { unsigned char channels, volume; } Midi;
 
-extern void AddSound(int), dispatch_sound(int);
-void stop_gate(int);
-void check_gate_fingers(void);
-int did_player_escape_guard(void);
-void add_gate_sound(int);
-extern int move_cave_gate(int);
+extern void AddSound(int), ResetSnd(int);
+void StopGate(int);
+void CheckSquishedFingers(void);
+int DidKidEscapeOpp(void);
+void AddGateSound(int);
+extern int CaveMoveSquishingGate(int);
 
-void animate_gate(void)
+void AnimGate(void)
 {
     unsigned modifier = BlueSpec.state;
     int height = modifier & 255;
@@ -626,64 +626,64 @@ void animate_gate(void)
                 } else {
                     height = 0;
                     sound = Level.environment_kind != 3 ? 15 : 9;
-                    check_gate_fingers();
-                    if (did_player_escape_guard())
+                    CheckSquishedFingers();
+                    if (DidKidEscapeOpp())
                         KidInfo.death_countdown = 4;
                 }
-                add_gate_sound(sound);
+                AddGateSound(sound);
                 Trob.state = -1;
             }
         } else {
             if (height == 255)
-                stop_gate(255);
+                StopGate(255);
             else {
                 height += GateInc[phase];
                 if (phase == 0 || phase == 1) {
                     if (height <= 0) {
                         height = 0;
-                        stop_gate(height);
-                        check_gate_fingers();
+                        StopGate(height);
+                        CheckSquishedFingers();
                     } else if (height < 200) {
-                        add_gate_sound(Level.environment_kind != 3 ? 4 : 7);
+                        AddGateSound(Level.environment_kind != 3 ? 4 : 7);
                         Trob.state = 1;
                         if (Level.environment_kind == 3)
-                            height = move_cave_gate(height);
+                            height = CaveMoveSquishingGate(height);
                     } else if (Level.level_number == 5 && Trob.room == 7)
                         height -= GateInc[phase];
                 } else if (height < 200) {
                     if (Level.environment_kind != 3) {
                         if (height % 8 == 0)
-                            add_gate_sound(4);
+                            AddGateSound(4);
                     } else
-                        add_gate_sound(7);
+                        AddGateSound(7);
                 } else if (phase < 3) {
-                    redraw_gate();
+                    RedrawGate();
                     height = 250;
                     Trob.state = 0;
-                    add_gate_sound(Level.environment_kind != 3 ? 5 : 8);
+                    AddGateSound(Level.environment_kind != 3 ? 5 : 8);
                 } else {
                     height = 255;
-                    stop_gate(height);
+                    StopGate(height);
                 }
             }
         }
         BlueSpec.state = (BlueSpec.state & 0xff00U) + height;
     }
     if (height <= 200)
-        redraw_gate();
+        RedrawGate();
 }
 
-extern void copy_kid_to_char(void);
+extern void LoadKid(void);
 extern void JumpSeq(int);
 extern sbyte FirstInRow(sbyte);
 
-void stop_gate(int height)
+void StopGate(int height)
 {
     int actor_cell;
 
     Trob.state = -1;
-    add_gate_sound(Level.environment_kind != 3 ? 6 : 8);
-    copy_kid_to_char();
+    AddGateSound(Level.environment_kind != 3 ? 6 : 8);
+    LoadKid();
     actor_cell = FirstInRow(Char.row - 1) + Char.column;
     if (Trob.cell == actor_cell && Char.direction == -1
             && Char.action == 2 && height == 0) {
@@ -692,7 +692,7 @@ void stop_gate(int height)
     }
 }
 
-void check_gate_fingers(void)
+void CheckSquishedFingers(void)
 {
     if (Trob.room == Kid.room && (Kid.action == 2 || Kid.action == 6)) {
         sbyte actor_cell = FirstInRow(Kid.row) + Kid.column;
@@ -704,7 +704,7 @@ void check_gate_fingers(void)
 extern CHARREC RoomOpp[5];
 #pragma intrinsic(abs)
 
-int did_player_escape_guard(void)
+int DidKidEscapeOpp(void)
 {
     int escaped = 0;
     sbyte count = Level.room_objects[Trob.room - 1].opponent_count;
@@ -727,7 +727,7 @@ int did_player_escape_guard(void)
     return escaped;
 }
 
-void animate_exit(void)
+void AnimExit(void)
 {
     int height = BlueSpec.state & 255;
 
@@ -746,7 +746,7 @@ void animate_exit(void)
             if (height >= 42) {
                 Trob.state = -1;
                 if (Room.number != 4 || Level.level_number != 13) {
-                    dispatch_sound(0);
+                    ResetSnd(0);
                     AddSound(8);
                 }
             } else if (Room.number != 4 || Level.level_number != 13)
@@ -754,12 +754,12 @@ void animate_exit(void)
         }
     }
     BlueSpec.state = (BlueSpec.state & 0xff00U) + height;
-    redraw_exit();
+    RedrawExit();
 }
 
-extern int get_cave_torch_frame(int frame), choose_trapdoor_delay(int frame);
+extern int CaveGetTorchFrame(int frame), TempGetTorchFrame(int frame);
 extern int EMPTYRECT(Rect far *rect);
-extern sbyte index_cell(sbyte column, sbyte row);
+extern sbyte IndexCell(sbyte column, sbyte row);
 extern CELLREC Cell;
 
 int IsExitOpen(void)
@@ -769,13 +769,13 @@ int IsExitOpen(void)
     return 0;
 }
 
-int get_torch_frame(int frame)
+int GetTorchFrame(int frame)
 {
     int result;
     if (Level.environment_kind == 3)
-        result = get_cave_torch_frame(frame);
+        result = CaveGetTorchFrame(frame);
     else
-        result = choose_trapdoor_delay(frame);
+        result = TempGetTorchFrame(frame);
     return result;
 }
 
@@ -794,10 +794,10 @@ extern void ComputeClipRect(Rect far *out, int column, int row);
 extern int SECTRECT(Rect far *out, Rect far *a, Rect far *b);
 extern void UNIONRECT(Rect far *out, Rect far *a, Rect far *b);
 
-void mark_rect_buf(MarkedRect *mark, int cell, Rect *clip);
-void mark_guard_updates(Rect *clip, sbyte except);
+void MarkRectBuf(MarkedRect *mark, int cell, Rect *clip);
+void MarkOppUpdateForRect(Rect *clip, sbyte except);
 
-void mark_top(int cell, Rect *clip)
+void MarkTop(int cell, Rect *clip)
 {
     Rect rect;
 
@@ -816,40 +816,40 @@ void mark_top(int cell, Rect *clip)
     }
 }
 
-void mark_move(sbyte cell, Rect *clip)
+void MarkMove(sbyte cell, Rect *clip)
 {
     if (cell < 30) {
         if (cell >= 0)
-            mark_rect_buf(&MoveBuf[cell], cell, clip);
+            MarkRectBuf(&MoveBuf[cell], cell, clip);
         else
-            mark_top(cell, clip);
-        mark_guard_updates(clip, -1);
+            MarkTop(cell, clip);
+        MarkOppUpdateForRect(clip, -1);
     }
 }
 
-void mark_floor(sbyte cell, Rect *clip)
+void MarkFloor(sbyte cell, Rect *clip)
 {
     if (cell < 30) {
         if (cell >= 0) {
-            mark_rect_buf(&FloorBuf[cell], cell, clip);
+            MarkRectBuf(&FloorBuf[cell], cell, clip);
             return;
         }
-        mark_top(cell, clip);
+        MarkTop(cell, clip);
     }
 }
 
-void mark_half(sbyte cell)
+void MarkHalf(sbyte cell)
 {
     if (cell < 30) {
         if (cell >= 0) {
             HalfBuf[cell] = 1;
             return;
         }
-        mark_top(cell, 0);
+        MarkTop(cell, 0);
     }
 }
 
-void mark_redraw(int cell)
+void MarkRedraw(int cell)
 {
     extern unsigned int RedrawBuf[];
 
@@ -857,11 +857,11 @@ void mark_redraw(int cell)
         if (cell >= 0)
             *(int *)((byte *)RedrawBuf + (cell << 1)) = 1;
         else
-            mark_top(cell, 0);
+            MarkTop(cell, 0);
     }
 }
 
-void mark_cell_redraw(void)
+void MarkCellRedraw(void)
 {
     sbyte cell = Cell.index;
 
@@ -875,21 +875,21 @@ void mark_cell_redraw(void)
         cell -= 20;
     else if (Room.below == Cell.room)
         cell += 20;
-    mark_redraw(cell);
+    MarkRedraw(cell);
 }
 
-void mark_foreground(sbyte cell, Rect *clip)
+void MarkFRedraw(sbyte cell, Rect *clip)
 {
     if (cell < 30) {
         if (cell >= 0) {
-            mark_rect_buf(&FRedrawBuf[cell], cell, clip);
+            MarkRectBuf(&FRedrawBuf[cell], cell, clip);
             return;
         }
-        mark_top(cell, clip);
+        MarkTop(cell, clip);
     }
 }
 
-void mark_bufs_for_rect(CellMark mark, Rect *rect, sbyte except)
+void MarkBufsForRect(CellMark mark, Rect *rect, sbyte except)
 {
     struct {
         int top, left, bottom, right;
@@ -909,13 +909,13 @@ void mark_bufs_for_rect(CellMark mark, Rect *rect, sbyte except)
         bounds.right = rect->right / 32;
         for (row = bounds.top; row <= bounds.bottom; ++row) {
             for (column = bounds.left; column <= bounds.right; ++column)
-                mark(index_cell(column, row), rect);
+                mark(IndexCell(column, row), rect);
         }
-        mark_guard_updates(rect, except);
+        MarkOppUpdateForRect(rect, except);
     }
 }
 
-void mark_guard_updates(Rect *clip, sbyte except)
+void MarkOppUpdateForRect(Rect *clip, sbyte except)
 {
     Rect hit;
     sbyte count = Level.room_objects[Room.number - 1].opponent_count;
@@ -927,7 +927,7 @@ void mark_guard_updates(Rect *clip, sbyte except)
     }
 }
 
-void mark_rect_buf(MarkedRect *mark, int cell, Rect *clip)
+void MarkRectBuf(MarkedRect *mark, int cell, Rect *clip)
 {
     Rect rect;
 
@@ -942,44 +942,44 @@ void mark_rect_buf(MarkedRect *mark, int cell, Rect *clip)
     }
 }
 
-int get_link_next(int link);
-int get_link_cell(int link);
-byte get_link_room(int link);
-TROBREC *get_trob_room_cell(byte room, int cell);
-void add_trob(byte room, sbyte cell, sbyte state, byte kind);
-sbyte trigger_object(byte kind, byte room, sbyte cell, int action);
+int GetLinkNext(int link);
+int GetLinkCell(int link);
+byte GetLinkRoom(int link);
+TROBREC *GetTrobRoomCell(byte room, int cell);
+void AddTrob(byte room, sbyte cell, sbyte state, byte kind);
+sbyte TriggerObject(byte kind, byte room, sbyte cell, int action);
 extern unsigned Rnd(unsigned limit);
 
-void trigger_link(int link, int action)
+void Trigger(int link, int action)
 {
     byte room, kind;
     sbyte cell, state;
 
-    if (get_link_room(link) != -2 && link != 0xfd) {
+    if (GetLinkRoom(link) != -2 && link != 0xfd) {
         do {
-            room = get_link_room(link);
+            room = GetLinkRoom(link);
             select_room_arrays(room);
-            cell = get_link_cell(link);
+            cell = GetLinkCell(link);
             kind = BlueT[cell];
-            state = trigger_object(kind, room, cell, action);
+            state = TriggerObject(kind, room, cell, action);
             if (state >= 0)
-                add_trob(room, cell, state, kind);
-            link = get_link_next(link);
+                AddTrob(room, cell, state, kind);
+            link = GetLinkNext(link);
         } while (link != 0xfd);
     }
 }
 
-void trigger_flask(byte room, sbyte cell)
+void TriggerFlask(byte room, sbyte cell)
 {
     unsigned state = (BlueS[cell].state & ~31U) | (Rnd(26) + 1);
     BlueS[cell].state = state;
-    add_trob(room, cell, 1, 10);
+    AddTrob(room, cell, 1, 10);
 }
 
-extern sbyte trigger_reverse_gate(byte room, sbyte cell);
-extern int is_dead_pos(unsigned int frame);
+extern sbyte TriggerGateWithRevPlate(byte room, sbyte cell);
+extern int IsDeadPos(unsigned int frame);
 
-sbyte trigger_gate(byte room, sbyte cell, int action)
+sbyte TriggerGate(byte room, sbyte cell, int action)
 {
     sbyte state = -1;
     unsigned value = BlueS[cell].state;
@@ -1006,8 +1006,8 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
         }
         break;
     case 6: {
-        TROBREC *trob = get_trob_room_cell(room, cell);
-        if (is_dead_pos(Char.frame) && Char.alive >= 2)
+        TROBREC *trob = GetTrobRoomCell(room, cell);
+        if (IsDeadPos(Char.frame) && Char.alive >= 2)
             break;
         if ((!trob && height) || (trob && trob->state != 4))
             state = 4;
@@ -1020,25 +1020,25 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
             BlueS[cell].state = flags + 255;
         break;
     case 34:
-        state = trigger_reverse_gate(room, cell);
+        state = TriggerGateWithRevPlate(room, cell);
         break;
     }
     return state;
 }
 
-extern int query_sound(int id);
+extern int SndOn(int id);
 extern void AddSong(int sound);
-extern void trigger_slide_rock(byte room, sbyte cell, sbyte state);
-extern sbyte trigger_cave_bars(byte room, sbyte cell);
-extern void trigger_dart(byte, sbyte);
+extern void TriggerSlideRock(byte room, sbyte cell, sbyte state);
+extern sbyte TriggerCaveBars(byte room, sbyte cell);
+extern void TriggerDart(byte, sbyte);
 
-sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
+sbyte TriggerObject(byte kind, byte room, sbyte cell, int action)
 {
     sbyte state;
 
     switch (kind) {
     case 4:
-        state = trigger_gate(room, cell, action);
+        state = TriggerGate(room, cell, action);
         break;
     case 17:
         if (room != Level.entry_room && Level.level_number == 8 && KidInfo.sword_kind != 1) {
@@ -1046,7 +1046,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
         } else {
             int height = BlueS[cell].state & 255;
             state = height ? -1 : 1;
-            if (state == 1 && !query_sound(10027) && Level.level_number != 13)
+            if (state == 1 && !SndOn(10027) && Level.level_number != 13)
                 AddSong(27);
         }
         break;
@@ -1055,15 +1055,15 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
             state = 2;
         else
             state = 1;
-        trigger_slide_rock(room, cell, state);
+        TriggerSlideRock(room, cell, state);
         state = -1;
         break;
     case 27:
-        state = trigger_cave_bars(room, cell);
+        state = TriggerCaveBars(room, cell);
         break;
     case 36:
         if (!(Cell.modifier & 0x0800U))
-            trigger_dart(room, cell);
+            TriggerDart(room, cell);
         state = -1;
         break;
     default:
@@ -1073,16 +1073,16 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
     return state;
 }
 
-void trigger_torch(byte room, sbyte cell)
+void TriggerTorch(byte room, sbyte cell)
 {
     unsigned state = (BlueS[cell].state & 0xff00U) + Rnd(Level.environment_kind == 3 ? 8 : 3);
     BlueS[cell].state = state;
-    add_trob(room, cell, 1, 19);
+    AddTrob(room, cell, 1, 19);
 }
 
-void add_trob(byte room, sbyte cell, sbyte state, byte kind)
+void AddTrob(byte room, sbyte cell, sbyte state, byte kind)
 {
-    TROBREC *found = get_trob_room_cell(room, cell);
+    TROBREC *found = GetTrobRoomCell(room, cell);
 
     if (!found) {
         if (TrobCt < 20) {
@@ -1118,7 +1118,7 @@ void ZeroBuffers(void)
 extern byte ReadCell(byte room, sbyte column, sbyte row);
 extern int IsWall(byte tile);
 
-sbyte find_wall_column(byte room, sbyte column, sbyte row, sbyte step)
+sbyte Get1stWallColInDir(byte room, sbyte column, sbyte row, sbyte step)
 {
     do {
         column += step;
@@ -1128,20 +1128,20 @@ sbyte find_wall_column(byte room, sbyte column, sbyte row, sbyte step)
     return column;
 }
 
-extern int far _fastcall get_slide_rock_x(unsigned char room, signed char row);
+extern int far _fastcall TempGetSlideRockX(unsigned char room, signed char row);
 
-int far _fastcall probe_jump_anchor(signed char room, signed char row)
+int far _fastcall GetSlideRockX(signed char room, signed char row)
 {
     int x;
 
     if (Level.environment_kind == 2)
-        x = get_slide_rock_x(room, row);
+        x = TempGetSlideRockX(room, row);
     else
         x = 0;
     return x;
 }
 
-int get_link_next(int link)
+int GetLinkNext(int link)
 {
     return Level.links[link].next;
 }
@@ -1156,31 +1156,31 @@ int ChangeLinkTimer(int link, byte timer)
     return Level.links[link].timer = timer;
 }
 
-int get_link_cell(int link)
+int GetLinkCell(int link)
 {
     return Level.links[link].cell;
 }
 
-int link_has_previous(int link)
+int LinkBefore(int link)
 {
     if (Level.links[link].prev != 0xfd)
         return 1;
     return 0;
 }
 
-int link_has_next(int link)
+int LinkMore(int link)
 {
     if (Level.links[link].next != 0xfd)
         return 1;
     return 0;
 }
 
-byte get_link_room(int link)
+byte GetLinkRoom(int link)
 {
     return Level.links[link].room;
 }
 
-void push_plate(sbyte kind, int link)
+void PushPlate(sbyte kind, int link)
 {
     sbyte previous_timer;
     sbyte cell;
@@ -1196,27 +1196,27 @@ void push_plate(sbyte kind, int link)
     state = Cell.modifier | 0x0800U;
     room = Cell.room;
     if (previous_timer != 31 && (ChangeLinkTimer(link, 5), previous_timer < 2)) {
-        add_trob(Cell.room, Cell.index, 1, kind);
+        AddTrob(Cell.room, Cell.index, 1, kind);
         if (Char.frame != 185 && (Cell.room != 4 || Level.level_number != 13))
             AddSound(3);
-        redraw_plate();
-        trigger_link(link, (byte)kind);
+        RedrawPlate();
+        Trigger(link, (byte)kind);
         AlertGuard = 1;
     } else {
-        trigger_link(link, (byte)kind);
+        Trigger(link, (byte)kind);
     }
     Level.cell_info[room - 1][cell].modifier = state;
 }
 
-void jam_plate(void)
+void JamPlate(void)
 {
     int link = Cell.modifier & 255;
 
     ChangeLinkTimer(link, 31);
-    push_plate(Cell.kind, link);
+    PushPlate(Cell.kind, link);
 }
 
-void animate_plate(void)
+void AnimPlate(void)
 {
     if (Trob.state >= 0) {
         int link = BlueSpec.state & 255;
@@ -1225,7 +1225,7 @@ void animate_plate(void)
             ChangeLinkTimer(link, timer - 1);
             if (timer < 2) {
                 Trob.state = -1;
-                redraw_plate();
+                RedrawPlate();
                 BlueSpec.state &= ~0x0800U;
                 return;
             }
@@ -1234,25 +1234,25 @@ void animate_plate(void)
     }
 }
 
-void close_exit(byte room, sbyte cell)
+void CloseExit(byte room, sbyte cell)
 {
     if (Level.environment_kind != 1) {
         RoomObject *objects = BlueS;
         objects[cell].state = (objects[cell].state & 0xff00U) + 42;
-        add_trob(room, cell, 4, 17);
+        AddTrob(room, cell, 4, 17);
     }
 }
 
-void make_space(byte room, sbyte cell);
-void add_mob(void);
+void MakeSpace(byte room, sbyte cell);
+void AddMob(void);
 void PassThru(void);
-void mark_mob_redraw(sbyte layer);
+void MarkMobRedraw(sbyte layer);
 extern sbyte IndexCell1(sbyte column, sbyte row);
 static MOBREC mobs[30];
 int MobCt;
 extern sbyte GetRow(int value);
 
-void animate_loose_floor(void)
+void AnimLoose(void)
 {
     int frame;
     int kind;
@@ -1268,7 +1268,7 @@ void animate_loose_floor(void)
             }
         } else if (frame >= 12) {
             kind = Level.environment_kind == 3 ? (BlueSpec.state & 0x80) >> 7 : 3;
-            make_space(Trob.room, Trob.cell);
+            MakeSpace(Trob.room, Trob.cell);
             BlueSpec.state = kind + 3;
             Mob.x = (Trob.cell % 10) * 32;
             row = Trob.cell / 10;
@@ -1279,14 +1279,14 @@ void animate_loose_floor(void)
             Mob.kind = kind;
             Mob.row = row;
             Mob.flags = 0;
-            add_mob();
+            AddMob();
             Trob.state = -1;
         }
     }
-    redraw_loose();
+    RedrawLoose();
 }
 
-void make_space(unsigned char room, signed char cell)
+void MakeSpace(unsigned char room, signed char cell)
 {
     int index = cell;
     unsigned state;
@@ -1299,26 +1299,26 @@ void make_space(unsigned char room, signed char cell)
     BlueS[*(volatile int *)&index].state = state;
 }
 
-extern void shake_trapdoor(void);
-extern void shake_bones(byte room, sbyte row);
+extern void ShakeTrapDoor(void);
+extern void ShakeBones(byte room, sbyte row);
 
-void shake_loose_floor(void);
+void ShakeLooseFloor(void);
 
-void break_loose_floor(sbyte sound)
+void BreakLoose(sbyte sound)
 {
     if (Char.character_kind == 1 && sound == 0) {
-        shake_loose_floor();
+        ShakeLooseFloor();
     } else {
         unsigned state = Cell.modifier & ~0x40U;
         if (sound)
             state = (state & ~4U) | 11;
         BlueS[Cell.index].state = state;
-        add_trob(Cell.room, Cell.index, sound, 11);
+        AddTrob(Cell.room, Cell.index, sound, 11);
         AddSound(20);
     }
 }
 
-void shake_loose_floor(void)
+void ShakeLooseFloor(void)
 {
     if (!(Cell.modifier & 15)) {
         int counter = ((Cell.modifier & 0x30) >> 4) + 1;
@@ -1333,12 +1333,12 @@ void shake_loose_floor(void)
             Cell.modifier |= (counter | 4) << 4;
             objects[index].state = Cell.modifier | 0x40;
         }
-        add_trob(Cell.room, Cell.index, 1, 11);
+        AddTrob(Cell.room, Cell.index, 1, 11);
         AddSound(20);
     }
 }
 
-void shake_row(byte room, sbyte row)
+void ShakeEm(byte room, sbyte row)
 {
     MOBREC saved = Mob;
     sbyte column = 0;
@@ -1346,41 +1346,41 @@ void shake_row(byte room, sbyte row)
     do {
         switch (ReadCell(room, column, row)) {
         case 11:
-            shake_loose_floor();
+            ShakeLooseFloor();
             break;
         case 15:
-            fall_spikes();
+            BreakTotalLoose();
             break;
         case 26:
-            shake_trapdoor();
+            ShakeTrapDoor();
             break;
         }
     } while (++column < 10);
 
     if (Level.preferred_opponent == 2)
-        shake_bones(room, row);
+        ShakeBones(room, row);
     Mob = saved;
 }
 
-void add_mob(void)
+void AddMob(void)
 {
     if (MobCt < 30)
         mobs[MobCt++] = Mob;
 }
 
-extern void move_dart_mob(void);
+extern void MobDart(void);
 extern void MobSpikes(void);
-extern void move_rock_record(void);
-extern void check_slide_rock_crush(void);
-extern void move_trapdoor_record(void);
-extern void move_fireball(void);
-void animate_mob(void);
-void mob_loose(void);
-void check_loose_crush(void);
-void make_rubble(void);
-void knock_loose(void);
+extern void MobSlideRock(void);
+extern void CheckSlideRockCrush(void);
+extern void MobTrapDoor(void);
+extern void MobFireball(void);
+void AnimMob(void);
+void MobLoose(void);
+void CheckLooseCrush(void);
+void MakeRubble(void);
+void KnockLoose(void);
 
-MOBREC *get_mob_type_item(byte kind, int occurrence)
+MOBREC *GetMobTypeItem(byte kind, int occurrence)
 {
     MOBREC *found = 0;
     int index, count;
@@ -1394,7 +1394,7 @@ MOBREC *get_mob_type_item(byte kind, int occurrence)
     return found;
 }
 
-void select_trob_cell(int cell)
+void GetOS(int cell)
 {
     BlueSpec = BlueS[cell];
     ObjId = BlueT[cell];
@@ -1403,7 +1403,7 @@ void select_trob_cell(int cell)
 int MobHeight[13] = {18, 18, 2, 16, 27, 39, 69, 69, 12, 12, 37, 37, 18};
 int MobWidth[13] = {50, 50, 4, 57, 27, 31, 52, 52, 24, 24, 69, 57, 17};
 
-void anim_mobs(void)
+void AnimMobs(void)
 {
     struct {
         MOBREC *destination;
@@ -1415,7 +1415,7 @@ void anim_mobs(void)
         int count = MobCt;
         for (MobI = 0; MobI < count; ++MobI) {
             Mob = mobs[MobI];
-            animate_mob();
+            AnimMob();
             mobs[MobI] = Mob;
         }
     }
@@ -1437,42 +1437,42 @@ void anim_mobs(void)
     MobCt = work.kept;
 }
 
-extern void step_bridge_mob(void);
+extern void MobBrgFloor(void);
 
-void animate_mob(void)
+void AnimMob(void)
 {
     switch (Mob.kind) {
     case 0:
     case 1:
     case 3:
-        mob_loose();
+        MobLoose();
         if (Mob.velocity <= 0)
             ++Mob.velocity;
-        check_loose_crush();
+        CheckLooseCrush();
         break;
     case 2:
-        move_dart_mob();
+        MobDart();
         return;
     case 4:
         MobSpikes();
         return;
     case 6:
-        move_rock_record();
-        check_slide_rock_crush();
+        MobSlideRock();
+        CheckSlideRockCrush();
         return;
     case 10:
-        move_trapdoor_record();
+        MobTrapDoor();
         return;
     case 11:
-        step_bridge_mob();
+        MobBrgFloor();
         return;
     case 12:
-        move_fireball();
+        MobFireball();
         return;
     }
 }
 
-void mob_loose(void)
+void MobLoose(void)
 {
     byte kind;
 
@@ -1489,17 +1489,17 @@ void mob_loose(void)
         } else if ((Mob.row + 1) * 63 <= Mob.y) {
             kind = ReadCell(Mob.room, Mob.x / 32, Mob.row);
             if (kind == 11)
-                knock_loose();
+                KnockLoose();
             else if (kind == 15)
-                fall_spikes();
+                BreakTotalLoose();
 
-            if (kind != 11 && kind != 15 && !IS_SIX_KIND(kind)) {
+            if (kind != 11 && kind != 15 && !IsSpace(kind)) {
                 AddSound(2);
-                shake_row(Mob.room, Mob.row);
+                ShakeEm(Mob.room, Mob.row);
                 Mob.y = (Mob.row + 1) * 63;
                 Mob.velocity = -2;
                 mobs[MobI].flags = Mob.flags = 1;
-                make_rubble();
+                MakeRubble();
                 return;
             }
             PassThru();
@@ -1507,7 +1507,7 @@ void mob_loose(void)
     }
 }
 
-void make_rubble(void)
+void MakeRubble(void)
 {
     struct {
         int index;
@@ -1530,7 +1530,7 @@ void make_rubble(void)
         work.plate = (&Level.cell_kinds[0][0])[30 * work.room - 30 + work.cell] = 14;
     case 6:
     case 34:
-        push_plate(work.plate, -1);
+        PushPlate(work.plate, -1);
         if (work.kind == 34)
             Level.cell_info[work.room - 1][work.cell].modifier = Cell.modifier | 0x1800;
         ReadCell(Mob.room, Mob.x / 32, Mob.row);
@@ -1545,10 +1545,10 @@ void make_rubble(void)
     case 10:
     case 36:
         if (work.kind == 10) {
-            TROBREC *flask = get_trob_room_cell(Cell.room, Cell.index);
+            TROBREC *flask = GetTrobRoomCell(Cell.room, Cell.index);
             if (flask) {
                 Trob = *flask;
-                redraw_flask();
+                RedrawFlask();
             }
         }
     case 19:
@@ -1574,21 +1574,21 @@ void make_rubble(void)
     default:
         return;
     }
-    mark_mob_redraw(0);
+    MarkMobRedraw(0);
 }
 
-void knock_loose(void)
+void KnockLoose(void)
 {
-    make_space(Cell.room, Cell.index);
+    MakeSpace(Cell.room, Cell.index);
     Mob.velocity >>= 1;
     mobs[MobI] = Mob;
     Mob.y = Mob.row * 63 + 66;
-    mark_mob_redraw(0);
+    MarkMobRedraw(0);
     Mob.y = mobs[MobI].y + 6;
     PassThru();
-    add_mob();
+    AddMob();
     Mob = mobs[MobI];
-    mark_mob_redraw(0);
+    MarkMobRedraw(0);
 }
 
 void PassThru(void)
@@ -1610,24 +1610,24 @@ typedef struct {
 } OpponentPosition;
 #pragma pack()
 
-void add_mob_to_frame(void);
-void add_loose_to_frame(void);
-void compute_mob_rect(Rect *rect);
-void add_mob_obj(int y);
-int opp_under_mob(OpponentPosition *opp);
-int loose_hits_actor(void);
+void ATM(void);
+void ATMLoose(void);
+void ComputeMobRect(Rect *rect);
+void AddMobObj(int y);
+int OppInfoUnderMob(OpponentPosition *opp);
+int CharUnderMob(void);
 
-extern void animate_bridge_mob(void);
-extern void move_dart_to_tile(void);
+extern void ATMBrgFloor(void);
+extern void ATMDart(void);
 extern void ATMSpikes(void);
-extern void move_slide_rock(void);
-extern void move_trapdoor(void);
-extern void update_fireball_view(void);
+extern void ATMSlideRock(void);
+extern void ATMTrapDoor(void);
+extern void ATMFireball(void);
 extern Rect NullRect;
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern FCHARREC FChar;
 
-int is_loose_pushing_plate(void)
+int IsLoosePushingPlate(void)
 {
     byte kind = Level.environment_kind == 3 ? 1 : 3;
     int occurrence = 0;
@@ -1635,7 +1635,7 @@ int is_loose_pushing_plate(void)
     MOBREC *mob;
 
     do {
-        mob = get_mob_type_item(kind, ++occurrence);
+        mob = GetMobTypeItem(kind, ++occurrence);
         if (mob && mob->room == Cell.room && mob->row == Cell.row
                 && mob->x / 32 == Cell.column && mob->flags)
             pushing = 1;
@@ -1643,7 +1643,7 @@ int is_loose_pushing_plate(void)
     return pushing;
 }
 
-void add_mobs(void)
+void AddMobs(void)
 {
     int index = 0;
     MOBREC *entry;
@@ -1652,43 +1652,43 @@ void add_mobs(void)
         entry = mobs;
         do {
             Mob = *entry;
-            add_mob_to_frame();
+            ATM();
             *entry = Mob;
             ++entry;
         } while (++index < MobCt);
     }
 }
 
-void add_mob_to_frame(void)
+void ATM(void)
 {
     switch (Mob.kind) {
     case 0:
     case 1:
     case 3:
-        add_loose_to_frame();
+        ATMLoose();
         break;
     case 2:
-        move_dart_to_tile();
+        ATMDart();
         return;
     case 4:
         ATMSpikes();
         return;
     case 6:
-        move_slide_rock();
+        ATMSlideRock();
         return;
     case 10:
-        move_trapdoor();
+        ATMTrapDoor();
         return;
     case 11:
-        animate_bridge_mob();
+        ATMBrgFloor();
         return;
     case 12:
-        update_fireball_view();
+        ATMFireball();
         return;
     }
 }
 
-void add_loose_to_frame(void)
+void ATMLoose(void)
 {
     int visible = 1;
     int y = Mob.y;
@@ -1722,20 +1722,20 @@ void add_loose_to_frame(void)
 
     if (visible) {
         FChar.index = IndexCell1(column = Mob.x / 32, row = GetRow(y));
-        mark_mob_redraw(1);
-        compute_mob_rect(&rect);
-        add_mob_obj(y);
+        MarkMobRedraw(1);
+        ComputeMobRect(&rect);
+        AddMobObj(y);
         ++column;
-        cell = index_cell(column, row);
+        cell = IndexCell(column, row);
         if (Room.below != Mob.room)
-            mark_floor(cell, &rect);
+            MarkFloor(cell, &rect);
         cell = GetRow(y - height);
         if (cell != row)
-            mark_floor(index_cell(column, cell), &rect);
+            MarkFloor(IndexCell(column, cell), &rect);
     }
 }
 
-void compute_mob_rect(Rect *rect)
+void ComputeMobRect(Rect *rect)
 {
     int x, y;
 
@@ -1765,19 +1765,19 @@ void compute_mob_rect(Rect *rect)
     }
 }
 
-void mark_mob_redraw(sbyte layer)
+void MarkMobRedraw(sbyte layer)
 {
     Rect rect;
     CellMark mark;
 
-    compute_mob_rect(&rect);
+    ComputeMobRect(&rect);
     if (layer == 1)
-        mark = mark_foreground;
+        mark = MarkFRedraw;
     else if (layer == 2)
-        mark = mark_floor;
+        mark = MarkFloor;
     else
-        mark = mark_move;
-    mark_bufs_for_rect(mark, &rect, -1);
+        mark = MarkMove;
+    MarkBufsForRect(mark, &rect, -1);
 }
 
 #pragma pack(1)
@@ -1797,9 +1797,9 @@ typedef struct {
 
 extern int Ct[5];
 extern MobDraw ObjTable[];
-extern void set_object_cell(sbyte index);
+extern void SetObjCell(sbyte index);
 
-void add_mob_obj(int y)
+void AddMobObj(int y)
 {
     int index = Ct[4]++;
     int zero;
@@ -1809,33 +1809,33 @@ void add_mob_obj(int y)
     ObjTable[index].y = y;
     ObjTable[index].bank = 4;
     ObjTable[index].flags = Mob.flags;
-    compute_mob_rect(&ObjTable[index].rect);
+    ComputeMobRect(&ObjTable[index].rect);
     zero = 0;
     ObjTable[index].sequence = zero;
     ObjTable[index].scratch = zero;
     ObjTable[index].order = -1;
-    set_object_cell(index);
+    SetObjCell(index);
 }
 
-extern void crush_actor(void);
-extern void load_actor_slot(sbyte index);
-extern void save_actor_slot(void);
+extern void CrushChar(void);
+extern void LoadShad(sbyte index);
+extern void SaveShad(void);
 extern OpponentPosition *GetOppInfoIdx(int room, int index);
 extern void CrushOppInfo(OpponentPosition *, byte);
 extern signed char Plus1[2];
 extern signed char Minus1[2];
-extern int get_edge_distance(void);
+extern int GetDist(void);
 
-void check_loose_crush(void)
+void CheckLooseCrush(void)
 {
     sbyte index;
     sbyte count;
 
     if (!Mob.room)
         return;
-    copy_kid_to_char();
-    if (loose_hits_actor()) {
-        crush_actor();
+    LoadKid();
+    if (CharUnderMob()) {
+        CrushChar();
         Kid = Char;
     }
 
@@ -1843,20 +1843,20 @@ void check_loose_crush(void)
     count = Level.room_objects[Mob.room - 1].opponent_count;
     for (; index < count; ++index) {
         if (Mob.room == Kid.room) {
-            load_actor_slot(index);
-            if (loose_hits_actor()) {
-                crush_actor();
-                save_actor_slot();
+            LoadShad(index);
+            if (CharUnderMob()) {
+                CrushChar();
+                SaveShad();
             }
         } else {
             OpponentPosition *guard = GetOppInfoIdx(Mob.room, index);
-            if (opp_under_mob(guard))
+            if (OppInfoUnderMob(guard))
                 CrushOppInfo(guard, Mob.room);
         }
     }
 }
 
-int loose_hits_actor(void)
+int CharUnderMob(void)
 {
     int hit = 0;
     int y;
@@ -1874,7 +1874,7 @@ int loose_hits_actor(void)
         column = Mob.x / 32;
         hit = column == Char.column;
         if (!hit && Char.character_kind == 11) {
-            int reach = get_edge_distance();
+            int reach = GetDist();
             int edge;
 
             edge = Char.column + Minus1[Char.direction + 1];
@@ -1888,7 +1888,7 @@ int loose_hits_actor(void)
     return hit;
 }
 
-int opp_under_mob(OpponentPosition *opp)
+int OppInfoUnderMob(OpponentPosition *opp)
 {
     int result = 0;
     int height = (signed char)(opp->cell / 10) * 63 + 56;
@@ -1904,17 +1904,17 @@ int opp_under_mob(OpponentPosition *opp)
     return result;
 }
 
-void add_gate_sound(int sound)
+void AddGateSound(int sound)
 {
     AddSound(sound);
     if (sound == 9 && Level.level_number == 5 && Trob.room == 7
-            && !query_sound(10065)) {
+            && !SndOn(10065)) {
         if (Level.level_number != 5 || Kid.room != 7 || Kid.column >= 3)
             AddSong(65);
     }
 }
 
-TROBREC *get_trob_room_cell(byte room, int cell)
+TROBREC *GetTrobRoomCell(byte room, int cell)
 {
     TROBREC *result = 0;
     int i;
@@ -1926,7 +1926,7 @@ TROBREC *get_trob_room_cell(byte room, int cell)
     return result;
 }
 
-TROBREC *get_trob_by_id(byte kind, sbyte id)
+TROBREC *GetTrobId(byte kind, sbyte id)
 {
     sbyte found = 0;
     TROBREC *result = 0;
@@ -1939,7 +1939,7 @@ TROBREC *get_trob_by_id(byte kind, sbyte id)
     return result;
 }
 
-int is_visible_room_cell(byte room, sbyte cell)
+int IsVisibleRoomCell(byte room, sbyte cell)
 {
     int visible;
 

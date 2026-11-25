@@ -65,7 +65,7 @@ extern LEVELREC Level;
 char RowNo;
 char ColNo;
 
-extern void clear_peels(void);
+extern void ZeroPeels(void);
 extern void init_fchar_rect(void);
 extern void ZeroBuffers(void);
 extern void select_room_arrays(RoomNumber room);
@@ -75,22 +75,22 @@ extern void GetAboveAry(void);
 extern void GetBelowAry(void);
 extern void SetLocVars(void);
 extern void GetCustomAboveAry(void);
-extern void redraw_room_sure(void);
-extern void redraw_cell_sure(void);
+extern void Sure(void);
+extern void RedrawCellSure(void);
 
 void * cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
-void full_redraw(void)
+void DoSure(void)
 {
-    clear_peels();
+    ZeroPeels();
     memset(Ct, 0, sizeof Ct);
     init_fchar_rect();
-    redraw_room_sure();
+    Sure();
     ZeroBuffers();
 }
 
-void get_rooms(void)
+void GetRooms(void)
 {
     Room.above_left = Room.above_right = Room.below_left = Room.below_right = 0;
     if (Room.number) {
@@ -124,7 +124,7 @@ void get_rooms(void)
     }
 }
 
-void redraw_room_sure(void)
+void Sure(void)
 {
     int saved_room;
 
@@ -136,13 +136,13 @@ void redraw_room_sure(void)
         ColNo = 0;
         do {
             SetLocVars();
-            redraw_cell_sure();
+            RedrawCellSure();
         } while (++ColNo < 10);
     }
     if (Room.custom == 0) {
         saved_room = Room.number;
         Room.number = Room.above;
-        get_rooms();
+        GetRooms();
         Room.below = (RoomNumber)saved_room;
         SetSideRoomInfo();
         RowNo = 2;
@@ -152,24 +152,24 @@ void redraw_room_sure(void)
         ColNo = 0;
         do {
             SetLocVars();
-            redraw_cell_sure();
+            RedrawCellSure();
         } while (++ColNo < 10);
         Room.number = (RoomNumber)saved_room;
-        get_rooms();
+        GetRooms();
     } else {
         GetCustomAboveAry();
     }
 }
 
-extern void draw_back_image(unsigned char pass);
-extern void draw_fore_image(void);
+extern void DrawBackImg(unsigned char pass);
+extern void DrawForeImg(void);
 
-void redraw_cell_sure(void)
+void RedrawCellSure(void)
 {
-    draw_back_image(0);
-    draw_back_image(5);
-    draw_back_image(11);
-    draw_fore_image();
+    DrawBackImg(0);
+    DrawBackImg(5);
+    DrawBackImg(11);
+    DrawForeImg();
 }
 
 /* The following definitions are drafts. Several later same-file callees still need bodies. */
@@ -192,58 +192,58 @@ extern int SECTRECT(DrawRect far *out, const DrawRect far *a,
                           const DrawRect far *b);
 extern void UnionRect(DrawRect far *out, const DrawRect far *a,
                        const DrawRect far *b);
-extern int compute_half_rect(DrawRect *area);
-extern void draw_half_cell(void);
-extern void draw_floor_buffer(void);
-extern void draw_cell_objects(char column);
+extern int ComputeHalfRect(DrawRect *area);
+extern void DrawHalf(void);
+extern void DrawFloorBuf(void);
+extern void DrawObjs(char column);
 
 #define DIRTY_CELL(table, byte_offset) \
     (*(DirtyCell *)((char *)(table) + (byte_offset)))
 #define WORD_FLAG(table, byte_offset) \
     (*(int *)((char *)(table) + (byte_offset)))
 
-void redraw_cell_fast(char column)
+void RedrawCellFast(char column)
 {
     DrawRect old_clip;
 
     if (RedrawBuf[column]) {
         RedrawBuf[column] = 0;
-        redraw_cell_sure();
+        RedrawCellSure();
     } else if (MoveBuf[column].pending) {
         MoveBuf[column].pending = 0;
         old_clip = CellClipRect;
         if (SECTRECT(&CellClipRect, &CellClipRect, &MoveBuf[column].area)) {
-            draw_back_image(0);
-            draw_back_image(5);
-            draw_back_image(11);
-            draw_fore_image();
+            DrawBackImg(0);
+            DrawBackImg(5);
+            DrawBackImg(11);
+            DrawForeImg();
         }
         CellClipRect = old_clip;
     }
     if (FloorBuf[column].pending) {
         FloorBuf[column].pending = 0;
-        if (HalfBuf[column] && compute_half_rect(&old_clip))
+        if (HalfBuf[column] && ComputeHalfRect(&old_clip))
             UnionRect(&FloorBuf[column].area, &FloorBuf[column].area, &old_clip);
         old_clip = CellClipRect;
         if (SECTRECT(&CellClipRect, &CellClipRect, &FloorBuf[column].area))
-            draw_floor_buffer();
+            DrawFloorBuf();
         CellClipRect = old_clip;
     } else if (HalfBuf[column]) {
         HalfBuf[column] = 0;
-        draw_half_cell();
+        DrawHalf();
     }
     if (ObjBuf[column]) {
-        draw_cell_objects(column);
+        DrawObjs(column);
         ObjBuf[column] = 0;
     }
     if (FRedrawBuf[column].pending) {
         FRedrawBuf[column].pending = 0;
         if (SECTRECT(&CellClipRect, &CellClipRect, &FRedrawBuf[column].area))
-            draw_fore_image();
+            DrawForeImg();
     }
 }
 
-void redraw_top_fast(char column)
+void RedrawTopFast(char column)
 {
     char old_row;
     DrawRect old_clip;
@@ -254,10 +254,10 @@ void redraw_top_fast(char column)
         old_clip = CellClipRect;
         CellClipRect = TopBuf[column].area;
         RowNo = -1;
-        draw_back_image(0);
-        draw_back_image(5);
-        draw_back_image(11);
-        draw_fore_image();
+        DrawBackImg(0);
+        DrawBackImg(5);
+        DrawBackImg(11);
+        DrawForeImg();
         RowNo = old_row;
         CellClipRect = old_clip;
     }
@@ -316,7 +316,7 @@ typedef struct LooseItemDrawer {
 } LooseItemDrawer;
 LooseItemDrawer *DrawFunc;
 TileDrawer DrawGateMoveFunc;
-extern RoomImages *custom_room;
+extern RoomImages *CustomRoom;
 TileInfo BlueSpec;
 signed char ObjId;
 Tile CellLeft, CellRight, ScrRight[3], ScrLeft[3];
@@ -327,24 +327,24 @@ extern DrawEntry far BackTable[];
 extern DrawEntry far ForeTable[];
 
 extern int far pascal IsWall(char kind);
-extern unsigned char back_image_start_pass(void);
-extern void draw_custom_room_images(char);
-extern void far _fastcall draw_custom_room_image(char, char);
-extern void check_foreground_gate(void);
+extern unsigned char GetBackImgStartPass(void);
+extern void DrawCustomRoomImgs(char);
+extern void far _fastcall DrawCustomRoomImg(char, char);
+extern void CheckGateInFore(void);
 extern int NeedDrawRoomBelowCustom(void);
-extern void load_tower_top(void);
-extern int far _fastcall keep_image_in_back(RoomImage *image);
-extern int draw_pillar_in_back(RoomImage *image);
-extern void draw_horse(unsigned int sheet, unsigned int shape, char pass);
-extern unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *sheet);
+extern void LoadTowerTop(void);
+extern int far _fastcall DrawRoofLedgeInBack(RoomImage *image);
+extern int DrawPillarInBack(RoomImage *image);
+extern void DrawHorse(unsigned int sheet, unsigned int shape, char pass);
+extern unsigned int far _fastcall GetHorsePtInPlane(RoomNumber room, char pass, unsigned int *sheet);
 
 extern char PieceAboveRightId(RoomNumber room, unsigned char piece);
-void draw_back_image(unsigned char pass)
+void DrawBackImg(unsigned char pass)
 {
     unsigned char layer;
     struct { unsigned long address; TileDrawArgs args; } draw;
 
-    layer = back_image_start_pass();
+    layer = GetBackImgStartPass();
     if (NewRoom)
         CellClipRect = GamePlayRect;
     draw.args.pass = pass;
@@ -379,7 +379,7 @@ void draw_back_image(unsigned char pass)
             draw.args.info = CellLeft.info;
             break;
         case 3:
-            draw_custom_room_images(pass);
+            DrawCustomRoomImgs(pass);
             draw.args.column = ColNo;
             draw.args.row = RowNo;
             draw.args.kind = ObjId;
@@ -387,7 +387,7 @@ void draw_back_image(unsigned char pass)
             break;
         }
         priority = (draw.args.info.modifier >> 14) & 3;
-        if (!custom_room || priority == 0 || pass == priority || (priority == 2 && pass == 5)) {
+        if (!CustomRoom || priority == 0 || pass == priority || (priority == 2 && pass == 5)) {
             draw.address = (unsigned long)((TileDrawer *)DrawFunc)[draw.args.kind];
             if (draw.address)
                 ((TileDrawer)draw.address)(&draw.args);
@@ -395,7 +395,7 @@ void draw_back_image(unsigned char pass)
     } while (++layer < 4);
 }
 
-unsigned char back_image_start_pass(void)
+unsigned char GetBackImgStartPass(void)
 {
     unsigned char pass;
     int custom_edge;
@@ -407,14 +407,14 @@ unsigned char back_image_start_pass(void)
     if (custom_edge)
         pass = 3;
     else if ((NewRoom && ColNo == 0 && RowNo != 2) ||
-             (custom_room && RowNo == 2 && !NeedDrawRoomBelowCustom()))
+             (CustomRoom && RowNo == 2 && !NeedDrawRoomBelowCustom()))
         pass = 2;
     else
         pass = 0;
     return pass;
 }
 
-void draw_custom_room_images(char pass)
+void DrawCustomRoomImgs(char pass)
 {
     signed char image;
     unsigned int sheet;
@@ -424,39 +424,39 @@ void draw_custom_room_images(char pass)
         ColNo == 0 && RowNo == 2) {
         draw_images = 1;
         if (Room.number == 1 && ((unsigned char)Level.level_number) == 14)
-            load_tower_top();
-    } else if ((pass == 0 && !NewRoom && custom_room &&
-                custom_room->background_shape) ||
+            LoadTowerTop();
+    } else if ((pass == 0 && !NewRoom && CustomRoom &&
+                CustomRoom->background_shape) ||
                ((pass == 1 || pass == 2) &&
                 ((ColNo == 9 && RowNo == 0) || !NewRoom))) {
         draw_images = 1;
     }
     if (draw_images) {
-        if (custom_room) {
+        if (CustomRoom) {
             image = 0;
-            if (custom_room->count > 0) {
+            if (CustomRoom->count > 0) {
                 do {
-                    draw_custom_room_image(image, pass);
+                    DrawCustomRoomImg(image, pass);
                     ++image;
-                } while (custom_room->count > image);
+                } while (CustomRoom->count > image);
             }
         }
         if ((NewRoom && pass == 0) || pass == 1) {
-            draw_images = horse_room_image(Room.number, pass, &sheet);
+            draw_images = GetHorsePtInPlane(Room.number, pass, &sheet);
             if (draw_images)
-                draw_horse(sheet, draw_images, pass);
+                DrawHorse(sheet, draw_images, pass);
         }
     }
 }
 
 
-void far _fastcall draw_custom_room_image(char index, char pass)
+void far _fastcall DrawCustomRoomImg(char index, char pass)
 {
     RoomImage *image;
     DrawRect clip;
     DrawEntry far *entry;
 
-    image = &custom_room->images[index];
+    image = &CustomRoom->images[index];
     if (image->shape == -1 || image->pass != pass ||
         !SECTRECT(&clip, &image->clip, &CellClipRect))
         return;
@@ -464,8 +464,8 @@ void far _fastcall draw_custom_room_image(char index, char pass)
         entry = &ForeTable[Ct[1]++];
         if (Level.environment_kind == 5 &&
             ((Level.environment_kind == 5 && Room.number != 19 && Room.number != 16 &&
-              Room.number != 15 && keep_image_in_back(image)) ||
-             ((Room.number == 19 || Room.number == 16) && draw_pillar_in_back(image)))) {
+              Room.number != 15 && DrawRoofLedgeInBack(image)) ||
+             ((Room.number == 19 || Room.number == 16) && DrawPillarInBack(image)))) {
             entry = &BackTable[Ct[0]++];
             --Ct[1];
         }
@@ -485,13 +485,13 @@ void far _fastcall draw_custom_room_image(char index, char pass)
     entry->sheet = image->sheet;
 }
 
-void draw_fore_image(void)
+void DrawForeImg(void)
 {
     unsigned char layer, priority;
     int skip_left;
     struct { unsigned long address; TileDrawArgs args; } draw;
 
-    check_foreground_gate();
+    CheckGateInFore();
     if (NewRoom && ColNo)
         skip_left = 1;
     else
@@ -522,13 +522,13 @@ void draw_fore_image(void)
             break;
         }
         priority = (draw.args.info.modifier >> 14) & 3;
-        if (!custom_room || !priority || priority == 1 || priority == 2) {
+        if (!CustomRoom || !priority || priority == 1 || priority == 2) {
             draw.address = (unsigned long)((TileDrawer *)DrawFunc)[draw.args.kind];
             if (draw.address)
                 ((TileDrawer)draw.address)(&draw.args);
         }
     } while (++layer < 3 && (layer < 2 || RowNo != -1));
-    draw_custom_room_images(1);
+    DrawCustomRoomImgs(1);
 }
 
 #pragma pack(1)
@@ -579,12 +579,12 @@ extern signed char OrigLifePts;
 extern CHARREC Kid;
 extern CHARREC Char;
 extern void DrawCaveGateSquishing(TileDrawArgs *args);
-extern void copy_kid_to_char(void);
-extern void load_actor_slot(char index);
-extern GateImage *get_gate_image(char type, unsigned char index);
+extern void LoadKid(void);
+extern void LoadShad(char index);
+extern GateImage *GetObjTableType(char type, unsigned char index);
 extern int EMPTYRECT(DrawRect far *rect);
 
-void check_foreground_gate(void)
+void CheckGateInFore(void)
 {
     signed char count, index;
     int found;
@@ -611,22 +611,22 @@ void check_foreground_gate(void)
     if (CellLeft.kind != 4)
         return;
     saved_clip = CellClipRect;
-    copy_kid_to_char();
+    LoadKid();
     found = CellLeft.kind == 4 && Char.row == RowNo &&
             (Char.column - ColNo == -1 || ColNo - Char.column == 2) &&
             Char.action != 2 && Char.action != 6;
     if (!found) {
         count = Level.room_objects[Room.number - 1].opponent_count;
         for (index = 0; !found && index < count; ++index) {
-            load_actor_slot(index);
+            LoadShad(index);
             found = CellLeft.kind == 4 && Char.row == RowNo &&
                     (Char.column - ColNo == -1 || ColNo - Char.column == 2) &&
                     Char.action != 2 && Char.action != 6;
         }
         if (found)
-            image = get_gate_image(3, (unsigned char)Char.character_kind);
+            image = GetObjTableType(3, (unsigned char)Char.character_kind);
     } else
-        image = get_gate_image(2, 0);
+        image = GetObjTableType(2, 0);
     if (found) {
         args.pass = 2;
         args.column = ColNo - 1;
@@ -645,15 +645,15 @@ void check_foreground_gate(void)
 }
 
 extern void SaveCustomRoomPeels(void);
-extern void draw_back_fore_item(unsigned char pass, unsigned char entry);
-extern void draw_middle_item(int entry);
+extern void DrawBFItem(unsigned char pass, unsigned char entry);
+extern void DrawMidItem(int entry);
 
-void dump_draw_table(unsigned char pass)
+void DumpTable(unsigned char pass)
 {
     unsigned char index, count;
     int prepared;
 
-    if (!NewRoom || !custom_room)
+    if (!NewRoom || !CustomRoom)
         prepared = 1;
     else
         prepared = 0;
@@ -662,13 +662,13 @@ void dump_draw_table(unsigned char pass)
     if (count) {
         do {
             if (pass == 3) {
-                draw_middle_item(index);
+                DrawMidItem(index);
             } else {
                 if (!prepared && BackTable[index].sheet) {
                     SaveCustomRoomPeels();
                     prepared = 1;
                 }
-                draw_back_fore_item(pass, index);
+                DrawBFItem(pass, index);
             }
         } while (++index < count);
     }
@@ -703,30 +703,30 @@ typedef struct MiddleEntry {
 
 ShapeTable *Pics[5];
 extern MiddleEntry far MidTable[];
-extern ShapeBitmap far *resolve_handle_to_far_payload(unsigned int handle);
-extern ShapeBitmap far *fetch_locked_shape_list(unsigned int handle);
-extern unsigned int save_handle_flags(unsigned int handle);
-extern void restore_handle_flags(unsigned int handle, unsigned int mark);
-extern void get_set_shape_item(ShapeTable *table, int image, ShapeRef far *reference);
+extern ShapeBitmap far *h2p(unsigned int handle);
+extern ShapeBitmap far *hLock(unsigned int handle);
+extern unsigned int hGetState(unsigned int handle);
+extern void hSetState(unsigned int handle, unsigned int mark);
+extern void GetSetShapeItem(ShapeTable *table, int image, ShapeRef far *reference);
 extern void FreeShpInfo(ShapeRef far *reference);
 extern void AddCustomPiecePeel(RoomImage *image, DrawRect far *rect);
 extern ShapeBitmap far *GetCustomPieceShape(RoomImage *image);
 extern ShapeBitmap far *far _fastcall GetCustomPieceShpInfo(int image, ShapeRef *ref);
-extern ShapeBitmap far *far _fastcall get_carpet_shape_info(int index, ShapeRef *ref);
-extern ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref);
-extern void save_under_carpet(void);
-extern void set_shape_variant(int variant);
-extern unsigned int mark_purgeable(unsigned int handle);
-extern void MIRRORMCGABLOCK(unsigned char far *data, int width, int stride);
-extern void MIRRORRLEBLOCK(unsigned char far *data, int width, int stride);
-extern void MIRROR4BITBLOCK(unsigned char far *data, int width, int height, int stride);
-extern void push_port_clip(DrawRect far *rect);
-extern void pop_port_clip(void);
-extern void far _fastcall add_peel(int x, int height, int y, int width, char mode, char flags);
-extern void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
+extern ShapeBitmap far *far _fastcall GetCarpetShpInfo(int index, ShapeRef *ref);
+extern ShapeBitmap far *far _fastcall GetHorseShpInfo(int id, ShapeRef *ref);
+extern void SaveUnderCarpet(void);
+extern void TweakKidShpList(int variant);
+extern unsigned int hPurge(unsigned int handle);
+extern void MirrorMCGABlock(unsigned char far *data, int width, int stride);
+extern void MirrorRLEBlock(unsigned char far *data, int width, int stride);
+extern void Mirror4BitBlock(unsigned char far *data, int width, int height, int stride);
+extern void ClipRect(DrawRect far *rect);
+extern void ClipRestore(void);
+extern void far _fastcall AddPeel(int x, int height, int y, int width, char mode, char flags);
+extern void DrawIt(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
                         int flip, int mode, unsigned int flags);
 
-void draw_back_fore_item(unsigned char pass, unsigned char index)
+void DrawBFItem(unsigned char pass, unsigned char index)
 {
     DrawEntry far *entry;
     ShapeBitmap far *image;
@@ -751,26 +751,26 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
             mode = 3;
             flags = 0x8000;
         }
-        get_set_shape_item(Pics[entry->type], entry->shape, &ref);
-        image = resolve_handle_to_far_payload(ref.handle);
+        GetSetShapeItem(Pics[entry->type], entry->shape, &ref);
+        image = h2p(ref.handle);
         if (!image)
             return;
     } else {
-        if (!custom_room && (entry->shape < 0x6370 || entry->shape > 0x6372))
+        if (!CustomRoom && (entry->shape < 0x6370 || entry->shape > 0x6372))
             return;
-        if (custom_room) {
-            custom = &custom_room->images[entry->shape - custom_room->first_shape];
+        if (CustomRoom) {
+            custom = &CustomRoom->images[entry->shape - CustomRoom->first_shape];
             if (custom->sheet == 1)
                 AddCustomPiecePeel(custom, &entry->clip);
         }
         if (entry->shape >= 0x6370 && entry->shape <= 0x6372) {
-            image = load_horse_shape(entry->shape, &ref);
+            image = GetHorseShpInfo(entry->shape, &ref);
             entry->shape = 0;
         } else if (entry->shape >= 0x62d7 && entry->shape <= 0x62e2) {
-            save_under_carpet();
-            image = get_carpet_shape_info(entry->shape - 0x62d7, &ref);
+            SaveUnderCarpet();
+            image = GetCarpetShpInfo(entry->shape - 0x62d7, &ref);
             ref.palette = entry->attributes;
-        } else if (custom_room) {
+        } else if (CustomRoom) {
             image = GetCustomPieceShape(custom);
             ref.palette = entry->attributes;
         }
@@ -778,11 +778,11 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
     }
     if (entry->attributes != ref.palette) {
         if (ref.separate_mask)
-            MIRRORMCGABLOCK(image->data, image->width, image->stride);
+            MirrorMCGABlock(image->data, image->width, image->stride);
         else if (ref.kind == 2)
-            MIRROR4BITBLOCK(image->data, image->width, image->height, image->stride);
+            Mirror4BitBlock(image->data, image->width, image->height, image->stride);
         else if (ref.kind == 1)
-            MIRRORRLEBLOCK(image->data, image->width, image->stride);
+            MirrorRLEBlock(image->data, image->width, image->stride);
         if (entry->shape < 0x6370 || entry->shape > 0x6372)
             ((unsigned char *)Pics[entry->type])[6 * entry->shape + 3] = entry->attributes;
     }
@@ -792,16 +792,16 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
     } else {
         mask = 0;
     }
-    push_port_clip(&entry->clip);
-    draw_bitmap(image, mask, entry->x, entry->y, entry->flip, mode, flags);
-    pop_port_clip();
+    ClipRect(&entry->clip);
+    DrawIt(image, mask, entry->x, entry->y, entry->flip, mode, flags);
+    ClipRestore();
     if (Pics[entry->type]->count > entry->shape)
         FreeShpInfo(&ref);
     else if (custom && custom->pass == 0 && custom->attributes == 0)
-        mark_purgeable(custom->upper);
+        hPurge(custom->upper);
 }
 
-void draw_middle_item(int index)
+void DrawMidItem(int index)
 {
     ShapeRef ref;
     ShapeBitmap far *image;
@@ -812,20 +812,20 @@ void draw_middle_item(int index)
 
     type = MidTable[index].type;
     if (MidTable[index].shape >= 0x62d7 && MidTable[index].shape <= 0x62e2) {
-        get_carpet_shape_info(MidTable[index].shape - 0x62d7, &ref);
+        GetCarpetShpInfo(MidTable[index].shape - 0x62d7, &ref);
     } else if (((unsigned char)Level.level_number) == 5 && Room.number == 10 && type == 4 &&
-               MidTable[index].shape < custom_room->count) {
+               MidTable[index].shape < CustomRoom->count) {
         GetCustomPieceShpInfo(MidTable[index].shape, &ref);
     } else {
         if (type == 2 && MidTable[index].mode)
-            set_shape_variant(MidTable[index].mode);
-        get_set_shape_item(Pics[type], MidTable[index].shape + 1, &ref);
+            TweakKidShpList(MidTable[index].mode);
+        GetSetShapeItem(Pics[type], MidTable[index].shape + 1, &ref);
         if (type == 2 && MidTable[index].mode)
-            set_shape_variant(2);
+            TweakKidShpList(2);
     }
     flip = MidTable[index].attributes;
-    mark = save_handle_flags(ref.handle);
-    image = fetch_locked_shape_list(ref.handle);
+    mark = hGetState(ref.handle);
+    image = hLock(ref.handle);
     x = MidTable[index].x;
     if (MidTable[index].palette)
         x -= image->height;
@@ -846,11 +846,11 @@ void draw_middle_item(int index)
     }
     if (MidTable[index].palette != ref.palette) {
         if (mode == 1)
-            MIRRORMCGABLOCK(image->data, image->width, image->stride);
+            MirrorMCGABlock(image->data, image->width, image->stride);
         else if (mode == 2)
-            MIRRORRLEBLOCK(image->data, image->width, image->stride);
+            MirrorRLEBlock(image->data, image->width, image->stride);
         else
-            MIRROR4BITBLOCK(image->data, image->width, image->height, image->stride);
+            Mirror4BitBlock(image->data, image->width, image->height, image->stride);
         ((unsigned char *)Pics[type])[6 * MidTable[index].shape + 9] =
             MidTable[index].palette;
     }
@@ -860,11 +860,11 @@ void draw_middle_item(int index)
     peel.width = MidTable[index].clip.bottom - MidTable[index].y;
     if (peel.width > image->width)
         peel.width = image->width;
-    add_peel(x, peel.height, MidTable[index].y, peel.width, MidTable[index].update_peel, 0);
-    push_port_clip(&MidTable[index].clip);
-    draw_bitmap(image, 0, x, MidTable[index].y, flip, mode, flags);
-    pop_port_clip();
-    restore_handle_flags(ref.handle, mark);
+    AddPeel(x, peel.height, MidTable[index].y, peel.width, MidTable[index].update_peel, 0);
+    ClipRect(&MidTable[index].clip);
+    DrawIt(image, 0, x, MidTable[index].y, flip, mode, flags);
+    ClipRestore();
+    hSetState(ref.handle, mark);
     FreeShpInfo(&ref);
 }
 
@@ -896,24 +896,24 @@ static const int horse_level9_origin[] = {22, 159};
 static const int horse_level10_origin[] = {102, 119};
 int horse_level14_origin[] = {37, 112};
 
-extern void far pascal draw_temple_gate_movable(void near *cell);
+extern void far pascal DrawTempGateMovable(void near *cell);
 extern void far pascal DrawCaveGateMovable(void near *cell);
-extern void far pascal draw_ruin_gate_movable(void near *cell);
+extern void far pascal DrawRuinGateMovable(void near *cell);
 
 typedef void (far pascal *LevelTileProc)(void near *);
-extern LevelTileProc desert_level_spec[], drawtemp_level_spec[];
-extern LevelTileProc drawcave_level_spec[], drawruin_level_spec[];
-extern LevelTileProc rooftops_level_spec[], final_level_spec[];
+extern LevelTileProc DrawDsrtFunc[], DrawTempFunc[];
+extern LevelTileProc DrawCaveFunc[], DrawRuinFunc[];
+extern LevelTileProc DrawRoofFunc[], DrawFinlFunc[];
 
-int near *level_start_table[] = {
-    0, (int near *)desert_level_spec, (int near *)drawtemp_level_spec,
-    (int near *)drawcave_level_spec, (int near *)drawruin_level_spec,
-    (int near *)rooftops_level_spec, (int near *)final_level_spec
+int near *LevelDrawFuncs[] = {
+    0, (int near *)DrawDsrtFunc, (int near *)DrawTempFunc,
+    (int near *)DrawCaveFunc, (int near *)DrawRuinFunc,
+    (int near *)DrawRoofFunc, (int near *)DrawFinlFunc
 };
 
-void far *level_sequence_table[] = {
-    0, 0, (void far *)draw_temple_gate_movable, (void far *)DrawCaveGateMovable,
-    (void far *)draw_ruin_gate_movable, 0, 0
+void far *LevelDrawGateMoveFuncs[] = {
+    0, 0, (void far *)DrawTempGateMovable, (void far *)DrawCaveGateMovable,
+    (void far *)DrawRuinGateMovable, 0, 0
 };
 
 static struct {
@@ -925,13 +925,13 @@ static struct {
 };
 extern int cdecl sprintf(char *out, const char *fmt, ...);
 extern void abort_with_message(int severity, const char far *message);
-extern void paint_plain(ShapeBitmap far *image, int x, int y, int flip);
+extern void PaintShape(ShapeBitmap far *image, int x, int y, int flip);
 extern void paint_indexed_shape(ShapeBitmap far *image, int x, int y, int flip, unsigned int flags);
-extern void PAINTRLESHAPE_ASM(ShapeBitmap far *image, int x, int y, int flip);
-extern void paint_four_bit(ShapeBitmap far *mask, int x, int y, int color, int flip);
-extern void add_dirty_rectangle(DrawRect *rect);
+extern void PaintRLEShape_asm(ShapeBitmap far *image, int x, int y, int flip);
+extern void Paint4BitShape(ShapeBitmap far *mask, int x, int y, int color, int flip);
+extern void AddDRect(DrawRect *rect);
 
-void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
+void DrawIt(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
                  int flip, int mode, unsigned int flags)
 {
     typedef struct BitmapSize {
@@ -950,7 +950,7 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
         case 0:
         case 10:
             if (mode == 2) {
-                PAINTRLESHAPE_ASM(image, x, y, flip);
+                PaintRLEShape_asm(image, x, y, flip);
                 break;
             }
             if (mode == 3) {
@@ -960,12 +960,12 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
         case 2:
         case 3:
         case 8:
-            paint_plain(image, x, y, flip);
+            PaintShape(image, x, y, flip);
             break;
         }
         size = *(BitmapSize far *)image;
     } else {
-        paint_four_bit(mask, x, y, 0, flip);
+        Paint4BitShape(mask, x, y, 0, flip);
         size = *(BitmapSize far *)mask;
     }
     if (!NewRoom) {
@@ -974,43 +974,43 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
         area.bottom = area.top = y;
         area.bottom += size.width;
         if (SECTRECT(&area, &area, &Graf->clip))
-            add_dirty_rectangle(&area);
+            AddDRect(&area);
     }
 }
 
-extern void add_mobs(void);
-extern void add_characters(void);
-extern void mark_peel_front_buffers(void);
-extern void redraw_room_fast(void);
+extern void AddMobs(void);
+extern void AddChars(void);
+extern void MarkPeelForeBufs(void);
+extern void Fast(void);
 extern signed char FirstInRow(signed char row);
 
-void full_redraw_fast(void)
+void DoFast(void)
 {
-    add_mobs();
-    add_characters();
-    mark_peel_front_buffers();
-    redraw_room_fast();
+    AddMobs();
+    AddChars();
+    MarkPeelForeBufs();
+    Fast();
 }
 
-void redraw_room_fast(void)
+void Fast(void)
 {
     RoomNumber saved_room;
 
     SetSideRoomInfo();
-    draw_cell_objects(30);
+    DrawObjs(30);
     RowNo = 3;
     while (RowNo--) {
         GetAboveAry();
         GetBelowAry();
         for (ColNo = 0; ColNo < 10; ++ColNo) {
             SetLocVars();
-            redraw_cell_fast((signed char)(FirstInRow(RowNo) + ColNo));
+            RedrawCellFast((signed char)(FirstInRow(RowNo) + ColNo));
         }
     }
     if (!Room.custom) {
         saved_room = Room.number;
         Room.number = Room.above;
-        get_rooms();
+        GetRooms();
         SetSideRoomInfo();
         RowNo = 2;
         GetAboveAry();
@@ -1018,46 +1018,46 @@ void redraw_room_fast(void)
         ColNo = 0;
         do {
             SetLocVars();
-            redraw_top_fast(ColNo);
+            RedrawTopFast(ColNo);
         } while (++ColNo < 10);
         Room.number = saved_room;
-        get_rooms();
+        GetRooms();
     } else {
         GetCustomAboveAry();
     }
-    draw_cell_objects(-1);
+    DrawObjs(-1);
 }
 
 extern DrawDestination *BPort;
 extern DrawDestination ScreenPort;
 extern int BlackOut;
 static DrawRect dirty_rectangles[40];
-extern void SET_RECORD_RANGE(DrawRect far *area, int style);
-extern void sort_back_table(void);
-extern void sort_fore_table(void);
-extern void restore_peels(void);
+extern void FillRect(DrawRect far *area, int style);
+extern void SortBackTable(void);
+extern void SortForeTable(void);
+extern void Peel(void);
 extern DrawRect far *INSETRECT(DrawRect far *out, const DrawRect far *area, int x, int y);
 extern void show_message(const char far *message, int severity);
 
-void draw_all(void)
+void DrawAll(void)
 {
     dirty_rectangle_count = 0;
     Graf = BPort;
     if (BlackOut)
-        SET_RECORD_RANGE(&GamePlayRect, 12);
+        FillRect(&GamePlayRect, 12);
     if (Level.environment_kind == 4 || Level.environment_kind == 2 || Level.environment_kind == 5)
-        sort_back_table();
+        SortBackTable();
     if ((Room.number == 1 && ((unsigned char)Level.level_number) == 14) ||
         (Room.number == 22 && ((unsigned char)Level.level_number) == 10))
-        sort_fore_table();
-    restore_peels();
-    dump_draw_table(0);
-    dump_draw_table(3);
-    dump_draw_table(1);
+        SortForeTable();
+    Peel();
+    DumpTable(0);
+    DumpTable(3);
+    DumpTable(1);
     Graf = &ScreenPort;
 }
 
-void add_dirty_rectangle(DrawRect *rect)
+void AddDRect(DrawRect *rect)
 {
     DrawRect expanded;
     int index;
@@ -1075,11 +1075,11 @@ void add_dirty_rectangle(DrawRect *rect)
         dirty_rectangles[dirty_rectangle_count++] = *rect;
 }
 
-extern int compute_slide_rock_rect(DrawRect *area, RoomNumber room, signed char row);
-extern void mark_foreground(signed char cell, DrawRect *area);
+extern int ComputeSlideRockRect(DrawRect *area, RoomNumber room, signed char row);
+extern void MarkFRedraw(signed char cell, DrawRect *area);
 
 
-void draw_half_cell(void)
+void DrawHalf(void)
 {
     unsigned char priority;
     DrawRect area;
@@ -1089,9 +1089,9 @@ void draw_half_cell(void)
         TileDrawArgs args;
     } draw;
 
-    if (!compute_half_rect(&area))
+    if (!ComputeHalfRect(&area))
         return;
-    if (Level.environment_kind == 2 && compute_slide_rock_rect(&draw.row_clip, Room.number, RowNo) &&
+    if (Level.environment_kind == 2 && ComputeSlideRockRect(&draw.row_clip, Room.number, RowNo) &&
         SECTRECT(&draw.row_clip, &draw.row_clip, &area))
         area.top = draw.row_clip.bottom - 1;
     draw.old_clip = CellClipRect;
@@ -1104,17 +1104,17 @@ void draw_half_cell(void)
     draw.address = (unsigned long)((TileDrawer *)DrawFunc)[(unsigned char)ObjId];
     if (draw.address && (!Room.custom || priority == 2 || priority == 0)) {
         ((TileDrawer)draw.address)(&draw.args);
-        mark_foreground((signed char)(FirstInRow(RowNo) + ColNo), &area);
+        MarkFRedraw((signed char)(FirstInRow(RowNo) + ColNo), &area);
     }
-    if (custom_room && custom_room->floor_image)
-        draw_custom_room_images(2);
+    if (CustomRoom && CustomRoom->floor_image)
+        DrawCustomRoomImgs(2);
     CellClipRect = draw.old_clip;
 }
 
 extern CHARREC RoomOpp[5];
 extern DrawRect *ComputeOffsetCellRect(DrawRect *area, DrawRect *source, int column, int row);
 
-int compute_half_rect(DrawRect *area)
+int ComputeHalfRect(DrawRect *area)
 {
     unsigned int image;
     signed char index;
@@ -1142,9 +1142,9 @@ int compute_half_rect(DrawRect *area)
     return (int)area;
 }
 
-extern int far pascal IS_SIX_KIND(char kind);
+extern int far pascal IsSpace(char kind);
 
-void draw_floor_buffer(void)
+void DrawFloorBuf(void)
 {
     DrawRect old_clip, row_clip;
     TileDrawArgs args;
@@ -1157,16 +1157,16 @@ void draw_floor_buffer(void)
         CellClipRect.top = floor_y;
     floor_edge = 0;
     if (Level.environment_kind == 2) {
-        if (compute_slide_rock_rect(&row_clip, Room.number, RowNo) &&
+        if (ComputeSlideRockRect(&row_clip, Room.number, RowNo) &&
             SECTRECT(&row_clip, &row_clip, &CellClipRect)) {
             CellClipRect.top = row_clip.bottom - 1;
             floor_edge = 1;
-        } else if (compute_slide_rock_rect(&row_clip, Room.number, (signed char)(RowNo + 1)) &&
+        } else if (ComputeSlideRockRect(&row_clip, Room.number, (signed char)(RowNo + 1)) &&
                    SECTRECT(&row_clip, &row_clip, &CellClipRect)) {
             floor_edge = 1;
         }
     }
-    if (IS_SIX_KIND(CellLeft.kind)) {
+    if (IsSpace(CellLeft.kind)) {
         priority = (CellLeft.info.modifier >> 14) & 3;
         if (!Room.custom || priority == 2 || !priority) {
             if (((TileDrawer *)DrawFunc)[(unsigned char)CellLeft.kind]) {
@@ -1187,12 +1187,12 @@ void draw_floor_buffer(void)
                 args.kind = ObjId;
                 args.info = BlueSpec;
                 ((TileDrawer *)DrawFunc)[(unsigned char)ObjId](&args);
-                mark_foreground((signed char)(FirstInRow(RowNo) + ColNo), &CellClipRect);
+                MarkFRedraw((signed char)(FirstInRow(RowNo) + ColNo), &CellClipRect);
             }
         }
-        if (custom_room && custom_room->floor_image)
-            draw_custom_room_images(2);
-    } else if (floor_edge && IS_SIX_KIND(ObjId) && IsWall(CellLeft.kind)) {
+        if (CustomRoom && CustomRoom->floor_image)
+            DrawCustomRoomImgs(2);
+    } else if (floor_edge && IsSpace(ObjId) && IsWall(CellLeft.kind)) {
         priority = (CellLeft.info.modifier >> 14) & 3;
         if (!Room.custom || priority == 2) {
             if (((TileDrawer *)DrawFunc)[(unsigned char)CellLeft.kind]) {
@@ -1226,10 +1226,10 @@ typedef struct CellObject {
 extern CellObject ObjTable[];
 static int sorted_object_total;
 extern int EqualRect(DrawRect far *first, DrawRect far *second);
-extern void sort_cell_objects(void);
-extern void draw_cell_object(signed char index);
+extern void SortObjTable(void);
+extern void DrawObj(signed char index);
 
-void draw_cell_objects(char column)
+void DrawObjs(char column)
 {
     signed char index, count;
     DrawRect merged_clip, object_clip, original_clip;
@@ -1255,24 +1255,24 @@ void draw_cell_objects(char column)
     } while (--index >= 0);
     if (sorted_object_total) {
         CellClipRect = merged_clip;
-        sort_cell_objects();
+        SortObjTable();
         index = 0;
         if (sorted_object_total > 0) do {
-            draw_cell_object(draw_scratch.sorted_objects[index]);
+            DrawObj(draw_scratch.sorted_objects[index]);
             ObjTable[draw_scratch.sorted_objects[index]].status = -2;
         } while (++index < sorted_object_total);
     }
     CellClipRect = original_clip;
 }
 
-extern int compare_objects(int first, int second);
-extern unsigned char far _fastcall object_priority(unsigned char type);
+extern int CompareObj(int first, int second);
+extern unsigned char far _fastcall GetObjForePriority(unsigned char type);
 extern unsigned char CharObjForePriority[15];
 extern unsigned char NonCharObjForePriority[13];
-extern unsigned char load_draw_object(signed char index);
-extern void draw_loose_object(unsigned char type);
+extern unsigned char LoadObject(signed char index);
+extern void DrawObjLoose(unsigned char type);
 
-void sort_cell_objects(void)
+void SortObjTable(void)
 {
     int swapped, index, last, value;
 
@@ -1282,7 +1282,7 @@ void sort_cell_objects(void)
         swapped = 0;
         if (last > 0) {
             do {
-                if (compare_objects(index, index + 1)) {
+                if (CompareObj(index, index + 1)) {
                     value = draw_scratch.sorted_objects[index];
                     draw_scratch.sorted_objects[index] = draw_scratch.sorted_objects[index + 1];
                     draw_scratch.sorted_objects[index + 1] = value;
@@ -1293,7 +1293,7 @@ void sort_cell_objects(void)
     } while (swapped);
 }
 
-int compare_objects(int first, int second)
+int CompareObj(int first, int second)
 {
     int left_id, right_id;
     unsigned char left_type, right_type;
@@ -1318,8 +1318,8 @@ int compare_objects(int first, int second)
                (left_id == 181 || left_id == 166)) {
         swap = 0;
     } else {
-        left_priority = object_priority(left_type);
-        right_priority = object_priority(right_type);
+        left_priority = GetObjForePriority(left_type);
+        right_priority = GetObjForePriority(right_type);
         if (left_priority != right_priority)
             swap = left_priority < right_priority;
         else if (ObjTable[draw_scratch.sorted_objects[first]].y != ObjTable[draw_scratch.sorted_objects[second]].y) {
@@ -1333,7 +1333,7 @@ int compare_objects(int first, int second)
     return swap;
 }
 
-unsigned char far _fastcall object_priority(unsigned char type)
+unsigned char far _fastcall GetObjForePriority(unsigned char type)
 {
     unsigned char result;
 
@@ -1345,7 +1345,7 @@ unsigned char far _fastcall object_priority(unsigned char type)
 }
 
 
-GateImage *get_gate_image(char set, unsigned char type)
+GateImage *GetObjTableType(char set, unsigned char type)
 {
     CellObject *match = 0;
     int index = 0;
@@ -1377,22 +1377,22 @@ typedef struct {
 #pragma pack()
 FCHARREC FChar;
 int XCo;
-extern int far _fastcall add_middle_image(unsigned char set, int image, int x, int y, unsigned char order);
-extern void draw_obj_carpet(unsigned char type);
+extern int far _fastcall AddMid(unsigned char set, int image, int x, int y, unsigned char order);
+extern void DrawObjCarpet(unsigned char type);
 extern void DrawObjSpikes(unsigned char type);
-extern void draw_object_slide_rock(unsigned char type);
-extern void draw_object_trapdoor(unsigned char type);
-extern void draw_bridge_mob_object(unsigned char type);
-extern void draw_fireball_object(unsigned char type);
+extern void DrawObjSlideRock(unsigned char type);
+extern void DrawObjTrapDoor(unsigned char type);
+extern void DrawObjBrgFloor(unsigned char type);
+extern void DrawObjFireball(unsigned char type);
 
-void draw_cell_object(signed char index)
+void DrawObj(signed char index)
 {
-    unsigned char type = load_draw_object(index);
+    unsigned char type = LoadObject(index);
 
     switch (type) {
     case 0:
         if (FChar.image != -1) {
-            add_middle_image(FChar.image_set, FChar.image + 1,
+            AddMid(FChar.image_set, FChar.image + 1,
                              XCo, FChar.y, 10);
             if (FChar.depth) {
                 MidTable[Ct[3] - 1].mode = FChar.depth;
@@ -1401,40 +1401,40 @@ void draw_cell_object(signed char index)
         break;
     case 1: case 2: case 3:
     case 5: case 6: case 7: case 8: case 9: case 10: case 14:
-        if (add_middle_image(FChar.image_set, FChar.image + 1,
+        if (AddMid(FChar.image_set, FChar.image + 1,
                              XCo, FChar.y, 10)) {
             MidTable[Ct[3] - 1].mode = FChar.depth;
             MidTable[Ct[3] - 1].update_peel = FChar.object_type;
         }
         break;
     case 13:
-        draw_obj_carpet(type);
+        DrawObjCarpet(type);
         break;
     case 0x80: case 0x81: case 0x83:
-        draw_loose_object(type);
+        DrawObjLoose(type);
         break;
     case 0x82:
-        add_middle_image(FChar.image_set, 103, XCo, FChar.y, 10);
+        AddMid(FChar.image_set, 103, XCo, FChar.y, 10);
         return;
     case 0x84: case 0x85:
         DrawObjSpikes(type);
         return;
     case 0x86: case 0x87: case 0x88: case 0x89:
-        draw_object_slide_rock(type);
+        DrawObjSlideRock(type);
         return;
     case 0x8a:
-        draw_object_trapdoor(type);
+        DrawObjTrapDoor(type);
         return;
     case 0x8b:
-        draw_bridge_mob_object(type);
+        DrawObjBrgFloor(type);
         return;
     case 0x8c:
-        draw_fireball_object(type);
+        DrawObjFireball(type);
         break;
     }
 }
 
-void draw_loose_object(unsigned char type)
+void DrawObjLoose(unsigned char type)
 {
     int horizontal_gap, left_shape, right_shape, vertical_gap;
 
@@ -1462,14 +1462,14 @@ void draw_loose_object(unsigned char type)
     }
     if (left_shape) {
         FChar.flipped = -1;
-        add_middle_image(4, left_shape, XCo + horizontal_gap,
+        AddMid(4, left_shape, XCo + horizontal_gap,
                          FChar.y, 10);
-        add_middle_image(4, right_shape, XCo,
+        AddMid(4, right_shape, XCo,
                          vertical_gap + FChar.y, 10);
     }
 }
 
-unsigned char load_draw_object(signed char index)
+unsigned char LoadObject(signed char index)
 {
     CellObject *item = &ObjTable[index];
 
@@ -1485,7 +1485,7 @@ unsigned char load_draw_object(signed char index)
     return item->kind;
 }
 
-void set_object_cell(signed char index)
+void SetObjCell(signed char index)
 {
     ObjTable[index].status = FChar.index;
     if (FChar.index < 30)
@@ -1497,9 +1497,9 @@ extern struct {
     int control_mode, fade_active, playing_nis, recording_mode, skip_opening, field_0a;
     int plateau_loaded, throne_song_added, throne_nis_played, escher_room_eight_seen, nis_room_restored;
 } GameState;
-extern void sort_foreground(void);
+extern void FinlSortForeTable(void);
 
-void sort_back_table(void)
+void SortBackTable(void)
 {
     int dest, source;
     DrawEntry item;
@@ -1520,7 +1520,7 @@ void sort_back_table(void)
     }
 }
 
-void sort_fore_table(void)
+void SortForeTable(void)
 {
     int dest, source, shape;
     DrawEntry item;
@@ -1534,7 +1534,7 @@ void sort_fore_table(void)
             shape = -1;
     }
     if (shape == -1) {
-        sort_foreground();
+        FinlSortForeTable();
         return;
     }
     if (shape) {
@@ -1555,63 +1555,63 @@ void sort_fore_table(void)
     }
 }
 
-extern DrawRect message_rect;
+extern DrawRect MsgRect;
 extern int RestartLevel;
 extern int MsgTimer, MsgTimerStart;
 extern char restart_key_message2[];
 extern char restart_key_message1[];
-extern void clear_message(int reset_timer);
-extern void clear_life_bar(void);
-extern void DRAW_NUL_TEXT_IN_RECT(DrawRect far *area, int color, int mode, const char far *text);
-extern void STROKE_PORT_RECT(DrawRect far *area);
+extern void ClrMessage(int reset_timer);
+extern void ClrLifeBar(void);
+extern void StringRect(DrawRect far *area, int color, int mode, const char far *text);
+extern void EraseRect(DrawRect far *area);
 extern void PrinceCopy(DrawRect far *area);
 extern char *cdecl strcpy(char *out, const char *in);
 extern char *cdecl strupr(char *str);
 #pragma intrinsic(strcpy)
 
-void draw_message(const char *message)
+void DrawMessage(const char *message)
 {
     char text[100];
 
     strcpy(text, message); strupr(text);
-    clear_message(1); DRAW_NUL_TEXT_IN_RECT(&message_rect, 0, 1, text);
+    ClrMessage(1); StringRect(&MsgRect, 0, 1, text);
 }
 
-void draw_restart_message(void)
+void DrawRestartMessage(void)
 {
     DrawRect area;
 
     if (!RestartLevel) {
-        clear_life_bar();
-        INSETRECT(&area, &message_rect, -message_rect.left, 0); area.right = 320;
-        if (GameState.control_mode == 2) DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message2);
-        else DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message1);
+        ClrLifeBar();
+        INSETRECT(&area, &MsgRect, -MsgRect.left, 0); area.right = 320;
+        if (GameState.control_mode == 2) StringRect(&area, 0, 1, restart_key_message2);
+        else StringRect(&area, 0, 1, restart_key_message1);
     }
 }
 
-void clear_life_bar(void)
+void ClrLifeBar(void)
 {
     DrawRect area;
 
-    INSETRECT(&area, &message_rect, -message_rect.left, 0);
-    area.right = 320; STROKE_PORT_RECT(&area);
+    INSETRECT(&area, &MsgRect, -MsgRect.left, 0);
+    area.right = 320; EraseRect(&area);
 }
 
-void clear_message(int reset_timer)
+void ClrMessage(int reset_timer)
 {
     DrawRect area;
 
     if (MsgTimerStart == 600) {
-        INSETRECT(&area, &message_rect, -message_rect.left, 0);
+        INSETRECT(&area, &MsgRect, -MsgRect.left, 0);
         area.right = 320;
-        SET_RECORD_RANGE(&area, 0);
+        FillRect(&area, 0);
     } else {
-        SET_RECORD_RANGE(&message_rect, 0);
+        FillRect(&MsgRect, 0);
     }
     if (reset_timer) MsgTimer = MsgTimerStart = 0;
 }
 
-void copy_dirty_rectangles(void)
+void CopyDRects(void)
 {
     while (dirty_rectangle_count--) PrinceCopy(&dirty_rectangles[dirty_rectangle_count]);
     dirty_rectangle_count = 0;
@@ -1627,11 +1627,11 @@ typedef struct HorseShapeHeader {
 
 ShapeRef HorseShpInfo;
 extern unsigned int HGetRsrc(unsigned long type, int shape);
-extern unsigned int find_shape_list(int shape);
+extern unsigned int hGetShpList(int shape);
 extern unsigned int convert_shape(HorseShapeHeader far *out, HorseShapeHeader far *header, int count);
 extern ShapeBitmap far *materialize_handle(unsigned int handle);
-extern void dispose_handle(unsigned int handle);
-ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
+extern void hFree(unsigned int handle);
+ShapeBitmap far *far _fastcall GetHorseShpInfo(int id, ShapeRef *ref)
 {
     HorseShapeHeader header;
     ShapeBitmap far *result;
@@ -1639,26 +1639,26 @@ ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
     HorseShapeHeader far *metadata;
 
     if (!HorseShpInfo.handle || !materialize_handle(HorseShpInfo.handle)) {
-        if (HorseShpInfo.handle) dispose_handle(HorseShpInfo.handle);
+        if (HorseShpInfo.handle) hFree(HorseShpInfo.handle);
         handle = HGetRsrc(0x53484150UL, id);
         if (handle) {
-            metadata = (HorseShapeHeader far *)resolve_handle_to_far_payload(find_shape_list(0x61a9));
+            metadata = (HorseShapeHeader far *)h2p(hGetShpList(0x61a9));
             header = *(HorseShapeHeader far *)((char far *)metadata + 4);
             header.palette = 0xf0; header.mode = -2;
-            new_handle = convert_shape((HorseShapeHeader far *)fetch_locked_shape_list(handle), &header, 1);
-            dispose_handle(handle);
+            new_handle = convert_shape((HorseShapeHeader far *)hLock(handle), &header, 1);
+            hFree(handle);
             HorseShpInfo.kind = 1; HorseShpInfo.reserved = 0;
             HorseShpInfo.separate_mask = 0; HorseShpInfo.palette = 0;
-            HorseShpInfo.handle = mark_purgeable(new_handle);
+            HorseShpInfo.handle = hPurge(new_handle);
         }
     }
     *ref = HorseShpInfo;
-    if (HorseShpInfo.handle) result = resolve_handle_to_far_payload(HorseShpInfo.handle);
+    if (HorseShpInfo.handle) result = h2p(HorseShpInfo.handle);
     else result = 0;
     return result;
 }
 
-unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *shape)
+unsigned int far _fastcall GetHorsePtInPlane(RoomNumber room, char pass, unsigned int *shape)
 {
     unsigned int origin = 0;
 
@@ -1679,7 +1679,7 @@ unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned
     return origin;
 }
 
-void draw_horse(unsigned int shape, unsigned int origin, char pass)
+void DrawHorse(unsigned int shape, unsigned int origin, char pass)
 {
     DrawEntry far *entry;
     int *point;
@@ -1708,17 +1708,17 @@ void draw_horse(unsigned int shape, unsigned int origin, char pass)
 
 
 extern int *Pieces;
-extern void add_middle_item(unsigned char sheet, int image, char column, char row,
+extern void AddFImgToFTable(unsigned char sheet, int image, char column, char row,
                             unsigned char color, unsigned char flags);
-extern unsigned char flask_bubble_color(unsigned int attributes);
+extern unsigned char GetFlaskBubbleColor(unsigned int attributes);
 
-void draw_flask(TileDrawArgs *args)
+void DrawFlask(TileDrawArgs *args)
 {
     int color, tall;
     unsigned char bubble, flags;
     TileDrawArgs base;
 
-    if (DrawFunc->item && !custom_room) {
+    if (DrawFunc->item && !CustomRoom) {
         base = *args;
         base.info.modifier &= 0xff00;
         DrawFunc->item(&base);
@@ -1727,24 +1727,24 @@ void draw_flask(TileDrawArgs *args)
         return;
     color = args->info.modifier & 0xe0;
     tall = color < 0xa0 && color >= 0x40;
-    add_middle_item(10, tall + 1, args->column, args->row, 10, 0);
+    AddFImgToFTable(10, tall + 1, args->column, args->row, 10, 0);
     if (!color)
         return;
     color = args->info.modifier & 0x1f;
     if (color == 28 || (color >= 10 && color <= 13) || color - 14 >= 10)
         return;
-    bubble = flask_bubble_color(args->info.modifier);
+    bubble = GetFlaskBubbleColor(args->info.modifier);
     if (color > 13) {
         color -= 14;
         flags = 1;
     } else
         flags = 0;
     *(int *)((char *)Pieces + 0x485) = tall ? -17 : -14;
-    add_middle_item(60, color + 3, args->column, args->row, bubble, flags);
-    add_middle_item(60, color + 13, args->column, args->row, bubble + 1, flags);
+    AddFImgToFTable(60, color + 3, args->column, args->row, bubble, flags);
+    AddFImgToFTable(60, color + 13, args->column, args->row, bubble + 1, flags);
 }
 
-unsigned char flask_bubble_color(unsigned int attributes)
+unsigned char GetFlaskBubbleColor(unsigned int attributes)
 {
     unsigned char color;
 
@@ -1765,7 +1765,7 @@ unsigned char flask_bubble_color(unsigned int attributes)
 
 extern DrawRect ScreenPortRect;
 extern void PrincePaintShapeIdx(int table, int image, int x, int y, int flags, int mode);
-extern void load_kid_with_opponent(signed char guard);
+extern void LoadKidwOpp(signed char guard);
 extern CHARREC Opp;
 extern void DrawOppMeter(signed char guard, int life, int max_life);
 
@@ -1788,21 +1788,21 @@ void DrawKidMeter(int life, int max_life)
         rect.left = x + (Kid.life_initial - max_life) * 8;
         rect.bottom = ScreenPortRect.bottom;
         rect.right = 98;
-        STROKE_PORT_RECT(&rect);
+        EraseRect(&rect);
     }
 }
 
-void draw_meters(void)
+void DrawMeters(void)
 {
     if (Kid.opponent_index >= 0 && Kid.opponent_index < 5) {
-        load_kid_with_opponent(Kid.opponent_index);
+        LoadKidwOpp(Kid.opponent_index);
         DrawOppMeter(Opp.slot, Opp.life_points, Opp.life_initial);
     }
     DrawKidMeter(Kid.life_points, Kid.life_initial);
 }
 
-extern signed char pick_hidden_actor(unsigned char slot);
-extern void load_actor_slot(signed char guard);
+extern signed char GetOppIdxClosestToKid(unsigned char slot);
+extern void LoadShad(signed char guard);
 
 void DrawOppMeter(signed char guard, int life, int max_life)
 {
@@ -1811,12 +1811,12 @@ void DrawOppMeter(signed char guard, int life, int max_life)
     int index, x, half;
 
     if (guard == -1) {
-        guard = pick_hidden_actor(1);
+        guard = GetOppIdxClosestToKid(1);
         if (guard == -1 && (unsigned char)Level.room_objects[Room.number - 1].opponent_count)
             guard = 0;
     }
     if (guard != -1)
-        load_actor_slot(guard);
+        LoadShad(guard);
     if (guard == -1 || !(unsigned char)Level.room_objects[Room.number - 1].opponent_count ||
         Char.character_kind == 10 || Char.character_kind == 11 || Char.character_kind == 0 ||
         (Char.character_kind == 4 && Char.row != 0 && Level.level_number == 5 &&
@@ -1825,7 +1825,7 @@ void DrawOppMeter(signed char guard, int life, int max_life)
         rect.left = 218;
         *(struct RectCorner *)&rect.bottom =
             *(const struct RectCorner *)&ScreenPortRect.bottom;
-        STROKE_PORT_RECT(&rect);
+        EraseRect(&rect);
     } else if (MsgTimerStart != 600) {
         x = 308;
         if (Char.character_kind == 7 || Char.character_kind == 8) {
@@ -1848,7 +1848,7 @@ void DrawOppMeter(signed char guard, int life, int max_life)
         for (index = life; index < 8; ++index) {
             rect.left = x;
             rect.right = x + 10;
-            STROKE_PORT_RECT(&rect);
+            EraseRect(&rect);
             x -= 10;
         }
     }
@@ -1859,7 +1859,7 @@ extern struct {
     int field_4, shadow_timer;
 } KidInfo;
 
-void draw_sword(TileDrawArgs *args)
+void DrawSword(TileDrawArgs *args)
 {
     TileDrawArgs base;
     unsigned char kind;
@@ -1871,16 +1871,16 @@ void draw_sword(TileDrawArgs *args)
     }
     if (args->pass == 1) {
         kind = args->info.modifier & 3;
-        add_middle_item(22, kind == (unsigned char)KidInfo.sword_kind || ((unsigned char)KidInfo.sword_kind == 255 && kind == 1) ? 11 : 46,
+        AddFImgToFTable(22, kind == (unsigned char)KidInfo.sword_kind || ((unsigned char)KidInfo.sword_kind == 255 && kind == 1) ? 11 : 46,
                         args->column, args->row, 10, 0);
     }
 }
 
-extern int far pascal IS_SIX_KIND(char kind);
+extern int far pascal IsSpace(char kind);
 
-int is_open_tile(char kind)
+int IsFloor(char kind)
 {
-    if (!IsWall(kind) && !IS_SIX_KIND(kind))
+    if (!IsWall(kind) && !IsSpace(kind))
         return 1;
     return 0;
 }
@@ -1893,9 +1893,9 @@ int far pascal IsImpassable(char kind)
     return 0;
 }
 
-int is_walkable_tile(char kind)
+int IsLandOnable(char kind)
 {
-    if (is_open_tile(kind) && !IsImpassable(kind) && kind != 6 && kind != 34)
+    if (IsFloor(kind) && !IsImpassable(kind) && kind != 6 && kind != 34)
         return 1;
     return 0;
 }
@@ -1907,7 +1907,7 @@ int far pascal IsMobFloor(char kind)
     return 0;
 }
 
-int far pascal IS_SIX_KIND(char kind)
+int far pascal IsSpace(char kind)
 {
     if (kind == 0 || kind == 9 || kind == 33 || kind == 35 || kind == 27 || kind == 37)
         return 1;
@@ -1922,45 +1922,45 @@ int far pascal IsWall(char kind)
 }
 
 
-extern int set_palette(int resource, int first, unsigned char count, unsigned char palette);
+extern int SetPalette(int resource, int first, unsigned char count, unsigned char palette);
 extern unsigned char far *ALLOCATE_PINNED_PAYLOAD(long bytes);
 extern void CLEAR_PAYLOAD_HEADER(unsigned char far *palette);
-extern void READ_DAC_BLOCK(int first, int count, unsigned char far *palette);
-extern void WRITE_DAC_BLOCK(int first, int count, const unsigned char far *palette, int update);
+extern void ReadDACBlock(int first, int count, unsigned char far *palette);
+extern void SetDACBlock(int first, int count, const unsigned char far *palette, int update);
 extern unsigned int HGETRSRC(unsigned long type, int resource);
-extern unsigned char get_total_pals(int resource);
-extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int resource);
-extern void DISPOSE_HANDLE(unsigned int resource);
+extern unsigned char GetTotalPals(int resource);
+extern void far *H2P(unsigned int resource);
+extern void hFree(unsigned int resource);
 extern void far *far cdecl _fmemcpy(void far *dst, const void far *src, unsigned int bytes);
 
-void set_default_palette(void)
+void ResetStdPalette(void)
 {
-    set_palette(10, 0, 16, 0);
+    SetPalette(10, 0, 16, 0);
 }
 
-void restore_game_play_palette(void)
+void RestoreGamePlayPalette(void)
 {
     if (draw_scratch.saved_palette) {
-        WRITE_DAC_BLOCK(16, 240, draw_scratch.saved_palette, 1);
+        SetDACBlock(16, 240, draw_scratch.saved_palette, 1);
         CLEAR_PAYLOAD_HEADER(draw_scratch.saved_palette); draw_scratch.saved_palette = 0;
     }
     if (draw_scratch.saved_text_palette) {
-        WRITE_DAC_BLOCK(0, 16, draw_scratch.saved_text_palette, 0);
+        SetDACBlock(0, 16, draw_scratch.saved_text_palette, 0);
         CLEAR_PAYLOAD_HEADER(draw_scratch.saved_text_palette); draw_scratch.saved_text_palette = 0;
     }
 }
 
-void save_game_play_palette(void)
+void SaveGamePlayPalette(void)
 {
     DrawRect rect;
 
     if (!draw_scratch.saved_palette) {
         draw_scratch.saved_palette = ALLOCATE_PINNED_PAYLOAD(720L);
-        READ_DAC_BLOCK(16, 240, draw_scratch.saved_palette);
-        WRITE_DAC_BLOCK(16, 240, 0, 1);
+        ReadDACBlock(16, 240, draw_scratch.saved_palette);
+        SetDACBlock(16, 240, 0, 1);
         if (!EMPTYRECT((DrawRect *)&Kid.previous_bounds) &&
             SECTRECT(&rect, (DrawRect *)&Kid.previous_bounds, &GamePlayRect))
-            STROKE_PORT_RECT(&rect);
+            EraseRect(&rect);
     }
 }
 
@@ -1968,39 +1968,39 @@ typedef struct PaletteColor {
     unsigned char red, green, blue;
 } PaletteColor;
 
-void fill_palette_with_color(unsigned char color)
+void SetPaletteToColorIdx(unsigned char color)
 {
     PaletteColor far *palette;
     PaletteColor far *next;
     int remaining;
 
     palette = (PaletteColor far *)ALLOCATE_PINNED_PAYLOAD(768L);
-    READ_DAC_BLOCK(color, 1, (unsigned char far *)palette);
+    ReadDACBlock(color, 1, (unsigned char far *)palette);
     next = palette + 1; remaining = 255;
     do { *next = *palette; ++next; } while (--remaining);
     if (!draw_scratch.saved_palette) {
         draw_scratch.saved_palette = ALLOCATE_PINNED_PAYLOAD(720L);
-        READ_DAC_BLOCK(16, 240, draw_scratch.saved_palette);
+        ReadDACBlock(16, 240, draw_scratch.saved_palette);
     }
     if (!draw_scratch.saved_text_palette) {
         draw_scratch.saved_text_palette = ALLOCATE_PINNED_PAYLOAD(48L);
-        READ_DAC_BLOCK(0, 16, draw_scratch.saved_text_palette);
+        ReadDACBlock(0, 16, draw_scratch.saved_text_palette);
     }
-    WRITE_DAC_BLOCK(0, 256, (unsigned char far *)palette, 1);
+    SetDACBlock(0, 256, (unsigned char far *)palette, 1);
     CLEAR_PAYLOAD_HEADER((unsigned char far *)palette);
 }
 
-int set_palette(int resource, int first, unsigned char count, unsigned char palette)
+int SetPalette(int resource, int first, unsigned char count, unsigned char palette)
 {
     unsigned char total;
     int success;
     unsigned int handle;
     unsigned char far *colors;
 
-    total = get_total_pals(resource);
+    total = GetTotalPals(resource);
     handle = HGETRSRC(0x50414c53UL, resource);
     if (handle && total > palette) {
-        colors = (unsigned char far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+        colors = (unsigned char far *)H2P(handle);
         if (first < 16) {
             if (draw_scratch.saved_palette) {
                 if (count - (total = count < 16 - first ? count : 16 - first) > 0)
@@ -2009,13 +2009,13 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
             } else {
                 total = count;
             }
-            WRITE_DAC_BLOCK(first, total, &colors[count * palette * 3], 1);
+            SetDACBlock(first, total, &colors[count * palette * 3], 1);
         } else if (draw_scratch.saved_palette) {
             _fmemcpy(draw_scratch.saved_palette + first * 3 - 48, &colors[count * palette * 3], count * 3);
         } else {
-            WRITE_DAC_BLOCK(first, count, &colors[count * palette * 3], 1);
+            SetDACBlock(first, count, &colors[count * palette * 3], 1);
         }
-        DISPOSE_HANDLE(handle);
+        hFree(handle);
         success = 1;
     } else {
         success = 0;
@@ -2023,15 +2023,15 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
     return success;
 }
 
-unsigned char get_total_pals(int resource)
+unsigned char GetTotalPals(int resource)
 {
     unsigned int handle;
     int total;
 
     handle = HGETRSRC(0x50414c43UL, resource);
     if (handle) {
-        total = *(int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
-        DISPOSE_HANDLE(handle);
+        total = *(int far *)H2P(handle);
+        hFree(handle);
     } else {
         total = 0;
     }
@@ -2039,25 +2039,25 @@ unsigned char get_total_pals(int resource)
 }
 
 
-void set_shape_variant(int variant)
+void TweakKidShpList(int variant)
 {
-    ((int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(Pics[2]->handle))[2] = variant;
+    ((int far *)H2P(Pics[2]->handle))[2] = variant;
 }
 
 extern char PieceAboveId(RoomNumber room, unsigned char piece);
 
-int visible_above_piece(RoomNumber room, unsigned char piece)
+int VisibleAbovePiece(RoomNumber room, unsigned char piece)
 {
     int visible = 0;
     char above, upper_left;
 
     above = PieceAboveId(room, piece);
-    if (IS_SIX_KIND(above) || above == 5 || above == 6 ||
+    if (IsSpace(above) || above == 5 || above == 6 ||
         (above == 3 && ((unsigned char)Level.level_number) == 13)) {
         visible = 1;
     } else {
         upper_left = PieceAboveRightId(room, piece);
-        if (IS_SIX_KIND(upper_left) || upper_left == 5 || upper_left == 6 ||
+        if (IsSpace(upper_left) || upper_left == 5 || upper_left == 6 ||
             (above == 3 && ((unsigned char)Level.level_number) == 13))
             visible = 1;
     }

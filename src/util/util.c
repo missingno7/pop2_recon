@@ -7,12 +7,12 @@ Rect NullRect = { 0, 0, 0, 0 };
 
 void far * far cdecl _fmemcpy(void far *, const void far *, unsigned);
 int far pascal HGETRSRC(unsigned long, int);
-unsigned far pascal convert_text_handle(int);
+unsigned far pascal hXlatTxt4(int);
 void far pascal RESIZE_DOS_HEAP(unsigned long);
-void far pascal COMPACT_HEAP_BLOCKS(unsigned long);
+void far pascal HeapCompact(unsigned long);
 unsigned far cdecl _bios_timeofday(unsigned, long near *);
 int far pascal mouse_button_unqueued(int);
-void far pascal check_wait_function(void);
+void far pascal CheckWaitFunc(void);
 void far pascal SetRndSeed(unsigned);
 
 Rect far * far pascal AlterRect(register Rect far *destination,
@@ -29,13 +29,13 @@ Rect far * far pascal AlterRect(register Rect far *destination,
 
 unsigned far pascal hGetTxt4(int id)
 {
-    return convert_text_handle(HGETRSRC(0x54585434UL, id));
+    return hXlatTxt4(HGETRSRC(0x54585434UL, id));
 }
 
 void far pascal expand_memory_limits(void)
 {
     RESIZE_DOS_HEAP(0x00ffffffUL);
-    COMPACT_HEAP_BLOCKS(0x00ffffffUL);
+    HeapCompact(0x00ffffffUL);
 }
 
 unsigned far pascal Rnd(unsigned maximum)
@@ -55,15 +55,15 @@ void far pascal SetRndSeed(unsigned seed)
     random_seeded = 1;
 }
 
-void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned handle);
+void far *far pascal h2p(unsigned handle);
 
-void far pascal store_scene_rect(int resource, const Rect far *bounds)
+void far pascal SetScriptRect(int resource, const Rect far *bounds)
 {
     unsigned handle = HGETRSRC(0x00534352UL, resource);
     Rect far *scene;
 
     if (handle) {
-        scene = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+        scene = h2p(handle);
         *scene = *bounds;
     }
 }
@@ -72,7 +72,7 @@ void far pascal wait_for_action(int action)
 {
     if (mouse_button_unqueued(action)) {
         do {
-            check_wait_function();
+            CheckWaitFunc();
         } while (mouse_button_unqueued(action));
     }
 }

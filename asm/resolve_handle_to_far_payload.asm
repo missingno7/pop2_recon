@@ -1,8 +1,8 @@
 .MODEL MEDIUM
 .CODE
-PUBLIC RESOLVE_HANDLE_TO_FAR_PAYLOAD
+PUBLIC H2P
 
-RESOLVE_HANDLE_TO_FAR_PAYLOAD PROC FAR
+H2P PROC FAR
     push bp
     mov bp, sp
     mov bp, [bp+6]
@@ -24,5 +24,5 @@ no_payload:
     sub ax, ax
     cwd
     jmp SHORT done
-RESOLVE_HANDLE_TO_FAR_PAYLOAD ENDP
+H2P ENDP
 END

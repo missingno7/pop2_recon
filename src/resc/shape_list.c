@@ -5,27 +5,27 @@ typedef struct ShapeList {
     int count;
 } ShapeList;
 
-extern ShapeList far *far pascal resolve_handle_to_far_payload(Handle list);
+extern ShapeList far *far pascal h2p(Handle list);
 extern void far pascal release_tagged_resource(unsigned long tag, unsigned id);
 extern Handle far pascal unlink_shape_list(Handle list);
-extern void far pascal dispose_handle(Handle handle);
+extern void far pascal hFree(Handle handle);
 extern Handle far pascal hGetRsrc(unsigned long type, unsigned id);
-extern Handle far pascal mark_fixed(Handle handle);
+extern Handle far pascal hNoPurge(Handle handle);
 
-void far pascal release_shape_list(Handle list)
+void far pascal hFreeShpList(Handle list)
 {
     register int remaining;
 
-    remaining = resolve_handle_to_far_payload(list)->count;
+    remaining = h2p(list)->count;
     while (remaining--)
         release_tagged_resource(0x53484150UL,
-                                resolve_handle_to_far_payload(list)->first_id + remaining);
-    dispose_handle(unlink_shape_list(list));
+                                h2p(list)->first_id + remaining);
+    hFree(unlink_shape_list(list));
 }
 
-Handle far pascal find_shape_list(unsigned id)
+Handle far pascal hGetShpList(unsigned id)
 {
-    return mark_fixed(hGetRsrc(0x5348504cUL, id));
+    return hNoPurge(hGetRsrc(0x5348504cUL, id));
 }
 
 
@@ -38,27 +38,27 @@ typedef struct ShapeListBanks {
 
 extern unsigned int far pascal AllocBanks(unsigned char units);
 extern unsigned int far pascal MapPalInfo(unsigned far *bank_bits);
-extern unsigned int far pascal save_handle_flags(Handle handle);
-extern ShapeListBanks far *far pascal fetch_locked_shape_list(Handle handle);
-extern Handle far pascal restore_handle_flags(Handle handle, unsigned int flags);
-extern unsigned int allocated_banks;
+extern unsigned int far pascal hGetState(Handle handle);
+extern ShapeListBanks far *far pascal hLock(Handle handle);
+extern Handle far pascal hSetState(Handle handle, unsigned int flags);
+extern unsigned int BankStatus;
 
-Handle far pascal load_shape_list_banks(Handle list)
+Handle far pascal hMapShpList(Handle list)
 {
     ShapeListBanks far *shape;
     unsigned int saved;
     unsigned int banks;
 
-    saved = save_handle_flags(list);
-    shape = fetch_locked_shape_list(list);
+    saved = hGetState(list);
+    shape = hLock(list);
     if (shape) {
         if (shape->bank_bits == 0 && (banks = AllocBanks(shape->requested_units)) != 0) {
             shape->bank_bits = banks;
-            allocated_banks |= banks;
+            BankStatus |= banks;
             MapPalInfo(&shape->bank_bits);
-            mark_fixed(restore_handle_flags(list, saved));
+            hNoPurge(hSetState(list, saved));
         } else
-            restore_handle_flags(list, saved);
+            hSetState(list, saved);
     }
     return list;
 }

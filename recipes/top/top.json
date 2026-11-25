@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "b60cbf0bd66f3fd4453406ea0fc1dbc315bcc07663eef8616dc8256b982aa807",
+  "binding_sha256": "cc55993ec169d05f9bd6dbf4122e0c3e533e83f02a2d363f39b34d83457d3fac",
   "claims": [
     {
       "fixup_count": 16,
-      "public": "START_GAME",
+      "public": "START",
       "relocation_indices": [
         1286,
         1292
@@ -17,7 +17,7 @@
     },
     {
       "fixup_count": 37,
-      "public": "RESTART_LEVEL",
+      "public": "RESTART",
       "relocation_indices": [
         1152,
         1172,
@@ -52,7 +52,7 @@
     },
     {
       "fixup_count": 38,
-      "public": "START_KID",
+      "public": "STARTKID",
       "relocation_indices": [
         1204,
         1212,
@@ -64,7 +64,7 @@
     },
     {
       "fixup_count": 18,
-      "public": "FINISH_START_KID",
+      "public": "STARTKID1",
       "relocation_indices": [
         1151,
         1203,
@@ -78,12 +78,12 @@
     },
     {
       "fixup_count": 9,
-      "public": "SPECIAL_ENTRANCE",
+      "public": "STARTKIDSPECIALENTRANCE",
       "target_id": "root:0e78:031a"
     },
     {
       "fixup_count": 10,
-      "public": "OPEN_START_GATE",
+      "public": "ENTRANCE",
       "relocation_indices": [
         1174,
         1184,
@@ -95,7 +95,7 @@
     },
     {
       "fixup_count": 17,
-      "public": "FIRST_FRAME",
+      "public": "FIRSTFRAME",
       "relocation_indices": [
         1169,
         1227,
@@ -112,7 +112,7 @@
     },
     {
       "fixup_count": 37,
-      "public": "CLEAN_CUT",
+      "public": "DOCLEANCUT",
       "relocation_indices": [
         1154,
         1177,
@@ -144,7 +144,7 @@
     },
     {
       "fixup_count": 28,
-      "public": "RUN_FRAMES",
+      "public": "MAINLOOP",
       "relocation_indices": [
         1173,
         1237,
@@ -161,7 +161,7 @@
     },
     {
       "fixup_count": 28,
-      "public": "NEXT_FRAME",
+      "public": "NEXTFRAME",
       "relocation_indices": [
         1143,
         1159,
@@ -185,7 +185,7 @@
     },
     {
       "fixup_count": 45,
-      "public": "RUN_KID",
+      "public": "DOKID",
       "relocation_indices": [
         1144,
         1145,
@@ -225,7 +225,7 @@
     },
     {
       "fixup_count": 77,
-      "public": "RUN_SHADOWS",
+      "public": "DOSHAD",
       "relocation_indices": [
         1146,
         1147,
@@ -271,7 +271,7 @@
     },
     {
       "fixup_count": 53,
-      "public": "ADVANCE_FRAME",
+      "public": "FRAMEADV",
       "relocation_indices": [
         1160,
         1170,
@@ -296,7 +296,7 @@
     },
     {
       "fixup_count": 19,
-      "public": "RESET_FRAME_VARS",
+      "public": "RESETFRAMEVARS",
       "relocation_indices": [
         1246,
         1260
@@ -307,7 +307,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "QUICK_FOREGROUND",
+      "public": "QUICKFG",
       "relocation_indices": [
         1161,
         1238
@@ -320,7 +320,7 @@
     },
     {
       "fixup_count": 48,
-      "public": "QUICK_FLOOR",
+      "public": "QUICKFLOOR",
       "relocation_indices": [
         1158,
         1185,
@@ -339,7 +339,7 @@
     },
     {
       "fixup_count": 19,
-      "public": "CHECK_REBIRTH_POINTS",
+      "public": "CHECKREBIRTHPTS",
       "relocation_indices": [
         1229,
         1233
@@ -350,7 +350,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "ADJUST_GUARD_VIEW",
+      "public": "SHAKELOOSE",
       "relocation_indices": [
         1288
       ],
@@ -360,12 +360,12 @@
     },
     {
       "fixup_count": 4,
-      "public": "TICK_MISC_TIMERS",
+      "public": "MISCTIMERS",
       "target_id": "root:0e78:0e7c"
     },
     {
       "fixup_count": 27,
-      "public": "FACE_FIRST_GUARD",
+      "public": "FIRSTGUARD",
       "relocation_indices": [
         1157,
         1207,
@@ -381,7 +381,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "RESET_GUARD_RECORDS",
+      "public": "INITGUARDS",
       "relocation_indices": [
         1253
       ],
@@ -391,7 +391,7 @@
     },
     {
       "fixup_count": 10,
-      "public": "INIT_LEVEL_SPECIFIC",
+      "public": "INITLEVELSPECIFIC",
       "relocation_indices": [
         1199,
         1257
@@ -404,7 +404,7 @@
     },
     {
       "fixup_count": 47,
-      "public": "CHECK_ALERT",
+      "public": "CHECKALERT",
       "relocation_indices": [
         1148,
         1195,
@@ -424,12 +424,12 @@
     },
     {
       "fixup_count": 3,
-      "public": "CALL_LEVEL_FRAME_PROC",
+      "public": "CHECKLEVELFRAMEFUNC",
       "target_id": "root:0e78:11e2"
     },
     {
       "fixup_count": 9,
-      "public": "RESET_LEVEL",
+      "public": "RESETLEVEL",
       "relocation_indices": [
         1164,
         1171
@@ -442,7 +442,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "LOSE_GAME",
+      "public": "YOULOSE",
       "relocation_indices": [
         1240,
         1252
@@ -471,7 +471,7 @@
     },
     {
       "address": 2446,
-      "name": "MESSAGE_RECT",
+      "name": "MSGRECT",
       "offset": 22,
       "segment": "_DATA",
       "span": 8,
@@ -479,7 +479,7 @@
     },
     {
       "address": 2454,
-      "name": "SPECIAL_SEQUENCE",
+      "name": "NEEDSHADOW",
       "offset": 30,
       "segment": "_DATA",
       "span": 2,
@@ -517,12 +517,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "583d73be415da49a82c1a7c31f4f50e921d5af3efd48e00812777a5dd5629d20",
+  "object_sha256": "6d7b086ad72eba020a8af48c8b8ff7ff0c0c863943bb0696cfae7006c7256d35",
   "origin": 59270,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "53e2f4749704456086b95eeb68bd4444cb63a345f401262a02da0594f1210f02",
+  "source_sha256": "6298d998a528d22d723ee83c8ebbb64f2576f489cf02fb765c11a425f895b318",
   "space": "root"
 }

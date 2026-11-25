@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "cd4afe3c134281a1094fd76c3e57a74ca1aae674c136c74001024ed739228b4f",
+  "binding_sha256": "f417548fbc408121a16b558f751d1e82a530549c5437513aee76042ce0171e3b",
   "claims": [
     {
       "fixup_count": 45,
-      "public": "DRAW_CELL_OBJECT",
+      "public": "DRAWOBJ",
       "relocation_indices": [
         730,
         790,
@@ -42,7 +42,7 @@
     },
     {
       "fixup_count": 15,
-      "public": "SET_PALETTE",
+      "public": "SETPALETTE",
       "relocation_indices": [
         722,
         773,
@@ -59,7 +59,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "FULL_REDRAW",
+      "public": "DOSURE",
       "relocation_indices": [
         714,
         756,
@@ -73,7 +73,7 @@
     },
     {
       "fixup_count": 47,
-      "public": "GET_ROOMS",
+      "public": "GETROOMS",
       "relocation_indices": [
         826,
         888
@@ -84,7 +84,7 @@
     },
     {
       "fixup_count": 30,
-      "public": "REDRAW_ROOM_SURE",
+      "public": "SURE",
       "relocation_indices": [
         715,
         716,
@@ -104,12 +104,12 @@
     },
     {
       "fixup_count": 4,
-      "public": "REDRAW_CELL_SURE",
+      "public": "REDRAWCELLSURE",
       "target_id": "root:0790:01ca"
     },
     {
       "fixup_count": 38,
-      "public": "REDRAW_CELL_FAST",
+      "public": "REDRAWCELLFAST",
       "relocation_indices": [
         823,
         846,
@@ -124,17 +124,17 @@
     },
     {
       "fixup_count": 13,
-      "public": "REDRAW_TOP_FAST",
+      "public": "REDRAWTOPFAST",
       "target_id": "root:0790:0358"
     },
     {
       "fixup_count": 35,
-      "public": "DRAW_BACK_IMAGE",
+      "public": "DRAWBACKIMG",
       "target_id": "root:0790:03dc"
     },
     {
       "fixup_count": 15,
-      "public": "BACK_IMAGE_START_PASS",
+      "public": "GETBACKIMGSTARTPASS",
       "relocation_indices": [
         770
       ],
@@ -144,7 +144,7 @@
     },
     {
       "fixup_count": 20,
-      "public": "DRAW_CUSTOM_ROOM_IMAGES",
+      "public": "DRAWCUSTOMROOMIMGS",
       "relocation_indices": [
         886
       ],
@@ -154,7 +154,7 @@
     },
     {
       "fixup_count": 26,
-      "public": "@draw_custom_room_image",
+      "public": "@DrawCustomRoomImg",
       "relocation_indices": [
         702,
         749,
@@ -171,12 +171,12 @@
     },
     {
       "fixup_count": 23,
-      "public": "DRAW_FORE_IMAGE",
+      "public": "DRAWFOREIMG",
       "target_id": "root:0790:0858"
     },
     {
       "fixup_count": 53,
-      "public": "CHECK_FOREGROUND_GATE",
+      "public": "CHECKGATEINFORE",
       "relocation_indices": [
         724,
         759,
@@ -192,7 +192,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "DUMP_DRAW_TABLE",
+      "public": "DUMPTABLE",
       "relocation_indices": [
         841
       ],
@@ -202,7 +202,7 @@
     },
     {
       "fixup_count": 26,
-      "public": "DRAW_BACK_FORE_ITEM",
+      "public": "DRAWBFITEM",
       "relocation_indices": [
         703,
         712,
@@ -228,7 +228,7 @@
     },
     {
       "fixup_count": 55,
-      "public": "DRAW_MIDDLE_ITEM",
+      "public": "DRAWMIDITEM",
       "relocation_indices": [
         713,
         732,
@@ -254,7 +254,7 @@
     },
     {
       "fixup_count": 23,
-      "public": "DRAW_BITMAP",
+      "public": "DRAWIT",
       "relocation_indices": [
         747,
         757,
@@ -272,7 +272,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "FULL_REDRAW_FAST",
+      "public": "DOFAST",
       "relocation_indices": [
         761,
         814,
@@ -286,7 +286,7 @@
     },
     {
       "fixup_count": 34,
-      "public": "REDRAW_ROOM_FAST",
+      "public": "FAST",
       "relocation_indices": [
         717,
         718,
@@ -307,7 +307,7 @@
     },
     {
       "fixup_count": 21,
-      "public": "DRAW_ALL",
+      "public": "DRAWALL",
       "relocation_indices": [
         763,
         766
@@ -320,7 +320,7 @@
     },
     {
       "fixup_count": 13,
-      "public": "ADD_DIRTY_RECTANGLE",
+      "public": "ADDDRECT",
       "relocation_indices": [
         824,
         852,
@@ -335,7 +335,7 @@
     },
     {
       "fixup_count": 23,
-      "public": "DRAW_HALF_CELL",
+      "public": "DRAWHALF",
       "relocation_indices": [
         733,
         745,
@@ -350,7 +350,7 @@
     },
     {
       "fixup_count": 17,
-      "public": "COMPUTE_HALF_RECT",
+      "public": "COMPUTEHALFRECT",
       "relocation_indices": [
         876
       ],
@@ -360,7 +360,7 @@
     },
     {
       "fixup_count": 58,
-      "public": "DRAW_FLOOR_BUFFER",
+      "public": "DRAWFLOORBUF",
       "relocation_indices": [
         734,
         735,
@@ -377,7 +377,7 @@
     },
     {
       "fixup_count": 25,
-      "public": "DRAW_CELL_OBJECTS",
+      "public": "DRAWOBJS",
       "relocation_indices": [
         825,
         854,
@@ -391,27 +391,27 @@
     },
     {
       "fixup_count": 6,
-      "public": "SORT_CELL_OBJECTS",
+      "public": "SORTOBJTABLE",
       "target_id": "root:0790:1a16"
     },
     {
       "fixup_count": 22,
-      "public": "COMPARE_OBJECTS",
+      "public": "COMPAREOBJ",
       "target_id": "root:0790:1a68"
     },
     {
       "fixup_count": 2,
-      "public": "@object_priority",
+      "public": "@GetObjForePriority",
       "target_id": "root:0790:1bca"
     },
     {
       "fixup_count": 2,
-      "public": "GET_GATE_IMAGE",
+      "public": "GETOBJTABLETYPE",
       "target_id": "root:0790:1bf2"
     },
     {
       "fixup_count": 9,
-      "public": "DRAW_LOOSE_OBJECT",
+      "public": "DRAWOBJLOOSE",
       "relocation_indices": [
         806,
         807
@@ -422,17 +422,17 @@
     },
     {
       "fixup_count": 11,
-      "public": "LOAD_DRAW_OBJECT",
+      "public": "LOADOBJECT",
       "target_id": "root:0790:1e4e"
     },
     {
       "fixup_count": 4,
-      "public": "SET_OBJECT_CELL",
+      "public": "SETOBJCELL",
       "target_id": "root:0790:1eaa"
     },
     {
       "fixup_count": 8,
-      "public": "SORT_BACK_TABLE",
+      "public": "SORTBACKTABLE",
       "relocation_indices": [
         752,
         753,
@@ -446,7 +446,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "SORT_FORE_TABLE",
+      "public": "SORTFORETABLE",
       "relocation_indices": [
         704,
         705,
@@ -461,7 +461,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "DRAW_MESSAGE",
+      "public": "DRAWMESSAGE",
       "relocation_indices": [
         711,
         845
@@ -474,7 +474,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "DRAW_RESTART_MESSAGE",
+      "public": "DRAWRESTARTMESSAGE",
       "relocation_indices": [
         844,
         883
@@ -485,7 +485,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "CLEAR_LIFE_BAR",
+      "public": "CLRLIFEBAR",
       "relocation_indices": [
         740,
         882
@@ -496,7 +496,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "CLEAR_MESSAGE",
+      "public": "CLRMESSAGE",
       "relocation_indices": [
         764,
         881
@@ -507,7 +507,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "COPY_DIRTY_RECTANGLES",
+      "public": "COPYDRECTS",
       "relocation_indices": [
         796
       ],
@@ -517,7 +517,7 @@
     },
     {
       "fixup_count": 22,
-      "public": "@load_horse_shape",
+      "public": "@GetHorseShpInfo",
       "relocation_indices": [
         725,
         748,
@@ -538,12 +538,12 @@
     },
     {
       "fixup_count": 7,
-      "public": "@horse_room_image",
+      "public": "@GetHorsePtInPlane",
       "target_id": "root:0790:228e"
     },
     {
       "fixup_count": 13,
-      "public": "DRAW_HORSE",
+      "public": "DRAWHORSE",
       "relocation_indices": [
         706,
         754,
@@ -555,7 +555,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "DRAW_FLASK",
+      "public": "DRAWFLASK",
       "relocation_indices": [
         707,
         708,
@@ -567,7 +567,7 @@
     },
     {
       "fixup_count": 0,
-      "public": "FLASK_BUBBLE_COLOR",
+      "public": "GETFLASKBUBBLECOLOR",
       "target_id": "root:0790:24b4"
     },
     {
@@ -584,7 +584,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "DRAW_METERS",
+      "public": "DRAWMETERS",
       "relocation_indices": [
         867
       ],
@@ -594,7 +594,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "DRAW_SWORD",
+      "public": "DRAWSWORD",
       "relocation_indices": [
         710
       ],
@@ -604,7 +604,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "IS_OPEN_TILE",
+      "public": "ISFLOOR",
       "target_id": "root:0790:2810"
     },
     {
@@ -614,7 +614,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "IS_WALKABLE_TILE",
+      "public": "ISLANDONABLE",
       "target_id": "root:0790:2878"
     },
     {
@@ -624,7 +624,7 @@
     },
     {
       "fixup_count": 0,
-      "public": "IS_SIX_KIND",
+      "public": "ISSPACE",
       "target_id": "root:0790:28d4"
     },
     {
@@ -634,12 +634,12 @@
     },
     {
       "fixup_count": 1,
-      "public": "SET_DEFAULT_PALETTE",
+      "public": "RESETSTDPALETTE",
       "target_id": "root:0790:293a"
     },
     {
       "fixup_count": 20,
-      "public": "RESTORE_GAME_PLAY_PALETTE",
+      "public": "RESTOREGAMEPLAYPALETTE",
       "relocation_indices": [
         720,
         721,
@@ -654,7 +654,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "SAVE_GAME_PLAY_PALETTE",
+      "public": "SAVEGAMEPLAYPALETTE",
       "relocation_indices": [
         719,
         727,
@@ -671,7 +671,7 @@
     },
     {
       "fixup_count": 18,
-      "public": "FILL_PALETTE_WITH_COLOR",
+      "public": "SETPALETTETOCOLORIDX",
       "relocation_indices": [
         723,
         726,
@@ -690,7 +690,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "GET_TOTAL_PALS",
+      "public": "GETTOTALPALS",
       "relocation_indices": [
         772,
         782,
@@ -704,7 +704,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "SET_SHAPE_VARIANT",
+      "public": "TWEAKKIDSHPLIST",
       "relocation_indices": [
         781
       ],
@@ -714,7 +714,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "VISIBLE_ABOVE_PIECE",
+      "public": "VISIBLEABOVEPIECE",
       "relocation_indices": [
         762,
         879
@@ -735,7 +735,7 @@
     },
     {
       "address": 1118,
-      "name": "LEVEL_START_TABLE",
+      "name": "LEVELDRAWFUNCS",
       "offset": 92,
       "segment": "_DATA",
       "span": 14,
@@ -743,7 +743,7 @@
     },
     {
       "address": 1132,
-      "name": "LEVEL_SEQUENCE_TABLE",
+      "name": "LEVELDRAWGATEMOVEFUNCS",
       "offset": 106,
       "segment": "_DATA",
       "span": 107,
@@ -765,12 +765,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "25e43267242c123c35d212253bf41007ce637d1cf61e74dafdd24902fa61e65a",
+  "object_sha256": "cbe12a35b5e92fc2d5ec9bfb8dfab14b7e32e5e231d2ff4351aa7107c13363d8",
   "origin": 30978,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "f487c342e94a218b88e786f6d2441103bb0fbfce5f9d6456a00dec35ff500a3c",
+  "source_sha256": "a523564c555cc427c0630330c935749b2c1ea26a22044fbc5018d57192af9b72",
   "space": "root"
 }

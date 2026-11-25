@@ -29,29 +29,29 @@ int abs(int value);
 #pragma intrinsic(abs)
 
 extern int far pascal AddCharX(int distance);
-extern void far pascal load_kid_with_opponent(signed char index);
-extern void far pascal set_palette(unsigned int palette, int first, unsigned char count, unsigned char bank);
+extern void far pascal LoadKidwOpp(signed char index);
+extern void far pascal SetPalette(unsigned int palette, int first, unsigned char count, unsigned char bank);
 extern int far pascal HGetSnd(int id);
-extern int far pascal decrement_life_points(signed char amount);
+extern int far pascal DecLifePts(signed char amount);
 extern void far pascal JumpSeq(int sequence);
 extern void far pascal AddSound(int id);
 extern void far pascal AddSong(int id);
-extern void far pascal set_kid_palette(signed char level);
-extern int far pascal is_six_kind(signed char tile);
-extern signed char far pascal get_behind(void);
-extern signed char far pascal get_cells_ahead(signed char direction);
+extern void far pascal SetKidPalette(signed char level);
+extern int far pascal IsSpace(signed char tile);
+extern signed char far pascal GetBehind(void);
+extern signed char far pascal GetCellsInFront(signed char direction);
 extern Opponent near *far pascal GetOppInfoIdx(int room, int index);
 extern signed char far pascal FirstInRow(signed char row);
 extern void far pascal AnimChar(void);
-extern void far pascal save_actor_slot(void);
-extern void far pascal copy_kid_to_char(void);
+extern void far pascal SaveShad(void);
+extern void far pascal LoadKid(void);
 extern void far pascal DrawKidMeter(int health, int max_health);
-extern void far pascal load_actor_slot(signed char index);
-extern void far pascal remove_char(void);
+extern void far pascal LoadShad(signed char index);
+extern void far pascal RemoveChar(void);
 extern void far pascal SaveFChar(void);
 extern int far pascal AddFCharX(int distance);
 extern void far pascal MakeFCharClipRect(void);
-extern void far _fastcall add_char_object(unsigned char effect);
+extern void far _fastcall AddCharObj(unsigned char effect);
 extern void far pascal RestoreFChar(void);
 
 int far pascal GetShadowToKidDist(void);
@@ -82,7 +82,7 @@ int far pascal CheckShadowmanBackIntoKid(void)
     } else {
         result = -1;
     }
-    load_kid_with_opponent(index);
+    LoadKidwOpp(index);
     return result;
 }
 
@@ -91,10 +91,10 @@ void far pascal CheckShadowmanCreate(void)
     if (Char.character_kind == 0 && Char.sequence == 5) {
         if (++KidInfo.shadow_timer >= 4) {
             if (KidInfo.shadow_timer == 4) {
-                set_palette(2000, 48, 16, IsShadowImbued() != 0);
+                SetPalette(2000, 48, 16, IsShadowImbued() != 0);
                 HGetSnd(10261);
             }
-            if (!decrement_life_points(1))
+            if (!DecLifePts(1))
                 --Char.life_initial;
             else
                 JumpSeq(71);
@@ -108,7 +108,7 @@ void far pascal CheckShadowmanCreate(void)
                     AddSong(272);
                 } else {
                     JumpSeq(71);
-                    decrement_life_points(100);
+                    DecLifePts(100);
                 }
                 KidInfo.shadow_timer = 0;
             }
@@ -119,17 +119,17 @@ void far pascal CheckShadowmanCreate(void)
     }
 }
 
-extern void far pascal restore_game_play_palette(void);
-extern void near *far pascal get_mob_type_item(unsigned char kind, int occurrence);
+extern void far pascal RestoreGamePlayPalette(void);
+extern void near *far pascal GetMobTypeItem(unsigned char kind, int occurrence);
 
-void far pascal update_shadow_gameplay_palette(void)
+void far pascal CheckShadow(void)
 {
     if (Char.room == 4 && Level.level_number == 13 && Char.sequence_group == 13) {
-        restore_game_play_palette();
+        RestoreGamePlayPalette();
         return;
     }
-    if (Char.sequence == 242 && !get_mob_type_item(12, 1) && Char.life_points <= 2)
-        set_palette(2000, 48, 16, 0);
+    if (Char.sequence == 242 && !GetMobTypeItem(12, 1) && Char.life_points <= 2)
+        SetPalette(2000, 48, 16, 0);
 }
 
 void far pascal CheckShadowPaletteChange(void)
@@ -141,7 +141,7 @@ void far pascal CheckShadowPaletteChange(void)
     else if (Kid.life_points <= 2 && Kid.life_points + Kid.life_delta > 2)
         bank = 1;
     if (bank != -1)
-        set_palette(2000, 48, 16, bank);
+        SetPalette(2000, 48, 16, bank);
 }
 
 void far pascal CheckTurnSeqs(void)
@@ -153,7 +153,7 @@ void far pascal CheckTurnSeqs(void)
         if (KidInfo.shadow_timer >= 4)
             Char.image_bank = IsShadowBlinkOn(Char.frame, KidInfo.shadow_timer) ? 8 : 0;
     } else if (Char.sequence != 5 && KidInfo.shadow_timer != 0) {
-        set_kid_palette(Level.environment_kind);
+        SetKidPalette(Level.environment_kind);
         KidInfo.shadow_timer = 0;
     }
 }
@@ -164,9 +164,9 @@ void far pascal CreateKidAsOpp(void)
     Opponent near *opp;
     signed char index;
 
-    if (is_six_kind(get_behind()))
+    if (IsSpace(GetBehind()))
         Char.x = AddCharX(16);
-    else if (is_six_kind(get_cells_ahead(1)))
+    else if (IsSpace(GetCellsInFront(1)))
         Char.x = AddCharX(-16);
 
     kid = &Kid;
@@ -189,8 +189,8 @@ void far pascal CreateKidAsOpp(void)
     Char.image_bank = 2;
     JumpSeq(71);
     AnimChar();
-    save_actor_slot();
-    copy_kid_to_char();
+    SaveShad();
+    LoadKid();
 }
 
 void far pascal CutToKidRoom(void)
@@ -201,7 +201,7 @@ void far pascal CutToKidRoom(void)
     kid = &Kid;
     *kid = Char;
     DrawKidMeter(Char.life_points, Char.life_initial);
-    load_actor_slot(GetKidIdxAsOpp());
+    LoadShad(GetKidIdxAsOpp());
     saved = Char;
     Char.slot = 10;
     Char.image_bank = 0;
@@ -210,8 +210,8 @@ void far pascal CutToKidRoom(void)
     Char.life_delta = Kid.life_delta;
     Kid = Char;
     Char = saved;
-    remove_char();
-    copy_kid_to_char();
+    RemoveChar();
+    LoadKid();
 }
 
 signed char far pascal GetKidIdxAsOpp(void)
@@ -233,7 +233,7 @@ int far pascal GetShadowToKidDist(void)
 {
     int distance;
 
-    load_kid_with_opponent(GetKidIdxAsOpp());
+    LoadKidwOpp(GetKidIdxAsOpp());
     if (Opp.row == Char.row) {
         distance = Char.x - Opp.x;
         if (Opp.direction == Char.direction && Char.frame != 185)
@@ -282,10 +282,10 @@ void far pascal KidRiseFromShadowman(void)
     if (Opp.character_kind == 0) {
         kid = &Kid;
         *kid = Char;
-        load_actor_slot(Opp.slot);
-        remove_char();
-        save_actor_slot();
-        copy_kid_to_char();
+        LoadShad(Opp.slot);
+        RemoveChar();
+        SaveShad();
+        LoadKid();
         Char.character_kind = 0;
         Char.image_bank = 0;
         Char.repeat = 1;
@@ -296,8 +296,8 @@ void far pascal KidRiseFromShadowman(void)
 }
 
 typedef void (far pascal *ForegroundMarker)(signed char cell, void near *rect);
-extern void far pascal mark_bufs_for_rect(ForegroundMarker effect, void near *rect, signed char actor);
-extern void far pascal mark_foreground(signed char cell, void near *rect);
+extern void far pascal MarkBufsForRect(ForegroundMarker effect, void near *rect, signed char actor);
+extern void far pascal MarkFRedraw(signed char cell, void near *rect);
 
 void far pascal SetupShadowFlame(void)
 {
@@ -306,8 +306,8 @@ void far pascal SetupShadowFlame(void)
         FChar.image = FrameNum % 9 + 290;
         AddFCharX(13 - ImWidth / 2);
         MakeFCharClipRect();
-        add_char_object(14);
-        mark_bufs_for_rect(mark_foreground, (char *)&FChar.clip.top, Char.slot);
+        AddCharObj(14);
+        MarkBufsForRect(MarkFRedraw, (char *)&FChar.clip.top, Char.slot);
         RestoreFChar();
     }
 }

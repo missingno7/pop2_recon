@@ -143,7 +143,7 @@
         "type_index": 0
       },
       {
-        "name": "UPDATE_SHADOW_GAMEPLAY_PALETTE",
+        "name": "CHECKSHADOW",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 312,
@@ -189,12 +189,12 @@
       }
     ],
     "externals": [
-      "REMOVE_CHAR",
+      "REMOVECHAR",
       "SAVEFCHAR",
       "ADDFCHARX",
       "CUTTOKIDROOM",
       "MAKEFCHARCLIPRECT",
-      "@add_char_object",
+      "@AddCharObj",
       "RESTOREFCHAR",
       "GETSHADOWTOKIDDIST",
       "ISSHADOWIMBUED",
@@ -216,35 +216,35 @@
       "FRAMENUM",
       "CHECKSHADOWMANCREATE",
       "ADDCHARX",
-      "LOAD_KID_WITH_OPPONENT",
-      "SET_PALETTE",
+      "LOADKIDWOPP",
+      "SETPALETTE",
       "KIDRISEFROMSHADOWMAN",
-      "RESTORE_GAME_PLAY_PALETTE",
+      "RESTOREGAMEPLAYPALETTE",
       "HGETSND",
-      "DECREMENT_LIFE_POINTS",
-      "GET_MOB_TYPE_ITEM",
-      "UPDATE_SHADOW_GAMEPLAY_PALETTE",
+      "DECLIFEPTS",
+      "GETMOBTYPEITEM",
+      "CHECKSHADOW",
       "JUMPSEQ",
       "ADDSOUND",
       "__aFulrem",
       "CHECKSHADOWPALETTECHANGE",
       "ADDSONG",
-      "MARK_BUFS_FOR_RECT",
-      "SET_KID_PALETTE",
-      "MARK_FOREGROUND",
-      "IS_SIX_KIND",
+      "MARKBUFSFORRECT",
+      "SETKIDPALETTE",
+      "MARKFREDRAW",
+      "ISSPACE",
       "SETUPSHADOWFLAME",
-      "GET_BEHIND",
-      "GET_CELLS_AHEAD",
+      "GETBEHIND",
+      "GETCELLSINFRONT",
       "CHECKTURNSEQS",
       "RESET_SHADOW_OVERLAY_STATE",
       "GETOPPINFOIDX",
       "FIRSTINROW",
       "ANIMCHAR",
-      "SAVE_ACTOR_SLOT",
-      "COPY_KID_TO_CHAR",
+      "SAVESHAD",
+      "LOADKID",
       "DRAWKIDMETER",
-      "LOAD_ACTOR_SLOT"
+      "LOADSHAD"
     ]
   },
   "fixups": [
@@ -585,7 +585,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "LOAD_ACTOR_SLOT",
+          "name": "LOADSHAD",
           "method": 6,
           "zero_displacement": true
         }
@@ -593,7 +593,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "LOAD_ACTOR_SLOT",
+        "name": "LOADSHAD",
         "method": 6,
         "zero_displacement": true
       },
@@ -774,7 +774,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "COPY_KID_TO_CHAR",
+          "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
         }
@@ -782,7 +782,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "COPY_KID_TO_CHAR",
+        "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
       },
@@ -801,7 +801,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "SAVE_ACTOR_SLOT",
+          "name": "SAVESHAD",
           "method": 6,
           "zero_displacement": true
         }
@@ -809,7 +809,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "SAVE_ACTOR_SLOT",
+        "name": "SAVESHAD",
         "method": 6,
         "zero_displacement": true
       },
@@ -1368,7 +1368,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "IS_SIX_KIND",
+          "name": "ISSPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1376,7 +1376,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "IS_SIX_KIND",
+        "name": "ISSPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1395,7 +1395,7 @@
         "target": {
           "kind": "external",
           "index": 47,
-          "name": "GET_CELLS_AHEAD",
+          "name": "GETCELLSINFRONT",
           "method": 6,
           "zero_displacement": true
         }
@@ -1403,7 +1403,7 @@
       "target": {
         "kind": "external",
         "index": 47,
-        "name": "GET_CELLS_AHEAD",
+        "name": "GETCELLSINFRONT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1422,7 +1422,7 @@
         "target": {
           "kind": "external",
           "index": 44,
-          "name": "IS_SIX_KIND",
+          "name": "ISSPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1430,7 +1430,7 @@
       "target": {
         "kind": "external",
         "index": 44,
-        "name": "IS_SIX_KIND",
+        "name": "ISSPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1449,7 +1449,7 @@
         "target": {
           "kind": "external",
           "index": 46,
-          "name": "GET_BEHIND",
+          "name": "GETBEHIND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1457,7 +1457,7 @@
       "target": {
         "kind": "external",
         "index": 46,
-        "name": "GET_BEHIND",
+        "name": "GETBEHIND",
         "method": 6,
         "zero_displacement": true
       },
@@ -1503,7 +1503,7 @@
         "target": {
           "kind": "external",
           "index": 42,
-          "name": "SET_KID_PALETTE",
+          "name": "SETKIDPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1511,7 +1511,7 @@
       "target": {
         "kind": "external",
         "index": 42,
-        "name": "SET_KID_PALETTE",
+        "name": "SETKIDPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1908,7 +1908,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1916,7 +1916,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2124,7 +2124,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2132,7 +2132,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2178,7 +2178,7 @@
         "target": {
           "kind": "external",
           "index": 34,
-          "name": "GET_MOB_TYPE_ITEM",
+          "name": "GETMOBTYPEITEM",
           "method": 6,
           "zero_displacement": true
         }
@@ -2186,7 +2186,7 @@
       "target": {
         "kind": "external",
         "index": 34,
-        "name": "GET_MOB_TYPE_ITEM",
+        "name": "GETMOBTYPEITEM",
         "method": 6,
         "zero_displacement": true
       },
@@ -2232,7 +2232,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "RESTORE_GAME_PLAY_PALETTE",
+          "name": "RESTOREGAMEPLAYPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2240,7 +2240,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "RESTORE_GAME_PLAY_PALETTE",
+        "name": "RESTOREGAMEPLAYPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2421,7 +2421,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "DECREMENT_LIFE_POINTS",
+          "name": "DECLIFEPTS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2429,7 +2429,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "DECREMENT_LIFE_POINTS",
+        "name": "DECLIFEPTS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2745,7 +2745,7 @@
         "target": {
           "kind": "external",
           "index": 33,
-          "name": "DECREMENT_LIFE_POINTS",
+          "name": "DECLIFEPTS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2753,7 +2753,7 @@
       "target": {
         "kind": "external",
         "index": 33,
-        "name": "DECREMENT_LIFE_POINTS",
+        "name": "DECLIFEPTS",
         "method": 6,
         "zero_displacement": true
       },
@@ -2799,7 +2799,7 @@
         "target": {
           "kind": "external",
           "index": 29,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -2807,7 +2807,7 @@
       "target": {
         "kind": "external",
         "index": 29,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2961,7 +2961,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "LOAD_KID_WITH_OPPONENT",
+          "name": "LOADKIDWOPP",
           "method": 6,
           "zero_displacement": true
         }
@@ -2969,7 +2969,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "LOAD_KID_WITH_OPPONENT",
+        "name": "LOADKIDWOPP",
         "method": 6,
         "zero_displacement": true
       },
@@ -3366,7 +3366,7 @@
         "target": {
           "kind": "external",
           "index": 41,
-          "name": "MARK_BUFS_FOR_RECT",
+          "name": "MARKBUFSFORRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -3374,7 +3374,7 @@
       "target": {
         "kind": "external",
         "index": 41,
-        "name": "MARK_BUFS_FOR_RECT",
+        "name": "MARKBUFSFORRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -3447,7 +3447,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "MARK_FOREGROUND",
+          "name": "MARKFREDRAW",
           "method": 6,
           "zero_displacement": true
         }
@@ -3455,7 +3455,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "MARK_FOREGROUND",
+        "name": "MARKFREDRAW",
         "method": 6,
         "zero_displacement": true
       },
@@ -3474,7 +3474,7 @@
         "target": {
           "kind": "external",
           "index": 43,
-          "name": "MARK_FOREGROUND",
+          "name": "MARKFREDRAW",
           "method": 6,
           "zero_displacement": true
         }
@@ -3482,7 +3482,7 @@
       "target": {
         "kind": "external",
         "index": 43,
-        "name": "MARK_FOREGROUND",
+        "name": "MARKFREDRAW",
         "method": 6,
         "zero_displacement": true
       },
@@ -3501,7 +3501,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "@add_char_object",
+          "name": "@AddCharObj",
           "method": 6,
           "zero_displacement": true
         }
@@ -3509,7 +3509,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "@add_char_object",
+        "name": "@AddCharObj",
         "method": 6,
         "zero_displacement": true
       },
@@ -3960,7 +3960,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "COPY_KID_TO_CHAR",
+          "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
         }
@@ -3968,7 +3968,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "COPY_KID_TO_CHAR",
+        "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
       },
@@ -3987,7 +3987,7 @@
         "target": {
           "kind": "external",
           "index": 53,
-          "name": "SAVE_ACTOR_SLOT",
+          "name": "SAVESHAD",
           "method": 6,
           "zero_displacement": true
         }
@@ -3995,7 +3995,7 @@
       "target": {
         "kind": "external",
         "index": 53,
-        "name": "SAVE_ACTOR_SLOT",
+        "name": "SAVESHAD",
         "method": 6,
         "zero_displacement": true
       },
@@ -4014,7 +4014,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "REMOVE_CHAR",
+          "name": "REMOVECHAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -4022,7 +4022,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "REMOVE_CHAR",
+        "name": "REMOVECHAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -4041,7 +4041,7 @@
         "target": {
           "kind": "external",
           "index": 56,
-          "name": "LOAD_ACTOR_SLOT",
+          "name": "LOADSHAD",
           "method": 6,
           "zero_displacement": true
         }
@@ -4049,7 +4049,7 @@
       "target": {
         "kind": "external",
         "index": 56,
-        "name": "LOAD_ACTOR_SLOT",
+        "name": "LOADSHAD",
         "method": 6,
         "zero_displacement": true
       },
@@ -4500,7 +4500,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "LOAD_KID_WITH_OPPONENT",
+          "name": "LOADKIDWOPP",
           "method": 6,
           "zero_displacement": true
         }
@@ -4508,7 +4508,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "LOAD_KID_WITH_OPPONENT",
+        "name": "LOADKIDWOPP",
         "method": 6,
         "zero_displacement": true
       },
@@ -4635,7 +4635,7 @@
         "target": {
           "kind": "external",
           "index": 54,
-          "name": "COPY_KID_TO_CHAR",
+          "name": "LOADKID",
           "method": 6,
           "zero_displacement": true
         }
@@ -4643,7 +4643,7 @@
       "target": {
         "kind": "external",
         "index": 54,
-        "name": "COPY_KID_TO_CHAR",
+        "name": "LOADKID",
         "method": 6,
         "zero_displacement": true
       },
@@ -4662,7 +4662,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "REMOVE_CHAR",
+          "name": "REMOVECHAR",
           "method": 6,
           "zero_displacement": true
         }
@@ -4670,7 +4670,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "REMOVE_CHAR",
+        "name": "REMOVECHAR",
         "method": 6,
         "zero_displacement": true
       },
@@ -4693,7 +4693,7 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "@add_char_object": {
+    "@AddCharObj": {
       "entry_sha256": "10a85f18b03f906c00e652c23942d1c280c54802fc48dad3a871fa3e6734993b",
       "entry_target_id": "root:0170:02ae",
       "kind": "far-code-entry",
@@ -5000,7 +5000,7 @@
         }
       ]
     },
-    "COPY_KID_TO_CHAR": {
+    "LOADKID": {
       "entry_sha256": "b2fc25b438e7e651ec372411e18cca2a3c657dfa1a144467f5f2739816cb53d8",
       "entry_target_id": "root:02dc:1d60",
       "kind": "far-code-entry",
@@ -5017,7 +5017,7 @@
         }
       ]
     },
-    "DECREMENT_LIFE_POINTS": {
+    "DECLIFEPTS": {
       "entry_sha256": "2220988fd62ecef2d64b01a9470925065961f337e007e4de093cb2260ac543e1",
       "entry_target_id": "root:02dc:095c",
       "kind": "far-code-entry",
@@ -5153,7 +5153,7 @@
         }
       ]
     },
-    "GET_BEHIND": {
+    "GETBEHIND": {
       "entry_sha256": "e468ecd6a63acfdd7432768412163095911e1fdb3a5bc7c292ac8536955069aa",
       "entry_target_id": "root:02dc:0f94",
       "kind": "far-code-entry",
@@ -5170,7 +5170,7 @@
         }
       ]
     },
-    "GET_CELLS_AHEAD": {
+    "GETCELLSINFRONT": {
       "entry_sha256": "ca493301ff4a8da3ba15b39c89b282e210d0e70a66f61fee2e069c09a1fec3f5",
       "entry_target_id": "root:02dc:0f6c",
       "kind": "far-code-entry",
@@ -5204,7 +5204,7 @@
         }
       ]
     },
-    "IS_SIX_KIND": {
+    "ISSPACE": {
       "entry_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
       "entry_target_id": "root:0790:28d4",
       "kind": "far-code-entry",
@@ -5400,7 +5400,7 @@
         }
       }
     },
-    "LOAD_ACTOR_SLOT": {
+    "LOADSHAD": {
       "entry_sha256": "a77bfafd45e3cfe9a1c908e60c2feb0fdc89b1f8b59835ccc67501879c8ee9c1",
       "entry_target_id": "root:02dc:1d0e",
       "kind": "far-code-entry",
@@ -5417,7 +5417,7 @@
         }
       ]
     },
-    "LOAD_KID_WITH_OPPONENT": {
+    "LOADKIDWOPP": {
       "entry_sha256": "71c9cb91275ac047b0bf04b51e5c535cfa22fa19e6746a09c46fa00be2897981",
       "entry_target_id": "root:02dc:080a",
       "kind": "far-code-entry",
@@ -5451,7 +5451,7 @@
         }
       ]
     },
-    "MARK_BUFS_FOR_RECT": {
+    "MARKBUFSFORRECT": {
       "entry_sha256": "2365d702256436fb4f1f356245443442cf54e61404f12c8c9c1d3b2a184b7590",
       "entry_target_id": "root:0b52:0f5a",
       "kind": "far-code-entry",
@@ -5468,7 +5468,7 @@
         }
       ]
     },
-    "MARK_FOREGROUND": {
+    "MARKFREDRAW": {
       "entry_sha256": "5f5c4234b3c9b0d192a8b5953355812ff1a0366b24ec87332807ba83f57a8e5b",
       "entry_target_id": "root:0b52:0f16",
       "kind": "far-code-entry",
@@ -5564,7 +5564,7 @@
         }
       ]
     },
-    "REMOVE_CHAR": {
+    "REMOVECHAR": {
       "entry_sha256": "399d27b716fcdfb30892526e4577be5761d85cd90f30437b4910bd716f6e9e0e",
       "entry_target_id": "root:02dc:1ba2",
       "kind": "far-code-entry",
@@ -5680,7 +5680,7 @@
         }
       ]
     },
-    "SAVE_ACTOR_SLOT": {
+    "SAVESHAD": {
       "entry_sha256": "71154026804e09462eb5706a57bb9e7444217392cec84918c9dbdd2991a3bb18",
       "entry_target_id": "root:02dc:1cc2",
       "kind": "far-code-entry",
@@ -5697,7 +5697,7 @@
         }
       ]
     },
-    "SET_KID_PALETTE": {
+    "SETKIDPALETTE": {
       "entry_sha256": "f7d881d92790bfaea4746394d86220ca54113fc62886cd76dbb2bbe21b46adf6",
       "entry_target_id": "root:0a63:07ce",
       "kind": "far-code-entry",
@@ -5714,7 +5714,7 @@
         }
       ]
     },
-    "SET_PALETTE": {
+    "SETPALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",
       "entry_target_id": "root:0790:2b1c",
       "kind": "far-code-entry",
@@ -5723,7 +5723,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_MOB_TYPE_ITEM": {
+    "GETMOBTYPEITEM": {
       "entry_sha256": "1aecdf36a600b8ef1e2f563159e0f19220d6ac2cf1d6bc86bb8ed7ff1be672c4",
       "entry_target_id": "root:0b52:19de",
       "kind": "far-code-entry",
@@ -5732,7 +5732,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESTORE_GAME_PLAY_PALETTE": {
+    "RESTOREGAMEPLAYPALETTE": {
       "entry_sha256": "cfabc89fb28ff1dc4fea1868ff6e633cc210b9bbceebf86f49ce1451d25de8b8",
       "entry_target_id": "root:0790:294c",
       "kind": "far-code-entry",

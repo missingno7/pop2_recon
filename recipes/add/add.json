@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "cb99575b3bf8c2207008655dd4c2475c63d61e0af66b9ee8950efc90da018245",
+  "binding_sha256": "f9c36b0fa973294f72b99c7cebef7963a7b03c37c883e897662836c6e8722293",
   "claims": [
     {
       "fixup_count": 10,
-      "public": "@add_image_info",
+      "public": "@AddImgInfoToBFItem",
       "relocation_indices": [
         152,
         177,
@@ -18,7 +18,7 @@
     },
     {
       "fixup_count": 10,
-      "public": "RESTORE_PEELS",
+      "public": "PEEL",
       "relocation_indices": [
         150,
         172,
@@ -62,7 +62,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "ADD_CHARACTERS",
+      "public": "ADDCHARS",
       "relocation_indices": [
         146,
         166
@@ -73,7 +73,7 @@
     },
     {
       "fixup_count": 15,
-      "public": "@add_char_object",
+      "public": "@AddCharObj",
       "relocation_indices": [
         151,
         198
@@ -84,7 +84,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "ADD_MIDDLE_ITEM",
+      "public": "ADDFIMGTOFTABLE",
       "relocation_indices": [
         138
       ],
@@ -94,7 +94,7 @@
     },
     {
       "fixup_count": 26,
-      "public": "@add_middle_image",
+      "public": "@AddMid",
       "relocation_indices": [
         239
       ],
@@ -104,7 +104,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "@add_peel",
+      "public": "@AddPeel",
       "relocation_indices": [
         171,
         204
@@ -117,12 +117,12 @@
     },
     {
       "fixup_count": 2,
-      "public": "SAVE_CHARACTER_PEEL",
+      "public": "SAVEPEEL",
       "target_id": "root:0170:059e"
     },
     {
       "fixup_count": 8,
-      "public": "MARK_PEEL_FRONT_BUFFERS",
+      "public": "MARKPEELFOREBUFS",
       "relocation_indices": [
         153,
         190,
@@ -137,12 +137,12 @@
     },
     {
       "fixup_count": 3,
-      "public": "FIND_CHARACTER_PEEL",
+      "public": "GETPEELIDXFORCHARIDX",
       "target_id": "root:0170:0646"
     },
     {
       "fixup_count": 4,
-      "public": "CLEAR_PEELS",
+      "public": "ZEROPEELS",
       "relocation_indices": [
         234
       ],
@@ -152,7 +152,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "@get_back_table_image_row",
+      "public": "@GetBackTableImgRow",
       "relocation_indices": [
         165,
         233
@@ -163,7 +163,7 @@
     },
     {
       "fixup_count": 32,
-      "public": "ADD_KID",
+      "public": "KID1",
       "relocation_indices": [
         143,
         147,
@@ -181,7 +181,7 @@
     },
     {
       "fixup_count": 29,
-      "public": "ADD_OPPONENT",
+      "public": "OPPONENT1",
       "relocation_indices": [
         142,
         176,
@@ -197,7 +197,7 @@
     },
     {
       "fixup_count": 36,
-      "public": "SETUP_CHAR",
+      "public": "SETUPCHAR",
       "relocation_indices": [
         149,
         167,
@@ -214,7 +214,7 @@
     },
     {
       "fixup_count": 34,
-      "public": "SETUP_COMIX",
+      "public": "SETUPCOMIX",
       "relocation_indices": [
         144,
         157,
@@ -232,7 +232,7 @@
     },
     {
       "fixup_count": 15,
-      "public": "SETUP_FIREBALL",
+      "public": "SETUPFIREBALL",
       "relocation_indices": [
         145,
         156,
@@ -250,7 +250,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "SETUP_KID",
+      "public": "SETUPKID",
       "relocation_indices": [
         140,
         169,
@@ -268,7 +268,7 @@
     },
     {
       "fixup_count": 31,
-      "public": "@setup_sword",
+      "public": "@SetupSword",
       "relocation_indices": [
         155,
         159,
@@ -286,7 +286,7 @@
     },
     {
       "fixup_count": 16,
-      "public": "SETUP_FLASK",
+      "public": "SETUPFLASK",
       "relocation_indices": [
         154,
         178,
@@ -302,7 +302,7 @@
     },
     {
       "fixup_count": 12,
-      "public": "CHECK_BACKGROUND_SHAPE",
+      "public": "CHECKBGSETIMG",
       "relocation_indices": [
         161,
         186,
@@ -318,7 +318,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "CHECK_KID_SHAPE",
+      "public": "CHECKKIDSETIMG",
       "relocation_indices": [
         160,
         173,
@@ -334,7 +334,7 @@
     },
     {
       "fixup_count": 13,
-      "public": "CHECK_OPPONENT_SHAPE",
+      "public": "CHECKOPPSETIMG",
       "relocation_indices": [
         162,
         187,
@@ -349,7 +349,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "GET_SET_IMAGE_SIZE",
+      "public": "GETSETIMGSIZE",
       "relocation_indices": [
         235
       ],
@@ -359,7 +359,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "GET_SET_SHAPE_ITEM",
+      "public": "GETSETSHAPEITEM",
       "relocation_indices": [
         168
       ],
@@ -369,7 +369,7 @@
     },
     {
       "fixup_count": 43,
-      "public": "@setup_opponent",
+      "public": "@SetupOpponent",
       "relocation_indices": [
         141,
         158,
@@ -391,7 +391,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "CLEAR_ROW_HANDLES",
+      "public": "FORCEOPPREDRAW",
       "target_id": "root:0170:118c"
     }
   ],
@@ -415,12 +415,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "c97143d8af56f6a83f5dfb02336a80e5e7de08b4de339cedfb8220e8fe311d7b",
+  "object_sha256": "f2eb4603b5f7a4f0782989648a77572ab218e17f5e3430a5f3e1e9d5201045d8",
   "origin": 5896,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "0255961e20d8435db3aa032479ed40ed589daedc92d1dbb7799df1d862dbda86",
+  "source_sha256": "61069657cec0ab6ab6be3071ddfeaaa7ad2858d9f8cf15418ef2db83cc2c3684",
   "space": "root"
 }

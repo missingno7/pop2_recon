@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/nis/nis.json",
-  "binding_sha256": "9e21b40e408253b64f8e0e9bf05c1fc69174415c94bd48690fddcc4996664366",
+  "binding_sha256": "c85d6f1e4d4c0dac4745ddbda4d879bdf472a61ea31e1402b9e86d89307c8023",
   "claims": [
     {
       "fixup_count": 63,
-      "public": "TITLE_CALLBACK",
+      "public": "TITLEFUNC",
       "relocation_indices": [
         429,
         430,
@@ -55,7 +55,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "START_TIMED_MUSIC",
+      "public": "SETWAITSND",
       "relocation_indices": [
         585
       ],
@@ -65,12 +65,12 @@
     },
     {
       "fixup_count": 2,
-      "public": "PLAY_TIMED_MUSIC",
+      "public": "WAITSND1",
       "target_id": "overlay-2:255a:00ca"
     },
     {
       "fixup_count": 7,
-      "public": "AWAIT_TIMED_MUSIC",
+      "public": "WAITCUE",
       "relocation_indices": [
         322,
         733
@@ -119,7 +119,7 @@
     },
     {
       "fixup_count": 41,
-      "public": "DRAW_NIS_TEXT",
+      "public": "NISTEXTDRAW",
       "relocation_indices": [
         198,
         199,
@@ -147,7 +147,7 @@
     },
     {
       "fixup_count": 1,
-      "public": "PAINT_RUINS_SKY",
+      "public": "RUINSSKY",
       "relocation_indices": [
         197
       ],
@@ -183,7 +183,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "FLIP_KID",
+      "public": "FLIPKID",
       "relocation_indices": [
         407,
         721
@@ -196,7 +196,7 @@
     },
     {
       "fixup_count": 14,
-      "public": "TREE_CALLBACK",
+      "public": "TREEFUNC",
       "relocation_indices": [
         449,
         586
@@ -207,7 +207,7 @@
     },
     {
       "fixup_count": 53,
-      "public": "TREE_CHECK",
+      "public": "TREECHECK",
       "relocation_indices": [
         70,
         92,
@@ -387,7 +387,7 @@
     },
     {
       "fixup_count": 22,
-      "public": "TRANS_PRINCESS_ROOM",
+      "public": "TRANSPRINCESSROOM",
       "relocation_indices": [
         61,
         93,
@@ -410,7 +410,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "DRAW_PRINCESS_ROOM",
+      "public": "DRAWPRINCESSROOM",
       "relocation_indices": [
         241,
         242,
@@ -423,7 +423,7 @@
     },
     {
       "fixup_count": 98,
-      "public": "TRANS_THRONE_ROOM",
+      "public": "TRANSTHRONEROOM",
       "relocation_indices": [
         76,
         77,
@@ -485,7 +485,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "DRAW_RUINED_THRONE_ROOM",
+      "public": "DRAWRUINEDTHRONEROOM",
       "relocation_indices": [
         246,
         247,
@@ -504,7 +504,7 @@
     },
     {
       "fixup_count": 10,
-      "public": "RUINED_THRONE_CALLBACK",
+      "public": "TRANSTHRONEFUNC",
       "relocation_indices": [
         481,
         676,
@@ -519,7 +519,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "INIT_FADE_TO_PRIMARY",
+      "public": "INITFADETOPRIMARY",
       "relocation_indices": [
         317
       ],
@@ -529,7 +529,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "CUT_TO_PRIMARY",
+      "public": "CUTTOPRIMARY",
       "relocation_indices": [
         415,
         738
@@ -542,7 +542,7 @@
     },
     {
       "fixup_count": 1,
-      "public": "INIT_FADE_TO_BLACK",
+      "public": "INITFADETOBLACK",
       "relocation_indices": [
         316
       ],
@@ -552,12 +552,12 @@
     },
     {
       "fixup_count": 3,
-      "public": "TRANSITION_SCENE_ONE",
+      "public": "TRANSFUNC1",
       "target_id": "overlay-2:255a:18a8"
     },
     {
       "fixup_count": 5,
-      "public": "TRANSITION_SCENE_FOUR",
+      "public": "TRANSFUNC4",
       "relocation_indices": [
         315,
         591
@@ -568,7 +568,7 @@
     },
     {
       "fixup_count": 21,
-      "public": "TRANSITION_SCENE_FIVE",
+      "public": "TRANSFUNC5",
       "relocation_indices": [
         78,
         81,
@@ -586,7 +586,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "TRANSITION_SCENE_SIX",
+      "public": "TRANSFUNC6",
       "relocation_indices": [
         596
       ],
@@ -596,12 +596,12 @@
     },
     {
       "fixup_count": 1,
-      "public": "TRANSITION_SCENE_SEVEN",
+      "public": "TRANSFUNC7",
       "target_id": "overlay-2:255a:1a40"
     },
     {
       "fixup_count": 4,
-      "public": "TRANSITION_SCENE_EIGHT",
+      "public": "TRANSFUNC8",
       "relocation_indices": [
         319
       ],
@@ -611,7 +611,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "TRANSITION_SCENE_NINE",
+      "public": "TRANSFUNC9",
       "relocation_indices": [
         380,
         460,
@@ -626,12 +626,12 @@
     },
     {
       "fixup_count": 2,
-      "public": "TRANSITION_SCENE_TEN",
+      "public": "TRANSFUNC10",
       "target_id": "overlay-2:255a:1ae7"
     },
     {
       "fixup_count": 3,
-      "public": "TRANSITION_SCENE_ELEVEN",
+      "public": "TRANSFUNC11",
       "relocation_indices": [
         318
       ],
@@ -641,7 +641,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "PRINCESS_ROOM_CALLBACK",
+      "public": "TRANSFUNCJAFFARMAGIC",
       "relocation_indices": [
         80,
         379,
@@ -657,7 +657,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "ERASE_STATIC_JAFFAR",
+      "public": "ERASESTATICJAFFAR",
       "relocation_indices": [
         255,
         483
@@ -670,7 +670,7 @@
     },
     {
       "fixup_count": 158,
-      "public": "ABOARD_SHIP",
+      "public": "ABOARDSHIP",
       "relocation_indices": [
         79,
         82,
@@ -740,7 +740,7 @@
     },
     {
       "fixup_count": 153,
-      "public": "OPENING_ONE",
+      "public": "OPENING1",
       "relocation_indices": [
         84,
         117,
@@ -801,7 +801,7 @@
     },
     {
       "fixup_count": 268,
-      "public": "OPENING_TWO",
+      "public": "OPENING2",
       "relocation_indices": [
         85,
         129,
@@ -897,7 +897,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "CLEAR_NIS",
+      "public": "CLEARNIS",
       "relocation_indices": [
         312
       ],
@@ -907,7 +907,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "ADD_NIS",
+      "public": "ADDNIS",
       "relocation_indices": [
         261
       ],
@@ -917,7 +917,7 @@
     },
     {
       "fixup_count": 5,
-      "public": "ADD_SHAPE_NIS",
+      "public": "ADDSHPNIS",
       "relocation_indices": [
         426,
         688
@@ -930,7 +930,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "COPY_NIS",
+      "public": "COPYNIS",
       "relocation_indices": [
         156,
         425,
@@ -946,7 +946,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "CUT_NIS",
+      "public": "CUTNIS",
       "relocation_indices": [
         492
       ],
@@ -956,7 +956,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "FADE_NIS",
+      "public": "FADENIS",
       "relocation_indices": [
         471,
         472,
@@ -970,7 +970,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "DISSOLVE_NIS",
+      "public": "DISSOLVENIS",
       "relocation_indices": [
         291,
         490,
@@ -985,7 +985,7 @@
     },
     {
       "fixup_count": 18,
-      "public": "DISPATCH_NIS",
+      "public": "NIS",
       "relocation_indices": [
         191,
         196,
@@ -1000,7 +1000,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "RUN_NIS_DIALOG",
+      "public": "NISDIALOG",
       "relocation_indices": [
         278
       ],
@@ -1010,7 +1010,7 @@
     },
     {
       "fixup_count": 3,
-      "public": "GET_SHAPE_RECT",
+      "public": "GETSRECT",
       "relocation_indices": [
         395,
         423,
@@ -1024,7 +1024,7 @@
     },
     {
       "fixup_count": 122,
-      "public": "ENDING",
+      "public": "HAPPYENDING",
       "relocation_indices": [
         68,
         86,
@@ -1089,7 +1089,7 @@
     },
     {
       "fixup_count": 20,
-      "public": "ANIMATE_ENDING",
+      "public": "JAFFARBURNBABYBURN",
       "relocation_indices": [
         87,
         163,
@@ -1110,7 +1110,7 @@
     },
     {
       "fixup_count": 55,
-      "public": "ENDING_CALLBACK",
+      "public": "HAPPYFUNC",
       "relocation_indices": [
         62,
         63,
@@ -1142,7 +1142,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "DRAW_HAPPY_DIALOG",
+      "public": "HAPPYDIALOG",
       "relocation_indices": [
         610
       ],
@@ -1152,7 +1152,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "CHECK_NIS_INPUT",
+      "public": "NISINPUT",
       "relocation_indices": [
         434,
         645,
@@ -1167,7 +1167,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "INSTALL_NIS_INPUT",
+      "public": "INITNISINPUT",
       "relocation_indices": [
         188,
         433
@@ -1241,7 +1241,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "DISCOVERY_CALLBACK",
+      "public": "DISCFUNC",
       "relocation_indices": [
         66,
         67,
@@ -1398,12 +1398,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "nis/nis",
-  "object_sha256": "73beb2306ba67bd87cd53a60fd7422ae4edbd0f68e8c867716fd6258919e00a8",
+  "object_sha256": "1606bcd14e6699704bedcc6a53e450b7c8ca69566ce7af0ce62df07a1a82f101",
   "origin": 1022,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/nis/nis.c",
-  "source_sha256": "de156d7eeda8251c2da68391e01d6cd4024077f106038d82eaf41100ea9c9540",
+  "source_sha256": "6ebb53d9d32c812313cfff3d81c1e2a6647a6e2959c9637c07e652dbb3257c19",
   "space": "overlay-2"
 }

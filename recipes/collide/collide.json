@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "efc0ef63dd502e1a585f01243ed13850cf9fcb2e67cccc64e3e4e8d82893c630",
+  "binding_sha256": "9355ac0d7fcb2997f030b51be94136fdb275291fbea8d1e80926a0a12dbe7d16",
   "claims": [
     {
       "fixup_count": 63,
@@ -70,12 +70,12 @@
     },
     {
       "fixup_count": 8,
-      "public": "COLLIDE_WITH_BARRIERS",
+      "public": "COLLISIONS",
       "target_id": "overlay-3:29ef:03ec"
     },
     {
       "fixup_count": 14,
-      "public": "RIGHT_COLLISION",
+      "public": "RIGHTCOLLIDE",
       "relocation_indices": [
         491
       ],
@@ -85,7 +85,7 @@
     },
     {
       "fixup_count": 15,
-      "public": "LEFT_COLLISION",
+      "public": "LEFTCOLLIDE",
       "relocation_indices": [
         490
       ],
@@ -95,7 +95,7 @@
     },
     {
       "fixup_count": 4,
-      "public": "CHECK_COLLISION_COL",
+      "public": "CHECKCOLLIDE1",
       "relocation_indices": [
         512
       ],
@@ -105,7 +105,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "CHECK_COLLISION_TILE",
+      "public": "CHECKCOLLIDE",
       "target_id": "overlay-3:29ef:0516"
     },
     {
@@ -115,7 +115,7 @@
     },
     {
       "fixup_count": 24,
-      "public": "APPLY_COLLISION",
+      "public": "COLLIDE",
       "relocation_indices": [
         443,
         444,
@@ -131,7 +131,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "APPLY_AIR_BUMP",
+      "public": "AIRBUMP",
       "relocation_indices": [
         440,
         452,
@@ -146,7 +146,7 @@
     },
     {
       "fixup_count": 41,
-      "public": "APPLY_GROUND_BUMP",
+      "public": "GROUNDBUMP",
       "relocation_indices": [
         439,
         441,
@@ -185,12 +185,12 @@
     },
     {
       "fixup_count": 8,
-      "public": "GATE_BLOCKS_PASSAGE",
+      "public": "GATEBARR",
       "target_id": "overlay-3:29ef:0896"
     },
     {
       "fixup_count": 13,
-      "public": "GATE_BLOCKS_STANDING",
+      "public": "GATEBARRTOSTANDUP",
       "relocation_indices": [
         453,
         461,
@@ -203,7 +203,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "SCYTHE_BLOCKS_PASSAGE",
+      "public": "SCYTHE1BARR",
       "relocation_indices": [
         479
       ],
@@ -213,7 +213,7 @@
     },
     {
       "fixup_count": 53,
-      "public": "GET_CHAR_EDGES",
+      "public": "GETCHAREDGES",
       "relocation_indices": [
         468,
         469,
@@ -231,7 +231,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "GET_SWORD_WIDTH",
+      "public": "GETSWORDWIDTH",
       "relocation_indices": [
         470,
         515
@@ -242,7 +242,7 @@
     },
     {
       "fixup_count": 27,
-      "public": "GET_FORWARD_DISTANCE",
+      "public": "GETFWDDIST",
       "relocation_indices": [
         465,
         466,
@@ -262,7 +262,7 @@
     },
     {
       "fixup_count": 28,
-      "public": "CHECK_GATE_FOR_OPPONENT",
+      "public": "CHECKGATEFOROPP",
       "relocation_indices": [
         463,
         487,
@@ -276,7 +276,7 @@
     },
     {
       "fixup_count": 22,
-      "public": "CHECK_GATE_FOR_PLAYER",
+      "public": "CHECKGATEFORKID",
       "relocation_indices": [
         462,
         483,
@@ -292,7 +292,7 @@
     },
     {
       "fixup_count": 20,
-      "public": "PUSH_AWAY_FROM_GATE",
+      "public": "PUSHCHARAWAYFROMGATE",
       "relocation_indices": [
         456
       ],
@@ -302,7 +302,7 @@
     },
     {
       "fixup_count": 40,
-      "public": "COLLIDE_ENEMY_WITH_BARRIER",
+      "public": "ENEMYCOLLIDE",
       "relocation_indices": [
         442,
         445,
@@ -323,12 +323,12 @@
     },
     {
       "fixup_count": 12,
-      "public": "BARRIER_DISTANCE_FROM_FACE",
+      "public": "GETBARRDISTFROMFACE",
       "target_id": "overlay-3:29ef:105a"
     },
     {
       "fixup_count": 11,
-      "public": "BARRIER_DISTANCE_FROM_BACK",
+      "public": "GETBARRDISTFROMBACK",
       "target_id": "overlay-3:29ef:10ce"
     },
     {
@@ -367,12 +367,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "bf6ec52bf34d89212860b274403ea912fc60612a739f744b1a378b8ee8d01e39",
+  "object_sha256": "3a427719db7fcc06a0bb291d4245909fb3a266ad61b1e4a050dbabb5e96d8e28",
   "origin": 19788,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "8ce30b1ccc55857307e127bd2c860857b84cd57ef72a2605522bb8ae5819e963",
+  "source_sha256": "d846b0f208a464319044e35805a5103ec68e180bf51ac239c267a6249cc79a4a",
   "space": "overlay-3"
 }

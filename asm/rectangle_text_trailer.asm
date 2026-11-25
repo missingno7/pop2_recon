@@ -3,12 +3,12 @@
 EXTRN Graf:WORD, DEFAULT_PORT:WORD
 .CODE
 EXTRN GET_BLOCK_PAYLOAD_SIZE:NEAR, SECTRECT:NEAR, DRAW_COUNTED_TEXT:NEAR
-EXTRN STROKE_RECTANGLE:NEAR, OFFSETRECT:NEAR, MEASURE_TEXT:NEAR
-EXTRN STROKE_PORT_RECT:NEAR, CHECK_CURSOR_OVERLAP:NEAR
+EXTRN STROKE_RECTANGLE:NEAR, OFFSETRECT:NEAR, COPYBITS:NEAR
+EXTRN ERASERECT:NEAR, CHECK_CURSOR_OVERLAP:NEAR
 
 
-PUBLIC QUERY_HANDLE_SIZE
-QUERY_HANDLE_SIZE PROC FAR
+PUBLIC HGETSIZE
+HGETSIZE PROC FAR
     push bp
     mov bp, sp
     push si
@@ -33,7 +33,7 @@ no_payload:
     sub ax, ax
     cwd
     jmp SHORT done
-QUERY_HANDLE_SIZE ENDP
+HGETSIZE ENDP
 
 PUBLIC SUBTRACT_RECTANGLE_STRIP
 cut_top EQU WORD PTR [bp-8]
@@ -348,7 +348,7 @@ shift_down:
     mov [bp-12], ax
 move_region:
     push cs
-    call MEASURE_TEXT
+    call COPYBITS
     les di, dword ptr [bp+6]
     mov dx, es
     or dx, di
@@ -359,7 +359,7 @@ move_region:
     mov cx, 4
     rep movsw
     push cs
-    call stroke_port_rect
+    call EraseRect
 return_after_scroll:
     jmp near ptr return_source
 scroll_context_rectangle endp

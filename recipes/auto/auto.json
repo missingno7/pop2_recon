@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "f4db9bf4834ec50c50ae7213fbac5c0497e49e27cf5de6d17eff31f855664bf2",
+  "binding_sha256": "e478352924b87655b1429c5c0bbc0f92cfb0dec1ad164466405e01e1060592ea",
   "claims": [
     {
       "fixup_count": 37,
-      "public": "TRANSFER_ROOM_ACTORS",
+      "public": "CUTALLOPPONENTS",
       "relocation_indices": [
         86
       ],
@@ -19,7 +19,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "SET_OPPONENT_LIFE",
+      "public": "SETOPPLIFEPTS",
       "target_id": "overlay-3:251b:0008"
     },
     {
@@ -29,7 +29,7 @@
     },
     {
       "fixup_count": 119,
-      "public": "INITIALIZE_ROOM_ACTORS",
+      "public": "ADDOPPONENT",
       "relocation_indices": [
         6,
         10,
@@ -57,12 +57,12 @@
     },
     {
       "fixup_count": 9,
-      "public": "CHECK_SIDE_ROOMS",
+      "public": "CHECKSIDEROOMSFORVISIBLEOPPS",
       "target_id": "overlay-3:251b:03da"
     },
     {
       "fixup_count": 55,
-      "public": "UPDATE_OPPONENT_RECORD",
+      "public": "UPDATEOPPINFO",
       "relocation_indices": [
         25,
         37,
@@ -79,7 +79,7 @@
     },
     {
       "fixup_count": 22,
-      "public": "TRANSFER_OPPONENT_RECORD",
+      "public": "TRANSFEROPPINFO",
       "relocation_indices": [
         67
       ],
@@ -89,7 +89,7 @@
     },
     {
       "fixup_count": 9,
-      "public": "SET_SPECIAL_OPPONENT",
+      "public": "SETSPECIALOPPINFO",
       "relocation_indices": [
         9,
         52
@@ -107,7 +107,7 @@
     },
     {
       "fixup_count": 2,
-      "public": "ADD_OPPONENT_TO_ROOM",
+      "public": "ADDOPPTOROOM",
       "target_id": "overlay-3:251b:0864"
     },
     {
@@ -117,17 +117,17 @@
     },
     {
       "fixup_count": 15,
-      "public": "PICK_HIDDEN_ACTOR",
+      "public": "GETOPPIDXCLOSESTTOKID",
       "target_id": "overlay-3:251b:08e8"
     },
     {
       "fixup_count": 4,
-      "public": "IS_SELECTED_ACTOR",
+      "public": "ISCHARCLOSESTTOKID",
       "target_id": "overlay-3:251b:0a26"
     },
     {
       "fixup_count": 7,
-      "public": "CHECK_GENERATOR_POINTS",
+      "public": "CHECKOPPGENPTS",
       "target_id": "overlay-3:251b:0a4a"
     },
     {
@@ -150,17 +150,17 @@
     },
     {
       "fixup_count": 3,
-      "public": "FIND_ACTIVE_GENERATOR",
+      "public": "GETOPPGENPTONROW",
       "target_id": "overlay-3:251b:0c66"
     },
     {
       "fixup_count": 1,
-      "public": "IS_ACTIVE_GENERATOR",
+      "public": "ISACTIVEOPPGENPT",
       "target_id": "overlay-3:251b:0cb6"
     },
     {
       "fixup_count": 20,
-      "public": "SHOULD_GENERATE",
+      "public": "ISTIMETOGENOPP",
       "relocation_indices": [
         84,
         101
@@ -171,22 +171,22 @@
     },
     {
       "fixup_count": 2,
-      "public": "GET_GENERATOR",
+      "public": "GETOPPGENPTIDX",
       "target_id": "overlay-3:251b:0e14"
     },
     {
       "fixup_count": 3,
-      "public": "GENERATOR_HAS_TUMBLE",
+      "public": "ISOPPGENPTWITHTUMBLEON",
       "target_id": "overlay-3:251b:0e54"
     },
     {
       "fixup_count": 16,
-      "public": "@reserve_opponent_bank",
+      "public": "@PresetOppBanks",
       "target_id": "overlay-3:251b:0eac"
     },
     {
       "fixup_count": 8,
-      "public": "LOAD_OPPONENT_BANKS",
+      "public": "SETOPPBANKS",
       "relocation_indices": [
         22,
         23
@@ -197,7 +197,7 @@
     },
     {
       "fixup_count": 26,
-      "public": "CUT_ROOM_OPPONENTS",
+      "public": "CUTOPPONENT",
       "relocation_indices": [
         70,
         80,
@@ -214,7 +214,7 @@
     },
     {
       "fixup_count": 31,
-      "public": "CHECK_CUT",
+      "public": "CUTCHECK",
       "relocation_indices": [
         11,
         13,
@@ -235,22 +235,22 @@
     },
     {
       "fixup_count": 6,
-      "public": "CAN_ACTOR_FOLLOW",
+      "public": "CANOPPFOLLOWKID",
       "target_id": "overlay-3:251b:12a2"
     },
     {
       "fixup_count": 4,
-      "public": "ACTOR_FOLLOWS_TO_ADJACENT_ROOM",
+      "public": "ISCHARINKIDROOM",
       "target_id": "overlay-3:251b:12f4"
     },
     {
       "fixup_count": 25,
-      "public": "REGISTER_ACTOR_ROOM",
+      "public": "REGISTERCHARINROOM",
       "target_id": "overlay-3:251b:133a"
     },
     {
       "fixup_count": 19,
-      "public": "CUT_ACTOR",
+      "public": "CUT",
       "relocation_indices": [
         40,
         41,
@@ -263,7 +263,7 @@
     },
     {
       "fixup_count": 94,
-      "public": "CHOOSE_CUT_SIDE",
+      "public": "CUTCHAR",
       "relocation_indices": [
         27,
         33,
@@ -279,7 +279,7 @@
     },
     {
       "fixup_count": 27,
-      "public": "UPDATE_AUTOMATIC_ACTOR",
+      "public": "AUTOCTRL",
       "relocation_indices": [
         24,
         63,
@@ -294,12 +294,12 @@
     },
     {
       "fixup_count": 2,
-      "public": "RESET_ACTOR_INPUTS",
+      "public": "AUTORELEASE",
       "target_id": "overlay-3:251b:18fe"
     },
     {
       "fixup_count": 3,
-      "public": "RUN_SHADOW_SCRIPT",
+      "public": "SHADOWPROG",
       "relocation_indices": [
         100
       ],
@@ -309,7 +309,7 @@
     },
     {
       "fixup_count": 19,
-      "public": "RUN_GUARD_SCRIPT",
+      "public": "GUARDPROG",
       "relocation_indices": [
         8,
         31,
@@ -324,7 +324,7 @@
     },
     {
       "fixup_count": 26,
-      "public": "CHECK_STAB",
+      "public": "CHECKSTAB",
       "relocation_indices": [
         88,
         89,
@@ -341,7 +341,7 @@
     },
     {
       "fixup_count": 84,
-      "public": "STAB_ACTOR",
+      "public": "STABCHAR",
       "relocation_indices": [
         0,
         1,
@@ -381,7 +381,7 @@
     },
     {
       "fixup_count": 57,
-      "public": "BEGIN_ACTOR_DEATH",
+      "public": "STABKILLCHAR",
       "relocation_indices": [
         12,
         16,
@@ -404,7 +404,7 @@
     },
     {
       "fixup_count": 11,
-      "public": "DISPATCH_GUARD_REACTION",
+      "public": "CHECKSTRIKE",
       "relocation_indices": [
         94,
         97,
@@ -419,7 +419,7 @@
     },
     {
       "fixup_count": 66,
-      "public": "TEST_ACTOR_STRIKE",
+      "public": "TESTSTRIKE",
       "relocation_indices": [
         51,
         61,
@@ -436,12 +436,12 @@
     },
     {
       "fixup_count": 27,
-      "public": "@get_char_strike_ranges",
+      "public": "@GetCharStrikeRanges",
       "target_id": "overlay-3:251b:21c6"
     },
     {
       "fixup_count": 1,
-      "public": "IS_STRIKING_POSITION",
+      "public": "ISSTRIKINGPOS",
       "target_id": "overlay-3:251b:2332"
     },
     {
@@ -451,7 +451,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "CAN_CONTINUE_RUN_JUMP",
+      "public": "ISADVANCABLEID",
       "relocation_indices": [
         5,
         46,
@@ -489,12 +489,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "e928aefd1f8cd4258d7603fb91e75a0447c91542d8e8b50a281a3e9c7809a0a4",
+  "object_sha256": "d3ed94c3559288b513c5eeee8bef75f65beeaf9b449c8486d09a261d4733bba3",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "131e9c92a938d33fcb78bbacc3c18d1c73fca64e2d7845566bcf14d8d86a08b3",
+  "source_sha256": "ce66a7d94ff5f8d5dbb1bd29581ffbc03201ee53831af35f93687a90e8a52e49",
   "space": "overlay-3"
 }

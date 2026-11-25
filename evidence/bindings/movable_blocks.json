@@ -109,12 +109,12 @@
       }
     ],
     "externals": [
-      "RECLAIM_HEAP_BLOCKS",
-      "COMPACT_HEAP_BLOCKS",
+      "HEAPPURGE",
       "RESIZE_DOS_HEAP",
       "MOVE_HUGE_BYTES",
       "RELEASE_BACKING_RECORD",
       "HEAP_STATE",
+      "HEAPCOMPACT",
       "ALLOCATE_BACKING_RECORD",
       "TRANSFER_BACKING_RECORD"
     ]
@@ -156,7 +156,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -199,7 +199,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -221,7 +221,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -243,7 +243,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 2,
         "name": "RESIZE_DOS_HEAP",
         "method": 6,
         "zero_displacement": true
@@ -266,7 +266,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "RECLAIM_HEAP_BLOCKS",
+        "name": "HEAPPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -287,8 +287,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
-        "name": "COMPACT_HEAP_BLOCKS",
+        "index": 6,
+        "name": "HEAPCOMPACT",
         "method": 6,
         "zero_displacement": true
       },
@@ -309,7 +309,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -352,7 +352,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -395,7 +395,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -438,7 +438,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -481,7 +481,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -524,7 +524,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 5,
         "name": "HEAP_STATE",
         "method": 6,
         "zero_displacement": true
@@ -588,7 +588,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -653,7 +653,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 4,
         "name": "RELEASE_BACKING_RECORD",
         "method": 6,
         "zero_displacement": true
@@ -708,7 +708,7 @@
       "space": "root",
       "witnesses": []
     },
-    "COMPACT_HEAP_BLOCKS": {
+    "HEAPCOMPACT": {
       "entry_sha256": "26f3e6745782276cf4d2b7784d0e192c7d42177d44c02d5b24c677737521afd3",
       "entry_target_id": "root:1129:1a0a",
       "kind": "near-code-entry",
@@ -747,7 +747,7 @@
         }
       ]
     },
-    "RECLAIM_HEAP_BLOCKS": {
+    "HEAPPURGE": {
       "entry_sha256": "497b27c5c6c7208c77821357a965d7cbffe85c906db6a62f011b0ad741b2c83b",
       "entry_target_id": "root:1129:1d56",
       "kind": "near-code-entry",

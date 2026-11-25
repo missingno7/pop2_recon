@@ -45,19 +45,19 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_RESOURCE_INTO",
+        "name": "FIND_SHAPE_METADATA",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 144,
+        "offset": 840,
         "group_index": 0,
         "frame": null,
         "type_index": 0
       },
       {
-        "name": "FIND_SHAPE_METADATA",
+        "name": "OPENMAP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 840,
+        "offset": 384,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -76,6 +76,24 @@
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1345,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "CLOSEMAP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 246,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "READRSRC",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 144,
         "group_index": 0,
         "frame": null,
         "type_index": 0
@@ -135,24 +153,6 @@
         "type_index": 0
       },
       {
-        "name": "CLOSE_RESOURCE_CATALOG",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 246,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "MOUNT_RESOURCE_CATALOG",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 384,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
         "name": "QUERY_RESOURCE_PAYLOAD",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -172,22 +172,22 @@
       }
     ],
     "externals": [
-      "CLEAR_HANDLE_OWNED",
+      "HPURGE",
+      "HUNLOCK",
       "LEGACY_CATALOG",
       "CLEAR_PAYLOAD_HEADER",
-      "MARK_PURGEABLE",
-      "DISPOSE_HANDLE",
+      "HGETSIZE",
+      "H2P",
       "CHECK_DOS_DRIVE",
       "MOVE_HUGE_BYTES",
       "REPLACE_HANDLE_PAYLOAD",
+      "HNEW",
       "QUALIFY_DOS_PATH",
-      "ALLOCATE_PAYLOAD_HANDLE",
+      "HFREE",
+      "HLOCK",
       "RELOCATE_HANDLE_PAYLOAD",
       "ALLOCATE_PINNED_PAYLOAD",
-      "FETCH_LOCKED_SHAPE_LIST",
-      "QUERY_HANDLE_SIZE",
-      "MATERIALIZE_HANDLE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
+      "MATERIALIZE_HANDLE"
     ]
   },
   "dgroup_segment": {
@@ -211,12 +211,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "LEGACY_CATALOG"
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "LEGACY_CATALOG",
         "method": 6,
         "zero_displacement": true
@@ -280,7 +280,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 15,
         "name": "ALLOCATE_PINNED_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -302,8 +302,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 6,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -324,7 +324,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -367,7 +367,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "CLEAR_PAYLOAD_HEADER",
         "method": 6,
         "zero_displacement": true
@@ -431,8 +431,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 6,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -453,7 +453,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -518,8 +518,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 6,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -583,7 +583,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -604,8 +604,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
-        "name": "DISPOSE_HANDLE",
+        "index": 12,
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -626,8 +626,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
-        "name": "DISPOSE_HANDLE",
+        "index": 12,
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -670,7 +670,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -692,7 +692,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -713,8 +713,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
-        "name": "DISPOSE_HANDLE",
+        "index": 12,
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -735,7 +735,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 11,
         "name": "QUALIFY_DOS_PATH",
         "method": 6,
         "zero_displacement": true
@@ -757,7 +757,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "CHECK_DOS_DRIVE",
         "method": 6,
         "zero_displacement": true
@@ -864,8 +864,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
-        "name": "CLEAR_HANDLE_OWNED",
+        "index": 2,
+        "name": "HUNLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1034,8 +1034,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 6,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1099,8 +1099,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 6,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1116,12 +1116,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "LEGACY_CATALOG"
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "LEGACY_CATALOG",
         "method": 6,
         "zero_displacement": true
@@ -1143,7 +1143,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 16,
         "name": "MATERIALIZE_HANDLE",
         "method": 6,
         "zero_displacement": true
@@ -1165,8 +1165,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
-        "name": "QUERY_HANDLE_SIZE",
+        "index": 5,
+        "name": "HGETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1208,7 +1208,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "REPLACE_HANDLE_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -1231,7 +1231,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1253,7 +1253,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1295,7 +1295,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 14,
         "name": "RELOCATE_HANDLE_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -1318,7 +1318,7 @@
       "target": {
         "kind": "external",
         "index": 13,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -1339,8 +1339,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
-        "name": "MARK_PURGEABLE",
+        "index": 1,
+        "name": "HPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1361,8 +1361,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
-        "name": "DISPOSE_HANDLE",
+        "index": 12,
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1383,7 +1383,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "MOVE_HUGE_BYTES",
         "method": 6,
         "zero_displacement": true
@@ -1510,8 +1510,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 6,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1527,12 +1527,12 @@
       "self_relative": false,
       "frame": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "LEGACY_CATALOG"
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "LEGACY_CATALOG",
         "method": 6,
         "zero_displacement": true
@@ -1559,7 +1559,7 @@
   },
   "schema": 1,
   "symbols": {
-    "ALLOCATE_PAYLOAD_HANDLE": {
+    "HNEW": {
       "entry_sha256": "c3ec377d3bcae2d5d33123bc8699728ed6babfa311fe110596d625f5cd8cc61b",
       "entry_target_id": "root:1129:17fc",
       "kind": "near-code-entry",
@@ -1600,7 +1600,7 @@
       "space": "root",
       "witnesses": []
     },
-    "CLEAR_HANDLE_OWNED": {
+    "HUNLOCK": {
       "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
       "entry_target_id": "root:1129:1978",
       "kind": "near-code-entry",
@@ -1632,7 +1632,7 @@
         }
       ]
     },
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "near-code-entry",
@@ -1648,7 +1648,7 @@
         }
       ]
     },
-    "FETCH_LOCKED_SHAPE_LIST": {
+    "HLOCK": {
       "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
       "entry_target_id": "root:1129:1728",
       "kind": "near-code-entry",
@@ -1675,7 +1675,7 @@
         }
       ]
     },
-    "MARK_PURGEABLE": {
+    "HPURGE": {
       "entry_sha256": "9a80e9f09e2df9a0f690ab345b823d0faa696c6042f603292ef35501a0b57b89",
       "entry_target_id": "root:1129:1870",
       "kind": "near-code-entry",
@@ -1725,7 +1725,7 @@
       "space": "root",
       "witnesses": []
     },
-    "QUERY_HANDLE_SIZE": {
+    "HGETSIZE": {
       "entry_sha256": "ca4cd098ffedf7948995457bbad67c832492cf098022863d087cf67cadb8df0e",
       "entry_target_id": "root:1129:c012",
       "kind": "near-code-entry",
@@ -1766,7 +1766,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "near-code-entry",

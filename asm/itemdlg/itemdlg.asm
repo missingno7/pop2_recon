@@ -56,17 +56,17 @@ EXTRN mouse_button_unqueued:NEAR
 EXTRN read_mouse_event_position:NEAR
 EXTRN add_port_origin:NEAR
 EXTRN scroll_context_rectangle:NEAR
-EXTRN push_port_clip:NEAR
+EXTRN ClipRect:NEAR
 EXTRN paint_grid_items:NEAR
-EXTRN pop_port_clip:NEAR
+EXTRN ClipRestore:NEAR
 EXTRN copy_current_port_origin:NEAR
 EXTRN apply_default_pen_state:NEAR
 EXTRN SectRect:NEAR
 EXTRN set_relative_pen_state:NEAR
 EXTRN MEASURE_NUL_TERMINATED_TEXT:NEAR
-EXTRN resolve_handle_to_far_payload:NEAR
-EXTRN set_record_range:NEAR
-EXTRN DRAW_NUL_TERMINATED_TEXT:NEAR
+EXTRN h2p:NEAR
+EXTRN FillRect:NEAR
+EXTRN DRAWSTRING:NEAR
 EXTRN toggle_rect_effect:NEAR
 EXTRN MoveTo:NEAR
 EXTRN update_message_display:NEAR
@@ -75,28 +75,28 @@ EXTRN draw_character:NEAR
 EXTRN draw_relative_axis_segment:NEAR
 EXTRN show_mouse_graphics:NEAR
 EXTRN HGETRSRC:NEAR
-EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
-EXTRN dispose_handle:NEAR
+EXTRN HLOCK:NEAR
+EXTRN hFree:NEAR
 EXTRN read_queued_event:NEAR
 EXTRN RELEASE_BACKGROUND_PORT:NEAR
 EXTRN invalidate_window_rectangle:NEAR
 EXTRN ALLOCATE_BACKGROUND_PORT:NEAR
-EXTRN FRAME_RECT:NEAR
+EXTRN FRAMERECT:NEAR
 EXTRN skip_nul_strings:NEAR
-EXTRN allocate_payload_handle:NEAR
+EXTRN hNew:NEAR
 EXTRN release_near_buffer:NEAR
-EXTRN CLEAR_HANDLE_OWNED:NEAR
+EXTRN HUNLOCK:NEAR
 EXTRN InsetRect:NEAR
-EXTRN DRAW_NUL_TEXT_IN_RECT:NEAR
+EXTRN STRINGRECT:NEAR
 EXTRN subtract_port_origin:NEAR
 EXTRN stroke_offset_edges:NEAR
 EXTRN DRAG_OUTLINE_WITH_MOUSE:NEAR
 EXTRN divide_timer_interval:NEAR
 EXTRN multiply_timer_interval:NEAR
 EXTRN convert_shape:NEAR
-EXTRN paint_four_bit:NEAR
+EXTRN Paint4BitShape:NEAR
 EXTRN create_string_handle:NEAR
-EXTRN STROKE_PORT_RECT:NEAR
+EXTRN ERASERECT:NEAR
 EXTRN draw_text_handle_in_rect:NEAR
 EXTRN measure_character:NEAR
 EXTRN draw_axis_segment:NEAR
@@ -545,12 +545,12 @@ loc_9b0f:
     push ds
     push ax
     push cs
-    call push_port_clip
+    call ClipRect
     push di
     push cs
     call paint_grid_items
     push cs
-    call pop_port_clip
+    call ClipRestore
     pop word ptr [Graf]
 loc_9b62:
     les ax, DWORD PTR [bp - 4]
@@ -576,7 +576,7 @@ select_grid_item LABEL NEAR
     push ds
     push ax
     push cs
-    call push_port_clip
+    call ClipRect
     mov cx, word ptr [bp + 6]
     jcxz loc_9ba7
     cmp cx, word ptr [di + 02eh]
@@ -627,7 +627,7 @@ loc_9bd5:
     call invalidate_grid_cell
 loc_9be9:
     push cs
-    call pop_port_clip
+    call ClipRestore
     pop bx
     xchg word ptr [Graf], bx
     pop word ptr [bx + 02ah]
@@ -725,7 +725,7 @@ draw_grid_items LABEL NEAR
     push cs
     call SectRect
     push cs
-    call push_port_clip
+    call ClipRect
     les ax, DWORD PTR [bp + 4]
     mov dx, es
     call grid_coordinates_to_index
@@ -734,7 +734,7 @@ draw_grid_items LABEL NEAR
     jle loc_9cbc
 loc_9ca5:
     push cs
-    call pop_port_clip
+    call ClipRestore
     push cs
     call set_relative_pen_state
     pop word ptr [Graf]
@@ -764,7 +764,7 @@ loc_9cce:
     push ax
     push word ptr [di + 2]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov es, dx
     pop ax
@@ -813,12 +813,12 @@ loc_9d49:
     push bx
     push word ptr [di + 4]
     push cs
-    call set_record_range
+    call FillRect
     les ax, DWORD PTR [bp - 016h]
     push es
     push ax
     push cs
-    call DRAW_NUL_TERMINATED_TEXT
+    call DRAWSTRING
 loc_9d5b:
     mov ax, word ptr [bp - 2]
     cmp ax, word ptr [di + 02eh]
@@ -892,7 +892,7 @@ redraw_dialog_scroll LABEL NEAR
     mov ax, 0fh
     push ax
     push cs
-    call set_record_range
+    call FillRect
     mov ax, word ptr [si + 4]
     dec ax
     xchg word ptr [si], ax
@@ -902,7 +902,7 @@ redraw_dialog_scroll LABEL NEAR
     mov ax, 0
     push ax
     push cs
-    call set_record_range
+    call FillRect
     pop word ptr [si]
     mov di, word ptr [menu_list]
     lea si, [bp - 8]
@@ -919,7 +919,7 @@ loc_9e02:
     mov word ptr [bx + 028h], ax
     push word ptr [bx + 02ah]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov es, dx
     mov ax, word ptr [si + 2]
@@ -1084,7 +1084,7 @@ load_menu_handle LABEL NEAR
     push ax
     push ax
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     xchg bx, ax
     mov es, dx
     push word ptr [bp + 6]
@@ -1098,7 +1098,7 @@ load_menu_handle LABEL NEAR
     call draw_packed_item
     xchg bp, ax
     push cs
-    call dispose_handle
+    call hFree
     xchg bp, ax
 loc_9f5d:
     pop bp
@@ -1173,7 +1173,7 @@ initialize_menu_bounds LABEL NEAR
     mov di, bx
     push word ptr [di + 02ah]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx + 2]
@@ -1545,7 +1545,7 @@ loc_a251:
     call HGETRSRC
     push ax
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov es, dx
     les ax, DWORD PTR es:[bx]
@@ -1979,7 +1979,7 @@ loc_a59e:
 loc_a5a1:
     push word ptr [di + 022h]
     push cs
-    call dispose_handle
+    call hFree
     jmp SHORT loc_a583
 loc_a5aa:
     jcxz loc_a583
@@ -1993,7 +1993,7 @@ loc_a5b9:
     push ds
     push ax
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     call draw_grid_cell_frame
     jmp SHORT loc_a583
 loc_a5c7:
@@ -2121,11 +2121,11 @@ loc_a658:
     push dx
     push ax
     push cs
-    call allocate_payload_handle
+    call hNew
     mov word ptr [di + 022h], ax
     push ax
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     pop cx
     pop ds
     xchg di, ax
@@ -2146,7 +2146,7 @@ release_grid_item_records LABEL NEAR
     call release_near_buffer
     push word ptr [di + 022h]
     push cs
-    call CLEAR_HANDLE_OWNED
+    call HUNLOCK
     mov cx, word ptr [bp - 2]
     jcxz loc_a6f9
     xchg cx, ax
@@ -2192,10 +2192,10 @@ loc_a72c:
     push si
     push ax
     push cs
-    call set_record_range
+    call FillRect
     push word ptr [di + 022h]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     push dx
     push ax
     mov ax, word ptr [di + 01eh]
@@ -2211,7 +2211,7 @@ loc_a72c:
     push dx
     push ax
     push cs
-    call DRAW_NUL_TEXT_IN_RECT
+    call STRINGRECT
     pop bx
     pop word ptr [bx + 028h]
     pop si
@@ -2311,7 +2311,7 @@ loc_a806:
     pop word ptr [Graf]
     push word ptr [di + 022h]
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     push si
     lea bx, [bp - 026h]
     push bx
@@ -2353,7 +2353,7 @@ loc_a83c:
     push ds
     push si
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     push si
     mov ax, 2
     push ax
@@ -2497,7 +2497,7 @@ loc_a993:
     push bx
     push ax
     push cs
-    call set_record_range
+    call FillRect
     mov si, word ptr [bp - 2]
     mov ax, word ptr [si + slider_decrement_shape]
     lea bx, [bp - 0ah]
@@ -2513,7 +2513,7 @@ loc_a9bc:
     push ds
     push ax
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     jmp NEAR PTR loc_a907
 loc_a9c8:
     xchg cx, ax
@@ -2836,11 +2836,11 @@ draw_slider_region LABEL NEAR
 loc_ac41:
     push ax
     push cs
-    call set_record_range
+    call FillRect
     push ds
     push ax
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     xchg bx, ax
     mov cx, word ptr [bx + 6]
     sub cx, word ptr [bx + 2]
@@ -2871,7 +2871,7 @@ loc_ac41:
     xchg bp, ax
     push bp
     push cs
-    call FETCH_LOCKED_SHAPE_LIST
+    call HLOCK
     pop si
     pop cx
     push dx
@@ -2883,10 +2883,10 @@ loc_ac41:
     mov ax, 0
     push ax
     push cs
-    call paint_four_bit
+    call Paint4BitShape
     push bp
     push cs
-    call dispose_handle
+    call hFree
     pop si
     pop bp
     ret
@@ -2904,11 +2904,11 @@ loc_acab:
     push bx
     push ax
     push cs
-    call set_record_range
+    call FillRect
     push ds
     push ax
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     ret
 
 PUBLIC convert_slider_bounds
@@ -2969,7 +2969,7 @@ loc_acef:
     push ds
     push ax
     push cs
-    call push_port_clip
+    call ClipRect
     mov ax, 0fh
     mov cx, word ptr [di + 01ah]
     jcxz loc_ad20
@@ -2980,9 +2980,9 @@ loc_ad20:
     push bx
     push ax
     push cs
-    call set_record_range
+    call FillRect
     push cs
-    call pop_port_clip
+    call ClipRestore
     call rebuild_slider_bounds
     call draw_slider_edges
 loc_ad34:
@@ -3045,14 +3045,14 @@ loc_ad92:
 loc_ad94:
     push word ptr [di + 026h]
     push cs
-    call dispose_handle
+    call hFree
     jmp SHORT loc_ad7a
 loc_ad9d:
     push ds
     push cx
     push word ptr [di + 026h]
     push cs
-    call dispose_handle
+    call hFree
     push cs
     call create_string_handle
     mov word ptr [di + 026h], ax
@@ -3062,14 +3062,14 @@ loc_ad9d:
     push ds
     push ax
     push cs
-    call STROKE_PORT_RECT
+    call ERASERECT
 loc_adbb:
     mov si, word ptr [di + 2]
     mov ax, word ptr [di + 018h]
     mov word ptr [si + 028h], ax
     push word ptr [si + 02ah]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx + 8]
@@ -3224,7 +3224,7 @@ loc_aef8:
     mov bx, word ptr [Graf]
     push word ptr [bx + 02ah]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov dx, es
     mov ax, word ptr es:[bx + 2]
@@ -3312,7 +3312,7 @@ loc_af7e:
     push ds
     push si
     push cs
-    call FRAME_RECT
+    call FRAMERECT
     add word ptr [si + 6], 2
     add word ptr [si + 4], 1
     mov ax, word ptr [di + 01ah]
@@ -3324,7 +3324,7 @@ loc_af7e:
     mov ax, 0fh
     push ax
     push cs
-    call set_record_range
+    call FillRect
     sub ax, ax
     lea si, [di + 01ch]
 loc_afdc:
@@ -3370,7 +3370,7 @@ loc_b022:
     mov bx, word ptr [Graf]
     push word ptr [bx + 02ah]
     push cs
-    call resolve_handle_to_far_payload
+    call h2p
     xchg bx, ax
     mov es, dx
     pop ax

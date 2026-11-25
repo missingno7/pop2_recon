@@ -1,4 +1,4 @@
-unsigned int allocated_banks = 1;
+unsigned int BankStatus = 1;
 
 unsigned int far pascal AllocBanks(unsigned char request)
 {
@@ -11,7 +11,7 @@ unsigned int far pascal AllocBanks(unsigned char request)
     units = (request + 15) >> 4;
 
     while (units--) {
-        while (allocated_banks & bit) {
+        while (BankStatus & bit) {
             bit <<= 1;
             if (bit == 0)
                 return 0;
@@ -20,7 +20,7 @@ unsigned int far pascal AllocBanks(unsigned char request)
         bit <<= 1;
     }
 
-    allocated_banks |= selected;
+    BankStatus |= selected;
     return selected;
 }
 
@@ -28,10 +28,10 @@ void far pascal ResetBanks(unsigned int banks)
 {
     unsigned int bit;
 
-    allocated_banks = 0;
+    BankStatus = 0;
     bit = 1;
     while (banks--) {
-        allocated_banks |= bit;
+        BankStatus |= bit;
         bit <<= 1;
     }
 }
@@ -124,16 +124,16 @@ typedef struct Glyph {
     unsigned char bits[1];
 } Glyph;
 
-extern unsigned far pascal SAVE_HANDLE_FLAGS(Handle handle);
-extern void far *far pascal FETCH_LOCKED_SHAPE_LIST(Handle handle);
-extern void far pascal restore_handle_flags(Handle handle, unsigned flags);
+extern unsigned far pascal hGetState(Handle handle);
+extern void far *far pascal hLock(Handle handle);
+extern void far pascal hSetState(Handle handle, unsigned flags);
 extern void far *far pascal detach_handle_payload(Handle handle);
 extern int far pascal attach_handle_payload(Handle handle, void far *payload);
 extern void far pascal mark_handle_converted(Handle handle);
 extern void far pascal clear_payload_header(void far *payload);
-extern void far pascal dispose_handle(Handle handle);
-extern Handle far pascal allocate_payload_handle(unsigned long size);
-extern Handle far pascal CLEAR_HANDLE_OWNED(Handle handle);
+extern void far pascal hFree(Handle handle);
+extern Handle far pascal hNew(unsigned long size);
+extern Handle far pascal hUnlock(Handle handle);
 extern void far *far cdecl _fmemcpy(void far *destination, const void far *source, unsigned length);
 extern void far pascal MaskToMCGA(Glyph far *glyph, unsigned char far *bits);
 
@@ -146,12 +146,12 @@ Handle far pascal convert_font_handle(Handle handle)
     void far *replacement;
     Handle temporary;
 
-    flags = SAVE_HANDLE_FLAGS(handle);
+    flags = hGetState(handle);
     if (!(flags & 0x2000)) {
-        source = FETCH_LOCKED_SHAPE_LIST(handle);
+        source = hLock(handle);
         if (source) {
             temporary = XlatFont(source);
-            restore_handle_flags(handle, flags);
+            hSetState(handle, flags);
             replacement = detach_handle_payload(temporary);
             if (replacement && attach_handle_payload(handle, replacement) == 0) {
                 mark_handle_converted(handle);
@@ -159,7 +159,7 @@ Handle far pascal convert_font_handle(Handle handle)
                 clear_payload_header(replacement);
                 handle = 0;
             }
-            dispose_handle(temporary);
+            hFree(temporary);
         }
     }
     return handle;
@@ -171,7 +171,7 @@ typedef struct PaletteInfo {
     unsigned char colors[16][48];
 } PaletteInfo;
 
-extern void far pascal write_dac_block(int first_color, int color_count,
+extern void far pascal SetDACBlock(int first_color, int color_count,
                                       const unsigned char far *colors, int flags);
 
 void far pascal MapPalInfo(const PaletteInfo far *palette)
@@ -185,7 +185,7 @@ void far pascal MapPalInfo(const PaletteInfo far *palette)
         first_color = bank;
         do {
             if (palette->banks & (unsigned short)(1U << (unsigned short)bank))
-                write_dac_block(first_color, 16, palette->colors[stored_bank++], 1);
+                SetDACBlock(first_color, 16, palette->colors[stored_bank++], 1);
             ++bank;
             first_color += 16;
         } while (first_color < 256);
@@ -255,9 +255,9 @@ Handle far pascal XlatFont(FontHeader far *font)
         }
     }
 
-    handle = allocate_payload_handle(size);
+    handle = hNew(size);
     if (handle) {
-        translated = FETCH_LOCKED_SHAPE_LIST(handle);
+        translated = hLock(handle);
         _fmemcpy(translated, font, 10); offset = (count + 5) * 2;
         {
             unsigned index;
@@ -272,16 +272,16 @@ Handle far pascal XlatFont(FontHeader far *font)
                 offset += converted_width * glyph->height + 6;
             }
         }
-        CLEAR_HANDLE_OWNED(handle);
+        hUnlock(handle);
     }
     return handle;
 }
 
 extern int graphics_mode;
-unsigned chunk_byte_limit = 0;
+unsigned MaxPackSize = 0;
 extern unsigned char far *far pascal NormalizePtr(unsigned char far *pointer);
 extern void far pascal TgaToMCGA(ShapeHeader far *shape, unsigned char far *pixels, int bank);
-extern int far pascal resize_handle(Handle handle, unsigned long bytes);
+extern int far pascal hSetSize(Handle handle, unsigned long bytes);
 
 unsigned *far pascal copy_far_word(unsigned *out, const unsigned far *in);
 Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode);
@@ -327,14 +327,14 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
     output_allocation = (1L * (1 + 3 * (!mask * (graphics_mode == 4 || graphics_mode == 6)))) *
                         (short)shape->height * output_stride;
     output_left = output_allocation;
-    chunk_byte_limit = (unsigned long)((long)(short)shape->height * (short)shape->width) > 64100UL
+    MaxPackSize = (unsigned long)((long)(short)shape->height * (short)shape->width) > 64100UL
                        ? 58240U : 64100U;
     output_allocation += sizeof(ShapeHeader);
-    handle = allocate_payload_handle(output_allocation < input_allocation ? input_allocation : output_allocation);
+    handle = hNew(output_allocation < input_allocation ? input_allocation : output_allocation);
     if (handle) {
-        output = FETCH_LOCKED_SHAPE_LIST(handle);
+        output = hLock(handle);
         *output = *shape;
-        band_rows = chunk_byte_limit / shape->width < shape->height ? chunk_byte_limit / shape->width : shape->height;
+        band_rows = MaxPackSize / shape->width < shape->height ? MaxPackSize / shape->width : shape->height;
         rows_left = shape->height;
         input_bytes = band_rows * shape->format.word;
         if (wide)
@@ -375,14 +375,14 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
         goto finish;
 
     discard:
-        dispose_handle(handle);
+        hFree(handle);
         handle = 0;
         goto restore_format;
 
     finish:
         output->height = shape->height;
         output->format.word = output_stride;
-        resize_handle(CLEAR_HANDLE_OWNED(handle), output_allocation);
+        hSetSize(hUnlock(handle), output_allocation);
     }
 
 restore_format:
@@ -416,15 +416,15 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
     input_allocation += sizeof(ShapeHeader);
     output_stride = halve_for_mode_two(shape->width, 1);
     output_left = output_size = 0;
-    chunk_byte_limit = (unsigned long)((long)(short)shape->width * (short)shape->height) > 64100UL
+    MaxPackSize = (unsigned long)((long)(short)shape->width * (short)shape->height) > 64100UL
                        ? 58240U : 64100U;
     if (mask)
         output_size += 6;                  /* glyph header */
     else
         output_size += sizeof(ShapeHeader);
-    handle = allocate_payload_handle(output_size < input_allocation ? input_allocation : output_size);
+    handle = hNew(output_size < input_allocation ? input_allocation : output_size);
     if (handle) {
-        output = FETCH_LOCKED_SHAPE_LIST(handle);
+        output = hLock(handle);
         *output = *shape;
         band_rows = 58238L / (long)(short)((shape->width + 1) * 2);
         band_rows = band_rows < (unsigned)shape->height ? band_rows : shape->height;
@@ -439,10 +439,10 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
                 band_rows = rows_left < band_rows ? rows_left : band_rows;
                 input_bytes = output_bytes = *(unsigned far *)input_bits;
                 input_bits += 2;
-                CLEAR_HANDLE_OWNED(handle);
-                if (resize_handle(handle, output_bytes + output_size))
+                hUnlock(handle);
+                if (hSetSize(handle, output_bytes + output_size))
                     goto discard;
-                output = FETCH_LOCKED_SHAPE_LIST(handle);
+                output = hLock(handle);
                 output_bits = (unsigned char far *)output + output_size;
                 output_size += output_bytes;
                 input_bits = NormalizePtr(input_bits);
@@ -466,12 +466,12 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
         }
         output->height = shape->height;
         output->format.word = output_stride;
-        resize_handle(CLEAR_HANDLE_OWNED(handle), output_size);
+        hSetSize(hUnlock(handle), output_size);
     }
     goto restore_format;
 
 discard:
-    dispose_handle(handle);
+    hFree(handle);
     handle = 0;
 restore_format:
     shape->format = layout;

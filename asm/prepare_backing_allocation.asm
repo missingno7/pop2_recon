@@ -9,7 +9,7 @@ EXTRN SWAP_OUT_HEAP_BLOCK:NEAR
 PUBLIC PREPARE_BACKING_ALLOCATION, MOVE_HUGE_BYTES
 
 
-PUBLIC RECLAIM_HEAP_BLOCKS
+PUBLIC HEAPPURGE
 
 reclaim_sweep_count EQU WORD PTR [bp-14]
 reclaim_age_delta EQU WORD PTR [bp-12]
@@ -19,7 +19,7 @@ reclaim_target_paragraphs EQU WORD PTR [bp-6]
 reclaim_largest_offset EQU WORD PTR [bp-4]
 reclaim_largest_paragraphs EQU WORD PTR [bp-2]
 
-RECLAIM_HEAP_BLOCKS PROC FAR
+HEAPPURGE PROC FAR
     push bp
     mov bp, sp
     add sp, -14
@@ -180,7 +180,7 @@ reclaim_save_block_age:
     retn
 reclaim_swap_block:
     jmp SWAP_OUT_HEAP_BLOCK
-RECLAIM_HEAP_BLOCKS ENDP
+HEAPPURGE ENDP
 
 PUBLIC RELEASE_HEAP_SEGMENT
 RELEASE_HEAP_SEGMENT PROC FAR

@@ -304,7 +304,7 @@ class RealOverlayTests(unittest.TestCase):
                                                 "operand_offset": operand, "entry": entry}]}
             code[at:at + 2] = bytes(2)
             fixups.append((at, names.index(name) + 1, OFFSET16))
-        obj = omf(bytes(code), [("MOVE_FIREBALL", 0)], names, fixups)
+        obj = omf(bytes(code), [("MOBFIREBALL", 0)], names, fixups)
         module = OmfReader().read(obj)
         frame = common.read_json(ROOT / "evidence/bindings/convert_text_handle.json")["frame"]
         binding = {"schema": 1, "mode": OPERAND_MODE, "target_id": "group:overlay_fireball",
@@ -314,7 +314,7 @@ class RealOverlayTests(unittest.TestCase):
 
     def test_overlay_far_calls_and_v4_data_are_exact(self):
         obj, binding = self.fireball_case()
-        report = check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOVE_FIREBALL")], binding=binding,
+        report = check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOBFIREBALL")], binding=binding,
                        group_id="group:overlay_fireball")
         claim = report["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
@@ -324,7 +324,7 @@ class RealOverlayTests(unittest.TestCase):
 
     def test_overlay_relocation_not_generated_by_a_proven_field_is_refused(self):
         obj, binding = self.fireball_case(literal_far=("root:1129:83d2",))
-        claim = check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOVE_FIREBALL")], binding=binding,
+        claim = check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOBFIREBALL")], binding=binding,
                       group_id="group:overlay_fireball")["claims"][0]
         self.assertEqual(claim["state"], "REFUSED")
         self.assertIn("relocation site set differs", claim["reason"])
@@ -335,7 +335,7 @@ class RealOverlayTests(unittest.TestCase):
             {"space": "overlay-10", "image_offset": 0x1ED1, "bytes_hex": "833e676600",
              "operand_offset": 2, "entry": "overlay-10:2bda:1ed0"}]
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
-            check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOVE_FIREBALL")], binding=binding,
+            check(obj, self.oracle, [("overlay-10:2bda:1ed0", "MOBFIREBALL")], binding=binding,
                   group_id="group:overlay_fireball")
 
     def test_direct_call_into_an_overlapping_overlay_is_refused(self):

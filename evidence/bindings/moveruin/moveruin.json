@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "CUT_KID_INSIDE_LEVEL6",
+        "name": "CUTKIDINSIDELEVEL6",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 408,
@@ -71,7 +71,7 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_RUINS_START_PALETTE",
+        "name": "LOADRNSTART6",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 494,
@@ -80,7 +80,7 @@
         "type_index": 0
       },
       {
-        "name": "UNLOAD_RUINS_START_PALETTE",
+        "name": "UNLOADRNSTART6",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 514,
@@ -98,7 +98,7 @@
         "type_index": 0
       },
       {
-        "name": "LOAD_PLATEAU_ROOM",
+        "name": "LOADPLATEAUROOMFUNC",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 550,
@@ -107,7 +107,7 @@
         "type_index": 0
       },
       {
-        "name": "CLIP_RUINS_ACTOR",
+        "name": "RUINSCLIPCHAR",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
@@ -116,7 +116,7 @@
         "type_index": 0
       },
       {
-        "name": "FALL_SPIKES",
+        "name": "BREAKTOTALLOOSE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 294,
@@ -126,11 +126,11 @@
       }
     ],
     "externals": [
-      "CUT_KID_INSIDE_LEVEL6",
-      "LOAD_RUINS_START_PALETTE",
-      "UNLOAD_RUINS_START_PALETTE",
+      "CUTKIDINSIDELEVEL6",
+      "LOADRNSTART6",
+      "UNLOADRNSTART6",
       "LOADRUINSMOVECODE",
-      "LOAD_PLATEAU_ROOM",
+      "LOADPLATEAUROOMFUNC",
       "CELL",
       "CHAR",
       "LEVEL",
@@ -145,22 +145,22 @@
       "COLEDGEX",
       "GAMESTATE",
       "MINUTES",
-      "GET_COL",
+      "GETCOL",
       "READCELL",
       "ISWALL",
-      "IS_SIX_KIND",
-      "ADD_MOB",
-      "MAKE_SPACE",
-      "MARK_MOB_REDRAW",
+      "ISSPACE",
+      "ADDMOB",
+      "MAKESPACE",
+      "MARKMOBREDRAW",
       "JUMPSEQ",
-      "RESET_CHAR_Y",
+      "RESETCHARY",
       "ANIMCHAR",
-      "OPEN_START_GATE",
+      "ENTRANCE",
       "CLRALL",
-      "SET_PALETTE",
+      "SETPALETTE",
       "ADDSONG",
-      "CLIP_RUINS_ACTOR",
-      "FALL_SPIKES"
+      "RUINSCLIPCHAR",
+      "BREAKTOTALLOOSE"
     ]
   },
   "dgroup_segment": {
@@ -457,7 +457,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -465,7 +465,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -538,7 +538,7 @@
         "target": {
           "kind": "external",
           "index": 32,
-          "name": "SET_PALETTE",
+          "name": "SETPALETTE",
           "method": 6,
           "zero_displacement": true
         }
@@ -546,7 +546,7 @@
       "target": {
         "kind": "external",
         "index": 32,
-        "name": "SET_PALETTE",
+        "name": "SETPALETTE",
         "method": 6,
         "zero_displacement": true
       },
@@ -619,7 +619,7 @@
         "target": {
           "kind": "external",
           "index": 30,
-          "name": "OPEN_START_GATE",
+          "name": "ENTRANCE",
           "method": 6,
           "zero_displacement": true
         }
@@ -627,7 +627,7 @@
       "target": {
         "kind": "external",
         "index": 30,
-        "name": "OPEN_START_GATE",
+        "name": "ENTRANCE",
         "method": 6,
         "zero_displacement": true
       },
@@ -727,7 +727,7 @@
         "target": {
           "kind": "external",
           "index": 28,
-          "name": "RESET_CHAR_Y",
+          "name": "RESETCHARY",
           "method": 6,
           "zero_displacement": true
         }
@@ -735,7 +735,7 @@
       "target": {
         "kind": "external",
         "index": 28,
-        "name": "RESET_CHAR_Y",
+        "name": "RESETCHARY",
         "method": 6,
         "zero_displacement": true
       },
@@ -997,7 +997,7 @@
         "target": {
           "kind": "external",
           "index": 26,
-          "name": "MARK_MOB_REDRAW",
+          "name": "MARKMOBREDRAW",
           "method": 6,
           "zero_displacement": true
         }
@@ -1005,7 +1005,7 @@
       "target": {
         "kind": "external",
         "index": 26,
-        "name": "MARK_MOB_REDRAW",
+        "name": "MARKMOBREDRAW",
         "method": 6,
         "zero_displacement": true
       },
@@ -1132,7 +1132,7 @@
         "target": {
           "kind": "external",
           "index": 25,
-          "name": "MAKE_SPACE",
+          "name": "MAKESPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1140,7 +1140,7 @@
       "target": {
         "kind": "external",
         "index": 25,
-        "name": "MAKE_SPACE",
+        "name": "MAKESPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1213,7 +1213,7 @@
         "target": {
           "kind": "external",
           "index": 24,
-          "name": "ADD_MOB",
+          "name": "ADDMOB",
           "method": 6,
           "zero_displacement": true
         }
@@ -1221,7 +1221,7 @@
       "target": {
         "kind": "external",
         "index": 24,
-        "name": "ADD_MOB",
+        "name": "ADDMOB",
         "method": 6,
         "zero_displacement": true
       },
@@ -1618,7 +1618,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "IS_SIX_KIND",
+          "name": "ISSPACE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1626,7 +1626,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "IS_SIX_KIND",
+        "name": "ISSPACE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1780,7 +1780,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -1788,7 +1788,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -1834,7 +1834,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -1842,7 +1842,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2374,7 +2374,7 @@
         "target": {
           "kind": "external",
           "index": 20,
-          "name": "GET_COL",
+          "name": "GETCOL",
           "method": 6,
           "zero_displacement": true
         }
@@ -2382,7 +2382,7 @@
       "target": {
         "kind": "external",
         "index": 20,
-        "name": "GET_COL",
+        "name": "GETCOL",
         "method": 6,
         "zero_displacement": true
       },
@@ -2503,7 +2503,7 @@
         }
       ]
     },
-    "ADD_MOB": {
+    "ADDMOB": {
       "entry_sha256": "b12f52ba8d5caa2d038b323841a86e0c29576f279b0b55a8f73223fedcb049cc",
       "entry_target_id": "root:0b52:19a2",
       "kind": "far-code-entry",
@@ -2814,7 +2814,7 @@
         }
       ]
     },
-    "GET_COL": {
+    "GETCOL": {
       "entry_sha256": "73d932fd96e765885ea4ceadc96ba9ad28586e603f80ff1417ec95e433b682af",
       "entry_target_id": "root:02dc:1010",
       "kind": "far-code-entry",
@@ -2848,7 +2848,7 @@
         }
       ]
     },
-    "IS_SIX_KIND": {
+    "ISSPACE": {
       "entry_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
       "entry_target_id": "root:0790:28d4",
       "kind": "far-code-entry",
@@ -2968,7 +2968,7 @@
         }
       }
     },
-    "MAKE_SPACE": {
+    "MAKESPACE": {
       "entry_sha256": "cb698c374adc7e7d05226806fd51a267d555e1e8cb93eefd7f518192e3c4db66",
       "entry_target_id": "root:0b52:17fc",
       "kind": "far-code-entry",
@@ -2985,7 +2985,7 @@
         }
       ]
     },
-    "MARK_MOB_REDRAW": {
+    "MARKMOBREDRAW": {
       "entry_sha256": "c0e7f0b6a50a7430f7f493a9a643922760e5007bb315833721b51e89c3f9d474",
       "entry_target_id": "root:0b52:2296",
       "kind": "far-code-entry",
@@ -3111,7 +3111,7 @@
         }
       ]
     },
-    "OPEN_START_GATE": {
+    "ENTRANCE": {
       "entry_sha256": "236f59485cf31202c70eaed72ea3e2dba2365dee76064040406774367a59a850",
       "entry_target_id": "root:0e78:034a",
       "kind": "far-code-entry",
@@ -3137,7 +3137,7 @@
         }
       ]
     },
-    "RESET_CHAR_Y": {
+    "RESETCHARY": {
       "entry_sha256": "518e529aa9667b379871347e5ff9f1ce313cf7f83a38425bfd009f0d134bfd29",
       "entry_target_id": "root:02dc:07b0",
       "kind": "far-code-entry",
@@ -3182,7 +3182,7 @@
         }
       ]
     },
-    "SET_PALETTE": {
+    "SETPALETTE": {
       "entry_sha256": "08d9b2b7f6b7b4f0aedc4f4abe90e3dada388e83d5aa46c963ce4e652f3a3b4a",
       "entry_target_id": "root:0790:2b1c",
       "kind": "far-code-entry",

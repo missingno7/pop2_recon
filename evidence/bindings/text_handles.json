@@ -127,12 +127,12 @@
       "MEASURE_TEXT_HANDLE",
       "__fstrlen",
       "__fstrcpy",
-      "ALLOCATE_PAYLOAD_HANDLE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "DRAW_NUL_TERMINATED_TEXT",
+      "HNEW",
+      "H2P",
+      "DRAWSTRING",
       "DRAW_TEXT_HANDLE",
       "CREATE_STRING_HANDLE",
-      "DRAW_NUL_TEXT_IN_RECT",
+      "STRINGRECT",
       "MEASURE_NUL_TERMINATED_TEXT"
     ]
   },
@@ -150,7 +150,7 @@
         "target": {
           "kind": "external",
           "index": 7,
-          "name": "DRAW_NUL_TERMINATED_TEXT",
+          "name": "DRAWSTRING",
           "method": 6,
           "zero_displacement": true
         }
@@ -158,7 +158,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "DRAW_NUL_TERMINATED_TEXT",
+        "name": "DRAWSTRING",
         "method": 6,
         "zero_displacement": true
       },
@@ -177,7 +177,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -185,7 +185,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -231,7 +231,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -239,7 +239,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -258,7 +258,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "ALLOCATE_PAYLOAD_HANDLE",
+          "name": "HNEW",
           "method": 6,
           "zero_displacement": true
         }
@@ -266,7 +266,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "ALLOCATE_PAYLOAD_HANDLE",
+        "name": "HNEW",
         "method": 6,
         "zero_displacement": true
       },
@@ -312,7 +312,7 @@
         "target": {
           "kind": "external",
           "index": 10,
-          "name": "DRAW_NUL_TEXT_IN_RECT",
+          "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -320,7 +320,7 @@
       "target": {
         "kind": "external",
         "index": 10,
-        "name": "DRAW_NUL_TEXT_IN_RECT",
+        "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -339,7 +339,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -347,7 +347,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -393,7 +393,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -401,7 +401,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -424,7 +424,7 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "ALLOCATE_PAYLOAD_HANDLE": {
+    "HNEW": {
       "entry_sha256": "c3ec377d3bcae2d5d33123bc8699728ed6babfa311fe110596d625f5cd8cc61b",
       "entry_target_id": "root:1129:17fc",
       "kind": "far-code-entry",
@@ -441,7 +441,7 @@
         }
       ]
     },
-    "DRAW_NUL_TERMINATED_TEXT": {
+    "DRAWSTRING": {
       "entry_sha256": "e062c8a208acb901b6811c25ab046b5139758517042e72dfc5f956ec60e1c5c7",
       "entry_target_id": "root:1129:4cb4",
       "kind": "far-code-entry",
@@ -450,7 +450,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DRAW_NUL_TEXT_IN_RECT": {
+    "STRINGRECT": {
       "entry_sha256": "0eb00f234993d1e1739939d2f5175e94f2a71442340dd6e36e7408022309efbd",
       "entry_target_id": "root:1129:5334",
       "kind": "far-code-entry",
@@ -468,7 +468,7 @@
       "space": "root",
       "witnesses": []
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",

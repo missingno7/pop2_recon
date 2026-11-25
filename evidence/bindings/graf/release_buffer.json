@@ -54,6 +54,15 @@
         "type_index": 0
       },
       {
+        "name": "FILLRECT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 436,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
         "name": "RELEASE_BUFFER",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -88,20 +97,12 @@
         "group_index": 0,
         "frame": null,
         "type_index": 0
-      },
-      {
-        "name": "SET_RECORD_RANGE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 436,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
       }
     ],
     "externals": [
       "COPY_CURRENT_PORT_ORIGIN",
       "CLEAR_PAYLOAD_HEADER",
+      "H2P",
       "MEASURE_COUNTED_TEXT",
       "GRAF",
       "FIT_TEXT_PREFIX",
@@ -110,8 +111,7 @@
       "SET_RELATIVE_PEN_STATE",
       "ALLOCATE_PINNED_PAYLOAD",
       "ALLOCATE_BUFFER_CALLBACK",
-      "DRAW_COUNTED_TEXT",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
+      "DRAW_COUNTED_TEXT"
     ]
   },
   "fixups": [
@@ -130,7 +130,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "RELEASE_BUFFER_CALLBACK",
         "method": 6,
         "zero_displacement": true
@@ -174,7 +174,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "ALLOCATE_BUFFER_CALLBACK",
         "method": 6,
         "zero_displacement": true
@@ -196,7 +196,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "ALLOCATE_PINNED_PAYLOAD",
         "method": 6,
         "zero_displacement": true
@@ -240,7 +240,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "FIT_TEXT_PREFIX",
         "method": 6,
         "zero_displacement": true
@@ -262,7 +262,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "GRAF",
         "method": 6,
         "zero_displacement": true
@@ -284,8 +284,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "index": 3,
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -306,7 +306,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
+        "index": 4,
         "name": "MEASURE_COUNTED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -328,7 +328,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "DRAW_COUNTED_TEXT",
         "method": 6,
         "zero_displacement": true
@@ -350,7 +350,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "SET_RELATIVE_PEN_STATE",
         "method": 6,
         "zero_displacement": true
@@ -372,7 +372,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "STROKE_RECTANGLE",
         "method": 6,
         "zero_displacement": true
@@ -511,7 +511,7 @@
       "offset": 9326,
       "provider": "group:graf/graphics_mode"
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "near-code-entry",

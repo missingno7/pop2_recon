@@ -1,8 +1,8 @@
 .MODEL MEDIUM
 .CODE
-PUBLIC CLEAR_HANDLE_OWNED, OWNER_OF_PAYLOAD
+PUBLIC HUNLOCK, P2H
 
-CLEAR_HANDLE_OWNED PROC FAR
+HUNLOCK PROC FAR
     push bp
     mov bp, sp
     mov bp, [bp+6]
@@ -13,9 +13,9 @@ clear_done:
     xchg ax, bp
     pop bp
     retf 2
-CLEAR_HANDLE_OWNED ENDP
+HUNLOCK ENDP
 
-OWNER_OF_PAYLOAD PROC FAR
+P2H PROC FAR
     push bp
     mov bp, sp
     les bx, DWORD PTR [bp+6]
@@ -29,5 +29,5 @@ OWNER_OF_PAYLOAD PROC FAR
 owner_done:
     pop bp
     retf 4
-OWNER_OF_PAYLOAD ENDP
+P2H ENDP
 END

@@ -48,11 +48,11 @@
     "externals": [
       "PREPARE_BACKING_ALLOCATION",
       "FIND_MOVABLE_PAYLOAD_SPACE",
-      "RESTORE_HANDLE_FLAGS",
+      "HSETSTATE",
       "MOVE_HUGE_BYTES",
       "HEAP_STATE",
       "GET_BLOCK_PAYLOAD_SIZE",
-      "FETCH_LOCKED_SHAPE_LIST"
+      "HLOCK"
     ]
   },
   "fixups": [
@@ -72,7 +72,7 @@
       "target": {
         "kind": "external",
         "index": 7,
-        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "name": "HLOCK",
         "method": 6,
         "zero_displacement": true
       },
@@ -204,7 +204,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "RESTORE_HANDLE_FLAGS",
+        "name": "HSETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -248,7 +248,7 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "FETCH_LOCKED_SHAPE_LIST": {
+    "HLOCK": {
       "entry_sha256": "495533edcbc43688544158cdd7c9d47753616118861506c670377e7243dbaa1f",
       "entry_target_id": "root:1129:1728",
       "kind": "near-code-entry",
@@ -335,7 +335,7 @@
         }
       ]
     },
-    "RESTORE_HANDLE_FLAGS": {
+    "HSETSTATE": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
       "entry_target_id": "root:1129:195a",
       "kind": "near-code-entry",

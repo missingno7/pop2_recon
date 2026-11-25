@@ -6,10 +6,10 @@ EXTRN MEASURE_TEXT_CALLBACK:WORD
 EXTRN MEASURE_COUNTED_TEXT:NEAR
 EXTRN SUBTRACT_PORT_ORIGIN:NEAR
 EXTRN SECTRECT:NEAR
-EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
-EXTRN PAINT_FOUR_BIT:NEAR
+EXTRN H2P:NEAR
+EXTRN PAINT4BITSHAPE:NEAR
 
-PUBLIC MEASURE_CHARACTER, PUSH_PORT_CLIP, POP_PORT_CLIP, MEASURE_TEXT
+PUBLIC MEASURE_CHARACTER, CLIPRECT, CLIPRESTORE, COPYBITS
 
 MEASURE_CHARACTER PROC FAR
     push bp
@@ -26,7 +26,7 @@ MEASURE_CHARACTER PROC FAR
 MEASURE_CHARACTER ENDP
 
 ; Save the old clip rectangle on the caller's stack and install its intersection.
-PUSH_PORT_CLIP PROC FAR
+CLIPRECT PROC FAR
     mov bx, Graf
     add bx, 20h
     mov cx, 4
@@ -90,10 +90,10 @@ restore_result_4c3e:
     mov sp, bp
     pop bp
     retf 4
-PUSH_PORT_CLIP ENDP
+CLIPRECT ENDP
 
 ; Consume the four saved words, preserving the caller's far return address.
-POP_PORT_CLIP PROC FAR
+CLIPRESTORE PROC FAR
     pop ax
     pop es
     mov bx, Graf
@@ -106,15 +106,15 @@ restore_clip_4c3e:
     push es
     push ax
     retf
-POP_PORT_CLIP ENDP
+CLIPRESTORE ENDP
 
-MEASURE_TEXT PROC FAR
+COPYBITS PROC FAR
     jmp WORD PTR measure_text_callback
-MEASURE_TEXT ENDP
+COPYBITS ENDP
 
-PUBLIC DRAW_NUL_TERMINATED_TEXT
+PUBLIC DRAWSTRING
 
-DRAW_NUL_TERMINATED_TEXT PROC FAR
+DRAWSTRING PROC FAR
     push bp
     mov bp, sp
     push di
@@ -132,7 +132,7 @@ DRAW_NUL_TERMINATED_TEXT PROC FAR
     pop di
     pop bp
     retf 4
-DRAW_NUL_TERMINATED_TEXT ENDP
+DRAWSTRING ENDP
 PUBLIC alignment_4cef
 alignment_4cef DB 0  ; Link-address alignment between routines.
 
@@ -149,7 +149,7 @@ DRAW_COUNTED_TEXT PROC FAR
     mov [bp-6], es
     push WORD PTR [di+2ah]
     push cs
-    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    call H2P
     mov [bp-4], ax
     mov [bp-2], dx
     xchg ax, si
@@ -183,7 +183,7 @@ next_glyph_4cf0:
     add ax, es:[si+8]
     add [di+24h], ax
     push cs
-    call PAINT_FOUR_BIT
+    call PAINT4BITSHAPE
 advance_4cf0:
     pop si
     pop es

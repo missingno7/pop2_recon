@@ -61,23 +61,23 @@ static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
 extern TileState *BlueS;
 
 extern byte FirstInRow(sbyte row);
-extern void add_mob_obj(int y);
-extern int is_dead_pos(word frame);
+extern void AddMobObj(int y);
+extern int IsDeadPos(word frame);
 extern byte ReadCell(byte room, sbyte column, sbyte row);
-extern int slide_rock_near_spikes(void);
+extern int SlideRockNearSpikes(void);
 extern sbyte GetCellCol(void);
-extern int get_sword_width(void);
-extern void add_mob(void);
-extern MOBREC *get_mob_type_item(byte kind, int index);
-extern void impale_skeleton(void);
+extern int GetSwordWidth(void);
+extern void AddMob(void);
+extern MOBREC *GetMobTypeItem(byte kind, int index);
+extern void SkelDoImpale(void);
 extern void JumpSeq(word sequence);
 extern void AddSound(int sound);
-extern void decrement_life_points(byte amount);
+extern void DecLifePts(byte amount);
 extern void AnimChar(void);
-extern void reset_char_y(void);
+extern void ResetCharY(void);
 extern void select_room_arrays(byte room);
 /* The sprite entry consumes kind, image and context in AX, DX and BX. */
-extern void _fastcall add_middle_image(byte kind, int image, int context, int x, byte height);
+extern void _fastcall AddMid(byte kind, int image, int context, int x, byte height);
 
 int GetSpikes(void);
 MOBREC *GetSpikeMobRoomRow(byte room, sbyte row);
@@ -101,11 +101,11 @@ void ATMSpikes(void)
     }
     if (Mob.velocity != -1) {
         FChar.index = FirstInRow(Mob.row) + column;
-        add_mob_obj(Mob.y);
+        AddMobObj(Mob.y);
         Mob.kind = 5;
         Mob.x -= 4;
         Mob.y += 7;
-        add_mob_obj(Mob.y);
+        AddMobObj(Mob.y);
         Mob.kind = 4;
         Mob.x += 4;
         Mob.y -= 7;
@@ -121,7 +121,7 @@ void CheckImpale(void)
     sbyte last_column;
 
     if (Char.sequence == 0x55 || Char.character_kind == 4 || Char.character_kind == 1
-        || is_dead_pos(Char.frame))
+        || IsDeadPos(Char.frame))
         return;
     column = Char.column - 1;
     if (column <= Char.column) {
@@ -136,7 +136,7 @@ void CheckImpale(void)
                         && Char.row * 63 + 26 <= Char.y
                         && (Char.frame < 0x79 || Char.frame > 0x84)
                         && Char.frame != 0x0f)
-                    || (Level.environment_kind == 2 && slide_rock_near_spikes())) {
+                    || (Level.environment_kind == 2 && SlideRockNearSpikes())) {
                     DoImpale();
                     mob = GetSpikeMobRoomRow(Char.room, Char.row);
                     if (mob) {
@@ -164,7 +164,7 @@ void CheckSpikes(void)
         x += Char.stance == 0 ? 16 : 2;
         if (Char.direction == 0) {
             x += ImWidth;
-            x -= get_sword_width();
+            x -= GetSwordWidth();
         }
         if (x >= Char.x)
             TriggerSpikes(Cell.room, Cell.index);
@@ -191,7 +191,7 @@ void CheckSpikesJammed(byte room, int index)
             Mob.velocity = zero;
             Mob.kind = 4;
             Mob.spikes.word = state;
-            add_mob();
+            AddMob();
         }
     }
 }
@@ -211,11 +211,11 @@ void DoImpale(void)
         state->signed_word = 0x8f;
     }
 
-    mob = get_mob_type_item(4, 1);
+    mob = GetMobTypeItem(4, 1);
     if (mob && mob->room == Cell.room && mob->row == Cell.row)
         mob->spikes.word = state->word;
 
-    reset_char_y();
+    ResetCharY();
     Char.vertical_step = 0;
     if (Char.character_kind == 0 || Char.character_kind == 2) {
         Char.repeat = 1;
@@ -228,11 +228,11 @@ void DoImpale(void)
         }
         JumpSeq(sequence);
         AddSound(77);
-        decrement_life_points(100);
+        DecLifePts(100);
     } else if (Char.character_kind != 4) {
         return;
     } else {
-        impale_skeleton();
+        SkelDoImpale();
     }
     AnimChar();
 }
@@ -257,7 +257,7 @@ void DrawObjSpikes(byte object)
         return;
 
     if (image)
-        add_middle_image(4, image, XCo, FChar.y, 10);
+        AddMid(4, image, XCo, FChar.y, 10);
 }
 
 /* GetSpikeIdx */
@@ -281,7 +281,7 @@ MOBREC *GetSpikeMobRoomRow(byte room, sbyte row)
     MOBREC *mob;
 
     do {
-        mob = get_mob_type_item(4, index++);
+        mob = GetMobTypeItem(4, index++);
         if (!mob || (mob->room == room && mob->row == row))
             found = 1;
     } while (!found);
@@ -366,7 +366,7 @@ void TriggerSpikes(byte room, int index)
             next = spikes->word + 1;
             spikes->word = next;
             Mob.spikes.word = next;
-            add_mob();
+            AddMob();
             AddSound(78);
         } else if (state != 0xf0) {
             next = (Cell.modifier & 0x800) + 0x8f;

@@ -5,7 +5,7 @@ EXTRN PIXELS_PER_BYTE:BYTE
 EXTRN PAINT_FOUR_BIT_CALLBACK:WORD
 EXTRN PAINT_PLAIN_CALLBACK:WORD
 .CODE
-EXTRN MEASURE_TEXT:NEAR
+EXTRN COPYBITS:NEAR
 EXTRN RELEASE_BUFFER:NEAR
 EXTRN __nfree:FAR
 EXTRN ALLOCATE_BUFFER:NEAR
@@ -62,17 +62,17 @@ OFFSETRECT ENDP
 PUBLIC alignment_5135
 alignment_5135 DB 0  ; Link-address alignment between routines.
 
-PUBLIC PAINT_FOUR_BIT
+PUBLIC PAINT4BITSHAPE
 
-PAINT_FOUR_BIT PROC FAR
+PAINT4BITSHAPE PROC FAR
     jmp WORD PTR paint_four_bit_callback
-PAINT_FOUR_BIT ENDP
+PAINT4BITSHAPE ENDP
 
-PUBLIC PAINT_PLAIN
+PUBLIC PAINTSHAPE
 
-PAINT_PLAIN PROC FAR
+PAINTSHAPE PROC FAR
     jmp WORD PTR paint_plain_callback
-PAINT_PLAIN ENDP
+PAINTSHAPE ENDP
 
 PUBLIC CLAMP_POINT_TO_RECT
 
@@ -117,9 +117,9 @@ CLAMP_POINT_TO_RECT ENDP
 PUBLIC alignment_5181
 alignment_5181 DB 0  ; Link-address alignment between routines.
 
-PUBLIC DISPOSE_BITMAP_PORT
+PUBLIC RESTORERECT
 
-DISPOSE_BITMAP_PORT PROC FAR
+RESTORERECT PROC FAR
     push bp
     mov bp, sp
     mov bx, [bp+6]
@@ -137,20 +137,20 @@ DISPOSE_BITMAP_PORT PROC FAR
     mov ax, 0
     push ax
     push cs
-    call MEASURE_TEXT
+    call COPYBITS
     push cs
     call RELEASE_BUFFER
     call __nfree
     add sp, 2
     pop bp
     retf 2
-DISPOSE_BITMAP_PORT ENDP
+RESTORERECT ENDP
 PUBLIC alignment_51b1
 alignment_51b1 DB 0  ; Link-address alignment between routines.
 
-PUBLIC ALLOCATE_CLIPPED_PORT
+PUBLIC SAVERECT
 
-ALLOCATE_CLIPPED_PORT PROC FAR
+SAVERECT PROC FAR
     push bp
     mov bp, sp
     add sp, -1ah
@@ -252,10 +252,10 @@ finish_bitmap_51b2:
     mov ax, 0
     push ax
     push cs
-    call MEASURE_TEXT
+    call COPYBITS
     xchg si, ax
     jmp SHORT port_ready_51b2
-ALLOCATE_CLIPPED_PORT ENDP
+SAVERECT ENDP
 PUBLIC alignment_5283
 alignment_5283 DB 0  ; Link-address alignment between routines.
 

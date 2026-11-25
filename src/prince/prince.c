@@ -37,7 +37,7 @@ unsigned int RedrawFlag;
 static char title[] = "PRINCE OF PERSIA 2 v1.1";
 /* FM Towns names these adjacent lookup tables OppCharId and CharOppId. */
 unsigned char OppCharId[11] = { 2, 10, 4, 6, 1, 7, 8, 2, 11, 12, 0 };
-unsigned char opponent_outfit_by_character[15] = {
+unsigned char CharOppId[15] = {
     10, 4, 0, 0, 2, 0, 3, 5, 6, 0, 1, 8, 9, 0, 0
 };
 
@@ -53,37 +53,37 @@ extern struct { unsigned char channels, volume; } Midi;
 extern void far *digital_driver, far *midi_driver;
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern void far pascal show_init_message(const char *);
-extern void far pascal init_system(void);
+extern void far pascal InitSystem(void);
 extern void far pascal SetOptionsFromDisk(void);
-extern void far pascal open_verified_resource(const char *);
+extern void far pascal OpenRsrcVerify(const char *);
 extern int far pascal Rnd(int);
 extern char near *far pascal find_option(const char far *);
 extern int far cdecl atoi(const char near *);
 extern void far pascal check_heaps(const char near *);
 extern void far pascal check_null_area(const char near *);
 extern void far pascal dump_heap(const char near *, const char far *, int);
-extern char far pascal start_game(char level);
-extern int far pascal play_nis(int sequence);
-extern void far pascal enter_hall_record(int);
+extern char far pascal Start(char level);
+extern int far pascal PlayNIS(int sequence);
+extern void far pascal HallOfFameDialog(int);
 extern void far pascal CheckPlayNIS(int status, int flags);
-extern void far pascal RECLAIM_HEAP_BLOCKS(long);
-extern void far pascal COMPACT_HEAP_BLOCKS(long);
-extern int far pascal show_credits(void);
-extern int far pascal show_hall_records(int);
+extern void far pascal HeapPurge(long);
+extern void far pascal HeapCompact(long);
+extern int far pascal DoCreditsDialog(void);
+extern int far pascal ShowHallOfFame(int);
 extern void far pascal TurnRecordedGamePlayerOff(void);
 extern void far pascal TurnRecordedGamePlayerOn(void);
 extern void far pascal reset_level_overlays(void);
-extern int far pascal load_game_dialog(void);
-extern void far pascal dispatch_sound(int);
-extern int far pascal init_port(void near *, void far *);
-extern void far pascal clear_peels(void);
+extern int far pascal ResumeGameDialog(void);
+extern void far pascal ResetSnd(int);
+extern int far pascal InitPort(void near *, void far *);
+extern void far pascal ZeroPeels(void);
 
 extern unsigned char ScreenPort[];
 extern unsigned char ScreenPortRect[];
 extern int Graf;
 
 void far pascal ResetGame(void);
-void far pascal read_start_level(void);
+void far pascal SetStartLevel(void);
 char far pascal PlayOpeningSequence(void);
 char far pascal poll_and_clear_pending_state(void);
 void far pascal ResetData(void);
@@ -93,7 +93,7 @@ void far pascal ResetData(void);
     const char **file;
     char message[100];
 
-    init_system();
+    InitSystem();
     if (find_option("sbdiag")) {
         sprintf(message, "DType:%d MType:%d\rDDrv:%d MDrv: %d\rDInit:%d MInit:%d",
                 configuration->digital_type != 0, configuration->midi_type != 0,
@@ -102,10 +102,10 @@ void far pascal ResetData(void);
         show_init_message(message);
     }
     SetOptionsFromDisk();
-    read_start_level();
+    SetStartLevel();
     file = resource_files + 1;
     do {
-        open_verified_resource(*file);
+        OpenRsrcVerify(*file);
         ++file;
     } while (file < resource_files + 3);
     Rnd(1);
@@ -132,14 +132,14 @@ void far pascal ResetData(void);
         if (StartLevel == 0) {
             level = PlayOpeningSequence();
         } else {
-            level = start_game(level);
+            level = Start(level);
             if (GameState.recording_mode)
                 Level.level_number = level = 0;
             if (Minutes == 0) {
                 StartLevel = level = 0;
             } else if (level > 14) {
-                play_nis(11);
-                enter_hall_record(Minutes);
+                PlayNIS(11);
+                HallOfFameDialog(Minutes);
                 StartLevel = level = 0;
             } else if (StartLevel != 0 && level == 0) {
                 StartLevel = level = Level.level_number;
@@ -150,7 +150,7 @@ void far pascal ResetData(void);
         CheckPlayNIS(0, 0);
 }
 
-/* 0116 */ void far pascal read_start_level(void)
+/* 0116 */ void far pascal SetStartLevel(void)
 {
     char near *option;
 
@@ -172,21 +172,21 @@ static int skip_intro = 1;
     int result;
     char level;
 
-    RECLAIM_HEAP_BLOCKS(0x00ffffffL); COMPACT_HEAP_BLOCKS(0x00ffffffL);
+    HeapPurge(0x00ffffffL); HeapCompact(0x00ffffffL);
     result = 1;
     if (!skip_intro) {
         if (GameState.skip_opening)
             result = 2;
-        else if (show_credits() || show_hall_records(0))
+        else if (DoCreditsDialog() || ShowHallOfFame(0))
             result = 2;
     } else {
         skip_intro = 0;
     }
     if (result != 2)
-        result = play_nis(7);
+        result = PlayNIS(7);
 next_opening_clip:
-    if (result != 2) result = play_nis(4);
-    if (result != 2) result = play_nis(8);
+    if (result != 2) result = PlayNIS(4);
+    if (result != 2) result = PlayNIS(8);
     if (result == 2) {
         StartLevel = 1;
         skip_intro = 1;
@@ -205,7 +205,7 @@ next_opening_clip:
 {
     char level = StartLevel;
 
-    if (load_game_dialog() > 0) {
+    if (ResumeGameDialog() > 0) {
         level = StartLevel = LevelIdx;
         RestartLevel = 0;
     }
@@ -224,27 +224,27 @@ extern int NextLevel, MsgTimer, MsgTimerStart;
 extern unsigned int SixtiethsCtr;
 extern char sound_on_message[], sound_off_message[], joystick_unavailable_message[], joystick_mode_message[], joystick_missing_message[], keyboard_mode_message[];
 
-extern unsigned int far pascal poll_user(void);
+extern unsigned int far pascal PollUser0(void);
 extern int far pascal IsValidTimeForDialog(void);
 extern int far pascal IsValidTimeForSaveGame(void);
-extern void far pascal save_game_dialog(void);
+extern void far pascal SaveGameDialog(void);
 extern void far pascal main_menu_dialog(void);
-extern void far pascal copy_kid_to_char(void);
+extern void far pascal LoadKid(void);
 extern int far pascal toggle_sound(void);
-extern int far pascal show_hall_records(int mode);
+extern int far pascal ShowHallOfFame(int mode);
 extern char *far pascal joystick_status(void);
-extern int far pascal load_game_dialog(void);
+extern int far pascal ResumeGameDialog(void);
 extern const char *far pascal toggle_ambient(void);
-extern int far pascal is_leave_level_music_on(void);
-extern void far pascal draw_message(const char *message);
-extern void far pascal dispatch_sound(int mode);
-extern int far pascal altar_shadow_active(void);
-extern void far pascal clear_keyboard(void);
-extern void far pascal handle_debug_input(unsigned int key);
+extern int far pascal IsLeaveLevelMusicOn(void);
+extern void far pascal DrawMessage(const char *message);
+extern void far pascal ResetSnd(int mode);
+extern int far pascal IsAltarShadowActive(void);
+extern void far pascal ClearKeyboard(void);
+extern void far pascal CheckCheatKeys(unsigned int key);
 
-unsigned int far pascal prince_poll(void)
+unsigned int far pascal PrincePoll(void)
 {
-    const char *message = 0; int restart = 0; unsigned int key = poll_user();
+    const char *message = 0; int restart = 0; unsigned int key = PollUser0();
 
     if (joystick_button || key) {
         if ((Minutes && Kid.alive > 6) || GameState.recording_mode) { restart = 1;
@@ -253,34 +253,34 @@ unsigned int far pascal prince_poll(void)
     }
 
     if (key) {
-        clear_keyboard(); switch (key) {
+        ClearKeyboard(); switch (key) {
         case 0x1b: Pause = 1; break;
         case 0x20: if (quote_index >= 0) TimeRequest = 1; break;
         case 0x1300:
             StartLevel = 0; quote_index = -1;
         case 0x1e00:
-            if (!is_leave_level_music_on()) restart = 1; break;
+            if (!IsLeaveLevelMusicOn()) restart = 1; break;
         case 0x1800: if (IsValidTimeForDialog() && !GameState.recording_mode) {
                 main_menu_dialog();
-                copy_kid_to_char();
+                LoadKid();
             } break;
         case 0x1f00: message = toggle_sound() ? sound_on_message : sound_off_message; break;
         case 0x2200:
             if (!IsValidTimeForDialog()) break;
             if (!IsValidTimeForSaveGame()) break;
-            save_game_dialog(); copy_kid_to_char(); break;
+            SaveGameDialog(); LoadKid(); break;
         case 0x2300:
         /* This case starts a separate CodeView record. */
         shortcut_dialog:
-            if (IsValidTimeForDialog()) show_hall_records(1); break;
+            if (IsValidTimeForDialog()) ShowHallOfFame(1); break;
         case 0x2400: message = joystick_status(); break;
         case 0x2500:
             /* The keyboard label follows the audio and Joy strings. */
             message = keyboard_mode_message; GameState.control_mode = 0; break;
         case 0x2600:
             if (!GameState.recording_mode) {
-                if (IsValidTimeForDialog()) load_game_dialog();
-                copy_kid_to_char();
+                if (IsValidTimeForDialog()) ResumeGameDialog();
+                LoadKid();
             } else {
                 nis_skip_requested = 1;
             }
@@ -294,18 +294,18 @@ unsigned int far pascal prince_poll(void)
                     if (!frame_diagnostics && Minutes > 15) {
                         Minutes = 15; SixtiethsCtr = 719; }
                 }
-                dispatch_sound(0);
+                ResetSnd(0);
             } break;
         case 0x3200: message = toggle_ambient(); break;
         }
 
-        if (frame_diagnostics) handle_debug_input(key);
-        if (message) { draw_message(message); MsgTimer = MsgTimerStart = 24;
+        if (frame_diagnostics) CheckCheatKeys(key);
+        if (message) { DrawMessage(message); MsgTimer = MsgTimerStart = 24;
         }
     }
     if (restart && BackToLife == 0 &&
-        (Room.number != 4 || Level.level_number != 13 || !altar_shadow_active())) {
-        RestartLevel = 1; dispatch_sound(0);
+        (Room.number != 4 || Level.level_number != 13 || !IsAltarShadowActive())) {
+        RestartLevel = 1; ResetSnd(0);
     }
     return key;
 }
@@ -316,28 +316,28 @@ extern int show_ruler, debug_show_door_links, debug_show_meters;
 extern struct { int y, x; } DebugKid;
 
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
-extern void far pascal draw_message(const char *);
+extern void far pascal DrawMessage(const char *);
 extern void far pascal LoadCustomRoomData(unsigned char room);
-extern void far pascal STROKE_PORT_RECT(const char far *asset);
+extern void far pascal EraseRect(const char far *asset);
 extern void far pascal ToggleInvertState(void);
 extern void far pascal AddSong(int value);
 extern void far pascal AddSound(int value);
 extern unsigned char CutRoom;
 extern void far pascal ChangeMeters(void);
 extern void far pascal CheckMeters(void);
-extern void far pascal copy_kid_to_char(void);
+extern void far pascal LoadKid(void);
 extern char far pascal BoostMeter(void);
 extern void far pascal GoWeightless(void);
-extern void far pascal load_actor_slot(signed char opponent);
-extern void far pascal save_actor_slot(void);
+extern void far pascal LoadShad(signed char opponent);
+extern void far pascal SaveShad(void);
 extern void far pascal JumpSeq(int sequence);
-extern void far pascal bones_fall(void);
-extern void far pascal set_skeleton_timer(signed char opponent, int value);
+extern void far pascal BonesFall(void);
+extern void far pascal SetSkelTimer(signed char opponent, int value);
 extern void far pascal CheckShadowmanCreate(void);
-extern void far pascal set_palette(int duration, int range, unsigned char color, unsigned char mode);
+extern void far pascal SetPalette(int duration, int range, unsigned char color, unsigned char mode);
 extern void far pascal DrawOppMeter(signed char id, int value, int flags);
-extern void far pascal clear_message(int restore);
-extern int far pascal toggle_recording_player(void);
+extern void far pascal ClrMessage(int restore);
+extern int far pascal ToggleRecorder(void);
 extern int far pascal AddCharX(int amount);
 
 extern char GamePlayRect[];
@@ -366,7 +366,7 @@ static struct {
     "Kid.Y restored",
 };
 
-void far pascal handle_debug_input(unsigned int key)
+void far pascal CheckCheatKeys(unsigned int key)
 {
     char text[80];
     char *message = 0;
@@ -382,7 +382,7 @@ void far pascal handle_debug_input(unsigned int key)
         TimeRequest = 1; break;
     case 'B':
         BlackOut = !BlackOut;
-        if (BlackOut) STROKE_PORT_RECT(GamePlayRect);
+        if (BlackOut) EraseRect(GamePlayRect);
         else {
             DoBlackOut = 1; LoadCustomRoomData(Room.number);
         }
@@ -395,19 +395,19 @@ void far pascal handle_debug_input(unsigned int key)
     case 'K':
         Char.life_delta = -1; AddSound(31);
         Kid = Char; ChangeMeters();
-        CheckMeters(); copy_kid_to_char();
+        CheckMeters(); LoadKid();
         if (Char.life_points == 0) JumpSeq(71);
         Char.life_delta = 0; break;
     case 'R':
-        sprintf(text, debug_messages.room_number_format, Room.number); draw_message(text);
+        sprintf(text, debug_messages.room_number_format, Room.number); DrawMessage(text);
         MsgTimer = MsgTimerStart = 24; break;
     case 'S':
         if (Level.environment_kind == 2 || Level.environment_kind == 6) {
             KidInfo.shadow_timer = 7; Char.sequence = 5;
             CheckShadowmanCreate();
-            if (Level.environment_kind == 6) set_palette(2000, 48, 16, 1);
+            if (Level.environment_kind == 6) SetPalette(2000, 48, 16, 1);
             else
-                set_palette(2000, 48, 16, 0);
+                SetPalette(2000, 48, 16, 0);
         }
         break;
     case 'T':
@@ -415,19 +415,19 @@ void far pascal handle_debug_input(unsigned int key)
     case 'W': GoWeightless(); break;
     case 'g':
         Kid = Char;
-        if (Char.opponent_index != -1) { load_actor_slot(Char.opponent_index); ++Char.life_initial;
-            Char.life_delta = 1; save_actor_slot();
+        if (Char.opponent_index != -1) { LoadShad(Char.opponent_index); ++Char.life_initial;
+            Char.life_delta = 1; SaveShad();
             ChangeMeters(); CheckMeters();
         }
-        copy_kid_to_char(); break;
+        LoadKid(); break;
     case 'k':
         Char.opponent_index = -1; Kid = Char;
         index = 0; count = Level.room_objects[Room.number - 1].opponent_count;
         if (index < count) do {
-            load_actor_slot(index); Char.alive = 0;
+            LoadShad(index); Char.alive = 0;
             Char.life_delta = -Char.life_points;
-            if (Level.preferred_opponent == 2) { bones_fall();
-            } else if (Char.character_kind == 10) { set_skeleton_timer(index, 480); JumpSeq(107);
+            if (Level.preferred_opponent == 2) { BonesFall();
+            } else if (Char.character_kind == 10) { SetSkelTimer(index, 480); JumpSeq(107);
                 Char.repeat = 1;
             } else if (Level.preferred_opponent == 5 || Level.preferred_opponent == 6) {
                 Char.direction = ~Kid.direction; Char.life_points = 0;
@@ -435,14 +435,14 @@ void far pascal handle_debug_input(unsigned int key)
             } else {
                 JumpSeq(85);
             }
-            save_actor_slot();
+            SaveShad();
         } while (++index < count);
-        copy_kid_to_char(); break;
+        LoadKid(); break;
     case 'r':
         if (Kid.alive > 0) {
             BackToLife = 20;
             Kid.alive = -1;
-            clear_message(1);
+            ClrMessage(1);
         }
         break;
     case 'v':
@@ -458,7 +458,7 @@ void far pascal handle_debug_input(unsigned int key)
         show_actor_position = !show_actor_position;
         break;
     case 0x3d00:
-        message = (char *)(toggle_recording_player() ? debug_messages.recording_on_message : debug_messages.recording_off_message);
+        message = (char *)(ToggleRecorder() ? debug_messages.recording_on_message : debug_messages.recording_off_message);
         break;
     case 0x3f00:
         show_reference_position = !show_reference_position;
@@ -488,35 +488,35 @@ void far pascal handle_debug_input(unsigned int key)
     if (GameState.control_mode) {
         switch (key) {
         case '1':
-            copy_kid_to_char();
+            LoadKid();
             DebugKid.x = Char.x;
             Kid = Char;
             memcpy(text, debug_messages.kid_x_saved_message, sizeof(debug_messages.kid_x_saved_message));
             message = text;
             break;
         case '2':
-            copy_kid_to_char();
+            LoadKid();
             Char.x = DebugKid.x;
             Kid = Char;
             memcpy(text, debug_messages.kid_x_restored_message, sizeof(debug_messages.kid_x_restored_message));
             message = text;
             break;
         case '3':
-            copy_kid_to_char();
+            LoadKid();
             DebugKid.y = Char.y;
             Kid = Char;
             memcpy(text, debug_messages.kid_y_saved_message, sizeof(debug_messages.kid_y_saved_message));
             message = text;
             break;
         case '4':
-            copy_kid_to_char();
+            LoadKid();
             Char.y = DebugKid.y;
             Kid = Char;
             memcpy(text, debug_messages.kid_y_restored_message, sizeof(debug_messages.kid_y_restored_message));
             message = text;
             break;
         case 0x4700:
-            copy_kid_to_char();
+            LoadKid();
             if (Char.direction == -1)
                 Char.x = AddCharX(32);
             else
@@ -524,7 +524,7 @@ void far pascal handle_debug_input(unsigned int key)
             Kid = Char;
             break;
         case 0x4900:
-            copy_kid_to_char();
+            LoadKid();
             if (Char.direction == 0)
                 Char.x = AddCharX(32);
             else
@@ -532,7 +532,7 @@ void far pascal handle_debug_input(unsigned int key)
             Kid = Char;
             break;
         case 0x4b00:
-            copy_kid_to_char();
+            LoadKid();
             if (Char.direction == -1)
                 Char.x = AddCharX(1);
             else
@@ -540,7 +540,7 @@ void far pascal handle_debug_input(unsigned int key)
             Kid = Char;
             break;
         case 0x4d00:
-            copy_kid_to_char();
+            LoadKid();
             if (Char.direction == 0)
                 Char.x = AddCharX(1);
             else
@@ -548,7 +548,7 @@ void far pascal handle_debug_input(unsigned int key)
             Kid = Char;
             break;
         case 0x4f00:
-            copy_kid_to_char();
+            LoadKid();
             if (Char.direction == -1)
                 Char.x = AddCharX(5);
             else
@@ -556,7 +556,7 @@ void far pascal handle_debug_input(unsigned int key)
             Kid = Char;
             break;
         case 0x5100:
-            copy_kid_to_char();
+            LoadKid();
             if (Char.direction == 0)
                 Char.x = AddCharX(5);
             else
@@ -566,7 +566,7 @@ void far pascal handle_debug_input(unsigned int key)
         }
     }
     if (message) {
-        draw_message(message);
+        DrawMessage(message);
         MsgTimer = MsgTimerStart = 24;
     }
 }
@@ -628,17 +628,17 @@ char *far pascal joystick_status(void)
 extern void far pascal SetSideRoomInfo(void);
 extern void far pascal select_room_arrays(unsigned char room);
 extern unsigned char far pascal FirstInRow(int tile);
-extern unsigned char far pascal select_trob_cell(int tile);
+extern unsigned char far pascal GetOS(int tile);
 extern void far pascal CheckSpikesJammed(unsigned char room, int tile);
-extern void far pascal trigger_flask(unsigned char room, signed char tile);
-extern void far pascal trigger_torch(unsigned char room, signed char tile);
-extern void far pascal trigger_lava(unsigned char room, signed char tile);
-extern void far pascal add_trob(unsigned char room, signed char tile,
+extern void far pascal TriggerFlask(unsigned char room, signed char tile);
+extern void far pascal TriggerTorch(unsigned char room, signed char tile);
+extern void far pascal TriggerLava(unsigned char room, signed char tile);
+extern void far pascal AddTrob(unsigned char room, signed char tile,
                                       signed char active, unsigned char type);
-extern int far pascal trigger_stone_at(unsigned char room, signed char tile, signed char delay);
-extern void far pascal trigger_bridge_floor(unsigned char room, signed char tile);
-extern void far pascal trigger_crystal(unsigned char room, signed char tile);
-extern void far pascal trigger_gargoyle(unsigned char room, signed char tile);
+extern int far pascal TriggerStone(unsigned char room, signed char tile, signed char delay);
+extern void far pascal TriggerBrgFloor(unsigned char room, signed char tile);
+extern void far pascal TriggerFinlCrystal(unsigned char room, signed char tile);
+extern void far pascal TriggerFinlGargoyle(unsigned char room, signed char tile);
 #pragma pack(1)
 typedef struct {
     unsigned char bytes[4];
@@ -652,7 +652,7 @@ typedef struct {
 extern TileInfo BlueSpec;
 extern Tile ScrLeft[];
 
-void far pascal add_room_trobs(void)
+void far pascal AddRoomTrobs(void)
 {
     int index;
     unsigned char room;
@@ -665,7 +665,7 @@ void far pascal add_room_trobs(void)
     tile = 0;
     do {
         if (index < 30) {
-            kind = select_trob_cell(index);
+            kind = GetOS(index);
         } else {
             if (index == 30) {
                 if (Room.left) {
@@ -686,17 +686,17 @@ void far pascal add_room_trobs(void)
                 kind = ScrLeft[index - 30].tile;
             } else {
                 tile = index - 33;
-                kind = select_trob_cell(tile);
+                kind = GetOS(tile);
             }
         }
 
         switch (kind) {
         default:
             if (room == 6 && Level.environment_kind == 6 && (BlueSpec.bytes[1] & 16)) {
-                trigger_crystal(room, tile);
+                TriggerFinlCrystal(room, tile);
             } else if ((room == 7 || room == 8) &&
                        Level.environment_kind == 6 && (BlueSpec.bytes[1] & 16)) {
-                trigger_gargoyle(room, tile);
+                TriggerFinlGargoyle(room, tile);
             }
             break;
         case 2:
@@ -704,15 +704,15 @@ void far pascal add_room_trobs(void)
             break;
         case 10:
             if (index < 33)
-                trigger_flask(room, tile);
+                TriggerFlask(room, tile);
             break;
         case 19:
         case 32:
-            trigger_torch(room, tile);
+            TriggerTorch(room, tile);
             break;
         case 23:
             if (index < 33)
-                trigger_lava(room, tile);
+                TriggerLava(room, tile);
             break;
         case 28:
         case 29:
@@ -722,13 +722,13 @@ void far pascal add_room_trobs(void)
         case 39:
         case 40:
         case 43:
-            add_trob(room, tile, 1, kind);
+            AddTrob(room, tile, 1, kind);
             break;
         case 30:
-            trigger_stone_at(room, tile, 3);
+            TriggerStone(room, tile, 3);
             break;
         case 44:
-            trigger_bridge_floor(room, tile);
+            TriggerBrgFloor(room, tile);
             break;
         }
         ++tile;
@@ -740,7 +740,7 @@ extern signed char quote_index;
 extern int Minutes, TimeRequest;
 extern unsigned int SixtiethsCtr;
 extern int MsgTimer, MsgTimerStart;
-extern void far pascal draw_message(const char *message);
+extern void far pascal DrawMessage(const char *message);
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern char *cdecl strcpy(char *destination, const char *source);
 #pragma intrinsic(strcpy)
@@ -780,9 +780,9 @@ void far pascal KeepTime(void)
             } else {
                 sprintf(text, minutes_left, Minutes);
             }
-            draw_message(text);
+            DrawMessage(text);
         } else {
-            draw_message(time_expired);
+            DrawMessage(time_expired);
         }
         MsgTimer = MsgTimerStart = 24;
         TimeRequest = 0;
@@ -792,14 +792,14 @@ void far pascal KeepTime(void)
 extern int CutPlan;
 extern unsigned char OppBank[2];
 
-extern void far pascal get_rooms(void);
+extern void far pascal GetRooms(void);
 extern int far pascal IsLevelStartWithNISScreen(void);
-extern void far pascal save_game_play_palette(void);
+extern void far pascal SaveGamePlayPalette(void);
 extern void far pascal LoadCustomRoomData(unsigned char room);
-extern void far pascal preload_room_data(unsigned char room);
-extern void far pascal initialize_room_actors(void);
-extern signed char far pascal pick_hidden_actor(signed char mode);
-extern void far pascal copy_kid_to_char(void);
+extern void far pascal PreloadRoomData(unsigned char room);
+extern void far pascal AddOpponent(void);
+extern signed char far pascal GetOppIdxClosestToKid(signed char mode);
+extern void far pascal LoadKid(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
 
@@ -808,25 +808,25 @@ int far pascal PrepCut(int keep_screen)
     signed char result = -2;
     if (CutRoom && Room.number != CutRoom) {
         Room.number = CutRoom;
-        get_rooms();
+        GetRooms();
         if (!keep_screen || !IsLevelStartWithNISScreen())
-            save_game_play_palette();
+            SaveGamePlayPalette();
         LoadCustomRoomData(Room.number);
         CutPlan = 1;
-        copy_kid_to_char();
-        add_room_trobs();
+        LoadKid();
+        AddRoomTrobs();
         memset(OppBank, 0, sizeof(OppBank));
-        preload_room_data(Room.number);
-        initialize_room_actors();
+        PreloadRoomData(Room.number);
+        AddOpponent();
         if (!Level.room_objects[Room.number - 1].opponent_count)
             DrawOppMeter(-1, 0, 8);
         else
-            Kid.opponent_index = pick_hidden_actor(1);
+            Kid.opponent_index = GetOppIdxClosestToKid(1);
     }
     return result;
 }
 
-extern void far pascal copy_kid_to_char(void);
+extern void far pascal LoadKid(void);
 extern void far pascal DrawKidMeter(int previous, int current);
 extern unsigned long FrameNum;
 extern unsigned int SixtiethsCtr;
@@ -849,7 +849,7 @@ char far pascal UPDATE_STEP_DELTA(void)
 
 void far pascal CheckMeters(void)
 {
-    copy_kid_to_char();
+    LoadKid();
     if (Char.life_delta)
         DrawKidMeter(Char.life_points, Char.life_initial);
     if (Char.life_points == 1) {
@@ -860,7 +860,7 @@ void far pascal CheckMeters(void)
     }
     Kid = Char;
     if (Kid.opponent_index != -1) {
-        load_actor_slot(Kid.opponent_index);
+        LoadShad(Kid.opponent_index);
         if (Char.life_delta && !((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 2))
             DrawOppMeter(Char.slot, Char.life_points, Char.life_initial);
         if (Char.life_points == 1 && !((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 2)) {
@@ -907,11 +907,11 @@ extern signed char Joy[3];
 extern char paused_message[];
 
 extern void far pascal read_controls(void);
-extern unsigned int far pascal prince_poll(void);
-extern void far pascal draw_message(const char *message);
-extern void far pascal dispatch_sound(int mode);
-extern void far pascal wait_key(void);
-extern void far pascal clear_message(int restore);
+extern unsigned int far pascal PrincePoll(void);
+extern void far pascal DrawMessage(const char *message);
+extern void far pascal ResetSnd(int mode);
+extern void far pascal WaitKey(void);
+extern void far pascal ClrMessage(int restore);
 extern void *cdecl memset(void *buffer, int value, unsigned int size);
 #pragma intrinsic(memset)
 
@@ -922,13 +922,13 @@ int far pascal Input(void)
     CutRoom = 0;
     memset(Joy, 0, sizeof(Joy));
     read_controls();
-    result = prince_poll();
+    result = PrincePoll();
     if (Pause) {
         Pause = 0;
-        draw_message(paused_message);
-        dispatch_sound(0);
-        wait_key();
-        clear_message(1);
+        DrawMessage(paused_message);
+        ResetSnd(0);
+        WaitKey();
+        ClrMessage(1);
     }
     if (result == 0)
         result = Joy[2];
@@ -1016,7 +1016,7 @@ void far pascal read_gameport_controls(void)
 extern int far pascal POLL_DOS_KEY(void);
 extern void far pascal post_pointer_event(int type, int data, int key);
 
-void far pascal clear_keyboard(void)
+void far pascal ClearKeyboard(void)
 {
     int key;
 
@@ -1030,9 +1030,9 @@ void far pascal clear_keyboard(void)
 }
 
 /* PRINCE.C, resident DOS entries 12de through 133f. */
-extern void far pascal dispatch_sound(int mode);
-extern int far pascal init_port(void near *port, void far *buffer);
-extern void far pascal clear_peels(void);
+extern void far pascal ResetSnd(int mode);
+extern int far pascal InitPort(void near *port, void far *buffer);
+extern void far pascal ZeroPeels(void);
 extern unsigned char ScreenPort[];
 extern unsigned char ScreenPortRect[];
 extern int Graf;
@@ -1041,7 +1041,7 @@ extern char LevelIdx;
 extern unsigned int Invert;
 
 extern unsigned char ScreenPort[];
-extern void far pascal MEASURE_TEXT(void near *port, unsigned int source,
+extern void far pascal CopyBits(void near *port, unsigned int source,
                                      const Rect far *source_rect,
                                      const Rect far *dest_rect, int flags);
 
@@ -1059,7 +1059,7 @@ void far pascal PrinceCopy(const Rect far *rect)
         copy_rect = (Rect far *)rect;
     }
 
-    MEASURE_TEXT(ScreenPort, BPort, copy_rect, copy_rect, 0);
+    CopyBits(ScreenPort, BPort, copy_rect, copy_rect, 0);
 }
 
 void far pascal ToggleInvertState(void)
@@ -1077,21 +1077,21 @@ void far pascal ToggleInvertState(void)
 /* Restrict the step value, then request mode 105 unless already pending. */
 extern unsigned int WeightlessTimer;
 extern unsigned int current_effect;
-extern int pending_effect;
+extern int CueSnd;
 
 void far pascal GoWeightless(void)
 {
     WeightlessTimer = 228;
     AddSong(105);
-    dispatch_sound(current_effect + 10000);
-    pending_effect = -1;
+    ResetSnd(current_effect + 10000);
+    CueSnd = -1;
 }
 
 /* 1316 */ void far pascal ResetData(void)
 {
-    dispatch_sound(0);
-    Graf = init_port(ScreenPort, ScreenPortRect);
-    clear_peels();
+    ResetSnd(0);
+    Graf = InitPort(ScreenPort, ScreenPortRect);
+    ZeroPeels();
     LevelIdx = -1;
     LastResume = 0;
 }

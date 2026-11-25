@@ -37,15 +37,15 @@ extern const char system_error[];
 static const char message_format[] = "%s\n";
 
 Rect ScreenPortRect = { 0, 0, 200, 320 };
-unsigned int poll_user(void);
+unsigned int PollUser0(void);
 void StdRsrcVerify(FarName);
 
-WaitFunction wait_function = poll_user;
+WaitFunction WaitFunc = PollUser0;
 ResourceError resource_error = StdRsrcVerify;
 static const char resource_error_message[] = "StdRsrcError().";
 static const char resource_verify_message[] = "StdRsrcVerify().";
 
-extern void dispatch_resource_pointer(const void far *);
+extern void ResetSound(const void far *);
 extern void reset_sound_drivers(void);
 extern void reset_timer_hook(void);
 extern void restore_dos_vectors(void);
@@ -55,28 +55,28 @@ extern void shutdown_backing_driver(void);
 extern void release_heap_segment(void);
 extern void show_message(FarName, int);
 extern unsigned int read_queued_key(void);
-extern int query_sound(int);
-extern void close_resource_catalog(ResourceMap);
-extern ResourceMap MOUNT_RESOURCE_CATALOG(FarName);
-extern struct ResourceMapData far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(ResourceMap);
+extern int SndOn(int);
+extern void CloseMap(ResourceMap);
+extern ResourceMap OpenMap(FarName);
+extern struct ResourceMapData far *h2p(ResourceMap);
 
-void reset_interface(void);
-ResourceMap find_resource_map(const char *);
+void ResetAll(void);
+ResourceMap GetRsrcMapHnd(const char *);
 
 void abort_with_message(int status, FarName message)
 {
     if (interface_buffer)
         _nfree(interface_buffer);
-    reset_interface();
+    ResetAll();
     if (message)
         printf(message_format, message);
     exit(status);
 }
 
-void reset_interface(void)
+void ResetAll(void)
 {
     if (TimeVal) {
-        dispatch_resource_pointer(0L);
+        ResetSound(0L);
         reset_sound_drivers();
         reset_timer_hook();
     }
@@ -88,11 +88,11 @@ void reset_interface(void)
     release_heap_segment();
 }
 
-int check_wait_function(void)
+int CheckWaitFunc(void)
 {
     int result;
-    if (wait_function)
-        result = wait_function();
+    if (WaitFunc)
+        result = WaitFunc();
     else
         result = 0;
     return result;
@@ -106,11 +106,11 @@ void report_system_error(void)
 
 void abort_program(void)
 {
-    reset_interface();
+    ResetAll();
     exit(1);
 }
 
-unsigned int poll_user(void)
+unsigned int PollUser0(void)
 {
     unsigned int key = read_queued_key();
     if (key == 0x1000 || key == 0x11) {
@@ -120,75 +120,75 @@ unsigned int poll_user(void)
     return key;
 }
 
-int wait_timer(int timer)
+int WaitTimer(int timer)
 {
     int key;
     do {
-        key = check_wait_function();
+        key = CheckWaitFunc();
     } while (Timer[timer] && !key);
     return key;
 }
 
-void wait_timer_no_poll(int timer)
+void WaitTimerNoPoll(int timer)
 {
     while (Timer[timer])
         ;
 }
 
-void wait_ticks(int timer, int ticks)
+void Wait(int timer, int ticks)
 {
     Timer[timer] = ticks;
-    wait_timer(timer);
+    WaitTimer(timer);
 }
 
-int wait_sound(int sound)
+int WaitSnd(int sound)
 {
     int key = 0;
-    if (query_sound(sound)) {
+    if (SndOn(sound)) {
         do {
             if (key)
                 break;
-            key = check_wait_function();
-        } while (query_sound(sound));
+            key = CheckWaitFunc();
+        } while (SndOn(sound));
     }
     return key;
 }
 
-int wait_key(void)
+int WaitKey(void)
 {
     int key;
     do {
-        key = check_wait_function();
+        key = CheckWaitFunc();
     } while (!key);
     return key;
 }
 
-void close_resource_file(const char *name)
+void CloseRsrcFile(const char *name)
 {
-    ResourceMap map = find_resource_map(name);
+    ResourceMap map = GetRsrcMapHnd(name);
     if (map)
-        close_resource_catalog(map);
+        CloseMap(map);
 }
 
-ResourceMap open_verified_resource(const char *name)
+ResourceMap OpenRsrcVerify(const char *name)
 {
-    ResourceMap map = find_resource_map(name);
+    ResourceMap map = GetRsrcMapHnd(name);
     if (!map) {
-        map = MOUNT_RESOURCE_CATALOG(name);
+        map = OpenMap(name);
         if (!map)
             resource_error(name);
     }
     return map;
 }
 
-ResourceMap find_resource_map(const char *name)
+ResourceMap GetRsrcMapHnd(const char *name)
 {
     ResourceMap map = SHAPE_METADATA_LIST;
     int found = name == (const char *)0;
     struct ResourceMapData far *data;
     if (!found) {
         while (map) {
-            data = RESOLVE_HANDLE_TO_FAR_PAYLOAD(map);
+            data = h2p(map);
             if (_fstrstr(data->name, name))
                 found = 1;
             else
@@ -205,17 +205,17 @@ void open_level_resources(const char **names)
 
     if (!(Midi.channels & 2) || !(Midi.channels & 1)) {
         if (names[0])
-            open_verified_resource(names[0]);
+            OpenRsrcVerify(names[0]);
     }
     if ((Midi.channels & 1) && names[1])
-        open_verified_resource(names[1]);
+        OpenRsrcVerify(names[1]);
     if (Midi.channels & 2) {
         if (configuration->level != 0x20 && configuration->level != 0x29) {
             if (names[2])
-                open_verified_resource(names[2]);
+                OpenRsrcVerify(names[2]);
         } else {
             if (names[5])
-                open_verified_resource(names[5]);
+                OpenRsrcVerify(names[5]);
         }
     }
 }
@@ -223,10 +223,10 @@ void open_level_resources(const char **names)
 void close_level_resources(const char **names)
 {
     int index;
-    if (!query_sound(0)) {
+    if (!SndOn(0)) {
         for (index = 0; index < 5; ++index) {
             if (names[index])
-                close_resource_file(names[index]);
+                CloseRsrcFile(names[index]);
         }
     }
 }

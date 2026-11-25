@@ -7,7 +7,7 @@ typedef struct {
 } FRAMEREC;
 #pragma pack()
 
-FRAMEREC far frame_table[353] = {
+FRAMEREC far KidFrames[353] = {
     { -1, 0, 0, 0, 0x00 },
     { 0, 0, 1, 0, 0x45 },
     { 1, 0, 3, 0, 0x47 },

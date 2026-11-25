@@ -92,7 +92,7 @@ typedef struct {
 } LEVELREC;
 #pragma pack()
 
-extern frame_proc level_frame_procs[];             /* ds:06d4 */
+extern frame_proc LevelFrameFunc[];             /* ds:06d4 */
 extern int far *hRebirthSaved;                      /* ds:5bfc */
 signed char StartLevel;                   /* ds:6ccc */
 signed char CutRoom;                   /* ds:6ccd */
@@ -149,11 +149,11 @@ int CutTimer;                              /* ds:6a4a */
 int GuardTimer, Refract, JustBlocked, CutDir;
 extern int NewRoom;                          /* ds:6266 */
 extern int Graf;                           /* ds:25c0 */
-extern int custom_room;                          /* ds:0228 */
-extern int special_sequence;                       /* ds:0a16 */
+extern int CustomRoom;                          /* ds:0228 */
+extern int NeedShadow;                       /* ds:0a16 */
 extern int current_effect;                         /* ds:0902 */
-extern int pending_effect;                             /* ds:08fe */
-extern int pending_song;                             /* ds:0900 */
+extern int CueSnd;                             /* ds:08fe */
+extern int CueSong;                             /* ds:0900 */
 extern int frame_diagnostics;                           /* ds:1142 */
 extern int nis_skip_requested;                           /* ds:1504 */
 int ShakeFloor;                             /* ds:6296 */
@@ -187,13 +187,13 @@ extern void CheckBPort(void);              /* far:0a5c:004e */
 extern int find_option(char far *);                  /* far:1101:29aa */
 extern int CheckPlayNIS(int level, int previous_level);             /* far:0284:000e */
 extern char poll_and_clear_pending_state(void);             /* far:0000:0210 */
-extern void load_level(char level);                       /* far:0a5c:01b4 */
-extern void load_minimum_level(char);               /* far:0a5c:02f4 */
+extern void LoadLevel(char level);                       /* far:0a5c:01b4 */
+extern void LoadLevelMinimum(char);               /* far:0a5c:02f4 */
 extern void InitCollisionDetection(void);        /* far:2802:0848 */
 extern void InitInput(void);                        /* far:02cc:1404 */
-extern void reset_recorded_playback(void);                  /* far:0da4:0252 */
+extern void StartPlayingRecordedGame(void);                  /* far:0da4:0252 */
 extern void CheckRecordedGamePlayer(void);                 /* far:0da4:0122 */
-extern void clear_peels(void);                     /* far:0169:0794 */
+extern void ZeroPeels(void);                     /* far:0169:0794 */
 extern void reset_actor_alert(void);                   /* far:2203:0d21 */
 extern void reset_overlay_state(void);                   /* far:2203:0d0d */
 extern void reset_shadow_overlay_state(void);                   /* far:2203:0d17 */
@@ -201,139 +201,139 @@ extern void reset_barrier_state(void);                   /* far:2203:0d2b */
 extern int SetRebirthPtKidStatus(void);                 /* far:052d:1234 */
 extern void JumpSeq(int);                    /* far:25da:0016 */
 extern void AnimChar(void);               /* far:02cc:0394 */
-extern void reset_char_y(void);                   /* far:02cc:07a2 */
+extern void ResetCharY(void);                   /* far:02cc:07a2 */
 extern void ClearCharVel(void);                    /* far:02cc:0944 */
 extern void select_room_arrays(char);                       /* far:0f77:0002 */
-extern void close_exit(char, char);               /* far:0b41:16fa */
+extern void CloseExit(char, char);               /* far:0b41:16fa */
 extern void hGetSnd(int);                        /* far:1101:807a */
 extern int PrepCut(int);                  /* far:0000:0dd4 */
 extern int IsLevelStartWithNISScreen(void);                         /* far:0284:0096 */
-extern void STROKE_PORT_RECT(char far *);          /* far:1101:4d90 */
-extern void clear_message(int);                    /* far:078a:213a */
+extern void EraseRect(char far *);          /* far:1101:4d90 */
+extern void ClrMessage(int);                    /* far:078a:213a */
 extern void DrawKidMeter(int, int);                /* far:078a:24ee */
-extern void clear_keyboard(void);                     /* far:0000:125a */
-extern void SET_RECORD_RANGE(char far *, int);         /* far:1101:6650 */
-extern void full_redraw(void);                  /* far:078a:0000 */
+extern void ClearKeyboard(void);                     /* far:0000:125a */
+extern void FillRect(char far *, int);         /* far:1101:6650 */
+extern void DoSure(void);                  /* far:078a:0000 */
 extern void CheckRoomSpecific(void);                   /* far:04a6:003e */
-extern void draw_all(void);                 /* far:078a:13b2 */
+extern void DrawAll(void);                 /* far:078a:13b2 */
 extern void UnloadCustomRoomShapes(int);                 /* far:04a6:0784 */
-extern void full_redraw_fast(void);                        /* far:078a:12e4 */
+extern void DoFast(void);                        /* far:078a:12e4 */
 extern void InvertBitMap(char far *);            /* far:1ead:01a2 */
-extern void load_opponent_banks(void);              /* far:2344:0f4e */
+extern void SetOppBanks(void);              /* far:2344:0f4e */
 extern void PrinceCopy(char far *);               /* far:0000:1268 */
-extern void restore_game_play_palette(void);                 /* far:078a:293a */
-extern int is_leave_level_music_on(void);                         /* far:0dd7:02ce */
-extern int query_sound(int);                  /* far:1101:8444 */
-extern void dispatch_sound(int);                        /* far:1101:83f0 */
+extern void RestoreGamePlayPalette(void);                 /* far:078a:293a */
+extern int IsLeaveLevelMusicOn(void);                         /* far:0dd7:02ce */
+extern int SndOn(int);                  /* far:1101:8444 */
+extern void ResetSnd(int);                        /* far:1101:83f0 */
 extern void RemoveRebirthPt(void);                /* far:052d:109e */
-extern void wait_timer_no_poll(int);                    /* far:1de8:015a */
+extern void WaitTimerNoPoll(int);                    /* far:1de8:015a */
 extern void limit_frame_rate(void);                 /* far:107d:000c */
-extern void anim_mobs(void);                /* far:0b41:1a42 */
+extern void AnimMobs(void);                /* far:0b41:1a42 */
 extern void AnimTrobs(void);                    /* far:0b41:000c */
-extern void raise_nearby_opponents(void);              /* far:2c3e:0f6c */
-extern void check_generator_points(unsigned char);   /* far:2344:0a52 */
-extern void dispatch_guard_reaction(void);              /* far:2344:1f0e */
-extern void check_stab(void);              /* far:2344:198e */
-extern void add_actor_sfx(void);                     /* far:0dd7:016c */
+extern void OpponentRise(void);              /* far:2c3e:0f6c */
+extern void CheckOppGenPts(unsigned char);   /* far:2344:0a52 */
+extern void CheckStrike(void);              /* far:2344:1f0e */
+extern void CheckStab(void);              /* far:2344:198e */
+extern void AddSFX(void);                     /* far:0dd7:016c */
 extern void ChangeMeters(void);              /* far:0000:0f70 */
-extern void check_cut(void);               /* far:2344:1088 */
-extern void cut_room_opponents(void);               /* far:2344:0fae */
+extern void CutCheck(void);               /* far:2344:1088 */
+extern void CutOpponent(void);               /* far:2344:0fae */
 extern void KeepTime(void);                      /* far:0000:0cbc */
-extern void copy_kid_to_char(void);                         /* far:02cc:1d94 */
-extern int is_undefined_room(void);            /* far:02cc:0eb6 */
-extern signed char pick_hidden_actor(signed char);       /* far:2344:08f0 */
-extern void load_kid_with_opponent(signed char);               /* far:02cc:07fc */
-extern void reread_cells(void);           /* far:02cc:027e */
-extern int ctrl_player(void);                       /* far:02cc:116e */
+extern void LoadKid(void);                         /* far:02cc:1d94 */
+extern int IsUndefinedRoom(void);            /* far:02cc:0eb6 */
+extern signed char GetOppIdxClosestToKid(signed char);       /* far:2344:08f0 */
+extern void LoadKidwOpp(signed char);               /* far:02cc:07fc */
+extern void RereadCells(void);           /* far:02cc:027e */
+extern int CtrlPlayer(void);                       /* far:02cc:116e */
 extern void Gravity(void);                  /* far:02cc:08d6 */
-extern void add_char_velocity(void);                       /* far:02cc:090e */
-extern void setup_char(void);                   /* far:0169:09ee */
-extern void get_char_edges(void);                 /* far:2802:09ca */
+extern void AddCharVel(void);                       /* far:02cc:090e */
+extern void SetupChar(void);                   /* far:0169:09ee */
+extern void GetCharEdges(void);                 /* far:2802:09ca */
 extern void CheckBarr(void);                    /* far:2802:000e */
-extern void collide_with_barriers(void);                    /* far:2802:0402 */
-extern void check_gate_for_player(void);                  /* far:2802:0d56 */
-extern void check_floor(void);                    /* far:0b41:06f8 */
-extern void check_press(void);                     /* far:0b41:075e */
+extern void Collisions(void);                    /* far:2802:0402 */
+extern void CheckGateForKid(void);                  /* far:2802:0d56 */
+extern void CheckFloor(void);                    /* far:0b41:06f8 */
+extern void CheckPress(void);                     /* far:0b41:075e */
 extern void CheckSpikes(void);                 /* far:101f:01ae */
-extern void check_trapdoor(void);                /* far:2a4e:0e44 */
+extern void CheckTrapDoor(void);                /* far:2a4e:0e44 */
 extern void CheckImpale(void);                  /* far:101f:00a0 */
 extern void CheckScythe(void);                /* far:29cf:00b2 */
 extern void CheckScytheHit(void);                 /* far:29cf:0118 */
-extern void check_dart_hit(void);                /* far:29cf:01f4 */
-extern void check_lava_boil(void);                 /* far:29cf:06e8 */
+extern void CheckDartHit(void);                /* far:29cf:01f4 */
+extern void CheckLavaBoil(void);                 /* far:29cf:06e8 */
 extern void AddSound(int);                    /* far:0dd7:01ce */
 extern void FallingInUndefinedRoom(void);        /* far:02cc:0dda */
-extern void load_actor_slot(char);                      /* far:02cc:1d42 */
-extern void load_shadow_with_opponent(char);              /* far:02cc:086a */
-extern void shad_ctrl(void);                   /* far:02cc:12e4 */
-extern void get_rooms(void);                 /* far:078a:0024 */
-extern void check_multiple_dead_bodies(void);                      /* far:2c3e:0052 */
-extern void collide_enemy_with_barrier(void);              /* far:2802:0e82 */
-extern void check_gate_for_opponent(void);              /* far:2802:0c94 */
-extern void check_fireball_hit_character(void);                 /* far:29cf:1b60 */
+extern void LoadShad(char);                      /* far:02cc:1d42 */
+extern void LoadShadwOpp(char);              /* far:02cc:086a */
+extern void ShadCtrl(void);                   /* far:02cc:12e4 */
+extern void GetRooms(void);                 /* far:078a:0024 */
+extern void CheckMultipleDeadBodies(void);                      /* far:2c3e:0052 */
+extern void EnemyCollide(void);              /* far:2802:0e82 */
+extern void CheckGateForOpp(void);              /* far:2802:0c94 */
+extern void CheckFireballHitChar(void);                 /* far:29cf:1b60 */
 extern char GetRow(int);                      /* far:02cc:1102 */
-extern void check_jinnee_column(void);                 /* far:2c3e:1674 */
-extern void save_actor_slot(void);                       /* far:02cc:1cf6 */
+extern void HasJinneeRunAway(void);                 /* far:2c3e:1674 */
+extern void SaveShad(void);                       /* far:02cc:1cf6 */
 extern void RemoveOppFromRoom(unsigned char, int);       /* far:2344:07bc */
 extern void LoadCustomRoomData(char);                  /* far:04a6:02b0 */
-extern void draw_meters(void);               /* far:078a:2590 */
-extern void copy_dirty_rectangles(void);                    /* far:078a:218e */
+extern void DrawMeters(void);               /* far:078a:2590 */
+extern void CopyDRects(void);                    /* far:078a:218e */
 extern void ToggleInvertState(void);                 /* far:0000:12de */
-extern void play_sounds(void);                       /* far:0dd7:04d0 */
-extern void play_ambient(AmbientState *);              /* far:0dd7:03cc */
-extern void draw_restart_message(void);                     /* far:078a:20a8 */
-extern int play_sound(unsigned);                    /* far:1101:842c */
-extern void mark_bufs_for_rect(void far *, struct char_bounds *, char); /* far:0b41:0f62 */
-extern void mark_foreground(void);        /* far:0b41:0f1e */
-extern int index_cell(char, char);               /* far:02cc:020a */
-extern void mark_half(int);                 /* far:0b41:0e60 */
-extern void mark_floor(int, struct char_bounds *);           /* far:0b41:0e1c */
+extern void PlaySounds(void);                       /* far:0dd7:04d0 */
+extern void PlayAmbient(AmbientState *);              /* far:0dd7:03cc */
+extern void DrawRestartMessage(void);                     /* far:078a:20a8 */
+extern int SetSnd(unsigned);                    /* far:1101:842c */
+extern void MarkBufsForRect(void far *, struct char_bounds *, char); /* far:0b41:0f62 */
+extern void MarkFRedraw(void);        /* far:0b41:0f1e */
+extern int IndexCell(char, char);               /* far:02cc:020a */
+extern void MarkHalf(int);                 /* far:0b41:0e60 */
+extern void MarkFloor(int, struct char_bounds *);           /* far:0b41:0e1c */
 extern char FirstInRow(char);                     /* far:02cc:07c6 */
 extern void SaveRebirthPtStatus(int);               /* far:052d:0fc4 */
-extern void shake_row(char, char);            /* far:0b41:190c */
-extern int get_opp_dist(void);                  /* far:02cc:1cac */
+extern void ShakeEm(char, char);            /* far:0b41:190c */
+extern int GetOppDist(void);                  /* far:02cc:1cac */
 extern int AddCharX(int);                     /* far:02cc:0360 */
 extern struct GetOppInfoIdx *GetOppInfoIdx(int, int); /* far:2344:08b4 */
-extern void clear_lava_slots(void);                  /* far:29cf:08c6 */
-extern void initialize_bridge(void);            /* far:29cf:0c1c */
+extern void InitLavaGlobals(void);                  /* far:29cf:08c6 */
+extern void InitBridgeGlobals(void);            /* far:29cf:0c1c */
 extern int IsWall(char);                  /* far:078a:28fe */
 extern int IsImpassable(char);                 /* far:078a:2830 */
-extern int IS_SIX_KIND(char);               /* far:078a:28c8 */
-extern void save_game_play_palette(void);               /* far:078a:29a6 */
+extern int IsSpace(char);               /* far:078a:28c8 */
+extern void SaveGamePlayPalette(void);               /* far:078a:29a6 */
 extern void *memset(void *, int, unsigned);
 #pragma intrinsic(memset)
 int cdecl abs(int);
 #pragma intrinsic(abs)
-int restart_level(signed char requested);
+int Restart(signed char requested);
 void reset_level_overlays(void);
-void start_kid(void);
-void finish_start_kid(void);
-void special_entrance(void);
-void open_start_gate(void);
-int first_frame(signed char requested);
-void clean_cut(void);
-int run_frames(void);
-int next_frame(void);
-int run_kid(void);
+void StartKid(void);
+void StartKid1(void);
+void StartKidSpecialEntrance(void);
+void Entrance(void);
+int FirstFrame(signed char requested);
+void DoCleanCut(void);
+int MainLoop(void);
+int NextFrame(void);
+int DoKid(void);
 extern CHARREC Kid;                      /* ds:5c80 */
-void run_shadows(void);
-int advance_frame(void);
-void reset_frame_vars(void);
-void quick_foreground(void);
-void quick_floor(void);
-void check_rebirth_points(void);
-void adjust_guard_view(void);
-void tick_misc_timers(void);
-void face_first_guard(void);
-void reset_guard_records(void);
-void init_level_specific(void);
-void check_alert(void);
-void call_level_frame_proc(void);
-signed char reset_level(void);
-void lose_game(void);
+void DoShad(void);
+int FrameAdv(void);
+void ResetFrameVars(void);
+void QuickFG(void);
+void QuickFloor(void);
+void CheckRebirthPts(void);
+void ShakeLoose(void);
+void MiscTimers(void);
+void FirstGuard(void);
+void InitGuards(void);
+void InitLevelSpecific(void);
+void CheckAlert(void);
+void CheckLevelFrameFunc(void);
+signed char ResetLevel(void);
+void YouLose(void);
 
 
-int start_game(signed char requested)
+int Start(signed char requested)
 {
     CheckBPort();
     reset_level_overlays();
@@ -348,10 +348,10 @@ int start_game(signed char requested)
             OrigLifePts = health > 12 ? 12 : health;
         }
     }
-    return requested = restart_level(requested);
+    return requested = Restart(requested);
 }
 
-int restart_level(signed char requested)
+int Restart(signed char requested)
 {
     int reload;
     signed char previous_request;
@@ -376,28 +376,28 @@ int restart_level(signed char requested)
 
         if (reload) {
             reset_level_overlays();
-            load_level(requested);
+            LoadLevel(requested);
         } else {
-            load_minimum_level(LevelIdx);
+            LoadLevelMinimum(LevelIdx);
         }
-        reset_guard_records();
+        InitGuards();
         InitCollisionDetection();
         InitInput();
-        init_level_specific();
+        InitLevelSpecific();
         Room.number = 0;
-        special_sequence = Stunned = TrobCt = MobCt = 0;
-        pending_song = pending_effect = -1;
+        NeedShadow = Stunned = TrobCt = MobCt = 0;
+        CueSong = CueSnd = -1;
         Kid.life_delta = 0;
         RoomOpp[0].direction = 0x56;
-        start_kid();
-        open_start_gate();
-        requested = first_frame(requested);
+        StartKid();
+        Entrance();
+        requested = FirstFrame(requested);
         if (requested != -1) {
             if (GameState.recording_mode)
-                reset_recorded_playback();
-            requested = run_frames();
+                StartPlayingRecordedGame();
+            requested = MainLoop();
             if (requested != -1)
-                clear_peels();
+                ZeroPeels();
             if (GameState.recording_mode) {
                 CheckRecordedGamePlayer();
                 requested = LevelIdx = 0;
@@ -416,14 +416,14 @@ void reset_level_overlays(void)
     reset_barrier_state();
 }
 
-void start_kid(void)
+void StartKid(void)
 {
     int seq;
     signed char repeat;
 
     Char.character_kind = 0;
     if (Level.level_number == 7)
-        special_entrance();
+        StartKidSpecialEntrance();
     CutRoom = Char.room = Level.entry_room;
     Char.column = Level.entry_cell % 10;
     Char.row = Level.entry_cell / 10;
@@ -457,13 +457,13 @@ void start_kid(void)
             AnimChar();
         } while (--repeat);
     }
-    finish_start_kid();
+    StartKid1();
     KidInfo.death_countdown = -1;
     KidInfo.shadow_timer = 0;
     Player = 1;
 }
 
-void finish_start_kid(void)
+void StartKid1(void)
 {
     Char.slot = 10;
     Char.character_kind = 0;
@@ -471,7 +471,7 @@ void finish_start_kid(void)
     Char.sequence_group = 0;
     Char.field_34 = 0;
     Char.opponent_index = Char.alive = -1;
-    reset_char_y();
+    ResetCharY();
     ClearCharVel();
     DroppedOut = Screamed = WeightlessTimer = ShakeFloor = 0;
     Char.stance = KidInfo.sword_kind == -1 ? -1 : 0;
@@ -479,7 +479,7 @@ void finish_start_kid(void)
     Kid = Char;
 }
 
-void special_entrance(void)
+void StartKidSpecialEntrance(void)
 {
     if (KidInfo.entrance_mode == 2) {
         Level.entry_room = 4;
@@ -492,7 +492,7 @@ void special_entrance(void)
     }
 }
 
-void open_start_gate(void)
+void Entrance(void)
 {
     signed char cell;
 
@@ -503,95 +503,95 @@ void open_start_gate(void)
             if (++cell >= 30)
                 return;
         }
-        close_exit(Kid.room, cell);
+        CloseExit(Kid.room, cell);
         hGetSnd(10009);
     }
 }
 
-int first_frame(signed char requested)
+int FirstFrame(signed char requested)
 {
     int result;
     CutRoom = Kid.room;
     result = PrepCut(requested != -2 ? 1 : 0);
     if (result == -2) {
         if (!IsLevelStartWithNISScreen())
-            STROKE_PORT_RECT(ScreenPortRect);
+            EraseRect(ScreenPortRect);
         else
-            clear_message(1);
+            ClrMessage(1);
         MsgTimer = MsgTimerStart = 0;
-        clean_cut();
+        DoCleanCut();
         DrawKidMeter(Kid.life_points, Kid.life_initial);
         Timer[1] = 5;
         if (Timer[1]) {
             do {
-                clear_keyboard();
+                ClearKeyboard();
             } while (Timer[1]);
         }
     }
     return result;
 }
 
-void clean_cut(void)
+void DoCleanCut(void)
 {
     CutPlan = 0;
     if (BlackOut) {
-        SET_RECORD_RANGE((char *)&GamePlayRect, 12);
+        FillRect((char *)&GamePlayRect, 12);
     } else {
         NewRoom = 1;
-        clear_keyboard();
-        full_redraw();
-        clear_keyboard();
+        ClearKeyboard();
+        DoSure();
+        ClearKeyboard();
         Graf = BPort;
-        CheckRoomSpecific(); draw_all();
-        clear_keyboard();
-        if (custom_room)
+        CheckRoomSpecific(); DrawAll();
+        ClearKeyboard();
+        if (CustomRoom)
             UnloadCustomRoomShapes(0);
-        clear_keyboard();
+        ClearKeyboard();
         BlackOut = NewRoom = 0;
         memset(Ct, 0, sizeof(Ct));
-        full_redraw_fast();
-        clear_keyboard();
-        draw_all();
-        clear_keyboard();
+        DoFast();
+        ClearKeyboard();
+        DrawAll();
+        ClearKeyboard();
         if (Invert)
             InvertBitMap((char *)BPort);
-        clear_keyboard();
-        load_opponent_banks();
+        ClearKeyboard();
+        SetOppBanks();
         PrinceCopy((char *)&GamePlayRect);
-        restore_game_play_palette();
-        clear_keyboard();
+        RestoreGamePlayPalette();
+        ClearKeyboard();
         if (Invert)
             InvertBitMap((char *)BPort);
-        clear_keyboard();
+        ClearKeyboard();
     }
     CutTimer = 2;
 }
 
-int run_frames(void)
+int MainLoop(void)
 {
     signed char request;
 
     do {
-        reset_frame_vars();
-        request = next_frame();
+        ResetFrameVars();
+        request = NextFrame();
         if (request == -2) {
             if (RestartLevel) {
-                request = reset_level();
-            } else if (LevelIdx != NextLevel && !is_leave_level_music_on() &&
-                       (!query_sound(current_effect + 10000) ||
+                request = ResetLevel();
+            } else if (LevelIdx != NextLevel && !IsLeaveLevelMusicOn() &&
+                       (!SndOn(current_effect + 10000) ||
                         current_effect == 4 || current_effect == 7 || current_effect == 54)) {
                 if (NextLevel == -1 || (Level.level_number != 9 && Level.level_number != 5))
-                    dispatch_sound(0);
+                    ResetSnd(0);
                 OrigLifePts = Kid.life_initial;
                 request = NextLevel;
                 RemoveRebirthPt();
             } else {
-                request = advance_frame();
+                request = FrameAdv();
                 if (request == -2) {
                     if (Timer[1]) {
                         if (GameState.fade_active)
                             --GameState.fade_active;
-                        wait_timer_no_poll(1);
+                        WaitTimerNoPoll(1);
                     } else if (GameState.fade_active < 20) {
                         ++GameState.fade_active;
                     }
@@ -603,34 +603,34 @@ int run_frames(void)
     return request;
 }
 
-int next_frame(void)
+int NextFrame(void)
 {
     int result;
 
-    anim_mobs();
+    AnimMobs();
     AnimTrobs();
     if (((signed char)Level.preferred_opponent) == 2 || RoomOpp[0].character_kind == 10)
-        raise_nearby_opponents();
-    check_generator_points(Room.number);
-    check_alert();
-    result = run_kid();
+        OpponentRise();
+    CheckOppGenPts(Room.number);
+    CheckAlert();
+    result = DoKid();
     if (!result) {
-        run_shadows();
+        DoShad();
         if (!BackToLife && Room.number) {
-            dispatch_guard_reaction();
-            check_stab();
+            CheckStrike();
+            CheckStab();
         }
-        add_actor_sfx();
-        check_rebirth_points();
-        call_level_frame_proc();
+        AddSFX();
+        CheckRebirthPts();
+        CheckLevelFrameFunc();
         ChangeMeters();
-        check_cut();
+        CutCheck();
         result = PrepCut(0);
         if (result == -2) {
-            cut_room_opponents();
+            CutOpponent();
             KeepTime();
             if (!Minutes) {
-                lose_game();
+                YouLose();
                 StartLevel = 0;
                 result = -1;
             }
@@ -638,48 +638,48 @@ int next_frame(void)
         }
     } else if (result != -1) {
         result = -2;
-        run_shadows();
-        call_level_frame_proc();
+        DoShad();
+        CheckLevelFrameFunc();
         ChangeMeters();
     }
     return result;
 }
 
 
-int run_kid(void)
+int DoKid(void)
 {
     signed char opponent;
     int saved_result;
     int result;
 
-    copy_kid_to_char();
-    if (!is_undefined_room()) {
+    LoadKid();
+    if (!IsUndefinedRoom()) {
         if ((opponent = Char.opponent_index) == -1) {
-            if ((opponent = pick_hidden_actor(1)) == -1)
+            if ((opponent = GetOppIdxClosestToKid(1)) == -1)
                 opponent = 0;
         }
-        load_kid_with_opponent(opponent);
-        reread_cells();
-        result = ctrl_player();
+        LoadKidwOpp(opponent);
+        RereadCells();
+        result = CtrlPlayer();
         if (result != -1) {
             if (!RestartLevel) {
                 AnimChar();
                 if (Char.frame) {
                     Gravity();
-                    add_char_velocity();
-                    setup_char();
-                    reread_cells();
-                    get_char_edges();
-                    face_first_guard();
+                    AddCharVel();
+                    SetupChar();
+                    RereadCells();
+                    GetCharEdges();
+                    FirstGuard();
                     CheckBarr();
-                    collide_with_barriers();
-                    check_gate_for_player();
-                    check_floor();
-                    check_press();
+                    Collisions();
+                    CheckGateForKid();
+                    CheckFloor();
+                    CheckPress();
                     switch (Level.environment_kind) {
                     case 2:
                         CheckSpikes();
-                        check_trapdoor();
+                        CheckTrapDoor();
                         if (!BackToLife)
                             CheckImpale();
                         /* fall through */
@@ -691,13 +691,13 @@ int run_kid(void)
                     case 3:
                         CheckSpikes();
                         if (!BackToLife) {
-                            check_dart_hit();
+                            CheckDartHit();
                             CheckImpale();
-                            check_lava_boil();
+                            CheckLavaBoil();
                         }
                         break;
                     }
-                    adjust_guard_view();
+                    ShakeLoose();
                 }
                 result = 0;
             } else {
@@ -711,7 +711,7 @@ int run_kid(void)
             --KidInfo.death_countdown;
         }
     } else {
-        saved_result = ctrl_player();
+        saved_result = CtrlPlayer();
         FallingInUndefinedRoom();
     }
     Kid = Char;
@@ -721,7 +721,7 @@ int run_kid(void)
     }
 }
 
-void run_shadows(void)
+void DoShad(void)
 {
     signed char index, count;
 
@@ -731,37 +731,37 @@ void run_shadows(void)
     count = Level.room_objects[Room.number - 1].opponent_count;
 
     if (count > 0) do {
-        load_actor_slot(index);
-        if (Char.direction == 0x56 || is_undefined_room() ||
+        LoadShad(index);
+        if (Char.direction == 0x56 || IsUndefinedRoom() ||
             (Char.y > 254 && !Level.room_links[(unsigned char)Char.room - 1].below)) {
             FallingInUndefinedRoom();
         } else {
             unsigned char old_room;
-            load_shadow_with_opponent(index);
-            reread_cells();
-            shad_ctrl();
+            LoadShadwOpp(index);
+            RereadCells();
+            ShadCtrl();
             old_room = Room.number;
             if (old_room != (unsigned char)Char.room) {
                 Room.number = Char.room;
-                get_rooms();
+                GetRooms();
             }
             AnimChar();
             if (Char.character_kind == 2)
-                check_multiple_dead_bodies();
+                CheckMultipleDeadBodies();
             if ((Char.x >= 34 && Char.x <= 545) ||
                 (Char.row && Level.level_number == 5 &&
                  (Char.room == 10 || Char.room == 7 || Char.room == 12)) ||
                 ((Char.room == 7 || Char.room == 8) && Level.environment_kind == 6)) {
-                Gravity(); add_char_velocity();
-                setup_char(); reread_cells();
-                get_char_edges();
+                Gravity(); AddCharVel();
+                SetupChar(); RereadCells();
+                GetCharEdges();
                 if (Char.action != 9) {
-                    collide_enemy_with_barrier(); check_gate_for_opponent();
-                    check_floor(); check_press();
+                    EnemyCollide(); CheckGateForOpp();
+                    CheckFloor(); CheckPress();
                     switch (Level.environment_kind) {
                     case 2:
                         CheckSpikes();
-                        check_trapdoor();
+                        CheckTrapDoor();
                         CheckImpale();
                         /* fall through */
                     case 4:
@@ -770,12 +770,12 @@ void run_shadows(void)
                         break;
                     case 3:
                         CheckSpikes();
-                        check_dart_hit();
+                        CheckDartHit();
                         CheckImpale();
-                        check_lava_boil();
+                        CheckLavaBoil();
                         break;
                     case 6:
-                        check_fireball_hit_character();
+                        CheckFireballHitChar();
                         break;
                     }
                 } else {
@@ -783,29 +783,29 @@ void run_shadows(void)
                 }
             }
             if (Char.character_kind == 12)
-                check_jinnee_column();
+                HasJinneeRunAway();
             if (old_room != (unsigned char)Char.room) {
                 Room.number = old_room;
-                get_rooms();
+                GetRooms();
             }
         }
         if (Level.environment_kind == 6 && count != Level.room_objects[Room.number - 1].opponent_count) {
             --count;
             --index;
         } else {
-            save_actor_slot();
+            SaveShad();
         }
     } while (++index < count);
 
     index = 0;
     if (count > 0) do {
         if (RoomOpp[index].direction == 0x56) {
-            load_actor_slot(index);
+            LoadShad(index);
             RemoveOppFromRoom(Room.number, index);
             if (Char.slot < Kid.opponent_index)
                 --Kid.opponent_index;
             else if (Char.slot == Kid.opponent_index)
-                Kid.opponent_index = pick_hidden_actor(Char.direction);
+                Kid.opponent_index = GetOppIdxClosestToKid(Char.direction);
             --index;
             --count;
         }
@@ -813,29 +813,29 @@ void run_shadows(void)
     AlertGuard = 0;
 }
 
-int advance_frame(void)
+int FrameAdv(void)
 {
     int result, phase;
 
     ++FrameNum;
     result = -2;
     if (DoBlackOut) {
-        clean_cut();
+        DoCleanCut();
         DoBlackOut = 0;
     } else if (CutPlan) {
         Room.number = CutRoom;
-        clean_cut();
+        DoCleanCut();
     } else if (RedrawFlag) {
         RedrawFlag = 0;
         LoadCustomRoomData(Room.number);
-        clean_cut();
-        draw_meters();
+        DoCleanCut();
+        DrawMeters();
     } else {
-        memset(Ct, 0, sizeof(Ct)); full_redraw_fast(); draw_all();
-        if (BlackOut) STROKE_PORT_RECT((char *)&GamePlayRect);
+        memset(Ct, 0, sizeof(Ct)); DoFast(); DrawAll();
+        if (BlackOut) EraseRect((char *)&GamePlayRect);
         if (Invert)
             InvertBitMap((char *)BPort);
-        copy_dirty_rectangles();
+        CopyDRects();
         if (Invert) {
             InvertBitMap((char *)BPort);
             if (Invert == 1)
@@ -844,28 +844,28 @@ int advance_frame(void)
                 --Invert;
         }
     }
-    play_sounds();
-    play_ambient(&ambient_state);
+    PlaySounds();
+    PlayAmbient(&ambient_state);
     if (MsgTimer == 1) {
         if (MsgTimerStart == 36 || MsgTimerStart == 600) {
             StartLevel = 0;
             result = -1;
         } else {
-            clear_message(1);
+            ClrMessage(1);
         }
     } else if (MsgTimer && MsgTimerStart != 1188) {
-        if (special_sequence != -1)
+        if (NeedShadow != -1)
             --MsgTimer;
         if (MsgTimerStart == 600) {
-            if (Room.number == 4 && Level.level_number == 13 && !special_sequence)
-                special_sequence = 1;
+            if (Room.number == 4 && Level.level_number == 13 && !NeedShadow)
+                NeedShadow = 1;
             if ((unsigned)MsgTimer < 120) {
                 phase = (unsigned)MsgTimer % 12;
                 if (phase > 3) {
-                    clear_message(0);
+                    ClrMessage(0);
                 } else if (phase == 3) {
-                    draw_restart_message();
-                    play_sound(-2);
+                    DrawRestartMessage();
+                    SetSnd(-2);
                 }
             }
         }
@@ -873,7 +873,7 @@ int advance_frame(void)
     return result;
 }
 
-void reset_frame_vars(void)
+void ResetFrameVars(void)
 {
     signed char index, count;
 
@@ -885,30 +885,30 @@ void reset_frame_vars(void)
     index = 0;
     count = Level.room_objects[Room.number - 1].opponent_count;
     if (count > 0) do {
-        load_actor_slot(index);
+        LoadShad(index);
         Char.life_delta = 0;
         Char.previous_bounds = Char.bounds;
         if (Char.sequence_group == 8)
             Char.sequence_group = 0;
-        save_actor_slot();
+        SaveShad();
     } while (++index < count);
-    tick_misc_timers();
+    MiscTimers();
 }
 
-void quick_foreground(void)
+void QuickFG(void)
 {
     if (Char.slot == 10)
-        mark_bufs_for_rect((void far *)mark_foreground, &Char.bounds, -1);
+        MarkBufsForRect((void far *)MarkFRedraw, &Char.bounds, -1);
 }
 
-void quick_floor(void)
+void QuickFloor(void)
 {
     signed char left_edge;
     int floor = Char.action;
     unsigned seq = Char.frame;
 
     if (seq >= 135 && seq < 145 && !Char.direction) {
-        mark_half(index_cell(Cell.last_col, ((signed char)Cell.top_row)));
+        MarkHalf(IndexCell(Cell.last_col, ((signed char)Cell.top_row)));
         return;
     }
     if (floor != 2 && floor != 3 && floor != 4 && floor != 6 && seq != 79 && seq != 81) {
@@ -916,7 +916,7 @@ void quick_floor(void)
             (Char.sequence == 137 || Char.sequence == 138 || Char.sequence == 143 ||
              (int)Char.sequence <= 144 || Char.sequence == 143 || Char.sequence == 144)) {
             if ((Cell.column = Cell.last_col) >= Cell.first_col) do {
-                mark_floor(index_cell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
+                MarkFloor(IndexCell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
                 left_edge = Cell.first_col;
                 --Cell.column;
             } while (Cell.column >= left_edge);
@@ -926,17 +926,17 @@ void quick_floor(void)
     }
     if ((Cell.column = Cell.last_col) >= Cell.first_col) do {
         if (floor != 2)
-            mark_floor(index_cell(Cell.column, ((signed char)Cell.bottom_row)), &Char.bounds);
+            MarkFloor(IndexCell(Cell.column, ((signed char)Cell.bottom_row)), &Char.bounds);
         if (((signed char)Cell.bottom_row) != ((signed char)Cell.top_row) &&
             !(Char.sequence == 28 && (Char.room == 7 || Char.room == 8) && Level.environment_kind == 6))
-            mark_floor(index_cell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
+            MarkFloor(IndexCell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
         left_edge = Cell.first_col;
         --Cell.column;
     } while (Cell.column >= left_edge);
 }
 
 
-void check_rebirth_points(void)
+void CheckRebirthPts(void)
 {
     int index;
 
@@ -950,15 +950,15 @@ void check_rebirth_points(void)
     }
 }
 
-void adjust_guard_view(void)
+void ShakeLoose(void)
 {
     if (ShakeFloor) {
-        shake_row(Char.room, (signed char)(Char.row - (ShakeFloor >= 1 ? 1 : 0)));
+        ShakeEm(Char.room, (signed char)(Char.row - (ShakeFloor >= 1 ? 1 : 0)));
         ShakeFloor = 0;
     }
 }
 
-void tick_misc_timers(void)
+void MiscTimers(void)
 {
     if (BackToLife > 0)
         --BackToLife;
@@ -966,7 +966,7 @@ void tick_misc_timers(void)
         --WeightlessTimer;
 }
 
-void face_first_guard(void)
+void FirstGuard(void)
 {
     if (Opp.direction != 0x56 && Opp.alert_delay >= 2 && Char.stance != 1 &&
         Opp.direction != Char.direction && Opp.stance && Opp.action < 2 &&
@@ -974,8 +974,8 @@ void face_first_guard(void)
         !(Opp.character_kind == 12 && Opp.frame >= 179 && Opp.frame <= 235) &&
         !(Opp.character_kind == 4 && Opp.frame == 206) &&
         !(Opp.character_kind == 2 && Opp.sequence == 110) &&
-        Char.alive < 0 && abs(get_opp_dist()) <= 15) {
-        reset_char_y();
+        Char.alive < 0 && abs(GetOppDist()) <= 15) {
+        ResetCharY();
         Char.vertical_step = 0;
         if (Char.frame >= 246 && Char.frame <= 261) {
             Char.x = AddCharX(-6);
@@ -986,7 +986,7 @@ void face_first_guard(void)
     }
 }
 
-void reset_guard_records(void)
+void InitGuards(void)
 {
     unsigned char room, limit;
     int index;
@@ -1007,12 +1007,12 @@ void reset_guard_records(void)
     }
 }
 
-void init_level_specific(void)
+void InitLevelSpecific(void)
 {
     if (Level.environment_kind == 3) {
-        clear_lava_slots();
+        InitLavaGlobals();
         if (Level.level_number == 5)
-            initialize_bridge();
+            InitBridgeGlobals();
     } else if (Level.environment_kind == 4) {
         GameState.throne_nis_played = GameState.throne_song_added = GameState.plateau_loaded = 0;
     } else if (Level.environment_kind == 6) {
@@ -1022,19 +1022,19 @@ void init_level_specific(void)
 
 extern char ReadCell(char room, char column, char row);              /* far:02cc:00f0 */
 
-void check_alert(void)
+void CheckAlert(void)
 {
     signed char swap, index, left, right, kind, second, first, count;
     unsigned int sequence;
 
     if (Kid.room) {
         sequence = Kid.frame;
-        first = pick_hidden_actor(0);
-        second = pick_hidden_actor(-1);
+        first = GetOppIdxClosestToKid(0);
+        second = GetOppIdxClosestToKid(-1);
         count = Level.room_objects[(unsigned char)Kid.room - 1].opponent_count;
         index = 0;
         if (count > 0) do {
-            load_actor_slot(index);
+            LoadShad(index);
             if (!sequence || (sequence >= 217 && sequence < 226) || Kid.alive >= 0 || Char.alive >= 0 ||
                 Char.direction == 0x56 || (Kid.row != Char.row && Char.character_kind != 7 && Char.character_kind != 8) ||
                 (Char.character_kind == 11 && Char.sequence_group == 6) || (Kid.character_kind == 1 && Level.environment_kind == 2)) {
@@ -1060,7 +1060,7 @@ void check_alert(void)
                             Char.alert_delay = 0;
                         } else if ((kind == 4 && (*(unsigned char *)&Cell.modifier) < 0x70) ||
                                    (IsImpassable(kind) && Char.character_kind != 10) ||
-                                   (IS_SIX_KIND(kind) && Char.character_kind != 10 &&
+                                   (IsSpace(kind) && Char.character_kind != 10 &&
                                     Char.character_kind != 7 && Char.character_kind != 8)) {
                             Char.alert_delay = 1;
                         }
@@ -1073,24 +1073,24 @@ void check_alert(void)
                         Char.stance = 1;
                 }
             }
-            save_actor_slot();
+            SaveShad();
         } while (++index < count);
     }
 }
 
-void call_level_frame_proc(void)
+void CheckLevelFrameFunc(void)
 {
-    unsigned long address = (unsigned long)level_frame_procs[Level.environment_kind];
+    unsigned long address = (unsigned long)LevelFrameFunc[Level.environment_kind];
     if (address)
         ((frame_proc)address)();
 }
 
-signed char reset_level(void)
+signed char ResetLevel(void)
 {
     RestartLevel = 0;
     if (LevelIdx == NextLevel) {
-        save_game_play_palette();
-        STROKE_PORT_RECT((char *)&GamePlayRect);
+        SaveGamePlayPalette();
+        EraseRect((char *)&GamePlayRect);
         if (StartLevel)
             return LevelIdx;
         return 0;
@@ -1098,14 +1098,14 @@ signed char reset_level(void)
     return NextLevel;
 }
 
-extern int play_nis(int);                   /* far:0284:0226 */
+extern int PlayNIS(int);                   /* far:0284:0226 */
 
-void lose_game(void)
+void YouLose(void)
 {
     int result;
 
-    dispatch_sound(0);
-    result = play_nis(28);
+    ResetSnd(0);
+    result = PlayNIS(28);
     Minutes = 0;
     quote_index = 8;
     if (result == 2)
@@ -1113,7 +1113,7 @@ void lose_game(void)
 }
 
 const int TopRowRect[4] = { 0, 0, 3, 320 };
-struct char_bounds message_rect = { 193, 98, 202, 235 };
-int special_sequence = 0;
+struct char_bounds MsgRect = { 193, 98, 202, 235 };
+int NeedShadow = 0;
 signed char LevelIdx = 0;
 int unused_flag = 1;                                /* never referenced */

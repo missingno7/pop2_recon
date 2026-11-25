@@ -23,12 +23,12 @@ overlay regions to those modules:
 
 **Names.**
 
-- **CamelCase** is an original name anchored in the DOS code, e.g. `GetUndefineCellId`
-  or `JaffarSetToNextPos`. `evidence/targets.json` records it as `original_name`,
-  with `original_name_evidence` from FM Towns and/or Mac.
-- **snake_case** is a descriptive name of ours, e.g. `copy_kid_to_char`, kept
-  where no build names the function (inlined in FM Towns, unlabelled on the Mac)
-  or the pairing is only probable.
+- **CamelCase** is an original name. FM Towns (debug symbols, 1,788 publics) and the Macintosh version (MacsBug names) list
+  a module's functions in the order our files have them, so most names follow from the place in the file; MOVE agrees in
+  86 of 86 functions, FINAL in 56 of 56. `evidence/targets.json` records each as `original_name` with the reason in
+  `original_name_evidence`. The spelling is that of the other build; DOS itself keeps no names.
+- **snake_case** is a descriptive name of ours, e.g. `find_option`, where no build names the function (static, inlined
+  or DOS-only code).
 - Globals follow the same rule. FM Towns names (`Dir`, `SelDir`, `FChar`, `Kid`,
   `Char`) are used only where an anchor ties the DOS address to them.
 

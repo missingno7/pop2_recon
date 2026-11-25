@@ -32,7 +32,7 @@ Python 3.10 or newer, from the repository:
 
 ```
 python tools/validate.py            # compile and prove everything, link it, compare the whole file, run the tests
-python tools/whole_link.py --check  # only the link and the comparison; writes build/whole_link/POP.EXE
+python tools/whole_link.py --check  # only the link and the comparison; writes build/workers/whole_link/POP.EXE
 python tools/context.py root:220e:0678 --asm   # original code of one address
 ```
 

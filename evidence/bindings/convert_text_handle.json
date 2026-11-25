@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "CONVERT_TEXT_HANDLE",
+        "name": "HXLATTXT4",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
@@ -72,15 +72,15 @@
       }
     ],
     "externals": [
-      "SAVE_HANDLE_FLAGS",
-      "QUERY_HANDLE_SIZE",
+      "HGETSTATE",
+      "HGETSIZE",
       "MATERIALIZE_HANDLE",
-      "RESIZE_HANDLE",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "HSETSIZE",
+      "H2P",
       "MOVE_HUGE_BYTES",
       "XLATTXT4",
       "MARK_HANDLE_CONVERTED",
-      "CONVERT_TEXT_HANDLE"
+      "HXLATTXT4"
     ]
   },
   "fixups": [
@@ -124,7 +124,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "RESIZE_HANDLE",
+          "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -132,7 +132,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "RESIZE_HANDLE",
+        "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -205,7 +205,7 @@
         "target": {
           "kind": "external",
           "index": 5,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -213,7 +213,7 @@
       "target": {
         "kind": "external",
         "index": 5,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -232,7 +232,7 @@
         "target": {
           "kind": "external",
           "index": 4,
-          "name": "RESIZE_HANDLE",
+          "name": "HSETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -240,7 +240,7 @@
       "target": {
         "kind": "external",
         "index": 4,
-        "name": "RESIZE_HANDLE",
+        "name": "HSETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -286,7 +286,7 @@
         "target": {
           "kind": "external",
           "index": 2,
-          "name": "QUERY_HANDLE_SIZE",
+          "name": "HGETSIZE",
           "method": 6,
           "zero_displacement": true
         }
@@ -294,7 +294,7 @@
       "target": {
         "kind": "external",
         "index": 2,
-        "name": "QUERY_HANDLE_SIZE",
+        "name": "HGETSIZE",
         "method": 6,
         "zero_displacement": true
       },
@@ -313,7 +313,7 @@
         "target": {
           "kind": "external",
           "index": 1,
-          "name": "SAVE_HANDLE_FLAGS",
+          "name": "HGETSTATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -321,7 +321,7 @@
       "target": {
         "kind": "external",
         "index": 1,
-        "name": "SAVE_HANDLE_FLAGS",
+        "name": "HGETSTATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -395,7 +395,7 @@
         }
       ]
     },
-    "QUERY_HANDLE_SIZE": {
+    "HGETSIZE": {
       "entry_sha256": "ca4cd098ffedf7948995457bbad67c832492cf098022863d087cf67cadb8df0e",
       "entry_target_id": "root:1129:c012",
       "kind": "far-code-entry",
@@ -412,7 +412,7 @@
         }
       ]
     },
-    "RESIZE_HANDLE": {
+    "HSETSIZE": {
       "entry_sha256": "38a70eb1b103ff3f6dccc836755715dfd6007844cab736db8976c26fcb16c02a",
       "entry_target_id": "root:1129:18c8",
       "kind": "far-code-entry",
@@ -429,7 +429,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -446,7 +446,7 @@
         }
       ]
     },
-    "SAVE_HANDLE_FLAGS": {
+    "HGETSTATE": {
       "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
       "entry_target_id": "root:1129:1716",
       "kind": "far-code-entry",

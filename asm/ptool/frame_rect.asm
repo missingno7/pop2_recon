@@ -4,9 +4,9 @@ EXTRN Graf:WORD
 .CODE
 EXTRN STROKE_RECTANGLE:NEAR
 
-PUBLIC STROKE_PORT_RECT
+PUBLIC ERASERECT
 
-STROKE_PORT_RECT PROC FAR
+ERASERECT PROC FAR
     push bp
     mov bp, sp
     les ax, DWORD PTR [bp+6]
@@ -20,11 +20,11 @@ STROKE_PORT_RECT PROC FAR
     call STROKE_RECTANGLE
     pop bp
     retf 4
-STROKE_PORT_RECT ENDP
+ERASERECT ENDP
 PUBLIC alignment_4dab
 alignment_4dab DB 0  ; Link-address alignment between routines.
 
-PUBLIC FRAME_RECT
+PUBLIC FRAMERECT
 
 draw_strip MACRO
     push ds
@@ -35,7 +35,7 @@ draw_strip MACRO
     call STROKE_RECTANGLE
 ENDM
 
-FRAME_RECT PROC FAR
+FRAMERECT PROC FAR
     push bp
     mov bp, sp
     add sp, -12
@@ -101,5 +101,5 @@ done_4dac:
     mov sp, bp
     pop bp
     retf 4
-FRAME_RECT ENDP
+FRAMERECT ENDP
 END

@@ -47,15 +47,15 @@ extern Rect CellClipRect, GamePlayRect, CaveTorchRect;
 extern ROOMREC Room;
 extern byte ObjId;
 extern int NewRoom;
-extern signed char *bubble_frames[];
+extern signed char *BubbleScript[];
 extern TileNeighbor CellLeft;
 extern BackgroundImage *Pics[5];
-extern LavaInfo *get_lava_info(byte, sbyte, sbyte);
-extern void check_background_shape(int);
-extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
+extern LavaInfo *GetLavaInfoPtr(byte, sbyte, sbyte);
+extern void CheckBGSetImg(int);
+extern int far *h2p(int);
 extern byte PieceAboveId(sbyte, sbyte);
 extern byte PieceAboveRightId(sbyte, sbyte);
-extern int IS_SIX_KIND(byte);
+extern int IsSpace(byte);
 extern Rect *ComputeOffsetCellRect(Rect *, const Rect *, int, int);
 extern int EncloseRect(const Rect far *, const Rect far *);
 static struct {
@@ -80,7 +80,7 @@ extern ShapeOffsets *Pieces;
 extern int AddBImgToBTable(byte, int, sbyte, sbyte, byte, byte);
 extern int AddBFImgToBTable(byte, int, sbyte, sbyte, byte, byte);
 extern int AddBFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
-extern int add_middle_item(byte, int, sbyte, sbyte, byte, byte);
+extern int AddFImgToFTable(byte, int, sbyte, sbyte, byte, byte);
 extern byte PieceRightId(sbyte, sbyte);
 extern byte PieceLeftId(sbyte, sbyte);
 extern int IsWall(byte);
@@ -95,7 +95,7 @@ void DrawCaveGateMovable(DrawCell *);
 void DrawCaveLavaBubbles(DrawCell *, int);
 void DrawCaveSpace(DrawCell *);
 void DrawCaveTorch(DrawCell *);
-void draw_cave_rubble_pieces(DrawCell *);
+void DrawCaveRubblePieces(DrawCell *);
 
 void DrawCaveBlock(DrawCell *cell)
 {
@@ -109,10 +109,10 @@ void DrawCaveBlock(DrawCell *cell)
     switch (cell->pass) {
     case 1:
         if ((image != 78 && image != 83) || cell->column != ColNo - 1)
-            add_middle_item(20, image, cell->column, cell->row, 10, 0);
+            AddFImgToFTable(20, image, cell->column, cell->row, 10, 0);
         DrawCaveBotEdge(cell);
         if (modifier & 0x80)
-            add_middle_item(51, group + 88, cell->column, cell->row, 0, 0);
+            AddFImgToFTable(51, group + 88, cell->column, cell->row, 0, 0);
         break;
     case 5:
         if (image != 78 && image != 83) {
@@ -141,7 +141,7 @@ void DrawCaveBotEdge(DrawCell *cell)
     if (cell->row != 2 && cell->row == RowNo - 1 && cell->column == ColNo) {
         image = (cell->modifier >> 8) & 7;
         if (image)
-            add_middle_item(52, image + 7, cell->column, cell->row, 10, 0);
+            AddFImgToFTable(52, image + 7, cell->column, cell->row, 10, 0);
     }
 }
 
@@ -153,7 +153,7 @@ void DrawCaveDart(DrawCell *cell)
     floor.modifier &= 0x3f02;
     DrawCaveFloor(&floor);
     if (cell->pass == 1)
-        add_middle_item(36, cave_images.dart_images[cell->modifier & 15], cell->column, cell->row, 10, 0);
+        AddFImgToFTable(36, cave_images.dart_images[cell->modifier & 15], cell->column, cell->row, 10, 0);
 }
 
 void DrawCaveExit1(DrawCell *cell)
@@ -163,7 +163,7 @@ void DrawCaveExit1(DrawCell *cell)
         AddBImgToBTable(16, -2, cell->column, cell->row, 10, 0);
         break;
     case 1:
-        add_middle_item(16, -2, cell->column, cell->row, 0, 0);
+        AddFImgToFTable(16, -2, cell->column, cell->row, 0, 0);
         DrawCaveBotEdge(cell);
         DrawCaveTopEdge(cell);
         break;
@@ -178,7 +178,7 @@ void DrawCaveExit2(DrawCell *cell)
         DrawCaveExitMovable(cell);
         break;
     case 1:
-        add_middle_item(17, -2, cell->column, cell->row, 0, 0);
+        AddFImgToFTable(17, -2, cell->column, cell->row, 0, 0);
         DrawCaveBotEdge(cell);
         DrawCaveTopEdge(cell);
         break;
@@ -257,7 +257,7 @@ void DrawCaveFloor(DrawCell *cell)
     case 1:
         image = variant + 25;
         mode = 0;
-        draw = add_middle_item;
+        draw = AddFImgToFTable;
         break;
     case 2:
         image = variant + 22;
@@ -290,7 +290,7 @@ void DrawCaveGate(DrawCell *cell)
             AddBImgToBTable(54, 35, cell->column, cell->row, 10, 0);
         break;
     case 1:
-        add_middle_item(4, -2, cell->column, cell->row, 0, 0);
+        AddFImgToFTable(4, -2, cell->column, cell->row, 0, 0);
         DrawCaveBotEdge(cell);
         DrawCaveTopEdge(cell);
         break;
@@ -325,7 +325,7 @@ void DrawCaveGateMovable(DrawCell *cell)
             break;
         case 1:
             Pieces->front_gate_y = y;
-            draw = add_middle_item;
+            draw = AddFImgToFTable;
             break;
         case 2:
             Pieces->gate_y = y;
@@ -366,7 +366,7 @@ void DrawCaveLava1(DrawCell *cell)
 
     floor = *cell;
     ((byte *)&floor.modifier)[0] = 0;
-    lava = get_lava_info(Room.number, cell->column, cell->row);
+    lava = GetLavaInfoPtr(Room.number, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -405,7 +405,7 @@ void DrawCaveLava2(DrawCell *cell)
     floor = *cell;
     ((byte *)&floor.modifier)[0] = 0;
     ++floor.modifier;
-    lava = get_lava_info(Room.number, cell->column, cell->row);
+    lava = GetLavaInfoPtr(Room.number, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -444,7 +444,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
     if (NewRoom && !right)
         return;
     draw = cell->pass == 2 ? AddBFImgToFTable : AddBFImgToBTable;
-    lava = get_lava_info(Room.number, cell->column, cell->row);
+    lava = GetLavaInfoPtr(Room.number, cell->column, cell->row);
     if (!lava)
         return;
     frame = lava->flags & 0x3f;
@@ -477,7 +477,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
 
                 Pieces->bubble.y = bubble->y - (right << 5);
                 Pieces->bubble.flags = bubble->flags;
-                picture = bubble_frames[bubble->kind][bubble->frame];
+                picture = BubbleScript[bubble->kind][bubble->frame];
                 Pieces->bubble.image = picture + 127;
                 draw(59, -2, cell->column, cell->row, 10, 0);
             }
@@ -510,7 +510,7 @@ void DrawCaveLoose(DrawCell *cell)
         if (image == 13)
             break;
         Pieces->loose_front_y = image + 5;
-        add_middle_item(11, broken + 70, cell->column, cell->row, 10, 0);
+        AddFImgToFTable(11, broken + 70, cell->column, cell->row, 10, 0);
         break;
     case 2:
         Pieces->loose_x = 16;
@@ -539,7 +539,7 @@ void DrawCavePillarBot(DrawCell *cell)
 {
     DrawCaveFloor(cell);
     if (cell->pass == 1)
-        add_middle_item(8, -2, cell->column, cell->row, 10, 0);
+        AddFImgToFTable(8, -2, cell->column, cell->row, 10, 0);
 }
 
 void DrawCavePillarTop(DrawCell *cell)
@@ -550,7 +550,7 @@ void DrawCavePillarTop(DrawCell *cell)
         DrawCaveSpace(cell);
         break;
     case 1:
-        add_middle_item(9, -2, cell->column, cell->row, 10, 0);
+        AddFImgToFTable(9, -2, cell->column, cell->row, 10, 0);
         DrawCaveTopEdge(cell);
         break;
     }
@@ -563,7 +563,7 @@ void DrawCavePosts(DrawCell *cell)
         AddBImgToBTable(3, -2, cell->column, cell->row, 10, 0);
         break;
     case 1:
-        add_middle_item(3, -2, cell->column, cell->row, 10, 0);
+        AddFImgToFTable(3, -2, cell->column, cell->row, 10, 0);
         DrawCaveBotEdge(cell);
         DrawCaveTopEdge(cell);
         break;
@@ -587,7 +587,7 @@ void DrawCaveRevPlate(DrawCell *cell)
             draw = AddBImgToBTable;
         break;
     case 1:
-        add_middle_item(34, -2, cell->column, cell->row, 0, 0);
+        AddFImgToFTable(34, -2, cell->column, cell->row, 0, 0);
         DrawCaveBotEdge(cell);
         break;
     case 2:
@@ -605,22 +605,22 @@ void DrawCaveRevPlate(DrawCell *cell)
         draw(56, -2, cell->column, cell->row, 10, 0);
 }
 
-void draw_cave_rubble(DrawCell *cell)
+void DrawCaveRubble(DrawCell *cell)
 {
     if (!(cell->modifier & 0x0800))
         DrawCaveFloor(cell);
     else
         DrawCaveRevPlate(cell);
-    draw_cave_rubble_pieces(cell);
+    DrawCaveRubblePieces(cell);
 }
 
-void draw_cave_rubble_pieces(DrawCell *cell)
+void DrawCaveRubblePieces(DrawCell *cell)
 {
     AddImage draw;
 
     switch (cell->pass) {
     case 1:
-        draw = add_middle_item;
+        draw = AddFImgToFTable;
         break;
     case 2:
         draw = AddBFImgToFTable;
@@ -636,10 +636,10 @@ void draw_cave_rubble_pieces(DrawCell *cell)
         draw(14, -2, cell->column, cell->row, 10, 0);
 }
 
-void draw_cave_rubble_torch(DrawCell *cell)
+void DrawCaveRubbleTorch(DrawCell *cell)
 {
     DrawCaveTorch(cell);
-    draw_cave_rubble_pieces(cell);
+    DrawCaveRubblePieces(cell);
 }
 
 void DrawCaveSpace(DrawCell *cell)
@@ -653,9 +653,9 @@ void DrawCaveSpace(DrawCell *cell)
         modifier &= 7;
         if (cell->row == RowNo) { draw_floor = 1; }
         else if (cell->row == RowNo + 1 &&
-                   (IS_SIX_KIND(PieceAboveId(cell->column, cell->row)) ||
-                    IS_SIX_KIND(PieceAboveRightId(cell->column, cell->row)))) { draw_floor = 1; }
-        else if (RowNo == -1 && IS_SIX_KIND(ObjId)) { draw_floor = 1; }
+                   (IsSpace(PieceAboveId(cell->column, cell->row)) ||
+                    IsSpace(PieceAboveRightId(cell->column, cell->row)))) { draw_floor = 1; }
+        else if (RowNo == -1 && IsSpace(ObjId)) { draw_floor = 1; }
         else {
             draw_floor = 0;
         }
@@ -666,7 +666,7 @@ void DrawCaveSpace(DrawCell *cell)
             break;
         if (modifier < 3) {
             AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
-            if ((!IS_SIX_KIND(CellLeft.kind) || CellLeft.modifier >= 3) &&
+            if ((!IsSpace(CellLeft.kind) || CellLeft.modifier >= 3) &&
                 cell->column == ColNo)
                 AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
         } else {
@@ -680,7 +680,7 @@ void DrawCaveSpace(DrawCell *cell)
         if (!draw_floor)
             break;
         if (modifier < 3) {
-            if ((!IS_SIX_KIND(CellLeft.kind) || CellLeft.modifier >= 3) &&
+            if ((!IsSpace(CellLeft.kind) || CellLeft.modifier >= 3) &&
                 cell->column == ColNo)
                 AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
         } else {
@@ -729,10 +729,10 @@ void DrawCaveTopEdge(DrawCell *cell)
         if (image) {
             Pieces->top_edge_x = cave_images.top_edge_x[image - 1];
             image += 91;
-            check_background_shape(image);
-            height = RESOLVE_HANDLE_TO_FAR_PAYLOAD(Pics[4][image].handle);
+            CheckBGSetImg(image);
+            height = h2p(Pics[4][image].handle);
             Pieces->top_edge_y = *height - 63;
-            add_middle_item(61, image, cell->column, cell->row, 10, 0);
+            AddFImgToFTable(61, image, cell->column, cell->row, 10, 0);
         }
     }
 }
@@ -784,20 +784,20 @@ void load_cave_drawing(void)
 {
 }
 
-extern void far pascal draw_flask(DrawCell near *);
-extern void far pascal draw_carpet(DrawCell near *);
-extern void far pascal draw_cave_bars(DrawCell near *);
-extern void far pascal draw_bridge_floor(DrawCell near *);
+extern void far pascal DrawFlask(DrawCell near *);
+extern void far pascal DrawCarpet(DrawCell near *);
+extern void far pascal DrawCaveBars(DrawCell near *);
+extern void far pascal DrawBrgFloor(DrawCell near *);
 
 typedef void (far pascal *LevelTileProc)(DrawCell near *);
-LevelTileProc drawcave_level_spec[] = {
+LevelTileProc DrawCaveFunc[] = {
     DrawCaveSpace, DrawCaveFloor, DrawCaveSpikes, DrawCavePosts, DrawCaveGate,
     0, 0, 0, DrawCavePillarBot, DrawCavePillarTop,
-    draw_flask, DrawCaveLoose, 0, 0, draw_cave_rubble,
-    0, DrawCaveExit1, DrawCaveExit2, draw_carpet, DrawCaveTorch,
+    DrawFlask, DrawCaveLoose, 0, 0, DrawCaveRubble,
+    0, DrawCaveExit1, DrawCaveExit2, DrawCarpet, DrawCaveTorch,
     DrawCaveBlock, 0, 0, DrawCaveLava1, DrawCaveLava2,
-    0, 0, draw_cave_bars, 0, 0,
-    0, 0, draw_cave_rubble_torch, DrawCaveExit3, DrawCaveRevPlate,
+    0, 0, DrawCaveBars, 0, 0,
+    0, 0, DrawCaveRubbleTorch, DrawCaveExit3, DrawCaveRevPlate,
     DrawCaveExit4, DrawCaveDart, 0, 0, 0,
-    0, 0, 0, 0, draw_bridge_floor
+    0, 0, 0, 0, DrawBrgFloor
 };

@@ -161,7 +161,7 @@
         "type_index": 0
       },
       {
-        "name": "OPPONENT_FRAMES",
+        "name": "HOPPFRAMES",
         "segment": "_DATA",
         "segment_index": 2,
         "offset": 0,
@@ -238,7 +238,7 @@
       "CELLRIGHT",
       "BLUESPEC",
       "OBJID",
-      "CUSTOM_ROOM",
+      "CUSTOMROOM",
       "NEWROOM",
       "SETSIDEROOMINFO",
       "BLUET",
@@ -247,7 +247,7 @@
       "GETOBJECT",
       "OFFSETRECT",
       "GETABOVEARY",
-      "IS_OPEN_TILE",
+      "ISFLOOR",
       "ISWALL",
       "PIECEABOVERIGHTID",
       "FIRSTINROW",
@@ -255,15 +255,15 @@
       "CELLTOROW",
       "COMPUTECLIPRECT",
       "PICS",
-      "BACKGROUND_IMAGE_COUNT",
+      "BGSETMARKEDPURGEABLE",
       "SELECT_ROOM_ARRAYS",
       "OUTOFFARMEM",
       "PIECEBELOWID",
       "GETBELOWARY",
-      "QUERY_SOUND",
-      "DISPATCH_SOUND",
+      "SNDON",
+      "RESETSND",
       "PRINCEMARKIMGSPURGEABLE",
-      "MARK_FIXED",
+      "HNOPURGE",
       "DUMP_HEAP",
       "ABORT_WITH_MESSAGE",
       "RELEASE_DISCARDABLE_IMAGES",
@@ -896,7 +896,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "CUSTOM_ROOM",
+          "name": "CUSTOMROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -904,7 +904,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "CUSTOM_ROOM",
+        "name": "CUSTOMROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -1031,7 +1031,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "IS_OPEN_TILE",
+          "name": "ISFLOOR",
           "method": 6,
           "zero_displacement": true
         }
@@ -1039,7 +1039,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "IS_OPEN_TILE",
+        "name": "ISFLOOR",
         "method": 6,
         "zero_displacement": true
       },
@@ -3807,7 +3807,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "BACKGROUND_IMAGE_COUNT",
+          "name": "BGSETMARKEDPURGEABLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3815,7 +3815,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "BACKGROUND_IMAGE_COUNT",
+        "name": "BGSETMARKEDPURGEABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3915,7 +3915,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "BACKGROUND_IMAGE_COUNT",
+          "name": "BGSETMARKEDPURGEABLE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3923,7 +3923,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "BACKGROUND_IMAGE_COUNT",
+        "name": "BGSETMARKEDPURGEABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3969,7 +3969,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "MARK_FIXED",
+          "name": "HNOPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -3977,7 +3977,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "MARK_FIXED",
+        "name": "HNOPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4023,7 +4023,7 @@
         "target": {
           "kind": "external",
           "index": 39,
-          "name": "MARK_FIXED",
+          "name": "HNOPURGE",
           "method": 6,
           "zero_displacement": true
         }
@@ -4031,7 +4031,7 @@
       "target": {
         "kind": "external",
         "index": 39,
-        "name": "MARK_FIXED",
+        "name": "HNOPURGE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4347,7 +4347,7 @@
         "target": {
           "kind": "external",
           "index": 37,
-          "name": "DISPATCH_SOUND",
+          "name": "RESETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -4355,7 +4355,7 @@
       "target": {
         "kind": "external",
         "index": 37,
-        "name": "DISPATCH_SOUND",
+        "name": "RESETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -4374,7 +4374,7 @@
         "target": {
           "kind": "external",
           "index": 36,
-          "name": "QUERY_SOUND",
+          "name": "SNDON",
           "method": 6,
           "zero_displacement": true
         }
@@ -4382,7 +4382,7 @@
       "target": {
         "kind": "external",
         "index": 36,
-        "name": "QUERY_SOUND",
+        "name": "SNDON",
         "method": 6,
         "zero_displacement": true
       },
@@ -4617,7 +4617,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "CUSTOM_ROOM",
+          "name": "CUSTOMROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -4625,7 +4625,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "CUSTOM_ROOM",
+        "name": "CUSTOMROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4644,7 +4644,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "CUSTOM_ROOM",
+          "name": "CUSTOMROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -4652,7 +4652,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "CUSTOM_ROOM",
+        "name": "CUSTOMROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -4941,7 +4941,7 @@
         "target": {
           "kind": "external",
           "index": 14,
-          "name": "CUSTOM_ROOM",
+          "name": "CUSTOMROOM",
           "method": 6,
           "zero_displacement": true
         }
@@ -4949,7 +4949,7 @@
       "target": {
         "kind": "external",
         "index": 14,
-        "name": "CUSTOM_ROOM",
+        "name": "CUSTOMROOM",
         "method": 6,
         "zero_displacement": true
       },
@@ -6160,7 +6160,7 @@
         }
       }
     },
-    "DISPATCH_SOUND": {
+    "RESETSND": {
       "entry_sha256": "878129e9f9daa5fcbd0a36cb7ae633dd74e02999377d99f2d0c3925a757c960b",
       "entry_target_id": "root:1129:83d2",
       "kind": "far-code-entry",
@@ -6208,7 +6208,7 @@
         }
       ]
     },
-    "IS_OPEN_TILE": {
+    "ISFLOOR": {
       "entry_sha256": "8561a2d56f74fd02d3f48a10486f328c0f4a9262d6831c2835e591c6bc560aa1",
       "entry_target_id": "root:0790:2810",
       "kind": "far-code-entry",
@@ -6347,7 +6347,7 @@
         }
       }
     },
-    "MARK_FIXED": {
+    "HNOPURGE": {
       "entry_sha256": "19a6043408f0f3b289bdc976c837e7b2482332a2e569fd6dd74ca36912594690",
       "entry_target_id": "root:1129:185c",
       "kind": "far-code-entry",
@@ -6390,7 +6390,7 @@
       "space": "root",
       "witnesses": []
     },
-    "QUERY_SOUND": {
+    "SNDON": {
       "entry_sha256": "dc9c287bd1478d9e000bc3c5d4749a7216087f6ddaa636e57d3abaf1f983cfed",
       "entry_target_id": "root:1129:8426",
       "kind": "far-code-entry",
@@ -6670,7 +6670,7 @@
         }
       ]
     },
-    "CUSTOM_ROOM": {
+    "CUSTOMROOM": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:custom/custom",
@@ -6754,7 +6754,7 @@
       "provider": "group:english/english",
       "offset": 3024
     },
-    "BACKGROUND_IMAGE_COUNT": {
+    "BGSETMARKEDPURGEABLE": {
       "kind": "dgroup-public",
       "group": "DGROUP",
       "provider": "group:load/load",

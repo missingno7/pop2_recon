@@ -62,7 +62,7 @@
     ],
     "publics": [
       {
-        "name": "CREATE_PORT",
+        "name": "BACKPORT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 0,
@@ -74,14 +74,14 @@
     "externals": [
       "GRAF",
       "PIXELS_PER_BYTE",
-      "INIT_PORT",
+      "INITPORT",
       "OFFSETRECT",
       "ALLOCATE_BUFFER",
-      "SET_ORIGIN",
+      "SETORIGIN",
       "FINISH_PORT",
       "__nmalloc",
       "__nfree",
-      "CREATE_PORT"
+      "BACKPORT"
     ]
   },
   "fixups": [
@@ -152,7 +152,7 @@
         "target": {
           "kind": "external",
           "index": 6,
-          "name": "SET_ORIGIN",
+          "name": "SETORIGIN",
           "method": 6,
           "zero_displacement": true
         }
@@ -160,7 +160,7 @@
       "target": {
         "kind": "external",
         "index": 6,
-        "name": "SET_ORIGIN",
+        "name": "SETORIGIN",
         "method": 6,
         "zero_displacement": true
       },
@@ -422,7 +422,7 @@
         "target": {
           "kind": "external",
           "index": 3,
-          "name": "INIT_PORT",
+          "name": "INITPORT",
           "method": 6,
           "zero_displacement": true
         }
@@ -430,7 +430,7 @@
       "target": {
         "kind": "external",
         "index": 3,
-        "name": "INIT_PORT",
+        "name": "INITPORT",
         "method": 6,
         "zero_displacement": true
       },
@@ -493,7 +493,7 @@
         }
       ]
     },
-    "INIT_PORT": {
+    "INITPORT": {
       "entry_sha256": "0cd27a7f54ed80b75e3df33abb64b5bad962859104324d7f5cd671e19244d8c8",
       "entry_target_id": "root:1129:4fc2",
       "kind": "far-code-entry",
@@ -519,7 +519,7 @@
       "space": "root",
       "witnesses": []
     },
-    "SET_ORIGIN": {
+    "SETORIGIN": {
       "entry_sha256": "4a07c907af3919320311ad7036637baac330fb2c62985a843af09b03cdd6d28c",
       "entry_target_id": "root:1129:52e8",
       "kind": "far-code-entry",

@@ -366,9 +366,12 @@ relocation sites.
 
 ## Project headers (2026-11-25)
 
-A C source may include `include/NAME.h` as `#include "NAME.h"`, directly or through another project header; every other
-form is refused before the compiler runs. The compiler stages exactly those files beside the source, the group recipe
-records the SHA-256 of each (`includes`), and validation compares both the staged and the live headers with it. Checks on
+A C source may include `include/NAME.h` as `#include "NAME.h"`, directly or through another project header, and the
+compiler's own standard headers as `#include <string.h>`; every other form is refused before the compiler runs. Standard
+headers are those of Microsoft C 6.00A listed by SHA-256 in `layout/toolchain.lock.json`; they are copied to a directory of
+their own which the driver names with `/I`, so they are not part of the repository. The compiler stages exactly the files
+used, the group recipe records the SHA-256 of each (`includes`), and validation compares both the staged and the live
+headers with it. Checks on
 what a source declares (`_segname`, case aliases) read the headers too. A header change makes the pins of all its users
 stale: republish each of them, then validate. Publication itself does not look at other components' pins.
 
@@ -449,7 +452,7 @@ callee with no outside caller). Such a function is a CODE_MATCH, recorded explic
 The first whole-image RTLink 6.10 trial link (build/workers/o10_trial/report.md) showed that per-group acceptance
 let names drift across files: publics defined by two accepted components (mostly overlapping groups such as
 prince/toggle_sound and fade/palette_tail) and binding names grounded at different addresses by different groups
-(e.g. ACTOR at DS:5c00 and 5c02, PLAY_SOUND at four far addresses). A real link resolves each name once, so
+(e.g. ACTOR at DS:5c00 and 5c02, SETSND at four far addresses). A real link resolves each name once, so
 validation refuses new cases: `module_gate.name_consistency_violations` lists duplicate publics (claims, drafts,
 data publics, pinned runtime publics) and multi-address binding names, and evidence/link-consistency-debt.json
 must equal that list together with the alignment violations below (shrink-only). Fix by merging overlapping

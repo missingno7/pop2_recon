@@ -66,8 +66,8 @@
     "externals": [
       "FIND_SHAPE_METADATA",
       "FIND_RESOURCE_ENTRY",
-      "DISPOSE_HANDLE",
-      "MATERIALIZE_RESOURCE"
+      "MATERIALIZE_RESOURCE",
+      "HFREE"
     ]
   },
   "fixups": [
@@ -108,8 +108,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 3,
-        "name": "DISPOSE_HANDLE",
+        "index": 4,
+        "name": "HFREE",
         "method": 6,
         "zero_displacement": true
       },
@@ -174,7 +174,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 3,
         "name": "MATERIALIZE_RESOURCE",
         "method": 6,
         "zero_displacement": true
@@ -198,7 +198,7 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "DISPOSE_HANDLE": {
+    "HFREE": {
       "entry_sha256": "201a8ae3010e9b06937a78721fe68e1dc6093b472433d1d4f1cbeba43c545510",
       "entry_target_id": "root:1129:16e6",
       "kind": "near-code-entry",

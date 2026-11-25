@@ -215,26 +215,26 @@
       "CREATE_EDIT_FIELD",
       "__ctype",
       "COPY_CURRENT_PORT_ORIGIN",
-      "PUSH_PORT_CLIP",
+      "CLIPRECT",
       "MOVETO",
       "DRAW_RELATIVE_AXIS_SEGMENT",
-      "DRAW_NUL_TEXT_IN_RECT",
-      "POP_PORT_CLIP",
+      "STRINGRECT",
+      "CLIPRESTORE",
       "SET_RELATIVE_PEN_STATE",
       "HSETFONT",
       "MEASURE_COUNTED_TEXT",
       "INSETRECT",
-      "FRAME_RECT",
+      "FRAMERECT",
       "CLEAR_PAYLOAD_HEADER",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "H2P",
       "MEASURE_CHARACTER",
       "MEASURE_NUL_TERMINATED_TEXT",
-      "PLAY_SOUND",
+      "SETSND",
       "CLAMP_POINT_TO_RECT",
       "ALLOCATE_PINNED_PAYLOAD",
       "MOVE_HUGE_BYTES",
       "__fstrlen",
-      "STROKE_PORT_RECT",
+      "ERASERECT",
       "PAINT_EDIT_CARET",
       "DELETE_EDIT_CHARACTER",
       "REPLACE_EDIT_TEXT",
@@ -484,7 +484,7 @@
         "target": {
           "kind": "external",
           "index": 16,
-          "name": "POP_PORT_CLIP",
+          "name": "CLIPRESTORE",
           "method": 6,
           "zero_displacement": true
         }
@@ -492,7 +492,7 @@
       "target": {
         "kind": "external",
         "index": 16,
-        "name": "POP_PORT_CLIP",
+        "name": "CLIPRESTORE",
         "method": 6,
         "zero_displacement": true
       },
@@ -511,7 +511,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "DRAW_NUL_TEXT_IN_RECT",
+          "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -519,7 +519,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "DRAW_NUL_TEXT_IN_RECT",
+        "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -646,7 +646,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "PUSH_PORT_CLIP",
+          "name": "CLIPRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -654,7 +654,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "PUSH_PORT_CLIP",
+        "name": "CLIPRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -727,7 +727,7 @@
         "target": {
           "kind": "external",
           "index": 21,
-          "name": "FRAME_RECT",
+          "name": "FRAMERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -735,7 +735,7 @@
       "target": {
         "kind": "external",
         "index": 21,
-        "name": "FRAME_RECT",
+        "name": "FRAMERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -1024,7 +1024,7 @@
         "target": {
           "kind": "external",
           "index": 26,
-          "name": "PLAY_SOUND",
+          "name": "SETSND",
           "method": 6,
           "zero_displacement": true
         }
@@ -1032,7 +1032,7 @@
       "target": {
         "kind": "external",
         "index": 26,
-        "name": "PLAY_SOUND",
+        "name": "SETSND",
         "method": 6,
         "zero_displacement": true
       },
@@ -1453,7 +1453,7 @@
         "target": {
           "kind": "external",
           "index": 23,
-          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "name": "H2P",
           "method": 6,
           "zero_displacement": true
         }
@@ -1461,7 +1461,7 @@
       "target": {
         "kind": "external",
         "index": 23,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "name": "H2P",
         "method": 6,
         "zero_displacement": true
       },
@@ -1988,7 +1988,7 @@
         "target": {
           "kind": "external",
           "index": 16,
-          "name": "POP_PORT_CLIP",
+          "name": "CLIPRESTORE",
           "method": 6,
           "zero_displacement": true
         }
@@ -1996,7 +1996,7 @@
       "target": {
         "kind": "external",
         "index": 16,
-        "name": "POP_PORT_CLIP",
+        "name": "CLIPRESTORE",
         "method": 6,
         "zero_displacement": true
       },
@@ -2015,7 +2015,7 @@
         "target": {
           "kind": "external",
           "index": 15,
-          "name": "DRAW_NUL_TEXT_IN_RECT",
+          "name": "STRINGRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2023,7 +2023,7 @@
       "target": {
         "kind": "external",
         "index": 15,
-        "name": "DRAW_NUL_TEXT_IN_RECT",
+        "name": "STRINGRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2069,7 +2069,7 @@
         "target": {
           "kind": "external",
           "index": 31,
-          "name": "STROKE_PORT_RECT",
+          "name": "ERASERECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2077,7 +2077,7 @@
       "target": {
         "kind": "external",
         "index": 31,
-        "name": "STROKE_PORT_RECT",
+        "name": "ERASERECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2096,7 +2096,7 @@
         "target": {
           "kind": "external",
           "index": 12,
-          "name": "PUSH_PORT_CLIP",
+          "name": "CLIPRECT",
           "method": 6,
           "zero_displacement": true
         }
@@ -2104,7 +2104,7 @@
       "target": {
         "kind": "external",
         "index": 12,
-        "name": "PUSH_PORT_CLIP",
+        "name": "CLIPRECT",
         "method": 6,
         "zero_displacement": true
       },
@@ -2206,7 +2206,7 @@
       "space": "root",
       "witnesses": []
     },
-    "DRAW_NUL_TEXT_IN_RECT": {
+    "STRINGRECT": {
       "entry_sha256": "0eb00f234993d1e1739939d2f5175e94f2a71442340dd6e36e7408022309efbd",
       "entry_target_id": "root:1129:5334",
       "kind": "far-code-entry",
@@ -2232,7 +2232,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FRAME_RECT": {
+    "FRAMERECT": {
       "entry_sha256": "f09d544e1bf82e29b03d6aef99fa65150cbe3732d01633671096760f253cb63a",
       "entry_target_id": "root:1129:4d8e",
       "kind": "far-code-entry",
@@ -2366,7 +2366,7 @@
         }
       ]
     },
-    "POP_PORT_CLIP": {
+    "CLIPRESTORE": {
       "entry_sha256": "aa3c4cc8798cf3a0df1bf26049741df4d0daa8b9a1447ba566ba5cda1318e986",
       "entry_target_id": "root:1129:4c9a",
       "kind": "far-code-entry",
@@ -2383,7 +2383,7 @@
         }
       ]
     },
-    "PUSH_PORT_CLIP": {
+    "CLIPRECT": {
       "entry_sha256": "89d64d35f188bc1f777d4ac3b88a86b034ab6cececf8b7eeb2bb8dcd39b22ab7",
       "entry_target_id": "root:1129:4c34",
       "kind": "far-code-entry",
@@ -2400,7 +2400,7 @@
         }
       ]
     },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+    "H2P": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1129:15b2",
       "kind": "far-code-entry",
@@ -2426,7 +2426,7 @@
       "space": "root",
       "witnesses": []
     },
-    "STROKE_PORT_RECT": {
+    "ERASERECT": {
       "entry_sha256": "df8d6393a6e9667733ead01090090c2c0fd626f7d900c848f1b073f613a64cd4",
       "entry_target_id": "root:1129:4d72",
       "kind": "far-code-entry",
@@ -2443,7 +2443,7 @@
         }
       ]
     },
-    "PLAY_SOUND": {
+    "SETSND": {
       "entry_sha256": "e36482d583c514ab1343b0ecffa61a728d3fcfa734f04732b4ee4ceb856a1596",
       "entry_target_id": "root:1129:840e",
       "kind": "far-code-entry",

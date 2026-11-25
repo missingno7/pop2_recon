@@ -1,10 +1,10 @@
 {
   "binding": "evidence/bindings/sound/sound.json",
-  "binding_sha256": "2621e085ebb2cab6de2ce522d0e41ac966ea4c109312ba432eca0015b412a33f",
+  "binding_sha256": "23d73d771ca99348e7fcd6d632fff7651f258952fe95d9cf41a94d4d3775d68f",
   "claims": [
     {
       "fixup_count": 21,
-      "public": "PLAY_AMBIENT",
+      "public": "PLAYAMBIENT",
       "relocation_indices": [
         1101,
         1111,
@@ -34,7 +34,7 @@
     },
     {
       "fixup_count": 31,
-      "public": "ADD_OPPONENT_DEATH_SONG",
+      "public": "ADDOPPDEATHSONG",
       "relocation_indices": [
         1102,
         1124,
@@ -52,7 +52,7 @@
     },
     {
       "fixup_count": 7,
-      "public": "ADD_ACTOR_SFX",
+      "public": "ADDSFX",
       "relocation_indices": [
         1122
       ],
@@ -72,7 +72,7 @@
     },
     {
       "fixup_count": 6,
-      "public": "LOAD_SONG",
+      "public": "CHECKSND",
       "relocation_indices": [
         1106,
         1109,
@@ -93,12 +93,12 @@
     },
     {
       "fixup_count": 1,
-      "public": "INIT_AMBIENT",
+      "public": "INITAMBIENT",
       "target_id": "root:0dee:02ac"
     },
     {
       "fixup_count": 2,
-      "public": "IS_LEAVE_LEVEL_MUSIC_ON",
+      "public": "ISLEAVELEVELMUSICON",
       "relocation_indices": [
         1123
       ],
@@ -113,7 +113,7 @@
     },
     {
       "fixup_count": 8,
-      "public": "LOAD_SONG_RANGE",
+      "public": "LOADSOUNDS",
       "relocation_indices": [
         1104,
         1105,
@@ -130,7 +130,7 @@
     },
     {
       "fixup_count": 21,
-      "public": "PLAY_SOUNDS",
+      "public": "PLAYSOUNDS",
       "relocation_indices": [
         1117,
         1118,
@@ -167,12 +167,12 @@
     },
     {
       "fixup_count": 11,
-      "public": "SELECT_SPECIAL_AMBIENT",
+      "public": "SPECIALMUSIC",
       "target_id": "root:0dee:0606"
     },
     {
       "fixup_count": 13,
-      "public": "SPECIAL_NO_AMBIENT_CASE",
+      "public": "SPECIALNOAMBIENTCASE",
       "relocation_indices": [
         1121
       ],
@@ -182,7 +182,7 @@
     },
     {
       "fixup_count": 17,
-      "public": "@should_change_ambient",
+      "public": "@TimeForNewAmbient",
       "relocation_indices": [
         1103,
         1129,
@@ -211,12 +211,12 @@
     },
     {
       "fixup_count": 1,
-      "public": "REMEMBER_AMBIENT_SONG",
+      "public": "UPDATEAMBIENT",
       "target_id": "root:0dee:0826"
     },
     {
       "fixup_count": 3,
-      "public": "RELEASE_SONG_RANGE",
+      "public": "UNLOADSOUNDS",
       "relocation_indices": [
         1116,
         1133
@@ -229,7 +229,7 @@
   "data_publics": [
     {
       "address": 2174,
-      "name": "PENDING_EFFECT",
+      "name": "CUESND",
       "offset": 0,
       "segment": "_DATA",
       "span": 2,
@@ -237,7 +237,7 @@
     },
     {
       "address": 2176,
-      "name": "PENDING_SONG",
+      "name": "CUESONG",
       "offset": 2,
       "segment": "_DATA",
       "span": 2,
@@ -313,12 +313,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "sound/sound",
-  "object_sha256": "d65f88d6bb7df441a4b8d2592d956c4479c8e7a462fdf4b55682a561bd20803a",
+  "object_sha256": "32b609ada845613b9a073ee5f900789456ffbae0e545cd6a69c8ee3af9191e8e",
   "origin": 57058,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/sound/sound.c",
-  "source_sha256": "28d603b19ad5271c94d7ada26a5e562f9817b9c53ff17a2408e987b991d8b840",
+  "source_sha256": "b76e001b5b51d8e810215e12b2a937a22603af75fac1f9afb44f27779e8867b6",
   "space": "root"
 }

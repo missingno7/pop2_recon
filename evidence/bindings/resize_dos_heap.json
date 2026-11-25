@@ -36,16 +36,7 @@
     ],
     "publics": [
       {
-        "name": "COMPACT_HEAP_BLOCKS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 0,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 0
-      },
-      {
-        "name": "INITIALIZE_DOS_HEAP",
+        "name": "HEAPINIT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 553,
@@ -68,6 +59,15 @@
         "segment_index": 2,
         "offset": 0,
         "group_index": 1,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "HEAPCOMPACT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
         "frame": null,
         "type_index": 0
       }

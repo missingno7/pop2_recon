@@ -28,7 +28,7 @@ Current numbers come from `python tools/validate.py`; this page holds only goals
 | Alignment | 18 hand-placed bytes in nine assembly files. | Check for the original `EVEN`/`ALIGN` and segment attributes. |
 | Names | Descriptive names wherever no original one is anchored. | Pair the remaining FM Towns and Mac functions (`evidence/modules.json`), then rename with `tools/relocate.py`. |
 | Fields | Some struct fields are `unknown_`. | Read every use; compare with the PoP1 and level-format knowledge. |
-| `goto` | Left in ANIM (`anim_new`), COLLIDE (`get_forward_distance`), FINAL (`jaffar_go_to_position_0`) and XLATGRAF (error exits). | Every plain form tried so far changes the code; ANIM's and XLATGRAF's are ordinary clean-up exits. |
+| `goto` | Left in ANIM (`AnimNew`), COLLIDE (`GetFwdDist`), FINAL (`JaffarGoToPos0`) and XLATGRAF (error exits). | Every plain form tried so far changes the code; ANIM's and XLATGRAF's are ordinary clean-up exits. |
 | Documentation | Several pages in `docs/` describe finished investigations of the pre-1.0 build. | Keep what explains the current code, drop the rest (it stays in history). |
 
 ## Clues

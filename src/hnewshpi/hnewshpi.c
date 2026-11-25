@@ -20,11 +20,11 @@ typedef struct {
 } HeapState;
 
 extern HeapState far *heap_state;
-extern int SAVE_HANDLE_FLAGS(Handle handle);
-extern void far *FETCH_LOCKED_SHAPE_LIST(Handle handle);
+extern int hGetState(Handle handle);
+extern void far *hLock(Handle handle);
 extern Handle HGETRSRC(unsigned long type, int id);
 extern Handle convert_shape(ShapeHeader far *shape, const unsigned far *banks, int mode);
-extern void RESTORE_HANDLE_FLAGS(Handle handle, int flags);
+extern void hSetState(Handle handle, int flags);
 extern void RELOCATE_HANDLE_PAYLOAD(Handle handle);
 
 Handle hNewShpItem(Handle list, int item)
@@ -36,26 +36,26 @@ Handle hNewShpItem(Handle list, int item)
 
     heap_state->release_discardable = 0;
     for (;;) {
-        list_flags = SAVE_HANDLE_FLAGS(list);
-        resource = FETCH_LOCKED_SHAPE_LIST(list);
+        list_flags = hGetState(list);
+        resource = hLock(list);
         if (!resource)
             break;
         shape = HGETRSRC(0x53484150UL, resource->first_id + item - 1);
         if (!shape)
             break;
-        shape_flags = SAVE_HANDLE_FLAGS(shape);
-        result = convert_shape(FETCH_LOCKED_SHAPE_LIST(shape), &resource->mapping, 1);
+        shape_flags = hGetState(shape);
+        result = convert_shape(hLock(shape), &resource->mapping, 1);
         if (result) {
-            RESTORE_HANDLE_FLAGS(shape, shape_flags);
+            hSetState(shape, shape_flags);
             break;
         }
-        RESTORE_HANDLE_FLAGS(list, list_flags);
-        RESTORE_HANDLE_FLAGS(shape, shape_flags);
+        hSetState(list, list_flags);
+        hSetState(shape, shape_flags);
         RELOCATE_HANDLE_PAYLOAD(list);
         RELOCATE_HANDLE_PAYLOAD(shape);
         heap_state->release_discardable = release_discardable;
     }
-    RESTORE_HANDLE_FLAGS(list, list_flags);
+    hSetState(list, list_flags);
     heap_state->release_discardable = release_discardable;
     return result;
 }
@@ -69,26 +69,26 @@ Handle hNewShpItem1(Handle list, int item, int mode)
 
     heap_state->release_discardable = 0;
     for (;;) {
-        list_flags = SAVE_HANDLE_FLAGS(list);
-        resource = FETCH_LOCKED_SHAPE_LIST(list);
+        list_flags = hGetState(list);
+        resource = hLock(list);
         if (!resource)
             break;
         shape = HGETRSRC(0x53484150UL, resource->first_id + item - 1);
         if (!shape)
             break;
-        shape_flags = SAVE_HANDLE_FLAGS(shape);
-        result = convert_shape(FETCH_LOCKED_SHAPE_LIST(shape), &resource->mapping, mode);
+        shape_flags = hGetState(shape);
+        result = convert_shape(hLock(shape), &resource->mapping, mode);
         if (result) {
-            RESTORE_HANDLE_FLAGS(shape, shape_flags);
+            hSetState(shape, shape_flags);
             break;
         }
-        RESTORE_HANDLE_FLAGS(list, list_flags);
-        RESTORE_HANDLE_FLAGS(shape, shape_flags);
+        hSetState(list, list_flags);
+        hSetState(shape, shape_flags);
         RELOCATE_HANDLE_PAYLOAD(list);
         RELOCATE_HANDLE_PAYLOAD(shape);
         heap_state->release_discardable = release_discardable;
     }
-    RESTORE_HANDLE_FLAGS(list, list_flags);
+    hSetState(list, list_flags);
     heap_state->release_discardable = release_discardable;
     return result;
 }
